@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="3fZ-tr-3dp">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Video Composer View Controller-->
+        <scene sceneID="zgG-Up-F6v">
+            <objects>
+                <viewController storyboardIdentifier="VideoComposerViewController" id="3fZ-tr-3dp" customClass="VideoComposerViewController" customModule="VideoStitch" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Uaq-G6-0Mu"/>
+                        <viewControllerLayoutGuide type="bottom" id="BQU-xO-UUs"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="bpP-B1-22T">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PrB-sE-BVt">
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Nnc-DW-SDe">
+                                        <color key="backgroundColor" red="1" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zGh-zf-Wm8">
+                                        <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="Nnc-DW-SDe" firstAttribute="leading" secondItem="PrB-sE-BVt" secondAttribute="leading" id="7JZ-lf-1ww"/>
+                                    <constraint firstAttribute="bottom" secondItem="zGh-zf-Wm8" secondAttribute="bottom" id="Ace-S6-K3P"/>
+                                    <constraint firstItem="zGh-zf-Wm8" firstAttribute="height" secondItem="Nnc-DW-SDe" secondAttribute="height" id="bWL-gy-2ro"/>
+                                    <constraint firstItem="Nnc-DW-SDe" firstAttribute="height" secondItem="PrB-sE-BVt" secondAttribute="height" multiplier="0.5" id="cKh-Eg-AxT"/>
+                                    <constraint firstAttribute="trailing" secondItem="zGh-zf-Wm8" secondAttribute="trailing" id="cXe-5t-cda"/>
+                                    <constraint firstAttribute="trailing" secondItem="Nnc-DW-SDe" secondAttribute="trailing" id="cyq-9h-n8a"/>
+                                    <constraint firstItem="zGh-zf-Wm8" firstAttribute="leading" secondItem="PrB-sE-BVt" secondAttribute="leading" id="njO-fY-A5b"/>
+                                    <constraint firstItem="Nnc-DW-SDe" firstAttribute="top" secondItem="PrB-sE-BVt" secondAttribute="top" id="oxB-pJ-m6F"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="BQU-xO-UUs" firstAttribute="top" secondItem="PrB-sE-BVt" secondAttribute="bottom" id="OMO-Xj-r0E"/>
+                            <constraint firstAttribute="trailing" secondItem="PrB-sE-BVt" secondAttribute="trailing" id="czb-uN-acE"/>
+                            <constraint firstItem="PrB-sE-BVt" firstAttribute="top" secondItem="Uaq-G6-0Mu" secondAttribute="bottom" id="qPp-4r-z2J"/>
+                            <constraint firstItem="PrB-sE-BVt" firstAttribute="leading" secondItem="bpP-B1-22T" secondAttribute="leading" id="v7E-4w-how"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="containerAView" destination="Nnc-DW-SDe" id="xcO-xf-j3I"/>
+                        <outlet property="containerBView" destination="zGh-zf-Wm8" id="Qsz-Zt-sU3"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="imD-2e-5Q7" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1312.8" y="-99.400299850074973"/>
+        </scene>
+        <!--Video Composition View Controller-->
+        <scene sceneID="vtE-QR-UVv">
+            <objects>
+                <viewController storyboardIdentifier="VideoCompositionViewController" id="wdk-J1-LHu" customClass="VideoCompositionViewController" customModule="VideoStitch" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="6Fn-1O-tue"/>
+                        <viewControllerLayoutGuide type="bottom" id="AHO-4b-kTp"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="2ny-vL-r4g">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="tkk-EI-BFc">
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="hdl-Gc-OZe">
+                                    <size key="itemSize" width="300" height="300"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="VideoCompositionCollectionViewCell" id="6Ld-1f-9aI" customClass="VideoCompositionCollectionViewCell" customModule="VideoStitch" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="300" height="300"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="300" height="300"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="CX5-SL-ha1"/>
+                                            </subviews>
+                                        </view>
+                                        <constraints>
+                                            <constraint firstItem="CX5-SL-ha1" firstAttribute="top" secondItem="6Ld-1f-9aI" secondAttribute="top" id="66a-Ja-a8p"/>
+                                            <constraint firstAttribute="bottom" secondItem="CX5-SL-ha1" secondAttribute="bottom" id="FsT-kG-yaz"/>
+                                            <constraint firstItem="CX5-SL-ha1" firstAttribute="leading" secondItem="6Ld-1f-9aI" secondAttribute="leading" id="HUM-NB-Lz4"/>
+                                            <constraint firstAttribute="trailing" secondItem="CX5-SL-ha1" secondAttribute="trailing" id="via-Xz-fyb"/>
+                                        </constraints>
+                                        <connections>
+                                            <outlet property="imageView" destination="CX5-SL-ha1" id="BVn-s5-fam"/>
+                                        </connections>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="tkk-EI-BFc" firstAttribute="top" secondItem="6Fn-1O-tue" secondAttribute="bottom" id="3d1-8u-qiz"/>
+                            <constraint firstItem="tkk-EI-BFc" firstAttribute="leading" secondItem="2ny-vL-r4g" secondAttribute="leadingMargin" id="MRo-5a-Srw"/>
+                            <constraint firstItem="AHO-4b-kTp" firstAttribute="top" secondItem="tkk-EI-BFc" secondAttribute="bottom" id="ktH-jt-IC3"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="tkk-EI-BFc" secondAttribute="trailing" id="tod-rW-xfb"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="collectionView" destination="tkk-EI-BFc" id="2Tk-3p-urt"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="5Ho-hJ-uvq" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-524" y="-99.400299850074973"/>
+        </scene>
+    </scenes>
+</document>

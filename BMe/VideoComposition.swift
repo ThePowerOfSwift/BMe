@@ -1,0 +1,285 @@
+//
+//  VideoComposition.swift
+//  VideoStitch
+//
+//  Created by Jonathan Cheng on 11/17/16.
+//  Copyright © 2016 Jonathan Cheng. All rights reserved.
+//
+
+import UIKit
+import AVFoundation
+import AVKit
+
+class VideoComposition: AVPlayerItem, NSCoding {
+
+// MARK: - Variables
+    
+    // Video AVAssets
+    private var _videoURLs: [URL]
+    private var _audioURL: URL?
+    
+    // Readonly
+    var audioURL: URL? {
+        get {
+            return _audioURL
+        }
+    }
+    var videoURLs: [URL] {
+        get {
+            return _videoURLs
+        }
+    }
+    var videoTracks: [AVAssetTrack] {
+        get {
+            return asset.tracks(withMediaType: AVMediaTypeVideo)
+        }
+    }
+    var soundTracks: [AVAssetTrack] {
+        get {
+            return asset.tracks(withMediaType: AVMediaTypeAudio)
+        }
+    }
+    var playerViewController: AVPlayerViewController {
+        get {
+            let vc = AVPlayerViewController()
+            vc.player = AVPlayer(playerItem: self)
+            return vc
+        }
+    }
+    
+// MARK: - Initializers
+    
+    // Initalize as AVPlayerItem that composes videos and sound together
+    init(videoURLs: [URL], audioURL: URL?) {
+        // Initialize
+        _videoURLs = videoURLs
+        _audioURL = audioURL
+
+        let videoAVURLs = VideoComposition.getAVURLAssets(urls: videoURLs)
+        var audioAVURL: AVURLAsset?
+        if let audioURL = audioURL {
+            audioAVURL = AVURLAsset(url: audioURL)
+        }
+        
+        let info = VideoComposition.setup(videoURLs: videoAVURLs, audioURL: audioAVURL)
+        super.init(asset: info.mixComposition, automaticallyLoadedAssetKeys: nil)
+        self.videoComposition = info.avVideoComposition
+    }
+   
+    
+// MARK: - Methods
+    
+    func thumbnails() -> [UIImage] {
+        var images: [UIImage] = []
+        let videosAVURLs = VideoComposition.getAVURLAssets(urls: videoURLs)
+        
+        for videoAVURL in videosAVURLs {
+            if let image = VideoComposition.thumbnail(asset: videoAVURL) { images.append(image) }
+        }
+        
+        return images
+    }
+    
+    func render(fileNamed: String, completion: @escaping(_ session: AVAssetExportSession)->()) {
+        // Create Exporter and set it to video export
+        guard let exporter = AVAssetExportSession(asset: asset, presetName: AVAssetExportPresetHighestQuality) else { return }
+        exporter.outputURL = VideoComposition.urlForNewFile(named: fileNamed)
+        exporter.outputFileType = AVFileTypeQuickTimeMovie
+        exporter.shouldOptimizeForNetworkUse = true
+        exporter.videoComposition = videoComposition
+        
+        // Perform the Export
+        exporter.exportAsynchronously() {
+            DispatchQueue.main.async {
+                completion(exporter)
+            }
+        }
+    }
+    
+    func saveAsDataFile(to url: URL) {
+        let archive = NSKeyedArchiver.archivedData(withRootObject: self)
+        do {
+            try archive.write(to: url)
+            print("Wrote VideoComposition archive to url: \(url)")
+        }
+        catch {
+            print("Error saving VideoComposition to file: \(error.localizedDescription)")
+        }
+    }
+    
+// MARK: - Private Methods
+    
+    
+// MARK: - Class methods
+    
+    // Takes videos and audio and creates compositions to make a new AVPlayerItem
+    // mixComposition contains the assets and instructions
+    // avVideoComposition contains the video render instructions
+    // TrackID 0 is the sound
+    // TrackID 1+ are the videos
+    class func setup(videoURLs: [AVURLAsset], audioURL: AVURLAsset?) -> (mixComposition: AVMutableComposition, avVideoComposition: AVMutableVideoComposition) {
+        // Add each asset as a track to overall composition
+        let mixComposition = AVMutableComposition()
+        var videoInstructions: [AVMutableVideoCompositionLayerInstruction] = []
+        
+        // Track track begin time & ID
+        var beginTime = kCMTimeZero
+        
+        // For each asset
+        for i in 0..<videoURLs.count {
+            let asset = videoURLs[i]
+            let assetTrack = asset.tracks(withMediaType: AVMediaTypeVideo)[0]
+            // Add a track to the composition
+            let track = mixComposition.addMutableTrack(withMediaType: AVMediaTypeVideo, preferredTrackID: CMPersistentTrackID(exactly: i + 1)!)
+            do {
+                // TODO - assumes there's only one track in the asset
+                try track.insertTimeRange(CMTimeRangeMake(kCMTimeZero, asset.duration), of: assetTrack, at: beginTime)
+            } catch {
+                print("Error: \(error.localizedDescription)")
+            }
+            beginTime = CMTimeAdd(beginTime, asset.duration)
+            
+            // Create instructions for each track
+            let trackInstruction = AVMutableVideoCompositionLayerInstruction(assetTrack: track)
+            
+            // Transform all to "Portrait" ("up" or 90 degrees)
+            
+            var assetTrackTransform = assetTrack.preferredTransform
+            
+            switch assetTrackTransform.orientation() {
+            case .landscapeRight:
+                // Rotate right 90 degrees
+                assetTrackTransform = CGAffineTransform(translationX: assetTrack.naturalSize.height, y: 0.0)
+                assetTrackTransform = assetTrackTransform.rotated(by: CGFloat(M_PI) / CGFloat(2.0))
+            case .portrait:
+                // Maintain original transform to portrait
+                break
+            case .landscapeLeft:
+                // Rotate right 270 degrees
+                assetTrackTransform = CGAffineTransform(translationX: 0.0, y: assetTrack.naturalSize.width)
+                assetTrackTransform = assetTrackTransform.rotated(by: CGFloat(3.0 * M_PI) / CGFloat(2.0))
+            case .portraitUpsideDown: // Orientation: upside down
+                // Maintain original transform to upside down
+                break
+            case .unknown:
+                // Maintain original transform
+                break
+            }
+            trackInstruction.setTransform(assetTrackTransform, at: kCMTimeZero)
+            
+            // Fade out track so the following is shown
+            trackInstruction.setOpacity(0.0, at: beginTime)
+            videoInstructions.append(trackInstruction)
+        }
+        
+        // Create video composition instructions
+        let mainInstruction = AVMutableVideoCompositionInstruction()
+        mainInstruction.timeRange = CMTimeRangeMake(kCMTimeZero, beginTime)
+        mainInstruction.layerInstructions = videoInstructions
+        
+        // Enable video composition,
+        // And supply the instructions for video composition.
+        let avVideoComposition = AVMutableVideoComposition()
+        avVideoComposition.instructions = [mainInstruction]
+        // Sample 1st video asset for settings
+        if videoURLs.count > 0 {
+            let assetTrack = videoURLs[0].tracks(withMediaType: AVMediaTypeVideo)[0]
+            // FPS
+            avVideoComposition.frameDuration = CMTimeMake(1, Int32(assetTrack.nominalFrameRate))
+            // Render size to portrait only
+            avVideoComposition.renderSize = Constants.CGSizes.portrait
+        }
+        
+        // Attach audio
+        if let audioURL = audioURL {
+            let audioTrack = mixComposition.addMutableTrack(withMediaType: AVMediaTypeAudio, preferredTrackID: 0)
+            do {
+                try audioTrack.insertTimeRange(CMTimeRangeMake(kCMTimeZero, beginTime),
+                                               of: audioURL.tracks(withMediaType: AVMediaTypeAudio)[0],
+                                               at: kCMTimeZero)
+            } catch {
+                print("Error- Failed to load Audio track: \(error.localizedDescription)")
+            }
+        }
+        
+        return (mixComposition, avVideoComposition)
+    }
+
+    class func thumbnail(asset: AVAsset) -> UIImage? {
+        let imageGenerator = AVAssetImageGenerator(asset: asset)
+        imageGenerator.appliesPreferredTrackTransform = true
+        
+        do {
+            let cgImage = try imageGenerator.copyCGImage(at: CMTime(seconds: 0, preferredTimescale: 1), actualTime: nil)
+            let image = UIImage(cgImage: cgImage)
+            return image
+        }
+        catch {
+            print("Error generating image for video")
+        }
+        
+        return nil
+    }
+    
+    class func thumbnail(url: URL) -> UIImage? {
+        let asset = AVURLAsset(url: url)
+        return VideoComposition.thumbnail(asset: asset)
+    }
+    
+    class func urlForNewFile(named: String) -> URL {
+        let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as NSString
+        let filePath = documentsPath.strings(byAppendingPaths: [named])[0]
+        let url = URL(fileURLWithPath: filePath)
+        
+        if(FileManager.default.fileExists(atPath: url.path)){
+            do{
+                try FileManager.default.removeItem(at: url)
+                print("Deleted video file at \(url.path)")
+            }catch let error as NSError {
+                print("Error- deleting video file at \(url.path): \(error.localizedDescription)")
+            }
+        }
+        
+        return url
+    }
+    
+    class func getAVURLAssets(urls: [URL]) -> [AVURLAsset] {
+        var urlAssets: [AVURLAsset] = []
+        
+        for url in urls {
+            urlAssets.append(AVURLAsset(url: url))
+        }
+        
+        return urlAssets
+    }
+    
+    class func loadComposition(fromDataFile url: URL) -> VideoComposition? {
+        do {
+            let data = try Data(contentsOf: url, options: Data.ReadingOptions.uncachedRead)
+            let composition = NSKeyedUnarchiver.unarchiveObject(with: data) as! VideoComposition
+            return composition
+        }
+        catch {
+            print("Error loading VComposition from url: \(error.localizedDescription)")
+        }
+        
+        return nil
+    }
+    
+// MARK: - NSCoding methods
+    
+    required convenience init?(coder aDecoder: NSCoder) {
+        guard let videoURLs = aDecoder.decodeObject(forKey: Constants.VideoCompositionKey.videoURLs) as? [URL]
+            else { return nil }
+        guard let audioURL = aDecoder.decodeObject(forKey: Constants.VideoCompositionKey.audioURL) as? URL
+            else { return nil }
+        
+        self.init(videoURLs: videoURLs, audioURL: audioURL)
+    }
+    
+    func encode(with aCoder: NSCoder) {
+        aCoder.encode(videoURLs, forKey:Constants.VideoCompositionKey.videoURLs)
+        aCoder.encode(audioURL, forKey:Constants.VideoCompositionKey.audioURL)
+    }
+}
+

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -16,6 +17,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        // Connect Firebase when your app starts up
+        FIRApp.configure()
+        
+        // Add notification send user back to login screen after logout
+//        NotificationCenter.default.addObserver(self, selector: #selector(presentLoginViewController), name: notificationLogout, object: nil)
+
         return true
     }
 
