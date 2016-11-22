@@ -34,5 +34,6 @@ struct Constants {
         static let templateId = "templateId"
         static let videoURL = "videoURL"
         static let restaurantName = "restaurantName"
+        static let createdAt = "createdAt"
     }
 }
