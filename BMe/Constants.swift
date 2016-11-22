@@ -27,4 +27,10 @@ struct Constants {
     struct NotificationKeys {
         static let didSignIn = "onSignInCompleted"
     }
+    struct VideoKey {
+        static let userId = "userId"
+        static let templateId = "templateId"
+        static let videoURL = "videoURL"
+        static let restaurantName = "restaurantName"
+    }
 }
