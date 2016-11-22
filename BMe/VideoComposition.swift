@@ -13,6 +13,8 @@ import AVKit
 class VideoComposition: AVPlayerItem, NSCoding {
 
 // MARK: - Variables
+    var name: String?
+    var templateID: String?
     
     // Video AVAssets
     private var _videoURLs: [URL]
@@ -50,7 +52,7 @@ class VideoComposition: AVPlayerItem, NSCoding {
 // MARK: - Initializers
     
     // Initalize as AVPlayerItem that composes videos and sound together
-    init(videoURLs: [URL], audioURL: URL?) {
+    init(videoURLs: [URL], audioURL: URL?, name: String?, templateID: String?) {
         // Initialize
         _videoURLs = videoURLs
         _audioURL = audioURL
@@ -64,10 +66,13 @@ class VideoComposition: AVPlayerItem, NSCoding {
         let info = VideoComposition.setup(videoURLs: videoAVURLs, audioURL: audioAVURL)
         super.init(asset: info.mixComposition, automaticallyLoadedAssetKeys: nil)
         self.videoComposition = info.avVideoComposition
+        
+        self.name = name
+        self.templateID = templateID
     }
    
     // Initializer for JSON object (dictionary)
-    // Assumes dictionary key, object structure: 
+    // Assumes dictionary key, object structure:
     // Constants.VideoCompositionKey.videoURLs = [String]
     // Constants.VideoCompositionKey.audioURL = String
     convenience init (dictionary: [String: Any?]) {
@@ -87,7 +92,10 @@ class VideoComposition: AVPlayerItem, NSCoding {
             audioURL = URL(string: audioURLString)
         }
         
-        self.init(videoURLs: videoURLs, audioURL: audioURL)
+        self.init(videoURLs: videoURLs,
+                  audioURL: audioURL,
+                  name: dictionary[Constants.VideoCompositionKey.name] as? String,
+                  templateID: dictionary[Constants.VideoCompositionKey.templateID] as? String)
     }
     
 // MARK: - Methods
@@ -297,7 +305,10 @@ class VideoComposition: AVPlayerItem, NSCoding {
         guard let audioURL = aDecoder.decodeObject(forKey: Constants.VideoCompositionKey.audioURL) as? URL
             else { return nil }
         
-        self.init(videoURLs: videoURLs, audioURL: audioURL)
+        let name: String? = aDecoder.decodeObject(forKey: Constants.VideoCompositionKey.name) as? String
+        let templateID: String? = aDecoder.decodeObject(forKey: Constants.VideoCompositionKey.templateID) as? String
+        
+        self.init(videoURLs: videoURLs, audioURL: audioURL, name: name, templateID: templateID)
     }
     
     func encode(with aCoder: NSCoder) {
