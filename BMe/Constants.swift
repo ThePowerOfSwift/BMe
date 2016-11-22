@@ -36,4 +36,12 @@ struct Constants {
         static let restaurantName = "restaurantName"
         static let createdAt = "createdAt"
     }
+    struct FirebaseStorage {
+        static let storageBaseURL = "gs://b-me-e21b7.appspot.com"
+        static let videos = "videos"
+    }
+    struct FirebaseDatabase {
+        static let databaseBaseURL = "https://b-me-e21b7.firebaseio.com/"
+        static let videoURLs = "videosURLs"
+    }
 }

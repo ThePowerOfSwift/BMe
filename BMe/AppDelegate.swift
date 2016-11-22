@@ -21,6 +21,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Connect Firebase when your app starts up
         FIRApp.configure()
         
+        let test = FirebaseManager.sharedInstance
+        
         // Add notification send user back to login screen after logout
 //        NotificationCenter.default.addObserver(self, selector: #selector(presentLoginViewController), name: notificationLogout, object: nil)
 
