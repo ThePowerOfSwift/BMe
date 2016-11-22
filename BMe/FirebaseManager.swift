@@ -16,7 +16,7 @@ class FirebaseManager: NSObject {
     var storageVideosRef: FIRStorageReference!
     var databaseVideosRef: FIRDatabaseReference!
         
-    init(storageRefString: String) {
+    private init(storageRefString: String) {
         
         // storage
         let storage = FIRStorage.storage()
@@ -30,6 +30,10 @@ class FirebaseManager: NSObject {
         super.init()
     }
     
+    // upload takes
+    // - a local URL of a video to upload
+    // - a success closure that receives its download url
+    // - a failure closure
     func upload(localURL: URL, success: @escaping (_ downloadURL: URL) -> (), failure: @escaping (Error) -> ()) {
         //let childRef = "\(AppState.sharedInstance.userID)/\(Int(Date.timeIntervalSinceReferenceDate * 1000))/\(localURL)"
         let childRef = "\(Int(Date.timeIntervalSinceReferenceDate * 1000))/\(localURL.lastPathComponent)"
@@ -44,11 +48,17 @@ class FirebaseManager: NSObject {
             }
         })
         
+        
         // if it is user's video
         
         // if it is template video
     }
     
+    // saveVideoToDatabase 
+    // - takes a Video object
+    // - generates its unique id for its path
+    // - generates the dictionary of the video
+    // - upload the unique id as key, the dictionary as value
     func saveVideoToDatabase(video: Video) {
         
         let key = databaseVideosRef.childByAutoId().key
@@ -58,8 +68,10 @@ class FirebaseManager: NSObject {
         
     }
     
+    // getVideos takes
+    // - a success closure that takes
     func getVideos(success: @escaping ([Video]) -> (), failure: @escaping (Error) -> ()) {
-        databaseVideosRef.queryLimited(toLast: 10).queryOrdered(byChild: Constants.VideoKey.createdAt).observe(.value, with: {(snapshot) in
+        databaseVideosRef.queryLimited(toLast: 20).queryOrdered(byChild: Constants.VideoKey.createdAt).observe(.value, with: {(snapshot) in
 
             var videos = [Video]()
             
@@ -69,24 +81,9 @@ class FirebaseManager: NSObject {
                 let video = Video(dictionary: dictionary)
                 videos.append(video)
             }
-            
-//            for video in videos {
-//                print(video)
-//            }
 
             success(videos)
         })
         
     }
-    
-    // Test code. put it in appDelegate
-//    let test = FirebaseManager.sharedInstance
-//    let url = URL(string: "testURL")
-//    test.upload(localURL: url!, success: {(url: URL) in
-//    
-//    }, failure: {(error: Error) in
-//    
-//    
-//    })
-
 }
