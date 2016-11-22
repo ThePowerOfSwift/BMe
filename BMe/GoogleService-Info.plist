@@ -23,9 +23,9 @@
 	<key>STORAGE_BUCKET</key>
 	<string>b-me-e21b7.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
-	<true/>
-	<key>IS_ANALYTICS_ENABLED</key>
 	<false/>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<true/>
 	<key>IS_APPINVITE_ENABLED</key>
 	<false/>
 	<key>IS_GCM_ENABLED</key>

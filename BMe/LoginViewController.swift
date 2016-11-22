@@ -48,42 +48,26 @@ class LoginViewController: UIViewController {
         
         // Sign In with credentials.
         AppState.sharedInstance.signIn(withEmail: email, password: password) { (user: FIRUser?, error: Error?) in
-            if let error = error {
-                print("Error on login: \(error.localizedDescription)")
-                return
-            }
+            // Present error alert
+            self.presentErrorAlert(error: error)
         }
+        
     }
     
     @IBAction func didTapSignUp(_ sender: AnyObject) {
-        guard let email = usernameTextField.text, let password = passwordTextField.text else { return }
-        AppState.sharedInstance.createUser(withEmail: email, password: password) { (user, error) in
-            if let error = error {
-                print(error.localizedDescription)
-                return
-            }
+        guard let email = usernameTextField.text,
+            let password = passwordTextField.text
+            else { return }
+        
+        // Sign up with credentials
+        AppState.sharedInstance.createUser(withEmail: email, password: password) { (user: FIRUser?, error: Error?) in
+            // Present error alert
+            self.presentErrorAlert(error: error)
         }
+
     }
     
-    //TODO: - Hook this up
-    @IBAction func didRequestPasswordReset(_ sender: AnyObject) {
-        let prompt = UIAlertController.init(title: nil, message: "Email:", preferredStyle: .alert)
-        let okAction = UIAlertAction.init(title: "OK", style: .default) { (action) in
-            let userInput = prompt.textFields![0].text
-            if (userInput!.isEmpty) {
-                return
-            }
-            AppState.sharedInstance.firebaseAuth?.sendPasswordReset(withEmail: userInput!) { (error) in
-                if let error = error {
-                    print(error.localizedDescription)
-                    return
-                }
-            }
-        }
-        prompt.addTextField(configurationHandler: nil)
-        prompt.addAction(okAction)
-        present(prompt, animated: true, completion: nil);
-    }
+   
     
     //TODO: - Hook this up
     @IBAction func signOut(_ sender: UIButton) {
@@ -92,7 +76,7 @@ class LoginViewController: UIViewController {
     
     
     // MARK: -  Methods
-    
+
     func presentRootVC() {
         // Present root vc after login success
         present(getRootVCAfterLogin(), animated: true, completion: nil)
@@ -103,6 +87,17 @@ class LoginViewController: UIViewController {
         let storyboard = UIStoryboard.init(name: Constants.OnLogin.StoryboardID, bundle: nil)
         let rootVC = storyboard.instantiateViewController(withIdentifier: Constants.OnLogin.RootViewController)
         return rootVC
+    }
+    
+    func presentErrorAlert(error: Error?) {
+        // Present error alert
+        if let error = error {
+            let prompt = UIAlertController.init(title: "Error", message: "\(error.localizedDescription)", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel, handler: nil)
+            prompt.addAction(okAction)
+            
+            present(prompt, animated: true, completion: nil)
+        }
     }
 }
 
