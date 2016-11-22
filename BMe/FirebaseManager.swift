@@ -32,7 +32,7 @@ class FirebaseManager: NSObject {
     
     func upload(localURL: URL, success: @escaping (_ downloadURL: URL) -> (), failure: @escaping (Error) -> ()) {
         //let childRef = "\(AppState.sharedInstance.userID)/\(Int(Date.timeIntervalSinceReferenceDate * 1000))/\(localURL)"
-        let childRef = "\(Int(Date.timeIntervalSinceReferenceDate * 1000))/\(localURL)"
+        let childRef = "\(Int(Date.timeIntervalSinceReferenceDate * 1000))/\(localURL.lastPathComponent)"
         let videoRef = storageVideosRef.child(childRef)
         let uploadTask = videoRef.putFile(localURL, metadata: nil, completion: {(metadata: FIRStorageMetadata?, error: Error?) in
             if error != nil {
