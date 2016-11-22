@@ -35,6 +35,7 @@ class FirebaseManager: NSObject {
         let childRef = "\(Int(Date.timeIntervalSinceReferenceDate * 1000))/\(localURL.lastPathComponent)"
         let videoRef = storageVideosRef.child(childRef)
         let uploadTask = videoRef.putFile(localURL, metadata: nil, completion: {(metadata: FIRStorageMetadata?, error: Error?) in
+            
             if error != nil {
                 print(error!.localizedDescription)
             } else {
@@ -49,15 +50,31 @@ class FirebaseManager: NSObject {
     }
     
     func saveVideoToDatabase(video: Video) {
+        
         let key = databaseVideosRef.childByAutoId().key
         let dictionary = video.dictionaryFormat
         let childUpdate = [key : dictionary]
         databaseVideosRef.updateChildValues(childUpdate)
+        
     }
     
     func getVideos(success: @escaping ([Video]) -> (), failure: @escaping (Error) -> ()) {
-        databaseVideosRef.queryLimited(toLast: 10).queryOrdered(byChild: Constants.VideoKey.createdAt).observe(.value, with: {(snapshot: FIRDataSnapshot) in
+        databaseVideosRef.queryLimited(toLast: 10).queryOrdered(byChild: Constants.VideoKey.createdAt).observe(.value, with: {(snapshot) in
+
+            var videos = [Video]()
             
+            for child in snapshot.children.allObjects as! [FIRDataSnapshot] {
+                
+                let dictionary = child.value as! [String:AnyObject?]
+                let video = Video(dictionary: dictionary)
+                videos.append(video)
+            }
+            
+//            for video in videos {
+//                print(video)
+//            }
+
+            success(videos)
         })
         
     }

@@ -32,6 +32,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let url = URL.init(fileURLWithPath: urlString!)
         FirebaseManager.sharedInstance.upload(localURL: url, success: {(url: URL) in
             print("downloadUrl: \(url)")
+            let video = Video(userId: "1234", templateId: "5678", videoURL: url.description, restaurantName: "super duper", createdAt: Date())
+            FirebaseManager.sharedInstance.saveVideoToDatabase(video: video)
+            FirebaseManager.sharedInstance.getVideos(success: { (videos: [Video]) in
+                for video in videos {
+                    print("restaurant name: \(video.restaurantName!)")
+                }
+            }, failure: { (Error) in
+                
+            })
+            
         }, failure: {(error : Error) in
             print(error.localizedDescription)
         })

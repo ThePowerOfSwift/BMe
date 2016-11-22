@@ -25,7 +25,7 @@ class Video: NSObject {
         }
     }
 
-    init(dictionary: [String:AnyObject]) {
+    init(dictionary: [String:AnyObject?]) {
         
         userId = dictionary[Constants.VideoKey.userId] as? String
         templateId = dictionary[Constants.VideoKey.templateId] as? String
@@ -38,6 +38,13 @@ class Video: NSObject {
             formatter.dateFormat = "EEE MMM d HH:mm:ss Z y"
             createdAt = formatter.date(from: createdAtString)
         }
+    }
+    
+    init(userId: String?, templateId: String?, videoURL: String?, restaurantName: String?, createdAt: Date?) {
+        self.userId = userId
+        self.templateId = templateId
+        self.videoURL = videoURL
+        self.restaurantName = restaurantName
     }
 
 }
