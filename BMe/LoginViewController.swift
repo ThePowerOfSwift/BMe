@@ -107,6 +107,7 @@ class LoginViewController: UIViewController {
         AppState.sharedInstance.displayName = user?.displayName ?? user?.email
         AppState.sharedInstance.photoURL = user?.photoURL
         AppState.sharedInstance.signedIn = true
+        AppState.sharedInstance.userID = user?.uid
         
         // Broadcast signin notification (AppDelegate should pick up and present Root VC
         let notificationName = Notification.Name(rawValue: Constants.NotificationKeys.didSignIn)

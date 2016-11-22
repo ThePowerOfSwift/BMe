@@ -21,4 +21,5 @@ class AppState: NSObject {
     var signedIn = false
     var displayName: String?
     var photoURL: URL?
+    var userID: String?
 }
