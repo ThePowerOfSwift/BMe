@@ -12,6 +12,8 @@ struct Constants {
     struct VideoCompositionKey {
         static let videoURLs = "videosURLs"
         static let audioURL = "audioURL"
+        static let name = "name"
+        static let templateID = "id"
       }
     struct CGSizes {
         static let portrait = CGSize(width: 720.0, height: 1280.0)
