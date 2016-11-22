@@ -8,19 +8,24 @@
 
 import UIKit
 
-//static let userId = "userId"
-//static let templateId = "templateId"
-//static let videoURL = "videoURL"
-//static let restaurantName = "restaurantName"
-
 class Video: NSObject {
     var userId: String?
     var templateId: String?
     var videoURL: String?
     var restaurantName: String?
     var createdAt: Date?
+    
+    var dictionaryFormat: [String:String?] {
+        get {
+            return [Constants.VideoKey.userId : userId,
+                    Constants.VideoKey.templateId : templateId,
+                    Constants.VideoKey.videoURL : videoURL,
+                    Constants.VideoKey.restaurantName : restaurantName,
+                    Constants.VideoKey.createdAt : createdAt?.description]
+        }
+    }
 
-    init(dictionary: [String:AnyObject]) {
+    init(dictionary: [String:AnyObject?]) {
         
         userId = dictionary[Constants.VideoKey.userId] as? String
         templateId = dictionary[Constants.VideoKey.templateId] as? String
@@ -33,7 +38,13 @@ class Video: NSObject {
             formatter.dateFormat = "EEE MMM d HH:mm:ss Z y"
             createdAt = formatter.date(from: createdAtString)
         }
-        
+    }
+    
+    init(userId: String?, templateId: String?, videoURL: String?, restaurantName: String?, createdAt: Date?) {
+        self.userId = userId
+        self.templateId = templateId
+        self.videoURL = videoURL
+        self.restaurantName = restaurantName
     }
 
 }

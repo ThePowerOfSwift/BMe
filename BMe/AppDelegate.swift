@@ -20,13 +20,34 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Connect Firebase when your app starts up
         FIRApp.configure()
-        
         // Add notification send user back to login screen after logout
         NotificationCenter.default.addObserver(self, selector: #selector(presentLoginViewController), name: NSNotification.Name(rawValue: Constants.NotificationKeys.didSignOut), object: nil)
 
+        testSatoModels()
         return true
     }
 
+    func testSatoModels() {
+        let urlString = Bundle.main.path(forResource: "test_video", ofType: "mp4")
+        let url = URL.init(fileURLWithPath: urlString!)
+        FirebaseManager.sharedInstance.upload(localURL: url, success: {(url: URL) in
+            print("downloadUrl: \(url)")
+            let video = Video(userId: "1234", templateId: "5678", videoURL: url.description, restaurantName: "super duper", createdAt: Date())
+            FirebaseManager.sharedInstance.saveVideoToDatabase(video: video)
+            FirebaseManager.sharedInstance.getVideos(success: { (videos: [Video]) in
+                for video in videos {
+                    print("restaurant name: \(video.restaurantName!)")
+                }
+            }, failure: { (Error) in
+                
+            })
+            
+        }, failure: {(error : Error) in
+            print(error.localizedDescription)
+        })
+    }
+    
+    
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
