@@ -21,7 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Connect Firebase when your app starts up
         FIRApp.configure()
         // Add notification send user back to login screen after logout
-//        NotificationCenter.default.addObserver(self, selector: #selector(presentLoginViewController), name: notificationLogout, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(presentLoginViewController), name: NSNotification.Name(rawValue: Constants.NotificationKeys.didSignOut), object: nil)
 
         testSatoModels()
         return true
@@ -75,6 +75,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 
+    func presentLoginViewController() {
+        let storyboard = UIStoryboard.init(name: Constants.OnLogout.StoryboardID, bundle: nil)
+        let rootVC = storyboard.instantiateViewController(withIdentifier: Constants.OnLogout.RootViewController)
+        UIView.transition(with: window!, duration: 0.5, options: UIViewAnimationOptions.transitionFlipFromBottom, animations: {
+            self.window?.rootViewController = rootVC
+        }) { (success: Bool) in
+            //completion code
+        }
+    }
 
+    class func urlForNewDocumentFile(named: String) -> URL {
+        let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as NSString
+        let filePath = documentsPath.strings(byAppendingPaths: [named])[0]
+        let url = URL(fileURLWithPath: filePath)
+        
+        if(FileManager.default.fileExists(atPath: url.path)){
+            do{
+                try FileManager.default.removeItem(at: url)
+                print("Deleted video file at \(url.path)")
+            }catch let error as NSError {
+                print("Error- deleting video file at \(url.path): \(error.localizedDescription)")
+            }
+        }
+        
+        return url
+    }
 }
 

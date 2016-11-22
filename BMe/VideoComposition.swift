@@ -114,7 +114,7 @@ class VideoComposition: AVPlayerItem, NSCoding {
     func render(fileNamed: String, completion: @escaping(_ session: AVAssetExportSession)->()) {
         // Create Exporter and set it to video export
         guard let exporter = AVAssetExportSession(asset: asset, presetName: AVAssetExportPresetHighestQuality) else { return }
-        exporter.outputURL = VideoComposition.urlForNewFile(named: fileNamed)
+        exporter.outputURL = AppDelegate.urlForNewDocumentFile(named: fileNamed)
         exporter.outputFileType = AVFileTypeQuickTimeMovie
         exporter.shouldOptimizeForNetworkUse = true
         exporter.videoComposition = videoComposition
@@ -255,23 +255,6 @@ class VideoComposition: AVPlayerItem, NSCoding {
     class func thumbnail(url: URL) -> UIImage? {
         let asset = AVURLAsset(url: url)
         return VideoComposition.thumbnail(asset: asset)
-    }
-    
-    class func urlForNewFile(named: String) -> URL {
-        let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as NSString
-        let filePath = documentsPath.strings(byAppendingPaths: [named])[0]
-        let url = URL(fileURLWithPath: filePath)
-        
-        if(FileManager.default.fileExists(atPath: url.path)){
-            do{
-                try FileManager.default.removeItem(at: url)
-                print("Deleted video file at \(url.path)")
-            }catch let error as NSError {
-                print("Error- deleting video file at \(url.path): \(error.localizedDescription)")
-            }
-        }
-        
-        return url
     }
     
     class func getAVURLAssets(urls: [URL]) -> [AVURLAsset] {
