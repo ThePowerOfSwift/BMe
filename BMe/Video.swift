@@ -37,6 +37,7 @@ class Video: NSObject {
             let formatter = DateFormatter()
             formatter.dateFormat = "EEE MMM d HH:mm:ss Z y"
             createdAt = formatter.date(from: createdAtString)
+            //formatter.date(from: Date().toString())
         }
     }
     
@@ -45,6 +46,39 @@ class Video: NSObject {
         self.templateId = templateId
         self.videoURL = videoURL
         self.restaurantName = restaurantName
+        //self.createdAt = createdAt
     }
 
+}
+//
+//var timeSinceNowString: String? {
+//    if let timestamp = createdAt {
+//        let componentsFormatter = DateComponentsFormatter()
+//        componentsFormatter.unitsStyle = .abbreviated
+//        componentsFormatter.allowedUnits = [.day, .hour, .minute]
+//        
+//        return componentsFormatter.string(from: -timestamp.timeIntervalSinceNow)
+//    }
+//    return nil
+//}
+//
+//var createdAtString: String? {
+//    if let createdAt = createdAt {
+//        let formatter = DateFormatter()
+//        formatter.dateFormat = "MM/dd/yy, hh:mm"
+//        return formatter.string(from: createdAt)
+//    }
+//    return nil
+//}
+
+
+//accepted
+//Date().toString() // convert date to string with userdefined format.
+
+extension Date {
+    func toString() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MMMM dd yyyy"
+        return dateFormatter.string(from: self)
+    }
 }
