@@ -66,6 +66,29 @@ class VideoComposition: AVPlayerItem, NSCoding {
         self.videoComposition = info.avVideoComposition
     }
    
+    // Initializer for JSON object (dictionary)
+    // Assumes dictionary key, object structure: 
+    // Constants.VideoCompositionKey.videoURLs = [String]
+    // Constants.VideoCompositionKey.audioURL = String
+    convenience init (dictionary: [String: Any?]) {
+        var videoURLs: [URL] = []
+        var audioURL: URL?
+
+        // process video urls
+        if let videoStrings = dictionary[Constants.VideoCompositionKey.videoURLs] as? NSArray {
+            for string in videoStrings {
+                if let videoURL = URL(string: string as! String) {
+                    videoURLs.append(videoURL)
+                }
+            }
+        }
+        // process audio url
+        if let audioURLString = dictionary[Constants.VideoCompositionKey.audioURL] as? String {
+            audioURL = URL(string: audioURLString)
+        }
+        
+        self.init(videoURLs: videoURLs, audioURL: audioURL)
+    }
     
 // MARK: - Methods
     
