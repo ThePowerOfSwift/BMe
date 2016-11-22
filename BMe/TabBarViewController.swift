@@ -32,8 +32,8 @@ class TabBarViewController: UIViewController {
         viewControllers = [browseViewController, createViewController, accountViewController]
 
         // Set first tab selected
-//        tabs[selectedIndex].isSelected = true
-//        didTapTab(tabs[selectedIndex])
+        tabs[selectedIndex].isSelected = true
+        didTapTab(tabs[selectedIndex])
     }
     
     @IBAction func didTapTab(_ sender: UIButton) {
@@ -56,7 +56,5 @@ class TabBarViewController: UIViewController {
         contentView.addSubview(currentVC.view)
         currentVC.didMove(toParentViewController: self) // calls viewDidAppear
         
-        
     }
-
 }
