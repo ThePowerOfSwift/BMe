@@ -22,7 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FIRApp.configure()
         
         // Add notification send user back to login screen after logout
-//        NotificationCenter.default.addObserver(self, selector: #selector(presentLoginViewController), name: notificationLogout, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(presentLoginViewController), name: NSNotification.Name(rawValue: Constants.NotificationKeys.didSignOut), object: nil)
 
         return true
     }
@@ -49,6 +49,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 
+    func presentLoginViewController() {
+        let storyboard = UIStoryboard.init(name: Constants.OnLogout.StoryboardID, bundle: nil)
+        let rootVC = storyboard.instantiateViewController(withIdentifier: Constants.OnLogout.RootViewController)
+        UIView.transition(with: window!, duration: 0.5, options: UIViewAnimationOptions.transitionFlipFromBottom, animations: {
+            self.window?.rootViewController = rootVC
+        }) { (success: Bool) in
+            //completion code
+        }
+    }
 
 }
 

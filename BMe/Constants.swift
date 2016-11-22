@@ -26,8 +26,13 @@ struct Constants {
         static let StoryboardID = "VideoComposition"
         static let RootViewController = "VideoComposerViewController"
     }
+    struct OnLogout {
+        static let StoryboardID = "Main"
+        static let RootViewController = "LoginViewController"
+    }
     struct NotificationKeys {
         static let didSignIn = "onSignInCompleted"
+        static let didSignOut = "onSignOutCompleted"
     }
     struct VideoKey {
         static let userId = "userId"

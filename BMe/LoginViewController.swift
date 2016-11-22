@@ -21,6 +21,9 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        // Subscribe to notifications for login (and send to root VC)
+        // Add notification send user back to login screen after logout
+        NotificationCenter.default.addObserver(self, selector: #selector(presentRootVC), name: NSNotification.Name(rawValue: Constants.NotificationKeys.didSignIn), object: nil)
     }
 
     override func didReceiveMemoryWarning() {
@@ -29,8 +32,8 @@ class LoginViewController: UIViewController {
     }
 
     override func viewDidAppear(_ animated: Bool) {
-        if let user = FIRAuth.auth()?.currentUser {
-            signedIn(user)
+        if let user = AppState.sharedInstance.currentUser {
+            AppState.sharedInstance.signedIn(user)
         }
     }
 
@@ -44,37 +47,21 @@ class LoginViewController: UIViewController {
             else { return }
         
         // Sign In with credentials.
-        FIRAuth.auth()?.signIn(withEmail: email, password: password) { (user, error) in
+        AppState.sharedInstance.signIn(withEmail: email, password: password) { (user: FIRUser?, error: Error?) in
             if let error = error {
                 print("Error on login: \(error.localizedDescription)")
                 return
             }
-            self.signedIn(user!)
         }
     }
     
     @IBAction func didTapSignUp(_ sender: AnyObject) {
         guard let email = usernameTextField.text, let password = passwordTextField.text else { return }
-        FIRAuth.auth()?.createUser(withEmail: email, password: password) { (user, error) in
+        AppState.sharedInstance.createUser(withEmail: email, password: password) { (user, error) in
             if let error = error {
                 print(error.localizedDescription)
                 return
             }
-            self.setDisplayName(user!)
-        }
-    }
-
-    
-    //TODO: - Ask user for a handle instead of taking email root
-    func setDisplayName(_ user: FIRUser) {
-        let changeRequest = user.profileChangeRequest()
-        changeRequest.displayName = user.email!.components(separatedBy: "@")[0]
-        changeRequest.commitChanges(){ (error) in
-            if let error = error {
-                print(error.localizedDescription)
-                return
-            }
-            self.signedIn(FIRAuth.auth()?.currentUser)
         }
     }
     
@@ -86,7 +73,7 @@ class LoginViewController: UIViewController {
             if (userInput!.isEmpty) {
                 return
             }
-            FIRAuth.auth()?.sendPasswordReset(withEmail: userInput!) { (error) in
+            AppState.sharedInstance.firebaseAuth?.sendPasswordReset(withEmail: userInput!) { (error) in
                 if let error = error {
                     print(error.localizedDescription)
                     return
@@ -98,37 +85,19 @@ class LoginViewController: UIViewController {
         present(prompt, animated: true, completion: nil);
     }
     
+    //TODO: - Hook this up
+    @IBAction func signOut(_ sender: UIButton) {
+        AppState.sharedInstance.signOut()
+    }
+    
+    
     // MARK: -  Methods
     
-    func signedIn(_ user: FIRUser?) {
-        MeasurementHelper.sendLoginEvent()
-        
-        // Update user info
-        AppState.sharedInstance.displayName = user?.displayName ?? user?.email
-        AppState.sharedInstance.photoURL = user?.photoURL
-        AppState.sharedInstance.signedIn = true
-        AppState.sharedInstance.userID = user?.uid
-        
-        // Broadcast signin notification (AppDelegate should pick up and present Root VC
-        let notificationName = Notification.Name(rawValue: Constants.NotificationKeys.didSignIn)
-        NotificationCenter.default.post(name: notificationName, object: nil, userInfo: nil)
-        
+    func presentRootVC() {
         // Present root vc after login success
         present(getRootVCAfterLogin(), animated: true, completion: nil)
     }
 
-    func signOut(_ sender: UIButton) {
-        let firebaseAuth = FIRAuth.auth()
-        do {
-            try firebaseAuth?.signOut()
-            AppState.sharedInstance.signedIn = false
-            // TODO: - redirect to VC
-            
-        } catch let signOutError as NSError {
-            print ("Error signing out: \(signOutError.localizedDescription)")
-        }
-    }
-    
     func getRootVCAfterLogin() -> UIViewController {
         // Completion code upon successful login
         let storyboard = UIStoryboard.init(name: Constants.OnLogin.StoryboardID, bundle: nil)
