@@ -23,8 +23,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Add notification send user back to login screen after logout
         NotificationCenter.default.addObserver(self, selector: #selector(presentLoginViewController), name: NSNotification.Name(rawValue: Constants.NotificationKeys.didSignOut), object: nil)
 
-        testSatoModels()
+        //testSatoModels()
+        //testTabBarController()
         return true
+    }
+    
+    func testTabBarController() {
+        let storyboard = UIStoryboard(name: "Sato", bundle: nil)
+        let tabBarVC = storyboard.instantiateViewController(withIdentifier: "TabBarNavigationController")
+        window?.rootViewController = tabBarVC
     }
 
     func testSatoModels() {
