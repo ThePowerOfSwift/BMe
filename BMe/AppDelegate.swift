@@ -80,5 +80,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
 
+    class func urlForNewDocumentFile(named: String) -> URL {
+        let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as NSString
+        let filePath = documentsPath.strings(byAppendingPaths: [named])[0]
+        let url = URL(fileURLWithPath: filePath)
+        
+        if(FileManager.default.fileExists(atPath: url.path)){
+            do{
+                try FileManager.default.removeItem(at: url)
+                print("Deleted video file at \(url.path)")
+            }catch let error as NSError {
+                print("Error- deleting video file at \(url.path): \(error.localizedDescription)")
+            }
+        }
+        
+        return url
+    }
 }
 
