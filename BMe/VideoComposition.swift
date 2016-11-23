@@ -231,7 +231,7 @@ class VideoComposition: AVPlayerItem, NSCoding {
             // FPS
             avVideoComposition.frameDuration = CMTimeMake(1, Int32(assetTrack.nominalFrameRate))
             // Render size to portrait only
-            avVideoComposition.renderSize = Constants.CGSizes.portrait
+            avVideoComposition.renderSize = CGSize.portrait
         }
         
         // Attach audio

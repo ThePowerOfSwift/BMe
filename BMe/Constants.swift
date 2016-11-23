@@ -9,9 +9,6 @@
 import UIKit
 
 struct Constants {
-    struct CGSizes {
-        static let portrait = CGSize(width: 720.0, height: 1280.0)
-    }
     struct OnLogin {
         // static let StoryboardID = "VideoComposition"
         // static let RootViewController = "VideoComposerViewController"
@@ -34,4 +31,8 @@ struct Constants {
     struct FirebaseDatabase {
         static let videoURLs = "videosURLs"
     }
+}
+
+extension CGSize {
+    static let portrait = CGSize(width: 720.0, height: 1280.0)
 }
