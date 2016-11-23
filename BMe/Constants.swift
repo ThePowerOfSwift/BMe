@@ -25,14 +25,5 @@ struct Constants {
         static let didSignIn = "onSignInCompleted"
         static let didSignOut = "onSignOutCompleted"
     }
-    struct FirebaseStorage {
-        static let videos = "videos"
-    }
-    struct FirebaseDatabase {
-        static let videoURLs = "videosURLs"
-    }
-}
-
-extension CGSize {
-    static let portrait = CGSize(width: 720.0, height: 1280.0)
+    
 }

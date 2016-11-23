@@ -76,6 +76,10 @@ extension CGAffineTransform {
     }
 }
 
+extension CGSize {
+    static let portrait = CGSize(width: 720.0, height: 1280.0)
+}
+
 /*
 extension UIView: NSCopying
 {

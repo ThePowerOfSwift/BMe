@@ -99,6 +99,11 @@ class FIRManager: NSObject {
         }
     }
     
+    enum ObjectKey {
+        static let video = "video"
+        static let template = "template"
+    }
+    
 }
 
 // MARK:- Extensions

@@ -26,7 +26,7 @@ class ExampleFIRTVC: UIViewController, UITableViewDataSource {
         tableView.rowHeight = UITableViewAutomaticDimension
         
         // Configure FIR database
-        _refHandle = FIRManager.sharedInstance.observeDatabaseObject(named: Constants.FirebaseDatabase.videoURLs, event: .childAdded) { (snapshot) in
+        _refHandle = FIRManager.sharedInstance.observeDatabaseObject(named: FIRManager.ObjectKey.video, event: .childAdded) { (snapshot) in
             self.videos.append(snapshot)
             self.tableView.insertRows(at: [IndexPath(row: self.videos.count-1, section: 0)], with: .automatic)
         }
@@ -36,7 +36,7 @@ class ExampleFIRTVC: UIViewController, UITableViewDataSource {
 
     // On dealloc unsubscribe from object observation
     deinit {
-        FIRManager.sharedInstance.removeObserverDatabaseObject(named: Constants.FirebaseDatabase.videoURLs, handle: _refHandle)
+        FIRManager.sharedInstance.removeObserverDatabaseObject(named: FIRManager.ObjectKey.video, handle: _refHandle)
     }
     
     
