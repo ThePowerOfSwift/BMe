@@ -15,13 +15,13 @@ class Video: NSObject {
     var restaurantName: String?
     var createdAt: Date?
     
-    var dictionaryFormat: [String:String?] {
+    var dictionaryFormat: [String: AnyObject?] {
         get {
-            return [Constants.VideoKey.userId : userId,
-                    Constants.VideoKey.templateId : templateId,
-                    Constants.VideoKey.videoURL : videoURL,
-                    Constants.VideoKey.restaurantName : restaurantName,
-                    Constants.VideoKey.createdAt : createdAt?.description]
+            return [Constants.VideoKey.userId : userId as AnyObject,
+                    Constants.VideoKey.templateId : templateId as AnyObject,
+                    Constants.VideoKey.videoURL : videoURL as AnyObject,
+                    Constants.VideoKey.restaurantName : restaurantName as AnyObject,
+                    Constants.VideoKey.createdAt : createdAt?.description as AnyObject]
         }
     }
 
