@@ -32,13 +32,6 @@ struct Constants {
         static let didSignIn = "onSignInCompleted"
         static let didSignOut = "onSignOutCompleted"
     }
-    struct VideoKey {
-        static let userId = "userId"
-        static let templateId = "templateId"
-        static let videoURL = "videoURL"
-        static let restaurantName = "restaurantName"
-        static let createdAt = "createdAt"
-    }
     struct FirebaseStorage {
         static let videos = "videos"
     }

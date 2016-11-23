@@ -15,24 +15,32 @@ class Video: NSObject {
     var restaurantName: String?
     var createdAt: Date?
     
+    struct Key {
+        static let userId = "userId"
+        static let templateId = "templateId"
+        static let videoURL = "videoURL"
+        static let restaurantName = "restaurantName"
+        static let createdAt = "createdAt"
+    }
+    
     var dictionaryFormat: [String: AnyObject?] {
         get {
-            return [Constants.VideoKey.userId : userId as AnyObject,
-                    Constants.VideoKey.templateId : templateId as AnyObject,
-                    Constants.VideoKey.videoURL : videoURL as AnyObject,
-                    Constants.VideoKey.restaurantName : restaurantName as AnyObject,
-                    Constants.VideoKey.createdAt : createdAt?.description as AnyObject]
+            return [Video.Key.userId : userId as AnyObject,
+                    Video.Key.templateId : templateId as AnyObject,
+                    Video.Key.videoURL : videoURL as AnyObject,
+                    Video.Key.restaurantName : restaurantName as AnyObject,
+                    Video.Key.createdAt : createdAt?.description as AnyObject]
         }
     }
 
     init(dictionary: [String:AnyObject?]) {
         
-        userId = dictionary[Constants.VideoKey.userId] as? String
-        templateId = dictionary[Constants.VideoKey.templateId] as? String
-        videoURL = dictionary[Constants.VideoKey.videoURL] as? String
-        restaurantName = dictionary[Constants.VideoKey.restaurantName] as? String
+        userId = dictionary[Video.Key.userId] as? String
+        templateId = dictionary[Video.Key.templateId] as? String
+        videoURL = dictionary[Video.Key.videoURL] as? String
+        restaurantName = dictionary[Video.Key.restaurantName] as? String
         
-        let createdAtString = dictionary[Constants.VideoKey.createdAt] as? String
+        let createdAtString = dictionary[Video.Key.createdAt] as? String
         if let createdAtString = createdAtString {
             let formatter = DateFormatter()
             formatter.dateFormat = "EEE MMM d HH:mm:ss Z y"
