@@ -48,6 +48,13 @@ class VideoComposition: AVPlayerItem, NSCoding {
             return vc
         }
     }
+
+    struct Key {
+        static let videoURLs = "videosURLs"
+        static let audioURL = "audioURL"
+        static let name = "name"
+        static let templateID = "id"
+    }
     
 // MARK: - Initializers
     
@@ -80,7 +87,7 @@ class VideoComposition: AVPlayerItem, NSCoding {
         var audioURL: URL?
 
         // process video urls
-        if let videoStrings = dictionary[Constants.VideoCompositionKey.videoURLs] as? NSArray {
+        if let videoStrings = dictionary[VideoComposition.Key.videoURLs] as? NSArray {
             for string in videoStrings {
                 if let videoURL = URL(string: string as! String) {
                     videoURLs.append(videoURL)
@@ -88,14 +95,14 @@ class VideoComposition: AVPlayerItem, NSCoding {
             }
         }
         // process audio url
-        if let audioURLString = dictionary[Constants.VideoCompositionKey.audioURL] as? String {
+        if let audioURLString = dictionary[VideoComposition.Key.audioURL] as? String {
             audioURL = URL(string: audioURLString)
         }
         
         self.init(videoURLs: videoURLs,
                   audioURL: audioURL,
-                  name: dictionary[Constants.VideoCompositionKey.name] as? String,
-                  templateID: dictionary[Constants.VideoCompositionKey.templateID] as? String)
+                  name: dictionary[VideoComposition.Key.name] as? String,
+                  templateID: dictionary[VideoComposition.Key.templateID] as? String)
     }
     
 // MARK: - Methods
@@ -283,20 +290,20 @@ class VideoComposition: AVPlayerItem, NSCoding {
 // MARK: - NSCoding methods
     
     required convenience init?(coder aDecoder: NSCoder) {
-        guard let videoURLs = aDecoder.decodeObject(forKey: Constants.VideoCompositionKey.videoURLs) as? [URL]
+        guard let videoURLs = aDecoder.decodeObject(forKey: VideoComposition.Key.videoURLs) as? [URL]
             else { return nil }
-        guard let audioURL = aDecoder.decodeObject(forKey: Constants.VideoCompositionKey.audioURL) as? URL
+        guard let audioURL = aDecoder.decodeObject(forKey: VideoComposition.Key.audioURL) as? URL
             else { return nil }
         
-        let name: String? = aDecoder.decodeObject(forKey: Constants.VideoCompositionKey.name) as? String
-        let templateID: String? = aDecoder.decodeObject(forKey: Constants.VideoCompositionKey.templateID) as? String
+        let name: String? = aDecoder.decodeObject(forKey: VideoComposition.Key.name) as? String
+        let templateID: String? = aDecoder.decodeObject(forKey: VideoComposition.Key.templateID) as? String
         
         self.init(videoURLs: videoURLs, audioURL: audioURL, name: name, templateID: templateID)
     }
     
     func encode(with aCoder: NSCoder) {
-        aCoder.encode(videoURLs, forKey:Constants.VideoCompositionKey.videoURLs)
-        aCoder.encode(audioURL, forKey:Constants.VideoCompositionKey.audioURL)
+        aCoder.encode(videoURLs, forKey:VideoComposition.Key.videoURLs)
+        aCoder.encode(audioURL, forKey:VideoComposition.Key.audioURL)
     }
 }
 
