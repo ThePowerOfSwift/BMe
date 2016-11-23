@@ -56,6 +56,12 @@ class VideoComposition: AVPlayerItem, NSCoding {
         static let templateID = "id"
     }
     
+    struct StoryboardKey {
+        static let ID = "VideoComposition"
+        static let videoCompositionViewController = "VideoCompositionViewController"
+    }
+
+    
 // MARK: - Initializers
     
     // Initalize as AVPlayerItem that composes videos and sound together

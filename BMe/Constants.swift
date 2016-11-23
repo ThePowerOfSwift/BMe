@@ -12,10 +12,6 @@ struct Constants {
     struct CGSizes {
         static let portrait = CGSize(width: 720.0, height: 1280.0)
     }
-    struct VideoCompositionStoryboard {
-        static let ID = "VideoComposition"
-        static let videoCompositionViewController = "VideoCompositionViewController"
-    }
     struct OnLogin {
         // static let StoryboardID = "VideoComposition"
         // static let RootViewController = "VideoComposerViewController"

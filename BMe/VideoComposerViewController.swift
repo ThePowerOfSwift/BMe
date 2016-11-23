@@ -19,7 +19,7 @@ class VideoComposerViewController: UIViewController, UIImagePickerControllerDele
     
     // Container views
     var template: VideoComposition?
-    let compositionVC = UIStoryboard(name: Constants.VideoCompositionStoryboard.ID, bundle: nil).instantiateViewController(withIdentifier: Constants.VideoCompositionStoryboard.videoCompositionViewController) as! VideoCompositionViewController
+    let compositionVC = UIStoryboard(name: VideoComposition.StoryboardKey.ID, bundle: nil).instantiateViewController(withIdentifier: VideoComposition.StoryboardKey.videoCompositionViewController) as! VideoCompositionViewController
     var browser = UIImagePickerController()
     
     // Pan Gesture
