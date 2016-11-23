@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--ExampleFIRTVC-->
+        <scene sceneID="5rS-Py-Re6">
+            <objects>
+                <viewController storyboardIdentifier="ExampleFIRTVC" id="Qy6-In-ogt" customClass="ExampleFIRTVC" customModule="BMe" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Ock-lJ-osG"/>
+                        <viewControllerLayoutGuide type="bottom" id="NCv-fo-nxB"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="VyF-rv-Tdf">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="exO-IF-Aee">
+                                <rect key="frame" x="0.0" y="20" width="375" height="607"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wcz-01-HcL">
+                                <rect key="frame" x="309" y="637" width="57" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="test add"/>
+                                <connections>
+                                    <action selector="didTapAdd:" destination="Qy6-In-ogt" eventType="touchUpInside" id="Oyj-46-gJR"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="NCv-fo-nxB" firstAttribute="top" secondItem="exO-IF-Aee" secondAttribute="bottom" constant="40" id="9df-22-gyh"/>
+                            <constraint firstAttribute="trailing" secondItem="exO-IF-Aee" secondAttribute="trailing" id="gbe-KW-gUW"/>
+                            <constraint firstItem="exO-IF-Aee" firstAttribute="leading" secondItem="VyF-rv-Tdf" secondAttribute="leading" id="l8D-k1-Mrg"/>
+                            <constraint firstItem="exO-IF-Aee" firstAttribute="top" secondItem="Ock-lJ-osG" secondAttribute="bottom" id="vwL-0A-4bl"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="tableView" destination="exO-IF-Aee" id="PoX-Wi-IWY"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="a43-CR-xLg" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-407" y="188"/>
+        </scene>
+    </scenes>
+</document>

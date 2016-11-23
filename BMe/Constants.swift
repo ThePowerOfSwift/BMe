@@ -25,8 +25,10 @@ struct Constants {
     struct OnLogin {
         // static let StoryboardID = "VideoComposition"
         // static let RootViewController = "VideoComposerViewController"
-        static let StoryboardID = "Sato"
-        static let RootViewController = "TabBarNavigationController"
+//        static let StoryboardID = "Sato"
+//        static let RootViewController = "TabBarNavigationController"
+        static let StoryboardID = "ExampleFIRTVC"
+        static let RootViewController = "ExampleFIRTVC"
     }
     struct OnLogout {
         static let StoryboardID = "Main"
@@ -44,11 +46,9 @@ struct Constants {
         static let createdAt = "createdAt"
     }
     struct FirebaseStorage {
-        static let storageBaseURL = "gs://b-me-e21b7.appspot.com"
         static let videos = "videos"
     }
     struct FirebaseDatabase {
-        static let databaseBaseURL = "https://b-me-e21b7.firebaseio.com/"
         static let videoURLs = "videosURLs"
     }
 }
