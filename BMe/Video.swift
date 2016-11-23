@@ -15,6 +15,21 @@ class Video: NSObject {
     var restaurantName: String?
     var createdAt: Date?
     
+    /** @name Retrieving String Representation */
+    
+    /**
+     * Gets the absolute URL of this Firebase Database location.
+     *
+     * @return The absolute URL of the referenced Firebase Database location.
+     */
+//    open func description() -> String
+    /**
+     * Gets the URL for the Firebase Database location referenced by this FIRDatabaseReference.
+     *
+     * @return The url of the location this reference points to.
+     */
+//    open var url: String { get }
+
     struct Key {
         static let userId = "userId"
         static let templateId = "templateId"

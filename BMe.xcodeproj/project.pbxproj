@@ -35,8 +35,6 @@
 		E35AC48B1DE4D76A00FCB0D0 /* CreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E35AC48A1DE4D76A00FCB0D0 /* CreateViewController.swift */; };
 		E35AC48D1DE4D77200FCB0D0 /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E35AC48C1DE4D77200FCB0D0 /* AccountViewController.swift */; };
 		E3ECAFD91DE3CCB500F221AE /* Video.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3ECAFD81DE3CCB500F221AE /* Video.swift */; };
-		E3ECAFDF1DE3EFF200F221AE /* test_video.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = E3ECAFDD1DE3EC0700F221AE /* test_video.mp4 */; };
-		E3ECAFE11DE3F00F00F221AE /* test_video.mp4 in CopyFiles */ = {isa = PBXBuildFile; fileRef = E3ECAFDD1DE3EC0700F221AE /* test_video.mp4 */; };
 		EED9BEFA11E85E773E6416A7 /* Pods_BMeUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89C6C4AE3BCC216444B1A558 /* Pods_BMeUITests.framework */; };
 /* End PBXBuildFile section */
 
@@ -64,7 +62,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 7;
 			files = (
-				E3ECAFE11DE3F00F00F221AE /* test_video.mp4 in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -110,7 +107,6 @@
 		E35AC48A1DE4D76A00FCB0D0 /* CreateViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateViewController.swift; sourceTree = "<group>"; };
 		E35AC48C1DE4D77200FCB0D0 /* AccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
 		E3ECAFD81DE3CCB500F221AE /* Video.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Video.swift; sourceTree = "<group>"; };
-		E3ECAFDD1DE3EC0700F221AE /* test_video.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = test_video.mp4; sourceTree = "<group>"; };
 		E7764343275603CBAE9394EC /* Pods-BMeUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BMeUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-BMeUITests/Pods-BMeUITests.release.xcconfig"; sourceTree = "<group>"; };
 		EF9B8E045282684264E31D83 /* Pods-BMe.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BMe.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BMe/Pods-BMe.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -233,7 +229,6 @@
 		78469A5A1DE3958000A40D53 /* BMe */ = {
 			isa = PBXGroup;
 			children = (
-				E3ECAFDD1DE3EC0700F221AE /* test_video.mp4 */,
 				78337D8E1DE3AC7400A1B32C /* Shared */,
 				78337D8F1DE3AC9300A1B32C /* Sato */,
 				78337D901DE3ACA700A1B32C /* JJ */,
@@ -454,7 +449,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E3ECAFDF1DE3EFF200F221AE /* test_video.mp4 in Resources */,
 				78CDA09C1DE5307200ABC5E1 /* ExampleFIRTVC.storyboard in Resources */,
 				78469A661DE3958100A40D53 /* LaunchScreen.storyboard in Resources */,
 				78337D8D1DE3AC6600A1B32C /* GoogleService-Info.plist in Resources */,
