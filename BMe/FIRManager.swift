@@ -112,17 +112,22 @@ extension FIRDatabaseReference {
     // Push new "object" to FIR Database
     // Object data is dictionary of String: AnyObject? format
     // Resulting reference (& .key) is handed to completion block as FIRDatabaseReference
+    
+    // TODO: - bug submitted to Google for extension causing undue Sef 11 fault
+
     func addObject(named: String, data: [String: AnyObject?], completion:@escaping (FIRDatabaseReference, Error?)->()) {
         // Put to Database
-//        child(named).childByAutoId().setValue(data){ (error: Error?, ref: FIRDatabaseReference) in
-//            if let error = error {
-//                print("Error adding object to FIR Database: \(error.localizedDescription)")
-//                return
-//            }
-//            completion(ref, error)
-//        }
+        child(named).childByAutoId().setValue(data){ (error, ref) in
+            if let error = error {
+                print("Error adding object to FIR Database: \(error.localizedDescription)")
+                return
+            }
+            completion(ref, error)
+        }
     }
+ 
 }
+ 
 
 extension FIRStorageReference {
     func addObject(data: Data, contentType:FIRManager.ContentType, completion: @escaping (FIRStorageMetadata?, Error?) -> ()) {
