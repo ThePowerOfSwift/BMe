@@ -61,7 +61,11 @@ class FIRManager: NSObject {
     func putObjectOnStorage(data: Data, contentType: FIRManager.ContentType, completion: @escaping (FIRStorageMetadata?, Error?) -> ()) {
         storage.addObject(data: data, contentType: contentType, completion: completion)
     }
-    
+
+    func putObjectOnStorage(url: URL, contentType: FIRManager.ContentType, completion: @escaping (FIRStorageMetadata?, Error?) -> ()) {
+        storage.addObject(url: url, contentType: contentType, completion: completion)
+    }
+
     func putObjectOnDatabase(named: String, data: [String: AnyObject?], completion:@escaping (FIRDatabaseReference, Error?)->()) {
         database.addObject(named: named, data: data, completion: completion)
     }
@@ -113,8 +117,6 @@ extension FIRDatabaseReference {
     // Object data is dictionary of String: AnyObject? format
     // Resulting reference (& .key) is handed to completion block as FIRDatabaseReference
     
-    // TODO: - bug submitted to Google for extension causing undue Sef 11 fault
-
     func addObject(named: String, data: [String: AnyObject?], completion:@escaping (FIRDatabaseReference, Error?)->()) {
         // Put to Database
         child(named).childByAutoId().setValue(data){ (error, ref) in
@@ -125,9 +127,8 @@ extension FIRDatabaseReference {
             completion(ref, error)
         }
     }
- 
 }
- 
+
 
 extension FIRStorageReference {
     func addObject(data: Data, contentType:FIRManager.ContentType, completion: @escaping (FIRStorageMetadata?, Error?) -> ()) {
@@ -144,6 +145,20 @@ extension FIRStorageReference {
             completion(metadata, error)
         }
 
+    }
+    
+    func addObject(url: URL, contentType:FIRManager.ContentType, completion: @escaping (FIRStorageMetadata?, Error?) -> ()) {
+        let path = FIRManager.sharedInstance.uniqueIdentifier + contentType.fileExtension()
+        let metadata = FIRStorageMetadata()
+        metadata.contentType = contentType.string()
+        
+        child(path).putFile(url, metadata: metadata) { (fir, error) in
+            if let error = error {
+                print("Error adding object to GS bucket: \(error.localizedDescription)")
+                return
+            }
+            completion(metadata, error)
+        }
     }
 }
 
