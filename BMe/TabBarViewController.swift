@@ -28,6 +28,7 @@ class TabBarViewController: UIViewController {
         createViewController = storyboard.instantiateViewController(withIdentifier: "CreateViewController")
         accountViewController = storyboard.instantiateViewController(withIdentifier: "AccountViewController")
         
+        
         // Init with view controllers
         viewControllers = [browseViewController, createViewController, accountViewController]
 

@@ -12,10 +12,10 @@ struct Constants {
     struct OnLogin {
         // static let StoryboardID = "VideoComposition"
         // static let RootViewController = "VideoComposerViewController"
-//        static let StoryboardID = "Sato"
-//        static let RootViewController = "TabBarNavigationController"
-        static let StoryboardID = "ExampleFIRTVC"
-        static let RootViewController = "ExampleFIRTVC"
+        static let StoryboardID = "Sato"
+        static let RootViewController = "TabBarNavigationController"
+//        static let StoryboardID = "ExampleFIRTVC"
+        //static let RootViewController = "ExampleFIRTVC"
     }
     struct OnLogout {
         static let StoryboardID = "Main"
