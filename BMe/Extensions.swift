@@ -80,6 +80,14 @@ extension CGSize {
     static let portrait = CGSize(width: 720.0, height: 1280.0)
 }
 
+extension Date {
+    func toString() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MMMM dd yyyy"
+        return dateFormatter.string(from: self)
+    }
+}
+
 /*
 extension UIView: NSCopying
 {

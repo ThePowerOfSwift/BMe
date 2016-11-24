@@ -15,21 +15,6 @@ class Video: NSObject {
     var restaurantName: String?
     var createdAt: Date?
     
-    /** @name Retrieving String Representation */
-    
-    /**
-     * Gets the absolute URL of this Firebase Database location.
-     *
-     * @return The absolute URL of the referenced Firebase Database location.
-     */
-//    open func description() -> String
-    /**
-     * Gets the URL for the Firebase Database location referenced by this FIRDatabaseReference.
-     *
-     * @return The url of the location this reference points to.
-     */
-//    open var url: String { get }
-
     struct Key {
         static let userId = "userId"
         static let templateId = "templateId"
@@ -40,19 +25,19 @@ class Video: NSObject {
     
     var dictionaryFormat: [String: AnyObject?] {
         get {
-            return [Video.Key.userId : userId as AnyObject,
-                    Video.Key.templateId : templateId as AnyObject,
-                    Video.Key.videoURL : videoURL as AnyObject,
-                    Video.Key.restaurantName : restaurantName as AnyObject,
-                    Video.Key.createdAt : createdAt?.description as AnyObject]
+            return [Key.userId : userId as AnyObject,
+                    Key.templateId : templateId as AnyObject,
+                    Key.videoURL : videoURL as AnyObject,
+                    Key.restaurantName : restaurantName as AnyObject,
+                    Key.createdAt : createdAt?.description as AnyObject]
         }
     }
 
     init(dictionary: [String:AnyObject?]) {
-        
-        userId = dictionary[Video.Key.userId] as? String
-        templateId = dictionary[Video.Key.templateId] as? String
-        videoURL = dictionary[Video.Key.videoURL] as? String
+
+        userId = dictionary[Key.userId] as? String
+        templateId = dictionary[Key.templateId] as? String
+        videoURL = dictionary[Key.videoURL] as? String
         restaurantName = dictionary[Video.Key.restaurantName] as? String
         
         let createdAtString = dictionary[Video.Key.createdAt] as? String
@@ -71,8 +56,8 @@ class Video: NSObject {
         self.restaurantName = restaurantName
         //self.createdAt = createdAt
     }
-
 }
+
 //
 //var timeSinceNowString: String? {
 //    if let timestamp = createdAt {
@@ -98,10 +83,4 @@ class Video: NSObject {
 //accepted
 //Date().toString() // convert date to string with userdefined format.
 
-extension Date {
-    func toString() -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MMMM dd yyyy"
-        return dateFormatter.string(from: self)
-    }
-}
+
