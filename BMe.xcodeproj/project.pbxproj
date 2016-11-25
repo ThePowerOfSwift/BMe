@@ -28,8 +28,8 @@
 		78469A7C1DE3958100A40D53 /* BMeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78469A7B1DE3958100A40D53 /* BMeUITests.swift */; };
 		78B369BC1DE7E040001ADD53 /* CompositionTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78B369BA1DE7E040001ADD53 /* CompositionTestViewController.swift */; };
 		78B369BD1DE7E040001ADD53 /* CompositionTest.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 78B369BB1DE7E040001ADD53 /* CompositionTest.storyboard */; };
-		78CDA09C1DE5307200ABC5E1 /* ExampleFIRTVC.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 78CDA09A1DE5307200ABC5E1 /* ExampleFIRTVC.storyboard */; };
-		78CDA09D1DE5307200ABC5E1 /* ExampleFIRTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CDA09B1DE5307200ABC5E1 /* ExampleFIRTVC.swift */; };
+		78CDA09C1DE5307200ABC5E1 /* FIRAssetsListVC.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 78CDA09A1DE5307200ABC5E1 /* FIRAssetsListVC.storyboard */; };
+		78CDA09D1DE5307200ABC5E1 /* FIRAssetsListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CDA09B1DE5307200ABC5E1 /* FIRAssetsListVC.swift */; };
 		78CDA09F1DE5307C00ABC5E1 /* FIRManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CDA09E1DE5307C00ABC5E1 /* FIRManager.swift */; };
 		E35AC4831DE4D00400FCB0D0 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E35AC4821DE4D00400FCB0D0 /* TabBarViewController.swift */; };
 		E35AC4871DE4D0F500FCB0D0 /* Sato.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E35AC4861DE4D0F500FCB0D0 /* Sato.storyboard */; };
@@ -100,8 +100,8 @@
 		78469A7D1DE3958100A40D53 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		78B369BA1DE7E040001ADD53 /* CompositionTestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompositionTestViewController.swift; sourceTree = "<group>"; };
 		78B369BB1DE7E040001ADD53 /* CompositionTest.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = CompositionTest.storyboard; sourceTree = "<group>"; };
-		78CDA09A1DE5307200ABC5E1 /* ExampleFIRTVC.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = ExampleFIRTVC.storyboard; sourceTree = "<group>"; };
-		78CDA09B1DE5307200ABC5E1 /* ExampleFIRTVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExampleFIRTVC.swift; sourceTree = "<group>"; };
+		78CDA09A1DE5307200ABC5E1 /* FIRAssetsListVC.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = FIRAssetsListVC.storyboard; sourceTree = "<group>"; };
+		78CDA09B1DE5307200ABC5E1 /* FIRAssetsListVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FIRAssetsListVC.swift; sourceTree = "<group>"; };
 		78CDA09E1DE5307C00ABC5E1 /* FIRManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FIRManager.swift; sourceTree = "<group>"; };
 		86BFB4E3203608C3B4F447D0 /* Pods-BMeTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BMeTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BMeTests/Pods-BMeTests.debug.xcconfig"; sourceTree = "<group>"; };
 		89C6C4AE3BCC216444B1A558 /* Pods_BMeUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BMeUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -282,8 +282,8 @@
 			children = (
 				78B369BA1DE7E040001ADD53 /* CompositionTestViewController.swift */,
 				78B369BB1DE7E040001ADD53 /* CompositionTest.storyboard */,
-				78CDA09A1DE5307200ABC5E1 /* ExampleFIRTVC.storyboard */,
-				78CDA09B1DE5307200ABC5E1 /* ExampleFIRTVC.swift */,
+				78CDA09A1DE5307200ABC5E1 /* FIRAssetsListVC.storyboard */,
+				78CDA09B1DE5307200ABC5E1 /* FIRAssetsListVC.swift */,
 			);
 			name = Examples;
 			sourceTree = "<group>";
@@ -455,7 +455,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				78CDA09C1DE5307200ABC5E1 /* ExampleFIRTVC.storyboard in Resources */,
+				78CDA09C1DE5307200ABC5E1 /* FIRAssetsListVC.storyboard in Resources */,
 				78469A661DE3958100A40D53 /* LaunchScreen.storyboard in Resources */,
 				78337D8D1DE3AC6600A1B32C /* GoogleService-Info.plist in Resources */,
 				E35AC4871DE4D0F500FCB0D0 /* Sato.storyboard in Resources */,
@@ -620,7 +620,7 @@
 				78CDA09F1DE5307C00ABC5E1 /* FIRManager.swift in Sources */,
 				783008A61DE3B9A000B070D4 /* VideoCompositionCollectionViewCell.swift in Sources */,
 				E35AC4891DE4D75C00FCB0D0 /* BrowseViewController.swift in Sources */,
-				78CDA09D1DE5307200ABC5E1 /* ExampleFIRTVC.swift in Sources */,
+				78CDA09D1DE5307200ABC5E1 /* FIRAssetsListVC.swift in Sources */,
 				783008AA1DE3B9A000B070D4 /* Constants.swift in Sources */,
 				7830089A1DE3B0B500B070D4 /* MeasurementHelper.swift in Sources */,
 				E3ECAFD91DE3CCB500F221AE /* Video.swift in Sources */,
