@@ -43,7 +43,7 @@ class CompositionTestViewController: UIViewController, UIImagePickerControllerDe
         
         let composition = VideoComposition(videoURLs: videoURLs, audioURL: audioURL, name: "test", templateID: "test")
         
-        FIRManager.sharedInstance.uploadVideoComposition(composition: composition, completion: {
+        FIRManager.shared.uploadVideoComposition(composition: composition, completion: {
             self.activityIndicator.stopAnimating()
         })
         audioURL = nil
@@ -53,6 +53,12 @@ class CompositionTestViewController: UIViewController, UIImagePickerControllerDe
         action = ""
     }
     
+    @IBAction func didTapWatchTemplate(_ sender: Any) {
+        let storyboard = UIStoryboard(name: "VideosListVC", bundle: nil)
+        let vc = storyboard.instantiateViewController(withIdentifier: "VideosListVC")
+        
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
     func enableTemplateUpload() -> Bool {
         if audioURL != nil && videoURLs.count > 0 {
             return true
@@ -67,14 +73,14 @@ class CompositionTestViewController: UIViewController, UIImagePickerControllerDe
         if (mediaType == kUTTypeMovie) {
             if action == "Upload video" {
                 let url = info[UIImagePickerControllerMediaURL] as? URL
-                let video = Video(userId: AppState.sharedInstance.currentUser?.uid,
-                                  username: AppState.sharedInstance.currentUser?.displayName,
+                let video = Video(userId: AppState.shared.currentUser?.uid,
+                                  username: AppState.shared.currentUser?.displayName,
                                   templateId: "",
                                   videoURL: url!.absoluteString,
                                   restaurantName: "",
                                   createdAt: Date())
                 activityIndicator.startAnimating()
-                FIRManager.sharedInstance.uploadVideo(video: video, completion: {
+                FIRManager.shared.uploadVideo(video: video, completion: {
                 self.activityIndicator.stopAnimating()
                 })
             }

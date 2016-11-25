@@ -11,7 +11,7 @@ import Firebase
 
 class AppState: NSObject {
     
-    static let sharedInstance = AppState()
+    static let shared = AppState()
     
     // Hide singleton initializer
     private override init() {
@@ -74,7 +74,7 @@ class AppState: NSObject {
                 return
             }
 
-            self.signedIn(AppState.sharedInstance.currentUser)
+            self.signedIn(AppState.shared.currentUser)
         }
     }
     
@@ -122,7 +122,7 @@ class AppState: NSObject {
             if (userInput!.isEmpty) {
                 return
             }
-            AppState.sharedInstance.firebaseAuth?.sendPasswordReset(withEmail: userInput!) { (error) in
+            AppState.shared.firebaseAuth?.sendPasswordReset(withEmail: userInput!) { (error) in
                 if let error = error {
                     print(error.localizedDescription)
                     return

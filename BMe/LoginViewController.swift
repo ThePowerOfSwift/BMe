@@ -32,8 +32,8 @@ class LoginViewController: UIViewController {
     }
 
     override func viewDidAppear(_ animated: Bool) {
-        if let user = AppState.sharedInstance.currentUser {
-            AppState.sharedInstance.signedIn(user)
+        if let user = AppState.shared.currentUser {
+            AppState.shared.signedIn(user)
         }
     }
 
@@ -47,7 +47,7 @@ class LoginViewController: UIViewController {
             else { return }
         
         // Sign In with credentials.
-        AppState.sharedInstance.signIn(withEmail: email, password: password) { (user: FIRUser?, error: Error?) in
+        AppState.shared.signIn(withEmail: email, password: password) { (user: FIRUser?, error: Error?) in
             // Present error alert
             self.presentErrorAlert(error: error)
         }
@@ -60,7 +60,7 @@ class LoginViewController: UIViewController {
             else { return }
         
         // Sign up with credentials
-        AppState.sharedInstance.createUser(withEmail: email, password: password) { (user: FIRUser?, error: Error?) in
+        AppState.shared.createUser(withEmail: email, password: password) { (user: FIRUser?, error: Error?) in
             // Present error alert
             self.presentErrorAlert(error: error)
         }
@@ -71,7 +71,7 @@ class LoginViewController: UIViewController {
     
     //TODO: - Hook this up
     @IBAction func signOut(_ sender: UIButton) {
-        AppState.sharedInstance.signOut()
+        AppState.shared.signOut()
     }
     
     

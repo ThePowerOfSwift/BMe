@@ -58,9 +58,12 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </activityIndicatorView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i1r-OA-umM">
-                                <rect key="frame" x="134" y="241" width="108" height="30"/>
+                                <rect key="frame" x="147" y="539" width="87" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Watch template"/>
+                                <state key="normal" title="Watch Video"/>
+                                <connections>
+                                    <action selector="didTapWatchTemplate:" destination="9Se-eT-sJn" eventType="touchUpInside" id="GIS-pQ-Iaw"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

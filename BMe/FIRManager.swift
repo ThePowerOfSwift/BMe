@@ -14,7 +14,7 @@ import Firebase
 class FIRManager: NSObject {
     
     // Singleton
-    static let sharedInstance = FIRManager()
+    static let shared = FIRManager()
     
     // Properties
     var database: FIRDatabaseReference {
@@ -43,6 +43,9 @@ class FIRManager: NSObject {
     }
 
 // Methods
+    func storage(url: String) -> FIRStorageReference {
+        return FIRStorage.storage().reference(forURL: url)
+    }
     
     // Listen for existing/new objects in the Firebase database
     func observeDatabaseObject(named: String, event: FIRDataEventType, completion:@escaping (FIRDataSnapshot)->()) -> FIRDatabaseHandle {
@@ -218,7 +221,7 @@ extension FIRDatabaseReference {
 
 extension FIRStorageReference {
     func addObject(data: Data, contentType:FIRManager.ContentType, completion: @escaping (FIRStorageMetadata?, Error?) -> ()) {
-        let path = contentType.objectKey() + "/" + FIRManager.sharedInstance.uniqueIdentifier + contentType.fileExtension()
+        let path = contentType.objectKey() + "/" + FIRManager.shared.uniqueIdentifier + contentType.fileExtension()
         let metadata = FIRStorageMetadata()
         metadata.contentType = contentType.string()
 
@@ -233,7 +236,7 @@ extension FIRStorageReference {
     }
     
     func addObject(url: URL, contentType:FIRManager.ContentType, completion: @escaping (FIRStorageMetadata?, Error?) -> ()) {
-        let path = contentType.objectKey() + "/" + FIRManager.sharedInstance.uniqueIdentifier + contentType.fileExtension()
+        let path = contentType.objectKey() + "/" + FIRManager.shared.uniqueIdentifier + contentType.fileExtension()
         let metadata = FIRStorageMetadata()
         metadata.contentType = contentType.string()
         
