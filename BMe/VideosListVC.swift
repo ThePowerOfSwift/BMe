@@ -58,7 +58,6 @@ class VideosListVC: UIViewController, UITableViewDataSource, UITableViewDelegate
         cell.textLabel?.text = video.username!
         
         if let videoURL = video.videoURL {
-            print("VideoURL: \(videoURL)")
             if let URL = URL(string: videoURL) {
                 cell.imageView?.image = VideoComposition.thumbnail(asset: AVURLAsset(url: URL))
             }
@@ -70,18 +69,12 @@ class VideosListVC: UIViewController, UITableViewDataSource, UITableViewDelegate
         tableView.deselectRow(at: indexPath, animated: true)
         
         let video = Video(dictionary: videos[indexPath.row].dictionary)
-        var videoURL = URL(string: video.videoURL!)
+        let videoURL = URL(string: video.videoURL!)
         
-        if (videoURL?.absoluteString.isCloudStorage)! {
-            FIRManager.shared.storage(url: video.videoURL!).downloadURL(completion: { (url: URL?, error: Error?) in
-                videoURL = url
-                
-                let playerVC = AVPlayerViewController()
-                playerVC.player = AVPlayer(url: videoURL!)
-                self.present(playerVC, animated: true, completion: {
-                    
-                })
-            })
-        }
+        let playerVC = AVPlayerViewController()
+        playerVC.player = AVPlayer(url: videoURL!)
+        self.present(playerVC, animated: true, completion: {
+            
+        })
     }
 }

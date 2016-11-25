@@ -62,7 +62,8 @@ class TemplateListVC: UIViewController, UITableViewDataSource, UITableViewDelega
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-//        let template = VideoComposition(dictionary: templates[indexPath.row].dictionary)
+        let template = VideoComposition(dictionary: templates[indexPath.row].dictionary)
+        present(template.playerViewController, animated: true, completion: nil)
 
     }
 }

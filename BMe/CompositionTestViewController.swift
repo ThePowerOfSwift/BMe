@@ -33,6 +33,11 @@ class CompositionTestViewController: UIViewController, UIImagePickerControllerDe
         present(mPicker, animated: true, completion: nil)
     }
     
+    @IBAction func didTapTestTemplate(_ sender: Any) {
+        let composition = VideoComposition(videoURLs: videoURLs, audioURL: audioURL, name: "run template", templateID: "n/a")
+        present(composition.playerViewController, animated: true, completion: nil)
+    }
+    
     @IBAction func didTapPickVideo(_ sender: Any) {
         action = "Pick video"
         presentImagePicker(delegate: self, completion: nil)

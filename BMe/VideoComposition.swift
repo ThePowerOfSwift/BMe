@@ -94,8 +94,9 @@ class VideoComposition: AVPlayerItem, NSCoding {
         // Initialize
         _videoURLs = videoURLs
         _audioURL = audioURL
-        
+
         let videoAVURLs = VideoComposition.getAVURLAssets(urls: videoURLs)
+      
         var audioAVURL: AVURLAsset?
         if let audioURL = audioURL {
             audioAVURL = AVURLAsset(url: audioURL)
@@ -113,7 +114,7 @@ class VideoComposition: AVPlayerItem, NSCoding {
     // Assumes dictionary key, object structure:
     // VideoComposition.Key.videoURLs = [String]
     // VideoComposition.Key.audioURL = String
-    convenience init (dictionary: [String: Any?]) {
+    convenience init (dictionary: [String: AnyObject?]) {
         var videoURLs: [URL] = []
         var audioURL: URL?
         
@@ -188,6 +189,8 @@ class VideoComposition: AVPlayerItem, NSCoding {
     // TrackID 0 is the sound
     // TrackID 1+ are the videos
     class func setup(videoURLs: [AVURLAsset], audioURL: AVURLAsset?) -> (mixComposition: AVMutableComposition, avVideoComposition: AVMutableVideoComposition) {
+        
+        
         // Add each asset as a track to overall composition
         let mixComposition = AVMutableComposition()
         var videoInstructions: [AVMutableVideoCompositionLayerInstruction] = []
