@@ -8,7 +8,7 @@
 
 import UIKit
 import MobileCoreServices
-
+import AVFoundation
 
 extension UIViewController {
     // present modally camera to record
@@ -88,10 +88,23 @@ extension Date {
     }
 }
 
+extension AVURLAsset {
+    func exportIPodAudio(url: URL, completion:@escaping ()->()) {
+        let session = AVAssetExportSession(asset: self, presetName: AVAssetExportPresetAppleM4A)
+        print("Exporting audio, file types supported\(session?.supportedFileTypes)")
+        session?.outputFileType = "com.apple.m4a-audio"
+        session?.outputURL = url
+        session?.exportAsynchronously(completionHandler: {
+            print("Success: audio export to: \(session?.outputURL)")
+            completion()
+        })
+    }
+}
+
 /*
 extension UIView: NSCopying
 {
-    
+ 
     public func copy(with zone: NSZone? = nil) -> Any
     {
         let archiver = NSKeyedArchiver.archivedData(withRootObject: self)

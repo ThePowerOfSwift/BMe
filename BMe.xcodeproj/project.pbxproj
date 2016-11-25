@@ -26,6 +26,8 @@
 		78469A661DE3958100A40D53 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 78469A641DE3958100A40D53 /* LaunchScreen.storyboard */; };
 		78469A711DE3958100A40D53 /* BMeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78469A701DE3958100A40D53 /* BMeTests.swift */; };
 		78469A7C1DE3958100A40D53 /* BMeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78469A7B1DE3958100A40D53 /* BMeUITests.swift */; };
+		78B369BC1DE7E040001ADD53 /* CompositionTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78B369BA1DE7E040001ADD53 /* CompositionTestViewController.swift */; };
+		78B369BD1DE7E040001ADD53 /* CompositionTest.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 78B369BB1DE7E040001ADD53 /* CompositionTest.storyboard */; };
 		78CDA09C1DE5307200ABC5E1 /* ExampleFIRTVC.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 78CDA09A1DE5307200ABC5E1 /* ExampleFIRTVC.storyboard */; };
 		78CDA09D1DE5307200ABC5E1 /* ExampleFIRTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CDA09B1DE5307200ABC5E1 /* ExampleFIRTVC.swift */; };
 		78CDA09F1DE5307C00ABC5E1 /* FIRManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CDA09E1DE5307C00ABC5E1 /* FIRManager.swift */; };
@@ -96,6 +98,8 @@
 		78469A771DE3958100A40D53 /* BMeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BMeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		78469A7B1DE3958100A40D53 /* BMeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BMeUITests.swift; sourceTree = "<group>"; };
 		78469A7D1DE3958100A40D53 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		78B369BA1DE7E040001ADD53 /* CompositionTestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompositionTestViewController.swift; sourceTree = "<group>"; };
+		78B369BB1DE7E040001ADD53 /* CompositionTest.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = CompositionTest.storyboard; sourceTree = "<group>"; };
 		78CDA09A1DE5307200ABC5E1 /* ExampleFIRTVC.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = ExampleFIRTVC.storyboard; sourceTree = "<group>"; };
 		78CDA09B1DE5307200ABC5E1 /* ExampleFIRTVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExampleFIRTVC.swift; sourceTree = "<group>"; };
 		78CDA09E1DE5307C00ABC5E1 /* FIRManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FIRManager.swift; sourceTree = "<group>"; };
@@ -276,6 +280,8 @@
 		78CDA0A01DE5311F00ABC5E1 /* Examples */ = {
 			isa = PBXGroup;
 			children = (
+				78B369BA1DE7E040001ADD53 /* CompositionTestViewController.swift */,
+				78B369BB1DE7E040001ADD53 /* CompositionTest.storyboard */,
 				78CDA09A1DE5307200ABC5E1 /* ExampleFIRTVC.storyboard */,
 				78CDA09B1DE5307200ABC5E1 /* ExampleFIRTVC.swift */,
 			);
@@ -454,6 +460,7 @@
 				78337D8D1DE3AC6600A1B32C /* GoogleService-Info.plist in Resources */,
 				E35AC4871DE4D0F500FCB0D0 /* Sato.storyboard in Resources */,
 				78469A631DE3958100A40D53 /* Assets.xcassets in Resources */,
+				78B369BD1DE7E040001ADD53 /* CompositionTest.storyboard in Resources */,
 				78469A611DE3958100A40D53 /* Main.storyboard in Resources */,
 				783008A81DE3B9A000B070D4 /* VideoComposition.storyboard in Resources */,
 			);
@@ -606,6 +613,7 @@
 				783008A41DE3B9A000B070D4 /* VideoComposition.swift in Sources */,
 				E35AC48D1DE4D77200FCB0D0 /* AccountViewController.swift in Sources */,
 				783008A91DE3B9A000B070D4 /* Extensions.swift in Sources */,
+				78B369BC1DE7E040001ADD53 /* CompositionTestViewController.swift in Sources */,
 				78469A5E1DE3958100A40D53 /* LoginViewController.swift in Sources */,
 				78469A5C1DE3958100A40D53 /* AppDelegate.swift in Sources */,
 				E35AC48B1DE4D76A00FCB0D0 /* CreateViewController.swift in Sources */,
