@@ -74,9 +74,6 @@ extension BrowseViewController: UICollectionViewDelegate, UICollectionViewDataSo
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: VideoCollectionViewCell.identifier, for: indexPath)
         cell.backgroundColor = model[collectionView.tag][indexPath.item]
         
-        //        let frame = CGRect(x: cell.frame.origin.x, y: cell.frame.origin.y, width: self.view.frame.width, height: self.view.frame.width/2)
-        //        cell.frame = frame
-        
         return cell
     }
     
