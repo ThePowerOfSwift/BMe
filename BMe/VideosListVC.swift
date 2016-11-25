@@ -59,16 +59,7 @@ class VideosListVC: UIViewController, UITableViewDataSource, UITableViewDelegate
         
         if let videoURL = video.videoURL {
             print("VideoURL: \(videoURL)")
-            if videoURL.isCloudStorage {
-                FIRManager.shared.storage(url: videoURL).downloadURL(completion: { (url: URL?, error: Error?) in
-                    if let error = error {
-                        print("Error retrieving from GStorage, aborting: \(error.localizedDescription)")
-                        return
-                    }
-                    video.videoURL = url?.absoluteString
-                    cell.imageView?.image = VideoComposition.thumbnail(asset: AVURLAsset(url: url!))
-                })
-            } else if let URL = URL(string: videoURL) {
+            if let URL = URL(string: videoURL) {
                 cell.imageView?.image = VideoComposition.thumbnail(asset: AVURLAsset(url: URL))
             }
         }

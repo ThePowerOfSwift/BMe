@@ -13,6 +13,7 @@ class Video: NSObject {
     var username: String?
     var templateId: String?
     var videoURL: String?
+    var gsURL: String?
     var createdAt: Date?
     
     struct Key {
@@ -20,6 +21,7 @@ class Video: NSObject {
         static let username = "username"
         static let templateId = "templateId"
         static let videoURL = "videoURL"
+        static let gsURL = "gsURL"
         static let createdAt = "createdAt"
     }
     
@@ -29,6 +31,7 @@ class Video: NSObject {
                     Key.username: username as AnyObject,
                     Key.templateId : templateId as AnyObject,
                     Key.videoURL : videoURL as AnyObject,
+                    Key.gsURL: gsURL as AnyObject,
                     Key.createdAt : createdAt?.description as AnyObject]
         }
     }
@@ -39,6 +42,7 @@ class Video: NSObject {
         username = dictionary[Key.username] as? String
         templateId = dictionary[Key.templateId] as? String
         videoURL = dictionary[Key.videoURL] as? String
+        gsURL = dictionary[Key.gsURL] as? String
         
         let createdAtString = dictionary[Video.Key.createdAt] as? String
         if let createdAtString = createdAtString {
@@ -48,11 +52,12 @@ class Video: NSObject {
         }
     }
     
-    init(userId: String?, username: String?, templateId: String?, videoURL: String?, restaurantName: String?, createdAt: Date?) {
+    init(userId: String?, username: String?, templateId: String?, videoURL: String?, gsURL: String?, createdAt: Date?) {
         self.userId = userId
         self.username = username
         self.templateId = templateId
         self.videoURL = videoURL
+        self.gsURL = gsURL
         self.createdAt = createdAt
     }
 }

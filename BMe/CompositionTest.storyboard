@@ -62,7 +62,15 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Watch Video"/>
                                 <connections>
-                                    <action selector="didTapWatchTemplate:" destination="9Se-eT-sJn" eventType="touchUpInside" id="GIS-pQ-Iaw"/>
+                                    <action selector="didTapeWatchVideo:" destination="9Se-eT-sJn" eventType="touchUpInside" id="VIU-MX-0kG"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ALt-t2-NMn">
+                                <rect key="frame" x="133" y="241" width="108" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Watch template"/>
+                                <connections>
+                                    <action selector="didTapWatchTemplate:" destination="9Se-eT-sJn" eventType="touchUpInside" id="myP-E2-0aB"/>
                                 </connections>
                             </button>
                         </subviews>

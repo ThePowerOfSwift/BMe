@@ -15,6 +15,8 @@ class VideoComposition: AVPlayerItem, NSCoding {
 // MARK: - Variables
     var name: String?
     var templateID: String?
+    var gsAudioURL: String?
+    var gsVideoURLs: String?
     
     // Video AVAssets
     private var _videoURLs: [URL]
@@ -60,7 +62,11 @@ class VideoComposition: AVPlayerItem, NSCoding {
             }
             
             let data = [Key.audioURL: audioURL?.absoluteString as AnyObject,
-                        Key.videoURLs: urls as AnyObject]
+                        Key.gsAudioURL: gsAudioURL as AnyObject,
+                        Key.videoURLs: urls as AnyObject,
+                        Key.gsVideoURLs: gsVideoURLs as AnyObject,
+                        Key.name: name as AnyObject,
+                        Key.templateID: templateID as AnyObject]
             
             return data
         }
@@ -68,7 +74,9 @@ class VideoComposition: AVPlayerItem, NSCoding {
 
     struct Key {
         static let videoURLs = "videosURLs"
+        static let gsVideoURLs = "gsVideoURLs"
         static let audioURL = "audioURL"
+        static let gsAudioURL = "gsAudioURL"
         static let name = "name"
         static let templateID = "id"
     }
@@ -86,7 +94,7 @@ class VideoComposition: AVPlayerItem, NSCoding {
         // Initialize
         _videoURLs = videoURLs
         _audioURL = audioURL
-
+        
         let videoAVURLs = VideoComposition.getAVURLAssets(urls: videoURLs)
         var audioAVURL: AVURLAsset?
         if let audioURL = audioURL {
@@ -108,7 +116,7 @@ class VideoComposition: AVPlayerItem, NSCoding {
     convenience init (dictionary: [String: Any?]) {
         var videoURLs: [URL] = []
         var audioURL: URL?
-
+        
         // process video urls
         if let videoStrings = dictionary[VideoComposition.Key.videoURLs] as? NSArray {
             for string in videoStrings {
@@ -127,6 +135,7 @@ class VideoComposition: AVPlayerItem, NSCoding {
                   name: dictionary[VideoComposition.Key.name] as? String,
                   templateID: dictionary[VideoComposition.Key.templateID] as? String)
     }
+
     
 // MARK: - Methods
     

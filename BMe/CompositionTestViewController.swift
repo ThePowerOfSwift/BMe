@@ -53,12 +53,20 @@ class CompositionTestViewController: UIViewController, UIImagePickerControllerDe
         action = ""
     }
     
-    @IBAction func didTapWatchTemplate(_ sender: Any) {
+    @IBAction func didTapeWatchVideo(_ sender: Any) {
         let storyboard = UIStoryboard(name: "VideosListVC", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "VideosListVC")
         
         self.navigationController?.pushViewController(vc, animated: true)
     }
+    
+    @IBAction func didTapWatchTemplate(_ sender: Any) {
+        let storyboard = UIStoryboard(name: "TemplateListVC", bundle: nil)
+        let vc = storyboard.instantiateViewController(withIdentifier: "TemplateListVC")
+        
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
     func enableTemplateUpload() -> Bool {
         if audioURL != nil && videoURLs.count > 0 {
             return true
@@ -77,7 +85,7 @@ class CompositionTestViewController: UIViewController, UIImagePickerControllerDe
                                   username: AppState.shared.currentUser?.displayName,
                                   templateId: "",
                                   videoURL: url!.absoluteString,
-                                  restaurantName: "",
+                                  gsURL: "",
                                   createdAt: Date())
                 activityIndicator.startAnimating()
                 FIRManager.shared.uploadVideo(video: video, completion: {
