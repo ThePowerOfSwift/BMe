@@ -13,6 +13,8 @@ import MediaPlayer
 
 class CompositionTestViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, MPMediaPickerControllerDelegate {
 
+    @IBOutlet var activityIndicator: UIActivityIndicatorView!
+    
     var action = ""
     var videoURLs: [URL] = []
     var audioURL: URL?
@@ -37,11 +39,13 @@ class CompositionTestViewController: UIViewController, UIImagePickerControllerDe
     }
     
     @IBAction func didTapUploadTemplate(_ sender: Any) {
+        activityIndicator.startAnimating()
         
         let composition = VideoComposition(videoURLs: videoURLs, audioURL: audioURL, name: "test", templateID: "test")
         
-        FIRManager.sharedInstance.uploadVideoComposition(composition: composition)
-        
+        FIRManager.sharedInstance.uploadVideoComposition(composition: composition, completion: {
+            self.activityIndicator.stopAnimating()
+        })
         audioURL = nil
         videoURLs = []
         uploadTemplate.isEnabled = enableTemplateUpload()
@@ -69,7 +73,10 @@ class CompositionTestViewController: UIViewController, UIImagePickerControllerDe
                                   videoURL: url!.absoluteString,
                                   restaurantName: "",
                                   createdAt: Date())
-                FIRManager.sharedInstance.uploadVideo(video: video)
+                activityIndicator.startAnimating()
+                FIRManager.sharedInstance.uploadVideo(video: video, completion: {
+                self.activityIndicator.stopAnimating()
+                })
             }
             else if action == "Pick video" {
                 let url = info[UIImagePickerControllerMediaURL] as? URL
@@ -77,6 +84,7 @@ class CompositionTestViewController: UIViewController, UIImagePickerControllerDe
                 uploadTemplate.isEnabled = enableTemplateUpload()
             }
         }
+// DOES NOT ACCEPT IMAGES
         else if (mediaType == kUTTypeImage) {
             // assets-library://asset/asset.PNG?
             // let url = info[UIImagePickerControllerReferenceURL] as? URL
@@ -109,6 +117,8 @@ class CompositionTestViewController: UIViewController, UIImagePickerControllerDe
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.stopAnimating()
         uploadTemplate.isEnabled = false
     }
 

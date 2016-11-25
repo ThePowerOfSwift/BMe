@@ -76,7 +76,7 @@ class FIRManager: NSObject {
         return storage.child(metadata.path!).description
     }
     
-    func uploadVideo(video: Video) {
+    func uploadVideo(video: Video, completion: (()->())?) {
         putObjectOnStorage(url: URL(string: video.videoURL!)!, contentType: .video, completion: {
             (metadata: FIRStorageMetadata?, error: Error?) in
             
@@ -97,11 +97,13 @@ class FIRManager: NSObject {
                     return
                 }
                 print("Success: uploaded video")
+                
+                completion?()
             })
         })
     }
     
-    func uploadVideoComposition(composition: VideoComposition) {
+    func uploadVideoComposition(composition: VideoComposition, completion:(()->())?) {
         // Put new Template object to Database
         putObjectOnDatabase(named: ObjectKey.template, data: composition.dictionaryFormat, completion: {
             (templateDatabaseReference, error) in
@@ -123,7 +125,7 @@ class FIRManager: NSObject {
             // Upload the video URLs to Storage and insert new urls into Database object
             // Generate array of download urls
             var videoURLs: [String] = Array(repeating: "nil", count: composition.videoURLs.count)
-            
+            var didFinish = 0
             for i in 0..<composition.videoURLs.count {
                 let index = i
                 self.putObjectOnStorage(url: composition.videoURLs[index], contentType: .video, completion: {
@@ -132,10 +134,14 @@ class FIRManager: NSObject {
                     let urlString = self.storageAbsoluteURL(metadata!)
                     videoURLs[index] = urlString
                     
-                    // Upload the new array of download urls
-                    templateDatabaseReference.updateChildValues([VideoComposition.Key.videoURLs: videoURLs])
-                    
                     print("Success: uploaded video \(index + 1) of \(composition.videoURLs.count): \(urlString)")
+                    didFinish += 1
+                    
+                    if didFinish == videoURLs.count {
+                        // Upload the new array of download urls
+                        templateDatabaseReference.updateChildValues([VideoComposition.Key.videoURLs: videoURLs])
+                        completion?()
+                    }
                 })
             }
 

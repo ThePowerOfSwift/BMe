@@ -53,11 +53,16 @@
                                     <action selector="didTapPickSound:" destination="9Se-eT-sJn" eventType="touchUpInside" id="kRw-Iy-ncZ"/>
                                 </connections>
                             </button>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="w6a-It-4Kw">
+                                <rect key="frame" x="178" y="72" width="20" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="E8k-rs-f8k"/>
                     <connections>
+                        <outlet property="activityIndicator" destination="w6a-It-4Kw" id="IIg-ea-SFv"/>
                         <outlet property="uploadTemplate" destination="VOp-Wj-vd3" id="vv2-sc-ZVA"/>
                     </connections>
                 </viewController>
