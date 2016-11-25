@@ -34,7 +34,7 @@ class FIRManager: NSObject {
     }
     var uniqueIdentifier: String {
         get {
-            return "\((FIRAuth.auth()?.currentUser?.uid)!)/\(Int(Date.timeIntervalSinceReferenceDate * 1000))"
+            return "\(FIRAuth.auth()?.currentUser?.uid)/\(Int(Date.timeIntervalSinceReferenceDate * 1000))"
         }
     }
 
@@ -44,7 +44,6 @@ class FIRManager: NSObject {
 
 // Methods
     
-    // Listen for existing/new objects in the Firebase database
     func observeDatabaseObject(named: String, event: FIRDataEventType, completion:@escaping (FIRDataSnapshot)->()) -> FIRDatabaseHandle {
         // Listen for new messages in the Firebase database
         return database.child(named).observe(event, with: completion)
@@ -55,16 +54,15 @@ class FIRManager: NSObject {
          */
     }
     
-    // complement to observeDatabaseObject
-    func unobserveDatabaseObject(named: String, handle: FIRDatabaseHandle) {
+    func removeObserverDatabaseObject(named: String, handle: FIRDatabaseHandle) {
         database.child(named).removeObserver(withHandle: handle)
     }
 
-    func putObjectOnStorage(data: Data, contentType: ContentType, completion: @escaping (FIRStorageMetadata?, Error?) -> ()) {
+    func putObjectOnStorage(data: Data, contentType: FIRManager.ContentType, completion: @escaping (FIRStorageMetadata?, Error?) -> ()) {
         storage.addObject(data: data, contentType: contentType, completion: completion)
     }
 
-    func putObjectOnStorage(url: URL, contentType: ContentType, completion: @escaping (FIRStorageMetadata?, Error?) -> ()) {
+    func putObjectOnStorage(url: URL, contentType: FIRManager.ContentType, completion: @escaping (FIRStorageMetadata?, Error?) -> ()) {
         storage.addObject(url: url, contentType: contentType, completion: completion)
     }
 
@@ -72,123 +70,44 @@ class FIRManager: NSObject {
         database.addObject(named: named, data: data, completion: completion)
     }
     
-    func storageAbsoluteURL(_ metadata: FIRStorageMetadata) -> String {
-        return storage.child(metadata.path!).description
+    func putVideo(url: URL) {
+        
     }
     
-    func uploadVideo(video: Video) {
-        putObjectOnStorage(url: URL(string: video.videoURL!)!, contentType: .video, completion: {
-            (metadata: FIRStorageMetadata?, error: Error?) in
-            
-            if error != nil {
-                print("Error- abort putting video")
-                return
-            }
-
-            // Update data dictionary to be put on Firebase Database
-            video.videoURL = self.storageAbsoluteURL(metadata!)
-            
-            // Put new video to Database with the new Storage url
-            self.putObjectOnDatabase(named: ObjectKey.video, data: video.dictionaryFormat, completion: {
-                (ref, error) in
+    func putVideoComposition(composition: VideoComposition) {
         
-                if  error != nil {
-                    print("Error- abort putting video")
-                    return
-                }
-                print("Success: uploaded video")
-            })
-        })
-    }
-    
-    func uploadVideoComposition(composition: VideoComposition) {
-        // Put new Template object to Database
-        putObjectOnDatabase(named: ObjectKey.template, data: composition.dictionaryFormat, completion: {
-            (templateDatabaseReference, error) in
-            if  error != nil {
-                print("Error- abort putting template")
-                return
-            }
-            print("Success: created template object on Database, path: \(templateDatabaseReference.url)")
-
-            // Upload audio to Storage and put new audio Storage url to Template object
-            let audioURL = composition.audioURL
-            self.putObjectOnStorage(url: audioURL!, contentType: .audio, completion: { (metadata, error) in
-                // Update Storage url into Database object
-                let urlString = self.storageAbsoluteURL(metadata!)
-                templateDatabaseReference.updateChildValues([VideoComposition.Key.audioURL: urlString as AnyObject])
-                print("Success: uploaded audio")
-            })
-        
-            // Upload the video URLs to Storage and insert new urls into Database object
-            // Generate array of download urls
-            var videoURLs: [String] = Array(repeating: "nil", count: composition.videoURLs.count)
-            
-            for i in 0..<composition.videoURLs.count {
-                let index = i
-                self.putObjectOnStorage(url: composition.videoURLs[index], contentType: .video, completion: {
-                    (metadata, error) in
-                    
-                    let urlString = self.storageAbsoluteURL(metadata!)
-                    videoURLs[index] = urlString
-                    
-                    // Upload the new array of download urls
-                    templateDatabaseReference.updateChildValues([VideoComposition.Key.videoURLs: videoURLs])
-                    
-                    print("Success: uploaded video \(index + 1) of \(composition.videoURLs.count): \(urlString)")
-                })
-            }
-
-        })
     }
     
 // Reference data structure
     enum ContentType {
-        case image, video, audio, template
+        case image, movie, audio
         func string() -> String {
             switch self {
             case .image:
                 return "image/jpeg"
-            case .video:
-                return "video/mov"
+            case .movie:
+                return "movie/mov"
             case .audio:
                 return "audio/mp3"
-            case .template:
-                return "template/videocomposition"
             }
         }
         func fileExtension() -> String {
             switch self {
             case .image:
-                return ".jpeg"
-            case .video:
-                return ".mov"
+                return "jpeg"
+            case .movie:
+                return "mov"
             case .audio:
-                return ".mp3"
-            case .template:
-                return ".videocomposition"
-            }
-        }
-        func objectKey() -> String {
-            switch self {
-            case .image:
-                return ObjectKey.image
-            case .video:
-                return ObjectKey.video
-            case .audio:
-                return ObjectKey.audio
-            case .template:
-                return ObjectKey.template
+                return "mp3"
             }
         }
     }
     
-    struct ObjectKey {
+    enum ObjectKey {
         static let video = "video"
         static let template = "template"
-        static let audio = "audio"
-        static let image = "image"
     }
+    
 }
 
 // MARK:- Extensions
@@ -203,6 +122,7 @@ extension FIRDatabaseReference {
         child(named).childByAutoId().setValue(data){ (error, ref) in
             if let error = error {
                 print("Error adding object to FIR Database: \(error.localizedDescription)")
+                return
             }
             completion(ref, error)
         }
@@ -212,28 +132,30 @@ extension FIRDatabaseReference {
 
 extension FIRStorageReference {
     func addObject(data: Data, contentType:FIRManager.ContentType, completion: @escaping (FIRStorageMetadata?, Error?) -> ()) {
-        let path = contentType.objectKey() + "/" + FIRManager.sharedInstance.uniqueIdentifier + contentType.fileExtension()
+        let path = FIRManager.sharedInstance.uniqueIdentifier + contentType.fileExtension()
         let metadata = FIRStorageMetadata()
         metadata.contentType = contentType.string()
 
         // Put to Storage
-        
         child(path).put(data, metadata: metadata) { (metadata, error) in
             if let error = error {
                 print("Error adding object to GS bucket: \(error.localizedDescription)")
+                return
             }
             completion(metadata, error)
         }
+
     }
     
     func addObject(url: URL, contentType:FIRManager.ContentType, completion: @escaping (FIRStorageMetadata?, Error?) -> ()) {
-        let path = contentType.objectKey() + "/" + FIRManager.sharedInstance.uniqueIdentifier + contentType.fileExtension()
+        let path = FIRManager.sharedInstance.uniqueIdentifier + contentType.fileExtension()
         let metadata = FIRStorageMetadata()
         metadata.contentType = contentType.string()
         
         child(path).putFile(url, metadata: metadata) { (fir, error) in
             if let error = error {
                 print("Error adding object to GS bucket: \(error.localizedDescription)")
+                return
             }
             completion(metadata, error)
         }

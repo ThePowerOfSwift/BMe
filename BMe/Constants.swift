@@ -14,8 +14,8 @@ struct Constants {
         // static let RootViewController = "VideoComposerViewController"
 //        static let StoryboardID = "Sato"
 //        static let RootViewController = "TabBarNavigationController"
-        static let StoryboardID = "CompositionTest"
-        static let RootViewController = "CompositionTestViewController"
+        static let StoryboardID = "ExampleFIRTVC"
+        static let RootViewController = "ExampleFIRTVC"
     }
     struct OnLogout {
         static let StoryboardID = "Main"

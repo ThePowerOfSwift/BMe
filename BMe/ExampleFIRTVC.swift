@@ -36,7 +36,7 @@ class ExampleFIRTVC: UIViewController, UITableViewDataSource {
 
     // On dealloc unsubscribe from object observation
     deinit {
-        FIRManager.sharedInstance.unobserveDatabaseObject(named: FIRManager.ObjectKey.video, handle: _refHandle)
+        FIRManager.sharedInstance.removeObserverDatabaseObject(named: FIRManager.ObjectKey.video, handle: _refHandle)
     }
     
     
@@ -52,7 +52,7 @@ class ExampleFIRTVC: UIViewController, UITableViewDataSource {
         
         let data = self.videos[indexPath.row].dictionary
         let video = Video(dictionary: data)
-        cell.textLabel?.text = video.videoURL
+        cell.textLabel?.text = video.restaurantName
         
         if let videoURL = video.videoURL {
             print("VideoURL: \(videoURL)")

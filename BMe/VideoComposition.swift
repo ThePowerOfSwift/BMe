@@ -48,23 +48,6 @@ class VideoComposition: AVPlayerItem, NSCoding {
             return vc
         }
     }
-    var dictionaryFormat: [String: AnyObject?] {
-        get {
-            // construct array for 
-            var urls: [String] = []
-            
-            var string: String
-            for url in videoURLs {
-                string = url.absoluteString
-                urls.append(string)
-            }
-            
-            let data = [Key.audioURL: audioURL?.absoluteString as AnyObject,
-                        Key.videoURLs: urls as AnyObject]
-            
-            return data
-        }
-    }
 
     struct Key {
         static let videoURLs = "videosURLs"
@@ -103,8 +86,8 @@ class VideoComposition: AVPlayerItem, NSCoding {
    
     // Initializer for JSON object (dictionary)
     // Assumes dictionary key, object structure:
-    // VideoComposition.Key.videoURLs = [String]
-    // VideoComposition.Key.audioURL = String
+    // Constants.VideoCompositionKey.videoURLs = [String]
+    // Constants.VideoCompositionKey.audioURL = String
     convenience init (dictionary: [String: Any?]) {
         var videoURLs: [URL] = []
         var audioURL: URL?
