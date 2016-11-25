@@ -24,8 +24,8 @@ class BrowseViewController: UIViewController, UITableViewDelegate, UITableViewDa
         // Configure table view's cell from VideoTableViewCell.xib
         let nib = UINib(nibName: "VideoTableViewCell", bundle: nil)
         tableView.register(nib, forCellReuseIdentifier: VideoTableViewCell.identifier)
-        
-        
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 187
     }
     
     // MARK: - Table View Data Source
@@ -53,6 +53,10 @@ class BrowseViewController: UIViewController, UITableViewDelegate, UITableViewDa
         tableViewCell.setCollectionViewDataSourceDelegate(dataSourceDelegate: self, forRow: indexPath.row)
         
     }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 187
+    }
 }
 
 extension BrowseViewController: UICollectionViewDelegate, UICollectionViewDataSource {
@@ -77,7 +81,7 @@ extension BrowseViewController: UICollectionViewDelegate, UICollectionViewDataSo
     }
     
     // Need to conform UICollectionViewDelegateFlowLayout
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+    private func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         let size = CGSize(width: self.view.frame.width, height: self.view.frame.width/2)
         return size
     }

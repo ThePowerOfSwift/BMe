@@ -20,6 +20,8 @@ class VideoTableViewCell: UITableViewCell {
         // Configure collection view's cell from VideoCollectionViewCell.xib
         let nib = UINib(nibName: "VideoCollectionViewCell", bundle:nil)
         collectionView.register(nib, forCellWithReuseIdentifier: VideoCollectionViewCell.identifier)
+        collectionView.isPagingEnabled = true
+        
     }
 
     // A method to set collection view's delegate to table view controller using delegate composition
