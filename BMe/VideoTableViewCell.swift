@@ -25,8 +25,8 @@ class VideoTableViewCell: UITableViewCell {
     // A method to set collection view's delegate to table view controller using delegate composition
     func setCollectionViewDataSourceDelegate <D: UICollectionViewDataSource & UICollectionViewDelegate> (dataSourceDelegate: D, forRow row: Int) {
         
-        collectionView.delegate = dataSourceDelegate
         collectionView.dataSource = dataSourceDelegate
+        collectionView.delegate = dataSourceDelegate
         collectionView.tag = row // Itentifiy which table view cell this collection view is in
         collectionView.reloadData() // To refresh https://github.com/ashfurrow/Collection-View-in-a-Table-View-Cell/issues/1
     }
