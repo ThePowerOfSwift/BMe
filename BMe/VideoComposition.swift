@@ -15,6 +15,8 @@ class VideoComposition: AVPlayerItem, NSCoding {
 // MARK: - Variables
     var name: String?
     var templateID: String?
+    var gsAudioURL: String?
+    var gsVideoURLs: String?
     
     // Video AVAssets
     private var _videoURLs: [URL]
@@ -48,10 +50,33 @@ class VideoComposition: AVPlayerItem, NSCoding {
             return vc
         }
     }
+    var dictionaryFormat: [String: AnyObject?] {
+        get {
+            // construct array for 
+            var urls: [String] = []
+            
+            var string: String
+            for url in videoURLs {
+                string = url.absoluteString
+                urls.append(string)
+            }
+            
+            let data = [Key.audioURL: audioURL?.absoluteString as AnyObject,
+                        Key.gsAudioURL: gsAudioURL as AnyObject,
+                        Key.videoURLs: urls as AnyObject,
+                        Key.gsVideoURLs: gsVideoURLs as AnyObject,
+                        Key.name: name as AnyObject,
+                        Key.templateID: templateID as AnyObject]
+            
+            return data
+        }
+    }
 
     struct Key {
         static let videoURLs = "videosURLs"
+        static let gsVideoURLs = "gsVideoURLs"
         static let audioURL = "audioURL"
+        static let gsAudioURL = "gsAudioURL"
         static let name = "name"
         static let templateID = "id"
     }
@@ -71,6 +96,7 @@ class VideoComposition: AVPlayerItem, NSCoding {
         _audioURL = audioURL
 
         let videoAVURLs = VideoComposition.getAVURLAssets(urls: videoURLs)
+      
         var audioAVURL: AVURLAsset?
         if let audioURL = audioURL {
             audioAVURL = AVURLAsset(url: audioURL)
@@ -86,12 +112,12 @@ class VideoComposition: AVPlayerItem, NSCoding {
    
     // Initializer for JSON object (dictionary)
     // Assumes dictionary key, object structure:
-    // Constants.VideoCompositionKey.videoURLs = [String]
-    // Constants.VideoCompositionKey.audioURL = String
-    convenience init (dictionary: [String: Any?]) {
+    // VideoComposition.Key.videoURLs = [String]
+    // VideoComposition.Key.audioURL = String
+    convenience init (dictionary: [String: AnyObject?]) {
         var videoURLs: [URL] = []
         var audioURL: URL?
-
+        
         // process video urls
         if let videoStrings = dictionary[VideoComposition.Key.videoURLs] as? NSArray {
             for string in videoStrings {
@@ -110,6 +136,7 @@ class VideoComposition: AVPlayerItem, NSCoding {
                   name: dictionary[VideoComposition.Key.name] as? String,
                   templateID: dictionary[VideoComposition.Key.templateID] as? String)
     }
+
     
 // MARK: - Methods
     
@@ -162,6 +189,8 @@ class VideoComposition: AVPlayerItem, NSCoding {
     // TrackID 0 is the sound
     // TrackID 1+ are the videos
     class func setup(videoURLs: [AVURLAsset], audioURL: AVURLAsset?) -> (mixComposition: AVMutableComposition, avVideoComposition: AVMutableVideoComposition) {
+        
+        
         // Add each asset as a track to overall composition
         let mixComposition = AVMutableComposition()
         var videoInstructions: [AVMutableVideoCompositionLayerInstruction] = []

@@ -10,25 +10,28 @@ import UIKit
 
 class Video: NSObject {
     var userId: String?
+    var username: String?
     var templateId: String?
     var videoURL: String?
-    var restaurantName: String?
+    var gsURL: String?
     var createdAt: Date?
     
     struct Key {
         static let userId = "userId"
+        static let username = "username"
         static let templateId = "templateId"
         static let videoURL = "videoURL"
-        static let restaurantName = "restaurantName"
+        static let gsURL = "gsURL"
         static let createdAt = "createdAt"
     }
     
     var dictionaryFormat: [String: AnyObject?] {
         get {
             return [Key.userId : userId as AnyObject,
+                    Key.username: username as AnyObject,
                     Key.templateId : templateId as AnyObject,
                     Key.videoURL : videoURL as AnyObject,
-                    Key.restaurantName : restaurantName as AnyObject,
+                    Key.gsURL: gsURL as AnyObject,
                     Key.createdAt : createdAt?.description as AnyObject]
         }
     }
@@ -36,51 +39,27 @@ class Video: NSObject {
     init(dictionary: [String:AnyObject?]) {
 
         userId = dictionary[Key.userId] as? String
+        username = dictionary[Key.username] as? String
         templateId = dictionary[Key.templateId] as? String
         videoURL = dictionary[Key.videoURL] as? String
-        restaurantName = dictionary[Video.Key.restaurantName] as? String
+        gsURL = dictionary[Key.gsURL] as? String
         
         let createdAtString = dictionary[Video.Key.createdAt] as? String
         if let createdAtString = createdAtString {
             let formatter = DateFormatter()
             formatter.dateFormat = "EEE MMM d HH:mm:ss Z y"
             createdAt = formatter.date(from: createdAtString)
-            //formatter.date(from: Date().toString())
         }
     }
     
-    init(userId: String?, templateId: String?, videoURL: String?, restaurantName: String?, createdAt: Date?) {
+    init(userId: String?, username: String?, templateId: String?, videoURL: String?, gsURL: String?, createdAt: Date?) {
         self.userId = userId
+        self.username = username
         self.templateId = templateId
         self.videoURL = videoURL
-        self.restaurantName = restaurantName
-        //self.createdAt = createdAt
+        self.gsURL = gsURL
+        self.createdAt = createdAt
     }
 }
-
-//
-//var timeSinceNowString: String? {
-//    if let timestamp = createdAt {
-//        let componentsFormatter = DateComponentsFormatter()
-//        componentsFormatter.unitsStyle = .abbreviated
-//        componentsFormatter.allowedUnits = [.day, .hour, .minute]
-//        
-//        return componentsFormatter.string(from: -timestamp.timeIntervalSinceNow)
-//    }
-//    return nil
-//}
-//
-//var createdAtString: String? {
-//    if let createdAt = createdAt {
-//        let formatter = DateFormatter()
-//        formatter.dateFormat = "MM/dd/yy, hh:mm"
-//        return formatter.string(from: createdAt)
-//    }
-//    return nil
-//}
-
-
-//accepted
-//Date().toString() // convert date to string with userdefined format.
 
 

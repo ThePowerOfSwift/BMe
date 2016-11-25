@@ -1,6 +1,0 @@
-framework module Pods_BMeUITests {
-  umbrella header "Pods-BMeUITests-umbrella.h"
-
-  export *
-  module * { export * }
-}

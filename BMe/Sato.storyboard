@@ -6,7 +6,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -104,27 +103,27 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="axE-C4-PyD">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Spx-Iv-dI9">
                                 <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="axE-C4-PyD" firstAttribute="leading" secondItem="SG5-4y-hvw" secondAttribute="leading" id="Crz-T9-wOD"/>
-                            <constraint firstItem="F2J-Se-gYK" firstAttribute="top" secondItem="axE-C4-PyD" secondAttribute="bottom" id="Edu-2L-cWX"/>
-                            <constraint firstAttribute="trailing" secondItem="axE-C4-PyD" secondAttribute="trailing" id="loC-9C-Pay"/>
-                            <constraint firstItem="axE-C4-PyD" firstAttribute="top" secondItem="SG5-4y-hvw" secondAttribute="topMargin" constant="64" id="ruX-Js-1rG"/>
+                            <constraint firstAttribute="trailing" secondItem="Spx-Iv-dI9" secondAttribute="trailing" id="Kba-5c-EC6"/>
+                            <constraint firstItem="Spx-Iv-dI9" firstAttribute="top" secondItem="SG5-4y-hvw" secondAttribute="top" constant="64" id="LiO-Jr-M0u"/>
+                            <constraint firstItem="F2J-Se-gYK" firstAttribute="top" secondItem="Spx-Iv-dI9" secondAttribute="bottom" id="Pxz-U1-mIZ"/>
+                            <constraint firstItem="Spx-Iv-dI9" firstAttribute="leading" secondItem="SG5-4y-hvw" secondAttribute="leading" id="kpg-ah-TxW"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="XMP-yx-OA4"/>
                     <connections>
-                        <outlet property="tableView" destination="axE-C4-PyD" id="9lF-SI-aNF"/>
+                        <outlet property="tableView" destination="Spx-Iv-dI9" id="gnl-Pd-jUz"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="a7B-Tl-h3I" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2586.4000000000001" y="812.74362818590714"/>
+            <point key="canvasLocation" x="1008.8" y="812.74362818590714"/>
         </scene>
         <!--Create View Controller-->
         <scene sceneID="aza-jQ-jwg">
@@ -142,7 +141,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1DV-uu-By4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3538.4000000000001" y="812.74362818590714"/>
+            <point key="canvasLocation" x="1660" y="812.74362818590714"/>
         </scene>
         <!--Account View Controller-->
         <scene sceneID="o0f-Ob-qbx">
@@ -160,7 +159,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rX0-bQ-MSf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4186.3999999999996" y="812.74362818590714"/>
+            <point key="canvasLocation" x="2308" y="812.74362818590714"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="2VV-10-LXy">
