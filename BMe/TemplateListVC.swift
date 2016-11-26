@@ -81,7 +81,9 @@ class TemplateListVC: UIViewController, UITableViewDataSource, UITableViewDelega
                               templateId: data[VideoComposition.Key.templateID] as? String,
                               videoURL: session.outputURL?.absoluteString,
                               gsURL: "",
-                              createdAt: Date())
+                              createdAt: Date(),
+                              restaurantName: ""
+                              )
             
             FIRManager.shared.uploadVideo(video: video, completion: {
                 let url = URL(string: video.videoURL!)
