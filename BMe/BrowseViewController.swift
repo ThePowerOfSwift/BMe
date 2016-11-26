@@ -22,8 +22,8 @@ class BrowseViewController: UIViewController {
         
         tableView.delegate = self
         tableView.dataSource = self
-        //let nib = UINib(nibName: "VideoCell", bundle: nil)
-        //tableView.register(nib, forCellReuseIdentifier: VideoCell.identifier)
+        let nib = UINib(nibName: "VideoCell", bundle: nil)
+        tableView.register(nib, forCellReuseIdentifier: VideoCell.identifier)
         FIRManager.shared.getVideos { (videos: [Video]) in
 //            for video in videos {
 //                print(video.gsURL)

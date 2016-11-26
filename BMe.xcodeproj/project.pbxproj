@@ -36,13 +36,14 @@
 		E30894861DE8C95000145551 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = E30894851DE8C95000145551 /* Helpers.swift */; };
 		E318C57A1DE9876D00FCB6F9 /* BrowseTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E318C5791DE9876D00FCB6F9 /* BrowseTestViewController.swift */; };
 		E318C57C1DE98BFC00FCB6F9 /* test_video.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = E318C57B1DE98A5400FCB6F9 /* test_video.mp4 */; };
-		E31A504F1DE974A6009CDB21 /* VideoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E31A504D1DE974A6009CDB21 /* VideoCell.swift */; };
 		E35AC4831DE4D00400FCB0D0 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E35AC4821DE4D00400FCB0D0 /* TabBarViewController.swift */; };
 		E35AC4871DE4D0F500FCB0D0 /* Sato.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E35AC4861DE4D0F500FCB0D0 /* Sato.storyboard */; };
 		E35AC4891DE4D75C00FCB0D0 /* BrowseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E35AC4881DE4D75C00FCB0D0 /* BrowseViewController.swift */; };
 		E35AC48B1DE4D76A00FCB0D0 /* CreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E35AC48A1DE4D76A00FCB0D0 /* CreateViewController.swift */; };
 		E35AC48D1DE4D77200FCB0D0 /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E35AC48C1DE4D77200FCB0D0 /* AccountViewController.swift */; };
 		E3ECAFD91DE3CCB500F221AE /* Video.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3ECAFD81DE3CCB500F221AE /* Video.swift */; };
+		E3FE1F9D1DEA2C5700791B92 /* VideoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3FE1F9B1DEA2C5700791B92 /* VideoCell.swift */; };
+		E3FE1F9E1DEA2C5700791B92 /* VideoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3FE1F9C1DEA2C5700791B92 /* VideoCell.xib */; };
 		EED9BEFA11E85E773E6416A7 /* Pods_BMeUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89C6C4AE3BCC216444B1A558 /* Pods_BMeUITests.framework */; };
 /* End PBXBuildFile section */
 
@@ -116,13 +117,14 @@
 		E30894851DE8C95000145551 /* Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		E318C5791DE9876D00FCB6F9 /* BrowseTestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrowseTestViewController.swift; sourceTree = "<group>"; };
 		E318C57B1DE98A5400FCB6F9 /* test_video.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = test_video.mp4; sourceTree = "<group>"; };
-		E31A504D1DE974A6009CDB21 /* VideoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoCell.swift; sourceTree = "<group>"; };
 		E35AC4821DE4D00400FCB0D0 /* TabBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		E35AC4861DE4D0F500FCB0D0 /* Sato.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Sato.storyboard; sourceTree = "<group>"; };
 		E35AC4881DE4D75C00FCB0D0 /* BrowseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrowseViewController.swift; sourceTree = "<group>"; };
 		E35AC48A1DE4D76A00FCB0D0 /* CreateViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateViewController.swift; sourceTree = "<group>"; };
 		E35AC48C1DE4D77200FCB0D0 /* AccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
 		E3ECAFD81DE3CCB500F221AE /* Video.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Video.swift; sourceTree = "<group>"; };
+		E3FE1F9B1DEA2C5700791B92 /* VideoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoCell.swift; sourceTree = "<group>"; };
+		E3FE1F9C1DEA2C5700791B92 /* VideoCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VideoCell.xib; sourceTree = "<group>"; };
 		E7764343275603CBAE9394EC /* Pods-BMeUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BMeUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-BMeUITests/Pods-BMeUITests.release.xcconfig"; sourceTree = "<group>"; };
 		EF9B8E045282684264E31D83 /* Pods-BMe.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BMe.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BMe/Pods-BMe.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -306,7 +308,8 @@
 		E308947C1DE8C89900145551 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				E31A504D1DE974A6009CDB21 /* VideoCell.swift */,
+				E3FE1F9B1DEA2C5700791B92 /* VideoCell.swift */,
+				E3FE1F9C1DEA2C5700791B92 /* VideoCell.xib */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -484,6 +487,7 @@
 			files = (
 				E318C57C1DE98BFC00FCB6F9 /* test_video.mp4 in Resources */,
 				78CDA09C1DE5307200ABC5E1 /* VideosListVC.storyboard in Resources */,
+				E3FE1F9E1DEA2C5700791B92 /* VideoCell.xib in Resources */,
 				78469A661DE3958100A40D53 /* LaunchScreen.storyboard in Resources */,
 				78337D8D1DE3AC6600A1B32C /* GoogleService-Info.plist in Resources */,
 				E35AC4871DE4D0F500FCB0D0 /* Sato.storyboard in Resources */,
@@ -661,8 +665,8 @@
 				78469A5E1DE3958100A40D53 /* LoginViewController.swift in Sources */,
 				78469A5C1DE3958100A40D53 /* AppDelegate.swift in Sources */,
 				E35AC48B1DE4D76A00FCB0D0 /* CreateViewController.swift in Sources */,
+				E3FE1F9D1DEA2C5700791B92 /* VideoCell.swift in Sources */,
 				78CDA09F1DE5307C00ABC5E1 /* FIRManager.swift in Sources */,
-				E31A504F1DE974A6009CDB21 /* VideoCell.swift in Sources */,
 				783008A61DE3B9A000B070D4 /* VideoCompositionCollectionViewCell.swift in Sources */,
 				E35AC4891DE4D75C00FCB0D0 /* BrowseViewController.swift in Sources */,
 				78CDA09D1DE5307200ABC5E1 /* VideosListVC.swift in Sources */,

@@ -2,16 +2,16 @@
 //  VideoCell.swift
 //  BMe
 //
-//  Created by Satoru Sasozaki on 11/25/16.
+//  Created by Satoru Sasozaki on 11/26/16.
 //  Copyright © 2016 Jonathan Cheng. All rights reserved.
 //
 
 import UIKit
 
 class VideoCell: UITableViewCell {
-    
-    static let identifier = "VideoCell"
 
+    static let identifier = "VideoCell"
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

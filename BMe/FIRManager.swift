@@ -285,7 +285,7 @@ class FIRManager: NSObject {
             case .image:
                 return "image/jpeg"
             case .video:
-                return "video/mp4"
+                return "video/mov"
             case .audio:
                 return "audio/m4a"
             case .template:
@@ -297,7 +297,7 @@ class FIRManager: NSObject {
             case .image:
                 return ".jpeg"
             case .video:
-                return ".mp4"
+                return ".mov"
             case .audio:
                 return ".m4a"
             case .template:

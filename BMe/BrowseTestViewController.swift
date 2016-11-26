@@ -18,7 +18,7 @@ class BrowseTestViewController: UIViewController {
         super.viewDidLoad()
 
         FIRManager.shared.getVideos { (videos: [Video]) in
-            let urlString = (videos[1].videoURL)!
+            let urlString = (videos[3].videoURL)!
             let url = URL(string: urlString)
             let player = AVPlayer(url: url!)
             let playerLayer = AVPlayerLayer(player: player)
