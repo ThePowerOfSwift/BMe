@@ -163,6 +163,10 @@ class FIRManager: NSObject {
                                         return
                                     }
                                     print("Success: created template object on Database, path: \(templateDatabaseReference.url)")
+                                    
+                                    // Update template ID
+                                    templateDatabaseReference.updateChildValues([VideoComposition.Key.templateID: templateDatabaseReference.key])
+                                    
                                     completion?()
                                 })
                             })
@@ -173,51 +177,6 @@ class FIRManager: NSObject {
             })
         })
     }
-
-//    func uploadVideoComposition(composition: VideoComposition, completion:(()->())?) {
-//        // Put new Template object to Database
-//        putObjectOnDatabase(named: ObjectKey.template, data: composition.dictionaryFormat, completion: {
-//            (templateDatabaseReference, error) in
-//            if  error != nil {
-//                print("Error- abort putting template")
-//                return
-//            }
-//            print("Success: created template object on Database, path: \(templateDatabaseReference.url)")
-//
-//            // Upload audio to Storage and put new audio Storage url to Template object
-//            let audioURL = composition.audioURL
-//            self.putObjectOnStorage(url: audioURL!, contentType: .audio, completion: { (metadata, error) in
-//                // Update Storage url into Database object
-//                let urlString = self.storageAbsoluteURL(metadata!)
-//                templateDatabaseReference.updateChildValues([VideoComposition.Key.gsAudioURL: urlString as AnyObject])
-//                print("Success: uploaded audio")
-//            })
-//        
-//            // Upload the video URLs to Storage and insert new urls into Database object
-//            // Generate array of download urls
-//            var videoURLs: [String] = Array(repeating: "nil", count: composition.videoURLs.count)
-//            var didFinish = 0
-//            for i in 0..<composition.videoURLs.count {
-//                let index = i
-//                self.putObjectOnStorage(url: composition.videoURLs[index], contentType: .video, completion: {
-//                    (metadata, error) in
-//                    
-//                    let urlString = self.storageAbsoluteURL(metadata!)
-//                    videoURLs[index] = urlString
-//                    
-//                    print("Success: uploaded video \(index + 1) of \(composition.videoURLs.count): \(urlString)")
-//                    didFinish += 1
-//                    
-//                    if didFinish == videoURLs.count {
-//                        // Upload the new array of download urls
-//                        templateDatabaseReference.updateChildValues([VideoComposition.Key.videoURLs: videoURLs])
-//                        completion?()
-//                    }
-//                })
-//            }
-//
-//        })
-//    }
     
     func fetchDownloadURLs(urlStrings: [String], completion: @escaping ([URL])->()) {
         var newURLs: [URL] = []
