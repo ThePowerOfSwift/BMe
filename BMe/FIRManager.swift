@@ -79,6 +79,19 @@ class FIRManager: NSObject {
         return storage.child(metadata.path!).description
     }
     
+    func getVideos(completion: @escaping ([Video])->()) {
+        let videoQuery = database.child(FIRManager.ObjectKey.video).queryOrdered(byChild: "CreatedAt").observe(.value, with: { snapshot in
+            var videos = [Video]()
+            for item in snapshot.children.allObjects as! [FIRDataSnapshot] {
+                let value = item.value as! [String:AnyObject?]
+                let video = Video(dictionary: value)
+                videos.append(video)
+            }
+            completion(videos)
+        })
+        
+    }
+    
     func uploadVideo(video: Video, completion: (()->())?) {
         putObjectOnStorage(url: URL(string: video.videoURL!)!, contentType: .video, completion: {
             (metadata: FIRStorageMetadata?, error: Error?) in
@@ -93,6 +106,7 @@ class FIRManager: NSObject {
             FIRManager.shared.fetchDownloadURLs([URL(string: video.gsURL!)!], completion: {
                 (urls) in
                 video.videoURL = urls.first!.absoluteString
+                video.restaurantName = "Happy Roll"
                 
                 // Put new video to Database with the new Storage url
                 self.putObjectOnDatabase(named: ObjectKey.video, data: video.dictionaryFormat, completion: {
@@ -110,6 +124,7 @@ class FIRManager: NSObject {
             
         })
     }
+    
     func uploadVideoComposition(composition: VideoComposition, completion:(()->())?) {
         var newData = composition.dictionaryFormat
         
