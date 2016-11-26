@@ -79,6 +79,19 @@ class FIRManager: NSObject {
         return storage.child(metadata.path!).description
     }
     
+    func getVideos(completion: @escaping ([Video])->()) {
+        let videoQuery = database.child(FIRManager.ObjectKey.video).queryOrdered(byChild: "CreatedAt").observe(.value, with: { snapshot in
+            var videos = [Video]()
+            for item in snapshot.children.allObjects as! [FIRDataSnapshot] {
+                let value = item.value as! [String:AnyObject?]
+                let video = Video(dictionary: value)
+                videos.append(video)
+            }
+            completion(videos)
+        })
+        
+    }
+    
     func uploadVideo(video: Video, completion: (()->())?) {
         putObjectOnStorage(url: URL(string: video.videoURL!)!, contentType: .video, completion: {
             (metadata: FIRStorageMetadata?, error: Error?) in
@@ -110,6 +123,7 @@ class FIRManager: NSObject {
             
         })
     }
+    
     func uploadVideoComposition(composition: VideoComposition, completion:(()->())?) {
         var newData = composition.dictionaryFormat
         
@@ -271,7 +285,7 @@ class FIRManager: NSObject {
             case .image:
                 return "image/jpeg"
             case .video:
-                return "video/mov"
+                return "video/mp4"
             case .audio:
                 return "audio/m4a"
             case .template:
@@ -283,7 +297,7 @@ class FIRManager: NSObject {
             case .image:
                 return ".jpeg"
             case .video:
-                return ".mov"
+                return ".mp4"
             case .audio:
                 return ".m4a"
             case .template:
