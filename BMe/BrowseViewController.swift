@@ -49,7 +49,6 @@ extension BrowseViewController:  UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: VideoCell.identifier, for: indexPath)
-        
         let urlString = (videos?[indexPath.row].videoURL)!
         let url = URL(string: urlString)
         let player = AVPlayer(url: url!)
@@ -61,4 +60,18 @@ extension BrowseViewController:  UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let watchVC = storyboard?.instantiateViewController(withIdentifier: "WatchViewController") as? WatchViewController
+        watchVC?.delegate = self
+        self.navigationController?.pushViewController(watchVC!, animated: true)
+        print("pushed")
+    }
+}
+
+extension BrowseViewController: WatchViewControllerDelegate {
+    func getVideo() -> Video? {
+        
+        return videos?[(tableView.indexPathForSelectedRow?.row)!]
+        
+    }
 }

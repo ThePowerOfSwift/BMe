@@ -12,7 +12,7 @@ struct Constants {
     struct OnLogin {
         
         static let StoryboardID = "Sato"
-        static let RootViewController = "BrowseViewController"
+        static let RootViewController = "TabBarViewController"
 //        static let StoryboardID = "CompositionTest"
 //        static let RootViewController = "CompositionTestViewController"
         
