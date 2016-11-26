@@ -91,7 +91,8 @@ class CompositionTestViewController: UIViewController, UIImagePickerControllerDe
                                   templateId: "",
                                   videoURL: url!.absoluteString,
                                   gsURL: "",
-                                  createdAt: Date())
+                                  createdAt: Date(),
+                                  restaurantName: "")
                 activityIndicator.startAnimating()
                 FIRManager.shared.uploadVideo(video: video, completion: {
                 self.activityIndicator.stopAnimating()

@@ -24,8 +24,8 @@ class TabBarViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         let storyboard = UIStoryboard.init(name: "Sato", bundle: nil)
-        browseViewController = storyboard.instantiateViewController(withIdentifier: "BrowseViewController")
-        createViewController = storyboard.instantiateViewController(withIdentifier: "CreateViewController")
+        browseViewController = storyboard.instantiateViewController(withIdentifier: "BrowseNavigationController")
+        createViewController = storyboard.instantiateViewController(withIdentifier: "CreateViewController") 
         accountViewController = storyboard.instantiateViewController(withIdentifier: "AccountViewController")
         
         // Init with view controllers

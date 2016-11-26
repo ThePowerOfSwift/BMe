@@ -7,93 +7,71 @@
 //
 
 import UIKit
+import AVKit
+import AVFoundation
 
-class BrowseViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UICollectionViewDelegateFlowLayout {
+class BrowseViewController: UIViewController {
     
     
     @IBOutlet weak var tableView: UITableView!
     
-    let model: [[UIColor]] = generateRandomData() // for dummy data
+    var videos: [Video]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         tableView.delegate = self
         tableView.dataSource = self
-        
-        // Configure table view's cell from VideoTableViewCell.xib
-        let nib = UINib(nibName: "VideoTableViewCell", bundle: nil)
-        tableView.register(nib, forCellReuseIdentifier: VideoTableViewCell.identifier)
-        tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.estimatedRowHeight = 187
+        let nib = UINib(nibName: "VideoCell", bundle: nil)
+        tableView.register(nib, forCellReuseIdentifier: VideoCell.identifier)
+        FIRManager.shared.getVideos { (videos: [Video]) in
+//            for video in videos {
+//                print(video.gsURL)
+//            }
+            self.videos = videos
+            self.tableView.reloadData()
+        }
+        // get array of video object
     }
     
-    // MARK: - Table View Data Source
+}
+
+extension BrowseViewController:  UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return model.count
+        if let videos = videos {
+            return videos.count
+        }
         
+        return 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: VideoCell.identifier, for: indexPath)
+        let urlString = (videos?[indexPath.row].videoURL)!
+        let url = URL(string: urlString)
+        let player = AVPlayer(url: url!)
+        let playerLayer = AVPlayerLayer(player: player)
+        playerLayer.frame = cell.bounds
+        cell.layer.addSublayer(playerLayer)
+        player.play()
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: VideoTableViewCell.identifier, for: indexPath)
         return cell
-        
     }
     
-    // MARK: - Table View Delegate
-    
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        
-        guard let tableViewCell = cell as? VideoTableViewCell else { return }
-        
-        // Set delegate and data source of a collection view in this table view to this view controller (BrowseViewController)
-        tableViewCell.setCollectionViewDataSourceDelegate(dataSourceDelegate: self, forRow: indexPath.row)
-        
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 187
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let watchVC = storyboard?.instantiateViewController(withIdentifier: "WatchViewController") as? WatchViewController
+        watchVC?.delegate = self
+        self.navigationController?.pushViewController(watchVC!, animated: true)
+        print("pushed")
     }
 }
 
-extension BrowseViewController: UICollectionViewDelegate, UICollectionViewDataSource {
-    
-    // MARK: - Collection View Data Source
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+extension BrowseViewController: WatchViewControllerDelegate {
+    func getVideo() -> Video? {
         
-        return model[collectionView.tag].count
+        return videos?[(tableView.indexPathForSelectedRow?.row)!]
         
     }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: VideoCollectionViewCell.identifier, for: indexPath)
-        cell.backgroundColor = model[collectionView.tag][indexPath.item]
-        
-        return cell
-    }
-    
-    // Need to conform UICollectionViewDelegateFlowLayout
-    private func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        let size = CGSize(width: self.view.frame.width, height: self.view.frame.width/2)
-        return size
-    }
-    
-    //Use for interspacing
-    func collectionView(collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat {
-        return 0
-    }
-    
-    func collectionView(collectionView: UICollectionView, layout
-        collectionViewLayout: UICollectionViewLayout,
-                        minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {
-        return 0
-    }
-    
 }
