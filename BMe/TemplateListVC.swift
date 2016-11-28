@@ -50,11 +50,10 @@ class TemplateListVC: UIViewController, UITableViewDataSource, UITableViewDelega
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell()
-        
+        cell.accessoryType = .detailDisclosureButton
         let data = templates[indexPath.row].dictionary
-        let template = VideoComposition(dictionary: data)
         
-        cell.textLabel?.text = template.name
+        cell.textLabel?.text = data[VideoComposition.Key.templateID] as? String
         
         return cell
     }
@@ -65,5 +64,39 @@ class TemplateListVC: UIViewController, UITableViewDataSource, UITableViewDelega
         let template = VideoComposition(dictionary: templates[indexPath.row].dictionary)
         present(template.playerViewController, animated: true, completion: nil)
 
+    }
+    
+    func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
+        
+        let data = templates[indexPath.row].dictionary
+        
+        // Render the file
+        VideoComposition(dictionary: data).render(fileNamed: "render_temp.mov", completion: {
+            (session: AVAssetExportSession) in
+            print("Success: rendered video")
+            
+            // Convert rendered to upload video with using updated links
+            let video = Video(userId: AppState.shared.currentUser?.uid,
+                              username: AppState.shared.currentUser?.displayName,
+                              templateId: data[VideoComposition.Key.templateID] as? String,
+                              videoURL: session.outputURL?.absoluteString,
+                              gsURL: "",
+                              createdAt: Date(),
+                              restaurantName: ""
+                              )
+            
+            FIRManager.shared.uploadVideo(video: video, completion: {
+                let url = URL(string: video.videoURL!)
+                let player = AVPlayer(url: url!)
+                let vc = AVPlayerViewController()
+                vc.player = player
+                
+                self.present(vc, animated: true, completion: {
+                })
+            })
+            
+            
+        })
+        
     }
 }
