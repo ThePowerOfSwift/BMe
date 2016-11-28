@@ -11,7 +11,7 @@ target 'BMe' do
   pod 'Firebase/Database'
   pod 'Firebase/Storage'
 
-
+  pod 'MBProgressHUD'
   target 'BMeTests' do
     inherit! :search_paths
     # Pods for testing

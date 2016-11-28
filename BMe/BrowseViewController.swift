@@ -48,14 +48,11 @@ extension BrowseViewController:  UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: VideoCell.identifier, for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: VideoCell.identifier, for: indexPath) as! VideoCell
         let urlString = (videos?[indexPath.row].videoURL)!
         let url = URL(string: urlString)
-        let player = AVPlayer(url: url!)
-        let playerLayer = AVPlayerLayer(player: player)
-        playerLayer.frame = cell.bounds
-        cell.layer.addSublayer(playerLayer)
-        player.play()
+        let playerItem = AVPlayerItem(url: url!)
+        cell.setupPlayer(playerItem: playerItem)
         
         return cell
     }

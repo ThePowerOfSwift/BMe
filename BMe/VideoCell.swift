@@ -7,15 +7,35 @@
 //
 
 import UIKit
+import AVKit
+import AVFoundation
 
 class VideoCell: UITableViewCell {
 
     static let identifier = "VideoCell"
+    var player: AVPlayer?
+    
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        player = AVPlayer()
     }
+    override func prepareForReuse() {
+        //player = nil
+        print("Reused")
+    }
+    
+    func setupPlayer(playerItem: AVPlayerItem) {
+        player?.replaceCurrentItem(with: playerItem)
+        player?.isMuted = true
+        let playerLayer = AVPlayerLayer(player: player)
+        playerLayer.frame = contentView.bounds
+        contentView.layer.addSublayer(playerLayer)
+        
+        player?.play()
+    }
+    
+    
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)

@@ -82,6 +82,7 @@
                     <navigationItem key="navigationItem" id="iIn-BS-LWr"/>
                     <connections>
                         <outlet property="contentView" destination="nvO-L1-cF2" id="1to-dP-2Sn"/>
+                        <outlet property="createButton" destination="iK6-Ul-lqv" id="xwN-tW-R1Q"/>
                         <outletCollection property="tabs" destination="JQT-ft-PdT" collectionClass="NSMutableArray" id="5DK-oU-I4w"/>
                         <outletCollection property="tabs" destination="iK6-Ul-lqv" collectionClass="NSMutableArray" id="TpE-oO-9Lh"/>
                         <outletCollection property="tabs" destination="UY9-Th-wXZ" collectionClass="NSMutableArray" id="aA2-ja-wsZ"/>
@@ -103,7 +104,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="187" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Spx-Iv-dI9">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="375" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Spx-Iv-dI9">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </tableView>

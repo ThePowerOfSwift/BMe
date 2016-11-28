@@ -46,7 +46,8 @@ class WatchViewController: UIViewController {
             url = URL(string: urlString!)
             let player = AVPlayer(url: url!)
             let playerLayer = AVPlayerLayer(player: player)
-            playerLayer.frame = videoView.frame
+            let frame: CGRect = CGRect(x: videoView.frame.origin.x, y: videoView.frame.origin.y - 64, width: videoView.frame.width, height: videoView.frame.height)
+            playerLayer.frame = frame
             videoView.layer.addSublayer(playerLayer)
             player.play()
         }
