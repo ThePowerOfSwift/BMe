@@ -20,11 +20,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BMe/VideoCell.swift"
-            timestampString = "502018000.682584"
+            timestampString = "502020230.438713"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "31"
-            endingLineNumber = "31"
+            startingLineNumber = "33"
+            endingLineNumber = "33"
             landmarkName = "awakeFromNib()"
             landmarkType = "7">
          </BreakpointContent>

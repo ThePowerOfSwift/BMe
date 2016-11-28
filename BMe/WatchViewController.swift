@@ -69,6 +69,7 @@ class WatchViewController: UIViewController {
             player?.replaceCurrentItem(with: playerItem)
             let playerLayer = AVPlayerLayer(player: player)
             let frame: CGRect = CGRect(x: videoView.frame.origin.x, y: videoView.frame.origin.y - 64, width: videoView.frame.width, height: videoView.frame.height)
+            playerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill
             playerLayer.frame = frame
             videoView.layer.addSublayer(playerLayer)
             self.player?.play()
