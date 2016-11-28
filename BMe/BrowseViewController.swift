@@ -25,13 +25,10 @@ class BrowseViewController: UIViewController {
         let nib = UINib(nibName: "VideoCell", bundle: nil)
         tableView.register(nib, forCellReuseIdentifier: VideoCell.identifier)
         FIRManager.shared.getVideos { (videos: [Video]) in
-//            for video in videos {
-//                print(video.gsURL)
-//            }
+
             self.videos = videos
             self.tableView.reloadData()
         }
-        // get array of video object
     }
     
 }
@@ -49,9 +46,13 @@ extension BrowseViewController:  UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: VideoCell.identifier, for: indexPath) as! VideoCell
+        
+        // Setup new player item
         let urlString = (videos?[indexPath.row].videoURL)!
         let url = URL(string: urlString)
         let playerItem = AVPlayerItem(url: url!)
+        
+        // Replace player item in player
         cell.setupPlayer(playerItem: playerItem)
         
         return cell

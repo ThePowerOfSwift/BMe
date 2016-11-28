@@ -141,10 +141,22 @@
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2Co-jZ-sMZ">
                                 <rect key="frame" x="0.0" y="64" width="375" height="375"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GeZ-0Q-KJp">
+                                        <rect key="frame" x="138" y="138" width="100" height="100"/>
+                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="100" id="fWT-k1-4ie"/>
+                                            <constraint firstAttribute="height" constant="100" id="jDk-xg-pWT"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <gestureRecognizers/>
                                 <constraints>
+                                    <constraint firstItem="GeZ-0Q-KJp" firstAttribute="centerY" secondItem="2Co-jZ-sMZ" secondAttribute="centerY" id="KT5-eI-bkY"/>
                                     <constraint firstAttribute="height" constant="375" id="QFp-na-A8N"/>
+                                    <constraint firstItem="GeZ-0Q-KJp" firstAttribute="centerX" secondItem="2Co-jZ-sMZ" secondAttribute="centerX" id="u1i-8Z-CCB"/>
                                 </constraints>
                                 <connections>
                                     <outletCollection property="gestureRecognizers" destination="5YD-qr-2Cy" appends="YES" id="y1L-y7-Eqq"/>
@@ -172,6 +184,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="rl1-rh-xwq"/>
                     <connections>
+                        <outlet property="hudView" destination="GeZ-0Q-KJp" id="h1x-yn-RBn"/>
                         <outlet property="restaurantNameLabel" destination="ZJI-Gr-dV2" id="v4z-hc-S2S"/>
                         <outlet property="videoView" destination="2Co-jZ-sMZ" id="Xn5-kt-vdf"/>
                     </connections>

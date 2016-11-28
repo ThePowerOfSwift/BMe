@@ -9,6 +9,7 @@
 import UIKit
 import AVKit
 import AVFoundation
+import MBProgressHUD
 
 protocol WatchViewControllerDelegate {
     func getVideo () -> Video?
@@ -19,12 +20,21 @@ class WatchViewController: UIViewController {
     var delegate: WatchViewControllerDelegate?
     var video: Video?
     var url: URL?
+    var player: AVPlayer?
+    var hud: MBProgressHUD?
     
+    @IBOutlet weak var hudView: UIView!
     @IBOutlet weak var videoView: UIView!
     @IBOutlet weak var restaurantNameLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        player = AVPlayer()
+        // Show MBProgressHUD when loading video
+        hud = MBProgressHUD(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
+        hudView.addSubview(self.hud!)
+        player?.addObserver(self, forKeyPath: "status", options: [], context: nil)
         
         video = delegate?.getVideo()
         setupPlayer()
@@ -33,6 +43,7 @@ class WatchViewController: UIViewController {
     
     @IBAction func onTapVideoView(_ sender: UITapGestureRecognizer) {
         if let url = url {
+            self.player?.pause()
             let player = AVPlayer(url: url)
             let vc = AVPlayerViewController()
             vc.player = player
@@ -40,16 +51,28 @@ class WatchViewController: UIViewController {
         }
     }
     
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        if keyPath == "status" {
+            if self.player?.status == AVPlayerStatus.readyToPlay {
+                self.hud?.hide(animated: true)
+                self.player?.play()
+            }
+        }
+    }
+    
     func setupPlayer() {
         if let video = video {
+            hud?.show(animated: true)
             let urlString = video.videoURL
             url = URL(string: urlString!)
-            let player = AVPlayer(url: url!)
+            let playerItem = AVPlayerItem(url: url!)
+            player?.replaceCurrentItem(with: playerItem)
             let playerLayer = AVPlayerLayer(player: player)
             let frame: CGRect = CGRect(x: videoView.frame.origin.x, y: videoView.frame.origin.y - 64, width: videoView.frame.width, height: videoView.frame.height)
             playerLayer.frame = frame
             videoView.layer.addSublayer(playerLayer)
-            player.play()
+            self.player?.play()
+
         }
     }
 
