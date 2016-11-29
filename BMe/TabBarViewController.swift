@@ -18,6 +18,7 @@ class TabBarViewController: UIViewController {
     var accountViewController: UIViewController!
     var viewControllers: [UIViewController]!
     
+    @IBOutlet weak var createButton: UIButton!
     // tag value from selected UIButton
     var selectedIndex: Int = 0
     
@@ -34,6 +35,17 @@ class TabBarViewController: UIViewController {
         // Set first tab selected
         tabs[selectedIndex].isSelected = true
         didTapTab(tabs[selectedIndex])
+        
+//        let button: UIButton = UIButton(type: .Custom)
+//        let win:UIWindow = UIApplication.sharedApplication().delegate!.window!!
+        
+        
+        createButton.frame = CGRect(x: 0.0, y: self.view.frame.size.height - 65, width: 55, height: 55)
+        createButton.center = CGPoint(x:self.view.center.x , y: createButton.center.y)
+        
+//        button.setBackgroundImage(UIImage(named: "Camera") , forState: .Normal)
+//        button.setBackgroundImage(UIImage(named: "Camera"), forState: .Highlighted)
+//        win.addSubview(button)
     }
     
     @IBAction func didTapTab(_ sender: UIButton) {
