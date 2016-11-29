@@ -240,7 +240,7 @@
         <!--Navigation Controller-->
         <scene sceneID="yec-MB-mgq">
             <objects>
-                <navigationController storyboardIdentifier="VideoComposerNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="jtT-cY-Inp" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="MediaSelectorNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="jtT-cY-Inp" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="DBl-KK-qyV">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>

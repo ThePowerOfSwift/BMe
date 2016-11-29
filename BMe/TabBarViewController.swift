@@ -26,7 +26,9 @@ class TabBarViewController: UIViewController {
         super.viewDidLoad()
         let storyboard = UIStoryboard.init(name: "Sato", bundle: nil)
         browseViewController = storyboard.instantiateViewController(withIdentifier: "BrowseNavigationController")
-        createViewController = storyboard.instantiateViewController(withIdentifier: "CreateViewController") 
+
+        let createStoryboard = UIStoryboard(name: VideoComposition.StoryboardKey.ID, bundle: nil)
+        createViewController = createStoryboard.instantiateViewController(withIdentifier: VideoComposition.StoryboardKey.mediaSelectorNavigationController)
         accountViewController = storyboard.instantiateViewController(withIdentifier: "AccountViewController")
         
         // Init with view controllers

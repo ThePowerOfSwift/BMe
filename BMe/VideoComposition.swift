@@ -85,6 +85,8 @@ class VideoComposition: AVPlayerItem{ //, NSCoding {
         static let ID = "VideoComposer"
         static let videoComposerViewController = "VideoComposerViewController"
         static let metaViewController = "MetaViewController"
+        static let mediaSelectorViewController = "MediaSelectorViewController"
+        static let mediaSelectorNavigationController = "MediaSelectorNavigationController"
     }
 
     
