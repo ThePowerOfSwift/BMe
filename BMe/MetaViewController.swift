@@ -47,6 +47,7 @@ class MetaViewController: UIViewController, UITextFieldDelegate {
         let meta: [String: String] = [Key.name: nameTextField.text!,
                     Key.restaurant: restaurantTextField.text!]
         delegate?.post(meta: meta)
+        dismiss(animated: true, completion: nil)
     }
     
     @IBAction func cancelTapped(_ sender: UIButton) {
