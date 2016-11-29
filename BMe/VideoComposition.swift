@@ -10,7 +10,7 @@ import UIKit
 import AVFoundation
 import AVKit
 
-class VideoComposition: AVPlayerItem, NSCoding {
+class VideoComposition: AVPlayerItem{ //, NSCoding {
 
 // MARK: - Variables
     var name: String?
@@ -19,7 +19,7 @@ class VideoComposition: AVPlayerItem, NSCoding {
     var gsVideoURLs: String?
     
     // Video AVAssets
-    private var _videoURLs: [URL]
+    private var _videoURLs: [URL] = []
     private var _audioURL: URL?
     
     // Readonly
@@ -189,12 +189,10 @@ class VideoComposition: AVPlayerItem, NSCoding {
     // TrackID 0 is the sound
     // TrackID 1+ are the videos
     class func setup(videoURLs: [AVURLAsset], audioURL: AVURLAsset?) -> (mixComposition: AVMutableComposition, avVideoComposition: AVMutableVideoComposition) {
-        
-        
         // Add each asset as a track to overall composition
         let mixComposition = AVMutableComposition()
         var videoInstructions: [AVMutableVideoCompositionLayerInstruction] = []
-        
+
         // Track track begin time & ID
         var beginTime = kCMTimeZero
         
@@ -211,14 +209,12 @@ class VideoComposition: AVPlayerItem, NSCoding {
                 print("Error: \(error.localizedDescription)")
             }
             beginTime = CMTimeAdd(beginTime, asset.duration)
-            
+
             // Create instructions for each track
             let trackInstruction = AVMutableVideoCompositionLayerInstruction(assetTrack: track)
             
             // Transform all to "Portrait" ("up" or 90 degrees)
-            
             var assetTrackTransform = assetTrack.preferredTransform
-            
             switch assetTrackTransform.orientation() {
             case .landscapeRight:
                 // Rotate right 90 degrees
@@ -238,13 +234,14 @@ class VideoComposition: AVPlayerItem, NSCoding {
                 // Maintain original transform
                 break
             }
+
             trackInstruction.setTransform(assetTrackTransform, at: kCMTimeZero)
             
             // Fade out track so the following is shown
             trackInstruction.setOpacity(0.0, at: beginTime)
             videoInstructions.append(trackInstruction)
         }
-        
+
         // Create video composition instructions
         let mainInstruction = AVMutableVideoCompositionInstruction()
         mainInstruction.timeRange = CMTimeRangeMake(kCMTimeZero, beginTime)
@@ -255,6 +252,7 @@ class VideoComposition: AVPlayerItem, NSCoding {
         let avVideoComposition = AVMutableVideoComposition()
         avVideoComposition.instructions = [mainInstruction]
         // Sample 1st video asset for settings
+
         if videoURLs.count > 0 {
             let assetTrack = videoURLs[0].tracks(withMediaType: AVMediaTypeVideo)[0]
             // FPS
@@ -322,6 +320,7 @@ class VideoComposition: AVPlayerItem, NSCoding {
         return nil
     }
     
+/*
 // MARK: - NSCoding methods
     
     required convenience init?(coder aDecoder: NSCoder) {
@@ -340,5 +339,6 @@ class VideoComposition: AVPlayerItem, NSCoding {
         aCoder.encode(videoURLs, forKey:VideoComposition.Key.videoURLs)
         aCoder.encode(audioURL, forKey:VideoComposition.Key.audioURL)
     }
+ */
 }
 

@@ -53,15 +53,15 @@ class VideosListVC: UIViewController, UITableViewDataSource, UITableViewDelegate
         let cell = UITableViewCell()
         
         let data = videos[indexPath.row].dictionary
-        let video = Video(dictionary: data)
         
-        cell.textLabel?.text = video.username!
+        cell.textLabel?.text = data[Video.Key.username] as? String
         
-        if let videoURL = video.videoURL {
-            if let URL = URL(string: videoURL) {
-                cell.imageView?.image = VideoComposition.thumbnail(asset: AVURLAsset(url: URL))
-            }
-        }
+//        if let videoURL = video.videoURL {
+//            if let URL = URL(string: videoURL) {
+//                cell.imageView?.image = VideoComposition.thumbnail(asset: AVURLAsset(url: URL))
+//            }
+//        }
+        
         return cell
     }
     
