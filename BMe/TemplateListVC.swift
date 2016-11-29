@@ -72,7 +72,7 @@ class TemplateListVC: UIViewController, UITableViewDataSource, UITableViewDelega
 
         let storyboard = UIStoryboard(name: "VideoComposer", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "MediaSelectorViewController") as! MediaSelectorViewController
-        vc.data = data
+//        vc.data = data
 
         navigationController?.pushViewController(vc, animated: true)
     }

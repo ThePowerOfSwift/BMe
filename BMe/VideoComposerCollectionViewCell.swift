@@ -9,5 +9,9 @@
 import UIKit
 
 class VideoComposerCollectionViewCell: UICollectionViewCell {
-    
+    override func prepareForReuse() {
+        for view in subviews {
+            view.removeFromSuperview()
+        }
+    }
 }

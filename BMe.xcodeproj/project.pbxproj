@@ -28,6 +28,7 @@
 		785E87C61DED445000C9FF59 /* Play image- white.png in Resources */ = {isa = PBXBuildFile; fileRef = 785E87C51DED445000C9FF59 /* Play image- white.png */; };
 		785E87C81DED4C4F00C9FF59 /* VideoComposerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785E87C71DED4C4F00C9FF59 /* VideoComposerViewController.swift */; };
 		785E87CA1DED4E5800C9FF59 /* VideoComposerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785E87C91DED4E5800C9FF59 /* VideoComposerCollectionViewCell.swift */; };
+		785E87D41DEE053700C9FF59 /* MetaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785E87D31DEE053700C9FF59 /* MetaViewController.swift */; };
 		78B369BC1DE7E040001ADD53 /* CompositionTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78B369BA1DE7E040001ADD53 /* CompositionTestViewController.swift */; };
 		78B369BD1DE7E040001ADD53 /* CompositionTest.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 78B369BB1DE7E040001ADD53 /* CompositionTest.storyboard */; };
 		78B369BF1DE7F844001ADD53 /* TemplateListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78B369BE1DE7F844001ADD53 /* TemplateListVC.swift */; };
@@ -110,6 +111,7 @@
 		785E87C51DED445000C9FF59 /* Play image- white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Play image- white.png"; sourceTree = "<group>"; };
 		785E87C71DED4C4F00C9FF59 /* VideoComposerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoComposerViewController.swift; sourceTree = "<group>"; };
 		785E87C91DED4E5800C9FF59 /* VideoComposerCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoComposerCollectionViewCell.swift; sourceTree = "<group>"; };
+		785E87D31DEE053700C9FF59 /* MetaViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetaViewController.swift; sourceTree = "<group>"; };
 		78B369BA1DE7E040001ADD53 /* CompositionTestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompositionTestViewController.swift; sourceTree = "<group>"; };
 		78B369BB1DE7E040001ADD53 /* CompositionTest.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = CompositionTest.storyboard; sourceTree = "<group>"; };
 		78B369BE1DE7F844001ADD53 /* TemplateListVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TemplateListVC.swift; sourceTree = "<group>"; };
@@ -296,6 +298,7 @@
 				78469A5D1DE3958100A40D53 /* LoginViewController.swift */,
 				783008A01DE3B9A000B070D4 /* MediaSelectorViewController.swift */,
 				785E87C71DED4C4F00C9FF59 /* VideoComposerViewController.swift */,
+				785E87D31DEE053700C9FF59 /* MetaViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -704,6 +707,7 @@
 				E30894861DE8C95000145551 /* Helpers.swift in Sources */,
 				E318C57A1DE9876D00FCB6F9 /* BrowseTestViewController.swift in Sources */,
 				7830089C1DE3B2B100B070D4 /* AppState.swift in Sources */,
+				785E87D41DEE053700C9FF59 /* MetaViewController.swift in Sources */,
 				E35AC4831DE4D00400FCB0D0 /* TabBarViewController.swift in Sources */,
 				E3FE1FA11DEA2E6A00791B92 /* WatchViewController.swift in Sources */,
 				78B369BF1DE7F844001ADD53 /* TemplateListVC.swift in Sources */,

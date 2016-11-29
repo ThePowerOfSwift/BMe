@@ -82,8 +82,9 @@ class VideoComposition: AVPlayerItem{ //, NSCoding {
     }
     
     struct StoryboardKey {
-        static let ID = "VideoComposition"
-        static let videoCompositionViewController = "VideoCompositionViewController"
+        static let ID = "VideoComposer"
+        static let videoComposerViewController = "VideoComposerViewController"
+        static let metaViewController = "MetaViewController"
     }
 
     
@@ -199,6 +200,7 @@ class VideoComposition: AVPlayerItem{ //, NSCoding {
         // For each asset
         for i in 0..<videoURLs.count {
             let asset = videoURLs[i]
+            
             let assetTrack = asset.tracks(withMediaType: AVMediaTypeVideo)[0]
             // Add a track to the composition
             let track = mixComposition.addMutableTrack(withMediaType: AVMediaTypeVideo, preferredTrackID: CMPersistentTrackID(exactly: i + 1)!)

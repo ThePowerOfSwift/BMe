@@ -27,8 +27,14 @@ class MediaSelectorViewController: UIViewController, UICollectionViewDataSource,
     
 // MARK: - Variables
     // Model
-    var data: [String: AnyObject?]!
-    private var composition: VideoComposition?
+    private var selectedRows: [Int] = [] {
+        didSet {
+            if selectedRows.count > 0 {
+                nextButton.isEnabled = true
+            }
+            else { nextButton.isEnabled = false }
+        }
+    }
     
     // Media browsers
     var playerVC = AVPlayerViewController()
@@ -36,22 +42,9 @@ class MediaSelectorViewController: UIViewController, UICollectionViewDataSource,
     
     
     // Models
-//    private var audioURL: URL!
     private var phAssets: PHFetchResult<PHAsset>!
-    private var assetsSelected = 0 {
-        didSet {
-            if assetsSelected > 0 {
-                nextButton.isEnabled = true
-            }
-            else { nextButton.isEnabled = false }
-        }
-    }
     
-    // Constants
-    struct Layout {
-        static let itemSpacing: CGFloat = 1.00
-        static let thumbnailSize: CGSize = CGSize(width: 93.00, height: 93.00)
-    }
+    private let kSegueID = "pushToComposer"
     
 // MARK: - Lifecycle
     
@@ -60,26 +53,18 @@ class MediaSelectorViewController: UIViewController, UICollectionViewDataSource,
 
         // Do any additional setup after loading the view.
         automaticallyAdjustsScrollViewInsets = false
-        assetsSelected = 0
         
         // CollectionView setup
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.allowsMultipleSelection = true
         
-        // Initialize VideoComposition in backgroun
-        DispatchQueue.global(qos: .background).async {
-//            self.composition = VideoComposition(dictionary: self.data)
-//            self.audioURL = self.composition?.audioURL!
-            DispatchQueue.main.async {
-//                self.collectionView.reloadData()
-            }
-        }
-        
         // Get assets from album
         let options = PHFetchOptions()
         options.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
-        phAssets = PHAsset.fetchAssets(with: options)
+        // TODO: - allow image processsing
+        //        phAssets = PHAsset.fetchAssets(with: options)
+        phAssets = PHAsset.fetchAssets(with: .video, options: options)
         
         // Setup banner media browsers
         imageView.isHidden = true
@@ -107,6 +92,20 @@ class MediaSelectorViewController: UIViewController, UICollectionViewDataSource,
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Generate local IDs to pull assets from PHAsset
+        var selectedAssets: [PHAsset] = []
+        for row in selectedRows {
+            let asset = phAssets[row]
+            selectedAssets.append(asset)
+        }
+        
+        // Pull assets & set into destination
+        let destination = segue.destination as! VideoComposerViewController
+        destination.phAssets = selectedAssets
+//        destination.audioURL = data[VideoComposition.Key.audioURL] as! String
     }
 
 // MARK: - Banner View  methods
@@ -140,9 +139,6 @@ class MediaSelectorViewController: UIViewController, UICollectionViewDataSource,
         }
     }
 
-// MARK: - Gesture methods
-    
-    
 // MARK: - CollectionView Delegate methods
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -161,10 +157,12 @@ class MediaSelectorViewController: UIViewController, UICollectionViewDataSource,
         let asset = phAssets[indexPath.item ]
         
         
-        imgManager.requestImage(for: asset, targetSize: Layout.thumbnailSize, contentMode: .aspectFill, options: nil, resultHandler: { (image: UIImage?, info: [AnyHashable : Any]?) in
-            if cell.tag == indexPath.row {
-                cell.image = image
-                cell.isVideo = (asset.mediaType == .video)
+        imgManager.requestImage(for: asset, targetSize: Constants.Layout.thumbnailSize, contentMode: .aspectFill, options: nil, resultHandler: { (image: UIImage?, info: [AnyHashable : Any]?) in
+            DispatchQueue.main.async {
+                if cell.tag == indexPath.row {
+                    cell.image = image
+                    cell.isVideo = (asset.mediaType == .video)
+                }
             }
             })
     
@@ -173,70 +171,35 @@ class MediaSelectorViewController: UIViewController, UICollectionViewDataSource,
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         changeBanner(for: phAssets[indexPath.row])
-        assetsSelected += 1
+        selectedRows.append(indexPath.row)
     }
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
-        assetsSelected -= 1
+        
+        for index in 0..<selectedRows.count {
+            if selectedRows[index] == indexPath.row {
+                selectedRows.remove(at: index)
+                break
+            }
+        }
     }
     
 // MARK: - CollectionView FlowLayout Delegate Methods
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return Layout.thumbnailSize
+        return Constants.Layout.thumbnailSize
     }
  
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return Layout.itemSpacing
+        return Constants.Layout.itemSpacing
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return Layout.itemSpacing
+        return Constants.Layout.itemSpacing
     }
     
 // MARK: - Methods
     func next() {
-        // Get selected paths
-        let indexPaths: [IndexPath] = collectionView.indexPathsForSelectedItems!
-        
-        var assetIdentifiers: [String] = []
-        for path in indexPaths {
-            let asset = phAssets[path.row]
-            assetIdentifiers.append(asset.localIdentifier)
-            print(path.row)
-        }
-        
-        let selectedAssets = PHAsset.fetchAssets(withLocalIdentifiers: assetIdentifiers, options: nil)
+        performSegue(withIdentifier: kSegueID, sender: self)
     }
-    
-    /*
-    func renderComposition() {
-        
-        // render timing?
-        // split up the times automatically? (take the natural length of videos)?
-        // use pre marked split?
-        // include pictures
-        
-        // TODO: - get meta for video
-        let restaurant = "get restaurant"
-        let name = "name"
-        if let composition = composition {
-            VideoComposition(videoURLs: videoURLs, audioURL: audioURL, name: name, templateID: composition.templateID).render(fileNamed: "render_temp.mov", completion: {
-            (session: AVAssetExportSession) in
-            print("Success: rendered video")
-            
-            // Convert rendered to upload video with using updated links
-            let video = Video(userId: AppState.shared.currentUser?.uid,
-            username: AppState.shared.currentUser?.displayName,
-            templateId: self.data[VideoComposition.Key.templateID] as? String,
-            videoURL: session.outputURL?.absoluteString,
-            gsURL: "",
-            createdAt: Date(),
-            restaurantName: restaurant)
-            
-            FIRManager.shared.uploadVideo(video: video, completion: { })
-        })
-        }
-    }
- */
 }
