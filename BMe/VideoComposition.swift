@@ -98,6 +98,7 @@ class VideoComposition: AVPlayerItem{ //, NSCoding {
         _videoURLs = videoURLs
         _audioURL = audioURL
 
+        print(videoURLs)
         let videoAVURLs = VideoComposition.getAVURLAssets(urls: videoURLs)
       
         var audioAVURL: AVURLAsset?
@@ -219,6 +220,7 @@ class VideoComposition: AVPlayerItem{ //, NSCoding {
             
             // Transform all to "Portrait" ("up" or 90 degrees)
             var assetTrackTransform = assetTrack.preferredTransform
+            
             switch assetTrackTransform.orientation() {
             case .landscapeRight:
                 // Rotate right 90 degrees
@@ -262,7 +264,9 @@ class VideoComposition: AVPlayerItem{ //, NSCoding {
             // FPS
             avVideoComposition.frameDuration = CMTimeMake(1, Int32(assetTrack.nominalFrameRate))
             // Render size to portrait only
-            avVideoComposition.renderSize = CGSize.portrait
+            avVideoComposition.renderSize = CGSize(width: assetTrack.naturalSize.height, height: assetTrack.naturalSize.width)
+            print("natural \(assetTrack.naturalSize)")
+            print("cg \(CGSize.portrait)")
         }
         
         // Attach audio

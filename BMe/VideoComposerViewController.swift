@@ -181,6 +181,7 @@ class VideoComposerViewController: UIViewController, UICollectionViewDataSource,
         
         DispatchQueue.main.async {
             let vc = self.composition.playerViewController
+            vc.videoGravity = AVLayerVideoGravityResizeAspectFill
             self.addChildViewController(vc)
             vc.view.frame = self.bannerView.bounds
             vc.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
