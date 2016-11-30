@@ -125,8 +125,8 @@ class CompositionTestViewController: UIViewController, UIImagePickerControllerDe
             if self.action == "Pick sound" {
                 // Transform URL to local
                 let assetURL = AppDelegate.urlForNewDocumentFile(named: "temp.m4a")
-                AVURLAsset(url: songURL).exportIPodAudio(url: assetURL, completion: {
-                    self.audioURL = assetURL
+                AVURLAsset(url: songURL).exportIPodAudio(url: assetURL, completion: { (url) in
+                    self.audioURL = url
                 })
                 self.uploadTemplate.isEnabled = self.enableTemplateUpload()
             }

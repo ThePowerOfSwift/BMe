@@ -73,6 +73,17 @@
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="0of-KT-rNN">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="375"/>
                                     </imageView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iYl-2f-C5x">
+                                        <rect key="frame" x="8" y="8" width="25" height="25"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="25" id="HXV-kW-tdD"/>
+                                            <constraint firstAttribute="width" constant="25" id="Ouk-gE-63d"/>
+                                        </constraints>
+                                        <state key="normal" title="Button" image="music.png"/>
+                                        <connections>
+                                            <action selector="musicButtonTapped:" destination="3fZ-tr-3dp" eventType="touchUpInside" id="zBn-YU-QNo"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -81,6 +92,8 @@
                                     <constraint firstItem="0of-KT-rNN" firstAttribute="leading" secondItem="hfT-ob-Ahb" secondAttribute="leading" id="OhV-iW-bZB"/>
                                     <constraint firstAttribute="trailing" secondItem="0of-KT-rNN" secondAttribute="trailing" id="e2I-Jf-JUB"/>
                                     <constraint firstItem="0of-KT-rNN" firstAttribute="top" secondItem="hfT-ob-Ahb" secondAttribute="top" id="gr2-kk-GQl"/>
+                                    <constraint firstItem="iYl-2f-C5x" firstAttribute="top" secondItem="hfT-ob-Ahb" secondAttribute="top" constant="8" id="hGf-8L-CiT"/>
+                                    <constraint firstItem="iYl-2f-C5x" firstAttribute="leading" secondItem="hfT-ob-Ahb" secondAttribute="leading" constant="8" id="soC-9Z-XUu"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -108,6 +121,7 @@
                         <outlet property="bannerView" destination="hfT-ob-Ahb" id="vmo-hZ-JGG"/>
                         <outlet property="collectionView" destination="mZ5-7q-adD" id="TZx-zH-kxQ"/>
                         <outlet property="imageView" destination="0of-KT-rNN" id="p90-Ee-mmX"/>
+                        <outlet property="musicButton" destination="iYl-2f-C5x" id="6Hf-jx-BYN"/>
                         <outlet property="nextButton" destination="2At-sr-dXf" id="cOF-UR-LqC"/>
                         <segue destination="Sz2-XX-slY" kind="show" identifier="pushToComposer" id="Jsz-F3-l5d"/>
                     </connections>
@@ -237,6 +251,24 @@
             </objects>
             <point key="canvasLocation" x="1144.8" y="-105.69715142428787"/>
         </scene>
+        <!--Song Picker View Controller-->
+        <scene sceneID="Sya-Ew-Yu5">
+            <objects>
+                <viewController storyboardIdentifier="SongPickerViewController" id="53X-Jm-6tC" customClass="SongPickerViewController" customModule="BMe" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="0EU-My-YvG"/>
+                        <viewControllerLayoutGuide type="bottom" id="u7t-Os-fNV"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="AOj-AY-Lot">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="VEs-xX-d0q" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="802" y="557"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="yec-MB-mgq">
             <objects>
@@ -258,5 +290,6 @@
     </scenes>
     <resources>
         <image name="Play image- white.png" width="750" height="500"/>
+        <image name="music.png" width="256" height="256"/>
     </resources>
 </document>

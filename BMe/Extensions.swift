@@ -90,14 +90,14 @@ extension Date {
 }
 
 extension AVURLAsset {
-    func exportIPodAudio(url: URL, completion:@escaping ()->()) {
+    func exportIPodAudio(url: URL, completion:@escaping (URL)->()) {
         let session = AVAssetExportSession(asset: self, presetName: AVAssetExportPresetAppleM4A)
         print("Exporting audio, file types supported\(session?.supportedFileTypes)")
         session?.outputFileType = "com.apple.m4a-audio"
         session?.outputURL = url
         session?.exportAsynchronously(completionHandler: {
             print("Success: audio export to: \(session?.outputURL)")
-            completion()
+            completion(url)
         })
     }
 }

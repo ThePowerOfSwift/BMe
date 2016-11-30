@@ -17,7 +17,7 @@ class VideoComposerViewController: UIViewController, UICollectionViewDataSource,
     
     //MARK: - Models
     var phAssets: [PHAsset]!
-    private var audioURL: URL?
+    var audioURL: URL?
     private var videoURLs: [URL?] = []
     
     var composition: VideoComposition!
