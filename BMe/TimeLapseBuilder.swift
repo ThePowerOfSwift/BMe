@@ -23,7 +23,7 @@ class TimeLapseBuilder: NSObject {
         self.videoOutputURL = videoOutputURL
     }
     
-    func build(progress: @escaping ((Progress) -> Void), completion: @escaping ((URL) -> Void), error: ((Error) -> Void)) {
+    func build(progress: @escaping ((Progress) -> Void), completion: @escaping ((URL) -> Void), failure: ((Error) -> Void)) {
         let inputSize = CGSize(width: 3264, height: 2448)
         let outputSize = CGSize(width: 3264, height: 2448)
         var error: NSError?
@@ -115,7 +115,7 @@ class TimeLapseBuilder: NSObject {
                     videoWriterInput.markAsFinished()
                     videoWriter.finishWriting { () -> Void in
                         if error == nil {
-                            success(self.videoOutputURL)
+                            completion(self.videoOutputURL)
                         }
                     }
                 })
