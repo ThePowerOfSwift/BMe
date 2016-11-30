@@ -102,6 +102,33 @@ extension AVURLAsset {
     }
 }
 
+extension UIImage {
+    func add(_ text: NSString, to point: CGPoint, color: UIColor?, font: UIFont?) -> UIImage {
+        // Default colour white
+        var textColor = UIColor.white
+        if let color = color {
+            textColor = color
+        }
+        // Default font
+        var textFont = UIFont(name: "Helvetica Bold", size: 12)!
+        if let font = font {
+            textFont = font
+        }
+        let scale = UIScreen.main.scale
+        UIGraphicsBeginImageContextWithOptions(self.size, false, scale)
+        
+        let textFontAttributes = [NSFontAttributeName: textFont,
+                                  NSForegroundColorAttributeName: textColor] as [String : Any]
+        self.draw(in: CGRect(origin: CGPoint.zero, size: self.size))
+        let rect = CGRect(origin: point, size: self.size)
+        text.draw(in: rect, withAttributes: textFontAttributes)
+        
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return newImage!
+    }
+}
 /*
 extension UIView: NSCopying
 {
