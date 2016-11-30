@@ -131,6 +131,7 @@ class VideoComposerViewController: UIViewController, UICollectionViewDataSource,
     
     // MARK: - Model Methods
     
+    // Get the URLs from PHAsset and convert it to local URLs
     func prepareURLs(_ completion: (()->())?) {
         //placeholder audio
         

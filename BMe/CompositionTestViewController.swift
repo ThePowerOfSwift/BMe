@@ -10,6 +10,7 @@ import UIKit
 import Photos
 import MobileCoreServices
 import MediaPlayer
+import AVKit
 
 class CompositionTestViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, MPMediaPickerControllerDelegate {
 
@@ -18,7 +19,23 @@ class CompositionTestViewController: UIViewController, UIImagePickerControllerDe
     var action = ""
     var videoURLs: [URL] = []
     var audioURL: URL?
+    var imageURL: URL?
     
+    @IBAction func didTapPickImage(_ sender: Any) {
+        let imagePicker = UIImagePickerController()
+        
+        imagePicker.allowsEditing = true
+        // Set to camera & video record
+        imagePicker.sourceType = .photoLibrary
+        imagePicker.mediaTypes = [kUTTypeImage as NSString as String]
+        imagePicker.delegate = self
+
+        present(imagePicker, animated: true, completion: nil)
+        
+        
+    }
+    @IBAction func didTapMakeVideoFromImage(_ sender: Any) {
+    }
     @IBAction func didTapUploadVideo(_ sender: Any) {
         action = "Upload video"
         presentImagePicker(delegate: self, completion: nil)
@@ -106,10 +123,32 @@ class CompositionTestViewController: UIViewController, UIImagePickerControllerDe
                 uploadTemplate.isEnabled = enableTemplateUpload()
             }
         }
-// DOES NOT ACCEPT IMAGES
         else if (mediaType == kUTTypeImage) {
-            // assets-library://asset/asset.PNG?
-            // let url = info[UIImagePickerControllerReferenceURL] as? URL
+            let alurl = info[UIImagePickerControllerReferenceURL] as? URL      // assets-library://asset/asset.PNG?
+            let phAsset = PHAsset.fetchAssets(withALAssetURLs: [alurl!], options: nil).firstObject
+            let options = PHContentEditingInputRequestOptions()
+            options.isNetworkAccessAllowed = true
+            phAsset?.requestContentEditingInput(with: options, completionHandler: { (content: PHContentEditingInput?, info:[AnyHashable : Any]) in
+                
+                let outputURL = AppDelegate.urlForNewDocumentFile(named: "imageToVideo.mov")
+                let builder = TimeLapseBuilder(photoURLs: [(content?.fullSizeImageURL)!], videoOutputURL: outputURL)
+                builder.build(progress: { (progress: Progress) in
+                    
+                }, completion: { (url: URL) in
+                    let avplayer = AVPlayerViewController()
+                    let player = AVPlayer(playerItem: AVPlayerItem(url: url))
+                    avplayer.player = player
+                    
+                    self.present(avplayer, animated: true, completion: nil)
+                    
+                }, failure: { (error: Error) in
+                    print("Error generating image video: \(error.localizedDescription)")
+                })
+            })
+
+            
+            
+            
         }
         
         action = ""

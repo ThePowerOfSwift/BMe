@@ -81,6 +81,22 @@
                                     <action selector="didTapUploadTemplate:" destination="9Se-eT-sJn" eventType="touchUpInside" id="2Mp-l8-10y"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="syj-Kh-Tos">
+                                <rect key="frame" x="150" y="352" width="75" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Pick image"/>
+                                <connections>
+                                    <action selector="didTapPickImage:" destination="9Se-eT-sJn" eventType="touchUpInside" id="2co-1U-Rax"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I04-cr-7xq">
+                                <rect key="frame" x="108" y="390" width="160" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Make video from image"/>
+                                <connections>
+                                    <action selector="didTapMakeVideoFromImage:" destination="9Se-eT-sJn" eventType="touchUpInside" id="DGh-fi-EXK"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
