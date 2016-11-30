@@ -26,7 +26,9 @@ class VideoCell: UITableViewCell {
         player = AVPlayer()
         player?.isMuted = true
         let playerLayer = AVPlayerLayer(player: player)
-        playerLayer.frame = contentView.bounds
+        //playerLayer.frame = contentView.bounds
+        playerLayer.frame = CGRect(x: 0, y: 0, width: 375, height: 375)
+        playerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill
         contentView.layer.addSublayer(playerLayer)
         
         // Show MBProgressHUD when loading video

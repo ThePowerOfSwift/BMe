@@ -9,6 +9,7 @@
 import UIKit
 import AVKit
 import AVFoundation
+import MBProgressHUD
 
 class BrowseViewController: UIViewController {
     
@@ -29,6 +30,12 @@ class BrowseViewController: UIViewController {
             self.videos = videos
             self.tableView.reloadData()
         }
+        
+        // Pull to refresh
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(pullToRefresh), for: UIControlEvents.valueChanged)
+        tableView.insertSubview(refreshControl, at: 0)
+        
     }
     
 }
@@ -63,6 +70,16 @@ extension BrowseViewController:  UITableViewDelegate, UITableViewDataSource {
         watchVC?.delegate = self
         self.navigationController?.pushViewController(watchVC!, animated: true)
         print("pushed")
+    }
+    
+    func pullToRefresh(refreshControl: UIRefreshControl) {
+        MBProgressHUD.showAdded(to: self.view, animated: true)
+        FIRManager.shared.getVideos { (videos: [Video]) in
+            MBProgressHUD.hide(for: self.view, animated: true)
+            self.videos = videos
+            self.tableView.reloadData()
+            refreshControl.endRefreshing()
+        }
     }
 }
 
