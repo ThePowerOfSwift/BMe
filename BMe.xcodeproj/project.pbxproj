@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		254F915EC76BE78350CEE7B5 /* Pods_BMe.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40191E5B9CEF388CFBDD07FC /* Pods_BMe.framework */; };
 		6A9D8CE7FB89247C93EB3755 /* Pods_BMeTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 191E6E9B7B3527D1F818254D /* Pods_BMeTests.framework */; };
+		7821C3BA1DEF10F60023B95E /* TimeLapseBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7821C3B91DEF10F60023B95E /* TimeLapseBuilder.swift */; };
 		7830089A1DE3B0B500B070D4 /* MeasurementHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783008991DE3B0B500B070D4 /* MeasurementHelper.swift */; };
 		7830089C1DE3B2B100B070D4 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7830089B1DE3B2B100B070D4 /* AppState.swift */; };
 		783008A41DE3B9A000B070D4 /* VideoComposition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7830089D1DE3B9A000B070D4 /* VideoComposition.swift */; };
@@ -88,6 +89,7 @@
 		3B904E80464934303F529DA3 /* Pods-BMeUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BMeUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BMeUITests/Pods-BMeUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		40191E5B9CEF388CFBDD07FC /* Pods_BMe.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BMe.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		500EAC6FA5C71681BCC723C6 /* Pods-BMeTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BMeTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-BMeTests/Pods-BMeTests.release.xcconfig"; sourceTree = "<group>"; };
+		7821C3B91DEF10F60023B95E /* TimeLapseBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeLapseBuilder.swift; sourceTree = "<group>"; };
 		783008991DE3B0B500B070D4 /* MeasurementHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeasurementHelper.swift; sourceTree = "<group>"; };
 		7830089B1DE3B2B100B070D4 /* AppState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		7830089D1DE3B9A000B070D4 /* VideoComposition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoComposition.swift; sourceTree = "<group>"; };
@@ -179,12 +181,29 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		7821C3BB1DEF24730023B95E /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				78469A5D1DE3958100A40D53 /* LoginViewController.swift */,
+			);
+			name = ViewControllers;
+			sourceTree = "<group>";
+		};
+		7821C3BC1DEF249D0023B95E /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				78469A5F1DE3958100A40D53 /* Main.storyboard */,
+			);
+			name = Storyboards;
+			sourceTree = "<group>";
+		};
 		783008AB1DE3B9AF00B070D4 /* Models */ = {
 			isa = PBXGroup;
 			children = (
 				78CDA09E1DE5307C00ABC5E1 /* FIRManager.swift */,
 				7830089B1DE3B2B100B070D4 /* AppState.swift */,
 				7830089D1DE3B9A000B070D4 /* VideoComposition.swift */,
+				7821C3B91DEF10F60023B95E /* TimeLapseBuilder.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -229,8 +248,6 @@
 		78337D901DE3ACA700A1B32C /* JJ */ = {
 			isa = PBXGroup;
 			children = (
-				78CDA0A01DE5311F00ABC5E1 /* Examples */,
-				783008AB1DE3B9AF00B070D4 /* Models */,
 				786727DA1DE3ADDC0059AEC7 /* ViewControllers */,
 				783008AC1DE3B9CF00B070D4 /* Views */,
 				786727DB1DE3ADE90059AEC7 /* Storyboards */,
@@ -264,6 +281,10 @@
 			isa = PBXGroup;
 			children = (
 				78337D8E1DE3AC7400A1B32C /* Shared */,
+				78CDA0A01DE5311F00ABC5E1 /* Examples */,
+				7821C3BB1DEF24730023B95E /* ViewControllers */,
+				7821C3BC1DEF249D0023B95E /* Storyboards */,
+				783008AB1DE3B9AF00B070D4 /* Models */,
 				78337D8F1DE3AC9300A1B32C /* Sato */,
 				78337D901DE3ACA700A1B32C /* JJ */,
 			);
@@ -299,7 +320,6 @@
 		786727DA1DE3ADDC0059AEC7 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				78469A5D1DE3958100A40D53 /* LoginViewController.swift */,
 				783008A01DE3B9A000B070D4 /* MediaSelectorViewController.swift */,
 				785E87C71DED4C4F00C9FF59 /* VideoComposerViewController.swift */,
 				785E87D31DEE053700C9FF59 /* MetaViewController.swift */,
@@ -310,7 +330,6 @@
 		786727DB1DE3ADE90059AEC7 /* Storyboards */ = {
 			isa = PBXGroup;
 			children = (
-				78469A5F1DE3958100A40D53 /* Main.storyboard */,
 				783008A11DE3B9A000B070D4 /* VideoComposer.storyboard */,
 			);
 			name = Storyboards;
@@ -713,6 +732,7 @@
 				7830089A1DE3B0B500B070D4 /* MeasurementHelper.swift in Sources */,
 				E3ECAFD91DE3CCB500F221AE /* Video.swift in Sources */,
 				E30894861DE8C95000145551 /* Helpers.swift in Sources */,
+				7821C3BA1DEF10F60023B95E /* TimeLapseBuilder.swift in Sources */,
 				E318C57A1DE9876D00FCB6F9 /* BrowseTestViewController.swift in Sources */,
 				7830089C1DE3B2B100B070D4 /* AppState.swift in Sources */,
 				785E87D41DEE053700C9FF59 /* MetaViewController.swift in Sources */,

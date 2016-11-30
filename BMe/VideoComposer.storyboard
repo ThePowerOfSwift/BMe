@@ -7,7 +7,6 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -221,9 +220,9 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="done"/>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rT7-T9-Hun">
-                                <rect key="frame" x="268" y="419" width="31" height="30"/>
-                                <state key="normal" title="Post"/>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rT7-T9-Hun">
+                                <rect key="frame" x="323" y="28" width="41" height="30"/>
+                                <state key="normal" title="Finish"/>
                                 <connections>
                                     <action selector="postTapped:" destination="lvg-tL-CMK" eventType="touchUpInside" id="0JS-Dz-FX2"/>
                                 </connections>
@@ -236,10 +235,10 @@
                             <constraint firstItem="5Di-Nc-qSx" firstAttribute="width" secondItem="IsZ-7P-LYC" secondAttribute="width" id="32u-mW-bea"/>
                             <constraint firstItem="5Di-Nc-qSx" firstAttribute="top" secondItem="IsZ-7P-LYC" secondAttribute="bottom" constant="20" id="6kJ-zP-D7o"/>
                             <constraint firstItem="5Di-Nc-qSx" firstAttribute="leading" secondItem="IsZ-7P-LYC" secondAttribute="leading" id="9fD-9e-mCY"/>
-                            <constraint firstItem="rT7-T9-Hun" firstAttribute="top" secondItem="5Di-Nc-qSx" secondAttribute="bottom" constant="20" id="V53-2Y-vDZ"/>
+                            <constraint firstItem="rT7-T9-Hun" firstAttribute="top" secondItem="dk9-O5-TDm" secondAttribute="bottom" constant="8" id="QnX-gF-Y20"/>
                             <constraint firstItem="IsZ-7P-LYC" firstAttribute="centerY" secondItem="Kxb-4n-p5F" secondAttribute="centerY" id="cKk-Vz-oGt"/>
                             <constraint firstItem="Wn7-ty-PAH" firstAttribute="top" secondItem="dk9-O5-TDm" secondAttribute="bottom" constant="8" id="q65-tl-0Ep"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="rT7-T9-Hun" secondAttribute="trailing" constant="60" id="wOg-yx-fFa"/>
+                            <constraint firstAttribute="trailing" secondItem="rT7-T9-Hun" secondAttribute="trailing" constant="15" id="sul-1S-u02"/>
                         </constraints>
                     </view>
                     <connections>
@@ -250,24 +249,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="C70-69-lzU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1144.8" y="-105.69715142428787"/>
-        </scene>
-        <!--Song Picker View Controller-->
-        <scene sceneID="Sya-Ew-Yu5">
-            <objects>
-                <viewController storyboardIdentifier="SongPickerViewController" id="53X-Jm-6tC" customClass="SongPickerViewController" customModule="BMe" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="0EU-My-YvG"/>
-                        <viewControllerLayoutGuide type="bottom" id="u7t-Os-fNV"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="AOj-AY-Lot">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="VEs-xX-d0q" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="802" y="557"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="yec-MB-mgq">
