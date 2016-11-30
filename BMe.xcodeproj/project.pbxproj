@@ -44,6 +44,8 @@
 		E35AC4891DE4D75C00FCB0D0 /* BrowseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E35AC4881DE4D75C00FCB0D0 /* BrowseViewController.swift */; };
 		E35AC48B1DE4D76A00FCB0D0 /* CreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E35AC48A1DE4D76A00FCB0D0 /* CreateViewController.swift */; };
 		E35AC48D1DE4D77200FCB0D0 /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E35AC48C1DE4D77200FCB0D0 /* AccountViewController.swift */; };
+		E3C357A21DEF451E00AC0832 /* YPManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C357A11DEF451E00AC0832 /* YPManager.swift */; };
+		E3C357A41DEF484E00AC0832 /* Restaurant.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C357A31DEF484E00AC0832 /* Restaurant.swift */; };
 		E3ECAFD91DE3CCB500F221AE /* Video.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3ECAFD81DE3CCB500F221AE /* Video.swift */; };
 		E3FE1F9D1DEA2C5700791B92 /* VideoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3FE1F9B1DEA2C5700791B92 /* VideoCell.swift */; };
 		E3FE1F9E1DEA2C5700791B92 /* VideoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3FE1F9C1DEA2C5700791B92 /* VideoCell.xib */; };
@@ -129,6 +131,8 @@
 		E35AC4881DE4D75C00FCB0D0 /* BrowseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrowseViewController.swift; sourceTree = "<group>"; };
 		E35AC48A1DE4D76A00FCB0D0 /* CreateViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateViewController.swift; sourceTree = "<group>"; };
 		E35AC48C1DE4D77200FCB0D0 /* AccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
+		E3C357A11DEF451E00AC0832 /* YPManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YPManager.swift; sourceTree = "<group>"; };
+		E3C357A31DEF484E00AC0832 /* Restaurant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Restaurant.swift; sourceTree = "<group>"; };
 		E3ECAFD81DE3CCB500F221AE /* Video.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Video.swift; sourceTree = "<group>"; };
 		E3FE1F9B1DEA2C5700791B92 /* VideoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoCell.swift; sourceTree = "<group>"; };
 		E3FE1F9C1DEA2C5700791B92 /* VideoCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VideoCell.xib; sourceTree = "<group>"; };
@@ -366,6 +370,8 @@
 			isa = PBXGroup;
 			children = (
 				E3ECAFD81DE3CCB500F221AE /* Video.swift */,
+				E3C357A31DEF484E00AC0832 /* Restaurant.swift */,
+				E3C357A11DEF451E00AC0832 /* YPManager.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -472,6 +478,7 @@
 					78469A571DE3958000A40D53 = {
 						CreatedOnToolsVersion = 8.0;
 						DevelopmentTeam = PY8CHQP699;
+						LastSwiftMigration = 0810;
 						ProvisioningStyle = Automatic;
 					};
 					78469A6B1DE3958100A40D53 = {
@@ -691,6 +698,7 @@
 				785E87C81DED4C4F00C9FF59 /* VideoComposerViewController.swift in Sources */,
 				E35AC48D1DE4D77200FCB0D0 /* AccountViewController.swift in Sources */,
 				783008A91DE3B9A000B070D4 /* Extensions.swift in Sources */,
+				E3C357A21DEF451E00AC0832 /* YPManager.swift in Sources */,
 				78B369BC1DE7E040001ADD53 /* CompositionTestViewController.swift in Sources */,
 				78469A5E1DE3958100A40D53 /* LoginViewController.swift in Sources */,
 				785E87CA1DED4E5800C9FF59 /* VideoComposerCollectionViewCell.swift in Sources */,
@@ -712,6 +720,7 @@
 				E3FE1FA11DEA2E6A00791B92 /* WatchViewController.swift in Sources */,
 				78B369BF1DE7F844001ADD53 /* TemplateListVC.swift in Sources */,
 				783008A71DE3B9A000B070D4 /* MediaSelectorViewController.swift in Sources */,
+				E3C357A41DEF484E00AC0832 /* Restaurant.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -864,11 +873,14 @@
 			baseConfigurationReference = EF9B8E045282684264E31D83 /* Pods-BMe.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = PY8CHQP699;
 				INFOPLIST_FILE = BMe/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.op.BMe;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -878,11 +890,13 @@
 			baseConfigurationReference = 1B3943A2C1F5F5DBD966A650 /* Pods-BMe.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = PY8CHQP699;
 				INFOPLIST_FILE = BMe/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.op.BMe;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
