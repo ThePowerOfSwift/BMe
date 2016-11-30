@@ -86,6 +86,7 @@ class CompositionTestViewController: UIViewController, UIImagePickerControllerDe
         if (mediaType == kUTTypeMovie) {
             if action == "Upload video" {
                 let url = info[UIImagePickerControllerMediaURL] as? URL
+                print("Picked asset at url: \(url)")
                 let video = Video(userId: AppState.shared.currentUser?.uid,
                                   username: AppState.shared.currentUser?.displayName,
                                   templateId: "",
@@ -100,6 +101,7 @@ class CompositionTestViewController: UIViewController, UIImagePickerControllerDe
             }
             else if action == "Pick video" {
                 let url = info[UIImagePickerControllerMediaURL] as? URL
+                print("Picked asset at url: \(url)")
                 videoURLs.append(url!)
                 uploadTemplate.isEnabled = enableTemplateUpload()
             }

@@ -42,7 +42,7 @@ class FIRManager: NSObject {
         super.init()
     }
 
-// Methods
+// MARK: - Methods
     func storage(url: String) -> FIRStorageReference {
         return FIRStorage.storage().reference(forURL: url)
     }
@@ -89,7 +89,6 @@ class FIRManager: NSObject {
             }
             completion(videos)
         })
-        
     }
     
     func uploadVideo(video: Video, completion: (()->())?) {
@@ -106,7 +105,6 @@ class FIRManager: NSObject {
             FIRManager.shared.fetchDownloadURLs([URL(string: video.gsURL!)!], completion: {
                 (urls) in
                 video.videoURL = urls.first!.absoluteString
-                video.restaurantName = "Happy Roll"
                 
                 // Put new video to Database with the new Storage url
                 self.putObjectOnDatabase(named: ObjectKey.video, data: video.dictionaryFormat, completion: {

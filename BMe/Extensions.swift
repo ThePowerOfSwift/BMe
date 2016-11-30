@@ -30,7 +30,7 @@ extension UIViewController {
             if let completion = completion { completion() }
         }
     }
-    
+    // TODO: - remove following two func
     // present modally camera to record
     func presentImagePicker(delegate: (UIImagePickerControllerDelegate & UINavigationControllerDelegate), completion: (() -> Void)?) {
         let imagePicker = configuredImagePicker()
@@ -52,6 +52,7 @@ extension UIViewController {
         
         return imagePicker
     }
+ 
 }
 
 extension CGAffineTransform {

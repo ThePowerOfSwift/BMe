@@ -25,5 +25,9 @@ struct Constants {
         static let didSignIn = "onSignInCompleted"
         static let didSignOut = "onSignOutCompleted"
     }
-    
+    struct Layout {
+        static let itemSpacing: CGFloat = 1.00
+        static let thumbnailSize: CGSize = CGSize(width: 93.00, height: 93.00)
+        static let inspectionSize: CGSize = CGSize(width: 124.00, height: 124.00)
+    }
 }

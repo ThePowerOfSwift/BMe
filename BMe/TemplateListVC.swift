@@ -61,42 +61,53 @@ class TemplateListVC: UIViewController, UITableViewDataSource, UITableViewDelega
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        let template = VideoComposition(dictionary: templates[indexPath.row].dictionary)
-        present(template.playerViewController, animated: true, completion: nil)
+//        let template = VideoComposition(dictionary: templates[indexPath.row].dictionary)
+//        present(template.playerViewController, animated: true, completion: nil)
 
     }
     
     func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
         
         let data = templates[indexPath.row].dictionary
-        
-        // Render the file
-        VideoComposition(dictionary: data).render(fileNamed: "render_temp.mov", completion: {
-            (session: AVAssetExportSession) in
-            print("Success: rendered video")
-            
-            // Convert rendered to upload video with using updated links
-            let video = Video(userId: AppState.shared.currentUser?.uid,
-                              username: AppState.shared.currentUser?.displayName,
-                              templateId: data[VideoComposition.Key.templateID] as? String,
-                              videoURL: session.outputURL?.absoluteString,
-                              gsURL: "",
-                              createdAt: Date(),
-                              restaurantName: ""
-                              )
-            
-            FIRManager.shared.uploadVideo(video: video, completion: {
-                let url = URL(string: video.videoURL!)
-                let player = AVPlayer(url: url!)
-                let vc = AVPlayerViewController()
-                vc.player = player
-                
-                self.present(vc, animated: true, completion: {
-                })
-            })
-            
-            
-        })
-        
+
+        let storyboard = UIStoryboard(name: "VideoComposer", bundle: nil)
+        let vc = storyboard.instantiateViewController(withIdentifier: "MediaSelectorViewController") as! MediaSelectorViewController
+//        vc.data = data
+
+        navigationController?.pushViewController(vc, animated: true)
     }
+    
+//    func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
+//        
+//        let data = templates[indexPath.row].dictionary
+//        
+//        // Render the file
+//        VideoComposition(dictionary: data).render(fileNamed: "render_temp.mov", completion: {
+//            (session: AVAssetExportSession) in
+//            print("Success: rendered video")
+//            
+//            // Convert rendered to upload video with using updated links
+//            let video = Video(userId: AppState.shared.currentUser?.uid,
+//                              username: AppState.shared.currentUser?.displayName,
+//                              templateId: data[VideoComposition.Key.templateID] as? String,
+//                              videoURL: session.outputURL?.absoluteString,
+//                              gsURL: "",
+//                              createdAt: Date(),
+//                              restaurantName: ""
+//                              )
+//            
+//            FIRManager.shared.uploadVideo(video: video, completion: {
+//                let url = URL(string: video.videoURL!)
+//                let player = AVPlayer(url: url!)
+//                let vc = AVPlayerViewController()
+//                vc.player = player
+//                
+//                self.present(vc, animated: true, completion: {
+//                })
+//            })
+//            
+//            
+//        })
+//        
+//    }
 }
