@@ -17,7 +17,7 @@ class VideoComposerViewController: UIViewController, UICollectionViewDataSource,
     
     //MARK: - Models
     var phAssets: [PHAsset]!
-    private var audioURL: URL!
+    private var audioURL: URL?
     private var videoURLs: [URL?] = []
     
     var composition: VideoComposition!
@@ -133,8 +133,6 @@ class VideoComposerViewController: UIViewController, UICollectionViewDataSource,
     
     func prepareURLs(_ completion: (()->())?) {
         //placeholder audio
-        let tempAudio = URL(string: "https://firebasestorage.googleapis.com/v0/b/b-me-e21b7.appspot.com/o/audio%2FDuwrIKqnWOXa8muRw7rPx7tcb1k1%2F501836136190.m4a?alt=media&token=171ea997-34ad-4704-bc03-d057cd22124d")
-        audioURL = tempAudio
         
         var processedCount = 0
         for i in 0..<phAssets.count {
