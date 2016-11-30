@@ -84,7 +84,7 @@ extension CGSize {
 extension Date {
     func toString() -> String {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MMMM dd yyyy"
+        dateFormatter.dateFormat = "EEE MMM d HH:mm:ss Z y"
         return dateFormatter.string(from: self)
     }
 }
@@ -129,6 +129,7 @@ extension UIImage {
         return newImage!
     }
 }
+
 /*
 extension UIView: NSCopying
 {
