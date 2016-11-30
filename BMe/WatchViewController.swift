@@ -34,7 +34,15 @@ class WatchViewController: UIViewController {
         // Show MBProgressHUD when loading video
         hud = MBProgressHUD(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
         hudView.addSubview(self.hud!)
+        
+        // If the state of player changes (AVPlayerStatus becomes readyToPlay), then post notification
         player?.addObserver(self, forKeyPath: "status", options: [], context: nil)
+        
+        // To call the function that loops a video, post notification when the video ends
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(playerItemDidReachEnd),
+                                               name: NSNotification.Name.AVPlayerItemDidPlayToEndTime,
+                                               object: self.player?.currentItem)
         
         video = delegate?.getVideo()
         setupPlayer()
@@ -81,5 +89,10 @@ class WatchViewController: UIViewController {
         if let restaurantName = video?.restaurantName {
             restaurantNameLabel.text = restaurantName
         }
+    }
+    
+    func playerItemDidReachEnd(notification: Notification) {
+        self.player?.seek(to: kCMTimeZero)
+        self.player?.play()
     }
 }
