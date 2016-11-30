@@ -23,7 +23,7 @@ class TimeLapseBuilder: NSObject {
         self.videoOutputURL = videoOutputURL
     }
     
-    func build(progress: @escaping ((Progress) -> Void), completion: @escaping ((URL) -> Void), failure: ((Error) -> Void)) {
+    func build(progress: @escaping ((Progress) -> Void), completion: @escaping ((URL?, Error?) -> Void)) {
         let inputSize = CGSize(width: 3264, height: 2448)
         let outputSize = CGSize(width: 3264, height: 2448)
         var error: NSError?
@@ -68,7 +68,6 @@ class TimeLapseBuilder: NSObject {
             videoWriter.add(videoWriterInput)
             
             if videoWriter.startWriting() {
-                
                 videoWriter.startSession(atSourceTime: kCMTimeZero)
                 assert(pixelBufferAdaptor.pixelBufferPool != nil)
                 
@@ -76,7 +75,7 @@ class TimeLapseBuilder: NSObject {
                 
                 videoWriterInput.requestMediaDataWhenReady(on: media_queue, using: {
                     () -> Void in
-                    let fps: Int32 = 1  //25
+                    let fps: Int32 = 1
                     
                     let currentProgress = Progress(totalUnitCount: Int64(self.photoURLs.count))
 
@@ -93,6 +92,7 @@ class TimeLapseBuilder: NSObject {
                                 code: kFailedToAppendPixelBufferError,
                                 userInfo: ["description": "AVAssetWriterInputPixelBufferAdapter failed to append pixel buffer",
                                            "rawError": videoWriter.error != nil ? "\(videoWriter.error)" : "(none)"])
+                            // Breaks and moves to next image
                             break
                         }
                         
@@ -104,9 +104,9 @@ class TimeLapseBuilder: NSObject {
                     }
                     
                     videoWriterInput.markAsFinished()
-                    videoWriter.finishWriting { () -> Void in
+                    videoWriter.finishWriting {
                         if error == nil {
-                            completion(self.videoOutputURL)
+                            completion(self.videoOutputURL, error)
                         }
                     }
                 })
@@ -121,7 +121,7 @@ class TimeLapseBuilder: NSObject {
         }
         
         if let error = error {
-            failure(error)
+            completion(nil, error)
         }
     }
     
@@ -149,15 +149,17 @@ class TimeLapseBuilder: NSObject {
                             withPresentationTime: presentationTime
                         )
                     } else {
-                        NSLog("error: Failed to allocate pixel buffer from pool")
+                        print("Error: Failed to allocate pixel buffer from pool")
                     }
+                } else {
+                    print("Error: cannot access pixel buffer pointee")
                 }
-            }
-            else {
+                
+            } else {
+                // Should pass error out of releasepool
                 print("Error: cannot create image from data at url: \(url.absoluteString)")
             }
         }
-        
         return appendSucceeded
     }
     
@@ -183,6 +185,8 @@ class TimeLapseBuilder: NSObject {
         CVPixelBufferUnlockBaseAddress(pixelBuffer, CVPixelBufferLockFlags(rawValue: CVOptionFlags(0)))
     }
     
+    
+    // TODO: - IS THIS NEEDED? why the resize?
     private func resizeImage(image: UIImage, newWidth: CGFloat) -> UIImage? {
 //        let scale = newWidth / image.size.width
         let newHeight = CGFloat(2448)//image.size.height * scale

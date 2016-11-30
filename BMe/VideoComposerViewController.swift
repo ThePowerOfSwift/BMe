@@ -162,13 +162,22 @@ class VideoComposerViewController: UIViewController, UICollectionViewDataSource,
                 imgManager.requestAVAsset(forVideo: phAssets[index], options: options, resultHandler: {
                     (asset: AVAsset?, audio: AVAudioMix?, info: [AnyHashable : Any]?) in
                     let urlAsset = asset as! AVURLAsset
-                    self.videoURLs[index] = urlAsset.url
                     
-                    processedCount += 1
-                    if processedCount == self.phAssets.count,
-                        let completion = completion {
-                        completion()
-                    }
+                    // Take URL and convert to video
+                    let newURL = AppDelegate.urlForNewDocumentFile(named: "imageToVide.mov")
+                    let videoBuilder = TimeLapseBuilder(photoURLs: [urlAsset.url], videoOutputURL: newURL)
+                    videoBuilder.build(progress: { (progress: Progress) in
+                        
+                    }, completion: { (url: URL?, error: Error?) in
+                        // Store result here
+                        self.videoURLs[index] = url
+                        
+                        processedCount += 1
+                        if processedCount == self.phAssets.count,
+                            let completion = completion {
+                            completion()
+                        }
+                    })
                 })
             }
         }
