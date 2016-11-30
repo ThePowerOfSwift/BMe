@@ -11,19 +11,24 @@ import AVFoundation
 import Photos
 import MobileCoreServices
 import AVKit
+import MediaPlayer
 
-class MediaSelectorViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+class MediaSelectorViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, MPMediaPickerControllerDelegate {
 
 // MARK: - Outlets
     @IBOutlet weak var bannerView: UIView!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var imageView : UIImageView!
     @IBOutlet weak var nextButton: UIButton!
+    @IBOutlet weak var musicButton: UIButton!
     
     @IBAction func nextButtonTapped(_ sender: UIBarButtonItem) {
         next()
     }
     
+    @IBAction func musicButtonTapped(_ sender: Any) {
+        present(songPicker, animated: true, completion: nil)
+    }
     
 // MARK: - Variables
     // Model
@@ -35,11 +40,12 @@ class MediaSelectorViewController: UIViewController, UICollectionViewDataSource,
             else { nextButton.isEnabled = false }
         }
     }
+    private var audioURL: URL?
     
     // Media browsers
     var playerVC = AVPlayerViewController()
     let imgManager = PHCachingImageManager.default()
-    
+    let songPicker = MPMediaPickerController(mediaTypes: .anyAudio)
     
     // Models
     private var phAssets: PHFetchResult<PHAsset>!
@@ -80,6 +86,9 @@ class MediaSelectorViewController: UIViewController, UICollectionViewDataSource,
         playerVC.didMove(toParentViewController: self)
         playerVC.view.isHidden = true
         
+        bannerView.bringSubview(toFront: musicButton)
+        songPicker.delegate = self
+        
         // Select first item
         if phAssets.count > 0 {
             changeBanner(for: phAssets[0])
@@ -95,17 +104,17 @@ class MediaSelectorViewController: UIViewController, UICollectionViewDataSource,
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Generate local IDs to pull assets from PHAsset
+        // Generate selected assets
         var selectedAssets: [PHAsset] = []
         for row in selectedRows {
             let asset = phAssets[row]
             selectedAssets.append(asset)
         }
         
-        // Pull assets & set into destination
+        // Set assets into destination
         let destination = segue.destination as! VideoComposerViewController
         destination.phAssets = selectedAssets
-//        destination.audioURL = data[VideoComposition.Key.audioURL] as! String
+        destination.audioURL = audioURL
     }
 
 // MARK: - Banner View  methods
@@ -196,6 +205,27 @@ class MediaSelectorViewController: UIViewController, UICollectionViewDataSource,
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return Constants.Layout.itemSpacing
+    }
+    
+// MARK: - MPMediaPicker Delegate Methods
+    
+    func mediaPickerDidCancel(_ mediaPicker: MPMediaPickerController) {
+        dismiss(animated: true, completion: {
+        })
+    }
+    
+    func mediaPicker(_ mediaPicker: MPMediaPickerController, didPickMediaItems mediaItemCollection: MPMediaItemCollection) {
+        let song = mediaItemCollection.items[0]
+        let songURL = song[MPMediaItemPropertyAssetURL] as! URL
+        
+        // Transform URL to local
+        let assetURL = AppDelegate.urlForNewDocumentFile(named: "temp.m4a")
+        AVURLAsset(url: songURL).exportIPodAudio(url: assetURL, completion: { (url: URL) in
+            self.audioURL = url
+        })
+
+        dismiss(animated: true) {
+        }
     }
     
 // MARK: - Methods
