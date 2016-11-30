@@ -33,16 +33,6 @@ class VideoComposition: AVPlayerItem{ //, NSCoding {
             return _videoURLs
         }
     }
-    var videoTracks: [AVAssetTrack] {
-        get {
-            return asset.tracks(withMediaType: AVMediaTypeVideo)
-        }
-    }
-    var soundTracks: [AVAssetTrack] {
-        get {
-            return asset.tracks(withMediaType: AVMediaTypeAudio)
-        }
-    }
     var playerViewController: AVPlayerViewController {
         get {
             let vc = AVPlayerViewController()
@@ -81,6 +71,7 @@ class VideoComposition: AVPlayerItem{ //, NSCoding {
         static let templateID = "id"
     }
     
+    // TODO: -  Should move to Constants
     struct StoryboardKey {
         static let ID = "VideoComposer"
         static let videoComposerViewController = "VideoComposerViewController"
@@ -172,16 +163,7 @@ class VideoComposition: AVPlayerItem{ //, NSCoding {
         }
     }
     
-    func saveAsDataFile(to url: URL) {
-        let archive = NSKeyedArchiver.archivedData(withRootObject: self)
-        do {
-            try archive.write(to: url)
-            print("Wrote VideoComposition archive to url: \(url)")
-        }
-        catch {
-            print("Error saving VideoComposition to file: \(error.localizedDescription)")
-        }
-    }
+    
     
 // MARK: - Private Methods
     
@@ -314,22 +296,34 @@ class VideoComposition: AVPlayerItem{ //, NSCoding {
         return urlAssets
     }
     
-    class func loadComposition(fromDataFile url: URL) -> VideoComposition? {
-        do {
-            let data = try Data(contentsOf: url, options: Data.ReadingOptions.uncachedRead)
-            let composition = NSKeyedUnarchiver.unarchiveObject(with: data) as! VideoComposition
-            return composition
-        }
-        catch {
-            print("Error loading VComposition from url: \(error.localizedDescription)")
-        }
-        
-        return nil
-    }
     
 /*
 // MARK: - NSCoding methods
     
+     func saveAsDataFile(to url: URL) {
+     let archive = NSKeyedArchiver.archivedData(withRootObject: self)
+     do {
+     try archive.write(to: url)
+     print("Wrote VideoComposition archive to url: \(url)")
+     }
+     catch {
+     print("Error saving VideoComposition to file: \(error.localizedDescription)")
+     }
+     }
+     
+     class func loadComposition(fromDataFile url: URL) -> VideoComposition? {
+     do {
+     let data = try Data(contentsOf: url, options: Data.ReadingOptions.uncachedRead)
+     let composition = NSKeyedUnarchiver.unarchiveObject(with: data) as! VideoComposition
+     return composition
+     }
+     catch {
+     print("Error loading VComposition from url: \(error.localizedDescription)")
+     }
+     
+     return nil
+     }
+
     required convenience init?(coder aDecoder: NSCoder) {
         guard let videoURLs = aDecoder.decodeObject(forKey: VideoComposition.Key.videoURLs) as? [URL]
             else { return nil }
