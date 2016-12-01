@@ -15,6 +15,8 @@ struct Constants {
         static let RootViewController = "TabBarViewController"
 //        static let StoryboardID = "CompositionTest"
 //        static let RootViewController = "CompositionTestViewController"
+//        static let StoryboardID = SegueID.Storyboard.Camera
+//        static let RootViewController = SegueID.ViewController.CameraViewController
         
     }
     struct OnLogout {
@@ -29,5 +31,14 @@ struct Constants {
         static let itemSpacing: CGFloat = 1.00
         static let thumbnailSize: CGSize = CGSize(width: 93.00, height: 93.00)
         static let inspectionSize: CGSize = CGSize(width: 124.00, height: 124.00)
+    }
+    struct SegueID {
+        struct Storyboard {
+            static let Camera = "Camera"
+        }
+        struct ViewController {
+            static let CameraViewController = "CameraViewController"
+        }
+        
     }
 }

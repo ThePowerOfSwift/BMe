@@ -128,26 +128,7 @@ class CompositionTestViewController: UIViewController, UIImagePickerControllerDe
             let phAsset = PHAsset.fetchAssets(withALAssetURLs: [alurl!], options: nil).firstObject
             let options = PHContentEditingInputRequestOptions()
             options.isNetworkAccessAllowed = true
-            phAsset?.requestContentEditingInput(with: options, completionHandler: { (content: PHContentEditingInput?, info:[AnyHashable : Any]) in
-                
-                let count = 5
-                let outputURL = AppDelegate.urlForNewDocumentFile(named: "imageToVideo.mov")
-                let urls = Array(repeating: (content?.fullSizeImageURL)!, count: count)
-                let builder = TimeLapseBuilder(photoURLs: urls, videoOutputURL: outputURL)
-                builder.build(progress: { (progress: Progress) in
-                    
-                }, completion: { (url: URL?, error: Error?) in
-                    if let error = error {
-                        print("Error generating image video: \(error.localizedDescription)")
-                        return
-                    }
-                    let avplayer = AVPlayerViewController()
-                    let player = AVPlayer(playerItem: AVPlayerItem(url: url!))
-                    avplayer.player = player
-                    
-                    self.present(avplayer, animated: true, completion: nil)
-                })
-            })
+            //phAsset?.request..
 
         }
         

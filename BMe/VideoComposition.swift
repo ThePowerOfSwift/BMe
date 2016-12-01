@@ -185,7 +185,10 @@ class VideoComposition: AVPlayerItem{ //, NSCoding {
         // For each asset
         for i in 0..<videoURLs.count {
             let asset = videoURLs[i]
+            
+            // TODO: - delete:
             print("Processing video at url: \(asset.url.absoluteString)")
+            print("\(asset.availableMediaCharacteristicsWithMediaSelectionOptions)")
             
             let assetTrack = asset.tracks(withMediaType: AVMediaTypeVideo)[0]
             // Add a track to the composition

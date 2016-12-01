@@ -24,7 +24,9 @@ class VideoComposerViewController: UIViewController, UICollectionViewDataSource,
     
     let imgManager = PHCachingImageManager.default()
     
+    // MARK: - Constants
     private let kSegueID = "pushToMeta"
+    private let kTempSaveRoot = "tempSave"
     
     //MARK: - Lifecycle
     override func viewDidLoad() {
@@ -144,28 +146,15 @@ class VideoComposerViewController: UIViewController, UICollectionViewDataSource,
             let mediaType = asset.mediaType
             
             if mediaType == .image {
-                let options = PHContentEditingInputRequestOptions()
+                let options = PHImageRequestOptions()
                 options.isNetworkAccessAllowed = true
-                asset.requestContentEditingInput(with: options, completionHandler: { (content: PHContentEditingInput?, info:[AnyHashable : Any]) in
-                    self.videoURLs[index] = content?.fullSizeImageURL
-                    
-                    processedCount += 1
-                    if processedCount == self.phAssets.count,
-                        let completion = completion {
-                        completion()
-                    }
-                })
-            } else if mediaType == .video {
-                // Get video/image URLs
-                let options = PHVideoRequestOptions()
-                options.isNetworkAccessAllowed = true
-                imgManager.requestAVAsset(forVideo: phAssets[index], options: options, resultHandler: {
-                    (asset: AVAsset?, audio: AVAudioMix?, info: [AnyHashable : Any]?) in
-                    let urlAsset = asset as! AVURLAsset
+                options.isSynchronous = true
+                options.version = .current
+                imgManager.requestImage(for: asset, targetSize: CGSize.portrait, contentMode: .aspectFit, options: options, resultHandler: { (image: UIImage?, info: [AnyHashable : Any]?) in
                     
                     // Take URL and convert to video
-                    let newURL = AppDelegate.urlForNewDocumentFile(named: "imageToVide.mov")
-                    let videoBuilder = TimeLapseBuilder(photoURLs: [urlAsset.url], videoOutputURL: newURL)
+                    let newURL = AppDelegate.urlForNewDocumentFile(named: self.kTempSaveRoot + String(i) + ".mp4")
+                    let videoBuilder = TimeLapseBuilder(image: image!, videoOutputURL: newURL)
                     videoBuilder.build(progress: { (progress: Progress) in
                         
                     }, completion: { (url: URL?, error: Error?) in
@@ -178,6 +167,21 @@ class VideoComposerViewController: UIViewController, UICollectionViewDataSource,
                             completion()
                         }
                     })
+                })
+                            } else if mediaType == .video {
+                // Get video/image URLs
+                let options = PHVideoRequestOptions()
+                options.isNetworkAccessAllowed = true
+                imgManager.requestAVAsset(forVideo: asset, options: options, resultHandler: {
+                    (asset: AVAsset?, audio: AVAudioMix?, info: [AnyHashable : Any]?) in
+                    let urlAsset = asset as! AVURLAsset
+                    self.videoURLs[index] = urlAsset.url
+                    
+                    processedCount += 1
+                    if processedCount == self.phAssets.count,
+                        let completion = completion {
+                        completion()
+                    }
                 })
             }
         }

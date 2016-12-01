@@ -14,17 +14,18 @@ let kFailedToStartAssetWriterError = 0
 let kFailedToAppendPixelBufferError = 1
 
 class TimeLapseBuilder: NSObject {
-    let photoURLs: [URL]
+    let image: UIImage
     let videoOutputURL:URL
     var videoWriter: AVAssetWriter?
     
-    init(photoURLs: [URL], videoOutputURL:URL) {
-        self.photoURLs = photoURLs
+    init(image: UIImage, videoOutputURL: URL) {
+        self.image = image
         self.videoOutputURL = videoOutputURL
     }
     
     func build(progress: @escaping ((Progress) -> Void), completion: @escaping ((URL?, Error?) -> Void)) {
-        let inputSize = CGSize(width: 3264, height: 2448)
+//        let inputSize = CGSize(width: 3264, height: 2448)
+        let inputSize = self.image.size
         let outputSize = CGSize(width: 3264, height: 2448)
         var error: NSError?
         
@@ -41,6 +42,7 @@ class TimeLapseBuilder: NSObject {
         do {
             try
                 videoWriter = AVAssetWriter(outputURL: videoOutputURL, fileType: AVFileTypeAppleM4A)
+            
         }
         catch let error as NSError {
             print("Error creating AVAssetWriter: \(error.localizedDescription)")
@@ -61,8 +63,7 @@ class TimeLapseBuilder: NSObject {
             
             let pixelBufferAdaptor = AVAssetWriterInputPixelBufferAdaptor(
                 assetWriterInput: videoWriterInput,
-                sourcePixelBufferAttributes: sourcePixelBufferAttributes
-            )
+                sourcePixelBufferAttributes: sourcePixelBufferAttributes)
             
             assert(videoWriter.canAdd(videoWriterInput))
             videoWriter.add(videoWriterInput)
@@ -75,25 +76,24 @@ class TimeLapseBuilder: NSObject {
                 
                 videoWriterInput.requestMediaDataWhenReady(on: media_queue, using: {
                     () -> Void in
-                    let fps: Int32 = 1
+                    // Fixed at 1 second
+                    let fps: Int32 = 2
+                    let frames: Int64 = 1
                     
-                    let currentProgress = Progress(totalUnitCount: Int64(self.photoURLs.count))
+                    let currentProgress = Progress(totalUnitCount: Int64(frames))
 
                     var frameCount: Int64 = 0
-                    var remainingPhotoURLs = self.photoURLs
-                    while (videoWriterInput.isReadyForMoreMediaData && !remainingPhotoURLs.isEmpty) {
-                        let nextPhotoURL = remainingPhotoURLs.remove(at: 0)
+                    while (videoWriterInput.isReadyForMoreMediaData) && (frameCount <= frames){
                         let thisFrameTime = CMTimeMake(frameCount, fps)
                         let presentationTime = thisFrameTime
                         
-                        if !self.appendPixelBufferForImageAtURL(url: nextPhotoURL, pixelBufferAdaptor: pixelBufferAdaptor, presentationTime: presentationTime) {
+                        if !self.appendPixelBufferForImage(self.image, pixelBufferAdaptor: pixelBufferAdaptor, presentationTime: presentationTime) {
                             error = NSError(
                                 domain: kErrorDomain,
                                 code: kFailedToAppendPixelBufferError,
                                 userInfo: ["description": "AVAssetWriterInputPixelBufferAdapter failed to append pixel buffer",
                                            "rawError": videoWriter.error != nil ? "\(videoWriter.error)" : "(none)"])
                             // Breaks and moves to next image
-                            break
                         }
                         
                         // Duration
@@ -125,40 +125,32 @@ class TimeLapseBuilder: NSObject {
         }
     }
     
-    private func appendPixelBufferForImageAtURL(url: URL, pixelBufferAdaptor: AVAssetWriterInputPixelBufferAdaptor, presentationTime: CMTime) -> Bool {
+    private func appendPixelBufferForImage(_ image: UIImage, pixelBufferAdaptor: AVAssetWriterInputPixelBufferAdaptor, presentationTime: CMTime) -> Bool {
         var appendSucceeded = true
         
         autoreleasepool {
-            if let imageData = NSData(contentsOf: url),
-                let image = UIImage(data: imageData as Data) {
+            
+//            if let image = resizeImage(image: image, newWidth: 3264) {
+                let pixelBuffer: UnsafeMutablePointer<CVPixelBuffer?> = UnsafeMutablePointer<CVPixelBuffer?>.allocate(capacity: 1)
+                let status: CVReturn = CVPixelBufferPoolCreatePixelBuffer(
+                    kCFAllocatorDefault,
+                    pixelBufferAdaptor.pixelBufferPool!,
+                    pixelBuffer
+                )
                 
-                if let image = resizeImage(image: image, newWidth: 3264) {
-                    let pixelBuffer: UnsafeMutablePointer<CVPixelBuffer?> = UnsafeMutablePointer<CVPixelBuffer?>.allocate(capacity: 1)
-                    let status: CVReturn = CVPixelBufferPoolCreatePixelBuffer(
-                        kCFAllocatorDefault,
-                        pixelBufferAdaptor.pixelBufferPool!,
-                        pixelBuffer
-                    )
+                if let pixelBuffer = pixelBuffer.pointee, status == 0 {
                     
-                    if let pixelBuffer = pixelBuffer.pointee, status == 0 {
-                        
-                        fillPixelBufferFromImage(image: image, pixelBuffer: pixelBuffer)
-                        
-                        appendSucceeded = pixelBufferAdaptor.append(
-                            pixelBuffer,
-                            withPresentationTime: presentationTime
-                        )
-                    } else {
-                        print("Error: Failed to allocate pixel buffer from pool")
-                    }
+                    fillPixelBufferFromImage(image: image, pixelBuffer: pixelBuffer)
+                    
+                    appendSucceeded = pixelBufferAdaptor.append(
+                        pixelBuffer,
+                        withPresentationTime: presentationTime
+                    )
                 } else {
-                    print("Error: cannot access pixel buffer pointee")
+                    print("Error: Failed to allocate pixel buffer from pool")
                 }
-                
-            } else {
-                // Should pass error out of releasepool
-                print("Error: cannot create image from data at url: \(url.absoluteString)")
-            }
+//            }
+            
         }
         return appendSucceeded
     }

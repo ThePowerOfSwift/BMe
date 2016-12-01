@@ -68,9 +68,7 @@ class MediaSelectorViewController: UIViewController, UICollectionViewDataSource,
         // Get assets from album
         let options = PHFetchOptions()
         options.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
-        // TODO: - allow image processsing
-        //        phAssets = PHAsset.fetchAssets(with: options)
-        phAssets = PHAsset.fetchAssets(with: .video, options: options)
+        phAssets = PHAsset.fetchAssets(with: options)
         
         // Setup banner media browsers
         imageView.isHidden = true

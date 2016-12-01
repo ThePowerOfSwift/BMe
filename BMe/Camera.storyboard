@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="CUT-KW-ZOC">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Camera View Controller-->
+        <scene sceneID="p5w-In-MPJ">
+            <objects>
+                <viewController storyboardIdentifier="CameraViewController" id="CUT-KW-ZOC" customClass="CameraViewController" customModule="BMe" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="X5g-Sc-Hzv"/>
+                        <viewControllerLayoutGuide type="bottom" id="JlE-fS-rc8"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="GFw-TK-Ij7">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fZo-83-kBt">
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mKh-1y-Tmo">
+                                        <rect key="frame" x="337" y="8" width="30" height="40.5"/>
+                                        <state key="normal">
+                                            <attributedString key="attributedTitle">
+                                                <fragment content="T">
+                                                    <attributes>
+                                                        <font key="NSFont" size="24" name="HelveticaNeue-MediumItalic"/>
+                                                    </attributes>
+                                                </fragment>
+                                            </attributedString>
+                                        </state>
+                                        <connections>
+                                            <action selector="tappedAddTextButton:" destination="CUT-KW-ZOC" eventType="touchUpInside" id="CEV-qh-hPO"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="mKh-1y-Tmo" firstAttribute="top" secondItem="fZo-83-kBt" secondAttribute="top" constant="8" id="C4i-wZ-pJj"/>
+                                    <constraint firstAttribute="trailing" secondItem="mKh-1y-Tmo" secondAttribute="trailing" constant="8" id="FfO-7c-fJF"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="fZo-83-kBt" firstAttribute="leading" secondItem="GFw-TK-Ij7" secondAttribute="leading" id="34k-mF-RwV"/>
+                            <constraint firstItem="fZo-83-kBt" firstAttribute="top" secondItem="X5g-Sc-Hzv" secondAttribute="bottom" id="3WB-KA-wRk"/>
+                            <constraint firstAttribute="trailing" secondItem="fZo-83-kBt" secondAttribute="trailing" id="ATZ-wT-ZYb"/>
+                            <constraint firstItem="JlE-fS-rc8" firstAttribute="top" secondItem="fZo-83-kBt" secondAttribute="bottom" id="X5q-dm-suW"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="addTextButton" destination="mKh-1y-Tmo" id="aNG-CB-5ZC"/>
+                        <outlet property="cameraControlView" destination="fZo-83-kBt" id="esG-sT-Tyw"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Vyl-ZK-pPK" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-214" y="160"/>
+        </scene>
+    </scenes>
+</document>
