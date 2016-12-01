@@ -4,6 +4,26 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>AFNetworking.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>BDBOAuth1Manager.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>FontAwesome.swift-FontAwesome.swift.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>FontAwesome.swift.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>GTMSessionFetcher.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -37,7 +57,17 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>1FE2578FF0805299395CF2A0206BB671</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>23BA9083ED0D2392A167A8AFA04427FA</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>4878C70B21CA37D7CB8A476BF986741B</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -47,12 +77,17 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>6872A7428F65163E8E42BFDDB550D13E</key>
+		<key>7D04535608058A2FABC0D16935868FB9</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>7D04535608058A2FABC0D16935868FB9</key>
+		<key>AE3BF0006D5D83524E7D94BD3E996A25</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>AE6A4AC269D91F7FF73F67FEEEF0FC11</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -63,6 +98,11 @@
 			<true/>
 		</dict>
 		<key>DBA6001481CEA0EBA031CC5C94508FAA</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>EF4F067C2D0E135B80299B089E168BDA</key>
 		<dict>
 			<key>primary</key>
 			<true/>

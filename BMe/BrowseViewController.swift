@@ -36,6 +36,16 @@ class BrowseViewController: UIViewController {
         refreshControl.addTarget(self, action: #selector(pullToRefresh), for: UIControlEvents.valueChanged)
         tableView.insertSubview(refreshControl, at: 0)
         
+        // YPManager test
+        var restaurants = [Restaurant]()
+        _ = YPManager.shared.searchWithTerm("thai", completion: {(response: [Restaurant]?, error: Error?) in
+            if let response = response {
+                restaurants = response
+            }
+            for restaurant in restaurants {
+                print(restaurant.name!)
+            }
+        })
     }
     
 }

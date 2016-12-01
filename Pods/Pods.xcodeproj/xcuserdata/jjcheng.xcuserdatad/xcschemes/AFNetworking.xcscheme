@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0700"
+   LastUpgradeVersion = "0810"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "AE3BF0006D5D83524E7D94BD3E996A25"
-               BuildableName = "Pods_BMe.framework"
-               BlueprintName = "Pods-BMe"
+               BlueprintIdentifier = "4878C70B21CA37D7CB8A476BF986741B"
+               BuildableName = "AFNetworking.framework"
+               BlueprintName = "AFNetworking"
                ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -45,9 +45,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "AE3BF0006D5D83524E7D94BD3E996A25"
-            BuildableName = "Pods_BMe.framework"
-            BlueprintName = "Pods-BMe"
+            BlueprintIdentifier = "4878C70B21CA37D7CB8A476BF986741B"
+            BuildableName = "AFNetworking.framework"
+            BlueprintName = "AFNetworking"
             ReferencedContainer = "container:Pods.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -60,6 +60,15 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "4878C70B21CA37D7CB8A476BF986741B"
+            BuildableName = "AFNetworking.framework"
+            BlueprintName = "AFNetworking"
+            ReferencedContainer = "container:Pods.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

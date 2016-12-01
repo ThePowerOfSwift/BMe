@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import FontAwesome_swift
+import QuartzCore
 
 class TabBarViewController: UIViewController {
 
@@ -18,6 +20,7 @@ class TabBarViewController: UIViewController {
     var accountViewController: UIViewController!
     var viewControllers: [UIViewController]!
     
+    @IBOutlet weak var browseButton: UIButton!
     @IBOutlet weak var createButton: UIButton!
     // tag value from selected UIButton
     var selectedIndex: Int = 0
@@ -34,20 +37,33 @@ class TabBarViewController: UIViewController {
         // Init with view controllers
         viewControllers = [browseViewController, createViewController, accountViewController]
 
+
+        setupButtons()
+        
         // Set first tab selected
         tabs[selectedIndex].isSelected = true
         didTapTab(tabs[selectedIndex])
+
+    }
+    
+    // Set icon in Tab bar
+    func setupButtons() {
+        // Browse button
+        tabs[0].titleLabel?.font = UIFont.fontAwesome(ofSize: 55)
+        tabs[0].setTitle(String.fontAwesomeIcon(name: .home), for: .normal)
         
-//        let button: UIButton = UIButton(type: .Custom)
-//        let win:UIWindow = UIApplication.sharedApplication().delegate!.window!!
+        // Create button
+        tabs[1].layer.cornerRadius = 0.5 * createButton.bounds.size.width
+        // createButton.layer.borderWidth = 2.0
+        tabs[1].clipsToBounds = true
+        tabs[1].titleLabel?.font = UIFont.fontAwesome(ofSize: 50)
+        tabs[1].setTitle(String.fontAwesomeIcon(name: .plus), for: .normal)
         
+        // Account button
+        tabs[2].titleLabel?.font = UIFont.fontAwesome(ofSize: 50)
+        tabs[2].setTitle(String.fontAwesomeIcon(name: .user), for: .normal)
+
         
-        createButton.frame = CGRect(x: 0.0, y: self.view.frame.size.height - 65, width: 55, height: 55)
-        createButton.center = CGPoint(x:self.view.center.x , y: createButton.center.y)
-        
-//        button.setBackgroundImage(UIImage(named: "Camera") , forState: .Normal)
-//        button.setBackgroundImage(UIImage(named: "Camera"), forState: .Highlighted)
-//        win.addSubview(button)
     }
     
     @IBAction func didTapTab(_ sender: UIButton) {

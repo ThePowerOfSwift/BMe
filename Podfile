@@ -11,7 +11,13 @@ target 'BMe' do
   pod 'Firebase/Database'
   pod 'Firebase/Storage'
 
+  # For yelp api
+  pod 'BDBOAuth1Manager'
+  pod 'AFNetworking', '~> 2.5'
+
   pod 'MBProgressHUD'
+  pod 'FontAwesome.swift'
+
   target 'BMeTests' do
     inherit! :search_paths
     # Pods for testing
