@@ -26,35 +26,36 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JQT-ft-PdT">
-                                <rect key="frame" x="36" y="597" width="50" height="50"/>
-                                <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JQT-ft-PdT">
+                                <rect key="frame" x="26" y="587" width="80" height="80"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="50" id="Bzy-BF-0D5"/>
-                                    <constraint firstAttribute="height" constant="50" id="cVC-p4-0Ud"/>
+                                    <constraint firstAttribute="width" constant="80" id="Bzy-BF-0D5"/>
+                                    <constraint firstAttribute="height" constant="80" id="cVC-p4-0Ud"/>
                                 </constraints>
-                                <state key="normal" title="Browse"/>
+                                <state key="normal">
+                                    <color key="titleColor" red="0.33217730439999998" green="0.8360168147" blue="0.82409189869999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
                                 <connections>
                                     <action selector="didTapTab:" destination="7N3-qk-7aw" eventType="touchUpInside" id="sOv-cp-YBa"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iK6-Ul-lqv">
-                                <rect key="frame" x="163" y="597" width="50" height="50"/>
-                                <color key="backgroundColor" red="1" green="0.86666666670000003" blue="0.2784313725" alpha="1" colorSpace="calibratedRGB"/>
+                            <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iK6-Ul-lqv">
+                                <rect key="frame" x="143" y="557" width="90" height="90"/>
+                                <color key="backgroundColor" red="0.33217730437705956" green="0.83601681472081224" blue="0.82409189867595523" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="50" id="dvs-XT-g0z"/>
-                                    <constraint firstAttribute="height" constant="50" id="h39-UP-8Qm"/>
+                                    <constraint firstAttribute="width" constant="90" id="dvs-XT-g0z"/>
+                                    <constraint firstAttribute="height" constant="90" id="h39-UP-8Qm"/>
                                 </constraints>
                                 <state key="normal" title="Create"/>
                                 <connections>
                                     <action selector="didTapTab:" destination="7N3-qk-7aw" eventType="touchUpInside" id="dMr-G6-Pae"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UY9-Th-wXZ">
-                                <rect key="frame" x="289" y="597" width="50" height="50"/>
+                            <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UY9-Th-wXZ">
+                                <rect key="frame" x="259" y="587" width="80" height="80"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="GIr-4H-6oA"/>
-                                    <constraint firstAttribute="width" constant="50" id="Swb-50-cAu"/>
+                                    <constraint firstAttribute="height" constant="80" id="GIr-4H-6oA"/>
+                                    <constraint firstAttribute="width" constant="80" id="Swb-50-cAu"/>
                                 </constraints>
                                 <state key="normal" title="Account"/>
                                 <connections>
@@ -66,9 +67,9 @@
                         <constraints>
                             <constraint firstItem="NkX-li-CHE" firstAttribute="top" secondItem="iK6-Ul-lqv" secondAttribute="bottom" constant="20" id="1T2-uV-wkX"/>
                             <constraint firstItem="NkX-li-CHE" firstAttribute="top" secondItem="nvO-L1-cF2" secondAttribute="bottom" id="6Ho-WD-KG2"/>
-                            <constraint firstItem="JQT-ft-PdT" firstAttribute="leading" secondItem="wMN-RY-k2J" secondAttribute="leadingMargin" constant="20" id="AOg-BA-r9c"/>
-                            <constraint firstItem="NkX-li-CHE" firstAttribute="top" secondItem="JQT-ft-PdT" secondAttribute="bottom" constant="20" id="He4-g8-pA8"/>
-                            <constraint firstAttribute="bottom" secondItem="UY9-Th-wXZ" secondAttribute="bottom" constant="20" id="PTd-6Q-mAp"/>
+                            <constraint firstItem="JQT-ft-PdT" firstAttribute="leading" secondItem="wMN-RY-k2J" secondAttribute="leadingMargin" constant="10" id="AOg-BA-r9c"/>
+                            <constraint firstItem="NkX-li-CHE" firstAttribute="top" secondItem="JQT-ft-PdT" secondAttribute="bottom" id="He4-g8-pA8"/>
+                            <constraint firstAttribute="bottom" secondItem="UY9-Th-wXZ" secondAttribute="bottom" id="PTd-6Q-mAp"/>
                             <constraint firstItem="iK6-Ul-lqv" firstAttribute="centerX" secondItem="wMN-RY-k2J" secondAttribute="centerX" id="d2J-2X-QaU"/>
                             <constraint firstItem="nvO-L1-cF2" firstAttribute="top" secondItem="wMN-RY-k2J" secondAttribute="top" id="ecX-og-MU1"/>
                             <constraint firstItem="nvO-L1-cF2" firstAttribute="leading" secondItem="wMN-RY-k2J" secondAttribute="leading" id="lyh-Ir-4hd"/>
@@ -78,6 +79,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="iIn-BS-LWr"/>
                     <connections>
+                        <outlet property="browseButton" destination="JQT-ft-PdT" id="fK3-JJ-bX4"/>
                         <outlet property="contentView" destination="nvO-L1-cF2" id="1to-dP-2Sn"/>
                         <outlet property="createButton" destination="iK6-Ul-lqv" id="xwN-tW-R1Q"/>
                         <outletCollection property="tabs" destination="JQT-ft-PdT" collectionClass="NSMutableArray" id="5DK-oU-I4w"/>
@@ -254,7 +256,7 @@
             <objects>
                 <navigationController storyboardIdentifier="TabBarNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="J5Q-cj-oaW" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="SaH-MT-vzX">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="SaH-MT-vzX">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -272,7 +274,7 @@
             <objects>
                 <navigationController storyboardIdentifier="BrowseNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="YUd-Tb-bIf" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Cbm-bY-29T">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="Cbm-bY-29T">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
