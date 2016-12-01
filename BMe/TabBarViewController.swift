@@ -37,36 +37,33 @@ class TabBarViewController: UIViewController {
         // Init with view controllers
         viewControllers = [browseViewController, createViewController, accountViewController]
 
-        // Set icon in Tab bar
-        //tabs[0].titleLabel?.text = String.fontAwesomeIcon(name: .github)
-        tabs[0].titleLabel?.font = UIFont.fontAwesome(ofSize: 30)
-        tabs[0].setTitle(String.fontAwesomeIcon(name: .anchor), for: .normal)
-        //browseButton.titleLabel?.text = String.fontAwesomeIcon(name: .github)
-        //browseButton.titleLabel?.text = "TITLTLTT"
+
+        setupButtons()
+        
         // Set first tab selected
         tabs[selectedIndex].isSelected = true
         didTapTab(tabs[selectedIndex])
 
+    }
+    
+    // Set icon in Tab bar
+    func setupButtons() {
+        // Browse button
+        tabs[0].titleLabel?.font = UIFont.fontAwesome(ofSize: 55)
+        tabs[0].setTitle(String.fontAwesomeIcon(name: .home), for: .normal)
         
-//        createButton.frame = CGRect(x: 0.0, y: self.view.frame.size.height - 65, width: 55, height: 55)
-//        createButton.center = CGPoint(x:self.view.center.x , y: createButton.center.y)
-
+        // Create button
         tabs[1].layer.cornerRadius = 0.5 * createButton.bounds.size.width
-        //createButton.layer.borderColor = UIColor(red:0.0/255.0, green:122.0/255.0, blue:255.0/255.0, alpha:1).cgColor as CGColor
         // createButton.layer.borderWidth = 2.0
         tabs[1].clipsToBounds = true
-        tabs[1].titleLabel?.font = UIFont(name: "Helvetica", size: 50)
-        tabs[1].setTitle("+", for: .normal)
-//        //width and height should be same value
-//        createButton.frame = CGRect(0, 0, ROUND_BUTTON_WIDTH_HEIGHT, ROUND_BUTTON_WIDTH_HEIGHT);
-//        
-//        //Clip/Clear the other pieces whichever outside the rounded corner
-//        createButton.clipsToBounds = YES;
-//        
-//        //half of the width
-//        createButton.layer.cornerRadius = ROUND_BUTTON_WIDTH_HEIGHT/2.0f;
-//        createButton.layer.borderColor=[UIColor redColor].CGColor;
-//        createButton.layer.borderWidth=2.0f;
+        tabs[1].titleLabel?.font = UIFont.fontAwesome(ofSize: 50)
+        tabs[1].setTitle(String.fontAwesomeIcon(name: .plus), for: .normal)
+        
+        // Account button
+        tabs[2].titleLabel?.font = UIFont.fontAwesome(ofSize: 50)
+        tabs[2].setTitle(String.fontAwesomeIcon(name: .user), for: .normal)
+
+        
     }
     
     @IBAction func didTapTab(_ sender: UIButton) {

@@ -32,7 +32,7 @@
                                     <constraint firstAttribute="width" constant="80" id="Bzy-BF-0D5"/>
                                     <constraint firstAttribute="height" constant="80" id="cVC-p4-0Ud"/>
                                 </constraints>
-                                <state key="normal">
+                                <state key="normal" title="Browse">
                                     <color key="titleColor" red="0.33217730439999998" green="0.8360168147" blue="0.82409189869999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
@@ -40,7 +40,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iK6-Ul-lqv">
-                                <rect key="frame" x="143" y="557" width="90" height="90"/>
+                                <rect key="frame" x="143" y="567" width="90" height="90"/>
                                 <color key="backgroundColor" red="0.33217730437705956" green="0.83601681472081224" blue="0.82409189867595523" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="90" id="dvs-XT-g0z"/>
@@ -57,7 +57,9 @@
                                     <constraint firstAttribute="height" constant="80" id="GIr-4H-6oA"/>
                                     <constraint firstAttribute="width" constant="80" id="Swb-50-cAu"/>
                                 </constraints>
-                                <state key="normal" title="Account"/>
+                                <state key="normal" title="Account">
+                                    <color key="titleColor" red="0.33217730439999998" green="0.8360168147" blue="0.82409189869999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
                                 <connections>
                                     <action selector="didTapTab:" destination="7N3-qk-7aw" eventType="touchUpInside" id="ZKk-je-Bzq"/>
                                 </connections>
@@ -65,7 +67,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="NkX-li-CHE" firstAttribute="top" secondItem="iK6-Ul-lqv" secondAttribute="bottom" constant="20" id="1T2-uV-wkX"/>
+                            <constraint firstItem="NkX-li-CHE" firstAttribute="top" secondItem="iK6-Ul-lqv" secondAttribute="bottom" constant="10" id="1T2-uV-wkX"/>
                             <constraint firstItem="NkX-li-CHE" firstAttribute="top" secondItem="nvO-L1-cF2" secondAttribute="bottom" id="6Ho-WD-KG2"/>
                             <constraint firstItem="JQT-ft-PdT" firstAttribute="leading" secondItem="wMN-RY-k2J" secondAttribute="leadingMargin" constant="10" id="AOg-BA-r9c"/>
                             <constraint firstItem="NkX-li-CHE" firstAttribute="top" secondItem="JQT-ft-PdT" secondAttribute="bottom" id="He4-g8-pA8"/>
@@ -259,6 +261,7 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="SaH-MT-vzX">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" red="0.33217730439999998" green="0.8360168147" blue="0.82409189869999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
@@ -277,6 +280,7 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="Cbm-bY-29T">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" red="0.33217730439999998" green="0.8360168147" blue="0.82409189869999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
