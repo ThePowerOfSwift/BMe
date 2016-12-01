@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -21,61 +22,57 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4lP-Yr-UL0">
-                                <rect key="frame" x="0.0" y="618" width="375" height="49"/>
-                                <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="8ci-22-fjg">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
-                                        <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JQT-ft-PdT">
-                                                <rect key="frame" x="0.0" y="0.0" width="125" height="49"/>
-                                                <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                <state key="normal" title="Browse"/>
-                                                <connections>
-                                                    <action selector="didTapTab:" destination="7N3-qk-7aw" eventType="touchUpInside" id="sOv-cp-YBa"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iK6-Ul-lqv">
-                                                <rect key="frame" x="125" y="0.0" width="125" height="49"/>
-                                                <color key="backgroundColor" red="1" green="0.86666666670000003" blue="0.2784313725" alpha="1" colorSpace="calibratedRGB"/>
-                                                <state key="normal" title="Create"/>
-                                                <connections>
-                                                    <action selector="didTapTab:" destination="7N3-qk-7aw" eventType="touchUpInside" id="dMr-G6-Pae"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UY9-Th-wXZ">
-                                                <rect key="frame" x="250" y="0.0" width="125" height="49"/>
-                                                <color key="backgroundColor" red="0.1450980392" green="0.68235294120000001" blue="0.45098039220000002" alpha="1" colorSpace="calibratedRGB"/>
-                                                <state key="normal" title="Account"/>
-                                                <connections>
-                                                    <action selector="didTapTab:" destination="7N3-qk-7aw" eventType="touchUpInside" id="ZKk-je-Bzq"/>
-                                                </connections>
-                                            </button>
-                                        </subviews>
-                                    </stackView>
-                                </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstItem="8ci-22-fjg" firstAttribute="leading" secondItem="4lP-Yr-UL0" secondAttribute="leading" id="3Ue-Yr-4rW"/>
-                                    <constraint firstAttribute="height" constant="49" id="B1b-za-1l7"/>
-                                    <constraint firstAttribute="bottom" secondItem="8ci-22-fjg" secondAttribute="bottom" id="ZP4-ej-cX7"/>
-                                    <constraint firstItem="8ci-22-fjg" firstAttribute="top" secondItem="4lP-Yr-UL0" secondAttribute="top" id="ffh-rx-G5N"/>
-                                    <constraint firstAttribute="trailing" secondItem="8ci-22-fjg" secondAttribute="trailing" id="rIM-b4-TNq"/>
-                                </constraints>
-                            </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nvO-L1-cF2">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JQT-ft-PdT">
+                                <rect key="frame" x="36" y="597" width="50" height="50"/>
+                                <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="50" id="Bzy-BF-0D5"/>
+                                    <constraint firstAttribute="height" constant="50" id="cVC-p4-0Ud"/>
+                                </constraints>
+                                <state key="normal" title="Browse"/>
+                                <connections>
+                                    <action selector="didTapTab:" destination="7N3-qk-7aw" eventType="touchUpInside" id="sOv-cp-YBa"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iK6-Ul-lqv">
+                                <rect key="frame" x="163" y="597" width="50" height="50"/>
+                                <color key="backgroundColor" red="1" green="0.86666666670000003" blue="0.2784313725" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="50" id="dvs-XT-g0z"/>
+                                    <constraint firstAttribute="height" constant="50" id="h39-UP-8Qm"/>
+                                </constraints>
+                                <state key="normal" title="Create"/>
+                                <connections>
+                                    <action selector="didTapTab:" destination="7N3-qk-7aw" eventType="touchUpInside" id="dMr-G6-Pae"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UY9-Th-wXZ">
+                                <rect key="frame" x="289" y="597" width="50" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="GIr-4H-6oA"/>
+                                    <constraint firstAttribute="width" constant="50" id="Swb-50-cAu"/>
+                                </constraints>
+                                <state key="normal" title="Account"/>
+                                <connections>
+                                    <action selector="didTapTab:" destination="7N3-qk-7aw" eventType="touchUpInside" id="ZKk-je-Bzq"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="NkX-li-CHE" firstAttribute="top" secondItem="4lP-Yr-UL0" secondAttribute="bottom" id="TMa-Qa-QLR"/>
-                            <constraint firstItem="4lP-Yr-UL0" firstAttribute="top" secondItem="nvO-L1-cF2" secondAttribute="bottom" id="Zbl-Xa-VBY"/>
-                            <constraint firstItem="4lP-Yr-UL0" firstAttribute="leading" secondItem="wMN-RY-k2J" secondAttribute="leading" id="cGJ-XI-2In"/>
+                            <constraint firstItem="NkX-li-CHE" firstAttribute="top" secondItem="iK6-Ul-lqv" secondAttribute="bottom" constant="20" id="1T2-uV-wkX"/>
+                            <constraint firstItem="NkX-li-CHE" firstAttribute="top" secondItem="nvO-L1-cF2" secondAttribute="bottom" id="6Ho-WD-KG2"/>
+                            <constraint firstItem="JQT-ft-PdT" firstAttribute="leading" secondItem="wMN-RY-k2J" secondAttribute="leadingMargin" constant="20" id="AOg-BA-r9c"/>
+                            <constraint firstItem="NkX-li-CHE" firstAttribute="top" secondItem="JQT-ft-PdT" secondAttribute="bottom" constant="20" id="He4-g8-pA8"/>
+                            <constraint firstAttribute="bottom" secondItem="UY9-Th-wXZ" secondAttribute="bottom" constant="20" id="PTd-6Q-mAp"/>
+                            <constraint firstItem="iK6-Ul-lqv" firstAttribute="centerX" secondItem="wMN-RY-k2J" secondAttribute="centerX" id="d2J-2X-QaU"/>
                             <constraint firstItem="nvO-L1-cF2" firstAttribute="top" secondItem="wMN-RY-k2J" secondAttribute="top" id="ecX-og-MU1"/>
-                            <constraint firstAttribute="trailing" secondItem="4lP-Yr-UL0" secondAttribute="trailing" id="hWw-Q3-ysv"/>
                             <constraint firstItem="nvO-L1-cF2" firstAttribute="leading" secondItem="wMN-RY-k2J" secondAttribute="leading" id="lyh-Ir-4hd"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="UY9-Th-wXZ" secondAttribute="trailing" constant="20" id="vki-eW-Z4h"/>
                             <constraint firstAttribute="trailing" secondItem="nvO-L1-cF2" secondAttribute="trailing" id="ySH-L1-dPC"/>
                         </constraints>
                     </view>
