@@ -28,11 +28,14 @@ class TabBarViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         let storyboard = UIStoryboard.init(name: "Sato", bundle: nil)
-        browseViewController = storyboard.instantiateViewController(withIdentifier: "BrowseNavigationController")
+        
+        browseViewController = UIStoryboard(name: "Browser", bundle: nil).instantiateInitialViewController()
+//        browseViewController = storyboard.instantiateViewController(withIdentifier: "BrowseNavigationController")
 
         let createStoryboard = UIStoryboard(name: VideoComposition.StoryboardKey.ID, bundle: nil)
         createViewController = createStoryboard.instantiateViewController(withIdentifier: VideoComposition.StoryboardKey.mediaSelectorNavigationController)
-        accountViewController = storyboard.instantiateViewController(withIdentifier: "AccountViewController")
+//        accountViewController = storyboard.instantiateViewController(withIdentifier: "AccountViewController")
+        accountViewController = UIStoryboard(name: "Account", bundle: nil).instantiateInitialViewController()
         
         // Init with view controllers
         viewControllers = [browseViewController, createViewController, accountViewController]
