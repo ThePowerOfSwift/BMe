@@ -19,9 +19,6 @@ class AppState: NSObject {
     }
     
     var signedIn = false
-    var displayName: String?
-    var photoURL: URL?
-    var userID: String?
     
     var currentUser: FIRUser? {
         get {
@@ -80,22 +77,11 @@ class AppState: NSObject {
     
     func signedIn(_ user: FIRUser?) {
         MeasurementHelper.sendLoginEvent()
-        
-        // Populate singleton properties
-        updateUser(user)
-        
+                
         // Broadcast signin notification (AppDelegate should pick up and present Root VC
         let notificationName = Notification.Name(rawValue: Constants.NotificationKeys.didSignIn)
         NotificationCenter.default.post(name: notificationName, object: nil, userInfo: nil)
         print("Login successful")
-    }
-    
-    func updateUser(_ user: FIRUser?) {
-        // Update user info
-        displayName = user?.displayName ?? user?.email
-        photoURL = user?.photoURL
-        signedIn = true
-        userID = user?.uid
     }
     
     func signOut() {
