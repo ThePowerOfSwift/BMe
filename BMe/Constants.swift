@@ -39,6 +39,8 @@ struct Constants {
         struct ViewController {
             static let CameraViewController = "CameraViewController"
         }
-        
+    }
+    struct User {
+        static let avatarDefault = "blank user avatar.jpg"
     }
 }

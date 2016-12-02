@@ -16,6 +16,7 @@ class Video: NSObject {
     var gsURL: String?
     var createdAt: Date?
     var restaurantName: String?
+    var avatarImage: UIImage?
     
     struct Key {
         static let userId = "userId"

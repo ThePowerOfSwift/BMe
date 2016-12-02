@@ -23,8 +23,6 @@ class BrowseViewController: UIViewController {
         
         tableView.delegate = self
         tableView.dataSource = self
-        let nib = UINib(nibName: "VideoCell", bundle: nil)
-        tableView.register(nib, forCellReuseIdentifier: VideoCell.identifier)
         FIRManager.shared.getVideos { (videos: [Video]) in
 
             self.videos = videos
@@ -37,6 +35,7 @@ class BrowseViewController: UIViewController {
         tableView.insertSubview(refreshControl, at: 0)
         
         // YPManager test
+        /*
         var restaurants = [Restaurant]()
         _ = YPManager.shared.searchWithTerm("thai", completion: {(response: [Restaurant]?, error: Error?) in
             if let response = response {
@@ -46,8 +45,22 @@ class BrowseViewController: UIViewController {
                 print(restaurant.name!)
             }
         })
+ */
+        
+        // Setup player end for loop observation
+        NotificationCenter.default.addObserver(self, selector: #selector(playerItemDidReachEnd(_:)), name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil)
     }
     
+    // Loop video
+    func playerItemDidReachEnd(_ notification: NSNotification) {
+        let playerItem = notification.object as! AVPlayerItem
+        playerItem.seek(to: kCMTimeZero)
+    }
+    
+    // Deregister for notifications
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil)
+    }
 }
 
 extension BrowseViewController:  UITableViewDelegate, UITableViewDataSource {
@@ -62,24 +75,39 @@ extension BrowseViewController:  UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: VideoCell.identifier, for: indexPath) as! VideoCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: BrowserTableViewCell.ID, for: indexPath) as! BrowserTableViewCell
         
-        // Setup new player item
-        let urlString = (videos?[indexPath.row].videoURL)!
-        let url = URL(string: urlString)
-        let playerItem = AVPlayerItem(url: url!)
-        
-        // Replace player item in player
-        cell.setupPlayer(playerItem: playerItem)
+        if let video = videos?[indexPath.row] {
+            // Setup user content
+            cell.avatarImage = video.avatarImage
+            cell.usernameLabel.text = video.username
+            
+            // Setup video content
+            cell.player.play()
+            cell.player.isMuted = true
+        }
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let watchVC = storyboard?.instantiateViewController(withIdentifier: "WatchViewController") as? WatchViewController
-        watchVC?.delegate = self
-        self.navigationController?.pushViewController(watchVC!, animated: true)
-        print("pushed")
+        tableView.deselectRow(at: indexPath, animated: false)
+        
+//        if let video = videos?[indexPath.row] {
+//        }
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        // prepare cell
+        if let cell = cell as? BrowserTableViewCell,
+            let video = videos?[indexPath.row] {
+        
+            let url = URL(string: video.videoURL!)
+            let playerItem = AVPlayerItem(url: url!)
+            cell.player.replaceCurrentItem(with: playerItem)
+            cell.player.automaticallyWaitsToMinimizeStalling = true
+        }
+        
     }
     
     func pullToRefresh(refreshControl: UIRefreshControl) {
