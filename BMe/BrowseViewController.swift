@@ -83,6 +83,12 @@ extension BrowseViewController:  UITableViewDelegate, UITableViewDataSource {
             cell.usernameLabel.text = video.username
             
             // Setup video content
+            cell.player.replaceCurrentItem(with: nil)
+            
+            let url = URL(string: video.videoURL!)
+            let playerItem = AVPlayerItem(url: url!)
+            cell.player.replaceCurrentItem(with: playerItem)
+            cell.player.automaticallyWaitsToMinimizeStalling = true
             cell.player.play()
             cell.player.isMuted = true
         }
@@ -98,15 +104,6 @@ extension BrowseViewController:  UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        // prepare cell
-        if let cell = cell as? BrowserTableViewCell,
-            let video = videos?[indexPath.row] {
-        
-            let url = URL(string: video.videoURL!)
-            let playerItem = AVPlayerItem(url: url!)
-            cell.player.replaceCurrentItem(with: playerItem)
-            cell.player.automaticallyWaitsToMinimizeStalling = true
-        }
         
     }
     
