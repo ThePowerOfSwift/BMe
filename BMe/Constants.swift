@@ -11,12 +11,12 @@ import UIKit
 struct Constants {
     struct OnLogin {
         
-//        static let StoryboardID = "Sato"
-//        static let RootViewController = "TabBarViewController"
+        static let StoryboardID = "Sato"
+        static let RootViewController = "TabBarViewController"
 //        static let StoryboardID = "CompositionTest"
 //        static let RootViewController = "CompositionTestViewController"
-        static let StoryboardID = SegueID.Storyboard.Camera
-        static let RootViewController = SegueID.ViewController.CameraViewController
+//        static let StoryboardID = SegueID.Storyboard.Camera
+//        static let RootViewController = SegueID.ViewController.CameraViewController
         
     }
     struct OnLogout {

@@ -49,8 +49,15 @@ class TabBarViewController: UIViewController {
     // Set icon in Tab bar
     func setupButtons() {
         // Browse button
-        tabs[0].titleLabel?.font = UIFont.fontAwesome(ofSize: 55)
-        tabs[0].setTitle(String.fontAwesomeIcon(name: .home), for: .normal)
+//        tabs[0].titleLabel?.font = UIFont.fontAwesome(ofSize: 55)
+//        tabs[0].setTitle(String.fontAwesomeIcon(name: .newspaperO), for: .normal)
+        
+        let image = UIImage(named: "home")
+        let homeButton = tabs[0]
+        homeButton.setImage(image, for: .normal)
+        homeButton.imageView?.image? = (homeButton.imageView?.image?.withRenderingMode(.alwaysTemplate))!
+        homeButton.imageView?.tintColor = UIColor(red: Styles.Color.primary.r, green: Styles.Color.primary.g, blue: Styles.Color.primary.b, alpha: 1)
+        
         
         // Create button
         tabs[1].layer.cornerRadius = 0.5 * createButton.bounds.size.width
