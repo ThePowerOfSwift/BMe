@@ -6,6 +6,7 @@
 //  Copyright © 2016 Jonathan Cheng. All rights reserved.
 //
 
+/*
 import UIKit
 
 class Image: NSObject {
@@ -51,3 +52,4 @@ class Image: NSObject {
         self.createdAt = createdAt
     }
 }
+ */

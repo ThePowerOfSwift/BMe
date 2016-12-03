@@ -21,11 +21,6 @@ class AppState: NSObject {
     var signedIn = false
     
     // For use with User.swift
-//    var currentUser: User? {
-//        get {
-//            return User(firebaseAuth?.currentUser)
-//        }
-//    }
     var currentUser: FIRUser? {
         get {
             return firebaseAuth?.currentUser

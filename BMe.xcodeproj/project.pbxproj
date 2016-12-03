@@ -219,6 +219,7 @@
 				78469A5F1DE3958100A40D53 /* Main.storyboard */,
 				783008A11DE3B9A000B070D4 /* VideoComposer.storyboard */,
 				78C350421DF2251A005E8331 /* Browser.storyboard */,
+				78C350441DF2260A005E8331 /* Account.storyboard */,
 			);
 			name = Storyboards;
 			sourceTree = "<group>";
@@ -228,6 +229,7 @@
 			children = (
 				7830089D1DE3B9A000B070D4 /* VideoComposition.swift */,
 				7821C3BD1DEF7FFF0023B95E /* Image.swift */,
+				78C350481DF28756005E8331 /* User.swift */,
 			);
 			name = JSON;
 			sourceTree = "<group>";
@@ -238,6 +240,7 @@
 				7830089F1DE3B9A000B070D4 /* MediaSelectorCollectionViewCell.swift */,
 				785E87C91DED4E5800C9FF59 /* VideoComposerCollectionViewCell.swift */,
 				78C3503C1DF126A6005E8331 /* BrowserTableViewCell.swift */,
+				78C350461DF232AF005E8331 /* UserProfileViewController.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -245,6 +248,7 @@
 		783008AB1DE3B9AF00B070D4 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				78CDA09E1DE5307C00ABC5E1 /* FIRManager.swift */,
 				7830089B1DE3B2B100B070D4 /* AppState.swift */,
 				7821C3B91DEF10F60023B95E /* TimeLapseBuilder.swift */,
 				7821C3BF1DEF81D10023B95E /* JSON */,
@@ -367,7 +371,6 @@
 			isa = PBXGroup;
 			children = (
 				7821C3C31DEF94350023B95E /* CameraViewController.swift */,
-				78C350461DF232AF005E8331 /* UserProfileViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -376,7 +379,6 @@
 			isa = PBXGroup;
 			children = (
 				7821C3C11DEF939A0023B95E /* Camera.storyboard */,
-				78C350441DF2260A005E8331 /* Account.storyboard */,
 			);
 			name = Storyboards;
 			sourceTree = "<group>";
@@ -397,8 +399,6 @@
 		78DA2EC81DF2DFF600A894AC /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				78CDA09E1DE5307C00ABC5E1 /* FIRManager.swift */,
-				78C350481DF28756005E8331 /* User.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
