@@ -4,45 +4,60 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>AFNetworking.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>BDBOAuth1Manager.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>FontAwesome.swift-FontAwesome.swift.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>FontAwesome.swift.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>GTMSessionFetcher.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
-			<key>orderHint</key>
-			<integer>2</integer>
 		</dict>
 		<key>GoogleToolboxForMac.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
-			<key>orderHint</key>
-			<integer>1</integer>
 		</dict>
 		<key>MBProgressHUD.xcscheme</key>
 		<dict>
-			<key>orderHint</key>
-			<integer>6</integer>
+			<key>isShown</key>
+			<false/>
 		</dict>
 		<key>Pods-BMe.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
-			<key>orderHint</key>
-			<integer>3</integer>
 		</dict>
 		<key>Pods-BMeTests.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
-			<key>orderHint</key>
-			<integer>4</integer>
 		</dict>
 		<key>Pods-BMeUITests.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
-			<key>orderHint</key>
-			<integer>5</integer>
+		</dict>
+		<key>SDWebImage.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
@@ -52,22 +67,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>1FE2578FF0805299395CF2A0206BB671</key>
+		<key>1ED8BE8BD6A53853974A60E1AC8B1019</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>23BA9083ED0D2392A167A8AFA04427FA</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>4878C70B21CA37D7CB8A476BF986741B</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>5584F59F4192D201B45636454BAB6B17</key>
+		<key>41FA54D12162DAD51D02FC58A2CD5034</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -77,37 +82,17 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>6872A7428F65163E8E42BFDDB550D13E</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>6E5DC7419BB08ADEA977634F83FB113B</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>7D04535608058A2FABC0D16935868FB9</key>
+		<key>77979430716929ED71E6E262A9F9A184</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>81518165DEDDA0E430C8451FC0D2CB58</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>AE3BF0006D5D83524E7D94BD3E996A25</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>AE6A4AC269D91F7FF73F67FEEEF0FC11</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>B1332739313D6B02612898E9681FF7BD</key>
+		<key>7BE727D93261EAB78C6AF9EF46ED1BFB</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -117,12 +102,17 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>DBA6001481CEA0EBA031CC5C94508FAA</key>
+		<key>C74D47B051BF84CA30E0723F127F42AD</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>EF4F067C2D0E135B80299B089E168BDA</key>
+		<key>CDA89CE6D685BF5F3A9F5025A178D3E4</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D1B8ADAECF79C38040D4FC11B3DF5331</key>
 		<dict>
 			<key>primary</key>
 			<true/>

@@ -9,10 +9,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--User Profile View Controller-->
         <scene sceneID="7ll-K7-UFJ">
             <objects>
-                <viewController id="UXQ-Pk-cUw" sceneMemberID="viewController">
+                <viewController id="UXQ-Pk-cUw" customClass="UserProfileViewController" customModule="BMe" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="GD9-0L-hnW"/>
                         <viewControllerLayoutGuide type="bottom" id="KGi-Dd-jJa"/>
@@ -20,9 +20,25 @@
                     <view key="view" contentMode="scaleToFill" id="dfh-1a-csY">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="gDQ-yQ-0o0">
+                                <rect key="frame" x="15" y="79" width="96" height="96"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="96" id="air-Go-Q9L"/>
+                                    <constraint firstAttribute="height" constant="96" id="fPV-Su-xS4"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="gDQ-yQ-0o0" firstAttribute="leading" secondItem="dfh-1a-csY" secondAttribute="leading" constant="15" id="HeI-NG-GzA"/>
+                            <constraint firstItem="gDQ-yQ-0o0" firstAttribute="top" secondItem="GD9-0L-hnW" secondAttribute="bottom" constant="15" id="s82-lQ-FVC"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="mBa-Z3-dCT"/>
+                    <connections>
+                        <outlet property="avatarImageView" destination="gDQ-yQ-0o0" id="JDK-hq-iJk"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Bvt-ID-76f" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -33,7 +49,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="EXp-8c-HWe" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="j9I-hs-ZlV">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="j9I-hs-ZlV">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>

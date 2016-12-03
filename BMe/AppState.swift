@@ -22,12 +22,17 @@ class AppState: NSObject {
     
     var currentUser: FIRUser? {
         get {
-            return FIRAuth.auth()?.currentUser
+            return firebaseAuth?.currentUser
         }
     }
     var firebaseAuth: FIRAuth? {
         get {
             return FIRAuth.auth()
+        }
+    }
+    var userProfileChangeRequest: FIRUserProfileChangeRequest? {
+        get {
+            return currentUser?.profileChangeRequest()
         }
     }
     

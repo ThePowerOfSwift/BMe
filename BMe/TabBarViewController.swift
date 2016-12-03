@@ -28,9 +28,9 @@ class TabBarViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         let storyboard = UIStoryboard.init(name: "Sato", bundle: nil)
-        
-        browseViewController = UIStoryboard(name: "Browser", bundle: nil).instantiateInitialViewController()
-//        browseViewController = storyboard.instantiateViewController(withIdentifier: "BrowseNavigationController")
+
+        browseViewController = UIViewController()
+//        browseViewController = UIStoryboard(name: "Browser", bundle: nil).instantiateInitialViewController()
 
         let createStoryboard = UIStoryboard(name: VideoComposition.StoryboardKey.ID, bundle: nil)
         createViewController = createStoryboard.instantiateViewController(withIdentifier: VideoComposition.StoryboardKey.mediaSelectorNavigationController)

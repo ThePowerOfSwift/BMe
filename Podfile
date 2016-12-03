@@ -10,6 +10,7 @@ target 'BMe' do
   pod 'Firebase/Auth'
   pod 'Firebase/Database'
   pod 'Firebase/Storage'
+  pod 'FirebaseUI/Storage'
 
   # For yelp api
   pod 'BDBOAuth1Manager'

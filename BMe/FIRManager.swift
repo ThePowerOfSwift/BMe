@@ -75,6 +75,7 @@ class FIRManager: NSObject {
         database.addObject(named: named, data: data, completion: completion)
     }
     
+    // Deprecated; use FIRStorageMetadata.gsURL
     func storageAbsoluteURL(_ metadata: FIRStorageMetadata) -> String {
         return storage.child(metadata.path!).description
     }
@@ -345,6 +346,32 @@ extension String {
     var isCloudStorage: Bool {
         get {
             return self.hasPrefix("gs://")
+        }
+    }
+}
+
+extension FIRStorageMetadata {
+    var gsURL: String {
+        get {
+            return FIRManager.shared.storage.child(self.path!).description
+        }
+    }
+}
+
+extension UIImageView {
+    // Load an image from Google Storage and layover busy indicator over imageView during load
+    func loadImageFromGS(with storageRef: FIRStorageReference, placeholderImage placeholder: UIImage?) {
+        if let task = self.sd_setImage(with: storageRef, placeholderImage: placeholder) {
+            let busyIndicator = UIActivityIndicatorView(frame: self.bounds)
+            self.addSubview(busyIndicator)
+            busyIndicator.startAnimating()
+
+            task.observe(.success, handler: { (snapshot: FIRStorageTaskSnapshot) in
+                busyIndicator.removeFromSuperview()
+            })
+            task.observe(.failure, handler: { (snapshot: FIRStorageTaskSnapshot) in
+                busyIndicator.removeFromSuperview()
+            })
         }
     }
 }
