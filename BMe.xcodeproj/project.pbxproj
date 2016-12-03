@@ -209,6 +209,7 @@
 				783008A01DE3B9A000B070D4 /* MediaSelectorViewController.swift */,
 				785E87C71DED4C4F00C9FF59 /* VideoComposerViewController.swift */,
 				785E87D31DEE053700C9FF59 /* MetaViewController.swift */,
+				78C350461DF232AF005E8331 /* UserProfileViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -240,7 +241,6 @@
 				7830089F1DE3B9A000B070D4 /* MediaSelectorCollectionViewCell.swift */,
 				785E87C91DED4E5800C9FF59 /* VideoComposerCollectionViewCell.swift */,
 				78C3503C1DF126A6005E8331 /* BrowserTableViewCell.swift */,
-				78C350461DF232AF005E8331 /* UserProfileViewController.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
