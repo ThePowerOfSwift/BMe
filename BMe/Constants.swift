@@ -44,3 +44,58 @@ struct Constants {
         static let avatarDefault = "blank user avatar.jpeg"
     }
 }
+
+enum ContentType {
+    case image, video, audio, template, userMeta
+    func string() -> String {
+        switch self {
+        case .image:
+            return "image/jpeg"
+        case .video:
+            return "video/mov"
+        case .audio:
+            return "audio/m4a"
+        case .template:
+            return "template/videocomposition"
+        case .userMeta:
+            return "usermeta"
+        }
+    }
+    func fileExtension() -> String {
+        switch self {
+        case .image:
+            return ".jpeg"
+        case .video:
+            return ".mov"
+        case .audio:
+            return ".m4a"
+        case .template:
+            return ".videocomposition"
+        case .userMeta:
+            return ""
+        }
+    }
+    func objectKey() -> String {
+        switch self {
+        case .image:
+            return ObjectKey.image
+        case .video:
+            return ObjectKey.video
+        case .audio:
+            return ObjectKey.audio
+        case .template:
+            return ObjectKey.template
+        case .userMeta:
+            return ObjectKey.userMeta
+        }
+    }
+}
+
+private struct ObjectKey {
+    static let video = "video"
+    static let template = "template"
+    static let audio = "audio"
+    static let image = "image"
+    static let post = "post"
+    static let userMeta = "userMeta"
+}

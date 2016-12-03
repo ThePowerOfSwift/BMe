@@ -8,6 +8,8 @@
 
 import UIKit
 
+
+// Deprecate
 class Video: NSObject {
     var userId: String?
     var username: String?

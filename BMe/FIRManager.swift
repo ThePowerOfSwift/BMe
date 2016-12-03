@@ -32,6 +32,7 @@ class FIRManager: NSObject {
             return FIRStorage.storage().reference(forURL: "gs://" + storageBucketURLString)
         }
     }
+    // Returns a unique timestamp with the UID as parent folder
     var uniqueIdentifier: String {
         get {
             return "\((FIRAuth.auth()?.currentUser?.uid)!)/\(Int(Date.timeIntervalSinceReferenceDate * 1000))"
@@ -81,7 +82,8 @@ class FIRManager: NSObject {
     }
     
     func getVideos(completion: @escaping ([Video])->()) {
-        let videoQuery = database.child(FIRManager.ObjectKey.video).queryOrdered(byChild: "CreatedAt").observe(.value, with: { snapshot in
+        
+        let videoQuery = database.child(ContentType.video.objectKey()).queryOrdered(byChild: "CreatedAt").observe(.value, with: { snapshot in
             var videos = [Video]()
             for item in snapshot.children.allObjects as! [FIRDataSnapshot] {
                 let value = item.value as! [String:AnyObject?]
@@ -102,13 +104,13 @@ class FIRManager: NSObject {
             }
 
             // Update data dictionary to be put on Firebase Database
-            video.gsURL = self.storageAbsoluteURL(metadata!)
+            video.gsURL = metadata!.gsURL
             FIRManager.shared.fetchDownloadURLs([URL(string: video.gsURL!)!], completion: {
                 (urls) in
                 video.videoURL = urls.first!.absoluteString
                 
                 // Put new video to Database with the new Storage url
-                self.putObjectOnDatabase(named: ObjectKey.video, data: video.dictionaryFormat, completion: {
+                self.putObjectOnDatabase(named: ContentType.video.objectKey(), data: video.dictionaryFormat, completion: {
                     (ref, error) in
                     
                     if  error != nil {
@@ -170,7 +172,7 @@ class FIRManager: NSObject {
                                 newData[VideoComposition.Key.videoURLs] = urlStrings as AnyObject
                                 
                                 // Put new Template object to Database
-                                self.putObjectOnDatabase(named: ObjectKey.template, data: newData, completion: {
+                                self.putObjectOnDatabase(named: ContentType.template.objectKey(), data: newData, completion: {
                                     (templateDatabaseReference, error) in
                                     if  error != nil {
                                         print("Error- abort putting template")
@@ -235,56 +237,6 @@ class FIRManager: NSObject {
             }
         }
     }
-
-// Reference data structure
-    enum ContentType {
-        case image, video, audio, template
-        func string() -> String {
-            switch self {
-            case .image:
-                return "image/jpeg"
-            case .video:
-                return "video/mov"
-            case .audio:
-                return "audio/m4a"
-            case .template:
-                return "template/videocomposition"
-            }
-        }
-        func fileExtension() -> String {
-            switch self {
-            case .image:
-                return ".jpeg"
-            case .video:
-                return ".mov"
-            case .audio:
-                return ".m4a"
-            case .template:
-                return ".videocomposition"
-            }
-        }
-        func objectKey() -> String {
-            switch self {
-            case .image:
-                return ObjectKey.image
-            case .video:
-                return ObjectKey.video
-            case .audio:
-                return ObjectKey.audio
-            case .template:
-                return ObjectKey.template
-            }
-        }
-    }
-    
-    struct ObjectKey {
-        static let video = "video"
-        static let template = "template"
-        static let audio = "audio"
-        static let image = "image"
-        static let post = "post"
-        static let userMeta = "userMeta"
-    }
 }
 
 // MARK:- Extensions
@@ -313,7 +265,7 @@ extension FIRDatabaseReference {
 
 
 extension FIRStorageReference {
-    func addObject(data: Data, contentType:FIRManager.ContentType, completion: @escaping (FIRStorageMetadata?, Error?) -> ()) {
+    func addObject(data: Data, contentType: ContentType, completion: @escaping (FIRStorageMetadata?, Error?) -> ()) {
         let path = contentType.objectKey() + "/" + FIRManager.shared.uniqueIdentifier + contentType.fileExtension()
         let metadata = FIRStorageMetadata()
         metadata.contentType = contentType.string()
@@ -328,7 +280,7 @@ extension FIRStorageReference {
         }
     }
     
-    func addObject(url: URL, contentType:FIRManager.ContentType, completion: @escaping (FIRStorageMetadata?, Error?) -> ()) {
+    func addObject(url: URL, contentType: ContentType, completion: @escaping (FIRStorageMetadata?, Error?) -> ()) {
         let path = contentType.objectKey() + "/" + FIRManager.shared.uniqueIdentifier + contentType.fileExtension()
         let metadata = FIRStorageMetadata()
         metadata.contentType = contentType.string()
