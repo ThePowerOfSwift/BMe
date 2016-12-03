@@ -103,7 +103,7 @@ class FIRManager: NSObject {
             }
 
             // Update data dictionary to be put on Firebase Database
-            video.gsURL = self.storageAbsoluteURL(metadata!)
+            video.gsURL = metadata!.gsURL
             FIRManager.shared.fetchDownloadURLs([URL(string: video.gsURL!)!], completion: {
                 (urls) in
                 video.videoURL = urls.first!.absoluteString

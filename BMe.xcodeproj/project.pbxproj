@@ -211,6 +211,7 @@
 				783008A01DE3B9A000B070D4 /* MediaSelectorViewController.swift */,
 				785E87C71DED4C4F00C9FF59 /* VideoComposerViewController.swift */,
 				785E87D31DEE053700C9FF59 /* MetaViewController.swift */,
+				78C350461DF232AF005E8331 /* UserProfileViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -248,6 +249,7 @@
 			isa = PBXGroup;
 			children = (
 				7830089B1DE3B2B100B070D4 /* AppState.swift */,
+				78CDA09E1DE5307C00ABC5E1 /* FIRManager.swift */,
 				7821C3B91DEF10F60023B95E /* TimeLapseBuilder.swift */,
 				7821C3BF1DEF81D10023B95E /* JSON */,
 			);
@@ -281,8 +283,6 @@
 		78337D8F1DE3AC9300A1B32C /* Sato */ = {
 			isa = PBXGroup;
 			children = (
-				E3FE1F9F1DEA2DB800791B92 /* Test */,
-				E35AC4851DE4D02D00FCB0D0 /* ViewControllers */,
 				E35AC4841DE4D01C00FCB0D0 /* Storyboards */,
 				E3ECAFDC1DE3DAA200F221AE /* Models */,
 				E308947C1DE8C89900145551 /* Views */,
@@ -369,7 +369,6 @@
 		786727DA1DE3ADDC0059AEC7 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				78C350461DF232AF005E8331 /* UserProfileViewController.swift */,
 				7821C3C31DEF94350023B95E /* CameraViewController.swift */,
 			);
 			name = ViewControllers;
@@ -399,9 +398,10 @@
 		78DA2EC81DF2DFF600A894AC /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				78CDA09E1DE5307C00ABC5E1 /* FIRManager.swift */,
+				E3ECAFD81DE3CCB500F221AE /* Video.swift */,
 				7821C3BD1DEF7FFF0023B95E /* Image.swift */,
 				78C350481DF28756005E8331 /* User.swift */,
+				E35AC4851DE4D02D00FCB0D0 /* ViewControllers */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -445,7 +445,7 @@
 		E3ECAFDC1DE3DAA200F221AE /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				E3ECAFD81DE3CCB500F221AE /* Video.swift */,
+				E3FE1F9F1DEA2DB800791B92 /* Test */,
 				E3C357A31DEF484E00AC0832 /* Restaurant.swift */,
 				E3C357A11DEF451E00AC0832 /* YPManager.swift */,
 			);
