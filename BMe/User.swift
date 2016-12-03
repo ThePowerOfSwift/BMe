@@ -17,7 +17,7 @@ class User: NSObject {
     private var firUserDBReference: FIRDatabaseReference? {
         get {
             // Path: Database/<User Meta key>/<UID>/
-            return FIRManager.shared.database.child(FIRManager.ObjectKey.userMeta).child(firUser.uid)
+            return FIRManager.shared.database.child(ContentType.userMeta.objectKey()).child(firUser.uid)
         }
     }
 
@@ -77,6 +77,10 @@ class User: NSObject {
         super.init()
     }
     
+    func postObject(object: AnyObject, contentType: ContentType) {
+        
+    }
+    
     // MARK: - Class methods
     
     // Creates a new user using stock FIRUser and adds a corresponding user object onto Database to hold extraneous information (metadata) not held by FIRUser
@@ -110,7 +114,7 @@ class User: NSObject {
     // Return the user's meta data dictionary from Database using UID
     public class func userMeta(_ uid: String, block:@escaping (UserMeta)->()) {
         // Construct reference to user meta in Database
-        let ref = FIRManager.shared.database.child(FIRManager.ObjectKey.userMeta).child(uid)
+        let ref = FIRManager.shared.database.child(ContentType.userMeta.objectKey()).child(uid)
         // Get existing values
         ref.observeSingleEvent(of: .value, with: {(snapshot: FIRDataSnapshot) in
             let data = snapshot.value as! [String: AnyObject?]
