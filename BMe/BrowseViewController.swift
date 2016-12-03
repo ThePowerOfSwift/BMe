@@ -79,9 +79,16 @@ extension BrowseViewController:  UITableViewDelegate, UITableViewDataSource {
         
         if let video = videos?[indexPath.row] {
             // Setup user content
-            cell.avatarImage = video.avatarImage
+            let meta = UserMeta(video.userId!, completion: {(usermeta) in
+                if let avatarURL = usermeta?.avatarURL {
+                    let ref = FIRManager.shared.storage.child(avatarURL.path)
+                    cell.avatarImageView.loadImageFromGS(with: ref, placeholderImage: UIImage(named: Constants.User.avatarDefault))
+                }
+            })
+            
             cell.usernameLabel.text = video.username
             
+            /*
             // Setup video content
             cell.player.replaceCurrentItem(with: nil)
             
@@ -91,6 +98,7 @@ extension BrowseViewController:  UITableViewDelegate, UITableViewDataSource {
             cell.player.automaticallyWaitsToMinimizeStalling = true
             cell.player.play()
             cell.player.isMuted = true
+             */
         }
         
         return cell

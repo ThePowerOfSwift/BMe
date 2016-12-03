@@ -19,12 +19,6 @@ class BrowserTableViewCell: UITableViewCell {
     var playerLayer: AVPlayerLayer!
     var player: AVPlayer!
     
-    var avatarImage: UIImage? {
-        didSet {
-            avatarImageView.image = avatarImage
-        }
-    }
-    
     // MARK: - Lifecycle
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -43,10 +37,6 @@ class BrowserTableViewCell: UITableViewCell {
         avatarImageView.layer.borderWidth = 1
         avatarImageView.clipsToBounds = true
         
-        // Set default avatar image
-        let defaultAvatarImage = UIImage(named: Constants.User.avatarDefault)
-        avatarImage = defaultAvatarImage
-        
         // Setup video replay
         player = AVPlayer()
         player.actionAtItemEnd = AVPlayerActionAtItemEnd.none
@@ -58,13 +48,13 @@ class BrowserTableViewCell: UITableViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        avatarImage = nil
+        avatarImageView.image = nil
         
         // Clear videos
         player.pause()
         player.replaceCurrentItem(with: nil)
     }
     
-    // MARK: - Cosntants
+    // MARK: - Constants
     static let ID = "BrowserTableViewCell"
 }

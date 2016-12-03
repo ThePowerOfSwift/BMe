@@ -10,21 +10,54 @@ import UIKit
 import MobileCoreServices
 import FirebaseStorageUI
 
-class UserProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class UserProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
 
-@IBOutlet weak var avatarImageView: UIImageView!
+    // Model
+    var user: User!
+    
+    //MARK: - Outlets
+    @IBOutlet weak var avatarImageView: UIImageView!
+    @IBOutlet weak var usernameTextField: UITextField!
+    @IBOutlet weak var emailTextField: UITextField!
+    @IBOutlet weak var label: UILabel!
+    
+    @IBAction func tappedSignout(_ sender: Any) {
+        AppState.shared.signOut()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        user = User(AppState.shared.currentUser!)
         setupAvatar()
+        setupUser()
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    //MARK: - User info methods
+    enum Textfields: Int {
+        case username = 0, email
+    }
+    
+    // Setup user info views
+    func setupUser() {
+        usernameTextField.tag = Textfields.username.rawValue
+        usernameTextField.delegate = self
+        
+        emailTextField.isUserInteractionEnabled = false
+        
+        emailTextField.tag = Textfields.email.rawValue
+        emailTextField.delegate = self
+        
+        usernameTextField.text = user.username
+        emailTextField.text = user.email
+    }
+
     
     //MARK: - User Avatar methods
     
@@ -37,12 +70,14 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
         avatarImageView.layer.borderColor = UIColor.white.cgColor
         avatarImageView.isUserInteractionEnabled = true
         
-        // Load user profile
-        
         // Reference to an image file in Firebase Storage and pull image
         let defaultImage = UIImage(named: Constants.User.avatarDefault)
-        let avatarRef = FIRManager.shared.storage.child((AppState.shared.currentUser?.photoURL?.path)!)
-        avatarImageView.loadImageFromGS(with: avatarRef, placeholderImage: defaultImage)
+        
+        if let path = user.avatarURL?.path {
+            let avatarRef = FIRManager.shared.storage.child(path)
+            avatarImageView.loadImageFromGS(with: avatarRef, placeholderImage: defaultImage)
+        } else { avatarImageView.image = defaultImage }
+        
         
         // Avatar tap setup
         let tap = UITapGestureRecognizer(target: self, action: #selector(tappedAvatar(_:)))
@@ -103,30 +138,42 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
                 }
                 else {
                     // Delete old profile pic
-                    let oldAvatarURL = AppState.shared.currentUser?.photoURL
-                    FIRManager.shared.storage.child(oldAvatarURL!.path).delete(completion: { (error) in
-                        if let error = error {
-                            print("Error removing old user avatar: aborted profile update: \(error.localizedDescription)")
-                        }
-                        // Update user profile and change avatar
-                        else {
-                            let changeRequest = AppState.shared.userProfileChangeRequest
-                            changeRequest?.photoURL = URL(string: (meta?.gsURL)!)
-                            changeRequest?.commitChanges() { (error) in
-                                if let error = error {
-                                    print("Error updating user profile: \(error.localizedDescription)")
-                                }
-                                else {
-                                    self.avatarImageView.image = pickedImage
-                                    finish()
-                                }
+                    if let oldAvatarURL = self.user.avatarURL {
+                        FIRManager.shared.storage.child(oldAvatarURL.path).delete(completion: { (error) in
+                            if let error = error {
+                                print("Error removing old user avatar: aborted profile update: \(error.localizedDescription)")
                             }
-                        }
-                    })
+                        })
+                    }
+        
+                    // Update user profile and change avatar
+                    self.user.avatarURL = URL(string: (meta?.gsURL)!)
+                    self.avatarImageView.image = pickedImage
                 }
                 finish()
             })
         }
         else { print("Error converting profile image to data- aborted upload") }
+    }
+    
+    // MARK: - Textfield Delegate
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        let newValue = textField.text
+        if let changeRequest = AppState.shared.userProfileChangeRequest {
+            if textField.tag == Textfields.username.rawValue {
+                changeRequest.displayName = newValue
+            }
+            
+            changeRequest.commitChanges(completion: { (error) in
+                if let error = error {
+                    print("Error changing user info: \(error.localizedDescription)")
+                }
+            })
+        }
     }
 }

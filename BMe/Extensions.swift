@@ -83,9 +83,17 @@ extension CGSize {
 
 extension Date {
     func toString() -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "EEE MMM d HH:mm:ss Z y"
-        return dateFormatter.string(from: self)
+        let formatter = DateFormatter()
+        formatter.dateFormat = "EEE MMM d HH:mm:ss Z y"
+        return formatter.string(from: self)
+    }
+}
+
+extension String {
+    func toDate() -> Date? {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "EEE MMM d HH:mm:ss Z y"
+        return formatter.date(from: self)
     }
 }
 

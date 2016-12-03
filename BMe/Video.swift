@@ -50,11 +50,12 @@ class Video: NSObject {
         restaurantName = dictionary[Key.restaurantName] as? String
         
         let createdAtString = dictionary[Video.Key.createdAt] as? String
-        if let createdAtString = createdAtString {
-            let formatter = DateFormatter()
-            formatter.dateFormat = "EEE MMM d HH:mm:ss Z y"
-            createdAt = formatter.date(from: createdAtString)
-        }
+        createdAt = createdAtString?.toDate()
+//        if let createdAtString = createdAtString {
+//            let formatter = DateFormatter()
+//            formatter.dateFormat = "EEE MMM d HH:mm:ss Z y"
+//            createdAt = formatter.date(from: createdAtString)
+//        }
     }
     
     init(userId: String?, username: String?, templateId: String?, videoURL: String?, gsURL: String?, createdAt: Date?, restaurantName: String?) {

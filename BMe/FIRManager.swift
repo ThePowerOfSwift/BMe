@@ -282,6 +282,8 @@ class FIRManager: NSObject {
         static let template = "template"
         static let audio = "audio"
         static let image = "image"
+        static let post = "post"
+        static let userMeta = "userMeta"
     }
 }
 
@@ -300,6 +302,12 @@ extension FIRDatabaseReference {
             }
             completion(ref, error)
         }
+    }
+    
+    func exists(_ block:@escaping (Bool) -> ()) {
+        observeSingleEvent(of: .value, with: { (snapshot) in
+            block(snapshot.exists())
+        })
     }
 }
 

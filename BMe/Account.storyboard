@@ -28,16 +28,57 @@
                                     <constraint firstAttribute="height" constant="96" id="fPV-Su-xS4"/>
                                 </constraints>
                             </imageView>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="username" adjustsFontSizeToFit="NO" minimumFontSize="18" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="aw8-1c-6y0">
+                                <rect key="frame" x="126" y="84" width="234" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="HqW-n2-cpI"/>
+                                </constraints>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="alphabet" returnKeyType="done"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="email" adjustsFontSizeToFit="NO" minimumFontSize="18" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="dpv-rN-stJ">
+                                <rect key="frame" x="126" y="129" width="234" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="30" id="lwY-ym-FzS"/>
+                                    <constraint firstAttribute="height" constant="30" id="yfw-DZ-ucN"/>
+                                </constraints>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" returnKeyType="done"/>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SNB-sQ-j86">
+                                <rect key="frame" x="126" y="195" width="42" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="aw8-1c-6y0" firstAttribute="leading" secondItem="gDQ-yQ-0o0" secondAttribute="trailing" constant="15" id="0cY-JB-i6P"/>
+                            <constraint firstItem="aw8-1c-6y0" firstAttribute="top" secondItem="GD9-0L-hnW" secondAttribute="bottom" constant="20" id="4Ia-uh-rzl"/>
+                            <constraint firstItem="dpv-rN-stJ" firstAttribute="top" secondItem="aw8-1c-6y0" secondAttribute="bottom" constant="15" id="H21-g2-JsC"/>
                             <constraint firstItem="gDQ-yQ-0o0" firstAttribute="leading" secondItem="dfh-1a-csY" secondAttribute="leading" constant="15" id="HeI-NG-GzA"/>
+                            <constraint firstAttribute="trailing" secondItem="aw8-1c-6y0" secondAttribute="trailing" constant="15" id="KYj-LI-Y1x"/>
+                            <constraint firstItem="dpv-rN-stJ" firstAttribute="leading" secondItem="gDQ-yQ-0o0" secondAttribute="trailing" constant="15" id="Wau-P2-o52"/>
+                            <constraint firstAttribute="trailing" secondItem="dpv-rN-stJ" secondAttribute="trailing" constant="15" id="Xxy-bM-Yfd"/>
                             <constraint firstItem="gDQ-yQ-0o0" firstAttribute="top" secondItem="GD9-0L-hnW" secondAttribute="bottom" constant="15" id="s82-lQ-FVC"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="mBa-Z3-dCT"/>
+                    <navigationItem key="navigationItem" id="mBa-Z3-dCT">
+                        <barButtonItem key="rightBarButtonItem" title="Sign out" id="bkv-Q7-Mf1">
+                            <connections>
+                                <action selector="tappedSignout:" destination="UXQ-Pk-cUw" id="pKT-p5-T0W"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="avatarImageView" destination="gDQ-yQ-0o0" id="JDK-hq-iJk"/>
+                        <outlet property="emailTextField" destination="dpv-rN-stJ" id="cFM-zE-haU"/>
+                        <outlet property="label" destination="SNB-sQ-j86" id="nZN-Pz-Aj2"/>
+                        <outlet property="usernameTextField" destination="aw8-1c-6y0" id="k7U-39-ztU"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Bvt-ID-76f" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -49,7 +90,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="EXp-8c-HWe" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="j9I-hs-ZlV">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="j9I-hs-ZlV">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>

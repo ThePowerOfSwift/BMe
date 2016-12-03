@@ -20,6 +20,12 @@ class AppState: NSObject {
     
     var signedIn = false
     
+    // For use with User.swift
+//    var currentUser: User? {
+//        get {
+//            return User(firebaseAuth?.currentUser)
+//        }
+//    }
     var currentUser: FIRUser? {
         get {
             return firebaseAuth?.currentUser
@@ -50,34 +56,6 @@ class AppState: NSObject {
             }
         })
 
-    }
-    
-    func createUser(withEmail email: String, password: String, completion: FirebaseAuth.FIRAuthResultCallback? = nil) {
-        firebaseAuth?.createUser(withEmail: email, password: password, completion: { (user: FIRUser?, error: Error?) in
-            if let error = error {
-                print("Error creating new user: \(error.localizedDescription)")
-                completion?(nil, error)
-                return
-            }
-            else {
-                self.setUserDisplayName(user!)
-                completion?(user, error)
-            }
-        })
-    }
-    
-    // TODO: - have user input user handle
-    func setUserDisplayName(_ user: FIRUser) {
-        let changeRequest = user.profileChangeRequest()
-        changeRequest.displayName = user.email!.components(separatedBy: "@")[0]
-        changeRequest.commitChanges(){ (error) in
-            if let error = error {
-                print("Error updating user info: \(error.localizedDescription)")
-                return
-            }
-
-            self.signedIn(AppState.shared.currentUser)
-        }
     }
     
     func signedIn(_ user: FIRUser?) {
@@ -126,3 +104,4 @@ class AppState: NSObject {
     }
  */
 }
+

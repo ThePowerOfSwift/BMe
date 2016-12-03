@@ -23,7 +23,7 @@ class Image: NSObject {
         static let createdAt = "createdAt"
     }
     
-    // Should change 'dictinaryFormat' to data
+    // Should change 'dictionaryFormat' to data
     var dictionaryFormat: [String: AnyObject?] {
         get {
             return [Key.userId: userId as AnyObject,

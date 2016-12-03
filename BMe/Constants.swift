@@ -41,6 +41,6 @@ struct Constants {
         }
     }
     struct User {
-        static let avatarDefault = "blank user avatar.jpg"
+        static let avatarDefault = "blank user avatar.jpeg"
     }
 }
