@@ -121,6 +121,9 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
         let pickedImage = info[UIImagePickerControllerEditedImage] as! UIImage
         
         dismiss(animated: true, completion: nil)
+
+        // TODO: - should use
+        // avatarImageView.loadImageFromGS(with: <#T##FIRStorageReference#>, placeholderImage: <#T##UIImage?#>)
         
         let busyIndicator = UIActivityIndicatorView(frame: avatarImageView.bounds)
         avatarImageView.addSubview(busyIndicator)
@@ -129,8 +132,9 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
             busyIndicator.stopAnimating()
             busyIndicator.removeFromSuperview()
         }
-        
+
         // Upload image as user profile pic
+        // TODO: - Should move this to User.setAvatarImage()
         if let imageData = UIImageJPEGRepresentation(pickedImage, 1) {
             FIRManager.shared.putObjectOnStorage(data: imageData, contentType: .image, completion: { (meta, error) in
                 if let error = error {

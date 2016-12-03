@@ -32,6 +32,7 @@ class FIRManager: NSObject {
             return FIRStorage.storage().reference(forURL: "gs://" + storageBucketURLString)
         }
     }
+    // Returns a unique timestamp with the UID as parent folder
     var uniqueIdentifier: String {
         get {
             return "\((FIRAuth.auth()?.currentUser?.uid)!)/\(Int(Date.timeIntervalSinceReferenceDate * 1000))"
