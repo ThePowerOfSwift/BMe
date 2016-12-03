@@ -16,6 +16,7 @@ class TabBarViewController: UIViewController {
     @IBOutlet var tabs: [UIButton]!
     
     var browseViewController: UIViewController!
+    var cameraViewController: UIViewController!
     var createViewController: UIViewController!
     var accountViewController: UIViewController!
     var viewControllers: [UIViewController]!
@@ -29,20 +30,17 @@ class TabBarViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let storyboard = UIStoryboard.init(name: "Sato", bundle: nil)
 
-//        browseViewController = UIViewController()
         browseViewController = UIStoryboard(name: "Browser", bundle: nil).instantiateInitialViewController()
 
         let createStoryboard = UIStoryboard(name: VideoComposition.StoryboardKey.ID, bundle: nil)
         createViewController = createStoryboard.instantiateViewController(withIdentifier: VideoComposition.StoryboardKey.mediaSelectorNavigationController)
-//        accountViewController = storyboard.instantiateViewController(withIdentifier: "AccountViewController")
+
+        cameraViewController = UIStoryboard(name: "Camera", bundle: nil).instantiateInitialViewController()
         accountViewController = UIStoryboard(name: "Account", bundle: nil).instantiateInitialViewController()
         
-        
         // Init with view controllers
-        viewControllers = [browseViewController, createViewController, accountViewController]
-
+        viewControllers = [browseViewController, cameraViewController, createViewController, accountViewController]
 
         setupTabs()
         layoutTabs()
@@ -50,8 +48,29 @@ class TabBarViewController: UIViewController {
         // Set first tab selected
         tabs[selectedIndex].isSelected = true
         didTapTab(tabs[selectedIndex])
+        
+        for i in 0...tabs.count-1 {
+            if tabs[i].isSelected {
+                tabs[i].imageView?.tintColor = UIColor(red: Styles.Color.primary.r, green: Styles.Color.primary.g, blue: Styles.Color.primary.b, alpha: 1)
+            } else {
+                tabs[i].imageView?.tintColor = UIColor(red: Styles.Color.secondary.r, green: Styles.Color.secondary.g, blue: Styles.Color.secondary.b, alpha: 1)
+            }
+        }
 
     }
+
+    // later
+//    func hideTabbar() {
+//        for i in 0...tabs.count {
+//            tabs[i].isHidden = true
+//        }
+//    }
+//    
+//    func showTabbar() {
+//        for i in 0...tabs.count {
+//            tabs[i].isHidden = false
+//        }
+//    }
     
     // Call setupButtons(imageName, tabIndex) to setup tabs
     func setupTabs() {
@@ -109,7 +128,12 @@ class TabBarViewController: UIViewController {
         // Previous view controller
         let previousIndex = selectedIndex
         selectedIndex = sender.tag // Assign the index of current tab to selectedIndex
+        tabs[selectedIndex].isSelected =  true
         UIView.animate(withDuration: 0.1, animations: {
+            // change the color
+            self.tabs[previousIndex].imageView?.tintColor = UIColor(red: Styles.Color.secondary.r, green: Styles.Color.secondary.g, blue: Styles.Color.secondary.b, alpha: 1)
+            self.tabs[self.selectedIndex].imageView?.tintColor = UIColor(red: Styles.Color.primary.r, green: Styles.Color.primary.g, blue: Styles.Color.primary.b, alpha: 1)
+            
             self.layoutTab(index: previousIndex, w: self.unselectedTabSize, h: self.unselectedTabSize)
             self.layoutTab(index: self.selectedIndex, w: self.selectedTabSize, h: self.selectedTabSize)
         })
@@ -127,6 +151,5 @@ class TabBarViewController: UIViewController {
         currentVC.view.frame = contentView.frame // set view size to content view size
         contentView.addSubview(currentVC.view)
         currentVC.didMove(toParentViewController: self) // calls viewDidAppear
-        
     }
 }

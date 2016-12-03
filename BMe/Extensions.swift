@@ -11,6 +11,7 @@ import MobileCoreServices
 import AVFoundation
 
 extension UIViewController {
+    // TODO: - remove following three func
     // present modally camera to record
     func presentCameraPicker(timeInterval: TimeInterval?, delegate: (UIImagePickerControllerDelegate & UINavigationControllerDelegate), completion: (() -> Void)?) {
         let imagePicker = UIImagePickerController()
@@ -30,8 +31,7 @@ extension UIViewController {
             if let completion = completion { completion() }
         }
     }
-    // TODO: - remove following two func
-    // present modally camera to record
+    //Deprecated
     func presentImagePicker(delegate: (UIImagePickerControllerDelegate & UINavigationControllerDelegate), completion: (() -> Void)?) {
         let imagePicker = configuredImagePicker()
         imagePicker.delegate = delegate
@@ -40,7 +40,7 @@ extension UIViewController {
             if let completion = completion { completion() }
         }
     }
-    
+    //Deprecated
     // Returns configured image picker
     func configuredImagePicker() -> UIImagePickerController {
         let imagePicker = UIImagePickerController()
