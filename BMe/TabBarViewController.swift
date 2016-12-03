@@ -32,6 +32,7 @@ class TabBarViewController: UIViewController {
         createViewController = createStoryboard.instantiateViewController(withIdentifier: VideoComposition.StoryboardKey.mediaSelectorNavigationController)
         accountViewController = storyboard.instantiateViewController(withIdentifier: "AccountViewController")
         
+        
         // Init with view controllers
         viewControllers = [browseViewController, createViewController, accountViewController]
 
@@ -100,14 +101,19 @@ class TabBarViewController: UIViewController {
     
     
     @IBAction func didTapTab(_ sender: UIButton) {
+        let selectedSize: Double = 50
+        let unselectedSize: Double = 30
+        
+        print("tapped: \(sender.tag)")
         
         // Previous view controller
         let previousIndex = selectedIndex
         selectedIndex = sender.tag // Assign the index of current tab to selectedIndex
-//        UIView.animate(withDuration: 0.3, animations: {
-//            tabs[previousIndex].
-//        
-//        })
+        UIView.animate(withDuration: 0.3, animations: {
+            self.layoutTab(index: previousIndex, w: unselectedSize, h: unselectedSize)
+            self.layoutTab(index: self.selectedIndex, w: selectedSize, h: selectedSize)
+        })
+        
         let previousVC = viewControllers[previousIndex]
         // invoke view controller's life cycle and remove it from TabBarViewController
         previousVC.willMove(toParentViewController: nil)
@@ -121,6 +127,8 @@ class TabBarViewController: UIViewController {
         currentVC.view.frame = contentView.frame // set view size to content view size
         contentView.addSubview(currentVC.view)
         currentVC.didMove(toParentViewController: self) // calls viewDidAppear
+        
+        
         
     }
 }
