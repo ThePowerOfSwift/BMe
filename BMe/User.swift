@@ -13,19 +13,17 @@ import Firebase
 // Made to complement FIRUser with extra metadata stored on database (FIRUser is not directly editable)
 class User: NSObject {
     
-    // Model
-    private var firUser: FIRUser
-    
+    // General reference
     private var firUserDBReference: FIRDatabaseReference? {
         get {
+            // Path: Database/<User Meta key>/<UID>/
             return FIRManager.shared.database.child(FIRManager.ObjectKey.userMeta).child(firUser.uid)
         }
     }
-    var uid: String? {
-        get {
-            return firUser.uid
-        }
-    }
+
+    // Model (from FIRUser)
+    private var firUser: FIRUser
+    
     var username: String? {
         get {
             return firUser.displayName
@@ -65,14 +63,11 @@ class User: NSObject {
         }
     }
     
-    //MARK: - Structs
+
+    //MARK: - User Database keys
     struct Key {
         static let createdAt = "createdAt"
         static let avatarURL = "avatarURL"
-    }
-    
-    struct Data {
-        
     }
     
     // MARK: - methods
@@ -111,38 +106,29 @@ class User: NSObject {
             }
         })
     }
+    
+    // Return the user's meta data dictionary from Database using UID
+    public class func userMeta(_ uid: String, block:@escaping (UserMeta)->()) {
+        // Construct reference to user meta in Database
+        let ref = FIRManager.shared.database.child(FIRManager.ObjectKey.userMeta).child(uid)
+        // Get existing values
+        ref.observeSingleEvent(of: .value, with: {(snapshot: FIRDataSnapshot) in
+            let data = snapshot.value as! [String: AnyObject?]
+            var userMeta = UserMeta()
+            if let avatar = data[User.Key.avatarURL] as? String {
+                userMeta.avatarURL = URL(string: avatar)
+            }
+            if let date = data[User.Key.createdAt] as? String {
+                userMeta.createdAt = date.toDate()
+            }
+            
+            block(userMeta)
+        })
+    }
 }
 
-// Retrieves the user meta object from the Database
-class UserMeta: NSObject {
-    var uid: String
-    
+// Struct for referencing user meta
+struct UserMeta {
     var avatarURL: URL?
     var createdAt: Date?
-    
-    required init(_ uid: String, completion:((UserMeta?)->())?) {
-        self.uid = uid
-        super.init()
-        
-        // Get reference to user metadata on Database & check it exists
-        let ref = FIRManager.shared.database.child(FIRManager.ObjectKey.userMeta).child(uid)
-        ref.exists { (exists) in
-            // Get object data
-            if exists {
-                ref.observeSingleEvent(of: .value, with: { (snapshot) in
-                    let data = snapshot.value as! [String: AnyObject?]
-
-                    if let avatar = data[User.Key.avatarURL] as? String {
-                        self.avatarURL = URL(string: avatar)
-                    }
-                    if let created = data[User.Key.createdAt] as? String {
-                        self.createdAt = created.toDate()
-                    }
-                    
-                    completion?(self)
-                })
-            }
-            else { completion?(nil) }
-        }
-    }
 }

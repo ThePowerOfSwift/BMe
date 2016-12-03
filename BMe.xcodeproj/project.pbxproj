@@ -245,9 +245,7 @@
 		783008AB1DE3B9AF00B070D4 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				78CDA09E1DE5307C00ABC5E1 /* FIRManager.swift */,
 				7830089B1DE3B2B100B070D4 /* AppState.swift */,
-				78C350481DF28756005E8331 /* User.swift */,
 				7821C3B91DEF10F60023B95E /* TimeLapseBuilder.swift */,
 				7821C3BF1DEF81D10023B95E /* JSON */,
 			);
@@ -292,6 +290,7 @@
 		78337D901DE3ACA700A1B32C /* JJ */ = {
 			isa = PBXGroup;
 			children = (
+				78DA2EC81DF2DFF600A894AC /* Model */,
 				786727DA1DE3ADDC0059AEC7 /* ViewControllers */,
 				783008AC1DE3B9CF00B070D4 /* Views */,
 				786727DB1DE3ADE90059AEC7 /* Storyboards */,
@@ -393,6 +392,15 @@
 				78B369C01DE7F85F001ADD53 /* TemplateListVC.storyboard */,
 			);
 			name = Examples;
+			sourceTree = "<group>";
+		};
+		78DA2EC81DF2DFF600A894AC /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				78CDA09E1DE5307C00ABC5E1 /* FIRManager.swift */,
+				78C350481DF28756005E8331 /* User.swift */,
+			);
+			name = Model;
 			sourceTree = "<group>";
 		};
 		E308947C1DE8C89900145551 /* Views */ = {

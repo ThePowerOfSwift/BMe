@@ -79,11 +79,11 @@ extension BrowseViewController:  UITableViewDelegate, UITableViewDataSource {
         
         if let video = videos?[indexPath.row] {
             // Setup user content
-            let meta = UserMeta(video.userId!, completion: {(usermeta) in
-                if let avatarURL = usermeta?.avatarURL {
-                    let ref = FIRManager.shared.storage.child(avatarURL.path)
-                    cell.avatarImageView.loadImageFromGS(with: ref, placeholderImage: UIImage(named: Constants.User.avatarDefault))
-                }
+            User.userMeta(video.userId!, block: { (usermeta) in
+                // Get the avatar if it exists
+                
+                let ref = FIRManager.shared.storage.child((usermeta.avatarURL?.path)!)
+                cell.avatarImageView.loadImageFromGS(with: ref, placeholderImage: UIImage(named: Constants.User.avatarDefault))
             })
             
             cell.usernameLabel.text = video.username
