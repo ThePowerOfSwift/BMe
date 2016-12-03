@@ -23,6 +23,10 @@ class TabBarViewController: UIViewController {
     // tag value from selected UIButton
     var selectedIndex: Int = 0
     
+    // tab size
+    var selectedTabSize: Double = 50
+    var unselectedTabSize: Double = 30
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         let storyboard = UIStoryboard.init(name: "Sato", bundle: nil)
@@ -57,7 +61,9 @@ class TabBarViewController: UIViewController {
     // Set icon image at index
     func setupTab(imageName: String, tabIndex: Int) {
         let image = UIImage(named: imageName)
-        if tabIndex >= 0 && tabIndex < 4 {
+        
+        // Bound checking
+        if tabIndex >= 0 && tabIndex < tabs.count {
             let button = tabs[tabIndex]
             button.setImage(image, for: .normal)
             button.imageView?.image? = (button.imageView?.image?.withRenderingMode(.alwaysTemplate))!
@@ -68,12 +74,10 @@ class TabBarViewController: UIViewController {
     }
     
     func layoutTabs () {
-        let w: Double = 30
-        let h: Double = 30
-        layoutTab(index: 0, w: w, h: h)
-        layoutTab(index: 1, w: w, h: h)
-        layoutTab(index: 2, w: w, h: h)
-        layoutTab(index: 3, w: w, h: h)
+        layoutTab(index: 0, w: unselectedTabSize, h: unselectedTabSize)
+        layoutTab(index: 1, w: unselectedTabSize, h: unselectedTabSize)
+        layoutTab(index: 2, w: unselectedTabSize, h: unselectedTabSize)
+        layoutTab(index: 3, w: unselectedTabSize, h: unselectedTabSize)
     }
     
     func layoutTab(index: Int, w: Double, h: Double) {
@@ -81,8 +85,7 @@ class TabBarViewController: UIViewController {
         let boxWidth: Double = Double(view.frame.width) / 4
         // Get the center offset in box
         let centerOffset: Double = boxWidth / 2
-        
-        let y: Double = Double(view.frame.height) - h
+        let y: Double = Double(view.frame.height) - unselectedTabSize
         var x: Double = 0
         
         // Set only width and height
@@ -99,19 +102,13 @@ class TabBarViewController: UIViewController {
         tabs[index].center = CGPoint(x: x, y: y)
     }
     
-    
     @IBAction func didTapTab(_ sender: UIButton) {
-        let selectedSize: Double = 50
-        let unselectedSize: Double = 30
-        
-        print("tapped: \(sender.tag)")
-        
         // Previous view controller
         let previousIndex = selectedIndex
         selectedIndex = sender.tag // Assign the index of current tab to selectedIndex
-        UIView.animate(withDuration: 0.3, animations: {
-            self.layoutTab(index: previousIndex, w: unselectedSize, h: unselectedSize)
-            self.layoutTab(index: self.selectedIndex, w: selectedSize, h: selectedSize)
+        UIView.animate(withDuration: 0.1, animations: {
+            self.layoutTab(index: previousIndex, w: self.unselectedTabSize, h: self.unselectedTabSize)
+            self.layoutTab(index: self.selectedIndex, w: self.selectedTabSize, h: self.selectedTabSize)
         })
         
         let previousVC = viewControllers[previousIndex]
@@ -127,8 +124,6 @@ class TabBarViewController: UIViewController {
         currentVC.view.frame = contentView.frame // set view size to content view size
         contentView.addSubview(currentVC.view)
         currentVC.didMove(toParentViewController: self) // calls viewDidAppear
-        
-        
         
     }
 }
