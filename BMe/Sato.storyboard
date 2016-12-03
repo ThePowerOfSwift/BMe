@@ -6,7 +6,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -26,81 +25,58 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JQT-ft-PdT">
-                                <rect key="frame" x="16" y="612" width="50" height="50"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="50" id="Bzy-BF-0D5"/>
-                                    <constraint firstAttribute="height" constant="50" id="cVC-p4-0Ud"/>
-                                </constraints>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JQT-ft-PdT">
+                                <rect key="frame" x="16" y="620" width="86" height="34"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Browse">
                                     <color key="titleColor" red="0.33217730439999998" green="0.8360168147" blue="0.82409189869999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
-                                    <action selector="didTapTab:" destination="7N3-qk-7aw" eventType="touchUpInside" id="sOv-cp-YBa"/>
+                                    <action selector="didTapTab:" destination="7N3-qk-7aw" eventType="touchUpInside" id="zpl-1v-MXI"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b01-OA-ZOp" userLabel="Camera">
-                                <rect key="frame" x="96" y="612" width="50" height="50"/>
-                                <color key="backgroundColor" red="0.33217730439999998" green="0.8360168147" blue="0.82409189869999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="50" id="KeT-dJ-wei"/>
-                                    <constraint firstAttribute="height" constant="50" id="bkR-Nc-NEh"/>
-                                </constraints>
+                            <button opaque="NO" tag="1" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b01-OA-ZOp" userLabel="Camera">
+                                <rect key="frame" x="102" y="620" width="85.5" height="34"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Create"/>
                                 <connections>
-                                    <action selector="didTapTab:" destination="7N3-qk-7aw" eventType="touchUpInside" id="vCx-bL-DRx"/>
+                                    <action selector="didTapTab:" destination="7N3-qk-7aw" eventType="touchUpInside" id="1tv-3d-hG0"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iK6-Ul-lqv">
-                                <rect key="frame" x="219" y="612" width="50" height="50"/>
-                                <color key="backgroundColor" red="0.33217730437705956" green="0.83601681472081224" blue="0.82409189867595523" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="50" id="dvs-XT-g0z"/>
-                                    <constraint firstAttribute="height" constant="50" id="h39-UP-8Qm"/>
-                                </constraints>
+                            <button opaque="NO" tag="1" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iK6-Ul-lqv">
+                                <rect key="frame" x="187.5" y="620" width="86" height="34"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Create"/>
                                 <connections>
-                                    <action selector="didTapTab:" destination="7N3-qk-7aw" eventType="touchUpInside" id="dMr-G6-Pae"/>
+                                    <action selector="didTapTab:" destination="7N3-qk-7aw" eventType="touchUpInside" id="YjK-v6-Qci"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UY9-Th-wXZ">
-                                <rect key="frame" x="299" y="612" width="50" height="50"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="GIr-4H-6oA"/>
-                                    <constraint firstAttribute="width" constant="50" id="Swb-50-cAu"/>
-                                </constraints>
+                            <button opaque="NO" tag="2" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UY9-Th-wXZ">
+                                <rect key="frame" x="273.5" y="620" width="85.5" height="34"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Account">
                                     <color key="titleColor" red="0.33217730439999998" green="0.8360168147" blue="0.82409189869999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
-                                    <action selector="didTapTab:" destination="7N3-qk-7aw" eventType="touchUpInside" id="ZKk-je-Bzq"/>
+                                    <action selector="didTapTab:" destination="7N3-qk-7aw" eventType="touchUpInside" id="3ki-xb-lv2"/>
                                 </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="bottom" secondItem="iK6-Ul-lqv" secondAttribute="bottom" constant="5" id="2FH-f1-fEJ"/>
-                            <constraint firstAttribute="bottom" secondItem="b01-OA-ZOp" secondAttribute="bottom" constant="5" id="4Q4-6g-vdw"/>
                             <constraint firstItem="NkX-li-CHE" firstAttribute="top" secondItem="nvO-L1-cF2" secondAttribute="bottom" id="6Ho-WD-KG2"/>
-                            <constraint firstItem="JQT-ft-PdT" firstAttribute="leading" secondItem="wMN-RY-k2J" secondAttribute="leadingMargin" id="AOg-BA-r9c"/>
-                            <constraint firstItem="NkX-li-CHE" firstAttribute="top" secondItem="JQT-ft-PdT" secondAttribute="bottom" constant="5" id="He4-g8-pA8"/>
-                            <constraint firstAttribute="bottom" secondItem="UY9-Th-wXZ" secondAttribute="bottom" constant="5" id="PTd-6Q-mAp"/>
-                            <constraint firstItem="b01-OA-ZOp" firstAttribute="leading" secondItem="JQT-ft-PdT" secondAttribute="trailing" constant="30" id="bal-EV-75A"/>
                             <constraint firstItem="nvO-L1-cF2" firstAttribute="top" secondItem="wMN-RY-k2J" secondAttribute="top" id="ecX-og-MU1"/>
                             <constraint firstItem="nvO-L1-cF2" firstAttribute="leading" secondItem="wMN-RY-k2J" secondAttribute="leading" id="lyh-Ir-4hd"/>
-                            <constraint firstItem="UY9-Th-wXZ" firstAttribute="leading" secondItem="iK6-Ul-lqv" secondAttribute="trailing" constant="30" id="of3-oZ-FEv"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="UY9-Th-wXZ" secondAttribute="trailing" constant="10" id="vki-eW-Z4h"/>
                             <constraint firstAttribute="trailing" secondItem="nvO-L1-cF2" secondAttribute="trailing" id="ySH-L1-dPC"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="iIn-BS-LWr"/>
                     <connections>
-                        <outlet property="browseButton" destination="JQT-ft-PdT" id="fK3-JJ-bX4"/>
                         <outlet property="contentView" destination="nvO-L1-cF2" id="1to-dP-2Sn"/>
-                        <outlet property="createButton" destination="iK6-Ul-lqv" id="xwN-tW-R1Q"/>
-                        <outletCollection property="tabs" destination="JQT-ft-PdT" collectionClass="NSMutableArray" id="5DK-oU-I4w"/>
-                        <outletCollection property="tabs" destination="UY9-Th-wXZ" collectionClass="NSMutableArray" id="aA2-ja-wsZ"/>
-                        <outletCollection property="tabs" destination="iK6-Ul-lqv" collectionClass="NSMutableArray" id="TpE-oO-9Lh"/>
+                        <outletCollection property="tabs" destination="JQT-ft-PdT" collectionClass="NSMutableArray" id="HAc-Sc-vBx"/>
+                        <outletCollection property="tabs" destination="b01-OA-ZOp" collectionClass="NSMutableArray" id="mrQ-5n-jte"/>
+                        <outletCollection property="tabs" destination="iK6-Ul-lqv" collectionClass="NSMutableArray" id="dQE-Ml-d3u"/>
+                        <outletCollection property="tabs" destination="UY9-Th-wXZ" collectionClass="NSMutableArray" id="Bpl-Uc-Vt5"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xn7-Sa-Hfe" userLabel="First Responder" sceneMemberID="firstResponder"/>

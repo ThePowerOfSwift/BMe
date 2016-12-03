@@ -20,8 +20,6 @@ class TabBarViewController: UIViewController {
     var accountViewController: UIViewController!
     var viewControllers: [UIViewController]!
     
-    @IBOutlet weak var browseButton: UIButton!
-    @IBOutlet weak var createButton: UIButton!
     // tag value from selected UIButton
     var selectedIndex: Int = 0
     
@@ -38,7 +36,8 @@ class TabBarViewController: UIViewController {
         viewControllers = [browseViewController, createViewController, accountViewController]
 
 
-        setupButtons()
+        setupTabs()
+        layoutTabs()
         
         // Set first tab selected
         tabs[selectedIndex].isSelected = true
@@ -46,39 +45,69 @@ class TabBarViewController: UIViewController {
 
     }
     
-    // Set icon in Tab bar
-    func setupButtons() {
-        // Browse button
-//        tabs[0].titleLabel?.font = UIFont.fontAwesome(ofSize: 55)
-//        tabs[0].setTitle(String.fontAwesomeIcon(name: .newspaperO), for: .normal)
-        
-        let image = UIImage(named: "home")
-        let homeButton = tabs[0]
-        homeButton.setImage(image, for: .normal)
-        homeButton.imageView?.image? = (homeButton.imageView?.image?.withRenderingMode(.alwaysTemplate))!
-        homeButton.imageView?.tintColor = UIColor(red: Styles.Color.primary.r, green: Styles.Color.primary.g, blue: Styles.Color.primary.b, alpha: 1)
-        
-        
-        // Create button
-        tabs[1].layer.cornerRadius = 0.5 * createButton.bounds.size.width
-        // createButton.layer.borderWidth = 2.0
-        tabs[1].clipsToBounds = true
-        tabs[1].titleLabel?.font = UIFont.fontAwesome(ofSize: 50)
-        tabs[1].setTitle(String.fontAwesomeIcon(name: .plus), for: .normal)
-        
-        // Account button
-        tabs[2].titleLabel?.font = UIFont.fontAwesome(ofSize: 50)
-        tabs[2].setTitle(String.fontAwesomeIcon(name: .user), for: .normal)
-
-        
+    // Call setupButtons(imageName, tabIndex) to setup tabs
+    func setupTabs() {
+        setupTab(imageName: "home", tabIndex: 0)
+        setupTab(imageName: "double_circle", tabIndex: 1)
+        setupTab(imageName: "food", tabIndex: 2)
+        setupTab(imageName: "account", tabIndex: 3)
     }
+    
+    // Set icon image at index
+    func setupTab(imageName: String, tabIndex: Int) {
+        let image = UIImage(named: imageName)
+        if tabIndex >= 0 && tabIndex < 4 {
+            let button = tabs[tabIndex]
+            button.setImage(image, for: .normal)
+            button.imageView?.image? = (button.imageView?.image?.withRenderingMode(.alwaysTemplate))!
+            button.imageView?.tintColor = UIColor(red: Styles.Color.primary.r, green: Styles.Color.primary.g, blue: Styles.Color.primary.b, alpha: 1)
+        } else {
+            print("index is not valid\n")
+        }
+    }
+    
+    func layoutTabs () {
+        let w: Double = 30
+        let h: Double = 30
+        layoutTab(index: 0, w: w, h: h)
+        layoutTab(index: 1, w: w, h: h)
+        layoutTab(index: 2, w: w, h: h)
+        layoutTab(index: 3, w: w, h: h)
+    }
+    
+    func layoutTab(index: Int, w: Double, h: Double) {
+        // Get the width of each "box" by dividing view by 4
+        let boxWidth: Double = Double(view.frame.width) / 4
+        // Get the center offset in box
+        let centerOffset: Double = boxWidth / 2
+        
+        let y: Double = Double(view.frame.height) - h
+        var x: Double = 0
+        
+        // Set only width and height
+        tabs[index].frame = CGRect(x: 0, y: 0, width: w, height: h)
+        
+        // Get the center x coordinate
+        if index == 0 {
+            x = centerOffset
+        } else {
+            x = centerOffset + boxWidth * Double(index)
+        }
+        
+        // Set center coordinate
+        tabs[index].center = CGPoint(x: x, y: y)
+    }
+    
     
     @IBAction func didTapTab(_ sender: UIButton) {
         
         // Previous view controller
         let previousIndex = selectedIndex
         selectedIndex = sender.tag // Assign the index of current tab to selectedIndex
-        tabs[previousIndex].isSelected = false
+//        UIView.animate(withDuration: 0.3, animations: {
+//            tabs[previousIndex].
+//        
+//        })
         let previousVC = viewControllers[previousIndex]
         // invoke view controller's life cycle and remove it from TabBarViewController
         previousVC.willMove(toParentViewController: nil)
