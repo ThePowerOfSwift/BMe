@@ -211,7 +211,6 @@
 				783008A01DE3B9A000B070D4 /* MediaSelectorViewController.swift */,
 				785E87C71DED4C4F00C9FF59 /* VideoComposerViewController.swift */,
 				785E87D31DEE053700C9FF59 /* MetaViewController.swift */,
-				78C350461DF232AF005E8331 /* UserProfileViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -231,8 +230,6 @@
 			isa = PBXGroup;
 			children = (
 				7830089D1DE3B9A000B070D4 /* VideoComposition.swift */,
-				7821C3BD1DEF7FFF0023B95E /* Image.swift */,
-				78C350481DF28756005E8331 /* User.swift */,
 			);
 			name = JSON;
 			sourceTree = "<group>";
@@ -250,7 +247,6 @@
 		783008AB1DE3B9AF00B070D4 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				78CDA09E1DE5307C00ABC5E1 /* FIRManager.swift */,
 				7830089B1DE3B2B100B070D4 /* AppState.swift */,
 				7821C3B91DEF10F60023B95E /* TimeLapseBuilder.swift */,
 				7821C3BF1DEF81D10023B95E /* JSON */,
@@ -373,6 +369,7 @@
 		786727DA1DE3ADDC0059AEC7 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				78C350461DF232AF005E8331 /* UserProfileViewController.swift */,
 				7821C3C31DEF94350023B95E /* CameraViewController.swift */,
 			);
 			name = ViewControllers;
@@ -402,6 +399,9 @@
 		78DA2EC81DF2DFF600A894AC /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				78CDA09E1DE5307C00ABC5E1 /* FIRManager.swift */,
+				7821C3BD1DEF7FFF0023B95E /* Image.swift */,
+				78C350481DF28756005E8331 /* User.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -553,7 +553,7 @@
 				TargetAttributes = {
 					78469A571DE3958000A40D53 = {
 						CreatedOnToolsVersion = 8.0;
-						DevelopmentTeam = PY8CHQP699;
+						DevelopmentTeam = Y4GA6H5JHE;
 						ProvisioningStyle = Automatic;
 					};
 					78469A6B1DE3958100A40D53 = {
@@ -960,7 +960,7 @@
 			baseConfigurationReference = EF9B8E045282684264E31D83 /* Pods-BMe.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = PY8CHQP699;
+				DEVELOPMENT_TEAM = Y4GA6H5JHE;
 				INFOPLIST_FILE = BMe/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.op.BMe;
@@ -976,7 +976,7 @@
 			baseConfigurationReference = 1B3943A2C1F5F5DBD966A650 /* Pods-BMe.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = PY8CHQP699;
+				DEVELOPMENT_TEAM = Y4GA6H5JHE;
 				INFOPLIST_FILE = BMe/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.op.BMe;
