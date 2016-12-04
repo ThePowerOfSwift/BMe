@@ -149,7 +149,11 @@ extension UIImage {
         
         let screenSizeCG = CGSize(width: screenSize.width, height: screenSize.height)
         
-        let scale = UIScreen.main.bounds.width / self.size.width
+        let manualScale = UIScreen.main.bounds.width / self.size.width
+        let scale = UIScreen.main.scale
+        print("manualScale: \(manualScale)")
+        print("scale: \(scale)")
+        print("image: \(self.size)")
         UIGraphicsBeginImageContextWithOptions(self.size, false, scale)
         //UIGraphicsBeginImageContext(screenSizeCG)
         self.draw(in: CGRect(origin: CGPoint.zero, size: self.size))
@@ -159,6 +163,7 @@ extension UIImage {
             
             let text = NSString(string: textField.text!)
             let point = CGPoint(x: textField.frame.origin.x, y: textField.frame.origin.y)
+            
             let color = textField.textColor
             let font = textField.font
             
@@ -181,7 +186,7 @@ extension UIImage {
             let textFontAttributes = [NSFontAttributeName: textFont,
                                       NSForegroundColorAttributeName: textColor] as [String : Any]
             
-            let textRectSize = CGSize(width: self.size.width, height: self.size.width)
+            let textRectSize = CGSize(width: screenSize.width, height: screenSize.width)
             let textPoint = CGPoint(x: point.x * textScale, y: point.y * textScale)
             let textRect = CGRect(origin: textPoint, size: textRectSize)
             text.draw(in: textRect, withAttributes: textFontAttributes)

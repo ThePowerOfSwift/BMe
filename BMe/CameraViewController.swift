@@ -57,6 +57,7 @@ class CameraViewController: UIViewController, UINavigationControllerDelegate, UI
         imageEditingViewController.delegate = self
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
             self.image = image
+
             
             
             if let url = info[UIImagePickerControllerReferenceURL] as? URL {
@@ -69,6 +70,15 @@ class CameraViewController: UIViewController, UINavigationControllerDelegate, UI
     // MARK: ImageEditingDelegate
     func getChosenImage() -> UIImage? {
         return image
+    }
+    
+    func getImageView() -> UIImageView? {
+        let label = UILabel()
+        label.text = "HELLO WORLD"
+        let imageView = UIImageView(image: image)
+        label.center = CGPoint(x: image.size.width / 2, y: image.size.height / 2)
+        imageView.addSubview(label)
+        
     }
 
 }
