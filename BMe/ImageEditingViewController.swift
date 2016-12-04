@@ -196,7 +196,8 @@ class ImageEditingViewController: UIViewController, UITextFieldDelegate, UIImage
         // Configure context
         let scale = UIScreen.main.scale
         UIGraphicsBeginImageContextWithOptions(image.size, false, scale)
-        
+        image.draw(in: CGRect(origin: CGPoint.zero, size: image.size))
+
         for textField in textFields {
             // Prepare coordinate for text to set it in image
             let textLabelXInScreen = textField.frame.origin.x
@@ -227,7 +228,6 @@ class ImageEditingViewController: UIViewController, UITextFieldDelegate, UIImage
             
         }
     
-        image.draw(in: CGRect(origin: CGPoint.zero, size: image.size))
 
         let newImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
@@ -246,31 +246,29 @@ class ImageEditingViewController: UIViewController, UITextFieldDelegate, UIImage
         
         var editedImage: UIImage?
         
-        //editedImage = add(textFields: textFields, to: imageView.image!)
-        let scaleScreenToImageWidth = (imageView.image?.size.width)! / imageView.frame.width
-        let scaleScreenToImageHeight = (imageView.image?.size.height)! / imageView.frame.height
-        
-        // Configure context
-        let scale = UIScreen.main.scale
-        UIGraphicsBeginImageContextWithOptions((imageView.image?.size)!, false, scale)
-        
-        // Prepare coordinate for text to set it in image
-        let textLabelXInScreen = textFields[0].frame.origin.x
-        let textLabelYInScreen = textFields[0].frame.origin.y
-        print("textLabelXInScreen: \(textLabelXInScreen)")
-        print("textLabelYInScreen: \(textLabelYInScreen)")
-        
-        let textLabelXInImage = textLabelXInScreen * scaleScreenToImageWidth
-        let textLabelYInImage = textLabelYInScreen * scaleScreenToImageHeight
-        print("textLabelXInImage: \(textLabelXInImage)")
-        print("textLabelYInImage: \(textLabelYInImage)")
-        let textLabelPointInImage = CGPoint(x: textLabelXInImage, y: textLabelYInImage)
-        
-        let text = NSString(string: textFields[0].text!)
-        
-        let newImage = add(imageView.image!, text: text, to: textLabelPointInImage, color: nil, font: nil)
-        
-        
+          let newImage = add(textFields: textFields, to: imageView.image!)
+//        let scaleScreenToImageWidth = (imageView.image?.size.width)! / imageView.frame.width
+//        let scaleScreenToImageHeight = (imageView.image?.size.height)! / imageView.frame.height
+//        
+//        // Configure context
+//        let scale = UIScreen.main.scale
+//        UIGraphicsBeginImageContextWithOptions((imageView.image?.size)!, false, scale)
+//        
+//        // Prepare coordinate for text to set it in image
+//        let textLabelXInScreen = textFields[0].frame.origin.x
+//        let textLabelYInScreen = textFields[0].frame.origin.y
+//        print("textLabelXInScreen: \(textLabelXInScreen)")
+//        print("textLabelYInScreen: \(textLabelYInScreen)")
+//        
+//        let textLabelXInImage = textLabelXInScreen * scaleScreenToImageWidth
+//        let textLabelYInImage = textLabelYInScreen * scaleScreenToImageHeight
+//        print("textLabelXInImage: \(textLabelXInImage)")
+//        print("textLabelYInImage: \(textLabelYInImage)")
+//        let textLabelPointInImage = CGPoint(x: textLabelXInImage, y: textLabelYInImage)
+//        
+//        let text = NSString(string: textFields[0].text!)
+//        
+//        let newImage = add(imageView.image!, text: text, to: textLabelPointInImage, color: nil, font: nil)
         
         let storyboard = UIStoryboard(name: "Camera", bundle: nil)
         let testVC = storyboard.instantiateViewController(withIdentifier: "ShowImageViewController") as! ShowImageViewController
