@@ -13,7 +13,7 @@ import MobileCoreServices
 import AVKit
 import MediaPlayer
 
-class MediaSelectorViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, MPMediaPickerControllerDelegate {
+class MediaSelectorViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, MPMediaPickerControllerDelegate, UIScrollViewDelegate {
 
 // MARK: - Outlets
     @IBOutlet weak var bannerView: UIView!
@@ -44,6 +44,7 @@ class MediaSelectorViewController: UIViewController, UICollectionViewDataSource,
     
     // Media browsers
     var playerVC = AVPlayerViewController()
+    var bannerCurrentLoaded = 0
     let imgManager = PHCachingImageManager.default()
     let songPicker = MPMediaPickerController(mediaTypes: .anyAudio)
     
@@ -64,6 +65,7 @@ class MediaSelectorViewController: UIViewController, UICollectionViewDataSource,
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.allowsMultipleSelection = true
+        view.bringSubview(toFront: collectionView)
         
         // Get assets from album
         let options = PHFetchOptions()
@@ -72,6 +74,7 @@ class MediaSelectorViewController: UIViewController, UICollectionViewDataSource,
         
         // Setup banner media browsers
         imageView.isHidden = true
+        playerVC.showsPlaybackControls = false
         playerVC.player = AVPlayer()
         playerVC.player?.isMuted = true
         playerVC.videoGravity = AVLayerVideoGravityResizeAspectFill
@@ -89,7 +92,7 @@ class MediaSelectorViewController: UIViewController, UICollectionViewDataSource,
         
         // Select first item
         if phAssets.count > 0 {
-            changeBanner(for: phAssets[0])
+            changeBanner(for: phAssets[0], index: 0)
         }
         
         // Enable CollectionView scroll on entire VC
@@ -117,7 +120,11 @@ class MediaSelectorViewController: UIViewController, UICollectionViewDataSource,
 
 // MARK: - Banner View  methods
 
-    func changeBanner(for asset: PHAsset) {
+    func changeBanner(for asset: PHAsset, index: Int) {
+        if (index == bannerCurrentLoaded) { return }
+        
+        bannerCurrentLoaded = index
+        
         // Detect media type
         if asset.mediaType == .image {
             playerVC.view.isHidden = true
@@ -163,26 +170,46 @@ class MediaSelectorViewController: UIViewController, UICollectionViewDataSource,
 
         let asset = phAssets[indexPath.item ]
         
-        
         imgManager.requestImage(for: asset, targetSize: Constants.Layout.thumbnailSize, contentMode: .aspectFill, options: nil, resultHandler: { (image: UIImage?, info: [AnyHashable : Any]?) in
             DispatchQueue.main.async {
                 if cell.tag == indexPath.row {
                     cell.image = image
                     cell.isVideo = (asset.mediaType == .video)
+                    
+                    // Get duration for videos
+                    if asset.mediaType == .video {
+                        let options = PHVideoRequestOptions()
+                        options.version = .current
+                        self.imgManager.requestAVAsset(forVideo: asset, options: options, resultHandler: { (avAsset: AVAsset?, avAudio: AVAudioMix?, info: [AnyHashable : Any]?) in
+                            DispatchQueue.main.async {
+                                cell.durationLabel.text = self.stringFromTimeInterval(interval: asset.duration)
+                            }
+                        })
+                    }
                 }
             }
             })
     
         return cell
     }
+    func stringFromTimeInterval(interval: TimeInterval) -> String {
+        let ti = NSInteger(interval)
+        
+//        let ms = Int((interval.truncatingRemainder(dividingBy: 1.0)) * 1000)
+        let seconds = ti % 60
+        let minutes = (ti / 60) % 60
+//        let hours = (ti / 3600)
+        
+        return String(format: "%0.2d:%0.2d",minutes,seconds)
+//        return String(format: "%0.2d:%0.2d:%0.2d.%0.3d",hours,minutes,seconds,ms)
+    }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        changeBanner(for: phAssets[indexPath.row])
+        changeBanner(for: phAssets[indexPath.row], index: indexPath.row)
         selectedRows.append(indexPath.row)
     }
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
-        
         for index in 0..<selectedRows.count {
             if selectedRows[index] == indexPath.row {
                 selectedRows.remove(at: index)
@@ -230,4 +257,25 @@ class MediaSelectorViewController: UIViewController, UICollectionViewDataSource,
     func next() {
         performSegue(withIdentifier: kSegueID, sender: self)
     }
+
+// MARK: - Scrollview delegate methods
+    //Aspect Ratio: bannerViewAspectRatio.multiplier
+    var lastContentOffset: CGPoint?
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if let lastContentOffset = lastContentOffset {
+            let delta = scrollView.contentOffset.y - lastContentOffset.y
+
+            if (lastContentOffset.y > scrollView.contentOffset.y) {
+                print("scrolling up \(delta)")
+            }
+            else if (lastContentOffset.y < scrollView.contentOffset.y) {
+                print("scrolling down \(delta)")
+            }
+        }
+        lastContentOffset = scrollView.contentOffset
+        
+//        collectionViewTopConstraint.constant
+        
+    }
+
 }

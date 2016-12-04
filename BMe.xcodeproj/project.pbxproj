@@ -251,6 +251,7 @@
 				7830089B1DE3B2B100B070D4 /* AppState.swift */,
 				78CDA09E1DE5307C00ABC5E1 /* FIRManager.swift */,
 				7821C3B91DEF10F60023B95E /* TimeLapseBuilder.swift */,
+				78C350481DF28756005E8331 /* User.swift */,
 				7821C3BF1DEF81D10023B95E /* JSON */,
 			);
 			name = Models;
@@ -400,7 +401,6 @@
 			children = (
 				E3ECAFD81DE3CCB500F221AE /* Video.swift */,
 				7821C3BD1DEF7FFF0023B95E /* Image.swift */,
-				78C350481DF28756005E8331 /* User.swift */,
 				E35AC4851DE4D02D00FCB0D0 /* ViewControllers */,
 			);
 			name = Model;

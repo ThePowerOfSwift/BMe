@@ -33,7 +33,7 @@ class BrowserTableViewCell: UITableViewCell {
     
     func setup() {
         avatarImageView.layer.cornerRadius = avatarImageView.frame.width / 2
-        //avatarImageView.layer.borderColor = style.primarycolor
+        avatarImageView.layer.borderColor = Styles.Color.Primary.cgColor
         avatarImageView.layer.borderWidth = 1
         avatarImageView.clipsToBounds = true
         

@@ -51,9 +51,9 @@ class TabBarViewController: UIViewController {
         
         for i in 0...tabs.count-1 {
             if tabs[i].isSelected {
-                tabs[i].imageView?.tintColor = UIColor(red: Styles.Color.primary.r, green: Styles.Color.primary.g, blue: Styles.Color.primary.b, alpha: 1)
+                tabs[i].imageView?.tintColor = Styles.Color.Primary
             } else {
-                tabs[i].imageView?.tintColor = UIColor(red: Styles.Color.secondary.r, green: Styles.Color.secondary.g, blue: Styles.Color.secondary.b, alpha: 1)
+                tabs[i].imageView?.tintColor = Styles.Color.Secondary
             }
         }
 
@@ -89,7 +89,7 @@ class TabBarViewController: UIViewController {
             let button = tabs[tabIndex]
             button.setImage(image, for: .normal)
             button.imageView?.image? = (button.imageView?.image?.withRenderingMode(.alwaysTemplate))!
-            button.imageView?.tintColor = UIColor(red: Styles.Color.primary.r, green: Styles.Color.primary.g, blue: Styles.Color.primary.b, alpha: 1)
+            button.imageView?.tintColor = Styles.Color.Primary
         } else {
             print("index is not valid\n")
         }
@@ -131,8 +131,8 @@ class TabBarViewController: UIViewController {
         tabs[selectedIndex].isSelected =  true
         UIView.animate(withDuration: 0.1, animations: {
             // change the color
-            self.tabs[previousIndex].imageView?.tintColor = UIColor(red: Styles.Color.secondary.r, green: Styles.Color.secondary.g, blue: Styles.Color.secondary.b, alpha: 1)
-            self.tabs[self.selectedIndex].imageView?.tintColor = UIColor(red: Styles.Color.primary.r, green: Styles.Color.primary.g, blue: Styles.Color.primary.b, alpha: 1)
+            self.tabs[previousIndex].imageView?.tintColor = Styles.Color.Secondary
+            self.tabs[self.selectedIndex].imageView?.tintColor = Styles.Color.Primary
             
             self.layoutTab(index: previousIndex, w: self.unselectedTabSize, h: self.unselectedTabSize)
             self.layoutTab(index: self.selectedIndex, w: self.selectedTabSize, h: self.selectedTabSize)
