@@ -108,7 +108,7 @@ class FIRManager: NSObject {
     
     // Uploads new Video to storage and database
     // TODO: - replace Video with generic object
-    private func uploadVideo(video: Video, completion: (()->())?) {
+    func uploadVideo(video: Video, completion: (()->())?) {
         putObjectOnStorage(url: URL(string: video.videoURL!)!, contentType: .video, completion: {
             (metadata: FIRStorageMetadata?, error: Error?) in
             

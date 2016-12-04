@@ -9,10 +9,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Camera View Controller-->
+        <!--Image Editing View Controller-->
         <scene sceneID="p5w-In-MPJ">
             <objects>
-                <viewController storyboardIdentifier="CameraViewController" id="CUT-KW-ZOC" customClass="CameraViewController" customModule="BMe" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ImageEditingViewController" id="CUT-KW-ZOC" customClass="ImageEditingViewController" customModule="BMe" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="X5g-Sc-Hzv"/>
                         <viewControllerLayoutGuide type="bottom" id="JlE-fS-rc8"/>
@@ -40,7 +40,6 @@
                                         </connections>
                                     </button>
                                 </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="mKh-1y-Tmo" firstAttribute="top" secondItem="fZo-83-kBt" secondAttribute="top" constant="8" id="C4i-wZ-pJj"/>
                                     <constraint firstAttribute="trailing" secondItem="mKh-1y-Tmo" secondAttribute="trailing" constant="8" id="FfO-7c-fJF"/>
