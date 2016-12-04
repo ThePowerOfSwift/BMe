@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="CUT-KW-ZOC">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="xOp-WN-I6t">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -22,10 +22,14 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fZo-83-kBt">
-                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mKh-1y-Tmo">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="dz3-xN-PWO">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                    </imageView>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mKh-1y-Tmo">
                                         <rect key="frame" x="5" y="8" width="30" height="41"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <state key="normal">
                                             <attributedString key="attributedTitle">
                                                 <fragment content="T">
@@ -39,8 +43,9 @@
                                             <action selector="tappedAddTextButton:" destination="CUT-KW-ZOC" eventType="touchUpInside" id="CEV-qh-hPO"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8UK-bU-d50">
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8UK-bU-d50">
                                         <rect key="frame" x="333" y="8" width="37" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <state key="normal" title="Done"/>
                                         <connections>
                                             <action selector="onDone:" destination="CUT-KW-ZOC" eventType="touchUpInside" id="fug-6C-1Zk"/>
@@ -48,28 +53,28 @@
                                     </button>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="8UK-bU-d50" firstAttribute="top" secondItem="fZo-83-kBt" secondAttribute="top" constant="8" id="5vH-ft-AVj"/>
-                                    <constraint firstItem="mKh-1y-Tmo" firstAttribute="leading" secondItem="fZo-83-kBt" secondAttribute="leading" constant="5" id="8jD-Mq-JKf"/>
-                                    <constraint firstItem="mKh-1y-Tmo" firstAttribute="top" secondItem="fZo-83-kBt" secondAttribute="top" constant="8" id="C4i-wZ-pJj"/>
-                                    <constraint firstAttribute="trailing" secondItem="8UK-bU-d50" secondAttribute="trailing" constant="5" id="Ug8-hQ-lo8"/>
+                                    <constraint firstAttribute="bottom" secondItem="dz3-xN-PWO" secondAttribute="bottom" id="Dnb-5H-seb"/>
+                                    <constraint firstItem="dz3-xN-PWO" firstAttribute="leading" secondItem="fZo-83-kBt" secondAttribute="leading" id="QJa-6k-lXV"/>
+                                    <constraint firstAttribute="trailing" secondItem="dz3-xN-PWO" secondAttribute="trailing" id="jth-4Q-cEz"/>
+                                    <constraint firstItem="dz3-xN-PWO" firstAttribute="top" secondItem="fZo-83-kBt" secondAttribute="top" id="qqL-ms-get"/>
                                 </constraints>
                             </view>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="dz3-xN-PWO">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="fZo-83-kBt" firstAttribute="leading" secondItem="GFw-TK-Ij7" secondAttribute="leading" id="34k-mF-RwV"/>
-                            <constraint firstItem="fZo-83-kBt" firstAttribute="top" secondItem="X5g-Sc-Hzv" secondAttribute="bottom" id="3WB-KA-wRk"/>
-                            <constraint firstAttribute="trailing" secondItem="fZo-83-kBt" secondAttribute="trailing" id="ATZ-wT-ZYb"/>
-                            <constraint firstItem="dz3-xN-PWO" firstAttribute="top" secondItem="GFw-TK-Ij7" secondAttribute="top" id="Huc-Zp-5LI"/>
-                            <constraint firstItem="JlE-fS-rc8" firstAttribute="top" secondItem="fZo-83-kBt" secondAttribute="bottom" id="X5q-dm-suW"/>
-                            <constraint firstItem="JlE-fS-rc8" firstAttribute="top" secondItem="dz3-xN-PWO" secondAttribute="bottom" id="Zuv-Mj-dcN"/>
-                            <constraint firstItem="dz3-xN-PWO" firstAttribute="leading" secondItem="GFw-TK-Ij7" secondAttribute="leading" id="amO-FB-p5U"/>
-                            <constraint firstAttribute="trailing" secondItem="dz3-xN-PWO" secondAttribute="trailing" id="bzZ-jm-sUc"/>
+                            <constraint firstItem="fZo-83-kBt" firstAttribute="top" secondItem="GFw-TK-Ij7" secondAttribute="top" id="FP4-mK-vHC"/>
+                            <constraint firstItem="JlE-fS-rc8" firstAttribute="top" secondItem="fZo-83-kBt" secondAttribute="bottom" id="QLy-Fr-3dB"/>
+                            <constraint firstItem="fZo-83-kBt" firstAttribute="leading" secondItem="GFw-TK-Ij7" secondAttribute="leading" id="hmI-Lu-zID"/>
+                            <constraint firstAttribute="trailing" secondItem="fZo-83-kBt" secondAttribute="trailing" id="naP-FA-ZPV"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="8pt-NT-UNT">
+                        <barButtonItem key="rightBarButtonItem" title="See rendered image" id="Ewu-QK-bIN">
+                            <connections>
+                                <segue destination="HIj-2O-eOl" kind="show" identifier="ShowRenderedImageSegue" id="p2i-bV-nlw"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="addTextButton" destination="mKh-1y-Tmo" id="aNG-CB-5ZC"/>
                         <outlet property="cameraControlView" destination="fZo-83-kBt" id="esG-sT-Tyw"/>
@@ -78,7 +83,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Vyl-ZK-pPK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-214" y="160"/>
+            <point key="canvasLocation" x="724" y="159.67016491754123"/>
         </scene>
         <!--Show Image View Controller-->
         <scene sceneID="8jM-3j-Yhb">
@@ -110,7 +115,25 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kiY-aa-Yec" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="830" y="170"/>
+            <point key="canvasLocation" x="1768.8" y="169.56521739130437"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="YzR-vx-M5u">
+            <objects>
+                <navigationController storyboardIdentifier="ImageEditingNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="xOp-WN-I6t" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="dk5-Sv-Cm5">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="CUT-KW-ZOC" kind="relationship" relationship="rootViewController" id="khf-Nv-hbM"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="LLk-3o-OiF" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-215.19999999999999" y="159.67016491754123"/>
         </scene>
     </scenes>
 </document>

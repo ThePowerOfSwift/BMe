@@ -7,34 +7,20 @@
 //
 
 import UIKit
+import MobileCoreServices
+import AVFoundation
 
 protocol ImageEditingDelegate {
     func getChosenImage() -> UIImage?
 }
 
-class ImageEditingViewController: UIViewController, UITextFieldDelegate {
+class ImageEditingViewController: UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     //MARK: - Outlets
     @IBOutlet weak var cameraControlView: UIView!
     @IBOutlet weak var addTextButton: UIButton!
-
-    @IBAction func tappedAddTextButton(_ sender: Any) {
-        addTextFieldToView()
-    }
-    
     @IBOutlet weak var imageView: UIImageView!
-    @IBAction func onDone(_ sender: UIButton) {
-        
-        var editedImage: UIImage?
-
-        //editedImage = chosenImage?.add(textFields: textFields, view: self.view)
-        editedImage = chosenImage?.add(textFields: textFields)
-        
-        let storyboard = UIStoryboard(name: "Camera", bundle: nil)
-        let testVC = storyboard.instantiateViewController(withIdentifier: "ShowImageViewController") as! ShowImageViewController
-        testVC.image = editedImage
-        present(testVC, animated: true, completion: nil)
-    }
+    
     
     //MARK:- Model
     var textFields: [UITextField] {
@@ -53,31 +39,158 @@ class ImageEditingViewController: UIViewController, UITextFieldDelegate {
     //MARK:- Variables
     var chosenImage: UIImage?
     var delegate: ImageEditingDelegate?
+    var renderedImage: UIImage?
     
     //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Do any additional setup after loading the view.
         let tap = UITapGestureRecognizer(target: self, action: #selector(tappedCamerView(_:)))
         cameraControlView.addGestureRecognizer(tap)
         
         // Get the picture user took
-        chosenImage = delegate?.getChosenImage()
-        imageView.image = chosenImage
+        //        chosenImage = delegate?.getChosenImage()
+        //        imageView.image = chosenImage
         
         // Insert it above the editing view
-        view.insertSubview(imageView, at: 0)
+        //view.insertSubview(imageView, at: 0)
+        //hideCameraControlView()
+        loadCamera()
+        //showCameraControlView()
     }
-
+    
+    func hideCameraControlView() {
+        cameraControlView.isHidden = true
+    }
+    
+    func showCameraControlView() {
+        cameraControlView.isHidden = false
+    }
+    
+    // MARK: image picker
+    func loadCamera() {
+        presentCameraPicker(timeInterval: 0.5, delegate: self, completion: nil)
+    }
+    
+    func presentCameraPicker(timeInterval: TimeInterval?, delegate: (UIImagePickerControllerDelegate & UINavigationControllerDelegate), completion: (() -> Void)?) {
+        let imagePicker = UIImagePickerController()
+        
+        imagePicker.delegate = delegate
+        imagePicker.allowsEditing = false
+        // Set to camera & video record
+        imagePicker.sourceType = .camera
+        
+        // Capable for video and camera
+        imagePicker.mediaTypes = [kUTTypeImage as String]
+        
+        // Set maximum video length, if any
+        if let timeInterval = timeInterval {
+            imagePicker.videoMaximumDuration = timeInterval
+        }
+        
+        present(imagePicker, animated: true) {
+            if let completion = completion { completion() }
+        }
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        // Delegate to return the chosen image
+        if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
+            imageView.image = image
+            
+            
+            let scaleImageToScreenWidth = imageView.frame.width / image.size.width
+            let scaleImageToScreenHeight = imageView.frame.height / image.size.height
+            
+            let scaleScreenToImageWidth = image.size.width / imageView.frame.width
+            let scaleScreenToImageHeight = image.size.height / imageView.frame.height
+            
+            
+            let centerXInImage = image.size.width / 2
+            let centerYInImage = image.size.height / 2
+            
+            print("centerXInImage: \(centerXInImage)")
+            print("centerYInImage: \(centerYInImage)")
+            
+            // Add label to the center
+            let textLabelXInScreen = centerXInImage * scaleImageToScreenWidth
+            let textLabelYInScreen = centerYInImage * scaleImageToScreenHeight
+            print("textLabelXInScreen: \(textLabelXInScreen)")
+            print("textLabelYInScreen: \(textLabelYInScreen)")
+            
+            let textLabelPointInScreen = CGPoint(x: textLabelXInScreen, y: textLabelYInScreen)
+            print("textLabelPointInScreen: \(textLabelPointInScreen)")
+            let testLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 100, height: 50))
+            testLabel.backgroundColor = UIColor.black
+            testLabel.font = UIFont(name: "Helvetica", size: 10)
+            testLabel.textColor = UIColor.white
+            testLabel.text = "HELLO WORLD"
+            testLabel.center = textLabelPointInScreen
+            imageView.addSubview(testLabel)
+            
+            let textLabelXInImage = textLabelXInScreen * scaleScreenToImageWidth
+            let textLabelYInImage = textLabelYInScreen * scaleScreenToImageHeight
+            print("textLabelXInImage: \(textLabelXInImage)")
+            print("textLabelYInImage: \(textLabelYInImage)")
+            
+            let textLabelPointInImage = CGPoint(x: textLabelXInImage, y: textLabelYInImage)
+            
+            
+            let textNSString = NSString(string: testLabel.text!)
+            // Draw text in image
+            renderedImage = image.add(textNSString, to: textLabelPointInImage, color: nil, font: nil)
+            
+            
+//            let storyboard = UIStoryboard(name: "Camera", bundle: nil)
+//            let testVC = storyboard.instantiateViewController(withIdentifier: "ShowImageViewController") as! ShowImageViewController
+//            testVC.image = drawnImage
+//            present(testVC, animated: true, completion: {
+//                print("The drawn image is showing now")
+//            
+//            })
+            
+            
+            // pass
+            
+            
+            print("imageView.image?.scale: \((imageView.image?.scale)!)")
+            print("UIScreen.main.scale: \(UIScreen.main.scale)")
+        }
+        picker.dismiss(animated: true, completion: nil)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "ShowRenderedImageSegue" {
+            let vc = segue.destination as! ShowImageViewController
+            vc.image = renderedImage
+        }
+    }
+    
+    @IBAction func onDone(_ sender: UIButton) {
+        
+        var editedImage: UIImage?
+        
+        //editedImage = chosenImage?.add(textFields: textFields, view: self.view)
+        //editedImage = chosenImage?.add(textFields: textFields)
+        
+        let storyboard = UIStoryboard(name: "Camera", bundle: nil)
+        let testVC = storyboard.instantiateViewController(withIdentifier: "ShowImageViewController") as! ShowImageViewController
+        testVC.image = editedImage
+        present(testVC, animated: true, completion: nil)
+    }
+    
     //MARK: - Manging Textfeld methods
-   
+    @IBAction func tappedAddTextButton(_ sender: Any) {
+        addTextFieldToView()
+    }
+    
     // Add a next text field to the screen
     func addTextFieldToView() {
         // Create new textfield
         let textField = UITextField()
         textField.delegate = self
-
+        
         textField.autocorrectionType = .no
         textField.autocapitalizationType = .sentences
         textField.spellCheckingType = .no
@@ -118,7 +231,7 @@ class ImageEditingViewController: UIViewController, UITextFieldDelegate {
     // On pan move the textfield
     func pannedTextField(_ sender: UIPanGestureRecognizer) {
         if let textField = sender.view {
-        
+            
             let point = sender.location(in: cameraControlView)
             textField.frame.origin = point
         }
@@ -130,7 +243,7 @@ class ImageEditingViewController: UIViewController, UITextFieldDelegate {
         cameraControlView.endEditing(true)
     }
     
-
+    
     func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
         return true
     }
@@ -141,89 +254,117 @@ class ImageEditingViewController: UIViewController, UITextFieldDelegate {
     }
 }
 
-
 extension UIImage {
-    
-    func add(textFields: [UITextField]) -> UIImage {
-        let screenSize = UIScreen.main.bounds
-        
-        let screenSizeCG = CGSize(width: screenSize.width, height: screenSize.height)
-        
-        let manualScale = UIScreen.main.bounds.width / self.size.width
-        let scale = UIScreen.main.scale
-        print("manualScale: \(manualScale)")
-        print("scale: \(scale)")
-        print("image: \(self.size)")
-        UIGraphicsBeginImageContextWithOptions(self.size, false, scale)
-        //UIGraphicsBeginImageContext(screenSizeCG)
-        self.draw(in: CGRect(origin: CGPoint.zero, size: self.size))
-
-        // Draw text in each textField
-        for textField in textFields {
-            
-            let text = NSString(string: textField.text!)
-            let point = CGPoint(x: textField.frame.origin.x, y: textField.frame.origin.y)
-            
-            let color = textField.textColor
-            let font = textField.font
-            
-            // Default colour white
-            var textColor = UIColor.white
-            if let color = color {
-                textColor = color
-            }
-            
-            let textScale = self.size.width / UIScreen.main.bounds.width
-
-            // Default font
-            var textFont = UIFont(name: "Helvetica Bold", size: 200)!
-            if let font = font {
-                textFont = UIFont(name: "Helvetica Bold", size: font.pointSize * textScale)!
-            }
-            
-            print("point: \(point)")
-            
-            let textFontAttributes = [NSFontAttributeName: textFont,
-                                      NSForegroundColorAttributeName: textColor] as [String : Any]
-            
-            let textRectSize = CGSize(width: screenSize.width, height: screenSize.width)
-            let textPoint = CGPoint(x: point.x * textScale, y: point.y * textScale)
-            let textRect = CGRect(origin: textPoint, size: textRectSize)
-            text.draw(in: textRect, withAttributes: textFontAttributes)
+    func add(_ text: NSString, to point: CGPoint, color: UIColor?, font: UIFont?) -> UIImage {
+        // Default colour white
+        var textColor = UIColor.white
+        if let color = color {
+            textColor = color
         }
+        // Default font
+        var textFont = UIFont(name: "Helvetica Bold", size: 100)!
+        if let font = font {
+            textFont = font
+        }
+        let scale = UIScreen.main.scale
+        UIGraphicsBeginImageContextWithOptions(self.size, false, scale)
+        
+        let textFontAttributes = [NSFontAttributeName: textFont,
+                                  NSForegroundColorAttributeName: textColor] as [String : Any]
+        self.draw(in: CGRect(origin: CGPoint.zero, size: self.size))
+        let rect = CGRect(origin: point, size: self.size)
+        text.draw(in: rect, withAttributes: textFontAttributes)
         
         let newImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
         return newImage!
     }
-    
+}
+
+
+//extension UIImage {
+//
+//    func add(textFields: [UITextField]) -> UIImage {
+//        let screenSize = UIScreen.main.bounds
+//
+//        let screenSizeCG = CGSize(width: screenSize.width, height: screenSize.height)
+//
+//        let manualScale = UIScreen.main.bounds.width / self.size.width
+//        let scale = UIScreen.main.scale
+//        print("manualScale: \(manualScale)")
+//        print("scale: \(scale)")
+//        print("image: \(self.size)")
+//        UIGraphicsBeginImageContextWithOptions(self.size, false, scale)
+//        //UIGraphicsBeginImageContext(screenSizeCG)
+//        self.draw(in: CGRect(origin: CGPoint.zero, size: self.size))
+//
+//        // Draw text in each textField
+//        for textField in textFields {
+//
+//            let text = NSString(string: textField.text!)
+//            let point = CGPoint(x: textField.frame.origin.x, y: textField.frame.origin.y)
+//
+//            let color = textField.textColor
+//            let font = textField.font
+//
+//            // Default colour white
+//            var textColor = UIColor.white
+//            if let color = color {
+//                textColor = color
+//            }
+//
+//            let textScale = self.size.width / UIScreen.main.bounds.width
+//
+//            // Default font
+//            var textFont = UIFont(name: "Helvetica Bold", size: 200)!
+//            if let font = font {
+//                textFont = UIFont(name: "Helvetica Bold", size: font.pointSize * textScale)!
+//            }
+//
+//            print("point: \(point)")
+//
+//            let textFontAttributes = [NSFontAttributeName: textFont,
+//                                      NSForegroundColorAttributeName: textColor] as [String : Any]
+//
+//            let textRectSize = CGSize(width: screenSize.width, height: screenSize.width)
+//            let textPoint = CGPoint(x: point.x * textScale, y: point.y * textScale)
+//            let textRect = CGRect(origin: textPoint, size: textRectSize)
+//            text.draw(in: textRect, withAttributes: textFontAttributes)
+//        }
+//
+//        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+//        UIGraphicsEndImageContext()
+//
+//        return newImage!
+//    }
+//
 //    func add(textFields: [UITextField], view: UIView) -> UIImage {
 //        let screenSizeCG = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-//        
+//
 //        // Get screen size
 //        let screenWidth: CGFloat = view.frame.size.width
 //        let screenHeight: CGFloat = view.frame.size.height
-//        
+//
 //        // Generate the range to draw
 //        let imageRect = CGRect(x:0, y:0, width: self.size.width, height: self.size.height)
 //        UIGraphicsBeginImageContext(self.size)
-//        
+//
 //        // Render this image
 //        self.draw(in: imageRect)
-//        
+//
 //        UIGraphicsBeginImageContextWithOptions(screenSizeCG, false, scale)
 //        //UIGraphicsBeginImageContext(screenSizeCG)
 //        self.draw(in: CGRect(origin: CGPoint.zero, size: self.size))
-//        
+//
 //        // Draw text in each textField
 //        for textField in textFields {
-//            
+//
 //            let text = NSString(string: textField.text!)
 //            let point = CGPoint(x: textField.frame.origin.x, y: textField.frame.origin.y)
 //            let color = textField.textColor
 //            let font = textField.font
-//            
+//
 //            // Default colour white
 //            var textColor = UIColor.white
 //            if let color = color {
@@ -234,20 +375,20 @@ extension UIImage {
 //            if let font = font {
 //                //textFont = font
 //            }
-//            
+//
 //            let textFontAttributes = [NSFontAttributeName: textFont,
 //                                      NSForegroundColorAttributeName: textColor] as [String : Any]
-//            
+//
 //            // Generate the range to draw text
 //            let textRectSize: CGSize = CGSize(width: 50, height: 20)
 //            let textRect = CGRect(origin: point, size: textRectSize)
 //            text.draw(in: textRect, withAttributes: textFontAttributes)
 //        }
-//        
+//
 //        let newImage = UIGraphicsGetImageFromCurrentImageContext()
 //        UIGraphicsEndImageContext()
 //        
 //        return newImage!
 //    }
-}
+
 

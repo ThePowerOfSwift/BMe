@@ -11,8 +11,8 @@ import UIKit
 struct Constants {
     struct OnLogin {
         
-        static let StoryboardID = "Sato"
-        static let RootViewController = "TabBarViewController"
+        static let StoryboardID = "Camera"
+        static let RootViewController = "ImageEditingNavigationController"
 //        static let StoryboardID = "CompositionTest"
 //        static let RootViewController = "CompositionTestViewController"
 //        static let StoryboardID = SegueID.Storyboard.Camera

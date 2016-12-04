@@ -19,9 +19,9 @@ class CameraViewController: UIViewController, UINavigationControllerDelegate, UI
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        self.presentCameraPicker(timeInterval: 0.5, delegate: self, completion: {
-            print("camera")
-        })
+//        self.presentCameraPicker(timeInterval: 0.5, delegate: self, completion: {
+//            print("camera")
+//        })
     }
     
     // MARK: Image Picker
@@ -58,8 +58,7 @@ class CameraViewController: UIViewController, UINavigationControllerDelegate, UI
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
             self.image = image
 
-            
-            
+
             if let url = info[UIImagePickerControllerReferenceURL] as? URL {
                 imageURL = url
             }
@@ -72,14 +71,6 @@ class CameraViewController: UIViewController, UINavigationControllerDelegate, UI
         return image
     }
     
-    func getImageView() -> UIImageView? {
-        let label = UILabel()
-        label.text = "HELLO WORLD"
-        let imageView = UIImageView(image: image)
-        label.center = CGPoint(x: image.size.width / 2, y: image.size.height / 2)
-        imageView.addSubview(label)
-        
-    }
 
 }
 
