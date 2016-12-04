@@ -11,6 +11,7 @@ import AVKit
 import AVFoundation
 import MBProgressHUD
 
+// Deprecated
 protocol WatchViewControllerDelegate {
     func getVideo () -> Video?
 }

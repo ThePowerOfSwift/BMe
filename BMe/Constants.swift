@@ -46,7 +46,7 @@ struct Constants {
 }
 
 enum ContentType {
-    case image, video, audio, template, userMeta
+    case image, video, audio, template, userMeta, post
     func string() -> String {
         switch self {
         case .image:
@@ -58,7 +58,9 @@ enum ContentType {
         case .template:
             return "template/videocomposition"
         case .userMeta:
-            return "usermeta"
+            return ObjectKey.userMeta
+        case .post:
+            return ObjectKey.post
         }
     }
     func fileExtension() -> String {
@@ -72,7 +74,9 @@ enum ContentType {
         case .template:
             return ".videocomposition"
         case .userMeta:
-            return ""
+            return ObjectKey.userMeta
+        case .post:
+            return ObjectKey.post
         }
     }
     func objectKey() -> String {
@@ -87,6 +91,8 @@ enum ContentType {
             return ObjectKey.template
         case .userMeta:
             return ObjectKey.userMeta
+        case .post:
+            return ObjectKey.post
         }
     }
 }

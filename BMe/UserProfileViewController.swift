@@ -67,7 +67,7 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
         avatarImageView.clipsToBounds = true
         avatarImageView.layer.cornerRadius = 20
         avatarImageView.layer.borderWidth = 1
-        avatarImageView.layer.borderColor = UIColor.white.cgColor
+        avatarImageView.layer.borderColor = Styles.Color.Primary.cgColor
         avatarImageView.isUserInteractionEnabled = true
         
         // Reference to an image file in Firebase Storage and pull image

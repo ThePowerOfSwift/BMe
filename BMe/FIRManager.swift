@@ -84,7 +84,7 @@ class FIRManager: NSObject {
     // Puts JSON object to database: database/<object key>/<Random Gen ID>/JSON object
     func putObjectOnDatabase(named: String, data: [String: AnyObject?], completion:@escaping (FIRDatabaseReference, Error?)->()) {
         let database = FIRManager.shared.database
-        database.child(named).childByAutoId().setValue(data){ (error, ref) in
+        database.child(named).childByAutoId().setValue(data) { (error, ref) in
             if let error = error {
                 print("Error adding object to FIR Database: \(error.localizedDescription)")
             }
@@ -92,53 +92,107 @@ class FIRManager: NSObject {
         }
     }
     
-    // Deprecate
-    func getVideos(completion: @escaping ([Video])->()) {
-        
-        let videoQuery = database.child(ContentType.video.objectKey()).queryOrdered(byChild: "CreatedAt").observe(.value, with: { snapshot in
-            var videos = [Video]()
-            for item in snapshot.children.allObjects as! [FIRDataSnapshot] {
-                let value = item.value as! [String:AnyObject?]
-                let video = Video(dictionary: value)
-                videos.append(video)
-            }
-            completion(videos)
+    func postObject(url: URL, contentType: ContentType, meta: [String: AnyObject?], completion:(()->())?) {
+        // Upload object to storage
+        putObjectOnStorage(url: url, contentType: contentType, completion: { (metadata, error) in
+            self.completePost(contentType: contentType, meta: meta, completion: completion, metadata: metadata, error: error)
         })
     }
     
-    // Uploads new Video to storage and database
-    // TODO: - replace Video with generic object
-    func uploadVideo(video: Video, completion: (()->())?) {
-        putObjectOnStorage(url: URL(string: video.videoURL!)!, contentType: .video, completion: {
-            (metadata: FIRStorageMetadata?, error: Error?) in
-            
-            if error != nil {
-                print("Error- abort putting video")
-                return
-            }
-
-            // Update data dictionary to be put on Firebase Database
-            video.gsURL = metadata!.gsURL
-            FIRManager.shared.fetchDownloadURLs([URL(string: video.gsURL!)!], completion: {
-                (urls) in
-                video.videoURL = urls.first!.absoluteString
-                
-                // Put new video to Database with the new Storage url
-                self.putObjectOnDatabase(named: ContentType.video.objectKey(), data: video.dictionaryFormat, completion: {
-                    (ref, error) in
-                    
-                    if  error != nil {
-                        print("Error- abort putting video")
-                        return
-                    }
-                    print("Success: uploaded video")
-                    
-                    completion?()
-                })
-            })
-            
+    func postObject(object: Data, contentType: ContentType, meta: [String: AnyObject?], completion:(()->())?) {
+        // Upload object to storage
+        putObjectOnStorage(data: object, contentType: contentType, completion: { (metadata, error) in
+            self.completePost(contentType: contentType, meta: meta, completion: completion, metadata: metadata, error: error)
         })
     }
+    
+    private func completePost(contentType: ContentType, meta: [String: AnyObject?], completion:(()->())?, metadata: FIRStorageMetadata?, error: Error?) {
+        if let error = error {
+            print("Error posting object \(contentType.string()), aborting: \(error.localizedDescription)")
+            return
+        }
+        
+        // Get resultant URLs and create object on Databasae
+        let gsURL = metadata?.gsURL
+        FIRManager.shared.fetchDownloadURLs([URL(string: gsURL!)!], completion: { (urls) in
+            let downloadURL = urls.first!
+            
+            // Create object on Database
+            
+            // Construct JSON for object to put on Database
+            let jsonObject: [String: AnyObject?] = [
+                "uid": AppState.shared.currentUser?.uid as AnyObject,
+                "downloadURL": downloadURL.absoluteString as AnyObject,
+                "gsURL": gsURL as AnyObject,
+                "contentType": contentType.objectKey() as AnyObject,
+                "meta": meta as AnyObject]
+            
+            self.putObjectOnDatabase(named: contentType.objectKey(), data: jsonObject, completion: { (ref, error) in
+                if let error = error {
+                    print("Error putting \(contentType.objectKey()) on Database, aborting \(error.localizedDescription)")
+                    return
+                }
+                
+                print("Success: uploaded \(contentType.objectKey())")
+                
+                // Create Post on Database
+                
+                // Construct JSON for object to put on Database
+                let jsonObject: [String: AnyObject?] = [
+                    "uid": AppState.shared.currentUser?.uid as AnyObject,
+                    "url": ref.url as AnyObject,
+                    "description": ref.description() as AnyObject,
+                    "contentType": contentType.objectKey() as AnyObject,
+                    ]
+                
+                self.putObjectOnDatabase(named: ContentType.post.objectKey(), data: jsonObject, completion: { (ref, error) in
+                    if let error = error {
+                        print("Error putting \(contentType.objectKey()) on Database, aborting \(error.localizedDescription)")
+                        return
+                    }
+                    print("Success: post created for \(contentType.objectKey())")
+                    completion?()
+                })
+                
+            })
+        })
+    }
+    
+    
+    
+    // Uploads new Video to storage and database
+    // TODO: - replace Video with generic object
+//    func uploadVideo(video: Video, completion: (()->())?) {
+//        putObjectOnStorage(url: URL(string: video.videoURL!)!, contentType: .video, completion: {
+//            (metadata: FIRStorageMetadata?, error: Error?) in
+//            
+//            if error != nil {
+//                print("Error- abort putting video")
+//                return
+//            }
+//
+//            // Update data dictionary to be put on Firebase Database
+//            video.gsURL = metadata!.gsURL
+//            FIRManager.shared.fetchDownloadURLs([URL(string: video.gsURL!)!], completion: {
+//                (urls) in
+//                video.videoURL = urls.first!.absoluteString
+//                
+//                // Put new video to Database with the new Storage url
+//                self.putObjectOnDatabase(named: ContentType.video.objectKey(), data: video.dictionaryFormat, completion: {
+//                    (ref, error) in
+//                    
+//                    if  error != nil {
+//                        print("Error- abort putting video")
+//                        return
+//                    }
+//                    print("Success: uploaded video")
+//                    
+//                    completion?()
+//                })
+//            })
+//            
+//        })
+//    }
     
     //TODO: - Should move this to VideoComposition
     func uploadVideoComposition(composition: VideoComposition, completion:(()->())?) {

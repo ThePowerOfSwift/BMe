@@ -11,15 +11,17 @@ import UIKit
 class MediaSelectorCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var imageView: UIImageView!
-    @IBOutlet weak var videoIconView: UIImageView!
+    @IBOutlet weak var durationLabel: UILabel!
     
     struct Key {
         static let id = "MediaSelectorCollectionViewCell"
     }
     
-    let selectionMargin: CGFloat = 2.00
-    let hightlightColor = UIColor.yellow
-    let highlightCornerRadius: CGFloat = 3.00
+    let selectionMargin: CGFloat = 4.00
+    let hightlightColor = Styles.Color.Secondary
+    let highlightCornerRadius: CGFloat = 5.00
+    let selectedAlpha: CGFloat = 0.70
+    let animationDuraction: TimeInterval = 0.2
     
     var image: UIImage? {
         didSet {
@@ -29,14 +31,19 @@ class MediaSelectorCollectionViewCell: UICollectionViewCell {
     
     var isVideo: Bool! {
         didSet {
-            videoIconView.isHidden = !isVideo
+            durationLabel.isHidden = !isVideo
         }
     }
     
     override var isSelected : Bool {
         didSet {
-            self.layer.borderColor = isSelected ? hightlightColor.cgColor : UIColor.clear.cgColor
-            self.layer.borderWidth = isSelected ? selectionMargin : 0
+            UIView.animate(withDuration: animationDuraction, animations: {
+                self.layer.borderColor = self.isSelected ? self.hightlightColor.cgColor : UIColor.clear.cgColor
+                self.layer.borderWidth = self.isSelected ? self.selectionMargin : 0
+                self.clipsToBounds = true
+                self.layer.cornerRadius = self.isSelected ? self.highlightCornerRadius : 0
+                self.alpha = self.isSelected ? self.selectedAlpha : 1.0
+            })
         }
     }
     // MARK: - Lifecycle methods

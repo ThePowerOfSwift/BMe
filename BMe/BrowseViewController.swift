@@ -9,46 +9,52 @@
 import UIKit
 import AVKit
 import AVFoundation
-import MBProgressHUD
+import Firebase
 
 class BrowseViewController: UIViewController {
     
     
     @IBOutlet weak var tableView: UITableView!
     
-    var videos: [Video]?
+    var posts: [FIRDataSnapshot]! = []
+    private var _refHandle: FIRDatabaseHandle!
+    private let dbReference = FIRManager.shared.database.child(ContentType.post.objectKey())
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         tableView.delegate = self
         tableView.dataSource = self
-        FIRManager.shared.getVideos { (videos: [Video]) in
+//        tableView.estimatedRowHeight = 50
+//        tableView.rowHeight = UITableViewAutomaticDimension
 
-            self.videos = videos
-            self.tableView.reloadData()
-        }
-        
         // Pull to refresh
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(pullToRefresh), for: UIControlEvents.valueChanged)
         tableView.insertSubview(refreshControl, at: 0)
-        
-        // YPManager test
-        /*
-        var restaurants = [Restaurant]()
-        _ = YPManager.shared.searchWithTerm("thai", completion: {(response: [Restaurant]?, error: Error?) in
-            if let response = response {
-                restaurants = response
-            }
-            for restaurant in restaurants {
-                print(restaurant.name!)
-            }
-        })
- */
-        
+   
         // Setup player end for loop observation
         NotificationCenter.default.addObserver(self, selector: #selector(playerItemDidReachEnd(_:)), name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil)
+        
+        // Setup datasource
+        _refHandle = dbReference.observe(.childAdded, with: { (snapshot) in
+            self.posts.append(snapshot)
+            self.tableView.insertRows(at: [IndexPath(row: self.posts.count - 1, section: 0)], with: .automatic)
+        })
+
+
+// YPManager test
+/*
+var restaurants = [Restaurant]()
+_ = YPManager.shared.searchWithTerm("thai", completion: {(response: [Restaurant]?, error: Error?) in
+    if let response = response {
+        restaurants = response
+    }
+    for restaurant in restaurants {
+        print(restaurant.name!)
+    }
+})
+ */
     }
     
     // Loop video
@@ -59,6 +65,7 @@ class BrowseViewController: UIViewController {
     
     // Deregister for notifications
     deinit {
+        dbReference.removeObserver(withHandle: _refHandle)
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil)
     }
 }
@@ -66,27 +73,26 @@ class BrowseViewController: UIViewController {
 extension BrowseViewController:  UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        if let videos = videos {
-            return videos.count
-        }
-        
-        return 0
+        return posts.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: BrowserTableViewCell.ID, for: indexPath) as! BrowserTableViewCell
         
-        if let video = videos?[indexPath.row] {
+        if let post = posts?[indexPath.row].dictionary {
             // Setup user content
-            User.userMeta(video.userId!, block: { (usermeta) in
-                // Get the avatar if it exists
-                
-                let ref = FIRManager.shared.storage.child((usermeta.avatarURL?.path)!)
-                cell.avatarImageView.loadImageFromGS(with: ref, placeholderImage: UIImage(named: Constants.User.avatarDefault))
-            })
             
-            cell.usernameLabel.text = video.username
+            if let uid = post["uid"] as? String {
+                User.userMeta(uid, block: { (usermeta) in
+                    // Get the avatar if it exists
+                    let ref = FIRManager.shared.storage.child((usermeta.avatarURL?.path)!)
+                    cell.avatarImageView.loadImageFromGS(with: ref, placeholderImage: UIImage(named: Constants.User.avatarDefault))
+                })
+            }
+            
+            if let username = post["username"] as? String {
+                cell.usernameLabel.text = username
+            }
             
             /*
             // Setup video content
@@ -116,20 +122,5 @@ extension BrowseViewController:  UITableViewDelegate, UITableViewDataSource {
     }
     
     func pullToRefresh(refreshControl: UIRefreshControl) {
-        MBProgressHUD.showAdded(to: self.view, animated: true)
-        FIRManager.shared.getVideos { (videos: [Video]) in
-            MBProgressHUD.hide(for: self.view, animated: true)
-            self.videos = videos
-            self.tableView.reloadData()
-            refreshControl.endRefreshing()
-        }
-    }
-}
-
-extension BrowseViewController: WatchViewControllerDelegate {
-    func getVideo() -> Video? {
-        
-        return videos?[(tableView.indexPathForSelectedRow?.row)!]
-        
     }
 }
