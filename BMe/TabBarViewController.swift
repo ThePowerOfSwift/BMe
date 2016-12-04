@@ -36,8 +36,7 @@ class TabBarViewController: UIViewController {
         let createStoryboard = UIStoryboard(name: VideoComposition.StoryboardKey.ID, bundle: nil)
         createViewController = createStoryboard.instantiateViewController(withIdentifier: VideoComposition.StoryboardKey.mediaSelectorNavigationController)
 
-        //cameraViewController = UIStoryboard(name: "Camera", bundle: nil).instantiateInitialViewController()
-        cameraViewController = CameraViewController()
+        cameraViewController = UIStoryboard(name: "Camera", bundle: nil).instantiateInitialViewController()
         accountViewController = UIStoryboard(name: "Account", bundle: nil).instantiateInitialViewController()
         
         // Init with view controllers
