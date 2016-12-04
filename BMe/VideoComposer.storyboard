@@ -113,8 +113,6 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
-                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-                    <size key="freeformSize" width="375" height="667"/>
                     <connections>
                         <outlet property="bannerView" destination="hfT-ob-Ahb" id="vmo-hZ-JGG"/>
                         <outlet property="collectionView" destination="mZ5-7q-adD" id="TZx-zH-kxQ"/>
@@ -219,8 +217,8 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="done"/>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rT7-T9-Hun">
-                                <rect key="frame" x="323" y="28" width="41" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rT7-T9-Hun">
+                                <rect key="frame" x="319" y="28" width="41" height="30"/>
                                 <state key="normal" title="Finish"/>
                                 <connections>
                                     <action selector="postTapped:" destination="lvg-tL-CMK" eventType="touchUpInside" id="0JS-Dz-FX2"/>
@@ -254,7 +252,7 @@
             <objects>
                 <navigationController storyboardIdentifier="MediaSelectorNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="jtT-cY-Inp" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="DBl-KK-qyV">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="DBl-KK-qyV">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -265,7 +263,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="y0X-qN-ZYl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1312.8" y="-99.400299850074973"/>
+            <point key="canvasLocation" x="-1112" y="-107"/>
         </scene>
     </scenes>
     <resources>

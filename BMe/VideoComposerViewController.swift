@@ -204,29 +204,33 @@ class VideoComposerViewController: UIViewController, UICollectionViewDataSource,
     
     // MARK: - MetaDelegate Methods
 
+    
     func post(meta: [String : String]) {
 //        let name = meta[MetaViewController.Key.name]
         let restaurant = meta[MetaViewController.Key.restaurant]
 
-         // render timing?
-         // split up the times automatically? (take the natural length of videos)?
-         // use pre marked split?
-         // include pictures
+        // render timing?
+        // split up the times automatically? (take the natural length of videos)?
+        // use pre marked split?
+        // include pictures
         
-         composition.render(fileNamed: "render_temp.mov", completion: {
-         (session: AVAssetExportSession) in
-         print("Success: rendered video")
+        composition.render(fileNamed: "render_temp.mov", completion: {
+            (session: AVAssetExportSession) in
          
-         // Convert rendered to upload video with using updated links
-         let video = Video(userId: AppState.shared.currentUser?.uid,
-         username: AppState.shared.currentUser?.displayName,
-         templateId: "",
-         videoURL: session.outputURL?.absoluteString,
-         gsURL: "",
-         createdAt: Date(),
-         restaurantName: restaurant)
-         
-         FIRManager.shared.uploadVideo(video: video, completion: { })
-         })
+            print("Success: rendered video")
+            let url = URL(string: (session.outputURL?.absoluteString)!)
+            FIRManager.shared.postObject(url: url!, contentType: ContentType.video, meta: [:], completion: nil)
+            
+            // Convert rendered to upload video with using updated links
+//            let video = Video(userId: AppState.shared.currentUser?.uid,
+//            username: AppState.shared.currentUser?.displayName,
+//            templateId: "",
+//            videoURL: session.outputURL?.absoluteString,
+//            gsURL: "",
+//            createdAt: Date(),
+//            restaurantName: restaurant)
+//
+//            FIRManager.shared.uploadVideo(video: video, completion: { })
+        })
     }
 }

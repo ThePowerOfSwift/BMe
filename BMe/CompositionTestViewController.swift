@@ -112,9 +112,9 @@ class CompositionTestViewController: UIViewController, UIImagePickerControllerDe
                                   createdAt: Date(),
                                   restaurantName: "")
                 activityIndicator.startAnimating()
-                FIRManager.shared.uploadVideo(video: video, completion: {
-                self.activityIndicator.stopAnimating()
-                })
+//                FIRManager.shared.uploadVideo(video: video, completion: {
+//                self.activityIndicator.stopAnimating()
+//                })
             }
             else if action == "Pick video" {
                 let url = info[UIImagePickerControllerMediaURL] as? URL
