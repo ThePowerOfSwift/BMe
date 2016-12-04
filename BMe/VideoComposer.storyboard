@@ -202,73 +202,12 @@
             </objects>
             <point key="canvasLocation" x="373.60000000000002" y="-99.400299850074973"/>
         </scene>
-        <!--Meta View Controller-->
-        <scene sceneID="OzL-Tx-45Y">
-            <objects>
-                <viewController storyboardIdentifier="MetaViewController" id="lvg-tL-CMK" customClass="MetaViewController" customModule="BMe" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="dk9-O5-TDm"/>
-                        <viewControllerLayoutGuide type="bottom" id="R1G-5y-oS3"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="Kxb-4n-p5F">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" placeholderIntrinsicWidth="261" placeholderIntrinsicHeight="30" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Name your video" textAlignment="natural" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="IsZ-7P-LYC">
-                                <rect key="frame" x="57" y="319" width="261" height="30"/>
-                                <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="done"/>
-                            </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wn7-ty-PAH">
-                                <rect key="frame" x="15" y="28" width="48" height="30"/>
-                                <state key="normal" title="Cancel"/>
-                                <connections>
-                                    <action selector="cancelTapped:" destination="lvg-tL-CMK" eventType="touchUpInside" id="mS5-Gg-A6J"/>
-                                </connections>
-                            </button>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Restaurant" textAlignment="natural" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5Di-Nc-qSx">
-                                <rect key="frame" x="57" y="369" width="261" height="30"/>
-                                <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="done"/>
-                            </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rT7-T9-Hun">
-                                <rect key="frame" x="319" y="28" width="41" height="30"/>
-                                <state key="normal" title="Finish"/>
-                                <connections>
-                                    <action selector="postTapped:" destination="lvg-tL-CMK" eventType="touchUpInside" id="0JS-Dz-FX2"/>
-                                </connections>
-                            </button>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="IsZ-7P-LYC" firstAttribute="centerX" secondItem="Kxb-4n-p5F" secondAttribute="centerX" id="0qc-7B-lWi"/>
-                            <constraint firstItem="Wn7-ty-PAH" firstAttribute="leading" secondItem="Kxb-4n-p5F" secondAttribute="leading" constant="15" id="21b-nC-vFf"/>
-                            <constraint firstItem="5Di-Nc-qSx" firstAttribute="width" secondItem="IsZ-7P-LYC" secondAttribute="width" id="32u-mW-bea"/>
-                            <constraint firstItem="5Di-Nc-qSx" firstAttribute="top" secondItem="IsZ-7P-LYC" secondAttribute="bottom" constant="20" id="6kJ-zP-D7o"/>
-                            <constraint firstItem="5Di-Nc-qSx" firstAttribute="leading" secondItem="IsZ-7P-LYC" secondAttribute="leading" id="9fD-9e-mCY"/>
-                            <constraint firstItem="rT7-T9-Hun" firstAttribute="top" secondItem="dk9-O5-TDm" secondAttribute="bottom" constant="8" id="QnX-gF-Y20"/>
-                            <constraint firstItem="IsZ-7P-LYC" firstAttribute="centerY" secondItem="Kxb-4n-p5F" secondAttribute="centerY" id="cKk-Vz-oGt"/>
-                            <constraint firstItem="Wn7-ty-PAH" firstAttribute="top" secondItem="dk9-O5-TDm" secondAttribute="bottom" constant="8" id="q65-tl-0Ep"/>
-                            <constraint firstAttribute="trailing" secondItem="rT7-T9-Hun" secondAttribute="trailing" constant="15" id="sul-1S-u02"/>
-                        </constraints>
-                    </view>
-                    <connections>
-                        <outlet property="nameTextField" destination="IsZ-7P-LYC" id="ysG-fw-l9C"/>
-                        <outlet property="restaurantTextField" destination="5Di-Nc-qSx" id="dJ2-2w-z8E"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="C70-69-lzU" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1144.8" y="-105.69715142428787"/>
-        </scene>
         <!--Navigation Controller-->
         <scene sceneID="yec-MB-mgq">
             <objects>
                 <navigationController storyboardIdentifier="MediaSelectorNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="jtT-cY-Inp" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="DBl-KK-qyV">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="DBl-KK-qyV">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
