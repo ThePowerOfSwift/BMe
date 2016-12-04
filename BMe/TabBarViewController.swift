@@ -36,7 +36,8 @@ class TabBarViewController: UIViewController {
         let createStoryboard = UIStoryboard(name: VideoComposition.StoryboardKey.ID, bundle: nil)
         createViewController = createStoryboard.instantiateViewController(withIdentifier: VideoComposition.StoryboardKey.mediaSelectorNavigationController)
 
-        cameraViewController = UIStoryboard(name: "Camera", bundle: nil).instantiateInitialViewController()
+        //cameraViewController = UIStoryboard(name: "Camera", bundle: nil).instantiateInitialViewController()
+        cameraViewController = CameraViewController()
         accountViewController = UIStoryboard(name: "Account", bundle: nil).instantiateInitialViewController()
         
         // Init with view controllers
@@ -71,6 +72,8 @@ class TabBarViewController: UIViewController {
 //            tabs[i].isHidden = false
 //        }
 //    }
+    
+    // MARK: Tab Setups
     
     // Call setupButtons(imageName, tabIndex) to setup tabs
     func setupTabs() {
@@ -123,6 +126,8 @@ class TabBarViewController: UIViewController {
         // Set center coordinate
         tabs[index].center = CGPoint(x: x, y: y)
     }
+    
+    // MARK: Tab Action
     
     @IBAction func didTapTab(_ sender: UIButton) {
         // Previous view controller

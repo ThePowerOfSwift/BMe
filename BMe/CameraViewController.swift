@@ -2,117 +2,66 @@
 //  CameraViewController.swift
 //  BMe
 //
-//  Created by Jonathan Cheng on 11/30/16.
+//  Created by Satoru Sasozaki on 12/3/16.
 //  Copyright © 2016 Jonathan Cheng. All rights reserved.
 //
 
 import UIKit
+import MobileCoreServices
+import AVFoundation
 
-class CameraViewController: UIViewController, UITextFieldDelegate {
-    
-    //MARK: - Outlets
-    @IBOutlet weak var cameraControlView: UIView!
-    @IBOutlet weak var addTextButton: UIButton!
+class CameraViewController: UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate, ImageEditingDelegate {
 
-    @IBAction func tappedAddTextButton(_ sender: Any) {
-        addTextFieldToView()
-    }
-    
-    //MARK:- Model
-    var getTextFieldInView: [UITextField] {
-        get {
-            var textFields: [UITextField] = []
-            for view in cameraControlView.subviews {
-//grab textfields
-            }
-            return textFields
-        }
-    }
-    
-    //MARK:- Variables
-    
-    //MARK: - Lifecycle
+    var image: UIImage?
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-        let tap = UITapGestureRecognizer(target: self, action: #selector(tappedCamerView(_:)))
-        cameraControlView.addGestureRecognizer(tap)
-        
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    override func viewWillAppear(_ animated: Bool) {
+        self.presentCameraPicker(timeInterval: 0.5, delegate: self, completion: {
+            print("camera")
+        })
     }
-    
-    //MARK: - Manging Textfeld methods
-   
-    // Add a next text field to the screen
-    func addTextFieldToView() {
-        // Create new textfield
-        let textField = UITextField()
-        textField.delegate = self
 
-        textField.autocorrectionType = .no
-        textField.autocapitalizationType = .sentences
-        textField.spellCheckingType = .no
-        textField.keyboardType = .asciiCapable
-        textField.returnKeyType = .done
-        
-        // Add didedit event notifier
-        textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: UIControlEvents.editingChanged)
-        // Add double tap (to delete)
-        let tap = UITapGestureRecognizer(target: self, action: #selector(doubleTappedTextField(_:)))
-        tap.numberOfTapsRequired = 2
-        textField.addGestureRecognizer(tap)
-        // Add pan (to move)
-        let pan = UIPanGestureRecognizer(target: self, action: #selector(pannedTextField(_:)))
-        textField.addGestureRecognizer(pan)
-        
-        // Default appearance
-        textField.placeholder = "T"
-        textField.sizeToFit()
-        
-        textField.frame.origin = cameraControlView.center
-        
-        cameraControlView.addSubview(textField)
-        textField.becomeFirstResponder()
-    }
+    // MARK: Image Picker
     
-    // On change resize the view
-    func textFieldDidChange(_ sender: UITextField) {
-        sender.sizeToFit()
-    }
-    
-    // On double tap remove the textfield
-    func doubleTappedTextField(_ sender: UITapGestureRecognizer) {
-        let textField = sender.view
-        textField?.removeFromSuperview()
-    }
-    
-    // On pan move the textfield
-    func pannedTextField(_ sender: UIPanGestureRecognizer) {
-        if let textField = sender.view {
+    func presentCameraPicker(timeInterval: TimeInterval?, delegate: (UIImagePickerControllerDelegate & UINavigationControllerDelegate), completion: (() -> Void)?) {
+        let imagePicker = UIImagePickerController()
         
-            let point = sender.location(in: cameraControlView)
-            textField.frame.origin = point
+        imagePicker.delegate = delegate
+        imagePicker.allowsEditing = true
+        // Set to camera & video record
+        imagePicker.sourceType = .camera
+        
+        // Capable for video and camera
+        imagePicker.mediaTypes = [kUTTypeMovie as NSString as String, kUTTypeImage as String]
+        
+        // Set maximum video length, if any
+        if let timeInterval = timeInterval {
+            imagePicker.videoMaximumDuration = timeInterval
+        }
+        
+        present(imagePicker, animated: true) {
+            if let completion = completion { completion() }
         }
     }
     
-    //MARK: - Textfield Delegate & FirstResponder methods
-    // Tapped on background: end editing on all textfields
-    func tappedCamerView(_ sender: UITapGestureRecognizer) {
-        cameraControlView.endEditing(true)
-    }
-    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
 
-    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
-        return true
+        let imageEditingViewController = UIStoryboard(name: "Camera", bundle: nil).instantiateInitialViewController() as! ImageEditingViewController
+        picker.dismiss(animated: true, completion: nil)
+        
+        // Delegate to return the chosen image
+        imageEditingViewController.delegate = self
+        if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
+            self.image = image
+            present(imageEditingViewController, animated: true, completion: nil)
+        }
     }
     
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
+    // MARK: ImageEditingDelegate
+    func getChosenImage() -> UIImage? {
+        return image
     }
+
 }
