@@ -29,7 +29,7 @@ class CameraViewController: UIViewController, UINavigationControllerDelegate, UI
         let imagePicker = UIImagePickerController()
         
         imagePicker.delegate = delegate
-        imagePicker.allowsEditing = true
+        imagePicker.allowsEditing = false
         // Set to camera & video record
         imagePicker.sourceType = .camera
         

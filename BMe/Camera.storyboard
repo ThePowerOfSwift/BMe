@@ -25,7 +25,7 @@
                                 <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mKh-1y-Tmo">
-                                        <rect key="frame" x="337" y="8" width="30" height="40.5"/>
+                                        <rect key="frame" x="5" y="8" width="30" height="41"/>
                                         <state key="normal">
                                             <attributedString key="attributedTitle">
                                                 <fragment content="T">
@@ -39,10 +39,19 @@
                                             <action selector="tappedAddTextButton:" destination="CUT-KW-ZOC" eventType="touchUpInside" id="CEV-qh-hPO"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8UK-bU-d50">
+                                        <rect key="frame" x="333" y="8" width="37" height="30"/>
+                                        <state key="normal" title="Done"/>
+                                        <connections>
+                                            <action selector="onDone:" destination="CUT-KW-ZOC" eventType="touchUpInside" id="fug-6C-1Zk"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <constraints>
+                                    <constraint firstItem="8UK-bU-d50" firstAttribute="top" secondItem="fZo-83-kBt" secondAttribute="top" constant="8" id="5vH-ft-AVj"/>
+                                    <constraint firstItem="mKh-1y-Tmo" firstAttribute="leading" secondItem="fZo-83-kBt" secondAttribute="leading" constant="5" id="8jD-Mq-JKf"/>
                                     <constraint firstItem="mKh-1y-Tmo" firstAttribute="top" secondItem="fZo-83-kBt" secondAttribute="top" constant="8" id="C4i-wZ-pJj"/>
-                                    <constraint firstAttribute="trailing" secondItem="mKh-1y-Tmo" secondAttribute="trailing" constant="8" id="FfO-7c-fJF"/>
+                                    <constraint firstAttribute="trailing" secondItem="8UK-bU-d50" secondAttribute="trailing" constant="5" id="Ug8-hQ-lo8"/>
                                 </constraints>
                             </view>
                         </subviews>

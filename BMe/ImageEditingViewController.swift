@@ -22,12 +22,26 @@ class ImageEditingViewController: UIViewController, UITextFieldDelegate {
         addTextFieldToView()
     }
     
+    @IBAction func onDone(_ sender: UIButton) {
+        
+        var editedImage: UIImage?
+
+        editedImage = chosenImage?.add(textFields: textFields)
+        
+        let testVC = ShowImageViewController()
+        testVC.image = editedImage
+        present(testVC, animated: true, completion: nil)
+    }
+    
     //MARK:- Model
-    var getTextFieldInView: [UITextField] {
+    var textFields: [UITextField] {
         get {
             var textFields: [UITextField] = []
             for view in cameraControlView.subviews {
-//grab textfields
+                //grab textfields
+                if let textField = view as? UITextField {
+                    textFields.append(textField)
+                }
             }
             return textFields
         }
@@ -45,12 +59,15 @@ class ImageEditingViewController: UIViewController, UITextFieldDelegate {
         let tap = UITapGestureRecognizer(target: self, action: #selector(tappedCamerView(_:)))
         cameraControlView.addGestureRecognizer(tap)
         
+        // Get the picture user took
         chosenImage = delegate?.getChosenImage()
         let pictureView = UIImageView(image: chosenImage)
+        
+
         pictureView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height)
         
+        // Insert it above the editing view
         view.insertSubview(pictureView, at: 0)
-        
     }
 
     //MARK: - Manging Textfeld methods
@@ -123,3 +140,45 @@ class ImageEditingViewController: UIViewController, UITextFieldDelegate {
         return true
     }
 }
+
+
+extension UIImage {
+    
+    func add(textFields: [UITextField]) -> UIImage {
+        
+        let scale = UIScreen.main.scale
+        UIGraphicsBeginImageContextWithOptions(self.size, false, scale)
+        self.draw(in: CGRect(origin: CGPoint.zero, size: self.size))
+
+        // Draw text in each textField
+        for textField in textFields {
+            
+            let text = NSString(string: textField.text!)
+            let point = CGPoint(x: textField.frame.origin.x, y: textField.frame.origin.y)
+            let color = textField.textColor
+            let font = textField.font
+            
+            // Default colour white
+            var textColor = UIColor.white
+            if let color = color {
+                textColor = color
+            }
+            // Default font
+            var textFont = UIFont(name: "Helvetica Bold", size: 200)!
+            if let font = font {
+                //textFont = font
+            }
+            
+            let textFontAttributes = [NSFontAttributeName: textFont,
+                                      NSForegroundColorAttributeName: textColor] as [String : Any]
+            let rect = CGRect(origin: point, size: self.size)
+            text.draw(in: rect, withAttributes: textFontAttributes)
+        }
+        
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return newImage!
+    }
+}
+
