@@ -77,10 +77,6 @@ class User: NSObject {
         super.init()
     }
     
-    func postObject(object: AnyObject, contentType: ContentType) {
-        
-    }
-    
     // MARK: - Class methods
     
     // Creates a new user using stock FIRUser and adds a corresponding user object onto Database to hold extraneous information (metadata) not held by FIRUser
@@ -117,7 +113,7 @@ class User: NSObject {
         let ref = FIRManager.shared.database.child(ContentType.userMeta.objectKey()).child(uid)
         // Get existing values
         ref.observeSingleEvent(of: .value, with: {(snapshot: FIRDataSnapshot) in
-            let data = snapshot.value as! [String: AnyObject?]
+            let data = snapshot.dictionary
             var userMeta = UserMeta()
             if let avatar = data[User.Key.avatarURL] as? String {
                 userMeta.avatarURL = URL(string: avatar)

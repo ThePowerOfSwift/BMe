@@ -28,17 +28,15 @@ class VideosListVC: UIViewController, UITableViewDataSource, UITableViewDelegate
         tableView.rowHeight = UITableViewAutomaticDimension
         
         // Configure FIR database
-        _refHandle = FIRManager.shared.observeDatabaseObject(named: ContentType.video.objectKey(), event: .childAdded) { (snapshot) in
+        _refHandle = FIRManager.shared.database.child(ContentType.video.objectKey()).observe(.childAdded, with: { (snapshot) in
             self.videos.append(snapshot)
             self.tableView.insertRows(at: [IndexPath(row: self.videos.count - 1, section: 0)], with: .automatic)
-        }
-        // Configure FIR storage
-        
+        })
     }
 
     // On dealloc unsubscribe from object observation
     deinit {
-        FIRManager.shared.unobserveDatabaseObject(named: ContentType.video.objectKey(), handle: _refHandle)
+        FIRManager.shared.database.child(ContentType.video.objectKey()).removeObserver(withHandle: _refHandle)
     }
     
     

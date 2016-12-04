@@ -44,43 +44,55 @@ class FIRManager: NSObject {
     }
 
 // MARK: - Methods
-    func storage(url: String) -> FIRStorageReference {
-        return FIRStorage.storage().reference(forURL: url)
-    }
     
-    // Listen for existing/new objects in the Firebase database
-    func observeDatabaseObject(named: String, event: FIRDataEventType, completion:@escaping (FIRDataSnapshot)->()) -> FIRDatabaseHandle {
-        // Listen for new messages in the Firebase database
-        return database.child(named).observe(event, with: completion)
-        //typical completion handler code:
-        /*
-         self.model.append(snapshot)
-         self.tableView.insertRows(at: [IndexPath(row: self.videos.count-1, section: 0)], with: .automatic)
-         */
-    }
-    
-    // complement to observeDatabaseObject
-    func unobserveDatabaseObject(named: String, handle: FIRDatabaseHandle) {
-        database.child(named).removeObserver(withHandle: handle)
-    }
-
+    // Put file data to Storage: storagebucket/<content type>/<UID>/file...
+    // Returns reference to uploaded file FIRStorageMetadata.gsURL
     func putObjectOnStorage(data: Data, contentType: ContentType, completion: @escaping (FIRStorageMetadata?, Error?) -> ()) {
-        storage.addObject(data: data, contentType: contentType, completion: completion)
+        let storage = FIRManager.shared.storage
+        // Get unique path using UID as root
+        let path = contentType.objectKey() + "/" + FIRManager.shared.uniqueIdentifier + contentType.fileExtension()
+        let metadata = FIRStorageMetadata()
+        metadata.contentType = contentType.string()
+        
+        // Put to Storage
+        storage.child(path).put(data, metadata: metadata) { (metadata, error) in
+            if let error = error {
+                print("Error adding object to GS bucket: \(error.localizedDescription)")
+            }
+            completion(metadata, error)
+        }
     }
 
+    // Put file reference by URL to Storage: storagebucket/<content type>/<UID>/file...
+    // Returns reference to uploaded file FIRStorageMetadata.gsURL
     func putObjectOnStorage(url: URL, contentType: ContentType, completion: @escaping (FIRStorageMetadata?, Error?) -> ()) {
-        storage.addObject(url: url, contentType: contentType, completion: completion)
+        let storage = FIRManager.shared.storage
+        // Get unique path using UID as root
+        let path = contentType.objectKey() + "/" + FIRManager.shared.uniqueIdentifier + contentType.fileExtension()
+        let metadata = FIRStorageMetadata()
+        metadata.contentType = contentType.string()
+        
+        // Put to Storage
+        storage.child(path).putFile(url, metadata: metadata) { (fir, error) in
+            if let error = error {
+                print("Error adding object to GS bucket: \(error.localizedDescription)")
+            }
+            completion(metadata, error)
+        }
     }
 
+    // Puts JSON object to database: database/<object key>/<Random Gen ID>/JSON object
     func putObjectOnDatabase(named: String, data: [String: AnyObject?], completion:@escaping (FIRDatabaseReference, Error?)->()) {
-        database.addObject(named: named, data: data, completion: completion)
+        let database = FIRManager.shared.database
+        database.child(named).childByAutoId().setValue(data){ (error, ref) in
+            if let error = error {
+                print("Error adding object to FIR Database: \(error.localizedDescription)")
+            }
+            completion(ref, error)
+        }
     }
     
-    // Deprecated; use FIRStorageMetadata.gsURL
-    func storageAbsoluteURL(_ metadata: FIRStorageMetadata) -> String {
-        return storage.child(metadata.path!).description
-    }
-    
+    // Deprecate
     func getVideos(completion: @escaping ([Video])->()) {
         
         let videoQuery = database.child(ContentType.video.objectKey()).queryOrdered(byChild: "CreatedAt").observe(.value, with: { snapshot in
@@ -94,7 +106,9 @@ class FIRManager: NSObject {
         })
     }
     
-    func uploadVideo(video: Video, completion: (()->())?) {
+    // Uploads new Video to storage and database
+    // TODO: - replace Video with generic object
+    private func uploadVideo(video: Video, completion: (()->())?) {
         putObjectOnStorage(url: URL(string: video.videoURL!)!, contentType: .video, completion: {
             (metadata: FIRStorageMetadata?, error: Error?) in
             
@@ -126,6 +140,7 @@ class FIRManager: NSObject {
         })
     }
     
+    //TODO: - Should move this to VideoComposition
     func uploadVideoComposition(composition: VideoComposition, completion:(()->())?) {
         var newData = composition.dictionaryFormat
         
@@ -135,10 +150,10 @@ class FIRManager: NSObject {
             
                 // Update Storage gs url into Database object
             
-                newData[VideoComposition.Key.gsAudioURL] = self.storageAbsoluteURL(metadata!) as AnyObject
+                newData[VideoComposition.Key.gsAudioURL] = metadata!.gsURL as AnyObject
             
                 
-                let gsURL = URL(string: self.storageAbsoluteURL(metadata!))
+                let gsURL = URL(string: metadata!.gsURL)
                 FIRManager.shared.fetchDownloadURLs([gsURL!], completion: { (urls) in
                 newData[VideoComposition.Key.audioURL] = urls.first?.absoluteString as AnyObject
                 print("Success: uploaded audio")
@@ -152,7 +167,7 @@ class FIRManager: NSObject {
                     self.putObjectOnStorage(url: composition.videoURLs[index], contentType: .video, completion: {
                         (metadata, error) in
                         
-                        let urlString = self.storageAbsoluteURL(metadata!)
+                        let urlString = metadata!.gsURL
                         gsVideoURLs[index] = urlString
                         
                         print("Success: uploaded video \(index + 1) of \(composition.videoURLs.count): \(urlString)")
@@ -217,7 +232,7 @@ class FIRManager: NSObject {
             let index = i
             let cloudURL = newURLs[index]
             if cloudURL.absoluteString.isCloudStorage {
-                FIRManager.shared.storage(url: cloudURL.absoluteString).downloadURL(completion: { (url, error) in
+                FIRStorage.storage().reference(forURL: cloudURL.absoluteString).downloadURL(completion: { (url, error) in
                     if let error = error {
                         print("Error getting download URL for cloud object, aborting: \(error.localizedDescription)")
                         return
@@ -242,20 +257,6 @@ class FIRManager: NSObject {
 // MARK:- Extensions
 
 extension FIRDatabaseReference {
-    // Push new "object" to FIR Database
-    // Object data is dictionary of String: AnyObject? format
-    // Resulting reference (& .key) is handed to completion block as FIRDatabaseReference
-    
-    func addObject(named: String, data: [String: AnyObject?], completion:@escaping (FIRDatabaseReference, Error?)->()) {
-        // Put to Database
-        child(named).childByAutoId().setValue(data){ (error, ref) in
-            if let error = error {
-                print("Error adding object to FIR Database: \(error.localizedDescription)")
-            }
-            completion(ref, error)
-        }
-    }
-    
     func exists(_ block:@escaping (Bool) -> ()) {
         observeSingleEvent(of: .value, with: { (snapshot) in
             block(snapshot.exists())
@@ -263,36 +264,6 @@ extension FIRDatabaseReference {
     }
 }
 
-
-extension FIRStorageReference {
-    func addObject(data: Data, contentType: ContentType, completion: @escaping (FIRStorageMetadata?, Error?) -> ()) {
-        let path = contentType.objectKey() + "/" + FIRManager.shared.uniqueIdentifier + contentType.fileExtension()
-        let metadata = FIRStorageMetadata()
-        metadata.contentType = contentType.string()
-
-        // Put to Storage
-
-        child(path).put(data, metadata: metadata) { (metadata, error) in
-            if let error = error {
-                print("Error adding object to GS bucket: \(error.localizedDescription)")
-            }
-            completion(metadata, error)
-        }
-    }
-    
-    func addObject(url: URL, contentType: ContentType, completion: @escaping (FIRStorageMetadata?, Error?) -> ()) {
-        let path = contentType.objectKey() + "/" + FIRManager.shared.uniqueIdentifier + contentType.fileExtension()
-        let metadata = FIRStorageMetadata()
-        metadata.contentType = contentType.string()
-        
-        child(path).putFile(url, metadata: metadata) { (fir, error) in
-            if let error = error {
-                print("Error adding object to GS bucket: \(error.localizedDescription)")
-            }
-            completion(metadata, error)
-        }
-    }
-}
 
 extension FIRDataSnapshot {
     var dictionary: [String: AnyObject?] {
