@@ -29,7 +29,8 @@ class ImageEditingViewController: UIViewController, UITextFieldDelegate {
 
         editedImage = chosenImage?.add(textFields: textFields)
         
-        let testVC = ShowImageViewController()
+        let storyboard = UIStoryboard(name: "Camera", bundle: nil)
+        let testVC = storyboard.instantiateViewController(withIdentifier: "ShowImageViewController") as! ShowImageViewController
         testVC.image = editedImage
         present(testVC, animated: true, completion: nil)
     }
@@ -164,7 +165,7 @@ extension UIImage {
             // Default font
             var textFont = UIFont(name: "Helvetica Bold", size: 200)!
             if let font = font {
-                //textFont = font
+                textFont = font
             }
             
             let textFontAttributes = [NSFontAttributeName: textFont,

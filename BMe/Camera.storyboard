@@ -80,5 +80,37 @@
             </objects>
             <point key="canvasLocation" x="-214" y="160"/>
         </scene>
+        <!--Show Image View Controller-->
+        <scene sceneID="8jM-3j-Yhb">
+            <objects>
+                <viewController storyboardIdentifier="ShowImageViewController" id="HIj-2O-eOl" customClass="ShowImageViewController" customModule="BMe" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Wvg-IA-nFL"/>
+                        <viewControllerLayoutGuide type="bottom" id="GKG-E4-XWJ"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="JLx-Fs-AM6">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="gud-r1-XnN">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="gud-r1-XnN" firstAttribute="top" secondItem="JLx-Fs-AM6" secondAttribute="top" id="Jnr-0j-OcI"/>
+                            <constraint firstAttribute="trailing" secondItem="gud-r1-XnN" secondAttribute="trailing" id="Q4E-jJ-Ah8"/>
+                            <constraint firstItem="gud-r1-XnN" firstAttribute="leading" secondItem="JLx-Fs-AM6" secondAttribute="leading" id="a9r-v1-9DY"/>
+                            <constraint firstItem="GKG-E4-XWJ" firstAttribute="top" secondItem="gud-r1-XnN" secondAttribute="bottom" id="yc0-l9-lzC"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="imageView" destination="gud-r1-XnN" id="GYn-Db-RYd"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="kiY-aa-Yec" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="830" y="170"/>
+        </scene>
     </scenes>
 </document>

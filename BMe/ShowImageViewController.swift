@@ -10,15 +10,12 @@ import UIKit
 
 class ShowImageViewController: UIViewController {
     
+    @IBOutlet weak var imageView: UIImageView!
     var image: UIImage?
-
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        imageView.image = image
         // Get the picture user took
-        let pictureView = UIImageView(image: image)
-        pictureView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height)
-        view.addSubview(pictureView)
     }
     
 }
