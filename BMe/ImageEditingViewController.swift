@@ -22,6 +22,7 @@ class ImageEditingViewController: UIViewController, UITextFieldDelegate {
         addTextFieldToView()
     }
     
+    @IBOutlet weak var imageView: UIImageView!
     @IBAction func onDone(_ sender: UIButton) {
         
         var editedImage: UIImage?
@@ -61,13 +62,10 @@ class ImageEditingViewController: UIViewController, UITextFieldDelegate {
         
         // Get the picture user took
         chosenImage = delegate?.getChosenImage()
-        let pictureView = UIImageView(image: chosenImage)
-        
-
-        pictureView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height)
+        imageView.image = chosenImage
         
         // Insert it above the editing view
-        view.insertSubview(pictureView, at: 0)
+        view.insertSubview(imageView, at: 0)
     }
 
     //MARK: - Manging Textfeld methods

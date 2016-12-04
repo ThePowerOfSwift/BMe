@@ -20,4 +20,5 @@ class ShowImageViewController: UIViewController {
         pictureView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height)
         view.addSubview(pictureView)
     }
+    
 }

@@ -54,18 +54,26 @@
                                     <constraint firstAttribute="trailing" secondItem="8UK-bU-d50" secondAttribute="trailing" constant="5" id="Ug8-hQ-lo8"/>
                                 </constraints>
                             </view>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="dz3-xN-PWO">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="fZo-83-kBt" firstAttribute="leading" secondItem="GFw-TK-Ij7" secondAttribute="leading" id="34k-mF-RwV"/>
                             <constraint firstItem="fZo-83-kBt" firstAttribute="top" secondItem="X5g-Sc-Hzv" secondAttribute="bottom" id="3WB-KA-wRk"/>
                             <constraint firstAttribute="trailing" secondItem="fZo-83-kBt" secondAttribute="trailing" id="ATZ-wT-ZYb"/>
+                            <constraint firstItem="dz3-xN-PWO" firstAttribute="top" secondItem="GFw-TK-Ij7" secondAttribute="top" id="Huc-Zp-5LI"/>
                             <constraint firstItem="JlE-fS-rc8" firstAttribute="top" secondItem="fZo-83-kBt" secondAttribute="bottom" id="X5q-dm-suW"/>
+                            <constraint firstItem="JlE-fS-rc8" firstAttribute="top" secondItem="dz3-xN-PWO" secondAttribute="bottom" id="Zuv-Mj-dcN"/>
+                            <constraint firstItem="dz3-xN-PWO" firstAttribute="leading" secondItem="GFw-TK-Ij7" secondAttribute="leading" id="amO-FB-p5U"/>
+                            <constraint firstAttribute="trailing" secondItem="dz3-xN-PWO" secondAttribute="trailing" id="bzZ-jm-sUc"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="addTextButton" destination="mKh-1y-Tmo" id="aNG-CB-5ZC"/>
                         <outlet property="cameraControlView" destination="fZo-83-kBt" id="esG-sT-Tyw"/>
+                        <outlet property="imageView" destination="dz3-xN-PWO" id="Fov-sX-xnz"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Vyl-ZK-pPK" userLabel="First Responder" sceneMemberID="firstResponder"/>
