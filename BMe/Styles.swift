@@ -18,7 +18,9 @@ struct Styles {
         }
         
         struct secondary {
-            
+            static let r: CGFloat = 96 / 255.0
+            static let g: CGFloat = 88 / 255.0
+            static let b: CGFloat = 96 / 255.0
         }
     }
 }
