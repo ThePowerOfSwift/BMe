@@ -168,16 +168,8 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         let newValue = textField.text
-        if let changeRequest = AppState.shared.userProfileChangeRequest {
-            if textField.tag == Textfields.username.rawValue {
-                changeRequest.displayName = newValue
-            }
-            
-            changeRequest.commitChanges(completion: { (error) in
-                if let error = error {
-                    print("Error changing user info: \(error.localizedDescription)")
-                }
-            })
+        if textField.tag == Textfields.username.rawValue {
+            user.username = newValue
         }
     }
 }

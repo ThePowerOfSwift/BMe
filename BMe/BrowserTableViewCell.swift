@@ -48,6 +48,7 @@ class BrowserTableViewCell: UITableViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
+        usernameLabel.text = ""
         avatarImageView.image = nil
         
         // Clear videos
