@@ -11,13 +11,17 @@ import UIKit
 class Restaurant: NSObject {
     let name: String?
     let address: String?
+    let yelpID: String?
+    
     
     init(dictionary: [String:AnyObject?]) {
-        name = dictionary["name"] as? String
-        let location = dictionary["location"] as? [String:AnyObject?]
+        self.name = dictionary[Key.name] as? String
+        self.yelpID = dictionary["id"] as? String
+        
+        let location = dictionary[Key.location] as? [String:AnyObject?]
         var address = ""
         if let location = location {
-            let addressArray = location["address"] as? [String]
+            let addressArray = location[Key.address] as? [String]
             if addressArray != nil && addressArray!.count > 0 {
                 address = addressArray![0]
             }
@@ -34,8 +38,17 @@ class Restaurant: NSObject {
         return restaurants
     }
     
-    class func searchWithTerm(term: String, completion: @escaping ([Restaurant]?, Error?) -> Void) {
-        _ = YPManager.shared.searchWithTerm(term, completion: completion)
+    var dictionary: [String: AnyObject?] {
+        return [Key.name: self.name as AnyObject,
+                Key.address: self.address as AnyObject,
+                Key.id: self.yelpID as AnyObject,
+        ]
     }
     
+    struct Key {
+        static let name = "name"
+        static let location = "location"
+        static let address = "address"
+        static let id = "id"
+    }
 }

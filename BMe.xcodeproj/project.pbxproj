@@ -14,6 +14,8 @@
 		781E71431DF407F600041855 /* location-yellow.png in Resources */ = {isa = PBXBuildFile; fileRef = 781E71411DF407F600041855 /* location-yellow.png */; };
 		781E71441DF407F600041855 /* location.png in Resources */ = {isa = PBXBuildFile; fileRef = 781E71421DF407F600041855 /* location.png */; };
 		781E71461DF4086700041855 /* LocationButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781E71451DF4086700041855 /* LocationButton.swift */; };
+		781E71481DF4864100041855 /* YelpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781E71471DF4864100041855 /* YelpViewController.swift */; };
+		781E714C1DF486A900041855 /* Yelp.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 781E714B1DF486A900041855 /* Yelp.storyboard */; };
 		7821C3BA1DEF10F60023B95E /* TimeLapseBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7821C3B91DEF10F60023B95E /* TimeLapseBuilder.swift */; };
 		7821C3BE1DEF7FFF0023B95E /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7821C3BD1DEF7FFF0023B95E /* Image.swift */; };
 		7821C3C21DEF939A0023B95E /* Camera.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7821C3C11DEF939A0023B95E /* Camera.storyboard */; };
@@ -109,6 +111,8 @@
 		781E71411DF407F600041855 /* location-yellow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "location-yellow.png"; sourceTree = "<group>"; };
 		781E71421DF407F600041855 /* location.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = location.png; sourceTree = "<group>"; };
 		781E71451DF4086700041855 /* LocationButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationButton.swift; sourceTree = "<group>"; };
+		781E71471DF4864100041855 /* YelpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YelpViewController.swift; sourceTree = "<group>"; };
+		781E714B1DF486A900041855 /* Yelp.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Yelp.storyboard; sourceTree = "<group>"; };
 		7821C3B91DEF10F60023B95E /* TimeLapseBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeLapseBuilder.swift; sourceTree = "<group>"; };
 		7821C3BD1DEF7FFF0023B95E /* Image.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
 		7821C3C11DEF939A0023B95E /* Camera.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Camera.storyboard; sourceTree = "<group>"; };
@@ -385,6 +389,7 @@
 			children = (
 				7821C3C31DEF94350023B95E /* ImageEditingViewController.swift */,
 				E38E32B51DF39E3400631AEC /* CameraViewController.swift */,
+				781E71471DF4864100041855 /* YelpViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -393,6 +398,7 @@
 			isa = PBXGroup;
 			children = (
 				7821C3C11DEF939A0023B95E /* Camera.storyboard */,
+				781E714B1DF486A900041855 /* Yelp.storyboard */,
 			);
 			name = Storyboards;
 			sourceTree = "<group>";
@@ -413,6 +419,8 @@
 		78DA2EC81DF2DFF600A894AC /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				E3C357A31DEF484E00AC0832 /* Restaurant.swift */,
+				E3C357A11DEF451E00AC0832 /* YPManager.swift */,
 				E3ECAFD81DE3CCB500F221AE /* Video.swift */,
 				7821C3BD1DEF7FFF0023B95E /* Image.swift */,
 			);
@@ -459,8 +467,6 @@
 			isa = PBXGroup;
 			children = (
 				E3FE1F9F1DEA2DB800791B92 /* Test */,
-				E3C357A31DEF484E00AC0832 /* Restaurant.swift */,
-				E3C357A11DEF451E00AC0832 /* YPManager.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -622,6 +628,7 @@
 				78B369C11DE7F85F001ADD53 /* TemplateListVC.storyboard in Resources */,
 				785E87C61DED445000C9FF59 /* Play image- white.png in Resources */,
 				78B369BD1DE7E040001ADD53 /* CompositionTest.storyboard in Resources */,
+				781E714C1DF486A900041855 /* Yelp.storyboard in Resources */,
 				78C350431DF2251A005E8331 /* Browser.storyboard in Resources */,
 				78C350451DF2260A005E8331 /* Account.storyboard in Resources */,
 				78469A611DE3958100A40D53 /* Main.storyboard in Resources */,
@@ -813,6 +820,7 @@
 				78C3503D1DF126A6005E8331 /* BrowserTableViewCell.swift in Sources */,
 				E3ECAFD91DE3CCB500F221AE /* Video.swift in Sources */,
 				E30894861DE8C95000145551 /* Helpers.swift in Sources */,
+				781E71481DF4864100041855 /* YelpViewController.swift in Sources */,
 				7821C3BA1DEF10F60023B95E /* TimeLapseBuilder.swift in Sources */,
 				781E71461DF4086700041855 /* LocationButton.swift in Sources */,
 				7830089C1DE3B2B100B070D4 /* AppState.swift in Sources */,

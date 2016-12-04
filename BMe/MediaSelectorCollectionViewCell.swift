@@ -18,7 +18,7 @@ class MediaSelectorCollectionViewCell: UICollectionViewCell {
     }
     
     let selectionMargin: CGFloat = 4.00
-    let hightlightColor = Styles.Color.Primary
+    let hightlightColor = Styles.Color.Tertiary
     let highlightCornerRadius: CGFloat = 5.00
     let selectedOpacity: Float = 0.70
     let animationDuraction: TimeInterval = 0.2
