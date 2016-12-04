@@ -9,10 +9,12 @@
 import UIKit
 
 protocol MetaViewControllerDelegate: class {
-    func post(meta: [String: String])
+    func post(meta: [String: AnyObject?])
 }
 
 class MetaViewController: UIViewController, UITextFieldDelegate {
+
+    weak var delegate: MetaViewControllerDelegate?
 
     struct Key {
         static let name = "name"
@@ -22,8 +24,6 @@ class MetaViewController: UIViewController, UITextFieldDelegate {
     // MARK: - Outlets
     @IBOutlet weak var restaurantTextField: UITextField!
     @IBOutlet weak var nameTextField: UITextField!
-    
-    weak var delegate: MetaViewControllerDelegate?
     
     // MARK: - Lifecycle:- Methods
     
@@ -44,8 +44,8 @@ class MetaViewController: UIViewController, UITextFieldDelegate {
     // MARK: - Navigation
 
     @IBAction func postTapped(_ sender: UIButton) {
-        let meta: [String: String] = [Key.name: nameTextField.text!,
-                    Key.restaurant: restaurantTextField.text!]
+        let meta: [String: AnyObject?] = [Key.name: nameTextField.text! as AnyObject,
+                                          Key.restaurant: restaurantTextField.text! as AnyObject]
         delegate?.post(meta: meta)
         dismiss(animated: true, completion: nil)
     }

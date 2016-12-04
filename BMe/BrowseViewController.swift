@@ -87,7 +87,7 @@ extension BrowseViewController:  UITableViewDelegate, UITableViewDataSource {
                 User.userMeta(uid, block: { (usermeta) in
                     // Get the avatar if it exists
                     let ref = FIRManager.shared.storage.child((usermeta.avatarURL?.path)!)
-                    cell.avatarImageView.loadImageFromGS(with: ref, placeholderImage: UIImage(named: Constants.User.avatarDefault))
+                    cell.avatarImageView.loadImageFromGS(with: ref, placeholderImage: UIImage(named: Constants.Images.avatarDefault))
                      cell.usernameLabel.text = usermeta.username
                 })
             }

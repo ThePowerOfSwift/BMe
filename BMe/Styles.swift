@@ -13,17 +13,22 @@ struct Styles {
     struct Color {
         static let Primary = UIColor(red: RGB.Primary.R, green: RGB.Primary.G, blue: RGB.Primary.B, alpha: 1.0)
         static let Secondary = UIColor(red: RGB.Secondary.R, green: RGB.Secondary.G, blue: RGB.Secondary.B, alpha: 1.0)
-        
+        static let Tertiary = UIColor(red: RGB.Tertiary.R, green: RGB.Tertiary.G, blue: RGB.Tertiary.B, alpha: 1.0)
         struct RGB {
-            struct Primary {
+            struct Primary { // blue
                 static let R: CGFloat = 118.0 / 255.0
                 static let G: CGFloat = 164 / 255.0
                 static let B: CGFloat = 164 / 255.0
             }
-            struct Secondary {
+            struct Secondary { // gray
                 static let R: CGFloat = 96 / 255.0
                 static let G: CGFloat = 88 / 255.0
                 static let B: CGFloat = 96 / 255.0
+            }
+            struct Tertiary { // yellow FFD608
+                static let R: CGFloat = 255 / 255.0
+                static let G: CGFloat = 214 / 255.0
+                static let B: CGFloat = 8 / 255.0
             }
         }
     }

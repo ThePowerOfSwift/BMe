@@ -71,7 +71,7 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
         avatarImageView.isUserInteractionEnabled = true
         
         // Reference to an image file in Firebase Storage and pull image
-        let defaultImage = UIImage(named: Constants.User.avatarDefault)
+        let defaultImage = UIImage(named: Constants.Images.avatarDefault)
         
         if let path = user.avatarURL?.path {
             let avatarRef = FIRManager.shared.storage.child(path)

@@ -40,8 +40,12 @@ struct Constants {
             static let CameraViewController = "CameraViewController"
         }
     }
-    struct User {
+    struct Images {
         static let avatarDefault = "blank user avatar.jpeg"
+        static let audioYellow = "sound-wave-yellow.png"
+        static let audio = "sound-wave.png"
+        static let location = "location.png"
+        static let locationYellow = "location-yellow.png"
     }
 }
 

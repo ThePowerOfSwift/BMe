@@ -21,6 +21,7 @@ class MediaSelectorViewController: UIViewController, UICollectionViewDataSource,
     @IBOutlet weak var imageView : UIImageView!
     @IBOutlet weak var nextButton: UIButton!
     @IBOutlet weak var musicButton: UIButton!
+    @IBOutlet weak var locationButton: LocationButton!
     
     @IBAction func nextButtonTapped(_ sender: UIBarButtonItem) {
         next()
@@ -28,6 +29,9 @@ class MediaSelectorViewController: UIViewController, UICollectionViewDataSource,
     
     @IBAction func musicButtonTapped(_ sender: Any) {
         present(songPicker, animated: true, completion: nil)
+    }
+    
+    @IBAction func locationTapped(_ sender: LocationButton) {
     }
     
 // MARK: - Variables
@@ -44,7 +48,7 @@ class MediaSelectorViewController: UIViewController, UICollectionViewDataSource,
     
     // Media browsers
     var playerVC = AVPlayerViewController()
-    var bannerCurrentLoaded = 0
+    var bannerCurrentLoaded = -1
     let imgManager = PHCachingImageManager.default()
     let songPicker = MPMediaPickerController(mediaTypes: .anyAudio)
     
@@ -59,19 +63,21 @@ class MediaSelectorViewController: UIViewController, UICollectionViewDataSource,
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        // Prevent empty header space at top of collection view
         automaticallyAdjustsScrollViewInsets = false
         
         // CollectionView setup
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.allowsMultipleSelection = true
-        view.bringSubview(toFront: collectionView)
         
         // Get assets from album
         let options = PHFetchOptions()
         options.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
         phAssets = PHAsset.fetchAssets(with: options)
         
+        // Setup banner
+        bannerView.backgroundColor = Styles.Color.Primary
         // Setup banner media browsers
         imageView.isHidden = true
         playerVC.showsPlaybackControls = false
@@ -79,16 +85,18 @@ class MediaSelectorViewController: UIViewController, UICollectionViewDataSource,
         playerVC.player?.isMuted = true
         playerVC.videoGravity = AVLayerVideoGravityResizeAspectFill
         
-            // Add PlayerVC to banner
+        // Add PlayerVC to banner
         addChildViewController(playerVC)
-        playerVC.view.frame = bannerView.bounds
+        playerVC.view.frame = imageView.frame
         playerVC.view.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         bannerView.addSubview(playerVC.view)
         playerVC.didMove(toParentViewController: self)
         playerVC.view.isHidden = true
         
+        // Song picker
         bannerView.bringSubview(toFront: musicButton)
         songPicker.delegate = self
+        songPicker.showsItemsWithProtectedAssets = false
         
         // Select first item
         if phAssets.count > 0 {
@@ -169,7 +177,7 @@ class MediaSelectorViewController: UIViewController, UICollectionViewDataSource,
         cell.tag = indexPath.row
 
         let asset = phAssets[indexPath.item ]
-        
+
         imgManager.requestImage(for: asset, targetSize: Constants.Layout.thumbnailSize, contentMode: .aspectFill, options: nil, resultHandler: { (image: UIImage?, info: [AnyHashable : Any]?) in
             DispatchQueue.main.async {
                 if cell.tag == indexPath.row {
@@ -188,8 +196,7 @@ class MediaSelectorViewController: UIViewController, UICollectionViewDataSource,
                     }
                 }
             }
-            })
-    
+        })
         return cell
     }
     func stringFromTimeInterval(interval: TimeInterval) -> String {
@@ -250,6 +257,8 @@ class MediaSelectorViewController: UIViewController, UICollectionViewDataSource,
         })
 
         dismiss(animated: true) {
+            let highlightedImage = UIImage(named: Constants.Images.audioYellow)
+            self.musicButton.setImage(highlightedImage, for: UIControlState.normal)
         }
     }
     
