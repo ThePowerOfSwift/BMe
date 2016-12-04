@@ -14,8 +14,8 @@
 		781E71431DF407F600041855 /* location-yellow.png in Resources */ = {isa = PBXBuildFile; fileRef = 781E71411DF407F600041855 /* location-yellow.png */; };
 		781E71441DF407F600041855 /* location.png in Resources */ = {isa = PBXBuildFile; fileRef = 781E71421DF407F600041855 /* location.png */; };
 		781E71461DF4086700041855 /* LocationButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781E71451DF4086700041855 /* LocationButton.swift */; };
-		781E71481DF4864100041855 /* YelpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781E71471DF4864100041855 /* YelpViewController.swift */; };
 		781E714C1DF486A900041855 /* Yelp.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 781E714B1DF486A900041855 /* Yelp.storyboard */; };
+		781E71501DF4E52A00041855 /* YelpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781E714F1DF4E52A00041855 /* YelpViewController.swift */; };
 		7821C3BA1DEF10F60023B95E /* TimeLapseBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7821C3B91DEF10F60023B95E /* TimeLapseBuilder.swift */; };
 		7821C3BE1DEF7FFF0023B95E /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7821C3BD1DEF7FFF0023B95E /* Image.swift */; };
 		7821C3C21DEF939A0023B95E /* Camera.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7821C3C11DEF939A0023B95E /* Camera.storyboard */; };
@@ -110,8 +110,8 @@
 		781E71411DF407F600041855 /* location-yellow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "location-yellow.png"; sourceTree = "<group>"; };
 		781E71421DF407F600041855 /* location.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = location.png; sourceTree = "<group>"; };
 		781E71451DF4086700041855 /* LocationButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationButton.swift; sourceTree = "<group>"; };
-		781E71471DF4864100041855 /* YelpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YelpViewController.swift; sourceTree = "<group>"; };
 		781E714B1DF486A900041855 /* Yelp.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Yelp.storyboard; sourceTree = "<group>"; };
+		781E714F1DF4E52A00041855 /* YelpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YelpViewController.swift; sourceTree = "<group>"; };
 		7821C3B91DEF10F60023B95E /* TimeLapseBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeLapseBuilder.swift; sourceTree = "<group>"; };
 		7821C3BD1DEF7FFF0023B95E /* Image.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
 		7821C3C11DEF939A0023B95E /* Camera.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Camera.storyboard; sourceTree = "<group>"; };
@@ -384,6 +384,7 @@
 		786727DA1DE3ADDC0059AEC7 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				781E714F1DF4E52A00041855 /* YelpViewController.swift */,
 				7821C3C31DEF94350023B95E /* CameraViewController.swift */,
 				E38E32B71DF3B6FC00631AEC /* ShowImageViewController.swift */,
 			);
@@ -567,7 +568,7 @@
 				TargetAttributes = {
 					78469A571DE3958000A40D53 = {
 						CreatedOnToolsVersion = 8.0;
-						DevelopmentTeam = PY8CHQP699;
+						DevelopmentTeam = Y4GA6H5JHE;
 						ProvisioningStyle = Automatic;
 					};
 					78469A6B1DE3958100A40D53 = {
@@ -811,11 +812,11 @@
 				E35AC4891DE4D75C00FCB0D0 /* BrowseViewController.swift in Sources */,
 				78CDA09D1DE5307200ABC5E1 /* VideosListVC.swift in Sources */,
 				783008AA1DE3B9A000B070D4 /* Constants.swift in Sources */,
+				781E71501DF4E52A00041855 /* YelpViewController.swift in Sources */,
 				7830089A1DE3B0B500B070D4 /* MeasurementHelper.swift in Sources */,
 				78C3503D1DF126A6005E8331 /* BrowserTableViewCell.swift in Sources */,
 				E3ECAFD91DE3CCB500F221AE /* Video.swift in Sources */,
 				E30894861DE8C95000145551 /* Helpers.swift in Sources */,
-				781E71481DF4864100041855 /* YelpViewController.swift in Sources */,
 				7821C3BA1DEF10F60023B95E /* TimeLapseBuilder.swift in Sources */,
 				781E71461DF4086700041855 /* LocationButton.swift in Sources */,
 				7830089C1DE3B2B100B070D4 /* AppState.swift in Sources */,
@@ -979,7 +980,7 @@
 			baseConfigurationReference = EF9B8E045282684264E31D83 /* Pods-BMe.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = PY8CHQP699;
+				DEVELOPMENT_TEAM = Y4GA6H5JHE;
 				INFOPLIST_FILE = BMe/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.op.BMe;
@@ -995,7 +996,7 @@
 			baseConfigurationReference = 1B3943A2C1F5F5DBD966A650 /* Pods-BMe.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = PY8CHQP699;
+				DEVELOPMENT_TEAM = Y4GA6H5JHE;
 				INFOPLIST_FILE = BMe/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.op.BMe;
