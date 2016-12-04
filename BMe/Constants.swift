@@ -35,9 +35,13 @@ struct Constants {
     struct SegueID {
         struct Storyboard {
             static let Camera = "Camera"
+            static let Yelp = "Yelp"
+            static let VideoComposer = "VideoComposer"
         }
         struct ViewController {
             static let CameraViewController = "CameraViewController"
+            static let YelpViewController = "YelpViewController"
+            static let VideoComposerViewController = "VideoComposerViewController"
         }
     }
     struct Images {

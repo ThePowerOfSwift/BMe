@@ -10,7 +10,7 @@ import UIKit
 import CoreLocation
 
 protocol YelpViewControllerDelegate: class {
-    func didSelectRestaurant(_ restaurant: Restaurant)
+    func yelp(didSelectRestaurant restaurant: Restaurant)
 }
 
 class YelpViewController: UIViewController, UITextFieldDelegate, CLLocationManagerDelegate, UITableViewDataSource, UITableViewDelegate {
@@ -38,9 +38,9 @@ class YelpViewController: UIViewController, UITextFieldDelegate, CLLocationManag
     @IBOutlet weak var restuarantNameTextField: UITextField!
     @IBOutlet weak var tableView: UITableView!
     
-    @IBAction func tappedDone(_ sender: Any) {
-        dismiss(animated: true, completion: nil)
-    }
+//    @IBAction func tappedDone(_ sender: Any) {
+//        dismiss(animated: true, completion: nil)
+//    }
     
     @IBAction func tappedCancel(_ sender: Any) {
         dismiss(animated: true, completion: nil)
@@ -51,10 +51,13 @@ class YelpViewController: UIViewController, UITextFieldDelegate, CLLocationManag
 
         // Do any additional setup after loading the view.
         restuarantNameTextField.delegate = self
+        restuarantNameTextField.becomeFirstResponder()
+        
         tableView.dataSource = self
         tableView.delegate = self
         tableView.backgroundColor = Styles.Color.Primary
         tableView.rowHeight = YelpViewController.rowheight
+        
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
         locationManager.requestWhenInUseAuthorization()
@@ -170,6 +173,7 @@ class YelpViewController: UIViewController, UITextFieldDelegate, CLLocationManag
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        delegate?.didSelectRestaurant(restaurants![indexPath.row])
+        delegate?.yelp(didSelectRestaurant: (restaurants![indexPath.row]))
+        dismiss(animated: true, completion: nil)
     }
 }

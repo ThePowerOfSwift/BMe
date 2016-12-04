@@ -13,7 +13,7 @@ import MobileCoreServices
 import AVKit
 import MediaPlayer
 
-class MediaSelectorViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, MPMediaPickerControllerDelegate, UIScrollViewDelegate {
+class MediaSelectorViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, MPMediaPickerControllerDelegate, UIScrollViewDelegate, YelpViewControllerDelegate {
 
 // MARK: - Outlets
     @IBOutlet weak var bannerView: UIView!
@@ -32,6 +32,7 @@ class MediaSelectorViewController: UIViewController, UICollectionViewDataSource,
     }
     
     @IBAction func locationTapped(_ sender: LocationButton) {
+        present(yelpVC, animated: true, completion: nil)
     }
     
 // MARK: - Variables
@@ -45,17 +46,18 @@ class MediaSelectorViewController: UIViewController, UICollectionViewDataSource,
         }
     }
     private var audioURL: URL?
+    private var meta: [String: AnyObject?]?
     
     // Media browsers
     var playerVC = AVPlayerViewController()
     var bannerCurrentLoaded = -1
     let imgManager = PHCachingImageManager.default()
     let songPicker = MPMediaPickerController(mediaTypes: .anyAudio)
-    
+    let yelpVC = UIStoryboard(name: Constants.SegueID.Storyboard.Yelp, bundle: nil).instantiateInitialViewController() as! YelpViewController
+
     // Models
     private var phAssets: PHFetchResult<PHAsset>!
     
-    private let kSegueID = "pushToComposer"
     
 // MARK: - Lifecycle
     
@@ -93,6 +95,9 @@ class MediaSelectorViewController: UIViewController, UICollectionViewDataSource,
         playerVC.didMove(toParentViewController: self)
         playerVC.view.isHidden = true
         
+        // Yelp picker
+        yelpVC.delegate = self
+        
         // Song picker
         bannerView.bringSubview(toFront: musicButton)
         songPicker.delegate = self
@@ -112,20 +117,6 @@ class MediaSelectorViewController: UIViewController, UICollectionViewDataSource,
         // Dispose of any resources that can be recreated.
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Generate selected assets
-        var selectedAssets: [PHAsset] = []
-        for row in selectedRows {
-            let asset = phAssets[row]
-            selectedAssets.append(asset)
-        }
-        
-        // Set assets into destination
-        let destination = segue.destination as! VideoComposerViewController
-        destination.phAssets = selectedAssets
-        destination.audioURL = audioURL
-    }
-
 // MARK: - Banner View  methods
 
     func changeBanner(for asset: PHAsset, index: Int) {
@@ -264,7 +255,21 @@ class MediaSelectorViewController: UIViewController, UICollectionViewDataSource,
     
 // MARK: - Methods
     func next() {
-        performSegue(withIdentifier: kSegueID, sender: self)
+        let destination = UIStoryboard.init(name: Constants.SegueID.Storyboard.VideoComposer, bundle: nil).instantiateViewController(withIdentifier: Constants.SegueID.ViewController.VideoComposerViewController) as! VideoComposerViewController
+        
+        // Generate selected assets
+        var selectedAssets: [PHAsset] = []
+        for row in selectedRows {
+            let asset = phAssets[row]
+            selectedAssets.append(asset)
+        }
+        
+        destination.phAssets = selectedAssets
+        destination.audioURL = audioURL
+
+        //TODO: - add meta from yelp
+        
+        present(destination, animated: true, completion: nil)
     }
 
 // MARK: - Scrollview delegate methods
@@ -287,4 +292,12 @@ class MediaSelectorViewController: UIViewController, UICollectionViewDataSource,
         
     }
 
+// MARK: - Yelp picker delegate methods
+    
+    func yelp(didSelectRestaurant restaurant: Restaurant) {
+        print("TODO: did pick resto: \(restaurant.yelpID)")
+        
+        meta = restaurant.dictionary
+        locationButton.changeImageHighlighted()
+    }
 }

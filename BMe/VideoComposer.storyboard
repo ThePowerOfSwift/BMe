@@ -69,56 +69,54 @@
                                 <rect key="frame" x="0.0" y="64" width="375" height="300"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="0of-KT-rNN">
-                                        <rect key="frame" x="0.0" y="0.0" width="298" height="298"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" secondItem="0of-KT-rNN" secondAttribute="height" multiplier="1:1" id="81r-W6-SLI"/>
-                                        </constraints>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="300"/>
                                     </imageView>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iYl-2f-C5x">
-                                        <rect key="frame" x="310" y="15" width="50" height="50"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="50" id="Ouk-gE-63d"/>
-                                            <constraint firstAttribute="width" secondItem="iYl-2f-C5x" secondAttribute="height" multiplier="1:1" id="qYB-7C-xKf"/>
-                                        </constraints>
-                                        <state key="normal" title="Button" image="sound-wave.png"/>
-                                        <connections>
-                                            <action selector="musicButtonTapped:" destination="3fZ-tr-3dp" eventType="touchUpInside" id="zBn-YU-QNo"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6Ny-BJ-auh" customClass="LocationButton" customModule="BMe" customModuleProvider="target">
-                                        <rect key="frame" x="310" y="85" width="50" height="50"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" secondItem="6Ny-BJ-auh" secondAttribute="height" multiplier="1:1" id="a2Y-IQ-iwR"/>
-                                            <constraint firstAttribute="width" constant="50" id="nye-rM-f3L"/>
-                                        </constraints>
-                                        <state key="normal" title="Button" image="sound-wave.png"/>
-                                        <connections>
-                                            <action selector="locationTapped:" destination="3fZ-tr-3dp" eventType="touchUpInside" id="eqh-Mx-cyZ"/>
-                                        </connections>
-                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="iYl-2f-C5x" secondAttribute="trailing" constant="15" id="3ol-PP-qix"/>
-                                    <constraint firstItem="6Ny-BJ-auh" firstAttribute="top" secondItem="iYl-2f-C5x" secondAttribute="bottom" constant="20" id="HwG-fV-fnD"/>
-                                    <constraint firstItem="iYl-2f-C5x" firstAttribute="top" secondItem="hfT-ob-Ahb" secondAttribute="top" constant="15" id="KOt-VG-Vq2"/>
                                     <constraint firstItem="0of-KT-rNN" firstAttribute="leading" secondItem="hfT-ob-Ahb" secondAttribute="leading" id="OhV-iW-bZB"/>
-                                    <constraint firstAttribute="trailing" secondItem="6Ny-BJ-auh" secondAttribute="trailing" constant="15" id="arZ-fE-ZC2"/>
+                                    <constraint firstAttribute="trailing" secondItem="0of-KT-rNN" secondAttribute="trailing" id="XFn-Ec-pQ2"/>
                                     <constraint firstAttribute="height" constant="300" id="fca-bb-BpC"/>
                                     <constraint firstItem="0of-KT-rNN" firstAttribute="top" secondItem="hfT-ob-Ahb" secondAttribute="top" id="gr2-kk-GQl"/>
-                                    <constraint firstAttribute="bottom" secondItem="0of-KT-rNN" secondAttribute="bottom" constant="2" id="zVC-4B-3Uk"/>
+                                    <constraint firstAttribute="bottom" secondItem="0of-KT-rNN" secondAttribute="bottom" id="zVC-4B-3Uk"/>
                                 </constraints>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iYl-2f-C5x">
+                                <rect key="frame" x="305" y="84" width="50" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="50" id="Ouk-gE-63d"/>
+                                    <constraint firstAttribute="width" secondItem="iYl-2f-C5x" secondAttribute="height" multiplier="1:1" id="qYB-7C-xKf"/>
+                                </constraints>
+                                <state key="normal" title="Button" image="sound-wave.png"/>
+                                <connections>
+                                    <action selector="musicButtonTapped:" destination="3fZ-tr-3dp" eventType="touchUpInside" id="zBn-YU-QNo"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6Ny-BJ-auh" customClass="LocationButton" customModule="BMe" customModuleProvider="target">
+                                <rect key="frame" x="305" y="154" width="50" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="6Ny-BJ-auh" secondAttribute="height" multiplier="1:1" id="a2Y-IQ-iwR"/>
+                                    <constraint firstAttribute="width" constant="50" id="nye-rM-f3L"/>
+                                </constraints>
+                                <state key="normal" title="Button" image="location.png"/>
+                                <connections>
+                                    <action selector="locationTapped:" destination="3fZ-tr-3dp" eventType="touchUpInside" id="eqh-Mx-cyZ"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="hfT-ob-Ahb" firstAttribute="leading" secondItem="bpP-B1-22T" secondAttribute="leading" id="1X7-Wj-qqe"/>
+                            <constraint firstAttribute="trailing" secondItem="iYl-2f-C5x" secondAttribute="trailing" constant="20" id="7JE-Bn-YiT"/>
+                            <constraint firstAttribute="trailing" secondItem="6Ny-BJ-auh" secondAttribute="trailing" constant="20" id="8Vx-Se-7JD"/>
                             <constraint firstItem="BQU-xO-UUs" firstAttribute="top" secondItem="mZ5-7q-adD" secondAttribute="bottom" id="Tda-1k-Rc7"/>
                             <constraint firstItem="mZ5-7q-adD" firstAttribute="top" secondItem="hfT-ob-Ahb" secondAttribute="bottom" constant="2" id="cCn-3Y-Etc"/>
                             <constraint firstItem="hfT-ob-Ahb" firstAttribute="top" secondItem="Uaq-G6-0Mu" secondAttribute="bottom" id="fhy-Rr-dXN"/>
                             <constraint firstItem="mZ5-7q-adD" firstAttribute="leading" secondItem="bpP-B1-22T" secondAttribute="leading" id="gm6-lJ-nB6"/>
                             <constraint firstAttribute="trailing" secondItem="hfT-ob-Ahb" secondAttribute="trailing" id="hi6-rw-Uf7"/>
                             <constraint firstAttribute="trailing" secondItem="mZ5-7q-adD" secondAttribute="trailing" id="vRd-BG-eWJ"/>
+                            <constraint firstItem="iYl-2f-C5x" firstAttribute="top" secondItem="Uaq-G6-0Mu" secondAttribute="bottom" constant="20" id="wdG-zX-wpG"/>
+                            <constraint firstItem="6Ny-BJ-auh" firstAttribute="top" secondItem="iYl-2f-C5x" secondAttribute="bottom" constant="20" id="ynh-eB-YRJ"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="DGo-qY-ymV">
@@ -135,7 +133,6 @@
                         <outlet property="locationButton" destination="6Ny-BJ-auh" id="aLU-Y1-nje"/>
                         <outlet property="musicButton" destination="iYl-2f-C5x" id="6Hf-jx-BYN"/>
                         <outlet property="nextButton" destination="2At-sr-dXf" id="cOF-UR-LqC"/>
-                        <segue destination="Sz2-XX-slY" kind="show" identifier="pushToComposer" id="Jsz-F3-l5d"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="imD-2e-5Q7" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -193,6 +190,7 @@
                             <constraint firstItem="bWC-rO-Y3C" firstAttribute="leading" secondItem="0eR-li-Xgn" secondAttribute="leading" id="Tzk-sE-no7"/>
                         </constraints>
                     </view>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
                         <outlet property="bannerView" destination="BXk-zb-fZp" id="FZW-X5-bfq"/>
                         <outlet property="collectionView" destination="bWC-rO-Y3C" id="jhB-E5-hL2"/>
@@ -222,6 +220,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="location.png" width="240" height="240"/>
         <image name="sound-wave.png" width="240" height="240"/>
     </resources>
 </document>
