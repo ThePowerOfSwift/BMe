@@ -27,6 +27,7 @@ class ImageEditingViewController: UIViewController, UITextFieldDelegate {
         
         var editedImage: UIImage?
 
+        //editedImage = chosenImage?.add(textFields: textFields, view: self.view)
         editedImage = chosenImage?.add(textFields: textFields)
         
         let storyboard = UIStoryboard(name: "Camera", bundle: nil)
@@ -144,9 +145,13 @@ class ImageEditingViewController: UIViewController, UITextFieldDelegate {
 extension UIImage {
     
     func add(textFields: [UITextField]) -> UIImage {
+        let screenSize = UIScreen.main.bounds
         
-        let scale = UIScreen.main.scale
+        let screenSizeCG = CGSize(width: screenSize.width, height: screenSize.height)
+        
+        let scale = UIScreen.main.bounds.width / self.size.width
         UIGraphicsBeginImageContextWithOptions(self.size, false, scale)
+        //UIGraphicsBeginImageContext(screenSizeCG)
         self.draw(in: CGRect(origin: CGPoint.zero, size: self.size))
 
         // Draw text in each textField
@@ -162,16 +167,24 @@ extension UIImage {
             if let color = color {
                 textColor = color
             }
+            
+            let textScale = self.size.width / UIScreen.main.bounds.width
+
             // Default font
             var textFont = UIFont(name: "Helvetica Bold", size: 200)!
             if let font = font {
-                textFont = font
+                textFont = UIFont(name: "Helvetica Bold", size: font.pointSize * textScale)!
             }
+            
+            print("point: \(point)")
             
             let textFontAttributes = [NSFontAttributeName: textFont,
                                       NSForegroundColorAttributeName: textColor] as [String : Any]
-            let rect = CGRect(origin: point, size: self.size)
-            text.draw(in: rect, withAttributes: textFontAttributes)
+            
+            let textRectSize = CGSize(width: self.size.width, height: self.size.width)
+            let textPoint = CGPoint(x: point.x * textScale, y: point.y * textScale)
+            let textRect = CGRect(origin: textPoint, size: textRectSize)
+            text.draw(in: textRect, withAttributes: textFontAttributes)
         }
         
         let newImage = UIGraphicsGetImageFromCurrentImageContext()
@@ -179,5 +192,57 @@ extension UIImage {
         
         return newImage!
     }
+    
+//    func add(textFields: [UITextField], view: UIView) -> UIImage {
+//        let screenSizeCG = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+//        
+//        // Get screen size
+//        let screenWidth: CGFloat = view.frame.size.width
+//        let screenHeight: CGFloat = view.frame.size.height
+//        
+//        // Generate the range to draw
+//        let imageRect = CGRect(x:0, y:0, width: self.size.width, height: self.size.height)
+//        UIGraphicsBeginImageContext(self.size)
+//        
+//        // Render this image
+//        self.draw(in: imageRect)
+//        
+//        UIGraphicsBeginImageContextWithOptions(screenSizeCG, false, scale)
+//        //UIGraphicsBeginImageContext(screenSizeCG)
+//        self.draw(in: CGRect(origin: CGPoint.zero, size: self.size))
+//        
+//        // Draw text in each textField
+//        for textField in textFields {
+//            
+//            let text = NSString(string: textField.text!)
+//            let point = CGPoint(x: textField.frame.origin.x, y: textField.frame.origin.y)
+//            let color = textField.textColor
+//            let font = textField.font
+//            
+//            // Default colour white
+//            var textColor = UIColor.white
+//            if let color = color {
+//                textColor = color
+//            }
+//            // Default font
+//            var textFont = UIFont(name: "Helvetica Bold", size: 200)!
+//            if let font = font {
+//                //textFont = font
+//            }
+//            
+//            let textFontAttributes = [NSFontAttributeName: textFont,
+//                                      NSForegroundColorAttributeName: textColor] as [String : Any]
+//            
+//            // Generate the range to draw text
+//            let textRectSize: CGSize = CGSize(width: 50, height: 20)
+//            let textRect = CGRect(origin: point, size: textRectSize)
+//            text.draw(in: textRect, withAttributes: textFontAttributes)
+//        }
+//        
+//        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+//        UIGraphicsEndImageContext()
+//        
+//        return newImage!
+//    }
 }
 
