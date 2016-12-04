@@ -29,6 +29,7 @@ class User: NSObject {
             return firUser.displayName
         }
         set {
+            // Change storage
             let changeRequest = firUser.profileChangeRequest()
             changeRequest.displayName = newValue
             changeRequest.commitChanges(){ (error) in
@@ -36,6 +37,9 @@ class User: NSObject {
                     print("Error updating User display name: \(error.localizedDescription)")
                 }
             }
+            // Change database
+            let data = [Key.username: newValue as AnyObject]
+            firUserDBReference?.updateChildValues(data) 
         }
     }
     var email: String? {
@@ -63,13 +67,6 @@ class User: NSObject {
         }
     }
     
-
-    //MARK: - User Database keys
-    struct Key {
-        static let createdAt = "createdAt"
-        static let avatarURL = "avatarURL"
-    }
-    
     // MARK: - methods
 
     required init(_ user: FIRUser) {
@@ -90,7 +87,9 @@ class User: NSObject {
             else if let newFIRUser = newFIRUser {
                 // Create DB userMeta obj using defaults (overwrite any existing leaf data)
                 let user = User(newFIRUser)
-                let data = [Key.createdAt: Date().description as AnyObject]
+                let username = newFIRUser.email!.components(separatedBy: "@")[0]
+                let data = [Key.createdAt: Date().description as AnyObject,
+                            Key.username: username as AnyObject]
                 user.firUserDBReference?.setValue(data, withCompletionBlock: { (error, ref) in
                     if let error = error {
                         print("Error creating new user on Database: \(error.localizedDescription)")
@@ -98,7 +97,7 @@ class User: NSObject {
                 })
                 
                 // Set username to default email handle
-                user.username = newFIRUser.email!.components(separatedBy: "@")[0]
+                user.username = username
             
                 AppState.shared.signedIn(AppState.shared.currentUser)
 
@@ -121,9 +120,18 @@ class User: NSObject {
             if let date = data[User.Key.createdAt] as? String {
                 userMeta.createdAt = date.toDate()
             }
+            if let username = data[User.Key.username] as? String {
+                userMeta.username = username
+            }
             
             block(userMeta)
         })
+    }
+    //MARK: - User Database keys
+    struct Key {
+        static let createdAt = "createdAt"
+        static let avatarURL = "avatarURL"
+        static let username = "username"
     }
 }
 
@@ -131,4 +139,5 @@ class User: NSObject {
 struct UserMeta {
     var avatarURL: URL?
     var createdAt: Date?
+    var username: String?
 }

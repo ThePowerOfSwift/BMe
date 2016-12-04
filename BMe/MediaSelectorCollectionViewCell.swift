@@ -18,9 +18,9 @@ class MediaSelectorCollectionViewCell: UICollectionViewCell {
     }
     
     let selectionMargin: CGFloat = 4.00
-    let hightlightColor = Styles.Color.Secondary
+    let hightlightColor = Styles.Color.Tertiary
     let highlightCornerRadius: CGFloat = 5.00
-    let selectedAlpha: CGFloat = 0.70
+    let selectedOpacity: Float = 0.70
     let animationDuraction: TimeInterval = 0.2
     
     var image: UIImage? {
@@ -37,12 +37,17 @@ class MediaSelectorCollectionViewCell: UICollectionViewCell {
     
     override var isSelected : Bool {
         didSet {
+            
             UIView.animate(withDuration: animationDuraction, animations: {
                 self.layer.borderColor = self.isSelected ? self.hightlightColor.cgColor : UIColor.clear.cgColor
                 self.layer.borderWidth = self.isSelected ? self.selectionMargin : 0
                 self.clipsToBounds = true
                 self.layer.cornerRadius = self.isSelected ? self.highlightCornerRadius : 0
-                self.alpha = self.isSelected ? self.selectedAlpha : 1.0
+                self.layer.opacity = self.isSelected ? self.selectedOpacity : 1.0
+            }, completion: { (success) in
+                UIView.animate(withDuration: self.animationDuraction, animations: {
+                    self.layer.borderWidth = self.isSelected ? self.selectionMargin / 1.25 : 0
+                })
             })
         }
     }

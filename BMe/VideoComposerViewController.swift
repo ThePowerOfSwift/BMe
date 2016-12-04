@@ -9,7 +9,7 @@
 import UIKit
 import Photos
 
-class VideoComposerViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, MetaViewControllerDelegate {
+class VideoComposerViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
     //MARK: - Outlets
     @IBOutlet weak var bannerView: UIView!
@@ -25,7 +25,6 @@ class VideoComposerViewController: UIViewController, UICollectionViewDataSource,
     let imgManager = PHCachingImageManager.default()
     
     // MARK: - Constants
-    private let kSegueID = "pushToMeta"
     private let kTempSaveRoot = "tempSave"
     
     //MARK: - Lifecycle
@@ -62,10 +61,7 @@ class VideoComposerViewController: UIViewController, UICollectionViewDataSource,
     }
     
     func next() {
-        let storyboard = UIStoryboard(name: VideoComposition.StoryboardKey.ID, bundle: nil)
-        let metaVC = storyboard.instantiateViewController(withIdentifier: VideoComposition.StoryboardKey.metaViewController) as! MetaViewController
-        metaVC.delegate = self
-        present(metaVC, animated: true, completion: nil)
+        RenderAndPost()
     }
     
     
@@ -202,35 +198,20 @@ class VideoComposerViewController: UIViewController, UICollectionViewDataSource,
         }
     }
     
-    // MARK: - MetaDelegate Methods
-
-    
-    func post(meta: [String : String]) {
-//        let name = meta[MetaViewController.Key.name]
-        let restaurant = meta[MetaViewController.Key.restaurant]
-
+    func RenderAndPost() {
         // render timing?
         // split up the times automatically? (take the natural length of videos)?
         // use pre marked split?
         // include pictures
-        
         composition.render(fileNamed: "render_temp.mov", completion: {
             (session: AVAssetExportSession) in
          
             print("Success: rendered video")
-            let url = URL(string: (session.outputURL?.absoluteString)!)
-            FIRManager.shared.postObject(url: url!, contentType: ContentType.video, meta: [:], completion: nil)
             
-            // Convert rendered to upload video with using updated links
-//            let video = Video(userId: AppState.shared.currentUser?.uid,
-//            username: AppState.shared.currentUser?.displayName,
-//            templateId: "",
-//            videoURL: session.outputURL?.absoluteString,
-//            gsURL: "",
-//            createdAt: Date(),
-//            restaurantName: restaurant)
-//
-//            FIRManager.shared.uploadVideo(video: video, completion: { })
+            // Post video
+            let meta: [String: AnyObject?] = [:]
+            let url = URL(string: (session.outputURL?.absoluteString)!)
+            FIRManager.shared.postObject(url: url!, contentType: ContentType.video, meta: meta, completion: nil)
         })
     }
 }

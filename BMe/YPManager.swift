@@ -35,12 +35,21 @@ class YPManager: BDBOAuth1RequestOperationManager {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func searchWithTerm(_ term: String, completion: @escaping ([Restaurant]?, Error?) -> Void) -> AFHTTPRequestOperation {
+    func searchWithTerm(_ term: String?, _ options: [String : AnyObject]?, completion: @escaping ([Restaurant]?, Error?) -> Void) -> AFHTTPRequestOperation {
         // For additional parameters, see http://www.yelp.com/developers/documentation/v2/search_api
         
-        // Default the location to San Francisco
-        let parameters: [String : AnyObject] = ["term": term as AnyObject, "ll": "37.785771,-122.406165" as AnyObject]
-    
+        // Defaults
+        var parameters: [String : AnyObject] = [Key.term: (term ?? "") as AnyObject,
+                                                // location San Francisco
+                                                Key.ll : "37.785771,-122.406165" as AnyObject,
+                                                //Sort mode: 0=Best matched (default), 1=Distance, 2=Highest Rated
+                                                Key.sort: 0 as AnyObject]
+        if let options = options {
+            for entry in options {
+                parameters.updateValue(entry.value as AnyObject, forKey: entry.key)
+            }
+        }
+        
         print(parameters)
         
         return self.get("search", parameters: parameters,
@@ -59,4 +68,14 @@ class YPManager: BDBOAuth1RequestOperationManager {
         })!
     }
     
+    struct Key {
+        static let term = "term"
+        static let ll = "ll"
+        static let limit = "limit"
+        static let offset = "offset"
+        static let sort = "sort"
+        static let category_filter = "category_filter"
+        static let radius_filter = "radius_filter"
+        static let deals_filter = "deals_filter"
+    }
 }

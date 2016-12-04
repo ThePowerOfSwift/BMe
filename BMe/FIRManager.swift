@@ -141,7 +141,6 @@ class FIRManager: NSObject {
                 let jsonObject: [String: AnyObject?] = [
                     "uid": AppState.shared.currentUser?.uid as AnyObject,
                     "url": ref.url as AnyObject,
-                    "description": ref.description() as AnyObject,
                     "contentType": contentType.objectKey() as AnyObject,
                     ]
                 

@@ -30,7 +30,7 @@ class BrowseViewController: UIViewController {
 
         // Pull to refresh
         let refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: #selector(pullToRefresh), for: UIControlEvents.valueChanged)
+        refreshControl.addTarget(self, action: #selector(pullToRefresh(_:)), for: UIControlEvents.valueChanged)
         tableView.insertSubview(refreshControl, at: 0)
    
         // Setup player end for loop observation
@@ -41,6 +41,7 @@ class BrowseViewController: UIViewController {
             self.posts.append(snapshot)
             self.tableView.insertRows(at: [IndexPath(row: self.posts.count - 1, section: 0)], with: .automatic)
         })
+        
 
 
 // YPManager test
@@ -86,12 +87,9 @@ extension BrowseViewController:  UITableViewDelegate, UITableViewDataSource {
                 User.userMeta(uid, block: { (usermeta) in
                     // Get the avatar if it exists
                     let ref = FIRManager.shared.storage.child((usermeta.avatarURL?.path)!)
-                    cell.avatarImageView.loadImageFromGS(with: ref, placeholderImage: UIImage(named: Constants.User.avatarDefault))
+                    cell.avatarImageView.loadImageFromGS(with: ref, placeholderImage: UIImage(named: Constants.Images.avatarDefault))
+                     cell.usernameLabel.text = usermeta.username
                 })
-            }
-            
-            if let username = post["username"] as? String {
-                cell.usernameLabel.text = username
             }
             
             /*
@@ -121,6 +119,8 @@ extension BrowseViewController:  UITableViewDelegate, UITableViewDataSource {
         
     }
     
-    func pullToRefresh(refreshControl: UIRefreshControl) {
+    func pullToRefresh(_ refreshControl: UIRefreshControl) {
+        refreshControl.endRefreshing()
+        tableView.reloadData()
     }
 }
