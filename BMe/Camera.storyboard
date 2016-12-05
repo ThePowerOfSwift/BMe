@@ -57,11 +57,21 @@
                                             <action selector="onUpload:" destination="CUT-KW-ZOC" eventType="touchUpInside" id="Sdt-Mg-4M6"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iDy-FN-Eyx" customClass="LocationButton" customModule="BMe" customModuleProvider="target">
+                                        <rect key="frame" x="10" y="70" width="50" height="50"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="Tj8-dL-7UX"/>
+                                            <constraint firstAttribute="width" constant="50" id="e6Q-gV-pef"/>
+                                        </constraints>
+                                        <state key="normal" title="Button"/>
+                                    </button>
                                 </subviews>
                                 <constraints>
+                                    <constraint firstItem="iDy-FN-Eyx" firstAttribute="top" secondItem="fZo-83-kBt" secondAttribute="top" constant="70" id="9fS-on-04g"/>
                                     <constraint firstAttribute="bottom" secondItem="dz3-xN-PWO" secondAttribute="bottom" id="Dnb-5H-seb"/>
                                     <constraint firstItem="mKh-1y-Tmo" firstAttribute="leading" secondItem="fZo-83-kBt" secondAttribute="leading" constant="10" id="KYX-Be-qoX"/>
                                     <constraint firstItem="dz3-xN-PWO" firstAttribute="leading" secondItem="fZo-83-kBt" secondAttribute="leading" id="QJa-6k-lXV"/>
+                                    <constraint firstItem="iDy-FN-Eyx" firstAttribute="leading" secondItem="mKh-1y-Tmo" secondAttribute="leading" id="dR0-n1-Ccf"/>
                                     <constraint firstItem="mKh-1y-Tmo" firstAttribute="top" secondItem="fZo-83-kBt" secondAttribute="top" constant="24" id="gef-J8-2jN"/>
                                     <constraint firstAttribute="trailing" secondItem="dz3-xN-PWO" secondAttribute="trailing" id="jth-4Q-cEz"/>
                                     <constraint firstItem="dz3-xN-PWO" firstAttribute="top" secondItem="fZo-83-kBt" secondAttribute="top" id="qqL-ms-get"/>
@@ -84,6 +94,7 @@
                         <outlet property="addTextButton" destination="mKh-1y-Tmo" id="aNG-CB-5ZC"/>
                         <outlet property="cameraControlView" destination="fZo-83-kBt" id="esG-sT-Tyw"/>
                         <outlet property="imageView" destination="dz3-xN-PWO" id="Fov-sX-xnz"/>
+                        <outlet property="locationButton" destination="iDy-FN-Eyx" id="Rt9-76-ptE"/>
                         <outlet property="uploadButton" destination="8UK-bU-d50" id="e89-cX-jr9"/>
                     </connections>
                 </viewController>
