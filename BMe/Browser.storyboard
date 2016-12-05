@@ -42,7 +42,7 @@
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ggE-l9-2Ea">
                                                     <rect key="frame" x="38" y="66" width="300" height="300"/>
                                                     <subviews>
-                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="qYU-Wi-D8x">
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="qYU-Wi-D8x">
                                                             <rect key="frame" x="0.0" y="0.0" width="300" height="300"/>
                                                         </imageView>
                                                     </subviews>
@@ -113,7 +113,7 @@
             <objects>
                 <navigationController storyboardIdentifier="BrowseNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="yTM-M5-7WI" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="ocb-hQ-2YP">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="ocb-hQ-2YP">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>

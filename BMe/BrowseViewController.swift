@@ -25,8 +25,6 @@ class BrowseViewController: UIViewController {
         
         tableView.delegate = self
         tableView.dataSource = self
-//        tableView.estimatedRowHeight = 50
-//        tableView.rowHeight = UITableViewAutomaticDimension
 
         // Pull to refresh
         let refreshControl = UIRefreshControl()
@@ -38,8 +36,8 @@ class BrowseViewController: UIViewController {
         
         // Setup datasource
         _refHandle = dbReference.observe(.childAdded, with: { (snapshot) in
-            self.posts.append(snapshot)
-            self.tableView.insertRows(at: [IndexPath(row: self.posts.count - 1, section: 0)], with: .automatic)
+            self.posts.insert(snapshot, at: 0)
+            self.tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
         })
     }
     

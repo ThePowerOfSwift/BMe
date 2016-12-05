@@ -325,14 +325,21 @@ extension UIImageView {
             self.addSubview(busyIndicator)
             busyIndicator.startAnimating()
 
+            task.observe(.progress, handler: { (snapshot: FIRStorageTaskSnapshot) in
+                if let progress = snapshot.progress {
+                    let completed: CGFloat = CGFloat(progress.completedUnitCount) / CGFloat(progress.totalUnitCount)
+//                    self.alpha = completed
+                }
+            })
             task.observe(.success, handler: { (snapshot: FIRStorageTaskSnapshot) in
+//                self.alpha = 1
                 busyIndicator.removeFromSuperview()
             })
             task.observe(.failure, handler: { (snapshot: FIRStorageTaskSnapshot) in
                 if let error = snapshot.error {
                     print("Error loading image from GS \(error.localizedDescription)")
                 }
-                busyIndicator.removeFromSuperview()
+//                busyIndicator.removeFromSuperview()
             })
         }
     }

@@ -23,6 +23,7 @@
 		781E715A1DF5330E00041855 /* circle-yellow.png in Resources */ = {isa = PBXBuildFile; fileRef = 781E71581DF5330E00041855 /* circle-yellow.png */; };
 		781E715D1DF53D1E00041855 /* home-white.png in Resources */ = {isa = PBXBuildFile; fileRef = 781E715B1DF53D1E00041855 /* home-white.png */; };
 		781E715E1DF53D1E00041855 /* home-yellow.png in Resources */ = {isa = PBXBuildFile; fileRef = 781E715C1DF53D1E00041855 /* home-yellow.png */; };
+		781E71601DF5583A00041855 /* LaunchScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781E715F1DF5583A00041855 /* LaunchScreenViewController.swift */; };
 		7821C3BA1DEF10F60023B95E /* TimeLapseBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7821C3B91DEF10F60023B95E /* TimeLapseBuilder.swift */; };
 		7821C3C21DEF939A0023B95E /* Camera.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7821C3C11DEF939A0023B95E /* Camera.storyboard */; };
 		7821C3C41DEF94350023B95E /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7821C3C31DEF94350023B95E /* CameraViewController.swift */; };
@@ -118,6 +119,7 @@
 		781E71581DF5330E00041855 /* circle-yellow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "circle-yellow.png"; sourceTree = "<group>"; };
 		781E715B1DF53D1E00041855 /* home-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "home-white.png"; sourceTree = "<group>"; };
 		781E715C1DF53D1E00041855 /* home-yellow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "home-yellow.png"; sourceTree = "<group>"; };
+		781E715F1DF5583A00041855 /* LaunchScreenViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LaunchScreenViewController.swift; sourceTree = "<group>"; };
 		7821C3B91DEF10F60023B95E /* TimeLapseBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeLapseBuilder.swift; sourceTree = "<group>"; };
 		7821C3C11DEF939A0023B95E /* Camera.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Camera.storyboard; sourceTree = "<group>"; };
 		7821C3C31DEF94350023B95E /* CameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
@@ -289,6 +291,7 @@
 				E3D1D55E1DF11D700021942A /* Styles.swift */,
 				78469A621DE3958100A40D53 /* Assets.xcassets */,
 				78469A641DE3958100A40D53 /* LaunchScreen.storyboard */,
+				781E715F1DF5583A00041855 /* LaunchScreenViewController.swift */,
 				78469A671DE3958100A40D53 /* Info.plist */,
 				78337D8C1DE3AC6600A1B32C /* GoogleService-Info.plist */,
 			);
@@ -791,6 +794,7 @@
 				78B369BF1DE7F844001ADD53 /* TemplateListVC.swift in Sources */,
 				783008A71DE3B9A000B070D4 /* MediaSelectorViewController.swift in Sources */,
 				E3C357A41DEF484E00AC0832 /* Restaurant.swift in Sources */,
+				781E71601DF5583A00041855 /* LaunchScreenViewController.swift in Sources */,
 				78C350491DF28756005E8331 /* User.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -944,6 +948,7 @@
 			baseConfigurationReference = EF9B8E045282684264E31D83 /* Pods-BMe.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				DEVELOPMENT_TEAM = Y4GA6H5JHE;
 				INFOPLIST_FILE = BMe/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -960,6 +965,7 @@
 			baseConfigurationReference = 1B3943A2C1F5F5DBD966A650 /* Pods-BMe.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				DEVELOPMENT_TEAM = Y4GA6H5JHE;
 				INFOPLIST_FILE = BMe/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

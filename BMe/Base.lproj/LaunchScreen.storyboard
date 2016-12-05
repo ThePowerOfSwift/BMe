@@ -1,7 +1,12 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11134" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11106"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -16,12 +21,43 @@
                     <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qzV-bP-qYL">
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="black_truffle_modified" translatesAutoresizingMaskIntoConstraints="NO" id="GLc-Ib-k7l">
+                                        <rect key="frame" x="137" y="273.5" width="100" height="100"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="100" id="Y0n-Pz-ZmD"/>
+                                            <constraint firstAttribute="width" secondItem="GLc-Ib-k7l" secondAttribute="height" multiplier="1:1" id="mBs-Bm-O0k"/>
+                                        </constraints>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" red="0.42523694039999999" green="0.69867330790000004" blue="0.71251630779999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstItem="GLc-Ib-k7l" firstAttribute="centerY" secondItem="qzV-bP-qYL" secondAttribute="centerY" id="QPC-kZ-7f4"/>
+                                    <constraint firstItem="GLc-Ib-k7l" firstAttribute="centerX" secondItem="qzV-bP-qYL" secondAttribute="centerX" id="poA-0u-S4W"/>
+                                </constraints>
+                            </view>
+                        </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="qzV-bP-qYL" secondAttribute="bottom" id="Ti2-4e-2T9"/>
+                            <constraint firstAttribute="trailing" secondItem="qzV-bP-qYL" secondAttribute="trailing" id="aOS-9P-V8D"/>
+                            <constraint firstItem="qzV-bP-qYL" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="lTS-na-05Y"/>
+                            <constraint firstItem="qzV-bP-qYL" firstAttribute="top" secondItem="Llm-lL-Icb" secondAttribute="bottom" id="uDQ-GM-kic"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="backgroundView" destination="qzV-bP-qYL" id="T7n-HQ-8Fx"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="53" y="375"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="black_truffle_modified" width="750" height="500"/>
+    </resources>
 </document>
