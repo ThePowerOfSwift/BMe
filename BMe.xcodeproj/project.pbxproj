@@ -235,6 +235,7 @@
 				783008A11DE3B9A000B070D4 /* VideoComposer.storyboard */,
 				78C350421DF2251A005E8331 /* Browser.storyboard */,
 				78C350441DF2260A005E8331 /* Account.storyboard */,
+				781E714B1DF486A900041855 /* Yelp.storyboard */,
 			);
 			name = Storyboards;
 			sourceTree = "<group>";
@@ -405,7 +406,6 @@
 		786727DB1DE3ADE90059AEC7 /* Storyboards */ = {
 			isa = PBXGroup;
 			children = (
-				781E714B1DF486A900041855 /* Yelp.storyboard */,
 			);
 			name = Storyboards;
 			sourceTree = "<group>";

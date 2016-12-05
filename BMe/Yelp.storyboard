@@ -21,25 +21,25 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="bmZ-HS-ug7">
-                                <rect key="frame" x="32" y="104" width="289" height="30"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="bezel" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="bmZ-HS-ug7">
+                                <rect key="frame" x="20" y="70" width="335" height="50"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="289" id="QNX-KC-Jo6"/>
-                                    <constraint firstAttribute="height" constant="30" id="jJU-oW-2YZ"/>
+                                    <constraint firstAttribute="height" constant="50" id="jJU-oW-2YZ"/>
                                 </constraints>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="alphabet"/>
                             </textField>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="kxk-ff-VNq">
-                                <rect key="frame" x="0.0" y="154" width="375" height="513"/>
+                                <rect key="frame" x="0.0" y="130" width="375" height="537"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="YelpTableViewCell" id="nLN-OB-CJw">
                                         <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="nLN-OB-CJw" id="I2H-YO-u0h">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -56,17 +56,20 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="bmZ-HS-ug7" firstAttribute="leading" secondItem="axv-RR-vz9" secondAttribute="leading" constant="32" id="FRa-p6-2Y1"/>
+                            <constraint firstItem="bmZ-HS-ug7" firstAttribute="leading" secondItem="axv-RR-vz9" secondAttribute="leading" constant="20" id="DVC-7k-VYC"/>
                             <constraint firstItem="Sf6-IX-IVl" firstAttribute="top" secondItem="kxk-ff-VNq" secondAttribute="bottom" id="Fgb-cW-iF4"/>
-                            <constraint firstItem="bmZ-HS-ug7" firstAttribute="top" secondItem="Fue-0u-ciV" secondAttribute="bottom" constant="84" id="G1q-b5-cgJ"/>
+                            <constraint firstItem="bmZ-HS-ug7" firstAttribute="top" secondItem="Fue-0u-ciV" secondAttribute="bottom" constant="50" id="G1q-b5-cgJ"/>
                             <constraint firstAttribute="trailing" secondItem="kxk-ff-VNq" secondAttribute="trailing" id="NsT-Tt-ivh"/>
-                            <constraint firstItem="kxk-ff-VNq" firstAttribute="top" secondItem="bmZ-HS-ug7" secondAttribute="bottom" constant="20" id="PXr-eg-43C"/>
+                            <constraint firstItem="kxk-ff-VNq" firstAttribute="top" secondItem="bmZ-HS-ug7" secondAttribute="bottom" constant="10" id="PXr-eg-43C"/>
+                            <constraint firstAttribute="trailing" secondItem="bmZ-HS-ug7" secondAttribute="trailing" constant="20" id="lCl-UJ-aZn"/>
                             <constraint firstItem="kxk-ff-VNq" firstAttribute="leading" secondItem="axv-RR-vz9" secondAttribute="leading" id="n6Z-yh-tUI"/>
+                            <constraint firstItem="bmZ-HS-ug7" firstAttribute="centerX" secondItem="axv-RR-vz9" secondAttribute="centerX" id="rft-hC-2LO"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="restuarantNameTextField" destination="bmZ-HS-ug7" id="uNe-BN-zhT"/>
                         <outlet property="tableView" destination="kxk-ff-VNq" id="und-U5-ZzD"/>
+                        <outlet property="tableViewBottomConstraint" destination="Fgb-cW-iF4" id="Und-Pi-Jlr"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="J5C-0X-Mlh" userLabel="First Responder" sceneMemberID="firstResponder"/>

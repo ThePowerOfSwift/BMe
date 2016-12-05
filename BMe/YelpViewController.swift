@@ -37,6 +37,7 @@ class YelpViewController: UIViewController, UITextFieldDelegate, CLLocationManag
     
     @IBOutlet weak var restuarantNameTextField: UITextField!
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var tableViewBottomConstraint: NSLayoutConstraint!
     
 //    @IBAction func tappedDone(_ sender: Any) {
 //        dismiss(animated: true, completion: nil)
@@ -50,6 +51,8 @@ class YelpViewController: UIViewController, UITextFieldDelegate, CLLocationManag
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        view.backgroundColor = Styles.Color.Primary
+        
         restuarantNameTextField.delegate = self
         restuarantNameTextField.becomeFirstResponder()
         
@@ -62,10 +65,15 @@ class YelpViewController: UIViewController, UITextFieldDelegate, CLLocationManag
         locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
         locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
+        
+        // Get notification for keyboard appearance
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: .UIKeyboardWillShow, object: nil)
+
     }
 
     deinit {
         locationManager.stopUpdatingLocation()
+        NotificationCenter.default.removeObserver(self)
     }
     
     override func didReceiveMemoryWarning() {
@@ -73,6 +81,8 @@ class YelpViewController: UIViewController, UITextFieldDelegate, CLLocationManag
         // Dispose of any resources that can be recreated.
     }
 
+    // MARK: - Search functions
+    
     // Perform search based on current location
     func findClosest() {
         let parameters: [String: AnyObject] = [YPManager.Key.limit: 5 as AnyObject,
@@ -136,6 +146,15 @@ class YelpViewController: UIViewController, UITextFieldDelegate, CLLocationManag
     func textFieldShouldClear(_ textField: UITextField) -> Bool {
         findClosest()
         return true
+    }
+    
+    func keyboardWillShow(_ notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            let keyboardHeight = keyboardSize.height
+            print(keyboardHeight)
+            
+            tableViewBottomConstraint.constant += keyboardHeight
+        }
     }
     
     // MARK: - CLLocationManager Delegate delegate
