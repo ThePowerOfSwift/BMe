@@ -54,11 +54,13 @@ struct Constants {
         static let audio = "sound-wave.png"
         static let location = "location.png"
         static let locationYellow = "location-yellow.png"
+        static let circle = "circle-white.png"
+        static let circleYellow = "circle-yellow.png"
     }
 }
 
 enum ContentType {
-    case image, video, audio, template, userMeta, post
+    case image, video, audio, template, userMeta, post, restaurantMeta
     func string() -> String {
         switch self {
         case .image:
@@ -73,6 +75,8 @@ enum ContentType {
             return ObjectKey.userMeta
         case .post:
             return ObjectKey.post
+        case .restaurantMeta:
+            return ObjectKey.restaurantMeta
         }
     }
     func fileExtension() -> String {
@@ -89,6 +93,8 @@ enum ContentType {
             return ObjectKey.userMeta
         case .post:
             return ObjectKey.post
+        case .restaurantMeta:
+            return ObjectKey.restaurantMeta
         }
     }
     func objectKey() -> String {
@@ -105,21 +111,24 @@ enum ContentType {
             return ObjectKey.userMeta
         case .post:
             return ObjectKey.post
+        case .restaurantMeta:
+            return ObjectKey.restaurantMeta
         }
     }
-    init?(string: String?) {
-        if let string = string {
-            switch string.lowercased() {
-            case ContentType.image.string(): self = .image
-            case ContentType.video.string(): self = .video
-            case ContentType.audio.string(): self = .audio
-            case ContentType.template.string(): self = .template
-            case ContentType.userMeta.string(): self = .userMeta
-            case ContentType.post.string(): self = .post
-            default: return nil
-            }
+    init?(string: String) {
+        print("init string \(string)")
+        print("vs string \(ContentType.video.string())")
+        
+        switch string {
+        case ContentType.image.string(): self = .image
+        case ContentType.video.string(): self = .video
+        case ContentType.audio.string(): self = .audio
+        case ContentType.template.string(): self = .template
+        case ContentType.userMeta.string(): self = .userMeta
+        case ContentType.post.string(): self = .post
+        case ContentType.restaurantMeta.string(): self = .restaurantMeta
+        default: return nil
         }
-        return nil
     }
 }
 
@@ -130,4 +139,5 @@ private struct ObjectKey {
     static let image = "image"
     static let post = "post"
     static let userMeta = "userMeta"
+    static let restaurantMeta = "restaurantMeta"
 }
