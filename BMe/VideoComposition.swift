@@ -10,7 +10,7 @@ import UIKit
 import AVFoundation
 import AVKit
 
-class VideoComposition: AVPlayerItem{ //, NSCoding {
+class VideoComposition: AVPlayerItem{
 
 // MARK: - Variables
     var name: String?
@@ -298,51 +298,5 @@ class VideoComposition: AVPlayerItem{ //, NSCoding {
         
         return urlAssets
     }
-    
-    
-/*
-// MARK: - NSCoding methods
-    
-     func saveAsDataFile(to url: URL) {
-     let archive = NSKeyedArchiver.archivedData(withRootObject: self)
-     do {
-     try archive.write(to: url)
-     print("Wrote VideoComposition archive to url: \(url)")
-     }
-     catch {
-     print("Error saving VideoComposition to file: \(error.localizedDescription)")
-     }
-     }
-     
-     class func loadComposition(fromDataFile url: URL) -> VideoComposition? {
-     do {
-     let data = try Data(contentsOf: url, options: Data.ReadingOptions.uncachedRead)
-     let composition = NSKeyedUnarchiver.unarchiveObject(with: data) as! VideoComposition
-     return composition
-     }
-     catch {
-     print("Error loading VComposition from url: \(error.localizedDescription)")
-     }
-     
-     return nil
-     }
-
-    required convenience init?(coder aDecoder: NSCoder) {
-        guard let videoURLs = aDecoder.decodeObject(forKey: VideoComposition.Key.videoURLs) as? [URL]
-            else { return nil }
-        guard let audioURL = aDecoder.decodeObject(forKey: VideoComposition.Key.audioURL) as? URL
-            else { return nil }
-        
-        let name: String? = aDecoder.decodeObject(forKey: VideoComposition.Key.name) as? String
-        let templateID: String? = aDecoder.decodeObject(forKey: VideoComposition.Key.templateID) as? String
-        
-        self.init(videoURLs: videoURLs, audioURL: audioURL, name: name, templateID: templateID)
-    }
-    
-    func encode(with aCoder: NSCoder) {
-        aCoder.encode(videoURLs, forKey:VideoComposition.Key.videoURLs)
-        aCoder.encode(audioURL, forKey:VideoComposition.Key.audioURL)
-    }
- */
 }
 

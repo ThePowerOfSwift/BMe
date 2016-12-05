@@ -256,6 +256,63 @@ class MediaSelectorViewController: UIViewController, UICollectionViewDataSource,
     }
     
 // MARK: - Methods
+    
+    func next() {
+        // Generate selected assets
+        var selectedAssets: [PHAsset] = []
+        for row in selectedRows {
+            let asset = phAssets[row]
+            selectedAssets.append(asset)
+        }
+        
+        for phAsset in selectedAssets {
+            //Take phassets that are images
+            if phAsset.mediaType == .image {
+                
+                //Make them into videos
+                let options = PHImageRequestOptions()
+                options.isNetworkAccessAllowed = true
+                options.isSynchronous = true
+                options.version = .current
+                
+                imgManager.requestImageData(for: phAsset, options: nil, resultHandler: { (data, string, orientation, info) in
+                    let image = UIImage(data: data!)
+                    
+                    
+                })
+                /*
+                imgManager.requestImage(for: phAsset, targetSize: CGSize.portrait, contentMode: .aspectFit, options: options, resultHandler: { (image: UIImage?, info: [AnyHashable : Any]?) in
+                    
+                    // Take URL and convert to video
+                    let newURL = AppDelegate.urlForNewDocumentFile(named: "temptestvid.mp4")
+                    let videoBuilder = TimeLapseBuilder(image: image!, videoOutputURL: newURL)
+                    videoBuilder.build(progress: { (progress: Progress) in
+                        
+                    }, completion: { (url: URL?, error: Error?) in
+                        if let error = error {
+                            print("There was an error making the jpeg video \(error.localizedDescription)")
+                            return
+                        }
+                        
+                        // Store result here
+                        print("Opening video rendered to: \(url?.path)")
+                        let avplayer = AVPlayerViewController()
+                        let player = AVPlayer(url: url!)
+                        avplayer.player = player
+                        self.present(avplayer, animated: true, completion: {
+                            avplayer.player?.play()
+                        })
+                    })
+                })*/
+                
+                //Display the videos
+                
+                break
+            }
+            
+        }
+    }
+    /*
     func next() {
         let destination = UIStoryboard.init(name: Constants.SegueID.Storyboard.VideoComposer, bundle: nil).instantiateViewController(withIdentifier: Constants.SegueID.ViewController.VideoComposerViewController) as! VideoComposerViewController
         
@@ -275,6 +332,7 @@ class MediaSelectorViewController: UIViewController, UICollectionViewDataSource,
         
         present(destination, animated: true, completion: nil)
     }
+ */
 
 // MARK: - Scrollview delegate methods
     //Aspect Ratio: bannerViewAspectRatio.multiplier

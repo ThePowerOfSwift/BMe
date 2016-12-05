@@ -49,6 +49,8 @@ class BrowserTableViewCell: UITableViewCell {
         postContentView.layer.addSublayer(playerLayer)
         
         postImageView.backgroundColor = Styles.Color.Primary
+        postImageView.contentMode = .scaleAspectFill
+        postImageView.clipsToBounds = true
         
         headingLabel.textColor = Styles.Color.Secondary
         headingLabel.text = ""
