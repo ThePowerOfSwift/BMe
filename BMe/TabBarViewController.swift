@@ -140,7 +140,7 @@ class TabBarViewController: UIViewController {
 //                case 2:
 //                case 3:
                 default:
-                    print("default swifth statemetn in didTapTab")
+                    break
             }
         
             
@@ -152,7 +152,7 @@ class TabBarViewController: UIViewController {
 //                case 2:
 //                case 3:
                 default:
-                    print("default swifth statemetn in didTapTab")
+                    break
             }
             
             self.layoutTab(index: previousIndex, w: self.unselectedTabSize, h: self.unselectedTabSize)
