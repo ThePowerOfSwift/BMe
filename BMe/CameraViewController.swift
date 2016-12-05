@@ -11,6 +11,10 @@ import MobileCoreServices
 import AVFoundation
 import FontAwesome_swift
 
+@objc protocol CameraDelegate {
+    @objc optional func getCameraButton() -> UIButton
+}
+
 class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, LocationButtonDelegate {
     
     //MARK: - Outlets
@@ -41,6 +45,10 @@ class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePicker
     var renderedImage: UIImage?
     var metadata: [String: AnyObject?]?
     
+    var delegate: CameraDelegate?
+    var imagePicker: UIImagePickerController?
+    var cameraButton: UIButton?
+    
     //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,10 +61,35 @@ class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePicker
         
         metadata = ["missing metadata" : "you didn't add metadata for this pic, bitch!" as Optional<AnyObject>]
         
+        let cameraButtonFromTabBar = delegate?.getCameraButton!()
+        let frame = cameraButtonFromTabBar?.frame
+        cameraButton = UIButton(frame: CGRect(x: (frame?.origin.x)! , y: (frame?.origin.y)!, width: (frame?.width)!, height: (frame?.height)!))
+        cameraButton?.addTarget(self, action: #selector(takePicture), for: UIControlEvents.touchUpInside)
+        
+        
+        let image = UIImage(named: Constants.Images.circleYellow)
+        cameraButton?.setImage(image, for: .normal)
+        cameraButton?.imageView?.image? = (cameraButton?.imageView?.image?.withRenderingMode(.alwaysTemplate))!
+        cameraButton?.imageView?.tintColor = Styles.Color.Primary
+        
         hideCameraControlView()
         setupButtons()
         loadCamera()
         
+    }
+    
+
+    // Set icon image at index
+    func se(imageName: String, button: UIButton) {
+        let image = UIImage(named: imageName)
+        button.setImage(image, for: .normal)
+        button.imageView?.image? = (button.imageView?.image?.withRenderingMode(.alwaysTemplate))!
+        button.imageView?.tintColor = Styles.Color.Primary
+    }
+    
+    
+    func takePicture() {
+        imagePicker?.takePicture()
     }
     
     func setupButtons() {
@@ -96,34 +129,67 @@ class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePicker
     }
     
     func presentCameraPicker(timeInterval: TimeInterval?, delegate: (UIImagePickerControllerDelegate & UINavigationControllerDelegate), completion: (() -> Void)?) {
-        let imagePicker = UIImagePickerController()
+//        let imagePicker = UIImagePickerController()
         
-        imagePicker.delegate = delegate
-        imagePicker.allowsEditing = false
+//        imagePicker.delegate = delegate
+//        imagePicker.allowsEditing = false
+//        // Set to camera & video record
+//        imagePicker.sourceType = .camera
+//        
+//        // Capable for video and camera
+//        imagePicker.mediaTypes = [kUTTypeImage as String]
+//        
+//        // Set maximum video length, if any
+//        if let timeInterval = timeInterval {
+//            imagePicker.videoMaximumDuration = timeInterval
+//        }
+//        
+//        imagePicker.showsCameraControls = false
+//        
+//        let screenSize = UIScreen.main.bounds.size
+//        let cameraAspectRatio: CGFloat = 4.0 / 3.0
+//        let imageWidth = floor(screenSize.width * cameraAspectRatio)
+//        let scale = ceil((screenSize.height) / imageWidth )
+//
+//        imagePicker.cameraViewTransform = CGAffineTransform(scaleX: scale, y: scale)
+//        
+//        present(imagePicker, animated: false) {
+//            //imagePicker.takePicture()
+//            //self.takePicture(imagePicker: imagePicker)
+//            if let completion = completion { completion() }
+//        }
+        imagePicker = UIImagePickerController()
+        imagePicker?.delegate = delegate
+        imagePicker?.allowsEditing = false
         // Set to camera & video record
-        imagePicker.sourceType = .camera
+        imagePicker?.sourceType = .camera
         
         // Capable for video and camera
-        imagePicker.mediaTypes = [kUTTypeImage as String]
+        imagePicker?.mediaTypes = [kUTTypeImage as String]
         
         // Set maximum video length, if any
         if let timeInterval = timeInterval {
-            imagePicker.videoMaximumDuration = timeInterval
+            imagePicker?.videoMaximumDuration = timeInterval
         }
         
-        imagePicker.showsCameraControls = false
+        imagePicker?.showsCameraControls = false
         
         let screenSize = UIScreen.main.bounds.size
         let cameraAspectRatio: CGFloat = 4.0 / 3.0
         let imageWidth = floor(screenSize.width * cameraAspectRatio)
         let scale = ceil((screenSize.height) / imageWidth )
-
-        imagePicker.cameraViewTransform = CGAffineTransform(scaleX: scale, y: scale)
         
-        present(imagePicker, animated: false) {
-            imagePicker.takePicture()
+        imagePicker?.cameraViewTransform = CGAffineTransform(scaleX: scale, y: scale)
+        
+        //cameraButton?.frame = CGRect(x: camera, y: 300, width: 50, height: 50)
+        imagePicker?.cameraOverlayView?.addSubview(cameraButton!)
+        
+        present(imagePicker!, animated: false) {
+            //imagePicker.takePicture()
+            //self.takePicture(imagePicker: imagePicker)
             if let completion = completion { completion() }
         }
+
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {

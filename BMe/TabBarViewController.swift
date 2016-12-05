@@ -10,13 +10,13 @@ import UIKit
 import FontAwesome_swift
 import QuartzCore
 
-class TabBarViewController: UIViewController {
+class TabBarViewController: UIViewController, CameraDelegate {
 
     @IBOutlet weak var contentView: UIView!
     @IBOutlet var tabs: [UIButton]!
     
     var browseViewController: UIViewController!
-    var cameraViewController: UIViewController!
+    var cameraNavigationController: UINavigationController!
     var createViewController: UIViewController!
     var accountViewController: UIViewController!
     var viewControllers: [UIViewController]!
@@ -36,7 +36,12 @@ class TabBarViewController: UIViewController {
         let createStoryboard = UIStoryboard(name: VideoComposition.StoryboardKey.ID, bundle: nil)
         createViewController = createStoryboard.instantiateViewController(withIdentifier: VideoComposition.StoryboardKey.mediaSelectorNavigationController)
 
-        cameraViewController = UIStoryboard(name: "Camera", bundle: nil).instantiateInitialViewController()
+        cameraNavigationController = UIStoryboard(name: "Camera", bundle: nil).instantiateInitialViewController() as! UINavigationController
+        let cameraViewController = cameraNavigationController.viewControllers[0] as! CameraViewController
+        cameraViewController.delegate = self
+        // cameraViewController.cameraButton = tabs[1] not passing the copy but reference
+        
+        
         accountViewController = UIStoryboard(name: "Account", bundle: nil).instantiateInitialViewController()
         
         // Init with view controllers
@@ -57,6 +62,10 @@ class TabBarViewController: UIViewController {
             }
         }
 
+    }
+    
+    func getCameraButton() -> UIButton {
+        return tabs[1]
     }
 
     // later
