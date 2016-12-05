@@ -65,6 +65,7 @@ class MediaSelectorViewController: UIViewController, UICollectionViewDataSource,
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        nextButton.isEnabled = false
         // Prevent empty header space at top of collection view
         automaticallyAdjustsScrollViewInsets = false
         
@@ -266,37 +267,37 @@ class MediaSelectorViewController: UIViewController, UICollectionViewDataSource,
         
         destination.phAssets = selectedAssets
         destination.audioURL = audioURL
-
-        //TODO: - add meta from yelp
+        if let meta = meta {
+            print("Attaching meta: \(meta)")
+            destination.meta = meta
+        }
         
         present(destination, animated: true, completion: nil)
     }
 
 // MARK: - Scrollview delegate methods
     //Aspect Ratio: bannerViewAspectRatio.multiplier
-    var lastContentOffset: CGPoint?
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if let lastContentOffset = lastContentOffset {
-            let delta = scrollView.contentOffset.y - lastContentOffset.y
-
-            if (lastContentOffset.y > scrollView.contentOffset.y) {
-                print("scrolling up \(delta)")
-            }
-            else if (lastContentOffset.y < scrollView.contentOffset.y) {
-                print("scrolling down \(delta)")
-            }
-        }
-        lastContentOffset = scrollView.contentOffset
-        
-//        collectionViewTopConstraint.constant
-        
-    }
+//    var lastContentOffset: CGPoint?
+//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+//        if let lastContentOffset = lastContentOffset {
+//            let delta = scrollView.contentOffset.y - lastContentOffset.y
+//
+//            if (lastContentOffset.y > scrollView.contentOffset.y) {
+//                print("scrolling up \(delta)")
+//            }
+//            else if (lastContentOffset.y < scrollView.contentOffset.y) {
+//                print("scrolling down \(delta)")
+//            }
+//        }
+//        lastContentOffset = scrollView.contentOffset
+//        
+////        collectionViewTopConstraint.constant
+//        
+//    }
 
 // MARK: - Yelp picker delegate methods
     
     func yelp(didSelectRestaurant restaurant: Restaurant) {
-        print("TODO: did pick resto: \(restaurant.yelpID)")
-        
         meta = restaurant.dictionary
         locationButton.changeImageHighlighted()
     }

@@ -11,17 +11,15 @@ import UIKit
 struct Constants {
     struct OnLogin {
         
-        static let StoryboardID = "Camera"
-        static let RootViewController = "ImageEditingNavigationController"
-//        static let StoryboardID = "CompositionTest"
-//        static let RootViewController = "CompositionTestViewController"
+        static let StoryboardID = SegueID.Storyboard.Sato
+        static let RootViewController = SegueID.ViewController.TabBarViewController
 //        static let StoryboardID = SegueID.Storyboard.Camera
 //        static let RootViewController = SegueID.ViewController.CameraViewController
         
     }
     struct OnLogout {
-        static let StoryboardID = "Main"
-        static let RootViewController = "LoginViewController"
+        static let StoryboardID = SegueID.Storyboard.Main
+        static let RootViewController = SegueID.ViewController.LoginViewController
     }
     struct NotificationKeys {
         static let didSignIn = "onSignInCompleted"
@@ -37,11 +35,15 @@ struct Constants {
             static let Camera = "Camera"
             static let Yelp = "Yelp"
             static let VideoComposer = "VideoComposer"
+            static let Main = "Main"
+            static let Sato = "Sato"
         }
         struct ViewController {
             static let CameraViewController = "CameraViewController"
             static let YelpViewController = "YelpViewController"
             static let VideoComposerViewController = "VideoComposerViewController"
+            static let LoginViewController = "LoginViewController"
+            static let TabBarViewController = "TabBarViewController"
         }
     }
     struct Images {
