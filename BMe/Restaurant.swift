@@ -13,6 +13,12 @@ class Restaurant: NSObject {
     let address: String?
     let yelpID: String?
     
+    var dictionary: [String: AnyObject?] {
+        return [Key.name: self.name as AnyObject,
+                Key.address: self.address as AnyObject,
+                Key.id: self.yelpID as AnyObject,
+        ]
+    }
     
     init(dictionary: [String:AnyObject?]) {
         self.name = dictionary[Key.name] as? String
@@ -38,12 +44,7 @@ class Restaurant: NSObject {
         return restaurants
     }
     
-    var dictionary: [String: AnyObject?] {
-        return [Key.name: self.name as AnyObject,
-                Key.address: self.address as AnyObject,
-                Key.id: self.yelpID as AnyObject,
-        ]
-    }
+   
     
     struct Key {
         static let name = "name"

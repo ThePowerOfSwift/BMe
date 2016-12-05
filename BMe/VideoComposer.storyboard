@@ -99,9 +99,6 @@
                                     <constraint firstAttribute="width" constant="50" id="nye-rM-f3L"/>
                                 </constraints>
                                 <state key="normal" title="Button" image="location.png"/>
-                                <connections>
-                                    <action selector="locationTapped:" destination="3fZ-tr-3dp" eventType="touchUpInside" id="eqh-Mx-cyZ"/>
-                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -214,7 +211,7 @@
             <objects>
                 <navigationController storyboardIdentifier="MediaSelectorNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="jtT-cY-Inp" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="DBl-KK-qyV">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="DBl-KK-qyV">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>

@@ -120,13 +120,13 @@ class FIRManager: NSObject {
             
             // Create object on Database
             
-            // Construct JSON object template to put on Database
+            // Construct JSON Asset object template to put on Database
             let jsonObject: [String: AnyObject?] = [
-                Video.Key.uid: AppState.shared.currentUser?.uid as AnyObject,
-                Video.Key.downloadURL: downloadURL.absoluteString as AnyObject,
-                Video.Key.gsURL: gsURL as AnyObject,
-                Video.Key.contentType: contentType.string() as AnyObject,
-                Video.Key.meta: meta as AnyObject]
+                Asset.Key.uid: AppState.shared.currentUser?.uid as AnyObject,
+                Asset.Key.downloadURL: downloadURL.absoluteString as AnyObject,
+                Asset.Key.gsURL: gsURL as AnyObject,
+                Asset.Key.contentType: contentType.string() as AnyObject,
+                Asset.Key.meta: meta as AnyObject]
             
             // Amend JSON object as needed
             switch contentType {

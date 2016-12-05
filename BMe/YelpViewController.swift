@@ -10,7 +10,7 @@ import UIKit
 import CoreLocation
 
 protocol YelpViewControllerDelegate: class {
-    func yelp(didSelectRestaurant restaurant: Restaurant)
+    func yelp(didSelect restaurant: Restaurant)
 }
 
 class YelpViewController: UIViewController, UITextFieldDelegate, CLLocationManagerDelegate, UITableViewDataSource, UITableViewDelegate {
@@ -173,7 +173,7 @@ class YelpViewController: UIViewController, UITextFieldDelegate, CLLocationManag
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        delegate?.yelp(didSelectRestaurant: (restaurants![indexPath.row]))
+        delegate?.yelp(didSelect: (restaurants![indexPath.row]))
         dismiss(animated: true, completion: nil)
     }
 }

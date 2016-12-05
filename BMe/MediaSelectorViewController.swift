@@ -13,7 +13,7 @@ import MobileCoreServices
 import AVKit
 import MediaPlayer
 
-class MediaSelectorViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, MPMediaPickerControllerDelegate, UIScrollViewDelegate, YelpViewControllerDelegate {
+class MediaSelectorViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, MPMediaPickerControllerDelegate, UIScrollViewDelegate, LocationButtonDelegate {
 
 // MARK: - Outlets
     @IBOutlet weak var bannerView: UIView!
@@ -29,10 +29,6 @@ class MediaSelectorViewController: UIViewController, UICollectionViewDataSource,
     
     @IBAction func musicButtonTapped(_ sender: Any) {
         present(songPicker, animated: true, completion: nil)
-    }
-    
-    @IBAction func locationTapped(_ sender: LocationButton) {
-        present(yelpVC, animated: true, completion: nil)
     }
     
 // MARK: - Variables
@@ -53,11 +49,9 @@ class MediaSelectorViewController: UIViewController, UICollectionViewDataSource,
     var bannerCurrentLoaded = -1
     let imgManager = PHCachingImageManager.default()
     let songPicker = MPMediaPickerController(mediaTypes: .anyAudio)
-    let yelpVC = UIStoryboard(name: Constants.SegueID.Storyboard.Yelp, bundle: nil).instantiateInitialViewController() as! YelpViewController
 
     // Models
     private var phAssets: PHFetchResult<PHAsset>!
-    
     
 // MARK: - Lifecycle
     
@@ -95,14 +89,13 @@ class MediaSelectorViewController: UIViewController, UICollectionViewDataSource,
         bannerView.addSubview(playerVC.view)
         playerVC.didMove(toParentViewController: self)
         playerVC.view.isHidden = true
-        
-        // Yelp picker
-        yelpVC.delegate = self
-        
+                
         // Song picker
         bannerView.bringSubview(toFront: musicButton)
         songPicker.delegate = self
         songPicker.showsItemsWithProtectedAssets = false
+        
+        locationButton.delegate = self
         
         // Select first item
         if phAssets.count > 0 {
@@ -253,6 +246,14 @@ class MediaSelectorViewController: UIViewController, UICollectionViewDataSource,
             self.musicButton.setImage(highlightedImage, for: UIControlState.normal)
         }
     }
+// MARK: - Location Delegate methods
+    func locationButton(yelpDidSelect restaurant: Restaurant) {
+        meta = restaurant.dictionary
+    }
+
+    func locationButton(_ viewControllerToPresent: UIViewController, animated: Bool, completion: (() -> ())?) {
+        present(viewControllerToPresent, animated: animated, completion: completion)
+    }
     
 // MARK: - Methods
     func next() {
@@ -294,11 +295,4 @@ class MediaSelectorViewController: UIViewController, UICollectionViewDataSource,
 ////        collectionViewTopConstraint.constant
 //        
 //    }
-
-// MARK: - Yelp picker delegate methods
-    
-    func yelp(didSelectRestaurant restaurant: Restaurant) {
-        meta = restaurant.dictionary
-        locationButton.changeImageHighlighted()
-    }
 }
