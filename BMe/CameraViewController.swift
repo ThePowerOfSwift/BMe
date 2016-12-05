@@ -56,19 +56,19 @@ class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePicker
         
         metadata = ["missing metadata" : "you didn't add metadata for this pic, bitch!" as Optional<AnyObject>]
         
-        let cameraButtonFromTabBar = cameraButton
-        let frame = cameraButtonFromTabBar?.frame
-        // Create bran new button
-        cameraButton = UIButton(frame: CGRect(x: (frame?.origin.x)! , y: (frame?.origin.y)!, width: (frame?.width)!, height: (frame?.height)!))
-        cameraButton?.addTarget(self, action: #selector(takePicture), for: UIControlEvents.touchUpInside)
+//        let cameraButtonFromTabBar = cameraButton
+//        let frame = cameraButtonFromTabBar?.frame
+//        // Create bran new button
+//        cameraButton = UIButton(frame: CGRect(x: (frame?.origin.x)! , y: (frame?.origin.y)!, width: (frame?.width)!, height: (frame?.height)!))
+//        cameraButton?.addTarget(self, action: #selector(takePicture), for: UIControlEvents.touchUpInside)
+//        
+//        
+//        let image = UIImage(named: Constants.Images.circleYellow)
+//        cameraButton?.setImage(image, for: .normal)
+//        cameraButton?.imageView?.image? = (cameraButton?.imageView?.image?.withRenderingMode(.alwaysTemplate))!
+//        cameraButton?.imageView?.tintColor = Styles.Color.Primary
         
-        
-        let image = UIImage(named: Constants.Images.circleYellow)
-        cameraButton?.setImage(image, for: .normal)
-        cameraButton?.imageView?.image? = (cameraButton?.imageView?.image?.withRenderingMode(.alwaysTemplate))!
-        cameraButton?.imageView?.tintColor = Styles.Color.Primary
-        
-        hideCameraControlView()
+        //hideCameraControlView()
         setupButtons()
         loadCamera()
         
@@ -178,13 +178,18 @@ class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePicker
         imagePicker?.cameraViewTransform = CGAffineTransform(scaleX: scale, y: scale)
         
         //cameraButton?.frame = CGRect(x: camera, y: 300, width: 50, height: 50)
-        imagePicker?.cameraOverlayView?.addSubview(cameraButton!)
+        //imagePicker?.cameraOverlayView?.addSubview(cameraButton!)
         
-        present(imagePicker!, animated: false) {
-            //imagePicker.takePicture()
-            //self.takePicture(imagePicker: imagePicker)
-            if let completion = completion { completion() }
-        }
+        //imagePicker?.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
+        //imagePicker?.definesPresentationContext = false
+        
+        //self.addChildViewController(imagePicker!)
+//        present(imagePicker!, animated: false) {
+//            //imagePicker.takePicture()
+//            //self.takePicture(imagePicker: imagePicker)
+//            if let completion = completion { completion() }
+//        }
+        view.addSubview((imagePicker?.view)!)
 
     }
     

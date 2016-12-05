@@ -38,7 +38,8 @@ class TabBarViewController: UIViewController {
 
         cameraNavigationController = UIStoryboard(name: "Camera", bundle: nil).instantiateInitialViewController() as! UINavigationController
         let cameraViewController = cameraNavigationController.viewControllers[0] as! CameraViewController
-        cameraViewController.cameraButton = tabs[1] //not passing the copy but reference
+        //cameraViewController.cameraButton = tabs[1] //not passing the copy but reference
+        //self.addChildViewController(cameraViewController)
         
         
         accountViewController = UIStoryboard(name: "Account", bundle: nil).instantiateInitialViewController()
@@ -145,7 +146,6 @@ class TabBarViewController: UIViewController {
             }
             self.tabs[previousIndex].setImage(whiteButton, for: .normal)
             
-            
             // Set selected to yellow
             var yellowButton: UIImage? = UIImage()
             switch self.selectedIndex {
@@ -163,8 +163,6 @@ class TabBarViewController: UIViewController {
             
             self.layoutTab(index: previousIndex, w: self.unselectedTabSize, h: self.unselectedTabSize)
             self.layoutTab(index: self.selectedIndex, w: self.selectedTabSize, h: self.selectedTabSize)
-            
-            
         })
         
         let previousVC = viewControllers[previousIndex]

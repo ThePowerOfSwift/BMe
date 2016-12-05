@@ -403,8 +403,6 @@
 		786727DA1DE3ADDC0059AEC7 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				7821C3C31DEF94350023B95E /* CameraViewController.swift */,
-				E38E32B71DF3B6FC00631AEC /* ShowImageViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -450,6 +448,8 @@
 			isa = PBXGroup;
 			children = (
 				E35AC4821DE4D00400FCB0D0 /* TabBarViewController.swift */,
+				7821C3C31DEF94350023B95E /* CameraViewController.swift */,
+				E38E32B71DF3B6FC00631AEC /* ShowImageViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
