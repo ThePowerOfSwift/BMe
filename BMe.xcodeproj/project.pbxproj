@@ -536,7 +536,7 @@
 				TargetAttributes = {
 					78469A571DE3958000A40D53 = {
 						CreatedOnToolsVersion = 8.0;
-						DevelopmentTeam = Y4GA6H5JHE;
+						DevelopmentTeam = PY8CHQP699;
 						ProvisioningStyle = Automatic;
 					};
 					78469A6B1DE3958100A40D53 = {
