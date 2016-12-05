@@ -120,14 +120,23 @@ class FIRManager: NSObject {
             
             // Create object on Database
             
-            
-            // Construct JSON Video for object to put on Database
+            // Construct JSON object template to put on Database
             let jsonObject: [String: AnyObject?] = [
                 Video.Key.uid: AppState.shared.currentUser?.uid as AnyObject,
                 Video.Key.downloadURL: downloadURL.absoluteString as AnyObject,
                 Video.Key.gsURL: gsURL as AnyObject,
                 Video.Key.contentType: contentType.string() as AnyObject,
                 Video.Key.meta: meta as AnyObject]
+            
+            // Amend JSON object as needed
+            switch contentType {
+            case .image:
+                break
+            case .video:
+                break
+            default:
+                break
+            }
             
             self.putObjectOnDatabase(named: contentType.objectKey(), data: jsonObject, completion: { (ref, error) in
                 if let error = error {
@@ -143,7 +152,7 @@ class FIRManager: NSObject {
                 let jsonObject: [String: AnyObject?] = [
                     Post.Key.uid: AppState.shared.currentUser?.uid as AnyObject,
                     Post.Key.url: ref.url as AnyObject,
-                    Post.Key.contentType: contentType.objectKey() as AnyObject,
+                    Post.Key.contentType: contentType.string() as AnyObject,
                     ]
                 
                 self.putObjectOnDatabase(named: ContentType.post.objectKey(), data: jsonObject, completion: { (ref, error) in
