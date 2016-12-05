@@ -26,7 +26,7 @@ class Asset: NSObject {
     
     init(_ dictionary: [String: AnyObject?]) {
         uid = dictionary[Key.uid] as? String
-        contentType = ContentType(string: dictionary[Key.contentType] as? String)
+        contentType = ContentType(string: (dictionary[Key.contentType] as? String)!)
         downloadURL = dictionary[Key.downloadURL] as? String
         gsURL = dictionary[Key.gsURL] as? String
         meta = dictionary[Key.meta] as? [String: AnyObject?]
