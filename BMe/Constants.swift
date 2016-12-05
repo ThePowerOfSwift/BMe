@@ -59,7 +59,7 @@ struct Constants {
         static let home = "home-white.png"
         static let homeYellow = "home-yellow.png"
         static let truffle = "black_truffle.jpg"
-
+        static let error = "error.png"
     }
 }
 
