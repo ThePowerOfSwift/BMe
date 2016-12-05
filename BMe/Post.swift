@@ -9,7 +9,6 @@
 import UIKit
 
 class Post: NSObject {
-    
     let contentType: ContentType?
     let url: URL?
     let uid: String?
@@ -22,7 +21,7 @@ class Post: NSObject {
     
     init(_ dictionary: [String: AnyObject?]) {
         if let contentType = dictionary[Key.contentType] as? String {
-            self.contentType = ContentType(string: dictionary[Key.contentType] as? String)
+            self.contentType = ContentType(string: contentType)
         } else { contentType = nil }
         if let urlString = dictionary[Key.url] as? String {
             url = URL(string: urlString)
