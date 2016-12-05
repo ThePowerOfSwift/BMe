@@ -9,6 +9,7 @@
 import UIKit
 import MobileCoreServices
 import AVFoundation
+import FontAwesome_swift
 
 class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
@@ -16,6 +17,8 @@ class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePicker
     @IBOutlet weak var cameraControlView: UIView!
     @IBOutlet weak var addTextButton: UIButton!
     @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var addButton: UIButton!
+    @IBOutlet weak var uploadButton: UIButton!
     
     //MARK:- Model
     var textFields: [UITextField] {
@@ -44,9 +47,18 @@ class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePicker
         cameraControlView.addGestureRecognizer(tap)
         
         navigationController?.navigationBar.isHidden = true
-
+        hideCameraControlView()
+        setupButtons()
         loadCamera()
+    }
+    
+    func setupButtons() {
+        // Button Configuration
+        addButton.tintColor = Styles.Color.Tertiary
         
+        uploadButton.titleLabel?.font = UIFont.fontAwesome(ofSize: 40)
+        uploadButton.tintColor = Styles.Color.Tertiary
+        uploadButton.setTitle(String.fontAwesomeIcon(name: .upload), for: .normal)
     }
     
     // MARK: Camera
@@ -61,7 +73,7 @@ class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePicker
     
     // MARK: image picker
     func loadCamera() {
-        presentCameraPicker(timeInterval: 0.5, delegate: self, completion: nil)
+        presentCameraPicker(timeInterval: 0, delegate: self, completion: nil)
     }
     
     func presentCameraPicker(timeInterval: TimeInterval?, delegate: (UIImagePickerControllerDelegate & UINavigationControllerDelegate), completion: (() -> Void)?) {
@@ -81,7 +93,6 @@ class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePicker
         }
         
         imagePicker.showsCameraControls = false
-//        imagePicker.cameraOverlayView = cameraControlView
         
         let screenSize = UIScreen.main.bounds.size
         let cameraAspectRatio: CGFloat = 4.0 / 3.0
@@ -90,19 +101,17 @@ class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePicker
 
         imagePicker.cameraViewTransform = CGAffineTransform(scaleX: scale, y: scale)
         
-        present(imagePicker, animated: true) {
+        present(imagePicker, animated: false) {
             imagePicker.takePicture()
             if let completion = completion { completion() }
         }
-        
-        
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         // Delegate to return the chosen image
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
             imageView.image = image
-            picker.dismiss(animated: false, completion: {
+            picker.dismiss(animated: true, completion: {
                 self.showCameraControlView()
             })
         }
@@ -148,19 +157,19 @@ class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePicker
         return newImage
     }
     
-    @IBAction func onDone(_ sender: UIButton) {
+    @IBAction func onUpload(_ sender: UIButton) {
         let newImage = add(textFields: textFields, to: imageView.image!)
         let storyboard = UIStoryboard(name: "Camera", bundle: nil)
         let testVC = storyboard.instantiateViewController(withIdentifier: "ShowImageViewController") as! ShowImageViewController
         testVC.image = newImage
         
-//        let imageData = UIImagePNGRepresentation(newImage!)
-//        let metadata: [String: String] = ["this is" : "a test from Camera View controller"]
-//        FIRManager.shared.postObject(object: imageData!, contentType: .image, meta: metadata as [String : AnyObject?], completion: {
-//            print("Upload completed")
-//        })
-        present(testVC, animated: true, completion: nil)
+        let imageData = UIImageJPEGRepresentation(newImage!, 1)
+        let metadata: [String: AnyObject?] = ["this is" : "a test from Camera View controller" as Optional<AnyObject>]
+        FIRManager.shared.postObject(object: imageData!, contentType: .image, meta: metadata, completion: {
+            print("Upload completed")
+        })
         
+        //self.present(testVC, animated: true, completion: nil)
     }
     
     //MARK: - Manging Textfeld methods
