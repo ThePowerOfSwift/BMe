@@ -168,42 +168,6 @@ class FIRManager: NSObject {
         })
     }
     
-    
-    
-    // Uploads new Video to storage and database
-    // TODO: - replace Video with generic object
-//    func uploadVideo(video: Video, completion: (()->())?) {
-//        putObjectOnStorage(url: URL(string: video.videoURL!)!, contentType: .video, completion: {
-//            (metadata: FIRStorageMetadata?, error: Error?) in
-//            
-//            if error != nil {
-//                print("Error- abort putting video")
-//                return
-//            }
-//
-//            // Update data dictionary to be put on Firebase Database
-//            video.gsURL = metadata!.gsURL
-//            FIRManager.shared.fetchDownloadURLs([URL(string: video.gsURL!)!], completion: {
-//                (urls) in
-//                video.videoURL = urls.first!.absoluteString
-//                
-//                // Put new video to Database with the new Storage url
-//                self.putObjectOnDatabase(named: ContentType.video.objectKey(), data: video.dictionaryFormat, completion: {
-//                    (ref, error) in
-//                    
-//                    if  error != nil {
-//                        print("Error- abort putting video")
-//                        return
-//                    }
-//                    print("Success: uploaded video")
-//                    
-//                    completion?()
-//                })
-//            })
-//            
-//        })
-//    }
-    
     //TODO: - Should move this to VideoComposition
     func uploadVideoComposition(composition: VideoComposition, completion:(()->())?) {
         var newData = composition.dictionaryFormat
