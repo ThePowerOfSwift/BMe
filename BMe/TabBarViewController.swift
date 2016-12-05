@@ -147,8 +147,8 @@ class TabBarViewController: UIViewController {
             switch self.selectedIndex {
 //                case 0:
                 case 1:
-                    let whiteButton = UIImage(named: Constants.Images.circleYellow)
-                    self.tabs[self.selectedIndex].setImage(whiteButton, for: .normal)
+                    let yellowButton = UIImage(named: Constants.Images.circleYellow)
+                    self.tabs[self.selectedIndex].setImage(yellowButton, for: .normal)
 //                case 2:
 //                case 3:
                 default:
@@ -157,6 +157,8 @@ class TabBarViewController: UIViewController {
             
             self.layoutTab(index: previousIndex, w: self.unselectedTabSize, h: self.unselectedTabSize)
             self.layoutTab(index: self.selectedIndex, w: self.selectedTabSize, h: self.selectedTabSize)
+            
+            
         })
         
         let previousVC = viewControllers[previousIndex]
