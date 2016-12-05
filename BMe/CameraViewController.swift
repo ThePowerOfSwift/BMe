@@ -70,7 +70,6 @@ class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePicker
         locationButton.delegate = self
         
         cancelButton.tintColor = Styles.Color.Tertiary
-        
     }
     
     func locationButton(yelpDidSelect restaurant: Restaurant) {

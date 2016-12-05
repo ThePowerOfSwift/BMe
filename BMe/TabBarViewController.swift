@@ -25,8 +25,8 @@ class TabBarViewController: UIViewController {
     var selectedIndex: Int = 0
     
     // tab size
-    var selectedTabSize: Double = 50
-    var unselectedTabSize: Double = 30
+    var selectedTabSize: Double = 70
+    var unselectedTabSize: Double = 50
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -77,7 +77,7 @@ class TabBarViewController: UIViewController {
     // Call setupButtons(imageName, tabIndex) to setup tabs
     func setupTabs() {
         setupTab(imageName: "home", tabIndex: 0)
-        setupTab(imageName: "double_circle", tabIndex: 1)
+        setupTab(imageName: Constants.Images.circleYellow, tabIndex: 1)
         setupTab(imageName: "food", tabIndex: 2)
         setupTab(imageName: "account", tabIndex: 3)
     }
