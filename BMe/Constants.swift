@@ -63,6 +63,10 @@ struct Constants {
         static let user = "user-white.png"
         static let userYellow = "user-yellow.png"
     }
+    
+    struct CompressionRate {
+        defaultRate = 0.5
+    }
 }
 
 enum ContentType {
