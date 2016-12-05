@@ -8,14 +8,17 @@
 //
 
 import UIKit
+import Firebase
 
 class Asset: NSObject {
-    let contentType: ContentType?
-    let downloadURL: String?
-    let gsURL: String?
-    let uid: String?
-    let meta: [String: AnyObject?]?
+    var contentType: ContentType?
+    var downloadURL: String?
+    var gsURL: String?
+    var uid: String?
+    var meta: [String: AnyObject?]?
     
+    var _ref: FIRDatabaseHandle?
+        
     struct Key {
         static let uid = "uid"
         static let contentType = "contentType"
@@ -26,7 +29,7 @@ class Asset: NSObject {
     
     init(_ dictionary: [String: AnyObject?]) {
         uid = dictionary[Key.uid] as? String
-        contentType = ContentType(string: dictionary[Key.contentType] as? String)
+        contentType = ContentType(string: dictionary[Key.contentType] as? String ?? "")
         downloadURL = dictionary[Key.downloadURL] as? String
         gsURL = dictionary[Key.gsURL] as? String
         meta = dictionary[Key.meta] as? [String: AnyObject?]

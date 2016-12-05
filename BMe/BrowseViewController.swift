@@ -94,6 +94,7 @@ extension BrowseViewController:  UITableViewDelegate, UITableViewDataSource {
                 })
             }
             
+            let url = post.url
             if post.contentType == .video {
                 // TODO NEXT get video from DB post.url
 //                let video = Video(post.)
@@ -110,7 +111,12 @@ extension BrowseViewController:  UITableViewDelegate, UITableViewDataSource {
                  cell.player.isMuted = true
                  */
             } else if post.contentType == .image {
-                
+                print("image path: \(url?.path)")
+                FIRManager.shared.database.child(url!.path).exists { (exists) in
+                    if exists {
+                        print("exists")
+                    } else { print("doesn't exist") }
+                }
             }
         }
         
