@@ -42,6 +42,7 @@ class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePicker
     var metadata: [String: AnyObject?]?
     
     var imagePicker: UIImagePickerController?
+    var imagePickerView: UIView?
     var cameraButton: UIButton?
     
     //MARK: - Lifecycle
@@ -86,6 +87,7 @@ class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePicker
     
     func takePicture() {
         imagePicker?.takePicture()
+        
     }
     
     func setupButtons() {
@@ -109,7 +111,7 @@ class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePicker
         present(viewControllerToPresent, animated: true, completion: {
         })
     }
-    // MARK: Camera
+    // MARK: Camera hide and show
     
     func hideCameraControlView() {
         cameraControlView.isHidden = true
@@ -117,6 +119,15 @@ class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePicker
     
     func showCameraControlView() {
         cameraControlView.isHidden = false
+    }
+    
+    func hideCameraView() {
+        imagePickerView?.isHidden = true
+        imagePicker?.view.isHidden = true
+    }
+    
+    func showCameraView() {
+        imagePickerView?.isHidden = false
     }
     
     // MARK: image picker
@@ -189,6 +200,7 @@ class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePicker
 //            //self.takePicture(imagePicker: imagePicker)
 //            if let completion = completion { completion() }
 //        }
+        imagePickerView = imagePicker?.view
         view.addSubview((imagePicker?.view)!)
 
     }
@@ -197,9 +209,9 @@ class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePicker
         // Delegate to return the chosen image
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
             imageView.image = image
-            picker.dismiss(animated: true, completion: {
-                self.showCameraControlView()
-            })
+            self.hideCameraView()
+            self.showCameraControlView()
+            
         }
     }
     
