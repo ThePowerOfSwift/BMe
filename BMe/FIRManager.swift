@@ -329,6 +329,9 @@ extension UIImageView {
                 busyIndicator.removeFromSuperview()
             })
             task.observe(.failure, handler: { (snapshot: FIRStorageTaskSnapshot) in
+                if let error = snapshot.error {
+                    print("Error loading image from GS \(error.localizedDescription)")
+                }
                 busyIndicator.removeFromSuperview()
             })
         }

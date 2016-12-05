@@ -56,6 +56,9 @@ struct Constants {
         static let locationYellow = "location-yellow.png"
         static let circle = "circle-white.png"
         static let circleYellow = "circle-yellow.png"
+        static let home = "home-white.png"
+        static let homeYellow = "home-yellow.png"
+
     }
 }
 
@@ -116,9 +119,6 @@ enum ContentType {
         }
     }
     init?(string: String) {
-        print("init string \(string)")
-        print("vs string \(ContentType.video.string())")
-        
         switch string {
         case ContentType.image.string(): self = .image
         case ContentType.video.string(): self = .video

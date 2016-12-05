@@ -13,9 +13,11 @@ class BrowserTableViewCell: UITableViewCell {
 
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var postContentView: UIView!
+    @IBOutlet weak var postImageView: UIImageView!
     @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var headingLabel: UILabel!
 
+    // Deprecate- takes too much bandwidth?
     // Video player objects
     var playerLayer: AVPlayerLayer!
     var player: AVPlayer!
@@ -46,13 +48,18 @@ class BrowserTableViewCell: UITableViewCell {
         playerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill
         postContentView.layer.addSublayer(playerLayer)
         
+        postImageView.backgroundColor = Styles.Color.Primary
+        
         headingLabel.textColor = Styles.Color.Secondary
+        headingLabel.text = ""
     }
     
     override func prepareForReuse() {
         super.prepareForReuse()
         usernameLabel.text = ""
         avatarImageView.image = nil
+        postImageView.image = nil
+        postImageView.isHidden = true
         
         // Clear videos
         player.pause()

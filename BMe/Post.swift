@@ -28,4 +28,10 @@ class Post: NSObject {
         } else { url = nil }
         uid = dictionary[Key.uid] as? String
     }
+    
+    override var description : String {
+        return "\tuid: \(self.uid)" +
+        "\n\tcontent type: \(self.contentType?.string())" +
+        "\n\turl path: \(self.url?.path)"
+    }
 }

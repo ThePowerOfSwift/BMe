@@ -39,23 +39,8 @@ class BrowseViewController: UIViewController {
         // Setup datasource
         _refHandle = dbReference.observe(.childAdded, with: { (snapshot) in
             self.posts.append(snapshot)
-            self.tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
+            self.tableView.insertRows(at: [IndexPath(row: self.posts.count - 1, section: 0)], with: .automatic)
         })
-        
-
-
-// YPManager test
-/*
-var restaurants = [Restaurant]()
-_ = YPManager.shared.searchWithTerm("thai", completion: {(response: [Restaurant]?, error: Error?) in
-    if let response = response {
-        restaurants = response
-    }
-    for restaurant in restaurants {
-        print(restaurant.name!)
-    }
-})
- */
     }
     
     // Loop video
@@ -83,12 +68,11 @@ extension BrowseViewController:  UITableViewDelegate, UITableViewDataSource {
         if let postedObject = posts?[indexPath.row].dictionary {
             let post = Post(postedObject)
             
-            // Setup user content
-            
+// Setup user content
             if let uid = post.uid {
                 User.userMeta(uid, block: { (usermeta) in
                     // Get the avatar if it exists
-                    let ref = FIRManager.shared.storage.child((usermeta.avatarURL?.path)!)
+                    let ref = FIRManager.shared.storage.child(usermeta.avatarURL!.path)
                     cell.avatarImageView.loadImageFromGS(with: ref, placeholderImage: UIImage(named: Constants.Images.avatarDefault))
                      cell.usernameLabel.text = usermeta.username
                 })
@@ -96,27 +80,27 @@ extension BrowseViewController:  UITableViewDelegate, UITableViewDataSource {
             
             let url = post.url
             if post.contentType == .video {
-                // TODO NEXT get video from DB post.url
-//                let video = Video(post.)
+// fetch video JSON
+                FIRManager.shared.database.child(url!.path).observe(.value, with: { (snapshot) in
+                    let video = Video(snapshot.dictionary)
+                    if let meta = video.meta {
+                        let restaurant = Restaurant(dictionary: meta)
+                        cell.headingLabel.text = restaurant.name
+                    }
+                })
                 
-                /*
-                 // Setup video content
-                 cell.player.replaceCurrentItem(with: nil)
-                 
-                 let url = URL(string: video.videoURL!)
-                 let playerItem = AVPlayerItem(url: url!)
-                 cell.player.replaceCurrentItem(with: playerItem)
-                 cell.player.automaticallyWaitsToMinimizeStalling = true
-                 cell.player.play()
-                 cell.player.isMuted = true
-                 */
             } else if post.contentType == .image {
-                print("image path: \(url?.path)")
-                FIRManager.shared.database.child(url!.path).exists { (exists) in
-                    if exists {
-                        print("exists")
-                    } else { print("doesn't exist") }
-                }
+// fetch image JSON
+                FIRManager.shared.database.child(url!.path).observe(.value, with: { (snapshot) in
+                    let image = Image(snapshot.dictionary)
+                    if let meta = image.meta {
+                        let restaurant = Restaurant(dictionary: meta)
+                        cell.headingLabel.text = restaurant.name
+                    }
+                    cell.postImageView.isHidden = false
+                    let imageRef = FIRManager.shared.storage.child(image.gsURL!.path)
+                    cell.postImageView.loadImageFromGS(with: imageRef, placeholderImage: nil)
+                })
             }
         }
         
