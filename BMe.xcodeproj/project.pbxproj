@@ -571,7 +571,7 @@
 				TargetAttributes = {
 					78469A571DE3958000A40D53 = {
 						CreatedOnToolsVersion = 8.0;
-						DevelopmentTeam = Y4GA6H5JHE;
+						DevelopmentTeam = PY8CHQP699;
 						ProvisioningStyle = Automatic;
 					};
 					78469A6B1DE3958100A40D53 = {
@@ -984,7 +984,7 @@
 			baseConfigurationReference = EF9B8E045282684264E31D83 /* Pods-BMe.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = Y4GA6H5JHE;
+				DEVELOPMENT_TEAM = PY8CHQP699;
 				INFOPLIST_FILE = BMe/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.op.BMe;
@@ -1000,7 +1000,7 @@
 			baseConfigurationReference = 1B3943A2C1F5F5DBD966A650 /* Pods-BMe.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = Y4GA6H5JHE;
+				DEVELOPMENT_TEAM = PY8CHQP699;
 				INFOPLIST_FILE = BMe/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.op.BMe;

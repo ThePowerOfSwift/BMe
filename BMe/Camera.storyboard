@@ -28,7 +28,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                     </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mKh-1y-Tmo">
-                                        <rect key="frame" x="10" y="16" width="50" height="50"/>
+                                        <rect key="frame" x="10" y="24" width="50" height="50"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="YjZ-RD-1Sq"/>
                                             <constraint firstAttribute="width" constant="50" id="oBX-yE-Grt"/>
@@ -37,7 +37,7 @@
                                             <attributedString key="attributedTitle">
                                                 <fragment content="T">
                                                     <attributes>
-                                                        <font key="NSFont" size="24" name="HelveticaNeue-MediumItalic"/>
+                                                        <font key="NSFont" size="40" name="HelveticaNeue-MediumItalic"/>
                                                     </attributes>
                                                 </fragment>
                                             </attributedString>
@@ -47,14 +47,14 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8UK-bU-d50">
-                                        <rect key="frame" x="315" y="16" width="50" height="50"/>
+                                        <rect key="frame" x="315" y="24" width="50" height="50"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="j0J-8k-99S"/>
                                             <constraint firstAttribute="width" constant="50" id="prl-Zu-a54"/>
                                         </constraints>
                                         <state key="normal" title="Done"/>
                                         <connections>
-                                            <action selector="onDone:" destination="CUT-KW-ZOC" eventType="touchUpInside" id="fug-6C-1Zk"/>
+                                            <action selector="onUpload:" destination="CUT-KW-ZOC" eventType="touchUpInside" id="Sdt-Mg-4M6"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -62,11 +62,11 @@
                                     <constraint firstAttribute="bottom" secondItem="dz3-xN-PWO" secondAttribute="bottom" id="Dnb-5H-seb"/>
                                     <constraint firstItem="mKh-1y-Tmo" firstAttribute="leading" secondItem="fZo-83-kBt" secondAttribute="leading" constant="10" id="KYX-Be-qoX"/>
                                     <constraint firstItem="dz3-xN-PWO" firstAttribute="leading" secondItem="fZo-83-kBt" secondAttribute="leading" id="QJa-6k-lXV"/>
-                                    <constraint firstItem="mKh-1y-Tmo" firstAttribute="top" secondItem="fZo-83-kBt" secondAttribute="top" constant="16" id="gef-J8-2jN"/>
+                                    <constraint firstItem="mKh-1y-Tmo" firstAttribute="top" secondItem="fZo-83-kBt" secondAttribute="top" constant="24" id="gef-J8-2jN"/>
                                     <constraint firstAttribute="trailing" secondItem="dz3-xN-PWO" secondAttribute="trailing" id="jth-4Q-cEz"/>
                                     <constraint firstItem="dz3-xN-PWO" firstAttribute="top" secondItem="fZo-83-kBt" secondAttribute="top" id="qqL-ms-get"/>
                                     <constraint firstAttribute="trailing" secondItem="8UK-bU-d50" secondAttribute="trailing" constant="10" id="rO8-Ad-344"/>
-                                    <constraint firstItem="8UK-bU-d50" firstAttribute="top" secondItem="fZo-83-kBt" secondAttribute="top" constant="16" id="t0s-De-A39"/>
+                                    <constraint firstItem="8UK-bU-d50" firstAttribute="top" secondItem="fZo-83-kBt" secondAttribute="top" constant="24" id="t0s-De-A39"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -80,9 +80,11 @@
                     </view>
                     <navigationItem key="navigationItem" id="8pt-NT-UNT"/>
                     <connections>
+                        <outlet property="addButton" destination="mKh-1y-Tmo" id="qQg-yb-o7d"/>
                         <outlet property="addTextButton" destination="mKh-1y-Tmo" id="aNG-CB-5ZC"/>
                         <outlet property="cameraControlView" destination="fZo-83-kBt" id="esG-sT-Tyw"/>
                         <outlet property="imageView" destination="dz3-xN-PWO" id="Fov-sX-xnz"/>
+                        <outlet property="uploadButton" destination="8UK-bU-d50" id="e89-cX-jr9"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Vyl-ZK-pPK" userLabel="First Responder" sceneMemberID="firstResponder"/>
