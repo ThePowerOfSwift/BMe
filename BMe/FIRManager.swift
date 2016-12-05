@@ -45,6 +45,7 @@ class FIRManager: NSObject {
 
 // MARK: - Methods
     
+    
     // Put file data to Storage: storagebucket/<content type>/<UID>/file...
     // Returns reference to uploaded file FIRStorageMetadata.gsURL
     func putObjectOnStorage(data: Data, contentType: ContentType, completion: @escaping (FIRStorageMetadata?, Error?) -> ()) {
@@ -122,11 +123,11 @@ class FIRManager: NSObject {
             
             // Construct JSON Video for object to put on Database
             let jsonObject: [String: AnyObject?] = [
-                "uid": AppState.shared.currentUser?.uid as AnyObject,
-                "downloadURL": downloadURL.absoluteString as AnyObject,
-                "gsURL": gsURL as AnyObject,
-                "contentType": contentType.objectKey() as AnyObject,
-                "meta": meta as AnyObject]
+                Video.Key.uid: AppState.shared.currentUser?.uid as AnyObject,
+                Video.Key.downloadURL: downloadURL.absoluteString as AnyObject,
+                Video.Key.gsURL: gsURL as AnyObject,
+                Video.Key.contentType: contentType.string() as AnyObject,
+                Video.Key.meta: meta as AnyObject]
             
             self.putObjectOnDatabase(named: contentType.objectKey(), data: jsonObject, completion: { (ref, error) in
                 if let error = error {
