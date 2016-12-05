@@ -14,6 +14,7 @@ class BrowserTableViewCell: UITableViewCell {
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var postContentView: UIView!
     @IBOutlet weak var usernameLabel: UILabel!
+    @IBOutlet weak var headingLabel: UILabel!
 
     // Video player objects
     var playerLayer: AVPlayerLayer!
@@ -44,6 +45,8 @@ class BrowserTableViewCell: UITableViewCell {
         playerLayer.frame = postContentView.bounds
         playerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill
         postContentView.layer.addSublayer(playerLayer)
+        
+        headingLabel.textColor = Styles.Color.Secondary
     }
     
     override func prepareForReuse() {

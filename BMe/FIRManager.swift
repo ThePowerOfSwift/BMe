@@ -119,7 +119,8 @@ class FIRManager: NSObject {
             
             // Create object on Database
             
-            // Construct JSON for object to put on Database
+            
+            // Construct JSON Video for object to put on Database
             let jsonObject: [String: AnyObject?] = [
                 "uid": AppState.shared.currentUser?.uid as AnyObject,
                 "downloadURL": downloadURL.absoluteString as AnyObject,
@@ -137,11 +138,11 @@ class FIRManager: NSObject {
                 
                 // Create Post on Database
                 
-                // Construct JSON for object to put on Database
+                // Construct JSON Post object to put on Database
                 let jsonObject: [String: AnyObject?] = [
-                    "uid": AppState.shared.currentUser?.uid as AnyObject,
-                    "url": ref.url as AnyObject,
-                    "contentType": contentType.objectKey() as AnyObject,
+                    Post.Key.uid: AppState.shared.currentUser?.uid as AnyObject,
+                    Post.Key.url: ref.url as AnyObject,
+                    Post.Key.contentType: contentType.objectKey() as AnyObject,
                     ]
                 
                 self.putObjectOnDatabase(named: ContentType.post.objectKey(), data: jsonObject, completion: { (ref, error) in

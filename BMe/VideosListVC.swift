@@ -11,6 +11,8 @@ import Firebase
 import AVFoundation
 import AVKit
 
+// Deprecated
+/*
 class VideosListVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     @IBOutlet weak var tableView: UITableView!
@@ -66,7 +68,7 @@ class VideosListVC: UIViewController, UITableViewDataSource, UITableViewDelegate
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        let video = Video(dictionary: videos[indexPath.row].dictionary)
+        let video = Video(videos[indexPath.row].dictionary)
         let videoURL = URL(string: video.videoURL!)
         
         let playerVC = AVPlayerViewController()
@@ -76,3 +78,4 @@ class VideosListVC: UIViewController, UITableViewDataSource, UITableViewDelegate
         })
     }
 }
+ */

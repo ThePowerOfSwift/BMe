@@ -100,30 +100,31 @@ class CompositionTestViewController: UIViewController, UIImagePickerControllerDe
         
         let mediaType = info[UIImagePickerControllerMediaType] as! NSString
 
-        if (mediaType == kUTTypeMovie) {
-            if action == "Upload video" {
-                let url = info[UIImagePickerControllerMediaURL] as? URL
-                print("Picked asset at url: \(url)")
-                let video = Video(userId: AppState.shared.currentUser?.uid,
-                                  username: AppState.shared.currentUser?.displayName,
-                                  templateId: "",
-                                  videoURL: url!.absoluteString,
-                                  gsURL: "",
-                                  createdAt: Date(),
-                                  restaurantName: "")
-                activityIndicator.startAnimating()
-//                FIRManager.shared.uploadVideo(video: video, completion: {
-//                self.activityIndicator.stopAnimating()
-//                })
-            }
-            else if action == "Pick video" {
-                let url = info[UIImagePickerControllerMediaURL] as? URL
-                print("Picked asset at url: \(url)")
-                videoURLs.append(url!)
-                uploadTemplate.isEnabled = enableTemplateUpload()
-            }
-        }
-        else if (mediaType == kUTTypeImage) {
+//        if (mediaType == kUTTypeMovie) {
+//            if action == "Upload video" {
+//                let url = info[UIImagePickerControllerMediaURL] as? URL
+//                print("Picked asset at url: \(url)")
+//                let video = Video(userId: AppState.shared.currentUser?.uid,
+//                                  username: AppState.shared.currentUser?.displayName,
+//                                  templateId: "",
+//                                  videoURL: url!.absoluteString,
+//                                  gsURL: "",
+//                                  createdAt: Date(),
+//                                  restaurantName: "")
+//                activityIndicator.startAnimating()
+////                FIRManager.shared.uploadVideo(video: video, completion: {
+////                self.activityIndicator.stopAnimating()
+////                })
+//            }
+//            else if action == "Pick video" {
+//                let url = info[UIImagePickerControllerMediaURL] as? URL
+//                print("Picked asset at url: \(url)")
+//                videoURLs.append(url!)
+//                uploadTemplate.isEnabled = enableTemplateUpload()
+//            }
+//        }
+//        else
+            if (mediaType == kUTTypeImage) {
             let alurl = info[UIImagePickerControllerReferenceURL] as? URL      // assets-library://asset/asset.PNG?
             let phAsset = PHAsset.fetchAssets(withALAssetURLs: [alurl!], options: nil).firstObject
             let options = PHContentEditingInputRequestOptions()

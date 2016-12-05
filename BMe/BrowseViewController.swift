@@ -39,7 +39,7 @@ class BrowseViewController: UIViewController {
         // Setup datasource
         _refHandle = dbReference.observe(.childAdded, with: { (snapshot) in
             self.posts.append(snapshot)
-            self.tableView.insertRows(at: [IndexPath(row: self.posts.count - 1, section: 0)], with: .automatic)
+            self.tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
         })
         
 
@@ -80,10 +80,12 @@ extension BrowseViewController:  UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: BrowserTableViewCell.ID, for: indexPath) as! BrowserTableViewCell
         
-        if let post = posts?[indexPath.row].dictionary {
+        if let postedObject = posts?[indexPath.row].dictionary {
+            let post = Post(postedObject)
+            
             // Setup user content
             
-            if let uid = post["uid"] as? String {
+            if let uid = post.uid {
                 User.userMeta(uid, block: { (usermeta) in
                     // Get the avatar if it exists
                     let ref = FIRManager.shared.storage.child((usermeta.avatarURL?.path)!)
@@ -92,17 +94,24 @@ extension BrowseViewController:  UITableViewDelegate, UITableViewDataSource {
                 })
             }
             
-            /*
-            // Setup video content
-            cell.player.replaceCurrentItem(with: nil)
-            
-            let url = URL(string: video.videoURL!)
-            let playerItem = AVPlayerItem(url: url!)
-            cell.player.replaceCurrentItem(with: playerItem)
-            cell.player.automaticallyWaitsToMinimizeStalling = true
-            cell.player.play()
-            cell.player.isMuted = true
-             */
+            if post.contentType == .video {
+                // TODO NEXT get video from DB post.url
+//                let video = Video(post.)
+                
+                /*
+                 // Setup video content
+                 cell.player.replaceCurrentItem(with: nil)
+                 
+                 let url = URL(string: video.videoURL!)
+                 let playerItem = AVPlayerItem(url: url!)
+                 cell.player.replaceCurrentItem(with: playerItem)
+                 cell.player.automaticallyWaitsToMinimizeStalling = true
+                 cell.player.play()
+                 cell.player.isMuted = true
+                 */
+            } else if post.contentType == .image {
+                
+            }
         }
         
         return cell

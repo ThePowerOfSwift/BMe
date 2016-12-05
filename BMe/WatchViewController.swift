@@ -12,6 +12,7 @@ import AVFoundation
 import MBProgressHUD
 
 // Deprecated
+/*
 protocol WatchViewControllerDelegate {
     func getVideo () -> Video?
 }
@@ -96,4 +97,4 @@ class WatchViewController: UIViewController {
         self.player?.seek(to: kCMTimeZero)
         self.player?.play()
     }
-}
+}*/

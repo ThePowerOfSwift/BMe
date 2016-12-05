@@ -16,6 +16,7 @@
 		781E71461DF4086700041855 /* LocationButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781E71451DF4086700041855 /* LocationButton.swift */; };
 		781E714C1DF486A900041855 /* Yelp.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 781E714B1DF486A900041855 /* Yelp.storyboard */; };
 		781E71501DF4E52A00041855 /* YelpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781E714F1DF4E52A00041855 /* YelpViewController.swift */; };
+		781E71521DF4EEE000041855 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781E71511DF4EEE000041855 /* Post.swift */; };
 		7821C3BA1DEF10F60023B95E /* TimeLapseBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7821C3B91DEF10F60023B95E /* TimeLapseBuilder.swift */; };
 		7821C3BE1DEF7FFF0023B95E /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7821C3BD1DEF7FFF0023B95E /* Image.swift */; };
 		7821C3C21DEF939A0023B95E /* Camera.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7821C3C11DEF939A0023B95E /* Camera.storyboard */; };
@@ -112,6 +113,7 @@
 		781E71451DF4086700041855 /* LocationButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationButton.swift; sourceTree = "<group>"; };
 		781E714B1DF486A900041855 /* Yelp.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Yelp.storyboard; sourceTree = "<group>"; };
 		781E714F1DF4E52A00041855 /* YelpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YelpViewController.swift; sourceTree = "<group>"; };
+		781E71511DF4EEE000041855 /* Post.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		7821C3B91DEF10F60023B95E /* TimeLapseBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeLapseBuilder.swift; sourceTree = "<group>"; };
 		7821C3BD1DEF7FFF0023B95E /* Image.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
 		7821C3C11DEF939A0023B95E /* Camera.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Camera.storyboard; sourceTree = "<group>"; };
@@ -221,6 +223,7 @@
 				783008A01DE3B9A000B070D4 /* MediaSelectorViewController.swift */,
 				785E87C71DED4C4F00C9FF59 /* VideoComposerViewController.swift */,
 				78C350461DF232AF005E8331 /* UserProfileViewController.swift */,
+				781E714F1DF4E52A00041855 /* YelpViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -239,6 +242,9 @@
 		7821C3BF1DEF81D10023B95E /* JSON */ = {
 			isa = PBXGroup;
 			children = (
+				E3C357A31DEF484E00AC0832 /* Restaurant.swift */,
+				781E71511DF4EEE000041855 /* Post.swift */,
+				E3ECAFD81DE3CCB500F221AE /* Video.swift */,
 				7830089D1DE3B9A000B070D4 /* VideoComposition.swift */,
 			);
 			name = JSON;
@@ -262,6 +268,7 @@
 				78CDA09E1DE5307C00ABC5E1 /* FIRManager.swift */,
 				7821C3B91DEF10F60023B95E /* TimeLapseBuilder.swift */,
 				78C350481DF28756005E8331 /* User.swift */,
+				E3C357A11DEF451E00AC0832 /* YPManager.swift */,
 				7821C3BF1DEF81D10023B95E /* JSON */,
 			);
 			name = Models;
@@ -384,7 +391,6 @@
 		786727DA1DE3ADDC0059AEC7 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				781E714F1DF4E52A00041855 /* YelpViewController.swift */,
 				7821C3C31DEF94350023B95E /* CameraViewController.swift */,
 				E38E32B71DF3B6FC00631AEC /* ShowImageViewController.swift */,
 			);
@@ -416,9 +422,6 @@
 		78DA2EC81DF2DFF600A894AC /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				E3C357A31DEF484E00AC0832 /* Restaurant.swift */,
-				E3C357A11DEF451E00AC0832 /* YPManager.swift */,
-				E3ECAFD81DE3CCB500F221AE /* Video.swift */,
 				7821C3BD1DEF7FFF0023B95E /* Image.swift */,
 			);
 			name = Model;
@@ -808,6 +811,7 @@
 				E35AC48B1DE4D76A00FCB0D0 /* CreateViewController.swift in Sources */,
 				E3FE1F9D1DEA2C5700791B92 /* VideoCell.swift in Sources */,
 				78CDA09F1DE5307C00ABC5E1 /* FIRManager.swift in Sources */,
+				781E71521DF4EEE000041855 /* Post.swift in Sources */,
 				783008A61DE3B9A000B070D4 /* MediaSelectorCollectionViewCell.swift in Sources */,
 				E35AC4891DE4D75C00FCB0D0 /* BrowseViewController.swift in Sources */,
 				78CDA09D1DE5307200ABC5E1 /* VideosListVC.swift in Sources */,

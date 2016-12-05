@@ -105,6 +105,20 @@ enum ContentType {
             return ObjectKey.post
         }
     }
+    init?(string: String?) {
+        if let string = string {
+            switch string.lowercased() {
+            case ContentType.image.string(): self = .image
+            case ContentType.video.string(): self = .video
+            case ContentType.audio.string(): self = .audio
+            case ContentType.template.string(): self = .template
+            case ContentType.userMeta.string(): self = .userMeta
+            case ContentType.post.string(): self = .post
+            default: return nil
+            }
+        }
+        return nil
+    }
 }
 
 private struct ObjectKey {
