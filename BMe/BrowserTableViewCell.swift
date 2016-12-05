@@ -62,7 +62,7 @@ class BrowserTableViewCell: UITableViewCell {
         avatarImageView.image = nil
         postImageView.image = nil
         postImageView.isHidden = true
-        postImageView.contentMode = .scaleAspectFit
+        postImageView.contentMode = .scaleAspectFill
         
         // Clear videos
         player.pause()
