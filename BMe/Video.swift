@@ -9,7 +9,12 @@
 import UIKit
 
 class Video: Asset {
-
+    override init(_ dictionary: [String: AnyObject?]) {
+        super.init(dictionary)
+        
+        // Additional initialization here
+    }
+    
 }
 
 

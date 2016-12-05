@@ -14,7 +14,8 @@ class Restaurant: NSObject {
     let yelpID: String?
     
     var dictionary: [String: AnyObject?] {
-        return [Key.name: self.name as AnyObject,
+        return ["contentType": ContentType.restaurantMeta as AnyObject,
+                Key.name: self.name as AnyObject,
                 Key.address: self.address as AnyObject,
                 Key.id: self.yelpID as AnyObject,
         ]

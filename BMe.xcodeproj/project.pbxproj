@@ -19,6 +19,8 @@
 		781E71521DF4EEE000041855 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781E71511DF4EEE000041855 /* Post.swift */; };
 		781E71541DF518A300041855 /* Asset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781E71531DF518A300041855 /* Asset.swift */; };
 		781E71561DF5196F00041855 /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781E71551DF5196F00041855 /* Image.swift */; };
+		781E71591DF5330E00041855 /* circle-white.png in Resources */ = {isa = PBXBuildFile; fileRef = 781E71571DF5330E00041855 /* circle-white.png */; };
+		781E715A1DF5330E00041855 /* circle-yellow.png in Resources */ = {isa = PBXBuildFile; fileRef = 781E71581DF5330E00041855 /* circle-yellow.png */; };
 		7821C3BA1DEF10F60023B95E /* TimeLapseBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7821C3B91DEF10F60023B95E /* TimeLapseBuilder.swift */; };
 		7821C3C21DEF939A0023B95E /* Camera.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7821C3C11DEF939A0023B95E /* Camera.storyboard */; };
 		7821C3C41DEF94350023B95E /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7821C3C31DEF94350023B95E /* CameraViewController.swift */; };
@@ -110,6 +112,8 @@
 		781E71511DF4EEE000041855 /* Post.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		781E71531DF518A300041855 /* Asset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Asset.swift; sourceTree = "<group>"; };
 		781E71551DF5196F00041855 /* Image.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
+		781E71571DF5330E00041855 /* circle-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "circle-white.png"; sourceTree = "<group>"; };
+		781E71581DF5330E00041855 /* circle-yellow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "circle-yellow.png"; sourceTree = "<group>"; };
 		7821C3B91DEF10F60023B95E /* TimeLapseBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeLapseBuilder.swift; sourceTree = "<group>"; };
 		7821C3C11DEF939A0023B95E /* Camera.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Camera.storyboard; sourceTree = "<group>"; };
 		7821C3C31DEF94350023B95E /* CameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
@@ -371,6 +375,8 @@
 				781E713F1DF4036E00041855 /* sound-wave-yellow.png */,
 				781E71411DF407F600041855 /* location-yellow.png */,
 				781E71421DF407F600041855 /* location.png */,
+				781E71571DF5330E00041855 /* circle-white.png */,
+				781E71581DF5330E00041855 /* circle-yellow.png */,
 			);
 			name = Images;
 			sourceTree = "<group>";
@@ -521,7 +527,7 @@
 				TargetAttributes = {
 					78469A571DE3958000A40D53 = {
 						CreatedOnToolsVersion = 8.0;
-						DevelopmentTeam = PY8CHQP699;
+						DevelopmentTeam = Y4GA6H5JHE;
 						ProvisioningStyle = Automatic;
 					};
 					78469A6B1DE3958100A40D53 = {
@@ -564,8 +570,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				781E71431DF407F600041855 /* location-yellow.png in Resources */,
+				781E715A1DF5330E00041855 /* circle-yellow.png in Resources */,
 				78C3503F1DF12E17005E8331 /* blank user avatar.jpeg in Resources */,
 				781E71401DF4036E00041855 /* sound-wave-yellow.png in Resources */,
+				781E71591DF5330E00041855 /* circle-white.png in Resources */,
 				781E71441DF407F600041855 /* location.png in Resources */,
 				78CDA09C1DE5307200ABC5E1 /* VideosListVC.storyboard in Resources */,
 				7821C3C21DEF939A0023B95E /* Camera.storyboard in Resources */,
@@ -928,7 +936,7 @@
 			baseConfigurationReference = EF9B8E045282684264E31D83 /* Pods-BMe.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = PY8CHQP699;
+				DEVELOPMENT_TEAM = Y4GA6H5JHE;
 				INFOPLIST_FILE = BMe/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.op.BMe;
@@ -944,7 +952,7 @@
 			baseConfigurationReference = 1B3943A2C1F5F5DBD966A650 /* Pods-BMe.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = PY8CHQP699;
+				DEVELOPMENT_TEAM = Y4GA6H5JHE;
 				INFOPLIST_FILE = BMe/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.op.BMe;
