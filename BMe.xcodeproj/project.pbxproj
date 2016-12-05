@@ -53,6 +53,8 @@
 		78B369C11DE7F85F001ADD53 /* TemplateListVC.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 78B369C01DE7F85F001ADD53 /* TemplateListVC.storyboard */; };
 		78B56A021DF5E7AE00A13915 /* UserMeta.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78B56A011DF5E7AE00A13915 /* UserMeta.swift */; };
 		78B56A061DF5EBFB00A13915 /* error.png in Resources */ = {isa = PBXBuildFile; fileRef = 78B56A051DF5EBFB00A13915 /* error.png */; };
+		78B56A091DF5FD1B00A13915 /* user-white.png in Resources */ = {isa = PBXBuildFile; fileRef = 78B56A071DF5FD1B00A13915 /* user-white.png */; };
+		78B56A0A1DF5FD1B00A13915 /* user-yellow.png in Resources */ = {isa = PBXBuildFile; fileRef = 78B56A081DF5FD1B00A13915 /* user-yellow.png */; };
 		78C3503D1DF126A6005E8331 /* BrowserTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C3503C1DF126A6005E8331 /* BrowserTableViewCell.swift */; };
 		78C3503F1DF12E17005E8331 /* blank user avatar.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 78C3503E1DF12E17005E8331 /* blank user avatar.jpeg */; };
 		78C350431DF2251A005E8331 /* Browser.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 78C350421DF2251A005E8331 /* Browser.storyboard */; };
@@ -158,6 +160,8 @@
 		78B369C01DE7F85F001ADD53 /* TemplateListVC.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = TemplateListVC.storyboard; sourceTree = "<group>"; };
 		78B56A011DF5E7AE00A13915 /* UserMeta.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserMeta.swift; sourceTree = "<group>"; };
 		78B56A051DF5EBFB00A13915 /* error.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = error.png; sourceTree = "<group>"; };
+		78B56A071DF5FD1B00A13915 /* user-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "user-white.png"; sourceTree = "<group>"; };
+		78B56A081DF5FD1B00A13915 /* user-yellow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "user-yellow.png"; sourceTree = "<group>"; };
 		78C3503C1DF126A6005E8331 /* BrowserTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrowserTableViewCell.swift; sourceTree = "<group>"; };
 		78C3503E1DF12E17005E8331 /* blank user avatar.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "blank user avatar.jpeg"; sourceTree = "<group>"; };
 		78C350421DF2251A005E8331 /* Browser.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Browser.storyboard; sourceTree = "<group>"; };
@@ -224,8 +228,6 @@
 			children = (
 				78469A5D1DE3958100A40D53 /* LoginViewController.swift */,
 				E35AC4881DE4D75C00FCB0D0 /* BrowseViewController.swift */,
-				783008A01DE3B9A000B070D4 /* MediaSelectorViewController.swift */,
-				785E87C71DED4C4F00C9FF59 /* VideoComposerViewController.swift */,
 				78C350461DF232AF005E8331 /* UserProfileViewController.swift */,
 				781E714F1DF4E52A00041855 /* YelpViewController.swift */,
 			);
@@ -281,13 +283,6 @@
 			name = Models;
 			sourceTree = "<group>";
 		};
-		783008AC1DE3B9CF00B070D4 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Views;
-			sourceTree = "<group>";
-		};
 		78337D8E1DE3AC7400A1B32C /* Shared */ = {
 			isa = PBXGroup;
 			children = (
@@ -318,11 +313,12 @@
 		78337D901DE3ACA700A1B32C /* JJ */ = {
 			isa = PBXGroup;
 			children = (
+				7830089D1DE3B9A000B070D4 /* VideoComposition.swift */,
+				783008A01DE3B9A000B070D4 /* MediaSelectorViewController.swift */,
+				785E87C71DED4C4F00C9FF59 /* VideoComposerViewController.swift */,
 				78CDA0A01DE5311F00ABC5E1 /* Examples */,
 				78DA2EC81DF2DFF600A894AC /* Model */,
 				786727DA1DE3ADDC0059AEC7 /* ViewControllers */,
-				783008AC1DE3B9CF00B070D4 /* Views */,
-				786727DB1DE3ADE90059AEC7 /* Storyboards */,
 			);
 			name = JJ;
 			sourceTree = "<group>";
@@ -396,6 +392,8 @@
 				781E71571DF5330E00041855 /* circle-white.png */,
 				781E71581DF5330E00041855 /* circle-yellow.png */,
 				78B56A051DF5EBFB00A13915 /* error.png */,
+				78B56A071DF5FD1B00A13915 /* user-white.png */,
+				78B56A081DF5FD1B00A13915 /* user-yellow.png */,
 			);
 			name = Images;
 			sourceTree = "<group>";
@@ -407,13 +405,6 @@
 				E38E32B71DF3B6FC00631AEC /* ShowImageViewController.swift */,
 			);
 			name = ViewControllers;
-			sourceTree = "<group>";
-		};
-		786727DB1DE3ADE90059AEC7 /* Storyboards */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Storyboards;
 			sourceTree = "<group>";
 		};
 		78CDA0A01DE5311F00ABC5E1 /* Examples */ = {
@@ -432,7 +423,6 @@
 		78DA2EC81DF2DFF600A894AC /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				7830089D1DE3B9A000B070D4 /* VideoComposition.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -589,6 +579,7 @@
 			files = (
 				781E71431DF407F600041855 /* location-yellow.png in Resources */,
 				781E715A1DF5330E00041855 /* circle-yellow.png in Resources */,
+				78B56A091DF5FD1B00A13915 /* user-white.png in Resources */,
 				78C3503F1DF12E17005E8331 /* blank user avatar.jpeg in Resources */,
 				781E71401DF4036E00041855 /* sound-wave-yellow.png in Resources */,
 				781E71591DF5330E00041855 /* circle-white.png in Resources */,
@@ -605,6 +596,7 @@
 				78B369C11DE7F85F001ADD53 /* TemplateListVC.storyboard in Resources */,
 				785E87C61DED445000C9FF59 /* Play image- white.png in Resources */,
 				78B369BD1DE7E040001ADD53 /* CompositionTest.storyboard in Resources */,
+				78B56A0A1DF5FD1B00A13915 /* user-yellow.png in Resources */,
 				781E714C1DF486A900041855 /* Yelp.storyboard in Resources */,
 				78C350431DF2251A005E8331 /* Browser.storyboard in Resources */,
 				78C350451DF2260A005E8331 /* Account.storyboard in Resources */,
