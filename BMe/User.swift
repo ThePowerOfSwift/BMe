@@ -38,7 +38,7 @@ class User: NSObject {
                 }
             }
             // Change database
-            let data = [Key.username: newValue as AnyObject]
+            let data = [UserMeta.Key.username: newValue as AnyObject]
             firUserDBReference?.updateChildValues(data) 
         }
     }
@@ -62,7 +62,7 @@ class User: NSObject {
                 }
             }
             // Change database
-            let data = [Key.avatarURL: newValue?.absoluteString as AnyObject]
+            let data = [UserMeta.Key.avatarURL: newValue?.absoluteString as AnyObject]
             firUserDBReference?.updateChildValues(data)
         }
     }
@@ -88,8 +88,8 @@ class User: NSObject {
                 // Create DB userMeta obj using defaults (overwrite any existing leaf data)
                 let user = User(newFIRUser)
                 let username = newFIRUser.email!.components(separatedBy: "@")[0]
-                let data = [Key.createdAt: Date().description as AnyObject,
-                            Key.username: username as AnyObject]
+                let data = [UserMeta.Key.createdAt: Date().description as AnyObject,
+                            UserMeta.Key.username: username as AnyObject]
                 user.firUserDBReference?.setValue(data, withCompletionBlock: { (error, ref) in
                     if let error = error {
                         print("Error creating new user on Database: \(error.localizedDescription)")
@@ -113,31 +113,10 @@ class User: NSObject {
         // Get existing values
         ref.observeSingleEvent(of: .value, with: {(snapshot: FIRDataSnapshot) in
             let data = snapshot.dictionary
-            var userMeta = UserMeta()
-            if let avatar = data[User.Key.avatarURL] as? String {
-                userMeta.avatarURL = URL(string: avatar)
-            }
-            if let date = data[User.Key.createdAt] as? String {
-                userMeta.createdAt = date.toDate()
-            }
-            if let username = data[User.Key.username] as? String {
-                userMeta.username = username
-            }
-            
+            let userMeta = UserMeta(data)
             block(userMeta)
         })
     }
-    //MARK: - User Database keys
-    struct Key {
-        static let createdAt = "createdAt"
-        static let avatarURL = "avatarURL"
-        static let username = "username"
-    }
+    
 }
 
-// Struct for referencing user meta
-struct UserMeta {
-    var avatarURL: URL?
-    var createdAt: Date?
-    var username: String?
-}
