@@ -271,7 +271,7 @@ class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePicker
         textField.delegate = self
         
         textField.autocorrectionType = .no
-        textField.autocapitalizationType = .allCharacters
+        textField.autocapitalizationType = .sentences
         textField.spellCheckingType = .no
         textField.keyboardType = .asciiCapable
         textField.returnKeyType = .done
@@ -289,7 +289,7 @@ class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePicker
         textField.addGestureRecognizer(pan)
         
         // Default appearance
-        textField.attributedPlaceholder = NSAttributedString(string: "TYPE TEXT HERE", attributes: [NSForegroundColorAttributeName: UIColor.white])
+        textField.attributedPlaceholder = NSAttributedString(string: "T", attributes: [NSForegroundColorAttributeName: UIColor.white])
         textField.sizeToFit()
         
         // Add textField to cameraControlView
