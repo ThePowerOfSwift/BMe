@@ -16,7 +16,7 @@ class TabBarViewController: UIViewController {
     @IBOutlet var tabs: [UIButton]!
     
     var browseViewController: UIViewController!
-    var cameraViewController: UIViewController!
+    var cameraNavigationController: UINavigationController!
     var createViewController: UIViewController!
     var accountViewController: UIViewController!
     var viewControllers: [UIViewController]!
@@ -36,7 +36,11 @@ class TabBarViewController: UIViewController {
         let createStoryboard = UIStoryboard(name: VideoComposition.StoryboardKey.ID, bundle: nil)
         createViewController = createStoryboard.instantiateViewController(withIdentifier: VideoComposition.StoryboardKey.mediaSelectorNavigationController)
 
-        cameraViewController = UIStoryboard(name: "Camera", bundle: nil).instantiateInitialViewController()
+        cameraNavigationController = UIStoryboard(name: "Camera", bundle: nil).instantiateInitialViewController() as! UINavigationController
+        let cameraViewController = cameraNavigationController.viewControllers[0] as! CameraViewController
+        cameraViewController.cameraButton = tabs[1] //not passing the copy but reference
+        
+        
         accountViewController = UIStoryboard(name: "Account", bundle: nil).instantiateInitialViewController()
         
         // Init with view controllers
@@ -58,26 +62,13 @@ class TabBarViewController: UIViewController {
         }
 
     }
-
-    // later
-//    func hideTabbar() {
-//        for i in 0...tabs.count {
-//            tabs[i].isHidden = true
-//        }
-//    }
-//    
-//    func showTabbar() {
-//        for i in 0...tabs.count {
-//            tabs[i].isHidden = false
-//        }
-//    }
     
     // MARK: Tab Setups
     
     // Call setupButtons(imageName, tabIndex) to setup tabs
     func setupTabs() {
         setupTab(imageName: "home", tabIndex: 0)
-        setupTab(imageName: Constants.Images.circleYellow, tabIndex: 1)
+        setupTab(imageName: Constants.Images.circle, tabIndex: 1)
         setupTab(imageName: "food", tabIndex: 2)
         setupTab(imageName: "account", tabIndex: 3)
     }
@@ -138,8 +129,36 @@ class TabBarViewController: UIViewController {
             self.tabs[previousIndex].imageView?.tintColor = Styles.Color.Secondary
             self.tabs[self.selectedIndex].imageView?.tintColor = Styles.Color.Primary
             
+            // Reset image
+            
+            switch previousIndex {
+//                case 0:
+                    //self.tabs[previousIndex].imageView?.image = UIImage(named: Constants.Images.)
+                case 1:
+                    let whiteButton = UIImage(named: Constants.Images.circle)
+                    self.tabs[previousIndex].setImage(whiteButton, for: .normal)
+//                case 2:
+//                case 3:
+                default:
+                    break
+            }
+        
+            
+            switch self.selectedIndex {
+//                case 0:
+                case 1:
+                    let yellowButton = UIImage(named: Constants.Images.circleYellow)
+                    self.tabs[self.selectedIndex].setImage(yellowButton, for: .normal)
+//                case 2:
+//                case 3:
+                default:
+                    break
+            }
+            
             self.layoutTab(index: previousIndex, w: self.unselectedTabSize, h: self.unselectedTabSize)
             self.layoutTab(index: self.selectedIndex, w: self.selectedTabSize, h: self.selectedTabSize)
+            
+            
         })
         
         let previousVC = viewControllers[previousIndex]
