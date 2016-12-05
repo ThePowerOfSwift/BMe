@@ -14,12 +14,13 @@ class VideoComposerViewController: UIViewController, UICollectionViewDataSource,
     //MARK: - Outlets
     @IBOutlet weak var bannerView: UIView!
     @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var postButton: UIButton!
     
     //MARK: - Models
     var phAssets: [PHAsset]!
     var audioURL: URL?
     private var videoURLs: [URL?] = []
-    
+    var meta: [String: AnyObject?] = [:]
     var composition: VideoComposition!
     
     let imgManager = PHCachingImageManager.default()
@@ -44,9 +45,12 @@ class VideoComposerViewController: UIViewController, UICollectionViewDataSource,
             self.loadComposition()
         }
         
+        postButton.titleLabel?.textColor = Styles.Color.Tertiary
+        /*
         // Prepare navigation bar
-        let nextButton = UIBarButtonItem(title: "Next", style: .plain, target: self, action: #selector(nextButtonTapped(_:)))
+        let nextButton = UIBarButtonItem(title: "Post", style: .plain, target: self, action: #selector(nextButtonTapped(_:)))
         navigationItem.rightBarButtonItem = nextButton
+         */
     }
 
     override func didReceiveMemoryWarning() {
@@ -64,6 +68,9 @@ class VideoComposerViewController: UIViewController, UICollectionViewDataSource,
         RenderAndPost()
     }
     
+    @IBAction func postButtonTapped(_ sender: Any) {
+        next()
+    }
     
     //MARK: - CollectionView Datasource methods
     
@@ -209,9 +216,10 @@ class VideoComposerViewController: UIViewController, UICollectionViewDataSource,
             print("Success: rendered video")
             
             // Post video
-            let meta: [String: AnyObject?] = [:]
             let url = URL(string: (session.outputURL?.absoluteString)!)
-            FIRManager.shared.postObject(url: url!, contentType: ContentType.video, meta: meta, completion: nil)
+            FIRManager.shared.postObject(url: url!, contentType: ContentType.video, meta: self.meta, completion:
+                {
+                    self.dismiss(animated: true, completion: nil)})
         })
     }
 }
