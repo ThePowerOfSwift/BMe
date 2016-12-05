@@ -44,8 +44,12 @@ class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePicker
         cameraControlView.addGestureRecognizer(tap)
         
         navigationController?.navigationBar.isHidden = true
+
         loadCamera()
+        
     }
+    
+    // MARK: Camera
     
     func hideCameraControlView() {
         cameraControlView.isHidden = true
@@ -76,17 +80,32 @@ class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePicker
             imagePicker.videoMaximumDuration = timeInterval
         }
         
+        imagePicker.showsCameraControls = false
+//        imagePicker.cameraOverlayView = cameraControlView
+        
+        let screenSize = UIScreen.main.bounds.size
+        let cameraAspectRatio: CGFloat = 4.0 / 3.0
+        let imageWidth = floor(screenSize.width * cameraAspectRatio)
+        let scale = ceil((screenSize.height) / imageWidth )
+
+        imagePicker.cameraViewTransform = CGAffineTransform(scaleX: scale, y: scale)
+        
         present(imagePicker, animated: true) {
+            imagePicker.takePicture()
             if let completion = completion { completion() }
         }
+        
+        
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         // Delegate to return the chosen image
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
             imageView.image = image
+            picker.dismiss(animated: false, completion: {
+                self.showCameraControlView()
+            })
         }
-        picker.dismiss(animated: true, completion: nil)
     }
     
     // MARK: Add Text To Image
@@ -134,7 +153,14 @@ class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePicker
         let storyboard = UIStoryboard(name: "Camera", bundle: nil)
         let testVC = storyboard.instantiateViewController(withIdentifier: "ShowImageViewController") as! ShowImageViewController
         testVC.image = newImage
+        
+//        let imageData = UIImagePNGRepresentation(newImage!)
+//        let metadata: [String: String] = ["this is" : "a test from Camera View controller"]
+//        FIRManager.shared.postObject(object: imageData!, contentType: .image, meta: metadata as [String : AnyObject?], completion: {
+//            print("Upload completed")
+//        })
         present(testVC, animated: true, completion: nil)
+        
     }
     
     //MARK: - Manging Textfeld methods
