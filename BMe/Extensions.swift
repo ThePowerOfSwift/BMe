@@ -110,7 +110,15 @@ extension AVURLAsset {
     }
 }
 
-
+extension UIImage {
+    override open var description: String {
+        let data = UIImageJPEGRepresentation(self, 1.0)
+        return "Image info:" +
+        "\t filesize: \(Float(data!.count)/(1024*1024))" +
+        "\t Image size \(self.size)" +
+        "\t Orientation \(self.imageOrientation.rawValue)"
+    }
+}
 /*
 extension UIView: NSCopying
 {
