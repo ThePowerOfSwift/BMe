@@ -27,8 +27,19 @@
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="dz3-xN-PWO">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                     </imageView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8UK-bU-d50">
+                                        <rect key="frame" x="315" y="24" width="50" height="50"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="j0J-8k-99S"/>
+                                            <constraint firstAttribute="width" constant="50" id="prl-Zu-a54"/>
+                                        </constraints>
+                                        <state key="normal" title="Done"/>
+                                        <connections>
+                                            <action selector="onUpload:" destination="CUT-KW-ZOC" eventType="touchUpInside" id="Sdt-Mg-4M6"/>
+                                        </connections>
+                                    </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mKh-1y-Tmo">
-                                        <rect key="frame" x="10" y="24" width="50" height="50"/>
+                                        <rect key="frame" x="255" y="24" width="50" height="50"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="YjZ-RD-1Sq"/>
                                             <constraint firstAttribute="width" constant="50" id="oBX-yE-Grt"/>
@@ -46,27 +57,40 @@
                                             <action selector="tappedAddTextButton:" destination="CUT-KW-ZOC" eventType="touchUpInside" id="CEV-qh-hPO"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8UK-bU-d50">
-                                        <rect key="frame" x="315" y="24" width="50" height="50"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iDy-FN-Eyx" customClass="LocationButton" customModule="BMe" customModuleProvider="target">
+                                        <rect key="frame" x="205" y="29" width="40" height="40"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="50" id="j0J-8k-99S"/>
-                                            <constraint firstAttribute="width" constant="50" id="prl-Zu-a54"/>
+                                            <constraint firstAttribute="height" constant="40" id="Tj8-dL-7UX"/>
+                                            <constraint firstAttribute="width" constant="40" id="e6Q-gV-pef"/>
                                         </constraints>
-                                        <state key="normal" title="Done"/>
+                                        <state key="normal" title="Button"/>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xlN-QO-tNR">
+                                        <rect key="frame" x="10" y="24" width="50" height="50"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="50" id="R85-WD-8AF"/>
+                                            <constraint firstAttribute="height" constant="50" id="aet-Kc-1eu"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="40"/>
+                                        <state key="normal" title="✕"/>
                                         <connections>
-                                            <action selector="onUpload:" destination="CUT-KW-ZOC" eventType="touchUpInside" id="Sdt-Mg-4M6"/>
+                                            <action selector="onCancel:" destination="CUT-KW-ZOC" eventType="touchUpInside" id="gfx-3N-kM6"/>
                                         </connections>
                                     </button>
                                 </subviews>
                                 <constraints>
+                                    <constraint firstItem="xlN-QO-tNR" firstAttribute="leading" secondItem="fZo-83-kBt" secondAttribute="leading" constant="10" id="AwP-Pj-i1W"/>
                                     <constraint firstAttribute="bottom" secondItem="dz3-xN-PWO" secondAttribute="bottom" id="Dnb-5H-seb"/>
-                                    <constraint firstItem="mKh-1y-Tmo" firstAttribute="leading" secondItem="fZo-83-kBt" secondAttribute="leading" constant="10" id="KYX-Be-qoX"/>
+                                    <constraint firstItem="iDy-FN-Eyx" firstAttribute="centerY" secondItem="xlN-QO-tNR" secondAttribute="centerY" id="MGd-Jn-spW"/>
+                                    <constraint firstItem="mKh-1y-Tmo" firstAttribute="centerY" secondItem="xlN-QO-tNR" secondAttribute="centerY" id="OPN-zS-C9F"/>
                                     <constraint firstItem="dz3-xN-PWO" firstAttribute="leading" secondItem="fZo-83-kBt" secondAttribute="leading" id="QJa-6k-lXV"/>
-                                    <constraint firstItem="mKh-1y-Tmo" firstAttribute="top" secondItem="fZo-83-kBt" secondAttribute="top" constant="24" id="gef-J8-2jN"/>
+                                    <constraint firstItem="8UK-bU-d50" firstAttribute="leading" secondItem="mKh-1y-Tmo" secondAttribute="trailing" constant="10" id="bgM-R0-toE"/>
                                     <constraint firstAttribute="trailing" secondItem="dz3-xN-PWO" secondAttribute="trailing" id="jth-4Q-cEz"/>
+                                    <constraint firstItem="8UK-bU-d50" firstAttribute="centerY" secondItem="xlN-QO-tNR" secondAttribute="centerY" id="pFt-Wf-pzY"/>
                                     <constraint firstItem="dz3-xN-PWO" firstAttribute="top" secondItem="fZo-83-kBt" secondAttribute="top" id="qqL-ms-get"/>
                                     <constraint firstAttribute="trailing" secondItem="8UK-bU-d50" secondAttribute="trailing" constant="10" id="rO8-Ad-344"/>
                                     <constraint firstItem="8UK-bU-d50" firstAttribute="top" secondItem="fZo-83-kBt" secondAttribute="top" constant="24" id="t0s-De-A39"/>
+                                    <constraint firstItem="mKh-1y-Tmo" firstAttribute="leading" secondItem="iDy-FN-Eyx" secondAttribute="trailing" constant="10" id="vcw-Dr-Dyf"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -83,7 +107,9 @@
                         <outlet property="addButton" destination="mKh-1y-Tmo" id="qQg-yb-o7d"/>
                         <outlet property="addTextButton" destination="mKh-1y-Tmo" id="aNG-CB-5ZC"/>
                         <outlet property="cameraControlView" destination="fZo-83-kBt" id="esG-sT-Tyw"/>
+                        <outlet property="cancelButton" destination="xlN-QO-tNR" id="Rcu-5B-W9j"/>
                         <outlet property="imageView" destination="dz3-xN-PWO" id="Fov-sX-xnz"/>
+                        <outlet property="locationButton" destination="iDy-FN-Eyx" id="Rt9-76-ptE"/>
                         <outlet property="uploadButton" destination="8UK-bU-d50" id="e89-cX-jr9"/>
                     </connections>
                 </viewController>

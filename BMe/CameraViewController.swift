@@ -11,15 +11,17 @@ import MobileCoreServices
 import AVFoundation
 import FontAwesome_swift
 
-class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, LocationButtonDelegate {
     
     //MARK: - Outlets
     @IBOutlet weak var cameraControlView: UIView!
     @IBOutlet weak var addTextButton: UIButton!
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var addButton: UIButton!
+    @IBOutlet weak var locationButton: LocationButton!
     @IBOutlet weak var uploadButton: UIButton!
     
+    @IBOutlet weak var cancelButton: UIButton!
     //MARK:- Model
     var textFields: [UITextField] {
         get {
@@ -37,6 +39,7 @@ class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePicker
     //MARK:- Variables
     var chosenImage: UIImage?
     var renderedImage: UIImage?
+    var metadata: [String: AnyObject?]?
     
     //MARK: - Lifecycle
     override func viewDidLoad() {
@@ -47,9 +50,13 @@ class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePicker
         cameraControlView.addGestureRecognizer(tap)
         
         navigationController?.navigationBar.isHidden = true
+        
+        metadata = ["missing metadata" : "you didn't add metadata for this pic, bitch!" as Optional<AnyObject>]
+        
         hideCameraControlView()
         setupButtons()
         loadCamera()
+        
     }
     
     func setupButtons() {
@@ -59,8 +66,21 @@ class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePicker
         uploadButton.titleLabel?.font = UIFont.fontAwesome(ofSize: 40)
         uploadButton.tintColor = Styles.Color.Tertiary
         uploadButton.setTitle(String.fontAwesomeIcon(name: .upload), for: .normal)
+        
+        locationButton.delegate = self
+        
+        cancelButton.tintColor = Styles.Color.Tertiary
+        
     }
     
+    func locationButton(yelpDidSelect restaurant: Restaurant) {
+        metadata = restaurant.dictionary
+    }
+    
+    func locationButton(_ viewControllerToPresent: UIViewController, animated: Bool, completion: (() -> ())?) {
+        present(viewControllerToPresent, animated: true, completion: {
+        })
+    }
     // MARK: Camera
     
     func hideCameraControlView() {
@@ -164,12 +184,18 @@ class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePicker
         testVC.image = newImage
         
         let imageData = UIImageJPEGRepresentation(newImage!, 1)
-        let metadata: [String: AnyObject?] = ["this is" : "a test from Camera View controller" as Optional<AnyObject>]
-        FIRManager.shared.postObject(object: imageData!, contentType: .image, meta: metadata, completion: {
+
+
+        FIRManager.shared.postObject(object: imageData!, contentType: .image, meta: metadata!, completion: {
             print("Upload completed")
         })
         
         //self.present(testVC, animated: true, completion: nil)
+    }
+    
+    @IBAction func onCancel(_ sender: UIButton) {
+        hideCameraControlView()
+        loadCamera()
     }
     
     //MARK: - Manging Textfeld methods
@@ -227,7 +253,7 @@ class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePicker
         if let textField = sender.view {
             
             let point = sender.location(in: cameraControlView)
-            textField.frame.origin = point
+            textField.center = point
         }
     }
     
