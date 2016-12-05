@@ -244,7 +244,7 @@ class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePicker
         let testVC = storyboard.instantiateViewController(withIdentifier: "ShowImageViewController") as! ShowImageViewController
         testVC.image = newImage
         
-        let imageData = UIImageJPEGRepresentation(newImage!, 1)
+        let imageData = UIImageJPEGRepresentation(newImage!, 0.5)
 
 
         FIRManager.shared.postObject(object: imageData!, contentType: .image, meta: metadata!, completion: {
