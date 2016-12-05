@@ -67,7 +67,7 @@ class TabBarViewController: UIViewController {
     
     // Call setupButtons(imageName, tabIndex) to setup tabs
     func setupTabs() {
-        setupTab(imageName: "home", tabIndex: 0)
+        setupTab(imageName: Constants.Images.home, tabIndex: 0)
         setupTab(imageName: Constants.Images.circle, tabIndex: 1)
         setupTab(imageName: "food", tabIndex: 2)
         setupTab(imageName: "account", tabIndex: 3)
@@ -130,30 +130,36 @@ class TabBarViewController: UIViewController {
             self.tabs[self.selectedIndex].imageView?.tintColor = Styles.Color.Primary
             
             // Reset image
-            
+            // Set unselected to white
+            var whiteButton: UIImage? = UIImage()
             switch previousIndex {
-//                case 0:
-                    //self.tabs[previousIndex].imageView?.image = UIImage(named: Constants.Images.)
+                case 0:
+                    whiteButton = UIImage(named: Constants.Images.home)
+                
                 case 1:
-                    let whiteButton = UIImage(named: Constants.Images.circle)
-                    self.tabs[previousIndex].setImage(whiteButton, for: .normal)
+                    whiteButton = UIImage(named: Constants.Images.circle)
 //                case 2:
 //                case 3:
                 default:
                     break
             }
-        
+            self.tabs[previousIndex].setImage(whiteButton, for: .normal)
             
+            
+            // Set selected to yellow
+            var yellowButton: UIImage? = UIImage()
             switch self.selectedIndex {
-//                case 0:
+                case 0:
+                    yellowButton = UIImage(named: Constants.Images.homeYellow)
                 case 1:
-                    let yellowButton = UIImage(named: Constants.Images.circleYellow)
-                    self.tabs[self.selectedIndex].setImage(yellowButton, for: .normal)
+                    yellowButton = UIImage(named: Constants.Images.circleYellow)
 //                case 2:
 //                case 3:
                 default:
                     break
             }
+            self.tabs[self.selectedIndex].setImage(yellowButton, for: .normal)
+        
             
             self.layoutTab(index: previousIndex, w: self.unselectedTabSize, h: self.unselectedTabSize)
             self.layoutTab(index: self.selectedIndex, w: self.selectedTabSize, h: self.selectedTabSize)
