@@ -21,6 +21,7 @@ class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePicker
     @IBOutlet weak var locationButton: LocationButton!
     @IBOutlet weak var uploadButton: UIButton!
     
+    @IBOutlet weak var cancelButton: UIButton!
     //MARK:- Model
     var textFields: [UITextField] {
         get {
@@ -67,6 +68,8 @@ class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePicker
         uploadButton.setTitle(String.fontAwesomeIcon(name: .upload), for: .normal)
         
         locationButton.delegate = self
+        
+        cancelButton.tintColor = Styles.Color.Tertiary
         
     }
     
@@ -190,6 +193,11 @@ class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePicker
         //self.present(testVC, animated: true, completion: nil)
     }
     
+    @IBAction func onCancel(_ sender: UIButton) {
+        hideCameraControlView()
+        loadCamera()
+    }
+    
     //MARK: - Manging Textfeld methods
     @IBAction func tappedAddTextButton(_ sender: Any) {
         addTextFieldToView()
@@ -245,7 +253,7 @@ class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePicker
         if let textField = sender.view {
             
             let point = sender.location(in: cameraControlView)
-            textField.frame.origin = point
+            textField.center = point
         }
     }
     
