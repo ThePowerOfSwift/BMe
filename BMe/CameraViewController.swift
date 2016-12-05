@@ -11,10 +11,6 @@ import MobileCoreServices
 import AVFoundation
 import FontAwesome_swift
 
-@objc protocol CameraDelegate {
-    @objc optional func getCameraButton() -> UIButton
-}
-
 class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, LocationButtonDelegate {
     
     //MARK: - Outlets
@@ -45,7 +41,6 @@ class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePicker
     var renderedImage: UIImage?
     var metadata: [String: AnyObject?]?
     
-    var delegate: CameraDelegate?
     var imagePicker: UIImagePickerController?
     var cameraButton: UIButton?
     
@@ -61,8 +56,9 @@ class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePicker
         
         metadata = ["missing metadata" : "you didn't add metadata for this pic, bitch!" as Optional<AnyObject>]
         
-        let cameraButtonFromTabBar = delegate?.getCameraButton!()
+        let cameraButtonFromTabBar = cameraButton
         let frame = cameraButtonFromTabBar?.frame
+        // Create bran new button
         cameraButton = UIButton(frame: CGRect(x: (frame?.origin.x)! , y: (frame?.origin.y)!, width: (frame?.width)!, height: (frame?.height)!))
         cameraButton?.addTarget(self, action: #selector(takePicture), for: UIControlEvents.touchUpInside)
         

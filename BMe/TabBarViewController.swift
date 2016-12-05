@@ -10,7 +10,7 @@ import UIKit
 import FontAwesome_swift
 import QuartzCore
 
-class TabBarViewController: UIViewController, CameraDelegate {
+class TabBarViewController: UIViewController {
 
     @IBOutlet weak var contentView: UIView!
     @IBOutlet var tabs: [UIButton]!
@@ -38,8 +38,7 @@ class TabBarViewController: UIViewController, CameraDelegate {
 
         cameraNavigationController = UIStoryboard(name: "Camera", bundle: nil).instantiateInitialViewController() as! UINavigationController
         let cameraViewController = cameraNavigationController.viewControllers[0] as! CameraViewController
-        cameraViewController.delegate = self
-        // cameraViewController.cameraButton = tabs[1] not passing the copy but reference
+        cameraViewController.cameraButton = tabs[1] //not passing the copy but reference
         
         
         accountViewController = UIStoryboard(name: "Account", bundle: nil).instantiateInitialViewController()
@@ -64,29 +63,12 @@ class TabBarViewController: UIViewController, CameraDelegate {
 
     }
     
-    func getCameraButton() -> UIButton {
-        return tabs[1]
-    }
-
-    // later
-//    func hideTabbar() {
-//        for i in 0...tabs.count {
-//            tabs[i].isHidden = true
-//        }
-//    }
-//    
-//    func showTabbar() {
-//        for i in 0...tabs.count {
-//            tabs[i].isHidden = false
-//        }
-//    }
-    
     // MARK: Tab Setups
     
     // Call setupButtons(imageName, tabIndex) to setup tabs
     func setupTabs() {
         setupTab(imageName: "home", tabIndex: 0)
-        setupTab(imageName: Constants.Images.circleYellow, tabIndex: 1)
+        setupTab(imageName: Constants.Images.circle, tabIndex: 1)
         setupTab(imageName: "food", tabIndex: 2)
         setupTab(imageName: "account", tabIndex: 3)
     }
@@ -146,6 +128,32 @@ class TabBarViewController: UIViewController, CameraDelegate {
             // change the color
             self.tabs[previousIndex].imageView?.tintColor = Styles.Color.Secondary
             self.tabs[self.selectedIndex].imageView?.tintColor = Styles.Color.Primary
+            
+            // Reset image
+            
+            switch previousIndex {
+//                case 0:
+                    //self.tabs[previousIndex].imageView?.image = UIImage(named: Constants.Images.)
+                case 1:
+                    let whiteButton = UIImage(named: Constants.Images.circle)
+                    self.tabs[previousIndex].setImage(whiteButton, for: .normal)
+//                case 2:
+//                case 3:
+                default:
+                    print("default swifth statemetn in didTapTab")
+            }
+        
+            
+            switch self.selectedIndex {
+//                case 0:
+                case 1:
+                    let whiteButton = UIImage(named: Constants.Images.circleYellow)
+                    self.tabs[self.selectedIndex].setImage(whiteButton, for: .normal)
+//                case 2:
+//                case 3:
+                default:
+                    print("default swifth statemetn in didTapTab")
+            }
             
             self.layoutTab(index: previousIndex, w: self.unselectedTabSize, h: self.unselectedTabSize)
             self.layoutTab(index: self.selectedIndex, w: self.selectedTabSize, h: self.selectedTabSize)
