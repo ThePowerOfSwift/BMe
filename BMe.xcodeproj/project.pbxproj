@@ -23,7 +23,6 @@
 		781E715A1DF5330E00041855 /* circle-yellow.png in Resources */ = {isa = PBXBuildFile; fileRef = 781E71581DF5330E00041855 /* circle-yellow.png */; };
 		781E715D1DF53D1E00041855 /* home-white.png in Resources */ = {isa = PBXBuildFile; fileRef = 781E715B1DF53D1E00041855 /* home-white.png */; };
 		781E715E1DF53D1E00041855 /* home-yellow.png in Resources */ = {isa = PBXBuildFile; fileRef = 781E715C1DF53D1E00041855 /* home-yellow.png */; };
-		781E71601DF5583A00041855 /* LaunchScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781E715F1DF5583A00041855 /* LaunchScreenViewController.swift */; };
 		781E71621DF5DF4000041855 /* black_truffle.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 781E71611DF5DF4000041855 /* black_truffle.jpg */; };
 		7821C3BA1DEF10F60023B95E /* TimeLapseBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7821C3B91DEF10F60023B95E /* TimeLapseBuilder.swift */; };
 		7821C3C21DEF939A0023B95E /* Camera.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7821C3C11DEF939A0023B95E /* Camera.storyboard */; };
@@ -124,7 +123,6 @@
 		781E71581DF5330E00041855 /* circle-yellow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "circle-yellow.png"; sourceTree = "<group>"; };
 		781E715B1DF53D1E00041855 /* home-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "home-white.png"; sourceTree = "<group>"; };
 		781E715C1DF53D1E00041855 /* home-yellow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "home-yellow.png"; sourceTree = "<group>"; };
-		781E715F1DF5583A00041855 /* LaunchScreenViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LaunchScreenViewController.swift; sourceTree = "<group>"; };
 		781E71611DF5DF4000041855 /* black_truffle.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = black_truffle.jpg; sourceTree = "<group>"; };
 		7821C3B91DEF10F60023B95E /* TimeLapseBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeLapseBuilder.swift; sourceTree = "<group>"; };
 		7821C3C11DEF939A0023B95E /* Camera.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Camera.storyboard; sourceTree = "<group>"; };
@@ -287,16 +285,10 @@
 			isa = PBXGroup;
 			children = (
 				785E87C41DED444400C9FF59 /* Images */,
-				78469A5B1DE3958100A40D53 /* AppDelegate.swift */,
-				783008991DE3B0B500B070D4 /* MeasurementHelper.swift */,
+				78B56A0B1DF5FE7B00A13915 /* Other */,
 				783008A21DE3B9A000B070D4 /* Extensions.swift */,
 				783008A31DE3B9A000B070D4 /* Constants.swift */,
 				E3D1D55E1DF11D700021942A /* Styles.swift */,
-				78469A621DE3958100A40D53 /* Assets.xcassets */,
-				78469A641DE3958100A40D53 /* LaunchScreen.storyboard */,
-				781E715F1DF5583A00041855 /* LaunchScreenViewController.swift */,
-				78469A671DE3958100A40D53 /* Info.plist */,
-				78337D8C1DE3AC6600A1B32C /* GoogleService-Info.plist */,
 			);
 			name = Shared;
 			sourceTree = "<group>";
@@ -317,7 +309,6 @@
 				783008A01DE3B9A000B070D4 /* MediaSelectorViewController.swift */,
 				785E87C71DED4C4F00C9FF59 /* VideoComposerViewController.swift */,
 				78CDA0A01DE5311F00ABC5E1 /* Examples */,
-				78DA2EC81DF2DFF600A894AC /* Model */,
 				786727DA1DE3ADDC0059AEC7 /* ViewControllers */,
 			);
 			name = JJ;
@@ -407,6 +398,19 @@
 			name = ViewControllers;
 			sourceTree = "<group>";
 		};
+		78B56A0B1DF5FE7B00A13915 /* Other */ = {
+			isa = PBXGroup;
+			children = (
+				78469A5B1DE3958100A40D53 /* AppDelegate.swift */,
+				783008991DE3B0B500B070D4 /* MeasurementHelper.swift */,
+				78469A621DE3958100A40D53 /* Assets.xcassets */,
+				78469A641DE3958100A40D53 /* LaunchScreen.storyboard */,
+				78469A671DE3958100A40D53 /* Info.plist */,
+				78337D8C1DE3AC6600A1B32C /* GoogleService-Info.plist */,
+			);
+			name = Other;
+			sourceTree = "<group>";
+		};
 		78CDA0A01DE5311F00ABC5E1 /* Examples */ = {
 			isa = PBXGroup;
 			children = (
@@ -418,13 +422,6 @@
 				78B369C01DE7F85F001ADD53 /* TemplateListVC.storyboard */,
 			);
 			name = Examples;
-			sourceTree = "<group>";
-		};
-		78DA2EC81DF2DFF600A894AC /* Model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Model;
 			sourceTree = "<group>";
 		};
 		E35AC4841DE4D01C00FCB0D0 /* Storyboards */ = {
@@ -535,7 +532,7 @@
 				TargetAttributes = {
 					78469A571DE3958000A40D53 = {
 						CreatedOnToolsVersion = 8.0;
-						DevelopmentTeam = PY8CHQP699;
+						DevelopmentTeam = Y4GA6H5JHE;
 						ProvisioningStyle = Automatic;
 					};
 					78469A6B1DE3958100A40D53 = {
@@ -797,7 +794,6 @@
 				78B369BF1DE7F844001ADD53 /* TemplateListVC.swift in Sources */,
 				783008A71DE3B9A000B070D4 /* MediaSelectorViewController.swift in Sources */,
 				E3C357A41DEF484E00AC0832 /* Restaurant.swift in Sources */,
-				781E71601DF5583A00041855 /* LaunchScreenViewController.swift in Sources */,
 				78C350491DF28756005E8331 /* User.swift in Sources */,
 				78B56A021DF5E7AE00A13915 /* UserMeta.swift in Sources */,
 			);
@@ -953,7 +949,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				DEVELOPMENT_TEAM = PY8CHQP699;
+				DEVELOPMENT_TEAM = Y4GA6H5JHE;
 				INFOPLIST_FILE = BMe/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.op.BMe;
@@ -970,7 +966,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				DEVELOPMENT_TEAM = PY8CHQP699;
+				DEVELOPMENT_TEAM = Y4GA6H5JHE;
 				INFOPLIST_FILE = BMe/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.op.BMe;
