@@ -27,11 +27,14 @@ class TabBarViewController: UIViewController {
     var viewControllers: [UIViewController]!
     
     // tag value from selected UIButton
-    var selectedIndex: Int = 0
+    var selectedIndex: Int = 1
     
     // tab size
     var selectedTabSize: Double = 70
     var unselectedTabSize: Double = 50
+    
+    // detect if it is just after app started. if so, don't enable camera button to take picture
+    var isInitialStartup: Bool = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -64,7 +67,7 @@ class TabBarViewController: UIViewController {
         // Set first tab selected
         tabs[selectedIndex].isSelected = true
         didTapTab(tabs[selectedIndex])
-        
+        isInitialStartup = false
         for i in 0...tabs.count-1 {
             if tabs[i].isSelected {
                 tabs[i].imageView?.tintColor = Styles.Color.Primary
@@ -138,8 +141,7 @@ class TabBarViewController: UIViewController {
         tabs[selectedIndex].isSelected =  true
         
         // Take picture when cameraButton tapped again
-        if previousIndex == 1 && selectedIndex == 1 {
-            //delegate?.takePicture
+        if previousIndex == 1 && selectedIndex == 1 && !isInitialStartup {
             cameraViewController.takePicture()
             
         } else {

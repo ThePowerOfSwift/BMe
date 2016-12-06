@@ -43,7 +43,11 @@ class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePicker
     
     var imagePicker: UIImagePickerController?
     var imagePickerView: UIView?
-    var cameraButton: UIButton?
+    //var cameraButton: UIButton?
+    
+    // Detect current mode
+    var isCameraMode: Bool?
+    var isEditingMode: Bool?
     
     //MARK: - Lifecycle
     override func viewDidLoad() {
@@ -60,11 +64,13 @@ class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePicker
         //hideCameraControlView()
         setupButtons()
         addImagePickerToSubview(timeInterval: 0.5, delegate: self, completion: nil)
-        
+        enterCameraMode()
     }
     
     func takePicture() {
-        imagePicker?.takePicture()
+        if isCameraMode! {
+            imagePicker?.takePicture()
+        }
     }
     
     func setupButtons() {
@@ -93,11 +99,15 @@ class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePicker
     func enterCameraMode() {
         cameraControlView.isHidden = true
         imagePickerView?.isHidden = false
+        isEditingMode = false
+        isCameraMode = true
     }
     
     func enterEditMode() {
         imagePickerView?.isHidden = true
         cameraControlView.isHidden = false
+        isCameraMode = false
+        isEditingMode = false
     }
     
     // MARK: image picker
