@@ -10,11 +10,8 @@ import UIKit
 import FontAwesome_swift
 import QuartzCore
 
-@objc protocol TabBarDelegate {
-    @objc optional func takePicture()
-}
 
-class TabBarViewController: UIViewController {
+class TabBarViewController: UIViewController, CameraPageDelegate {
 
     @IBOutlet weak var contentView: UIView!
     @IBOutlet var tabs: [UIButton]!
@@ -36,6 +33,12 @@ class TabBarViewController: UIViewController {
     
     // detect if it is just after app started. if so, don't enable camera button to take picture
     var isInitialStartup: Bool = true
+    
+    // title labels
+    @IBOutlet weak var cameraTitleLabel: UILabel!
+    @IBOutlet weak var composeTitleLabel: UILabel!
+    @IBOutlet weak var leftConstraint: NSLayoutConstraint!
+    @IBOutlet weak var rightConstraint: NSLayoutConstraint!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -72,7 +75,21 @@ class TabBarViewController: UIViewController {
         tabs[selectedIndex].isSelected = true
         didTapTab(tabs[selectedIndex])
         isInitialStartup = false
+        
+        // title text animateion
+        cameraPageViewController.cameraPageDelegate = self
     }
+    
+    // MARK: title text for camera and compose vc
+    func animatePhotoToCenter(offset: CGFloat) {
+        leftConstraint.constant -= abs(offset) * 30/375
+        
+    }
+    
+    func animateComposeToCenter(offset: CGFloat) {
+        rightConstraint.constant -= abs(offset) * 30/375
+    }
+    
     
     // MARK: Tab Setups
     // Call setupButtons(imageName, tabIndex) to setup tabs
