@@ -23,7 +23,7 @@ class TabBarViewController: UIViewController {
     var cameraNavigationController: UINavigationController!
     var cameraViewController: CameraViewController!
     var cameraPageViewController: CameraPageViewController!
-    var createViewController: UIViewController!
+    var createViewController: UINavigationController!
     var accountViewController: UIViewController!
     var viewControllers: [UIViewController]!
     
@@ -46,8 +46,8 @@ class TabBarViewController: UIViewController {
 
         // Create view controller
         let createStoryboard = UIStoryboard(name: VideoComposition.StoryboardKey.ID, bundle: nil)
-        createViewController = createStoryboard.instantiateViewController(withIdentifier: VideoComposition.StoryboardKey.mediaSelectorNavigationController)
-        addChildViewController(createViewController)
+        createViewController = createStoryboard.instantiateViewController(withIdentifier: VideoComposition.StoryboardKey.mediaSelectorNavigationController) as! UINavigationController
+        //addChildViewController(createViewController)
 
         // Camera view controller
         cameraNavigationController = UIStoryboard(name: "Camera", bundle: nil).instantiateInitialViewController() as! UINavigationController
@@ -57,12 +57,8 @@ class TabBarViewController: UIViewController {
         
         // Camera page view controller
         cameraPageViewController = UIStoryboard(name: "Camera", bundle: nil).instantiateViewController(withIdentifier: "CameraPageViewController") as! CameraPageViewController
-        //cameraPageViewController.orderedViewControllers = [cameraViewController, createViewController]
-//        let redViewController = UIViewController()
-//        redViewController.view.backgroundColor = UIColor.red
-//        let greenViewController = UIViewController()
-//        greenViewController.view.backgroundColor = UIColor.green
-//        cameraPageViewController.orderedViewControllers = [redViewController, greenViewController]
+        cameraPageViewController.orderedViewControllers = [cameraViewController, createViewController]
+
         
         addChildViewController(cameraPageViewController)
         

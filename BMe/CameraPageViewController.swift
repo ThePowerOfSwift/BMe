@@ -10,34 +10,22 @@ import UIKit
 
 class CameraPageViewController: UIPageViewController {
     
-    //var orderedViewControllers: [UIViewController]?
+    var orderedViewControllers: [UIViewController]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         dataSource = self
         
-        if let firstViewController = orderedViewControllers.first {
+        if let firstViewController = orderedViewControllers?
+            .first {
             setViewControllers([firstViewController],
                                direction: .forward,
                                animated: true,
                                completion: nil)
         }
-//        setViewControllers(orderedViewControllers,
-//                           direction: .forward,
-//                           animated: true,
-//                           completion: nil)
-        print("orderedViewControllers: \(orderedViewControllers)")
-        print("viewControllers: \(viewControllers)")
-        
     }
-    private(set) lazy var orderedViewControllers: [UIViewController] = {
-        let redViewController = UIViewController()
-        redViewController.view.backgroundColor = UIColor.red
-        let greenViewController = UIViewController()
-        greenViewController.view.backgroundColor = UIColor.green
-        return [redViewController, greenViewController]
-    }()
+
 
 }
 
@@ -45,7 +33,7 @@ extension CameraPageViewController: UIPageViewControllerDelegate, UIPageViewCont
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         
-        guard let viewControllerIndex = orderedViewControllers.index(of: viewController) else {
+        guard let viewControllerIndex = orderedViewControllers?.index(of: viewController) else {
             return nil
         }
         
@@ -55,27 +43,27 @@ extension CameraPageViewController: UIPageViewControllerDelegate, UIPageViewCont
             return nil
         }
         
-        guard orderedViewControllers.count > previousIndex else {
+        guard (orderedViewControllers?.count)! > previousIndex else {
             return nil
         }
         
-        return orderedViewControllers[previousIndex]
+        return orderedViewControllers?[previousIndex]
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
         
-        guard let viewControllerIndex = orderedViewControllers.index(of: viewController) else {
+        guard let viewControllerIndex = orderedViewControllers?.index(of: viewController) else {
             return nil
         }
         
         let nextIndex = viewControllerIndex + 1
-        let orderedViewControllersCount = orderedViewControllers.count
+        let orderedViewControllersCount = orderedViewControllers?.count
         
         guard orderedViewControllersCount != nextIndex else {
             return nil
         }
         
-        return orderedViewControllers[nextIndex]
+        return orderedViewControllers?[nextIndex]
     }
     
 }

@@ -20,59 +20,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BMe/CameraPageViewController.swift"
-            timestampString = "502687903.581632"
+            timestampString = "502688315.824251"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "57"
-            endingLineNumber = "57"
-            landmarkName = "pageViewController(_:viewControllerBefore:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "BMe.CameraPageViewController.pageViewController (__ObjC.UIPageViewController, viewControllerBefore : __ObjC.UIViewController) -&gt; Swift.Optional&lt;__ObjC.UIViewController&gt;"
-                  moduleName = "BMe"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/satorusasozaki/Dropbox/BMe/BMe/CameraPageViewController.swift"
-                  timestampString = "502687904.725834"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "58"
-                  endingLineNumber = "58"
-                  offsetFromSymbolStart = "260">
-               </Location>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "BMe.CameraPageViewController.pageViewController (__ObjC.UIPageViewController, viewControllerBefore : __ObjC.UIViewController) -&gt; Swift.Optional&lt;__ObjC.UIViewController&gt;"
-                  moduleName = "BMe"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/satorusasozaki/Dropbox/BMe/BMe/CameraPageViewController.swift"
-                  timestampString = "502687904.727464"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "58"
-                  endingLineNumber = "58"
-                  offsetFromSymbolStart = "676">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "BMe/CameraPageViewController.swift"
-            timestampString = "502687903.581632"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "73"
-            endingLineNumber = "73"
+            startingLineNumber = "61"
+            endingLineNumber = "61"
             landmarkName = "pageViewController(_:viewControllerAfter:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -84,11 +36,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BMe/TabBarViewController.swift"
-            timestampString = "502687076.484947"
+            timestampString = "502688434.776713"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "212"
-            endingLineNumber = "212"
+            startingLineNumber = "208"
+            endingLineNumber = "208"
             landmarkName = "didTapTab(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -100,11 +52,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BMe/CameraPageViewController.swift"
-            timestampString = "502687903.581632"
+            timestampString = "502688315.824251"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "23"
-            endingLineNumber = "23"
+            startingLineNumber = "24"
+            endingLineNumber = "24"
             landmarkName = "viewDidLoad()"
             landmarkType = "7">
          </BreakpointContent>
