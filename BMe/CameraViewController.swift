@@ -89,22 +89,15 @@ class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePicker
         })
     }
     
-    // MARK: Camera hide and show
-    func hideCameraControlView() {
+    // MARK: Mode switching
+    func enterCameraMode() {
         cameraControlView.isHidden = true
-    }
-    
-    func showCameraControlView() {
-        cameraControlView.isHidden = false
-    }
-    
-    // Called when a picture is taken
-    func hideCameraView() {
-        imagePickerView?.isHidden = true
-    }
-    
-    func showCameraView() {
         imagePickerView?.isHidden = false
+    }
+    
+    func enterEditMode() {
+        imagePickerView?.isHidden = true
+        cameraControlView.isHidden = false
     }
     
     // MARK: image picker
@@ -143,8 +136,7 @@ class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePicker
         // Delegate to return the chosen image
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
             imageView.image = image
-            self.hideCameraView()
-            self.showCameraControlView()
+            enterEditMode()
         }
     }
     
@@ -194,7 +186,7 @@ class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePicker
         let testVC = storyboard.instantiateViewController(withIdentifier: "ShowImageViewController") as! ShowImageViewController
         testVC.image = newImage
         
-        let imageData = UIImageJPEGRepresentation(newImage!, 1)
+        let imageData = UIImageJPEGRepresentation(newImage!, Constants.CompressionRate.defaultRate)
 
         FIRManager.shared.postObject(object: imageData!, contentType: .image, meta: metadata!, completion: {
             print("Upload completed")
@@ -202,8 +194,7 @@ class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePicker
     }
     
     @IBAction func onCancel(_ sender: UIButton) {
-        hideCameraControlView()
-        showCameraView()
+        enterCameraMode()
     }
     
     //MARK: - Manging Textfeld methods

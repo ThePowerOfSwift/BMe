@@ -49,6 +49,8 @@ class BrowserTableViewCell: UITableViewCell {
         postContentView.layer.addSublayer(playerLayer)
         
         postImageView.backgroundColor = Styles.Color.Primary
+        postImageView.contentMode = .scaleAspectFill
+        postImageView.clipsToBounds = true
         
         headingLabel.textColor = Styles.Color.Secondary
         headingLabel.text = ""
@@ -60,7 +62,7 @@ class BrowserTableViewCell: UITableViewCell {
         avatarImageView.image = nil
         postImageView.image = nil
         postImageView.isHidden = true
-        postImageView.contentMode = .scaleAspectFit
+        postImageView.contentMode = .scaleAspectFill
         
         // Clear videos
         player.pause()
