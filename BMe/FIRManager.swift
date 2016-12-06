@@ -324,7 +324,7 @@ extension UIImageView {
             let busyIndicator = UIActivityIndicatorView(frame: self.bounds)
             self.addSubview(busyIndicator)
             busyIndicator.startAnimating()
-
+            
             task.observe(.progress, handler: { (snapshot: FIRStorageTaskSnapshot) in
                 if let progress = snapshot.progress {
                     let completed: CGFloat = CGFloat(progress.completedUnitCount) / CGFloat(progress.totalUnitCount)
