@@ -226,6 +226,7 @@
 			children = (
 				78469A5D1DE3958100A40D53 /* LoginViewController.swift */,
 				E35AC4881DE4D75C00FCB0D0 /* BrowseViewController.swift */,
+				783008A01DE3B9A000B070D4 /* MediaSelectorViewController.swift */,
 				785E87C71DED4C4F00C9FF59 /* VideoComposerViewController.swift */,
 				78C350461DF232AF005E8331 /* UserProfileViewController.swift */,
 				781E714F1DF4E52A00041855 /* YelpViewController.swift */,
@@ -306,7 +307,6 @@
 			isa = PBXGroup;
 			children = (
 				7830089D1DE3B9A000B070D4 /* VideoComposition.swift */,
-				783008A01DE3B9A000B070D4 /* MediaSelectorViewController.swift */,
 				7821C3B91DEF10F60023B95E /* TimeLapseBuilder.swift */,
 				78CDA0A01DE5311F00ABC5E1 /* Examples */,
 				786727DA1DE3ADDC0059AEC7 /* ViewControllers */,
