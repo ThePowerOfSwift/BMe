@@ -113,10 +113,22 @@ extension AVURLAsset {
 extension UIImage {
     override open var description: String {
         let data = UIImageJPEGRepresentation(self, 1.0)
+        let orientation: String
+        switch self.imageOrientation {
+        case .up: orientation = "up- default orientation"
+        case .down: orientation = "down- 180 deg rotation"
+        case .left: orientation = "left- 90 deg CCW"
+        case .right: orientation = "right- 90 deg CW"
+        case .upMirrored: orientation = "upMirrored- as above but image mirrored along other axis. horizontal flip"
+        case .downMirrored: orientation = "downMirrored- horizontal flip"
+        case .leftMirrored: orientation = "leftMirrored- vertical flip"
+        case .rightMirrored: orientation = "rightMirrored- vertical flip"
+        }
+        
         return "Image info:" +
         "\t filesize: \(Float(data!.count)/(1024*1024))" +
         "\t Image size \(self.size)" +
-        "\t Orientation \(self.imageOrientation.rawValue)"
+        "\t Orientation \(orientation)"
     }
 }
 /*

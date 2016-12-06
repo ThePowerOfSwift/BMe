@@ -71,7 +71,8 @@ class MediaSelectorViewController: UIViewController, UICollectionViewDataSource,
         // Get assets from album
         let options = PHFetchOptions()
         options.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
-        phAssets = PHAsset.fetchAssets(with: options)
+//        phAssets = PHAsset.fetchAssets(with: options)
+        phAssets = PHAsset.fetchAssets(with: .video, options: options)
         
         // Setup banner
         bannerView.backgroundColor = Styles.Color.Primary
@@ -256,7 +257,7 @@ class MediaSelectorViewController: UIViewController, UICollectionViewDataSource,
     }
     
 // MARK: - Methods
-    
+    /*  TESTING FOR TIMELAPSE BUILDER
     func next() {
         // Generate selected assets
         var selectedAssets: [PHAsset] = []
@@ -279,10 +280,6 @@ class MediaSelectorViewController: UIViewController, UICollectionViewDataSource,
                     let image = UIImage(data: data!)
                     
                     
-                })
-                /*
-                imgManager.requestImage(for: phAsset, targetSize: CGSize.portrait, contentMode: .aspectFit, options: options, resultHandler: { (image: UIImage?, info: [AnyHashable : Any]?) in
-                    
                     // Take URL and convert to video
                     let newURL = AppDelegate.urlForNewDocumentFile(named: "temptestvid.mp4")
                     let videoBuilder = TimeLapseBuilder(image: image!, videoOutputURL: newURL)
@@ -295,24 +292,26 @@ class MediaSelectorViewController: UIViewController, UICollectionViewDataSource,
                         }
                         
                         // Store result here
+
                         print("Opening video rendered to: \(url?.path)")
-                        let avplayer = AVPlayerViewController()
-                        let player = AVPlayer(url: url!)
-                        avplayer.player = player
-                        self.present(avplayer, animated: true, completion: {
-                            avplayer.player?.play()
+//                        FIRManager.shared.putObjectOnStorage(url: url!, contentType: .video, completion: { (metadata, error) in
+                            let avplayer = AVPlayerViewController()
+                            let player = AVPlayer(url: url!)
+                        
+                            avplayer.player = player
+                            self.present(avplayer, animated: true, completion: {
+                                avplayer.player?.play()
+//                            })
                         })
                     })
-                })*/
-                
-                //Display the videos
+                })
                 
                 break
             }
             
         }
-    }
-    /*
+    }*/
+
     func next() {
         let destination = UIStoryboard.init(name: Constants.SegueID.Storyboard.VideoComposer, bundle: nil).instantiateViewController(withIdentifier: Constants.SegueID.ViewController.VideoComposerViewController) as! VideoComposerViewController
         
@@ -332,8 +331,8 @@ class MediaSelectorViewController: UIViewController, UICollectionViewDataSource,
         
         present(destination, animated: true, completion: nil)
     }
- */
 
+    
 // MARK: - Scrollview delegate methods
     //Aspect Ratio: bannerViewAspectRatio.multiplier
 //    var lastContentOffset: CGPoint?

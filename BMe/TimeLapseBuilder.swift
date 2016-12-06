@@ -14,7 +14,7 @@ let kFailedToStartAssetWriterError = 0
 let kFailedToAppendPixelBufferError = 1
 
 class TimeLapseBuilder: NSObject {
-    let image: UIImage
+    var image: UIImage
     let videoOutputURL:URL
     var videoWriter: AVAssetWriter?
     
@@ -24,10 +24,6 @@ class TimeLapseBuilder: NSObject {
     }
     
     func build(progress: @escaping ((Progress) -> Void), completion: @escaping ((URL?, Error?) -> Void)) {
-//        let inputSize = CGSize(width: 3264, height: 2448)
-        let inputSize = self.image.size
-        let outputSize = CGSize(width: 3264, height: 2448)
-        var error: NSError?
         
         // Delete any existing at output URL
         if(FileManager.default.fileExists(atPath: videoOutputURL.path)) {
@@ -38,6 +34,16 @@ class TimeLapseBuilder: NSObject {
             }
         }
         
+        print("TimeLapse building for image: \(self.image.description)")
+        print("... against screen: \(UIScreen.main.bounds)")
+        
+        let inputSize = self.image.size
+        
+        // Keep scale of image, or it will stretch
+        // Assumed input will be landscape as well 4:3
+        let outputSize = CGSize(width: 1440, height: 1080)
+
+        var error: NSError?
         var videoWriter:AVAssetWriter?
         do {
             try
@@ -56,6 +62,36 @@ class TimeLapseBuilder: NSObject {
             
             let videoWriterInput = AVAssetWriterInput(mediaType: AVMediaTypeVideo, outputSettings: videoSettings)
             
+            var transform = videoWriterInput.transform
+            switch transform.orientation() {
+            case .landscapeRight:
+            // Rotate right 90 degrees
+                print("right")
+            transform = CGAffineTransform(translationX: outputSize.height, y: 0.0)
+            transform = transform.rotated(by: CGFloat(M_PI) / CGFloat(2.0))
+            case .portrait:
+            // Maintain original transform to portrait
+                print("portrait")
+            break
+            case .landscapeLeft:
+                print("left")
+            // Rotate right 270 degrees
+            transform = CGAffineTransform(translationX: 0.0, y: outputSize.width)
+            transform = transform.rotated(by: CGFloat(3.0 * M_PI) / CGFloat(2.0))
+            case .portraitUpsideDown: // Orientation: upside down
+                print("upside down")
+                // Maintain original transform to upside down
+            break
+            case .unknown:
+            // Maintain original transform
+            break
+            }
+            
+            // Set
+            videoWriterInput.transform = transform
+        
+
+        
             let sourcePixelBufferAttributes: [String : Any] = [
                 kCVPixelBufferPixelFormatTypeKey as String : Int(kCVPixelFormatType_32ARGB),
                 kCVPixelBufferWidthKey as String : Float(inputSize.width),
@@ -94,6 +130,7 @@ class TimeLapseBuilder: NSObject {
                                 userInfo: ["description": "AVAssetWriterInputPixelBufferAdapter failed to append pixel buffer",
                                            "rawError": videoWriter.error != nil ? "\(videoWriter.error)" : "(none)"])
                             // Breaks and moves to next image
+                            break
                         }
                         
                         // Duration
@@ -102,7 +139,6 @@ class TimeLapseBuilder: NSObject {
                         currentProgress.completedUnitCount = frameCount
                         progress(currentProgress)
                     }
-                    
                     videoWriterInput.markAsFinished()
                     videoWriter.finishWriting {
                         if error == nil {
@@ -130,7 +166,7 @@ class TimeLapseBuilder: NSObject {
         
         autoreleasepool {
             
-//            if let image = resizeImage(image: image, newWidth: 3264) {
+//            if let image = resizeImage(image: image, newWidth: 1440) {
                 let pixelBuffer: UnsafeMutablePointer<CVPixelBuffer?> = UnsafeMutablePointer<CVPixelBuffer?>.allocate(capacity: 1)
                 let status: CVReturn = CVPixelBufferPoolCreatePixelBuffer(
                     kCFAllocatorDefault,
@@ -150,7 +186,6 @@ class TimeLapseBuilder: NSObject {
                     print("Error: Failed to allocate pixel buffer from pool")
                 }
 //            }
-            
         }
         return appendSucceeded
     }
@@ -180,8 +215,8 @@ class TimeLapseBuilder: NSObject {
     
     // TODO: - IS THIS NEEDED? why the resize?
     private func resizeImage(image: UIImage, newWidth: CGFloat) -> UIImage? {
-//        let scale = newWidth / image.size.width
-        let newHeight = CGFloat(2448)//image.size.height * scale
+        let scale = newWidth / image.size.width
+        let newHeight = image.size.height * scale
         print("image width: \(image.size.width) -> new width \(newWidth)")
         print("image height: \(image.size.height) -> new height \(newHeight)")
 
@@ -191,5 +226,28 @@ class TimeLapseBuilder: NSObject {
         UIGraphicsEndImageContext()
         
         return newImage
+        /* REMOVE ORIENTATION FROM IMAGE
+        if (image.imageOrientation == UIImageOrientation.up) { return image }
+        
+        UIGraphicsBeginImageContextWithOptions(image.size, false, image.scale);
+        image.draw(in: CGRect(origin: CGPoint(x: 0, y: 0), size: image.size))
+        
+        let normalizedImage =  UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        return normalizedImage;
+        */
     }
+    
+    private func removeImageOrientation(_ image:UIImage) -> UIImage {
+        if (image.imageOrientation == UIImageOrientation.up) { return image }
+        
+        UIGraphicsBeginImageContextWithOptions(image.size, false, image.scale);
+        image.draw(in: CGRect(origin: CGPoint(x: 0, y: 0), size: image.size))
+        
+        let normalizedImage =  UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        return normalizedImage! as UIImage;
+    }
+ 
+    
 }
