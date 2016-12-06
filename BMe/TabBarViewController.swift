@@ -10,11 +10,8 @@ import UIKit
 import FontAwesome_swift
 import QuartzCore
 
-@objc protocol TabBarDelegate {
-    @objc optional func takePicture()
-}
 
-class TabBarViewController: UIViewController {
+class TabBarViewController: UIViewController, CameraPageDelegate {
 
     @IBOutlet weak var contentView: UIView!
     @IBOutlet var tabs: [UIButton]!
@@ -37,6 +34,12 @@ class TabBarViewController: UIViewController {
     // detect if it is just after app started. if so, don't enable camera button to take picture
     var isInitialStartup: Bool = true
     
+    // title labels
+    @IBOutlet weak var cameraTitleLabel: UILabel!
+    @IBOutlet weak var composeTitleLabel: UILabel!
+    @IBOutlet weak var leftConstraint: NSLayoutConstraint!
+    @IBOutlet weak var rightConstraint: NSLayoutConstraint!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -44,22 +47,18 @@ class TabBarViewController: UIViewController {
         browseViewController = UIStoryboard(name: "Browser", bundle: nil).instantiateInitialViewController()
         addChildViewController(browseViewController)
 
-        // Create view controller
+        // Create view controller which will be in camera page view controller
         let createStoryboard = UIStoryboard(name: VideoComposition.StoryboardKey.ID, bundle: nil)
         createViewController = createStoryboard.instantiateViewController(withIdentifier: VideoComposition.StoryboardKey.mediaSelectorNavigationController) as! UINavigationController
-        //addChildViewController(createViewController)
 
-        // Camera view controller
+        // Camera view controller which will be in camera page view controller
         cameraNavigationController = UIStoryboard(name: "Camera", bundle: nil).instantiateInitialViewController() as! UINavigationController
         cameraViewController = cameraNavigationController.viewControllers[0] as! CameraViewController
-        //cameraViewController.cameraButton = tabs[1] //not passing the copy but reference
-        //addChildViewController(cameraViewController)
         
         // Camera page view controller
         cameraPageViewController = UIStoryboard(name: "Camera", bundle: nil).instantiateViewController(withIdentifier: "CameraPageViewController") as! CameraPageViewController
         cameraPageViewController.orderedViewControllers = [cameraViewController, createViewController]
-
-        
+        //cameraPageViewController.orderedViewControllers = [cameraNavigationController, createViewController]
         addChildViewController(cameraPageViewController)
         
         // Account view controller
@@ -67,7 +66,7 @@ class TabBarViewController: UIViewController {
         addChildViewController(accountViewController)
         
         // Init with view controllers
-        viewControllers = [browseViewController, cameraPageViewController, createViewController, accountViewController]
+        viewControllers = [browseViewController, cameraPageViewController, accountViewController]
 
         setupTabs()
         layoutTabs()
@@ -76,24 +75,28 @@ class TabBarViewController: UIViewController {
         tabs[selectedIndex].isSelected = true
         didTapTab(tabs[selectedIndex])
         isInitialStartup = false
-        for i in 0...tabs.count-1 {
-            if tabs[i].isSelected {
-                tabs[i].imageView?.tintColor = Styles.Color.Primary
-            } else {
-                tabs[i].imageView?.tintColor = Styles.Color.Secondary
-            }
-        }
-
+        
+        // title text animateion
+        cameraPageViewController.cameraPageDelegate = self
     }
     
-    // MARK: Tab Setups
+    // MARK: title text for camera and compose vc
+    func animatePhotoToCenter(offset: CGFloat) {
+        leftConstraint.constant -= abs(offset) * 30/375
+        
+    }
     
+    func animateComposeToCenter(offset: CGFloat) {
+        rightConstraint.constant -= abs(offset) * 30/375
+    }
+    
+    
+    // MARK: Tab Setups
     // Call setupButtons(imageName, tabIndex) to setup tabs
     func setupTabs() {
         setupTab(imageName: Constants.Images.home, tabIndex: 0)
         setupTab(imageName: Constants.Images.circle, tabIndex: 1)
-        setupTab(imageName: "food", tabIndex: 2)
-        setupTab(imageName: "account", tabIndex: 3)
+        setupTab(imageName: "account", tabIndex: 2)
     }
     
     // Set icon image at index
@@ -115,12 +118,11 @@ class TabBarViewController: UIViewController {
         layoutTab(index: 0, w: unselectedTabSize, h: unselectedTabSize)
         layoutTab(index: 1, w: unselectedTabSize, h: unselectedTabSize)
         layoutTab(index: 2, w: unselectedTabSize, h: unselectedTabSize)
-        layoutTab(index: 3, w: unselectedTabSize, h: unselectedTabSize)
     }
     
     func layoutTab(index: Int, w: Double, h: Double) {
-        // Get the width of each "box" by dividing view by 4
-        let boxWidth: Double = Double(view.frame.width) / 4
+        // Get the width of each "box" by dividing view by 3
+        let boxWidth: Double = Double(view.frame.width) / Double(tabs.count)
         // Get the center offset in box
         let centerOffset: Double = boxWidth / 2
         let y: Double = Double(view.frame.height) - unselectedTabSize
@@ -168,7 +170,6 @@ class TabBarViewController: UIViewController {
                     case 1:
                         whiteButton = UIImage(named: Constants.Images.circle)
     //                case 2:
-    //                case 3:
                     default:
                         break
                 }
@@ -182,7 +183,6 @@ class TabBarViewController: UIViewController {
                     case 1:
                         yellowButton = UIImage(named: Constants.Images.circleYellow)
     //                case 2:
-    //                case 3:
                     default:
                         break
                 }

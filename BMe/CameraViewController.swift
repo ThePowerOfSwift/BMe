@@ -54,6 +54,9 @@ class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePicker
     var isCameraMode: Bool?
     var isEditingMode: Bool?
     
+    // Title
+    var titleLabel: UILabel?
+    
     //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,8 +64,6 @@ class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePicker
         // Do any additional setup after loading the view.
         let tap = UITapGestureRecognizer(target: self, action: #selector(tappedCamerView(_:)))
         cameraControlView.addGestureRecognizer(tap)
-        
-        navigationController?.navigationBar.isHidden = true
         
         metadata = ["missing metadata" : "you didn't add metadata for this pic, bitch!" as Optional<AnyObject>]
         

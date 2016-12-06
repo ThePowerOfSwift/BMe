@@ -8,25 +8,44 @@
 
 import UIKit
 
+@objc protocol CameraPageDelegate {
+    @objc optional func animatePhotoToCenter(offset: CGFloat)
+    @objc optional func animateComposeToCenter(offset: CGFloat)
+}
+
 class CameraPageViewController: UIPageViewController {
     
     var orderedViewControllers: [UIViewController]?
+    var cameraViewController: CameraViewController?
     
+    var cameraPageDelegate: CameraPageDelegate?
+    var lastContentOffset: CGFloat = 0
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
         dataSource = self
         
+        
         if let firstViewController = orderedViewControllers?
             .first {
+            cameraViewController = firstViewController as? CameraViewController
+
             setViewControllers([firstViewController],
-                               direction: .forward,
+                               direction: .reverse,
                                animated: true,
                                completion: nil)
         }
+
+        // Scroll view delegate
+        for view in self.view.subviews{
+            if view is UIScrollView {
+                (view as! UIScrollView).delegate = self
+            }
+        }
+
     }
-
-
+    
 }
 
 extension CameraPageViewController: UIPageViewControllerDelegate, UIPageViewControllerDataSource {
@@ -46,7 +65,7 @@ extension CameraPageViewController: UIPageViewControllerDelegate, UIPageViewCont
         guard (orderedViewControllers?.count)! > previousIndex else {
             return nil
         }
-        
+        print("in viewControllerBefore")
         return orderedViewControllers?[previousIndex]
     }
     
@@ -62,9 +81,35 @@ extension CameraPageViewController: UIPageViewControllerDelegate, UIPageViewCont
         guard orderedViewControllersCount != nextIndex else {
             return nil
         }
-        
         return orderedViewControllers?[nextIndex]
     }
     
+}
+
+extension CameraPageViewController: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        //print("self.lastContentOffset: \(self.lastContentOffset)")
+        if (self.lastContentOffset > scrollView.contentOffset.x) {
+            let offset = scrollView.contentOffset.x - self.lastContentOffset
+            //print("Moving right. contentOffset.x: \(scrollView.contentOffset.x)\t real offset: \(offset)")
+            cameraPageDelegate?.animatePhotoToCenter!(offset: offset)
+            
+            
+        }
+        else if (self.lastContentOffset < scrollView.contentOffset.x) {
+            let offset = scrollView.contentOffset.x - self.lastContentOffset
+            //print("Moving left. contentOffset.x: \(scrollView.contentOffset.x)\t real offset: \(offset)")
+//            print("Moving left. contentOffset.x: \(scrollView.contentOffset.x)")
+//            let offset = originalXposition - self.lastContentOffset
+//            print("new offset: \(offset)")
+//            let newXposition = scrollView.contentOffset.x - originalXposition
+//            print("new x position: \(newXposition)")
+//            cameraViewController!.titleLabel!.center = CGPoint(x: newXposition, y: originalYposition)
+            cameraPageDelegate?.animateComposeToCenter!(offset: offset)
+        }
+        
+        // update the new position acquired
+        self.lastContentOffset = scrollView.contentOffset.x
+    }
 }
 
