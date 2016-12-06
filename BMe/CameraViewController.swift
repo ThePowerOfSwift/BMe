@@ -10,6 +10,7 @@ import UIKit
 import MobileCoreServices
 import AVFoundation
 import FontAwesome_swift
+import Photos
 
 class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, LocationButtonDelegate {
     
@@ -33,6 +34,10 @@ class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePicker
                 }
             }
             return textFields
+        }
+        
+        set {
+            // Empty set is needed to remove all items
         }
     }
     
@@ -139,7 +144,6 @@ class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePicker
         
         imagePickerView = imagePicker?.view
         view.addSubview((imagePicker?.view)!)
-
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
@@ -183,7 +187,7 @@ class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePicker
             textNSString.draw(in: rect, withAttributes: textFontAttributes)
             
         }
-
+        
         let newImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
@@ -191,23 +195,53 @@ class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePicker
     }
     
     @IBAction func onUpload(_ sender: UIButton) {
-        let newImage = add(textFields: textFields, to: imageView.image!)
+        print("update button tapped.")
+        var newImage = imageView.image
+        if textFields.count > 0 {
+            newImage = add(textFields: textFields, to: imageView.image!)
+        }
         let storyboard = UIStoryboard(name: "Camera", bundle: nil)
         let testVC = storyboard.instantiateViewController(withIdentifier: "ShowImageViewController") as! ShowImageViewController
         testVC.image = newImage
         
         // Write the image to camera roll
-        UIImageWriteToSavedPhotosAlbum(newImage!, nil, nil, nil)
-        
-        // Convert image to JPEG with 0.5 compression quality
-        let imageData = UIImageJPEGRepresentation(newImage!, Constants.CompressionRate.defaultRate)
+//        UIImageWriteToSavedPhotosAlbum(newImage!, nil, nil, nil)
 
-        FIRManager.shared.postObject(object: imageData!, contentType: .image, meta: metadata!, completion: {
-            print("Upload completed")
+        var localID: String!
+        PHPhotoLibrary.shared().performChanges({
+            let creationRequest = PHAssetChangeRequest.creationRequestForAsset(from: newImage!)
+            localID = (creationRequest.placeholderForCreatedAsset?.localIdentifier)!
+        }, completionHandler: { (success, error) in
+            let phAssets = PHAsset.fetchAssets(withLocalIdentifiers: [localID], options: nil)
+            let imageSize = newImage?.size
+            let scale: CGFloat = 0.2
+            let targetSize = CGSize(width: imageSize!.width * scale, height: imageSize!.height * scale)
+            
+            let options = PHImageRequestOptions()
+            options.isSynchronous = true
+            PHImageManager.default().requestImage(for: phAssets.firstObject!, targetSize: targetSize, contentMode: .aspectFit, options: options, resultHandler: { (image, info) in
+                // use image
+                // Convert image to JPEG with 0.5 compression quality
+                let imageData = UIImageJPEGRepresentation(image!, Constants.CompressionRate.defaultRate)
+                print("image size: \(imageData!.count)")
+                FIRManager.shared.postObject(object: imageData!, contentType: .image, meta: self.metadata!, completion: {
+                    print("Upload completed")
+                    self.removeAllItems()
+                    self.enterCameraMode()
+                })
+            })
         })
     }
     
+    func removeAllItems() {
+        //textFields.removeAll() not working
+        textFields = [UITextField]()
+        metadata?.removeAll()
+        imageView.image = nil
+    }
+    
     @IBAction func onCancel(_ sender: UIButton) {
+        removeAllItems()
         enterCameraMode()
     }
     
