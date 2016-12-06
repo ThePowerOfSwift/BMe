@@ -204,9 +204,8 @@ class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePicker
         let testVC = storyboard.instantiateViewController(withIdentifier: "ShowImageViewController") as! ShowImageViewController
         testVC.image = newImage
         
-        // Write the image to camera roll
-//        UIImageWriteToSavedPhotosAlbum(newImage!, nil, nil, nil)
-
+        
+        // Resize the image
         var localID: String!
         PHPhotoLibrary.shared().performChanges({
             let creationRequest = PHAssetChangeRequest.creationRequestForAsset(from: newImage!)
@@ -214,15 +213,15 @@ class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePicker
         }, completionHandler: { (success, error) in
             let phAssets = PHAsset.fetchAssets(withLocalIdentifiers: [localID], options: nil)
             let imageSize = newImage?.size
-            let scale: CGFloat = 0.2
+            let scale: CGFloat = Constants.ImageComparessionAndResizingRate.resizingScale
             let targetSize = CGSize(width: imageSize!.width * scale, height: imageSize!.height * scale)
             
             let options = PHImageRequestOptions()
             options.isSynchronous = true
             PHImageManager.default().requestImage(for: phAssets.firstObject!, targetSize: targetSize, contentMode: .aspectFit, options: options, resultHandler: { (image, info) in
                 // use image
-                // Convert image to JPEG with 0.5 compression quality
-                let imageData = UIImageJPEGRepresentation(image!, Constants.CompressionRate.defaultRate)
+                // Convert image to JPEG with specified compression quality
+                let imageData = UIImageJPEGRepresentation(image!, Constants.ImageComparessionAndResizingRate.compressionRate)
                 print("image size: \(imageData!.count)")
                 FIRManager.shared.postObject(object: imageData!, contentType: .image, meta: self.metadata!, completion: {
                     print("Upload completed")
@@ -233,13 +232,22 @@ class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePicker
         })
     }
     
+    // MARK: Removing
+    func removeTextfieldFromSubbiew() {
+        for view in cameraControlView.subviews {
+            if let textField = view as? UITextField {
+                textField.removeFromSuperview()
+            }
+        }
+    }
+    
     func removeAllItems() {
-        //textFields.removeAll() not working
-        textFields = [UITextField]()
+        removeTextfieldFromSubbiew()
         metadata?.removeAll()
         imageView.image = nil
     }
     
+    // MARK: Button Actionss
     @IBAction func onCancel(_ sender: UIButton) {
         removeAllItems()
         enterCameraMode()

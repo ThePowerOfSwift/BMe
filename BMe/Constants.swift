@@ -64,8 +64,9 @@ struct Constants {
         static let userYellow = "user-yellow.png"
     }
     
-    struct CompressionRate {
-        static let defaultRate: CGFloat = 0.005
+    struct ImageComparessionAndResizingRate {
+        static let compressionRate: CGFloat = 0.005
+        static let resizingScale: CGFloat = 0.2
     }
 }
 
