@@ -124,7 +124,7 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
 
         // TODO: - should use
         // avatarImageView.loadImageFromGS(with: <#T##FIRStorageReference#>, placeholderImage: <#T##UIImage?#>)
-        
+        avatarImageView.image = pickedImage
         let busyIndicator = UIActivityIndicatorView(frame: avatarImageView.bounds)
         avatarImageView.addSubview(busyIndicator)
         busyIndicator.startAnimating()
@@ -135,7 +135,7 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
 
         // Upload image as user profile pic
         // TODO: - Should move this to User.setAvatarImage()
-        if let imageData = UIImageJPEGRepresentation(pickedImage, 1) {
+        if let imageData = UIImageJPEGRepresentation(pickedImage, Constants.CompressionRate.defaultRate) {
             FIRManager.shared.putObjectOnStorage(data: imageData, contentType: .image, completion: { (meta, error) in
                 if let error = error {
                     print("Error uploading profile image to Storage: \(error.localizedDescription)")
@@ -152,7 +152,6 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
         
                     // Update user profile and change avatar
                     self.user.avatarURL = URL(string: (meta?.gsURL)!)
-                    self.avatarImageView.image = pickedImage
                 }
                 finish()
             })

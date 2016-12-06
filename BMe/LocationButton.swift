@@ -14,7 +14,7 @@ import UIKit
 }
 class LocationButton: UIButton, YelpViewControllerDelegate {
 
-    let yelpVC = UIStoryboard(name: Constants.SegueID.Storyboard.Yelp, bundle: nil).instantiateInitialViewController() as! YelpViewController
+    var yelpVC: YelpViewController?
     weak var delegate: LocationButtonDelegate?
     
     required init?(coder aDecoder: NSCoder) {
@@ -24,12 +24,15 @@ class LocationButton: UIButton, YelpViewControllerDelegate {
     
     func setup() {
         changeImageDefault()
-        yelpVC.delegate = self
+        yelpVC?.delegate = self
         addTarget(self, action: #selector(tappedButton(_:)), for: UIControlEvents.touchUpInside)
     }
     
     func tappedButton(_ sender: UIButton) {
-        delegate?.locationButton?(yelpVC, animated: true, completion: nil)
+        yelpVC = UIStoryboard(name: Constants.SegueID.Storyboard.Yelp, bundle: nil).instantiateInitialViewController() as? YelpViewController
+        yelpVC?.delegate = self
+
+        delegate?.locationButton?(yelpVC!, animated: true, completion: nil)
     }
 
     func changeImageDefault() {
