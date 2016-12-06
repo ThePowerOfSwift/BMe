@@ -137,7 +137,7 @@ class FIRManager: NSObject {
             default:
                 break
             }
-            
+            print("About to post with JSON \(jsonObject)")
             self.putObjectOnDatabase(named: contentType.objectKey(), data: jsonObject, completion: { (ref, error) in
                 if let error = error {
                     print("Error putting \(contentType.objectKey()) on Database, aborting \(error.localizedDescription)")
