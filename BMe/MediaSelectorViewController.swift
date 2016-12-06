@@ -19,11 +19,11 @@ class MediaSelectorViewController: UIViewController, UICollectionViewDataSource,
     @IBOutlet weak var bannerView: UIView!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var imageView : UIImageView!
-    @IBOutlet weak var nextButton: UIButton!
+    @IBOutlet weak var nextButton: NextButton!
     @IBOutlet weak var musicButton: UIButton!
     @IBOutlet weak var locationButton: LocationButton!
     
-    @IBAction func nextButtonTapped(_ sender: UIBarButtonItem) {
+    @IBAction func nextButtonTapped(_ sender: NextButton!) {
         next()
     }
     
@@ -59,6 +59,7 @@ class MediaSelectorViewController: UIViewController, UICollectionViewDataSource,
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        navigationController?.isNavigationBarHidden = true
         nextButton.isEnabled = false
         // Prevent empty header space at top of collection view
         automaticallyAdjustsScrollViewInsets = false
@@ -313,6 +314,7 @@ class MediaSelectorViewController: UIViewController, UICollectionViewDataSource,
     }*/
 
     func next() {
+        print("next")
         let destination = UIStoryboard.init(name: Constants.SegueID.Storyboard.VideoComposer, bundle: nil).instantiateViewController(withIdentifier: Constants.SegueID.ViewController.VideoComposerViewController) as! VideoComposerViewController
         
         // Generate selected assets

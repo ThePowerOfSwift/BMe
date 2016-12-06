@@ -35,12 +35,14 @@ class LocationButton: UIButton, YelpViewControllerDelegate {
         delegate?.locationButton?(yelpVC!, animated: true, completion: nil)
     }
 
+    // TODO: - change to "setImageDefault"
     func changeImageDefault() {
         let defaultImage = UIImage(named: Constants.Images.location)
         setImage(defaultImage, for: UIControlState.normal)
         
     }
     
+    // TODO: - change to "setImageYellow"
     func changeImageHighlighted() {
         let highlightedImage = UIImage(named: Constants.Images.locationYellow)
         setImage(highlightedImage, for: UIControlState.normal)

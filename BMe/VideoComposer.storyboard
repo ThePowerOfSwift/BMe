@@ -23,7 +23,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="mZ5-7q-adD">
-                                <rect key="frame" x="0.0" y="366" width="375" height="301"/>
+                                <rect key="frame" x="0.0" y="322" width="375" height="345"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="9Yr-Mp-pba">
                                     <size key="itemSize" width="124" height="124"/>
@@ -66,7 +66,7 @@
                                 </cells>
                             </collectionView>
                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hfT-ob-Ahb">
-                                <rect key="frame" x="0.0" y="64" width="375" height="300"/>
+                                <rect key="frame" x="0.0" y="20" width="375" height="300"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="0of-KT-rNN">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="300"/>
@@ -81,8 +81,19 @@
                                     <constraint firstAttribute="bottom" secondItem="0of-KT-rNN" secondAttribute="bottom" id="zVC-4B-3Uk"/>
                                 </constraints>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EsA-2h-ZbW" customClass="NextButton" customModule="BMe" customModuleProvider="target">
+                                <rect key="frame" x="315.5" y="40" width="30" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="EsA-2h-ZbW" secondAttribute="height" multiplier="1:1" id="4UT-Vs-o1v"/>
+                                    <constraint firstAttribute="width" constant="30" id="rav-LM-Zp8"/>
+                                </constraints>
+                                <state key="normal" title="Button" image="nextarrow.png"/>
+                                <connections>
+                                    <action selector="nextButtonTapped:" destination="3fZ-tr-3dp" eventType="touchUpInside" id="fSY-ZG-XmL"/>
+                                </connections>
+                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iYl-2f-C5x">
-                                <rect key="frame" x="305" y="84" width="50" height="50"/>
+                                <rect key="frame" x="305" y="90" width="50" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="50" id="Ouk-gE-63d"/>
                                     <constraint firstAttribute="width" secondItem="iYl-2f-C5x" secondAttribute="height" multiplier="1:1" id="qYB-7C-xKf"/>
@@ -93,7 +104,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6Ny-BJ-auh" customClass="LocationButton" customModule="BMe" customModuleProvider="target">
-                                <rect key="frame" x="305" y="154" width="50" height="50"/>
+                                <rect key="frame" x="305" y="160" width="50" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="6Ny-BJ-auh" secondAttribute="height" multiplier="1:1" id="a2Y-IQ-iwR"/>
                                     <constraint firstAttribute="width" constant="50" id="nye-rM-f3L"/>
@@ -104,24 +115,22 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="hfT-ob-Ahb" firstAttribute="leading" secondItem="bpP-B1-22T" secondAttribute="leading" id="1X7-Wj-qqe"/>
+                            <constraint firstItem="EsA-2h-ZbW" firstAttribute="centerX" secondItem="iYl-2f-C5x" secondAttribute="centerX" id="5zF-8p-tA1"/>
                             <constraint firstAttribute="trailing" secondItem="iYl-2f-C5x" secondAttribute="trailing" constant="20" id="7JE-Bn-YiT"/>
                             <constraint firstAttribute="trailing" secondItem="6Ny-BJ-auh" secondAttribute="trailing" constant="20" id="8Vx-Se-7JD"/>
+                            <constraint firstItem="EsA-2h-ZbW" firstAttribute="top" secondItem="Uaq-G6-0Mu" secondAttribute="bottom" constant="20" id="Pcw-Ij-p7n"/>
                             <constraint firstItem="BQU-xO-UUs" firstAttribute="top" secondItem="mZ5-7q-adD" secondAttribute="bottom" id="Tda-1k-Rc7"/>
                             <constraint firstItem="mZ5-7q-adD" firstAttribute="top" secondItem="hfT-ob-Ahb" secondAttribute="bottom" constant="2" id="cCn-3Y-Etc"/>
+                            <constraint firstItem="iYl-2f-C5x" firstAttribute="top" secondItem="EsA-2h-ZbW" secondAttribute="bottom" constant="20" id="dK3-Z8-2Mw"/>
                             <constraint firstItem="hfT-ob-Ahb" firstAttribute="top" secondItem="Uaq-G6-0Mu" secondAttribute="bottom" id="fhy-Rr-dXN"/>
                             <constraint firstItem="mZ5-7q-adD" firstAttribute="leading" secondItem="bpP-B1-22T" secondAttribute="leading" id="gm6-lJ-nB6"/>
                             <constraint firstAttribute="trailing" secondItem="hfT-ob-Ahb" secondAttribute="trailing" id="hi6-rw-Uf7"/>
                             <constraint firstAttribute="trailing" secondItem="mZ5-7q-adD" secondAttribute="trailing" id="vRd-BG-eWJ"/>
-                            <constraint firstItem="iYl-2f-C5x" firstAttribute="top" secondItem="Uaq-G6-0Mu" secondAttribute="bottom" constant="20" id="wdG-zX-wpG"/>
                             <constraint firstItem="6Ny-BJ-auh" firstAttribute="top" secondItem="iYl-2f-C5x" secondAttribute="bottom" constant="20" id="ynh-eB-YRJ"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="DGo-qY-ymV">
-                        <barButtonItem key="rightBarButtonItem" title="Next" id="2At-sr-dXf">
-                            <connections>
-                                <action selector="nextButtonTapped:" destination="3fZ-tr-3dp" id="xHV-QV-kXE"/>
-                            </connections>
-                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Next" id="2At-sr-dXf"/>
                     </navigationItem>
                     <connections>
                         <outlet property="bannerView" destination="hfT-ob-Ahb" id="vmo-hZ-JGG"/>
@@ -129,7 +138,7 @@
                         <outlet property="imageView" destination="0of-KT-rNN" id="p90-Ee-mmX"/>
                         <outlet property="locationButton" destination="6Ny-BJ-auh" id="aLU-Y1-nje"/>
                         <outlet property="musicButton" destination="iYl-2f-C5x" id="6Hf-jx-BYN"/>
-                        <outlet property="nextButton" destination="2At-sr-dXf" id="cOF-UR-LqC"/>
+                        <outlet property="nextButton" destination="EsA-2h-ZbW" id="tAy-cp-XcE"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="imD-2e-5Q7" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -175,16 +184,24 @@
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kkt-bT-ObF">
-                                <rect key="frame" x="20" y="35" width="30" height="30"/>
-                                <state key="normal" title="X"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kkt-bT-ObF" customClass="CrossButton" customModule="BMe" customModuleProvider="target">
+                                <rect key="frame" x="20" y="40" width="30" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="Kkt-bT-ObF" secondAttribute="height" multiplier="1:1" id="7JO-Ya-7Q7"/>
+                                    <constraint firstAttribute="width" constant="30" id="WGz-hS-y8H"/>
+                                </constraints>
+                                <state key="normal" title="X" image="cross-yellow.png"/>
                                 <connections>
                                     <action selector="cancelButtonTapped:" destination="Sz2-XX-slY" eventType="touchUpInside" id="rBE-Is-WUQ"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I1X-Rf-kFF">
-                                <rect key="frame" x="324" y="35" width="31" height="30"/>
-                                <state key="normal" title="Post"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I1X-Rf-kFF" customClass="PostButton" customModule="BMe" customModuleProvider="target">
+                                <rect key="frame" x="325" y="40" width="30" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="30" id="d6J-ek-sS1"/>
+                                    <constraint firstAttribute="width" secondItem="I1X-Rf-kFF" secondAttribute="height" multiplier="1:1" id="icr-Le-FUk"/>
+                                </constraints>
+                                <state key="normal" title="Post" image="hook.png"/>
                                 <connections>
                                     <action selector="postButtonTapped:" destination="Sz2-XX-slY" eventType="touchUpInside" id="q5e-XY-oyp"/>
                                 </connections>
@@ -200,8 +217,8 @@
                             <constraint firstItem="gtv-gg-lCz" firstAttribute="top" secondItem="bWC-rO-Y3C" secondAttribute="bottom" id="LvF-nH-GaM"/>
                             <constraint firstAttribute="trailing" secondItem="bWC-rO-Y3C" secondAttribute="trailing" id="Tbm-Gg-d1i"/>
                             <constraint firstItem="bWC-rO-Y3C" firstAttribute="leading" secondItem="0eR-li-Xgn" secondAttribute="leading" id="Tzk-sE-no7"/>
-                            <constraint firstItem="I1X-Rf-kFF" firstAttribute="top" secondItem="0OQ-cZ-7fg" secondAttribute="bottom" constant="15" id="mub-09-0Dz"/>
-                            <constraint firstItem="Kkt-bT-ObF" firstAttribute="top" secondItem="0OQ-cZ-7fg" secondAttribute="bottom" constant="15" id="oj3-I2-QlT"/>
+                            <constraint firstItem="I1X-Rf-kFF" firstAttribute="top" secondItem="0OQ-cZ-7fg" secondAttribute="bottom" constant="20" id="mub-09-0Dz"/>
+                            <constraint firstItem="Kkt-bT-ObF" firstAttribute="top" secondItem="0OQ-cZ-7fg" secondAttribute="bottom" constant="20" id="oj3-I2-QlT"/>
                             <constraint firstItem="Kkt-bT-ObF" firstAttribute="leading" secondItem="0eR-li-Xgn" secondAttribute="leading" constant="20" id="zz8-he-Xvo"/>
                         </constraints>
                     </view>
@@ -219,9 +236,9 @@
         <!--Navigation Controller-->
         <scene sceneID="yec-MB-mgq">
             <objects>
-                <navigationController storyboardIdentifier="MediaSelectorNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="jtT-cY-Inp" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="MediaSelectorNavigationController" automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="jtT-cY-Inp" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="DBl-KK-qyV">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="DBl-KK-qyV">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -236,7 +253,10 @@
         </scene>
     </scenes>
     <resources>
+        <image name="cross-yellow.png" width="240" height="240"/>
+        <image name="hook.png" width="588" height="588"/>
         <image name="location.png" width="240" height="240"/>
+        <image name="nextarrow.png" width="240" height="240"/>
         <image name="sound-wave.png" width="240" height="240"/>
     </resources>
 </document>

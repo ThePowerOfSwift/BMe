@@ -15,7 +15,7 @@ class VideoComposerViewController: UIViewController, UICollectionViewDataSource,
     @IBOutlet weak var bannerView: UIView!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var postButton: UIButton!
-    @IBOutlet weak var cancelButton: UIButton!
+    @IBOutlet weak var cancelButton: CrossButton!
     
     //MARK: - Models
     var phAssets: [PHAsset]!
@@ -33,9 +33,12 @@ class VideoComposerViewController: UIViewController, UICollectionViewDataSource,
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        bannerView.backgroundColor = UIColor.gray
-        
         // Do any additional setup after loading the view.
+        // Hide nav
+        navigationController?.isNavigationBarHidden = true
+        bannerView.backgroundColor = UIColor.gray
+//        cancelButton.setImageYellow()
+        
         collectionView.dataSource = self
         collectionView.delegate = self
         

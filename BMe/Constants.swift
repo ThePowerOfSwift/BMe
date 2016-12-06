@@ -63,6 +63,11 @@ struct Constants {
         static let error = "error.png"
         static let user = "user-white.png"
         static let userYellow = "user-yellow.png"
+        static let hook = "hook.png"
+        static let cross = "cross-white.png"
+        static let crossYellow = "cross-yellow.png"
+        static let next = "nextarrow.png"
+        static let nextYellow = "nextarrow-yellow.png"
     }
     
     struct ImageCompressionAndResizingRate {
