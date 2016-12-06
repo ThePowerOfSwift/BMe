@@ -29,11 +29,18 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        // Hide nav bar
+        navigationController?.isNavigationBarHidden = true
+        // Add tab bar reveal
         view.addSubview(WhiteRevealOverlayView(frame: view.bounds))
 
         user = User(AppState.shared.currentUser!)
         setupAvatar()
         setupUser()
+        
+        let busy = BusyView()
+        view.addSubview(busy)
+        busy.startAnimating()
     }
     
     override func didReceiveMemoryWarning() {
@@ -67,7 +74,7 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
     func setupAvatar() {
         // Avatar
         avatarImageView.clipsToBounds = true
-        avatarImageView.layer.cornerRadius = 20
+        avatarImageView.layer.cornerRadius = Styles.Shapes.cornerRadius
         avatarImageView.layer.borderWidth = Styles.Avatar.borderWidth
         avatarImageView.layer.borderColor = Styles.Avatar.borderColor.cgColor
         avatarImageView.isUserInteractionEnabled = true

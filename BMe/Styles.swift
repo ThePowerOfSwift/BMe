@@ -36,4 +36,11 @@ struct Styles {
         static let borderWidth: CGFloat = 1.5
         static let borderColor = Color.Primary
     }
+    struct BusyIndicator {
+        static let size = CGSize(width: 100, height: 100)
+        static let duration: TimeInterval = 1.00
+    }
+    struct Shapes {
+        static let cornerRadius: CGFloat = 20.0
+    }
 }

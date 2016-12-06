@@ -56,7 +56,6 @@
 		78B56A0A1DF5FD1B00A13915 /* user-yellow.png in Resources */ = {isa = PBXBuildFile; fileRef = 78B56A081DF5FD1B00A13915 /* user-yellow.png */; };
 		78B95F8C1DF6B4EA00B6C83E /* BrowserImageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78B95F8B1DF6B4EA00B6C83E /* BrowserImageTableViewCell.swift */; };
 		78BCDF2C1DF74421002D399E /* README in Resources */ = {isa = PBXBuildFile; fileRef = 78BCDF2B1DF74421002D399E /* README */; };
-		78BCDF2E1DF745D3002D399E /* hook.png in Resources */ = {isa = PBXBuildFile; fileRef = 78BCDF2D1DF745D3002D399E /* hook.png */; };
 		78BCDF311DF7464D002D399E /* cross-white.png in Resources */ = {isa = PBXBuildFile; fileRef = 78BCDF2F1DF7464D002D399E /* cross-white.png */; };
 		78BCDF321DF7464D002D399E /* cross-yellow.png in Resources */ = {isa = PBXBuildFile; fileRef = 78BCDF301DF7464D002D399E /* cross-yellow.png */; };
 		78BCDF341DF74663002D399E /* CrossButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78BCDF331DF74663002D399E /* CrossButton.swift */; };
@@ -64,6 +63,12 @@
 		78BCDF391DF74A15002D399E /* NextButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78BCDF381DF74A15002D399E /* NextButton.swift */; };
 		78BCDF3C1DF74ABC002D399E /* nextarrow-yellow.png in Resources */ = {isa = PBXBuildFile; fileRef = 78BCDF3A1DF74ABC002D399E /* nextarrow-yellow.png */; };
 		78BCDF3D1DF74ABC002D399E /* nextarrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 78BCDF3B1DF74ABC002D399E /* nextarrow.png */; };
+		78BCDF3F1DF751E8002D399E /* BusyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78BCDF3E1DF751E8002D399E /* BusyView.swift */; };
+		78BCDF411DF75204002D399E /* BusyView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 78BCDF401DF75204002D399E /* BusyView.xib */; };
+		78BCDF431DF752F9002D399E /* hook-black.png in Resources */ = {isa = PBXBuildFile; fileRef = 78BCDF421DF752F9002D399E /* hook-black.png */; };
+		78BCDF461DF75D16002D399E /* hook-yellow.png in Resources */ = {isa = PBXBuildFile; fileRef = 78BCDF441DF75D16002D399E /* hook-yellow.png */; };
+		78BCDF471DF75D16002D399E /* hook.png in Resources */ = {isa = PBXBuildFile; fileRef = 78BCDF451DF75D16002D399E /* hook.png */; };
+		78BCDF491DF7643D002D399E /* hook-blue.png in Resources */ = {isa = PBXBuildFile; fileRef = 78BCDF481DF7643D002D399E /* hook-blue.png */; };
 		78C3503D1DF126A6005E8331 /* BrowserVideoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C3503C1DF126A6005E8331 /* BrowserVideoTableViewCell.swift */; };
 		78C3503F1DF12E17005E8331 /* blank user avatar.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 78C3503E1DF12E17005E8331 /* blank user avatar.jpeg */; };
 		78C350431DF2251A005E8331 /* Browser.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 78C350421DF2251A005E8331 /* Browser.storyboard */; };
@@ -175,7 +180,6 @@
 		78B56A081DF5FD1B00A13915 /* user-yellow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "user-yellow.png"; sourceTree = "<group>"; };
 		78B95F8B1DF6B4EA00B6C83E /* BrowserImageTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrowserImageTableViewCell.swift; sourceTree = "<group>"; };
 		78BCDF2B1DF74421002D399E /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
-		78BCDF2D1DF745D3002D399E /* hook.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hook.png; sourceTree = "<group>"; };
 		78BCDF2F1DF7464D002D399E /* cross-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cross-white.png"; sourceTree = "<group>"; };
 		78BCDF301DF7464D002D399E /* cross-yellow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cross-yellow.png"; sourceTree = "<group>"; };
 		78BCDF331DF74663002D399E /* CrossButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CrossButton.swift; sourceTree = "<group>"; };
@@ -183,6 +187,12 @@
 		78BCDF381DF74A15002D399E /* NextButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NextButton.swift; sourceTree = "<group>"; };
 		78BCDF3A1DF74ABC002D399E /* nextarrow-yellow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nextarrow-yellow.png"; sourceTree = "<group>"; };
 		78BCDF3B1DF74ABC002D399E /* nextarrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nextarrow.png; sourceTree = "<group>"; };
+		78BCDF3E1DF751E8002D399E /* BusyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusyView.swift; sourceTree = "<group>"; };
+		78BCDF401DF75204002D399E /* BusyView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BusyView.xib; sourceTree = "<group>"; };
+		78BCDF421DF752F9002D399E /* hook-black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hook-black.png"; sourceTree = "<group>"; };
+		78BCDF441DF75D16002D399E /* hook-yellow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hook-yellow.png"; sourceTree = "<group>"; };
+		78BCDF451DF75D16002D399E /* hook.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hook.png; sourceTree = "<group>"; };
+		78BCDF481DF7643D002D399E /* hook-blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hook-blue.png"; sourceTree = "<group>"; };
 		78C3503C1DF126A6005E8331 /* BrowserVideoTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrowserVideoTableViewCell.swift; sourceTree = "<group>"; };
 		78C3503E1DF12E17005E8331 /* blank user avatar.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "blank user avatar.jpeg"; sourceTree = "<group>"; };
 		78C350421DF2251A005E8331 /* Browser.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Browser.storyboard; sourceTree = "<group>"; };
@@ -294,6 +304,8 @@
 				78C3503C1DF126A6005E8331 /* BrowserVideoTableViewCell.swift */,
 				78F511351DF6D0860074050F /* WhiteRevealOverlayView.swift */,
 				78F511371DF6D09E0074050F /* WhiteRevealOverlayView.xib */,
+				78BCDF3E1DF751E8002D399E /* BusyView.swift */,
+				78BCDF401DF75204002D399E /* BusyView.xib */,
 				78BCDF351DF74752002D399E /* Buttons */,
 			);
 			name = Views;
@@ -403,8 +415,11 @@
 			children = (
 				78BCDF2F1DF7464D002D399E /* cross-white.png */,
 				78BCDF301DF7464D002D399E /* cross-yellow.png */,
-				78BCDF2D1DF745D3002D399E /* hook.png */,
 				781E71611DF5DF4000041855 /* black_truffle.jpg */,
+				78BCDF421DF752F9002D399E /* hook-black.png */,
+				78BCDF441DF75D16002D399E /* hook-yellow.png */,
+				78BCDF451DF75D16002D399E /* hook.png */,
+				78BCDF481DF7643D002D399E /* hook-blue.png */,
 				781E715B1DF53D1E00041855 /* home-white.png */,
 				781E715C1DF53D1E00041855 /* home-yellow.png */,
 				785E87C51DED445000C9FF59 /* Play image- white.png */,
@@ -622,16 +637,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				781E71431DF407F600041855 /* location-yellow.png in Resources */,
+				78BCDF471DF75D16002D399E /* hook.png in Resources */,
 				781E715A1DF5330E00041855 /* circle-yellow.png in Resources */,
 				78B56A091DF5FD1B00A13915 /* user-white.png in Resources */,
 				78C3503F1DF12E17005E8331 /* blank user avatar.jpeg in Resources */,
 				78F511381DF6D09E0074050F /* WhiteRevealOverlayView.xib in Resources */,
+				78BCDF491DF7643D002D399E /* hook-blue.png in Resources */,
+				78BCDF411DF75204002D399E /* BusyView.xib in Resources */,
 				78BCDF311DF7464D002D399E /* cross-white.png in Resources */,
 				781E71401DF4036E00041855 /* sound-wave-yellow.png in Resources */,
 				781E71591DF5330E00041855 /* circle-white.png in Resources */,
 				781E71441DF407F600041855 /* location.png in Resources */,
 				78CDA09C1DE5307200ABC5E1 /* VideosListVC.storyboard in Resources */,
 				7821C3C21DEF939A0023B95E /* Camera.storyboard in Resources */,
+				78BCDF431DF752F9002D399E /* hook-black.png in Resources */,
 				78469A661DE3958100A40D53 /* LaunchScreen.storyboard in Resources */,
 				78337D8D1DE3AC6600A1B32C /* GoogleService-Info.plist in Resources */,
 				E35AC4871DE4D0F500FCB0D0 /* Sato.storyboard in Resources */,
@@ -643,6 +662,7 @@
 				78B369C11DE7F85F001ADD53 /* TemplateListVC.storyboard in Resources */,
 				785E87C61DED445000C9FF59 /* Play image- white.png in Resources */,
 				78B369BD1DE7E040001ADD53 /* CompositionTest.storyboard in Resources */,
+				78BCDF461DF75D16002D399E /* hook-yellow.png in Resources */,
 				78B56A0A1DF5FD1B00A13915 /* user-yellow.png in Resources */,
 				78BCDF321DF7464D002D399E /* cross-yellow.png in Resources */,
 				78BCDF3D1DF74ABC002D399E /* nextarrow.png in Resources */,
@@ -651,7 +671,6 @@
 				78C350431DF2251A005E8331 /* Browser.storyboard in Resources */,
 				78C350451DF2260A005E8331 /* Account.storyboard in Resources */,
 				78469A611DE3958100A40D53 /* Main.storyboard in Resources */,
-				78BCDF2E1DF745D3002D399E /* hook.png in Resources */,
 				781E713E1DF401A100041855 /* sound-wave.png in Resources */,
 				781E715D1DF53D1E00041855 /* home-white.png in Resources */,
 				783008A81DE3B9A000B070D4 /* VideoComposer.storyboard in Resources */,
@@ -824,6 +843,7 @@
 				783008A91DE3B9A000B070D4 /* Extensions.swift in Sources */,
 				E3C357A21DEF451E00AC0832 /* YPManager.swift in Sources */,
 				E3D1D55F1DF11D700021942A /* Styles.swift in Sources */,
+				78BCDF3F1DF751E8002D399E /* BusyView.swift in Sources */,
 				78B369BC1DE7E040001ADD53 /* CompositionTestViewController.swift in Sources */,
 				78469A5E1DE3958100A40D53 /* LoginViewController.swift in Sources */,
 				785E87CA1DED4E5800C9FF59 /* VideoComposerCollectionViewCell.swift in Sources */,
