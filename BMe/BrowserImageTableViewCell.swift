@@ -33,8 +33,8 @@ class BrowserImageTableViewCell: UITableViewCell {
 //        backgroundColor = Styles.Color.Primary
 //        postContentView.backgroundColor = Styles.Color.Primary
         avatarImageView.layer.cornerRadius = avatarImageView.frame.width / 2
-        avatarImageView.layer.borderColor = Styles.Color.Primary.cgColor
-        avatarImageView.layer.borderWidth = 1.5
+        avatarImageView.layer.borderColor = Styles.Avatar.borderColor.cgColor
+        avatarImageView.layer.borderWidth = Styles.Avatar.borderWidth
         avatarImageView.clipsToBounds = true
         
 //        postImageView.backgroundColor = Styles.Color.Primary

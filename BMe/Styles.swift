@@ -32,4 +32,8 @@ struct Styles {
             }
         }
     }
+    struct Avatar {
+        static let borderWidth: CGFloat = 1.5
+        static let borderColor = Color.Primary
+    }
 }
