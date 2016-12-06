@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AVFoundation
 
 struct Constants {
     struct OnLogin {
@@ -64,10 +65,23 @@ struct Constants {
         static let userYellow = "user-yellow.png"
     }
     
-    struct ImageComparessionAndResizingRate {
+    struct ImageCompressionAndResizingRate {
         static let compressionRate: CGFloat = 0.005
         static let resizingScale: CGFloat = 0.2
+        static let avExportQualityPreset = AVAssetExportPresetMediumQuality
+//AVAssetExportPresetLowQuality
+//AVAssetExportPresetMediumQuality
+//AVAssetExportPresetHighestQuality
+//AVAssetExportPreset640x480
+//AVAssetExportPreset960x540
+//AVAssetExportPreset1280x720
+//AVAssetExportPreset1920x1080
+//AVAssetExportPreset3840x2160
+////  This export option will produce an audio-only .m4a file with appropriate iTunes gapless playback data
+//AVAssetExportPresetAppleM4A
+//AVAssetExportPresetPassthrough
     }
+    
 }
 
 enum ContentType {

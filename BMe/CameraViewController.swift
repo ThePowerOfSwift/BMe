@@ -214,7 +214,7 @@ class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePicker
         }, completionHandler: { (success, error) in
             let phAssets = PHAsset.fetchAssets(withLocalIdentifiers: [localID], options: nil)
             let imageSize = newImage?.size
-            let scale: CGFloat = Constants.ImageComparessionAndResizingRate.resizingScale
+            let scale: CGFloat = Constants.ImageCompressionAndResizingRate.resizingScale
             let targetSize = CGSize(width: imageSize!.width * scale, height: imageSize!.height * scale)
             
             let options = PHImageRequestOptions()
@@ -222,7 +222,7 @@ class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePicker
             PHImageManager.default().requestImage(for: phAssets.firstObject!, targetSize: targetSize, contentMode: .aspectFit, options: options, resultHandler: { (image, info) in
                 // use image
                 // Convert image to JPEG with specified compression quality
-                let imageData = UIImageJPEGRepresentation(image!, Constants.ImageComparessionAndResizingRate.compressionRate)
+                let imageData = UIImageJPEGRepresentation(image!, Constants.ImageCompressionAndResizingRate.compressionRate)
                 print("image size: \(imageData!.count)")
                 FIRManager.shared.postObject(object: imageData!, contentType: .image, meta: self.metadata!, completion: {
                     print("Upload completed")
