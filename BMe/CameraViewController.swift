@@ -196,6 +196,10 @@ class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePicker
         let testVC = storyboard.instantiateViewController(withIdentifier: "ShowImageViewController") as! ShowImageViewController
         testVC.image = newImage
         
+        // Write the image to camera roll
+        UIImageWriteToSavedPhotosAlbum(newImage!, nil, nil, nil)
+        
+        // Convert image to JPEG with 0.5 compression quality
         let imageData = UIImageJPEGRepresentation(newImage!, Constants.CompressionRate.defaultRate)
 
         FIRManager.shared.postObject(object: imageData!, contentType: .image, meta: metadata!, completion: {
