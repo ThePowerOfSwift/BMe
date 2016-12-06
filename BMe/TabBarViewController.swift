@@ -22,6 +22,7 @@ class TabBarViewController: UIViewController {
     var browseViewController: UIViewController!
     var cameraNavigationController: UINavigationController!
     var cameraViewController: CameraViewController!
+    var cameraPageViewController: CameraPageViewController!
     var createViewController: UIViewController!
     var accountViewController: UIViewController!
     var viewControllers: [UIViewController]!
@@ -52,14 +53,25 @@ class TabBarViewController: UIViewController {
         cameraNavigationController = UIStoryboard(name: "Camera", bundle: nil).instantiateInitialViewController() as! UINavigationController
         cameraViewController = cameraNavigationController.viewControllers[0] as! CameraViewController
         //cameraViewController.cameraButton = tabs[1] //not passing the copy but reference
-        addChildViewController(cameraViewController)
+        //addChildViewController(cameraViewController)
+        
+        // Camera page view controller
+        cameraPageViewController = UIStoryboard(name: "Camera", bundle: nil).instantiateViewController(withIdentifier: "CameraPageViewController") as! CameraPageViewController
+        //cameraPageViewController.orderedViewControllers = [cameraViewController, createViewController]
+//        let redViewController = UIViewController()
+//        redViewController.view.backgroundColor = UIColor.red
+//        let greenViewController = UIViewController()
+//        greenViewController.view.backgroundColor = UIColor.green
+//        cameraPageViewController.orderedViewControllers = [redViewController, greenViewController]
+        
+        addChildViewController(cameraPageViewController)
         
         // Account view controller
         accountViewController = UIStoryboard(name: "Account", bundle: nil).instantiateInitialViewController()
         addChildViewController(accountViewController)
         
         // Init with view controllers
-        viewControllers = [browseViewController, cameraViewController, createViewController, accountViewController]
+        viewControllers = [browseViewController, cameraPageViewController, createViewController, accountViewController]
 
         setupTabs()
         layoutTabs()
