@@ -327,11 +327,11 @@
 		78337D8E1DE3AC7400A1B32C /* Shared */ = {
 			isa = PBXGroup;
 			children = (
-				785E87C41DED444400C9FF59 /* Images */,
 				78B56A0B1DF5FE7B00A13915 /* Other */,
 				783008A21DE3B9A000B070D4 /* Extensions.swift */,
 				783008A31DE3B9A000B070D4 /* Constants.swift */,
 				E3D1D55E1DF11D700021942A /* Styles.swift */,
+				785E87C41DED444400C9FF59 /* Images */,
 			);
 			name = Shared;
 			sourceTree = "<group>";

@@ -36,11 +36,7 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
 
         user = User(AppState.shared.currentUser!)
         setupAvatar()
-        setupUser()
-        
-        let busy = BusyView()
-        view.addSubview(busy)
-        busy.startAnimating()
+        setupUser()        
     }
     
     override func didReceiveMemoryWarning() {

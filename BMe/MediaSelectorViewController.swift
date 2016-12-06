@@ -57,7 +57,7 @@ class MediaSelectorViewController: UIViewController, UICollectionViewDataSource,
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Do any additional setup after loading the view.
         navigationController?.isNavigationBarHidden = true
         nextButton.isEnabled = false

@@ -25,6 +25,7 @@ class VideoComposerViewController: UIViewController, UICollectionViewDataSource,
     var composition: VideoComposition!
     
     let imgManager = PHCachingImageManager.default()
+    let indicator = BusyView()
     
     // MARK: - Constants
     private let kTempSaveRoot = "tempSave"
@@ -32,13 +33,19 @@ class VideoComposerViewController: UIViewController, UICollectionViewDataSource,
     //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        
         // Do any additional setup after loading the view.
         // Hide nav
         navigationController?.isNavigationBarHidden = true
         bannerView.backgroundColor = UIColor.gray
 //        cancelButton.setImageYellow()
         
+        // set activity indicator
+        indicator.view.center = self.view.center
+        view.addSubview(indicator)
+        indicator.startAnimating()
+
         collectionView.dataSource = self
         collectionView.delegate = self
         
@@ -69,6 +76,7 @@ class VideoComposerViewController: UIViewController, UICollectionViewDataSource,
     }
     
     func next() {
+        
         RenderAndPost()
     }
     
@@ -210,10 +218,14 @@ class VideoComposerViewController: UIViewController, UICollectionViewDataSource,
             vc.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
             self.bannerView.addSubview(vc.view)
             vc.didMove(toParentViewController: self)
+            
+            self.indicator.stopAnimating()
         }
     }
     
     func RenderAndPost() {
+        indicator.startAnimating()
+        
         // render timing?
         // split up the times automatically? (take the natural length of videos)?
         // use pre marked split?
@@ -227,6 +239,7 @@ class VideoComposerViewController: UIViewController, UICollectionViewDataSource,
             let url = URL(string: (session.outputURL?.absoluteString)!)
             FIRManager.shared.postObject(url: url!, contentType: ContentType.video, meta: self.meta, completion:
                 {
+                    self.indicator.stopAnimating()
                     self.dismiss(animated: true, completion: nil)})
         })
     }

@@ -26,6 +26,7 @@ class PostButton: UIButton {
         borderView.layer.borderWidth = 4
         borderView.layer.cornerRadius = 10
         borderView.layer.borderColor = Styles.Color.Tertiary.cgColor
+        borderView.isUserInteractionEnabled = false
         addSubview(borderView)
     }
     

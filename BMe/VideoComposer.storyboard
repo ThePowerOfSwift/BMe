@@ -82,7 +82,7 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EsA-2h-ZbW" customClass="NextButton" customModule="BMe" customModuleProvider="target">
-                                <rect key="frame" x="315.5" y="40" width="30" height="30"/>
+                                <rect key="frame" x="315" y="40" width="30" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="EsA-2h-ZbW" secondAttribute="height" multiplier="1:1" id="4UT-Vs-o1v"/>
                                     <constraint firstAttribute="width" constant="30" id="rav-LM-Zp8"/>

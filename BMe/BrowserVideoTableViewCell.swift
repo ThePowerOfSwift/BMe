@@ -41,6 +41,7 @@ class BrowserVideoTableViewCell: UITableViewCell {
         busy.color = UIColor.lightGray
         busy.frame = postContentView.bounds
         busy.startAnimating()
+        
         postContentView.addSubview(busy)
         
         avatarImageView.layer.cornerRadius = avatarImageView.frame.width / 2
