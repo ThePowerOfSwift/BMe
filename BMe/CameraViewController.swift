@@ -57,37 +57,14 @@ class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePicker
         
         metadata = ["missing metadata" : "you didn't add metadata for this pic, bitch!" as Optional<AnyObject>]
         
-//        let cameraButtonFromTabBar = cameraButton
-//        let frame = cameraButtonFromTabBar?.frame
-//        // Create bran new button
-//        cameraButton = UIButton(frame: CGRect(x: (frame?.origin.x)! , y: (frame?.origin.y)!, width: (frame?.width)!, height: (frame?.height)!))
-//        cameraButton?.addTarget(self, action: #selector(takePicture), for: UIControlEvents.touchUpInside)
-//        
-//        
-//        let image = UIImage(named: Constants.Images.circleYellow)
-//        cameraButton?.setImage(image, for: .normal)
-//        cameraButton?.imageView?.image? = (cameraButton?.imageView?.image?.withRenderingMode(.alwaysTemplate))!
-//        cameraButton?.imageView?.tintColor = Styles.Color.Primary
-        
         //hideCameraControlView()
         setupButtons()
-        loadCamera()
+        addImagePickerToSubview(timeInterval: 0.5, delegate: self, completion: nil)
         
     }
-    
-
-    // Set icon image at index
-    func se(imageName: String, button: UIButton) {
-        let image = UIImage(named: imageName)
-        button.setImage(image, for: .normal)
-        button.imageView?.image? = (button.imageView?.image?.withRenderingMode(.alwaysTemplate))!
-        button.imageView?.tintColor = Styles.Color.Primary
-    }
-    
     
     func takePicture() {
         imagePicker?.takePicture()
-        
     }
     
     func setupButtons() {
@@ -111,8 +88,8 @@ class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePicker
         present(viewControllerToPresent, animated: true, completion: {
         })
     }
-    // MARK: Camera hide and show
     
+    // MARK: Camera hide and show
     func hideCameraControlView() {
         cameraControlView.isHidden = true
     }
@@ -121,9 +98,9 @@ class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePicker
         cameraControlView.isHidden = false
     }
     
+    // Called when a picture is taken
     func hideCameraView() {
         imagePickerView?.isHidden = true
-        imagePicker?.view.isHidden = true
     }
     
     func showCameraView() {
@@ -131,40 +108,8 @@ class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePicker
     }
     
     // MARK: image picker
-    func loadCamera() {
-        presentCameraPicker(timeInterval: 0, delegate: self, completion: nil)
-    }
     
-    func presentCameraPicker(timeInterval: TimeInterval?, delegate: (UIImagePickerControllerDelegate & UINavigationControllerDelegate), completion: (() -> Void)?) {
-//        let imagePicker = UIImagePickerController()
-        
-//        imagePicker.delegate = delegate
-//        imagePicker.allowsEditing = false
-//        // Set to camera & video record
-//        imagePicker.sourceType = .camera
-//        
-//        // Capable for video and camera
-//        imagePicker.mediaTypes = [kUTTypeImage as String]
-//        
-//        // Set maximum video length, if any
-//        if let timeInterval = timeInterval {
-//            imagePicker.videoMaximumDuration = timeInterval
-//        }
-//        
-//        imagePicker.showsCameraControls = false
-//        
-//        let screenSize = UIScreen.main.bounds.size
-//        let cameraAspectRatio: CGFloat = 4.0 / 3.0
-//        let imageWidth = floor(screenSize.width * cameraAspectRatio)
-//        let scale = ceil((screenSize.height) / imageWidth )
-//
-//        imagePicker.cameraViewTransform = CGAffineTransform(scaleX: scale, y: scale)
-//        
-//        present(imagePicker, animated: false) {
-//            //imagePicker.takePicture()
-//            //self.takePicture(imagePicker: imagePicker)
-//            if let completion = completion { completion() }
-//        }
+    func addImagePickerToSubview(timeInterval: TimeInterval?, delegate: (UIImagePickerControllerDelegate & UINavigationControllerDelegate), completion: (() -> Void)?) {
         imagePicker = UIImagePickerController()
         imagePicker?.delegate = delegate
         imagePicker?.allowsEditing = false
@@ -181,25 +126,14 @@ class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePicker
         
         imagePicker?.showsCameraControls = false
         
+        // http://stackoverflow.com/questions/2674375/uiimagepickercontroller-doesnt-fill-screen
         let screenSize = UIScreen.main.bounds.size
         let cameraAspectRatio: CGFloat = 4.0 / 3.0
         let imageWidth = floor(screenSize.width * cameraAspectRatio)
-        let scale = ceil((screenSize.height) / imageWidth )
-        
+        //let scale = ceil(((screenSize.height) / imageWidth) * 10.0) / 10.0
+        let scale = ceil((screenSize.height) / imageWidth)
         imagePicker?.cameraViewTransform = CGAffineTransform(scaleX: scale, y: scale)
         
-        //cameraButton?.frame = CGRect(x: camera, y: 300, width: 50, height: 50)
-        //imagePicker?.cameraOverlayView?.addSubview(cameraButton!)
-        
-        //imagePicker?.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
-        //imagePicker?.definesPresentationContext = false
-        
-        //self.addChildViewController(imagePicker!)
-//        present(imagePicker!, animated: false) {
-//            //imagePicker.takePicture()
-//            //self.takePicture(imagePicker: imagePicker)
-//            if let completion = completion { completion() }
-//        }
         imagePickerView = imagePicker?.view
         view.addSubview((imagePicker?.view)!)
 
@@ -211,7 +145,6 @@ class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePicker
             imageView.image = image
             self.hideCameraView()
             self.showCameraControlView()
-            
         }
     }
     
@@ -263,17 +196,14 @@ class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePicker
         
         let imageData = UIImageJPEGRepresentation(newImage!, 1)
 
-
         FIRManager.shared.postObject(object: imageData!, contentType: .image, meta: metadata!, completion: {
             print("Upload completed")
         })
-        
-        //self.present(testVC, animated: true, completion: nil)
     }
     
     @IBAction func onCancel(_ sender: UIButton) {
         hideCameraControlView()
-        loadCamera()
+        showCameraView()
     }
     
     //MARK: - Manging Textfeld methods
