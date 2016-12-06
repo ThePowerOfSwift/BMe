@@ -10,6 +10,10 @@ import UIKit
 import FontAwesome_swift
 import QuartzCore
 
+@objc protocol TabBarDelegate {
+    @objc optional func takePicture()
+}
+
 class TabBarViewController: UIViewController {
 
     @IBOutlet weak var contentView: UIView!
@@ -17,31 +21,42 @@ class TabBarViewController: UIViewController {
     
     var browseViewController: UIViewController!
     var cameraNavigationController: UINavigationController!
+    var cameraViewController: CameraViewController!
     var createViewController: UIViewController!
     var accountViewController: UIViewController!
     var viewControllers: [UIViewController]!
     
     // tag value from selected UIButton
-    var selectedIndex: Int = 0
+    var selectedIndex: Int = 1
     
     // tab size
     var selectedTabSize: Double = 70
     var unselectedTabSize: Double = 50
     
+    // detect if it is just after app started. if so, don't enable camera button to take picture
+    var isInitialStartup: Bool = true
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        // Browse view controller
         browseViewController = UIStoryboard(name: "Browser", bundle: nil).instantiateInitialViewController()
+        addChildViewController(browseViewController)
 
+        // Create view controller
         let createStoryboard = UIStoryboard(name: VideoComposition.StoryboardKey.ID, bundle: nil)
         createViewController = createStoryboard.instantiateViewController(withIdentifier: VideoComposition.StoryboardKey.mediaSelectorNavigationController)
+        addChildViewController(createViewController)
 
+        // Camera view controller
         cameraNavigationController = UIStoryboard(name: "Camera", bundle: nil).instantiateInitialViewController() as! UINavigationController
-        let cameraViewController = cameraNavigationController.viewControllers[0] as! CameraViewController
-        cameraViewController.cameraButton = tabs[1] //not passing the copy but reference
+        cameraViewController = cameraNavigationController.viewControllers[0] as! CameraViewController
+        //cameraViewController.cameraButton = tabs[1] //not passing the copy but reference
+        addChildViewController(cameraViewController)
         
-        
+        // Account view controller
         accountViewController = UIStoryboard(name: "Account", bundle: nil).instantiateInitialViewController()
+        addChildViewController(accountViewController)
         
         // Init with view controllers
         viewControllers = [browseViewController, cameraViewController, createViewController, accountViewController]
@@ -52,7 +67,7 @@ class TabBarViewController: UIViewController {
         // Set first tab selected
         tabs[selectedIndex].isSelected = true
         didTapTab(tabs[selectedIndex])
-        
+        isInitialStartup = false
         for i in 0...tabs.count-1 {
             if tabs[i].isSelected {
                 tabs[i].imageView?.tintColor = Styles.Color.Primary
@@ -124,61 +139,65 @@ class TabBarViewController: UIViewController {
         let previousIndex = selectedIndex
         selectedIndex = sender.tag // Assign the index of current tab to selectedIndex
         tabs[selectedIndex].isSelected =  true
-        UIView.animate(withDuration: 0.1, animations: {
-            // change the color
-            self.tabs[previousIndex].imageView?.tintColor = Styles.Color.Secondary
-            self.tabs[self.selectedIndex].imageView?.tintColor = Styles.Color.Primary
+        
+        // Take picture when cameraButton tapped again
+        if previousIndex == 1 && selectedIndex == 1 && !isInitialStartup {
+            cameraViewController.takePicture()
             
-            // Reset image
-            // Set unselected to white
-            var whiteButton: UIImage? = UIImage()
-            switch previousIndex {
-                case 0:
-                    whiteButton = UIImage(named: Constants.Images.home)
+        } else {
+            UIView.animate(withDuration: 0.1, animations: {
+                // change the color
+                self.tabs[previousIndex].imageView?.tintColor = Styles.Color.Secondary
+                self.tabs[self.selectedIndex].imageView?.tintColor = Styles.Color.Primary
                 
-                case 1:
-                    whiteButton = UIImage(named: Constants.Images.circle)
-//                case 2:
-//                case 3:
-                default:
-                    break
-            }
-            self.tabs[previousIndex].setImage(whiteButton, for: .normal)
+                // Reset image
+                // Set unselected to white
+                var whiteButton: UIImage? = UIImage()
+                switch previousIndex {
+                    case 0:
+                        whiteButton = UIImage(named: Constants.Images.home)
+                    
+                    case 1:
+                        whiteButton = UIImage(named: Constants.Images.circle)
+    //                case 2:
+    //                case 3:
+                    default:
+                        break
+                }
+                self.tabs[previousIndex].setImage(whiteButton, for: .normal)
+                
+                // Set selected to yellow
+                var yellowButton: UIImage? = UIImage()
+                switch self.selectedIndex {
+                    case 0:
+                        yellowButton = UIImage(named: Constants.Images.homeYellow)
+                    case 1:
+                        yellowButton = UIImage(named: Constants.Images.circleYellow)
+    //                case 2:
+    //                case 3:
+                    default:
+                        break
+                }
+                self.tabs[self.selectedIndex].setImage(yellowButton, for: .normal)
             
+                
+                self.layoutTab(index: previousIndex, w: self.unselectedTabSize, h: self.unselectedTabSize)
+                self.layoutTab(index: self.selectedIndex, w: self.selectedTabSize, h: self.selectedTabSize)
+            })
             
-            // Set selected to yellow
-            var yellowButton: UIImage? = UIImage()
-            switch self.selectedIndex {
-                case 0:
-                    yellowButton = UIImage(named: Constants.Images.homeYellow)
-                case 1:
-                    yellowButton = UIImage(named: Constants.Images.circleYellow)
-//                case 2:
-//                case 3:
-                default:
-                    break
-            }
-            self.tabs[self.selectedIndex].setImage(yellowButton, for: .normal)
-        
+            let previousVC = viewControllers[previousIndex]
+            // invoke view controller's life cycle and remove it from TabBarViewController
+            previousVC.willMove(toParentViewController: nil)
+            previousVC.view.removeFromSuperview()
+            previousVC.removeFromParentViewController()
             
-            self.layoutTab(index: previousIndex, w: self.unselectedTabSize, h: self.unselectedTabSize)
-            self.layoutTab(index: self.selectedIndex, w: self.selectedTabSize, h: self.selectedTabSize)
-            
-            
-        })
-        
-        let previousVC = viewControllers[previousIndex]
-        // invoke view controller's life cycle and remove it from TabBarViewController
-        previousVC.willMove(toParentViewController: nil)
-        previousVC.view.removeFromSuperview()
-        previousVC.removeFromParentViewController()
-        
-        // New view controller
-        sender.isSelected = true // Make current tab selected
-        let currentVC = viewControllers[selectedIndex] // get vc at the selected index
-        addChildViewController(currentVC) // calls viewWillAppear
-        currentVC.view.frame = contentView.frame // set view size to content view size
-        contentView.addSubview(currentVC.view)
-        currentVC.didMove(toParentViewController: self) // calls viewDidAppear
+            // New view controller
+            sender.isSelected = true // Make current tab selected
+            let currentVC = viewControllers[selectedIndex] // get vc at the selected index
+            addChildViewController(currentVC) // calls viewWillAppear
+            currentVC.view.frame = contentView.frame // set view size to content view size
+            contentView.addSubview(currentVC.view)
+            currentVC.didMove(toParentViewController: self) // calls viewDidAppear
+        }
     }
 }
