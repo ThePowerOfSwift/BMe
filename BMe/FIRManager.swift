@@ -339,7 +339,7 @@ extension UIImageView {
                 if let error = snapshot.error {
                     print("Error loading image from GS \(error.localizedDescription)")
                 }
-                busyIndicator.removeFromSuperview()                
+                busyIndicator.removeFromSuperview()
             })
         }
     }
