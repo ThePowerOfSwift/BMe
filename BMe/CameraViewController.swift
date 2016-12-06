@@ -244,6 +244,7 @@ class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePicker
     func removeAllItems() {
         removeTextfieldFromSubbiew()
         metadata?.removeAll()
+        locationButton.changeImageDefault()
         imageView.image = nil
     }
     
