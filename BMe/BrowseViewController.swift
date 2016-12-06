@@ -15,6 +15,7 @@ class BrowseViewController: UIViewController {
     
     
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var tabOverlay: UIView!
     
     var posts: [FIRDataSnapshot]! = []
     private var _refHandle: FIRDatabaseHandle!
@@ -26,6 +27,13 @@ class BrowseViewController: UIViewController {
         // Turn off pushing down scrollview (in TV) but keep content below status bar
 //        automaticallyAdjustsScrollViewInsets = false
         navigationController?.isNavigationBarHidden = true
+        let gradientLayer = CAGradientLayer()
+        
+        tabOverlay.alpha = 0.05
+        gradientLayer.frame = tabOverlay.bounds
+        gradientLayer.colors = [UIColor.white.cgColor, UIColor.black.cgColor]
+        gradientLayer.locations = [0, 0.5]
+        tabOverlay.layer.addSublayer(gradientLayer)
         
         tableView.delegate = self
         tableView.dataSource = self
