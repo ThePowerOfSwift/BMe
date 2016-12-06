@@ -96,7 +96,7 @@ class TabBarViewController: UIViewController, CameraPageDelegate {
     func setupTabs() {
         setupTab(imageName: Constants.Images.home, tabIndex: 0)
         setupTab(imageName: Constants.Images.circle, tabIndex: 1)
-        setupTab(imageName: "account", tabIndex: 2)
+        setupTab(imageName: Constants.Images.user, tabIndex: 2)
     }
     
     // Set icon image at index
@@ -169,7 +169,8 @@ class TabBarViewController: UIViewController, CameraPageDelegate {
                     
                     case 1:
                         whiteButton = UIImage(named: Constants.Images.circle)
-    //                case 2:
+                    case 2:
+                        whiteButton = UIImage(named: Constants.Images.user)
                     default:
                         break
                 }
@@ -182,7 +183,8 @@ class TabBarViewController: UIViewController, CameraPageDelegate {
                         yellowButton = UIImage(named: Constants.Images.homeYellow)
                     case 1:
                         yellowButton = UIImage(named: Constants.Images.circleYellow)
-    //                case 2:
+                    case 2:
+                        yellowButton = UIImage(named: Constants.Images.userYellow)
                     default:
                         break
                 }
