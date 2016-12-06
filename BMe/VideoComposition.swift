@@ -148,7 +148,7 @@ class VideoComposition: AVPlayerItem{
     
     func render(fileNamed: String, completion: @escaping(_ session: AVAssetExportSession)->()) {
         // Create Exporter and set it to video export
-        guard let exporter = AVAssetExportSession(asset: asset, presetName: AVAssetExportPresetHighestQuality) else { return }
+        guard let exporter = AVAssetExportSession(asset: asset, presetName: AVAssetExportPresetLowQuality) else { return }
         exporter.outputURL = AppDelegate.urlForNewDocumentFile(named: fileNamed)
         exporter.outputFileType = AVFileTypeQuickTimeMovie
         exporter.shouldOptimizeForNetworkUse = true

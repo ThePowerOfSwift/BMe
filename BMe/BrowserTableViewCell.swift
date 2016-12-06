@@ -54,11 +54,13 @@ class BrowserTableViewCell: UITableViewCell {
         
         headingLabel.textColor = Styles.Color.Secondary
         headingLabel.text = ""
+        usernameLabel.text = ""
     }
     
     override func prepareForReuse() {
         super.prepareForReuse()
         usernameLabel.text = ""
+        headingLabel.text = ""
         avatarImageView.image = nil
         postImageView.image = nil
         postImageView.isHidden = true
