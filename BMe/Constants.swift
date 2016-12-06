@@ -65,7 +65,7 @@ struct Constants {
     }
     
     struct CompressionRate {
-        static let defaultRate = 0.5
+        static let defaultRate: CGFloat = 0.1
     }
 }
 
