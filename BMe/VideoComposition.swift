@@ -148,7 +148,7 @@ class VideoComposition: AVPlayerItem{
     
     func render(fileNamed: String, completion: @escaping(_ session: AVAssetExportSession)->()) {
         // Create Exporter and set it to video export
-        guard let exporter = AVAssetExportSession(asset: asset, presetName: AVAssetExportPresetLowQuality) else { return }
+        guard let exporter = AVAssetExportSession(asset: asset, presetName: Constants.ImageCompressionAndResizingRate.avExportQualityPreset) else { return }
         exporter.outputURL = AppDelegate.urlForNewDocumentFile(named: fileNamed)
         exporter.outputFileType = AVFileTypeQuickTimeMovie
         exporter.shouldOptimizeForNetworkUse = true
@@ -184,6 +184,7 @@ class VideoComposition: AVPlayerItem{
         
         // For each asset
         for i in 0..<videoURLs.count {
+            autoreleasepool {
             let asset = videoURLs[i]
             
             // TODO: - delete:
@@ -232,6 +233,7 @@ class VideoComposition: AVPlayerItem{
             // Fade out track so the following is shown
             trackInstruction.setOpacity(0.0, at: beginTime)
             videoInstructions.append(trackInstruction)
+            }
         }
 
         // Create video composition instructions

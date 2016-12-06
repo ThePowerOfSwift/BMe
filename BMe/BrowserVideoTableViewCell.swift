@@ -9,7 +9,7 @@
 import UIKit
 import AVFoundation
 
-class BrowserTableViewCell: UITableViewCell {
+class BrowserVideoTableViewCell: UITableViewCell {
 
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var postContentView: UIView!
@@ -35,24 +35,35 @@ class BrowserTableViewCell: UITableViewCell {
     }
     
     func setup() {
+//        backgroundColor = Styles.Color.Primary
+//        postContentView.backgroundColor = Styles.Color.Primary
+        let busy = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
+        busy.color = UIColor.lightGray
+        busy.frame = postContentView.bounds
+        busy.startAnimating()
+        postContentView.addSubview(busy)
+        
         avatarImageView.layer.cornerRadius = avatarImageView.frame.width / 2
-        avatarImageView.layer.borderColor = Styles.Color.Primary.cgColor
+        avatarImageView.layer.borderColor = Styles.Color.Tertiary.cgColor
         avatarImageView.layer.borderWidth = 1
         avatarImageView.clipsToBounds = true
         
         // Setup video replay
         player = AVPlayer()
         player.actionAtItemEnd = AVPlayerActionAtItemEnd.none
+        player.isMuted = true
         playerLayer = AVPlayerLayer(player: player)
         playerLayer.frame = postContentView.bounds
         playerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill
         postContentView.layer.addSublayer(playerLayer)
+        playerLayer.isHidden = true
         
-        postImageView.backgroundColor = Styles.Color.Primary
+//        postImageView.backgroundColor = Styles.Color.Primary
         postImageView.contentMode = .scaleAspectFill
         postImageView.clipsToBounds = true
-        
-        headingLabel.textColor = Styles.Color.Secondary
+        postImageView.isHidden = true
+
+        headingLabel.textColor = UIColor.white
         headingLabel.text = ""
         usernameLabel.text = ""
     }
@@ -69,8 +80,9 @@ class BrowserTableViewCell: UITableViewCell {
         // Clear videos
         player.pause()
         player.replaceCurrentItem(with: nil)
+//        playerLayer.isHidden = true
     }
     
     // MARK: - Constants
-    static let ID = "BrowserTableViewCell"
+    static let ID = "BrowserVideoTableViewCell"
 }
