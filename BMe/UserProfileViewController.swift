@@ -135,7 +135,7 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
 
         // Upload image as user profile pic
         // TODO: - Should move this to User.setAvatarImage()
-        if let imageData = UIImageJPEGRepresentation(pickedImage, Constants.CompressionRate.defaultRate) {
+        if let imageData = UIImageJPEGRepresentation(pickedImage, Constants.ImageComparessionAndResizingRate.compressionRate) {
             FIRManager.shared.putObjectOnStorage(data: imageData, contentType: .image, completion: { (meta, error) in
                 if let error = error {
                     print("Error uploading profile image to Storage: \(error.localizedDescription)")
