@@ -71,7 +71,8 @@ class MediaSelectorViewController: UIViewController, UICollectionViewDataSource,
         // Get assets from album
         let options = PHFetchOptions()
         options.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
-        phAssets = PHAsset.fetchAssets(with: options)
+//        phAssets = PHAsset.fetchAssets(with: options)
+        phAssets = PHAsset.fetchAssets(with: .video, options: options)
         
         // Setup banner
         bannerView.backgroundColor = Styles.Color.Primary
