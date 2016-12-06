@@ -54,6 +54,9 @@ class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePicker
     var isCameraMode: Bool?
     var isEditingMode: Bool?
     
+    // Title
+    var titleLabel: UILabel?
+    
     //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,13 +65,21 @@ class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePicker
         let tap = UITapGestureRecognizer(target: self, action: #selector(tappedCamerView(_:)))
         cameraControlView.addGestureRecognizer(tap)
         
-        navigationController?.navigationBar.isHidden = true
-        
         metadata = ["missing metadata" : "you didn't add metadata for this pic, bitch!" as Optional<AnyObject>]
         
         //hideCameraControlView()
         setupButtons()
         addImagePickerToSubview(timeInterval: 0.5, delegate: self, completion: nil)
+        
+        navigationController?.navigationBar.isHidden = true
+        let screenWidth = UIScreen.main.bounds.size.width
+        let screenCenterX = screenWidth / 2
+        let titleFrame = CGRect(x: 0, y: 0, width: 100, height: 50)
+        titleLabel = UILabel(frame: titleFrame)
+        titleLabel?.center = CGPoint(x: screenCenterX, y: 50)
+        titleLabel?.text = "Camera"
+        imagePickerView?.addSubview(titleLabel!)
+        
         enterCameraMode()
     }
     

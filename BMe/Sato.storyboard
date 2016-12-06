@@ -43,15 +43,7 @@
                                     <action selector="didTapTab:" destination="7N3-qk-7aw" eventType="touchUpInside" id="1tv-3d-hG0"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" tag="2" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iK6-Ul-lqv">
-                                <rect key="frame" x="187.5" y="620" width="86" height="34"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Create"/>
-                                <connections>
-                                    <action selector="didTapTab:" destination="7N3-qk-7aw" eventType="touchUpInside" id="YjK-v6-Qci"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" tag="3" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UY9-Th-wXZ">
+                            <button opaque="NO" tag="2" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UY9-Th-wXZ">
                                 <rect key="frame" x="273.5" y="620" width="85.5" height="34"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Account">
@@ -75,7 +67,6 @@
                         <outlet property="contentView" destination="nvO-L1-cF2" id="1to-dP-2Sn"/>
                         <outletCollection property="tabs" destination="JQT-ft-PdT" collectionClass="NSMutableArray" id="HAc-Sc-vBx"/>
                         <outletCollection property="tabs" destination="b01-OA-ZOp" collectionClass="NSMutableArray" id="mrQ-5n-jte"/>
-                        <outletCollection property="tabs" destination="iK6-Ul-lqv" collectionClass="NSMutableArray" id="dQE-Ml-d3u"/>
                         <outletCollection property="tabs" destination="UY9-Th-wXZ" collectionClass="NSMutableArray" id="Bpl-Uc-Vt5"/>
                     </connections>
                 </viewController>
