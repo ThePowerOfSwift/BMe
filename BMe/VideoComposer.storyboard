@@ -175,6 +175,13 @@
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kkt-bT-ObF">
+                                <rect key="frame" x="20" y="35" width="30" height="30"/>
+                                <state key="normal" title="X"/>
+                                <connections>
+                                    <action selector="cancelButtonTapped:" destination="Sz2-XX-slY" eventType="touchUpInside" id="rBE-Is-WUQ"/>
+                                </connections>
+                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I1X-Rf-kFF">
                                 <rect key="frame" x="324" y="35" width="31" height="30"/>
                                 <state key="normal" title="Post"/>
@@ -194,24 +201,27 @@
                             <constraint firstAttribute="trailing" secondItem="bWC-rO-Y3C" secondAttribute="trailing" id="Tbm-Gg-d1i"/>
                             <constraint firstItem="bWC-rO-Y3C" firstAttribute="leading" secondItem="0eR-li-Xgn" secondAttribute="leading" id="Tzk-sE-no7"/>
                             <constraint firstItem="I1X-Rf-kFF" firstAttribute="top" secondItem="0OQ-cZ-7fg" secondAttribute="bottom" constant="15" id="mub-09-0Dz"/>
+                            <constraint firstItem="Kkt-bT-ObF" firstAttribute="top" secondItem="0OQ-cZ-7fg" secondAttribute="bottom" constant="15" id="oj3-I2-QlT"/>
+                            <constraint firstItem="Kkt-bT-ObF" firstAttribute="leading" secondItem="0eR-li-Xgn" secondAttribute="leading" constant="20" id="zz8-he-Xvo"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="bannerView" destination="BXk-zb-fZp" id="FZW-X5-bfq"/>
+                        <outlet property="cancelButton" destination="Kkt-bT-ObF" id="EPR-bk-tx9"/>
                         <outlet property="collectionView" destination="bWC-rO-Y3C" id="jhB-E5-hL2"/>
                         <outlet property="postButton" destination="I1X-Rf-kFF" id="b6y-RB-GzE"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bEd-89-ZyK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="230" y="-99"/>
+            <point key="canvasLocation" x="372" y="-99"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="yec-MB-mgq">
             <objects>
                 <navigationController storyboardIdentifier="MediaSelectorNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="jtT-cY-Inp" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="DBl-KK-qyV">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="DBl-KK-qyV">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>

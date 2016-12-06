@@ -15,6 +15,7 @@ class VideoComposerViewController: UIViewController, UICollectionViewDataSource,
     @IBOutlet weak var bannerView: UIView!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var postButton: UIButton!
+    @IBOutlet weak var cancelButton: UIButton!
     
     //MARK: - Models
     var phAssets: [PHAsset]!
@@ -70,6 +71,10 @@ class VideoComposerViewController: UIViewController, UICollectionViewDataSource,
     
     @IBAction func postButtonTapped(_ sender: Any) {
         next()
+    }
+    
+    @IBAction func cancelButtonTapped(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
     }
     
     //MARK: - CollectionView Datasource methods

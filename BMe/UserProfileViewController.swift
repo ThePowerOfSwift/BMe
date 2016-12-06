@@ -29,6 +29,8 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        view.addSubview(WhiteRevealOverlayView(frame: view.bounds))
+
         user = User(AppState.shared.currentUser!)
         setupAvatar()
         setupUser()

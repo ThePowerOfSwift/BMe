@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11542"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="WhiteRevealOverlayView" customModule="BMe" customModuleProvider="target">
+            <connections>
+                <outlet property="heightConstraint" destination="6D9-Ng-1BS" id="1Tn-BF-wFC"/>
+                <outlet property="overlayView" destination="EB1-Uh-Mm7" id="rUn-6C-xcg"/>
+                <outlet property="view" destination="iN0-l3-epB" id="aGe-sM-fYi"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view multipleTouchEnabled="YES" contentMode="scaleToFill" restorationIdentifier="WhiteRevealOverlayView" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view alpha="0.20000000298023224" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EB1-Uh-Mm7">
+                    <rect key="frame" x="0.0" y="577" width="375" height="90"/>
+                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="90" id="6D9-Ng-1BS"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="EB1-Uh-Mm7" secondAttribute="trailing" id="MNu-db-2cR"/>
+                <constraint firstAttribute="bottom" secondItem="EB1-Uh-Mm7" secondAttribute="bottom" id="UL7-5s-kL1"/>
+                <constraint firstItem="EB1-Uh-Mm7" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="ZZh-CQ-Bl0"/>
+            </constraints>
+        </view>
+    </objects>
+</document>
