@@ -117,14 +117,6 @@
             </objects>
             <point key="canvasLocation" x="724" y="159.67016491754123"/>
         </scene>
-        <!--Camera Page View Controller-->
-        <scene sceneID="RX7-9K-JgY">
-            <objects>
-                <pageViewController storyboardIdentifier="CameraPageViewController" autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="KLl-LE-afI" customClass="CameraPageViewController" customModule="BMe" customModuleProvider="target" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="JJE-TC-Gl5" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="724" y="853"/>
-        </scene>
         <!--Show Image View Controller-->
         <scene sceneID="8jM-3j-Yhb">
             <objects>
@@ -162,7 +154,7 @@
             <objects>
                 <navigationController storyboardIdentifier="CameraNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="xOp-WN-I6t" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="dk5-Sv-Cm5">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="dk5-Sv-Cm5">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>

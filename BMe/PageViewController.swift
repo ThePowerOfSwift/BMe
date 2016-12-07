@@ -12,7 +12,7 @@ import UIKit
     @objc optional func scrollTitleTo(index: Int)
 }
 
-class CameraPageViewController: UIPageViewController {
+class PageViewController: UIPageViewController {
     
     var orderedViewControllers: [UIViewController]?
     var firstViewController: CameraViewController?
@@ -36,7 +36,7 @@ class CameraPageViewController: UIPageViewController {
     }
 }
 
-extension CameraPageViewController: UIPageViewControllerDelegate, UIPageViewControllerDataSource {
+extension PageViewController: UIPageViewControllerDelegate, UIPageViewControllerDataSource {
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         

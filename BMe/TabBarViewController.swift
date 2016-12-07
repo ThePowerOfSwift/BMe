@@ -16,9 +16,11 @@ class TabBarViewController: UIViewController, UIScrollViewDelegate, PageViewDele
     @IBOutlet var tabs: [UIButton]!
     
     var browseViewController: UIViewController!
+    var browsePageViewController: PageViewController!
+    
     var cameraNavigationController: UINavigationController!
     var cameraViewController: CameraViewController!
-    var cameraPageViewController: CameraPageViewController!
+    var cameraPageViewController: PageViewController!
     var createViewController: UINavigationController!
     var accountViewController: UIViewController!
     var viewControllers: [UIViewController]!
@@ -38,6 +40,8 @@ class TabBarViewController: UIViewController, UIScrollViewDelegate, PageViewDele
     
     // scroll title text
     @IBOutlet weak var titleScrollView: UIScrollView!
+    var cameraViewPageTitles: [String] = ["camera", "compose"]
+    var browseViewPageTitles: [String] = ["browse", "dummy"]
     var titlePages: [UILabel]?
     
     @IBOutlet weak var titleBar: UIView!
@@ -46,7 +50,12 @@ class TabBarViewController: UIViewController, UIScrollViewDelegate, PageViewDele
 
         // Browse view controller
         browseViewController = UIStoryboard(name: "Browser", bundle: nil).instantiateInitialViewController()
-        addChildViewController(browseViewController)
+        browsePageViewController = UIStoryboard(name: "PageView", bundle: nil).instantiateViewController(withIdentifier: "PageViewController") as! PageViewController
+        addChildViewController(browsePageViewController)
+        
+        let dummyViewController = UIViewController()
+        dummyViewController.view.backgroundColor = UIColor.red
+        browsePageViewController.orderedViewControllers = [browseViewController, dummyViewController]
 
         // Create view controller which will be in camera page view controller
         let createStoryboard = UIStoryboard(name: VideoComposition.StoryboardKey.ID, bundle: nil)
@@ -58,9 +67,9 @@ class TabBarViewController: UIViewController, UIScrollViewDelegate, PageViewDele
         cameraViewController.cameraViewDelegate = self
         
         // Camera page view controller
-        cameraPageViewController = UIStoryboard(name: "Camera", bundle: nil).instantiateViewController(withIdentifier: "CameraPageViewController") as! CameraPageViewController
+        cameraPageViewController = UIStoryboard(name: "PageView", bundle: nil).instantiateViewController(withIdentifier: "PageViewController") as! PageViewController
         cameraPageViewController.orderedViewControllers = [cameraViewController, createViewController]
-        //cameraPageViewController.orderedViewControllers = [cameraNavigationController, createViewController]
+
         addChildViewController(cameraPageViewController)
         
         // Account view controller
@@ -68,7 +77,7 @@ class TabBarViewController: UIViewController, UIScrollViewDelegate, PageViewDele
         addChildViewController(accountViewController)
         
         // Init with view controllers
-        viewControllers = [browseViewController, cameraPageViewController, accountViewController]
+        viewControllers = [browsePageViewController, cameraPageViewController, accountViewController]
 
         setupTabs()
         layoutTabs()
@@ -80,6 +89,7 @@ class TabBarViewController: UIViewController, UIScrollViewDelegate, PageViewDele
         isInitialStartup = false
         
         // title text animateion
+        browsePageViewController.pageViewDelegate = self
         cameraPageViewController.pageViewDelegate = self
         
         // scroll title 
@@ -95,8 +105,15 @@ class TabBarViewController: UIViewController, UIScrollViewDelegate, PageViewDele
         // Round corner
         titleBar.layer.cornerRadius = 2
         titleBar.layer.masksToBounds = true
-        
-        let titles: [String] = ["camera", "compose"]
+    }
+    
+    func changeTitleLabels(titles: [String]) {
+        // Remove previous titls labels
+        for view in titleScrollView.subviews {
+            if let label = view as? UILabel {
+                label.removeFromSuperview()
+            }
+        }
         
         titlePages = [UILabel]()
         for i in 0..<titles.count {
@@ -112,6 +129,13 @@ class TabBarViewController: UIViewController, UIScrollViewDelegate, PageViewDele
             titleLabel.text = titles[i]
             titleScrollView.addSubview(titleLabel)
             titlePages?.append(titleLabel)
+        }
+        
+        print("titleScrollView.isHidden: \(titleScrollView.isHidden)")
+        for view in titleScrollView.subviews {
+            if let label = view as? UILabel {
+                print("UILabel text: \(label.text)")
+            }
         }
         
         titleScrollView.contentSize = CGSize(width: titleScrollView.frame.width * CGFloat(titles.count), height: titleScrollView.frame.size.height)
@@ -240,8 +264,19 @@ class TabBarViewController: UIViewController, UIScrollViewDelegate, PageViewDele
         tabs[selectedIndex].isSelected =  true
         
         // Show title scroll label if selected index is 1
-        if selectedIndex == 1 {
+        switch selectedIndex {
+        case 0:
+            changeTitleLabels(titles: browseViewPageTitles)
             showScrollTitle()
+            print("titleScrollView.isHidden: \(titleScrollView.isHidden)")
+        case 1:
+            changeTitleLabels(titles: cameraViewPageTitles)
+            showScrollTitle()
+        default:
+            hideScrollTitle()
+        }
+        
+        if selectedIndex == 1 {
         } else {
             hideScrollTitle()
         }
