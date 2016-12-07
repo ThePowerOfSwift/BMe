@@ -34,11 +34,8 @@ class TabBarViewController: UIViewController, CameraPageDelegate {
     // detect if it is just after app started. if so, don't enable camera button to take picture
     var isInitialStartup: Bool = true
     
-    // title labels
-    @IBOutlet weak var cameraTitleLabel: UILabel!
-    @IBOutlet weak var composeTitleLabel: UILabel!
-    @IBOutlet weak var leftConstraint: NSLayoutConstraint!
-    @IBOutlet weak var rightConstraint: NSLayoutConstraint!
+    // scroll title text
+    @IBOutlet weak var titleScrollView: UIScrollView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -78,18 +75,35 @@ class TabBarViewController: UIViewController, CameraPageDelegate {
         
         // title text animateion
         cameraPageViewController.cameraPageDelegate = self
-    }
-    
-    // MARK: title text for camera and compose vc
-    func animatePhotoToCenter(offset: CGFloat) {
-        leftConstraint.constant -= abs(offset) * 30/375
         
+        // scroll title 
+        setupTitleScrollView()
     }
     
-    func animateComposeToCenter(offset: CGFloat) {
-        rightConstraint.constant -= abs(offset) * 30/375
+    // MARK: Scroll Title
+    
+    func setupTitleScrollView() {
+        let colors: [UIColor] = [UIColor.red, UIColor.green]
+        
+        for i in 0..<colors.count {
+            var frame = CGRect()
+            frame.origin.x = self.titleScrollView.frame.size.width * CGFloat(i)
+            frame.size = self.titleScrollView.frame.size
+            self.titleScrollView.isPagingEnabled = true
+            
+            let subview = UIView(frame: frame)
+            subview.backgroundColor = colors[i]
+            titleScrollView.addSubview(subview)
+            
+        }
+        
+        titleScrollView.contentSize = CGSize(width: titleScrollView.frame.width * CGFloat(colors.count), height: titleScrollView.frame.size.height)
     }
     
+    func scrollTitleTo(index: Int) {
+        let point = CGPoint(x: titleScrollView.frame.width * CGFloat(index), y: 0)
+        titleScrollView.setContentOffset(point, animated: true)
+    }
     
     // MARK: Tab Setups
     // Call setupButtons(imageName, tabIndex) to setup tabs

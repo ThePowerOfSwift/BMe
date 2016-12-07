@@ -6,7 +6,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -26,6 +25,13 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
+                            <scrollView multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gGU-0e-kv7">
+                                <rect key="frame" x="137" y="40" width="100" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="100" id="Mxl-mM-ORl"/>
+                                    <constraint firstAttribute="height" constant="50" id="yUu-ZJ-Lh3"/>
+                                </constraints>
+                            </scrollView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JQT-ft-PdT">
                                 <rect key="frame" x="16" y="620" width="86" height="34"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -54,34 +60,12 @@
                                     <action selector="didTapTab:" destination="7N3-qk-7aw" eventType="touchUpInside" id="3ki-xb-lv2"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PHOTO" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JJ4-NE-N6J" userLabel="Camera">
-                                <rect key="frame" x="46" y="30" width="150" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="150" id="ZFX-SO-sYh"/>
-                                    <constraint firstAttribute="height" constant="30" id="utL-U3-zeF"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="COMPOSE" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="emK-eo-Lqp" userLabel="Compose">
-                                <rect key="frame" x="179" y="30" width="150" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="150" id="lFE-KP-3n4"/>
-                                    <constraint firstAttribute="height" constant="30" id="yug-4h-oG5"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="emK-eo-Lqp" firstAttribute="centerY" secondItem="JJ4-NE-N6J" secondAttribute="centerY" id="4Di-XF-LIg"/>
                             <constraint firstItem="NkX-li-CHE" firstAttribute="top" secondItem="nvO-L1-cF2" secondAttribute="bottom" id="6Ho-WD-KG2"/>
-                            <constraint firstItem="JJ4-NE-N6J" firstAttribute="leading" secondItem="wMN-RY-k2J" secondAttribute="leadingMargin" constant="30" id="Bah-3H-fU3"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="emK-eo-Lqp" secondAttribute="trailing" constant="30" id="PzS-eS-VCn"/>
-                            <constraint firstItem="JJ4-NE-N6J" firstAttribute="top" secondItem="cva-6H-AAX" secondAttribute="bottom" constant="10" id="eGo-g3-kCo"/>
+                            <constraint firstItem="gGU-0e-kv7" firstAttribute="top" secondItem="cva-6H-AAX" secondAttribute="bottom" constant="20" id="E1m-Ce-3tE"/>
+                            <constraint firstItem="gGU-0e-kv7" firstAttribute="centerX" secondItem="wMN-RY-k2J" secondAttribute="centerX" id="EP8-YX-LlB"/>
                             <constraint firstItem="nvO-L1-cF2" firstAttribute="top" secondItem="wMN-RY-k2J" secondAttribute="top" id="ecX-og-MU1"/>
                             <constraint firstItem="nvO-L1-cF2" firstAttribute="leading" secondItem="wMN-RY-k2J" secondAttribute="leading" id="lyh-Ir-4hd"/>
                             <constraint firstAttribute="trailing" secondItem="nvO-L1-cF2" secondAttribute="trailing" id="ySH-L1-dPC"/>
@@ -89,11 +73,8 @@
                     </view>
                     <navigationItem key="navigationItem" id="iIn-BS-LWr"/>
                     <connections>
-                        <outlet property="cameraTitleLabel" destination="JJ4-NE-N6J" id="jQx-R2-qZQ"/>
-                        <outlet property="composeTitleLabel" destination="emK-eo-Lqp" id="pT9-Wp-uqt"/>
                         <outlet property="contentView" destination="nvO-L1-cF2" id="1to-dP-2Sn"/>
-                        <outlet property="leftConstraint" destination="Bah-3H-fU3" id="eeX-YM-Q0I"/>
-                        <outlet property="rightConstraint" destination="PzS-eS-VCn" id="ihA-FI-IZ5"/>
+                        <outlet property="titleScrollView" destination="gGU-0e-kv7" id="BqD-Ga-9eJ"/>
                         <outletCollection property="tabs" destination="JQT-ft-PdT" collectionClass="NSMutableArray" id="HAc-Sc-vBx"/>
                         <outletCollection property="tabs" destination="b01-OA-ZOp" collectionClass="NSMutableArray" id="mrQ-5n-jte"/>
                         <outletCollection property="tabs" destination="UY9-Th-wXZ" collectionClass="NSMutableArray" id="Bpl-Uc-Vt5"/>

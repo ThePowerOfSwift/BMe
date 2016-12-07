@@ -9,8 +9,7 @@
 import UIKit
 
 @objc protocol CameraPageDelegate {
-    @objc optional func animatePhotoToCenter(offset: CGFloat)
-    @objc optional func animateComposeToCenter(offset: CGFloat)
+    @objc optional func scrollTitleTo(index: Int)
 }
 
 class CameraPageViewController: UIPageViewController {
@@ -90,6 +89,11 @@ extension CameraPageViewController: UIPageViewControllerDelegate, UIPageViewCont
         // Get current index
         let pageContentViewController = pageViewController.viewControllers![0]
         let index = orderedViewControllers?.index(of: pageContentViewController)
+        
+        // Move title scroll view to the current index
+        if completed {
+            cameraPageDelegate?.scrollTitleTo!(index: index!)
+        }
         
         print("Completed: \(completed). Current index: \(index!). Previous Index: \(previousViewControllerIndex!)\n")
     }
