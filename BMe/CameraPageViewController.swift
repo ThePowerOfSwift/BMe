@@ -8,16 +8,16 @@
 
 import UIKit
 
-@objc protocol CameraPageDelegate {
+@objc protocol PageViewDelegate {
     @objc optional func scrollTitleTo(index: Int)
 }
 
 class CameraPageViewController: UIPageViewController {
     
     var orderedViewControllers: [UIViewController]?
-    var cameraViewController: CameraViewController?
+    var firstViewController: CameraViewController?
     
-    var cameraPageDelegate: CameraPageDelegate?
+    var pageViewDelegate: PageViewDelegate?
     var lastContentOffset: CGFloat = 0
 
     override func viewDidLoad() {
@@ -26,11 +26,8 @@ class CameraPageViewController: UIPageViewController {
         dataSource = self
         delegate = self
         
-        
         if let firstViewController = orderedViewControllers?
             .first {
-            cameraViewController = firstViewController as? CameraViewController
-
             setViewControllers([firstViewController],
                                direction: .reverse,
                                animated: true,
@@ -76,7 +73,6 @@ extension CameraPageViewController: UIPageViewControllerDelegate, UIPageViewCont
     }
     // http://stackoverflow.com/questions/8751633/how-can-i-know-if-uipageviewcontroller-flipped-forward-or-reversed
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
-        let previousViewControllerIndex = orderedViewControllers?.index(of: previousViewControllers.first!)
         
         // Get current index
         let pageContentViewController = pageViewController.viewControllers![0]
@@ -84,9 +80,8 @@ extension CameraPageViewController: UIPageViewControllerDelegate, UIPageViewCont
         
         // Move title scroll view to the current index
         if completed {
-            cameraPageDelegate?.scrollTitleTo!(index: index!)
+            pageViewDelegate?.scrollTitleTo!(index: index!)
         }
-
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, willTransitionTo pendingViewControllers: [UIViewController]) {

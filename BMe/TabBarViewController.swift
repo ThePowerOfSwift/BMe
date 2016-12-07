@@ -10,7 +10,7 @@ import UIKit
 import FontAwesome_swift
 import QuartzCore
 
-class TabBarViewController: UIViewController, UIScrollViewDelegate, CameraPageDelegate, CameraViewDelegate {
+class TabBarViewController: UIViewController, UIScrollViewDelegate, PageViewDelegate, CameraViewDelegate {
 
     @IBOutlet weak var contentView: UIView!
     @IBOutlet var tabs: [UIButton]!
@@ -80,7 +80,7 @@ class TabBarViewController: UIViewController, UIScrollViewDelegate, CameraPageDe
         isInitialStartup = false
         
         // title text animateion
-        cameraPageViewController.cameraPageDelegate = self
+        cameraPageViewController.pageViewDelegate = self
         
         // scroll title 
         setupTitleScrollView()
