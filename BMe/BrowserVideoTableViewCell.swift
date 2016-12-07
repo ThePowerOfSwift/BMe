@@ -22,6 +22,8 @@ class BrowserVideoTableViewCell: UITableViewCell {
     var playerLayer: AVPlayerLayer!
     var player: AVPlayer!
     
+    private let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
+    
     // MARK: - Lifecycle
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -35,15 +37,7 @@ class BrowserVideoTableViewCell: UITableViewCell {
     }
     
     func setup() {
-//        backgroundColor = Styles.Color.Primary
-//        postContentView.backgroundColor = Styles.Color.Primary
-        let busy = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
-        busy.color = UIColor.lightGray
-        busy.frame = postContentView.bounds
-        busy.startAnimating()
-        
-        postContentView.addSubview(busy)
-        
+        // Avatar setup
         avatarImageView.layer.cornerRadius = avatarImageView.frame.width / 2
         avatarImageView.layer.borderColor = Styles.Color.Primary.cgColor
         avatarImageView.layer.borderWidth = 1.5
@@ -59,14 +53,29 @@ class BrowserVideoTableViewCell: UITableViewCell {
         postContentView.layer.addSublayer(playerLayer)
         playerLayer.isHidden = true
         
-//        postImageView.backgroundColor = Styles.Color.Primary
-        postImageView.contentMode = .scaleAspectFill
-        postImageView.clipsToBounds = true
+        // No thumbnails used, hide
+//        postImageView.removeFromSuperview()
+//        postImageView.contentMode = .scaleAspectFill
+//        postImageView.clipsToBounds = true
         postImageView.isHidden = true
 
-        headingLabel.textColor = UIColor.white
+        headingLabel.textColor = Styles.Color.Secondary
         headingLabel.text = ""
+        headingLabel.textColor = Styles.Color.Primary
         usernameLabel.text = ""
+        
+        // Activity indicator
+        activityIndicator.color = UIColor.lightGray
+        activityIndicator.frame = postContentView.bounds
+        postContentView.addSubview(activityIndicator)
+    }
+    
+    func didStartLoadingContent() {
+        activityIndicator.startAnimating()
+    }
+    
+    func didFinishLoadingContent() {
+        activityIndicator.stopAnimating()
     }
     
     override func prepareForReuse() {

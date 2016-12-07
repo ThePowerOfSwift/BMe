@@ -17,6 +17,8 @@ class BrowserImageTableViewCell: UITableViewCell {
     @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var headingLabel: UILabel!
     
+    private let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
+
     // MARK: - Lifecycle
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -30,20 +32,31 @@ class BrowserImageTableViewCell: UITableViewCell {
     }
     
     func setup() {
-//        backgroundColor = Styles.Color.Primary
-//        postContentView.backgroundColor = Styles.Color.Primary
         avatarImageView.layer.cornerRadius = avatarImageView.frame.width / 2
         avatarImageView.layer.borderColor = Styles.Avatar.borderColor.cgColor
         avatarImageView.layer.borderWidth = Styles.Avatar.borderWidth
         avatarImageView.clipsToBounds = true
         
-//        postImageView.backgroundColor = Styles.Color.Primary
         postImageView.contentMode = .scaleAspectFill
         postImageView.clipsToBounds = true
         
-        headingLabel.textColor = UIColor.white
+        headingLabel.textColor = Styles.Color.Secondary
         headingLabel.text = ""
+        headingLabel.textColor = Styles.Color.Primary
         usernameLabel.text = ""
+        
+        // Activity indicator
+        activityIndicator.color = UIColor.lightGray
+        activityIndicator.frame = postContentView.bounds
+        postContentView.addSubview(activityIndicator)
+    }
+    
+    func didStartloading() {
+        activityIndicator.startAnimating()
+    }
+    
+    func didFinishloading() {
+        activityIndicator.stopAnimating()
     }
     
     override func prepareForReuse() {

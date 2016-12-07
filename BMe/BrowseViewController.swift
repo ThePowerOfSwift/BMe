@@ -13,12 +13,15 @@ import Firebase
 
 class BrowseViewController: UIViewController {
     
-    
     @IBOutlet weak var tableView: UITableView!
     
+    // Model
     var posts: [FIRDataSnapshot]! = []
-    private var _refHandle: FIRDatabaseHandle!
-    private let dbReference = FIRManager.shared.database.child(ContentType.post.objectKey()).queryOrdered(byChild: Post.Key.timestamp)
+    fileprivate var _refHandle: FIRDatabaseHandle!
+    fileprivate let dbReference = FIRManager.shared.database.child(ContentType.post.objectKey())
+    var isFetchingData = false
+    let fetchBatchSize = 5
+    let cellOffsetToFetchMoreData = 2
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,24 +44,28 @@ class BrowseViewController: UIViewController {
         // Setup player end for loop observation
         NotificationCenter.default.addObserver(self, selector: #selector(playerItemDidReachEnd(_:)), name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil)
         
-        // Setup datasource
-        _refHandle = dbReference.observe(.childAdded, with: { (snapshot) in
-            print("Setting child \(self.posts.count)")
-            self.posts.append(snapshot)
-            self.tableView.insertRows(at: [IndexPath(row: self.posts.count - 1, section: 0)], with: .automatic)
-        })
+        setupDatasource()
     }
     
-    // Loop video
-    func playerItemDidReachEnd(_ notification: NSNotification) {
-        let playerItem = notification.object as! AVPlayerItem
-        playerItem.seek(to: kCMTimeZero)
+    func setupDatasource() {
+        // Setup datasource
+        _refHandle = dbReference.queryLimited(toLast: UInt(3)).observe(.childAdded, with: { (snapshot) in
+            self.posts.insert(snapshot, at: 0)
+            self.tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
+            //            self.tableView.insertRows(at: [IndexPath(row: self.posts.count - 1, section: 0)], with: .automatic)
+        })
     }
     
     // Deregister for notifications
     deinit {
         dbReference.removeObserver(withHandle: _refHandle)
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil)
+    }
+    
+    // Loop video
+    func playerItemDidReachEnd(_ notification: NSNotification) {
+        let playerItem = notification.object as! AVPlayerItem
+        playerItem.seek(to: kCMTimeZero)
     }
 }
 
@@ -73,20 +80,17 @@ extension BrowseViewController:  UITableViewDelegate, UITableViewDataSource {
         let post = Post(postedObject)
         let url = post.url
         let currentIndex = indexPath.row
-        
-print("Processing cell: \(currentIndex) timestamp\(post.timestamp?.toString())")
+
+        // ------- VIDEO
         if post.contentType == .video {
             let cell = tableView.dequeueReusableCell(withIdentifier: BrowserVideoTableViewCell.ID, for: indexPath) as! BrowserVideoTableViewCell
             cell.tag = currentIndex
             
             // Setup user content
             if let uid = post.uid {
-print("Fetching user meta for \(currentIndex)")
                 User.userMeta(uid, block: { (usermeta) in
-print("Got user meta for \(currentIndex)")
                     if cell.tag == currentIndex {
                         // Get the avatar if it exists
-print("Setting user meta for \(indexPath.row)")
                         let ref = FIRManager.shared.storage.child(usermeta.avatarURL!.path)
                         cell.avatarImageView.loadImageFromGS(with: ref, placeholderImage: UIImage(named: Constants.Images.avatarDefault))
                         cell.usernameLabel.text = usermeta.username
@@ -94,22 +98,30 @@ print("Setting user meta for \(indexPath.row)")
                 })
             }
             
-// fetch video JSON
+            // fetch video JSON
+            cell.didStartLoadingContent()
+
             FIRManager.shared.database.child(url!.path).observeSingleEvent(of: .value, with: { (snapshot) in
                 if cell.tag == currentIndex {
+                    //TODO: - TEST
+                    cell.headingLabel.text = post.timestamp?.toString() //delete and uncomment three below
+                    
                     let video = Video(snapshot.dictionary)
-                    if let meta = video.meta {
-                        let restaurant = Restaurant(dictionary: meta)
-                        cell.headingLabel.text = restaurant.name
-                    }
+//                    if let meta = video.meta {
+//                        let restaurant = Restaurant(dictionary: meta)
+//                        cell.headingLabel.text = restaurant.name
+//                    }
                     let playerItem = AVPlayerItem(url: video.downloadURL!)
                     cell.player.replaceCurrentItem(with: playerItem)
                     cell.player.automaticallyWaitsToMinimizeStalling = true
                     cell.player.play()
                     cell.playerLayer.isHidden = false
+                    
+                    cell.didFinishLoadingContent()
                 }
             })
             
+        // ------- IMAGE
         } else if post.contentType == .image {
             let cell = tableView.dequeueReusableCell(withIdentifier: BrowserImageTableViewCell.ID, for: indexPath) as! BrowserImageTableViewCell
             cell.tag = currentIndex
@@ -126,17 +138,22 @@ print("Setting user meta for \(indexPath.row)")
                 })
             }
             
-// fetch image JSON
+            // fetch image JSON
+            cell.didStartloading()
             FIRManager.shared.database.child(url!.path).observeSingleEvent(of: .value, with: { (snapshot) in
                 if cell.tag == currentIndex {
+                    //TODO: - TEST
+                    cell.headingLabel.text = post.timestamp?.toString() //delete and uncomment three below
+                    
                     let image = Image(snapshot.dictionary)
-                    if let meta = image.meta {
-                        let restaurant = Restaurant(dictionary: meta)
-                        cell.headingLabel.text = restaurant.name
-                    }
+//                    if let meta = image.meta {
+//                        let restaurant = Restaurant(dictionary: meta)
+//                        cell.headingLabel.text = restaurant.name
+//                    }
                     let imageRef = FIRManager.shared.storage.child(image.gsURL!.path)
                     cell.postImageView.loadImageFromGS(with: imageRef, placeholderImage: nil)
-                    cell.postImageView.isHidden = false
+
+                    cell.didFinishloading()
                 }
             })
             
@@ -154,9 +171,36 @@ print("Setting user meta for \(indexPath.row)")
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        print("row at indexPath \(indexPath.row) of \(posts.count - 1)")
         
+        //if two rows off, request and block
+        if indexPath.row > (posts.count - 1 - cellOffsetToFetchMoreData) {
+            fetchMoreDatasource()
+        }
     }
     
+    func fetchMoreDatasource() {
+        if !isFetchingData {
+            isFetchingData = true
+            let db = FIRManager.shared.database.child(ContentType.post.objectKey())
+            let lastKey = posts[posts.count - 1].key
+            print("last key '\(lastKey)'")
+//            let lastPost = Post(posts[posts.count - 1].dictionary)
+//            let lastTimestamp = lastPost.timestamp
+//            print("should request from timestamp: \(lastTimestamp)")
+            
+//            queryStarting(atValue: lastKey).queryLimited(toLast: UInt(fetchBatchSize))
+            db.child("timestamp").queryEqual(toValue: "2016-12-06 19:44:44 -0800").observeSingleEvent(of: .value, with:
+                { (snapshot) in
+                    print(snapshot.value)
+                    
+                    self.isFetchingData = false
+            })
+            
+        }
+    }
+    
+    // Deprecate or replace - does not pull from Network
     func pullToRefresh(_ refreshControl: UIRefreshControl) {
         refreshControl.endRefreshing()
         tableView.reloadData()
