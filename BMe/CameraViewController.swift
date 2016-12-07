@@ -15,6 +15,8 @@ import Photos
 @objc protocol CameraViewDelegate {
     @objc optional func hideScrollTitle()
     @objc optional func showScrollTitle()
+    @objc optional func hideTabBar()
+    @objc optional func showTabBar()
 }
 
 class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, LocationButtonDelegate, CameraViewDelegate {
@@ -117,6 +119,7 @@ class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePicker
         isEditingMode = false
         isCameraMode = true
         cameraViewDelegate?.showScrollTitle!()
+        cameraViewDelegate?.showTabBar!()
     }
     
     func enterEditMode() {
@@ -125,6 +128,7 @@ class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePicker
         isCameraMode = false
         isEditingMode = false
         cameraViewDelegate?.hideScrollTitle!()
+        cameraViewDelegate?.hideTabBar!()
     }
     
     // MARK: image picker

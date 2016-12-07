@@ -36,13 +36,6 @@ class CameraPageViewController: UIPageViewController {
                                animated: true,
                                completion: nil)
         }
-
-        // Scroll view delegate
-        for view in self.view.subviews{
-            if view is UIScrollView {
-                (view as! UIScrollView).delegate = self
-            }
-        }
     }
 }
 
@@ -79,7 +72,6 @@ extension CameraPageViewController: UIPageViewControllerDelegate, UIPageViewCont
         guard orderedViewControllersCount != nextIndex else {
             return nil
         }
-        print("in viewControllerAfter")
         return orderedViewControllers?[nextIndex]
     }
     // http://stackoverflow.com/questions/8751633/how-can-i-know-if-uipageviewcontroller-flipped-forward-or-reversed
@@ -94,35 +86,12 @@ extension CameraPageViewController: UIPageViewControllerDelegate, UIPageViewCont
         if completed {
             cameraPageDelegate?.scrollTitleTo!(index: index!)
         }
-        
-        print("Completed: \(completed). Current index: \(index!). Previous Index: \(previousViewControllerIndex!)\n")
+
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, willTransitionTo pendingViewControllers: [UIViewController]) {
-        let pendingViewControllerIndex = orderedViewControllers?.index(of: pendingViewControllers.first!)
-        print("Start. pendingViewControllerIndex: \(pendingViewControllerIndex!)\n")
+
     }
     
-}
-
-extension CameraPageViewController: UIScrollViewDelegate {
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        //print("self.lastContentOffset: \(self.lastContentOffset)")
-        if (self.lastContentOffset > scrollView.contentOffset.x) {
-            //let offset = scrollView.contentOffset.x - self.lastContentOffset
-            //print("Moving right. contentOffset.x: \(scrollView.contentOffset.x)\t real offset: \(offset)")
-            //cameraPageDelegate?.animatePhotoToCenter!(offset: offset)
-        }
-        else if (self.lastContentOffset < scrollView.contentOffset.x) {
-            //let offset = scrollView.contentOffset.x - self.lastContentOffset
-            //print("Moving left. contentOffset.x: \(scrollView.contentOffset.x)\t real offset: \(offset)")
-            //cameraPageDelegate?.animateComposeToCenter!(offset: offset)
-        }
-        
-        // update the new position acquired
-        self.lastContentOffset = scrollView.contentOffset.x
-    }
-    
-
 }
 
