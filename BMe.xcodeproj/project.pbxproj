@@ -46,10 +46,6 @@
 		785E87C61DED445000C9FF59 /* Play image- white.png in Resources */ = {isa = PBXBuildFile; fileRef = 785E87C51DED445000C9FF59 /* Play image- white.png */; };
 		785E87C81DED4C4F00C9FF59 /* VideoComposerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785E87C71DED4C4F00C9FF59 /* VideoComposerViewController.swift */; };
 		785E87CA1DED4E5800C9FF59 /* VideoComposerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785E87C91DED4E5800C9FF59 /* VideoComposerCollectionViewCell.swift */; };
-		78B369BC1DE7E040001ADD53 /* CompositionTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78B369BA1DE7E040001ADD53 /* CompositionTestViewController.swift */; };
-		78B369BD1DE7E040001ADD53 /* CompositionTest.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 78B369BB1DE7E040001ADD53 /* CompositionTest.storyboard */; };
-		78B369BF1DE7F844001ADD53 /* TemplateListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78B369BE1DE7F844001ADD53 /* TemplateListVC.swift */; };
-		78B369C11DE7F85F001ADD53 /* TemplateListVC.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 78B369C01DE7F85F001ADD53 /* TemplateListVC.storyboard */; };
 		78B56A021DF5E7AE00A13915 /* UserMeta.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78B56A011DF5E7AE00A13915 /* UserMeta.swift */; };
 		78B56A061DF5EBFB00A13915 /* error.png in Resources */ = {isa = PBXBuildFile; fileRef = 78B56A051DF5EBFB00A13915 /* error.png */; };
 		78B56A091DF5FD1B00A13915 /* user-white.png in Resources */ = {isa = PBXBuildFile; fileRef = 78B56A071DF5FD1B00A13915 /* user-white.png */; };
@@ -75,8 +71,6 @@
 		78C350451DF2260A005E8331 /* Account.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 78C350441DF2260A005E8331 /* Account.storyboard */; };
 		78C350471DF232AF005E8331 /* UserProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C350461DF232AF005E8331 /* UserProfileViewController.swift */; };
 		78C350491DF28756005E8331 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C350481DF28756005E8331 /* User.swift */; };
-		78CDA09C1DE5307200ABC5E1 /* VideosListVC.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 78CDA09A1DE5307200ABC5E1 /* VideosListVC.storyboard */; };
-		78CDA09D1DE5307200ABC5E1 /* VideosListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CDA09B1DE5307200ABC5E1 /* VideosListVC.swift */; };
 		78CDA09F1DE5307C00ABC5E1 /* FIRManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CDA09E1DE5307C00ABC5E1 /* FIRManager.swift */; };
 		78F511361DF6D0860074050F /* WhiteRevealOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F511351DF6D0860074050F /* WhiteRevealOverlayView.swift */; };
 		78F511381DF6D09E0074050F /* WhiteRevealOverlayView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 78F511371DF6D09E0074050F /* WhiteRevealOverlayView.xib */; };
@@ -170,10 +164,6 @@
 		785E87C51DED445000C9FF59 /* Play image- white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Play image- white.png"; sourceTree = "<group>"; };
 		785E87C71DED4C4F00C9FF59 /* VideoComposerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoComposerViewController.swift; sourceTree = "<group>"; };
 		785E87C91DED4E5800C9FF59 /* VideoComposerCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoComposerCollectionViewCell.swift; sourceTree = "<group>"; };
-		78B369BA1DE7E040001ADD53 /* CompositionTestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompositionTestViewController.swift; sourceTree = "<group>"; };
-		78B369BB1DE7E040001ADD53 /* CompositionTest.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = CompositionTest.storyboard; sourceTree = "<group>"; };
-		78B369BE1DE7F844001ADD53 /* TemplateListVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TemplateListVC.swift; sourceTree = "<group>"; };
-		78B369C01DE7F85F001ADD53 /* TemplateListVC.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = TemplateListVC.storyboard; sourceTree = "<group>"; };
 		78B56A011DF5E7AE00A13915 /* UserMeta.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserMeta.swift; sourceTree = "<group>"; };
 		78B56A051DF5EBFB00A13915 /* error.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = error.png; sourceTree = "<group>"; };
 		78B56A071DF5FD1B00A13915 /* user-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "user-white.png"; sourceTree = "<group>"; };
@@ -199,8 +189,6 @@
 		78C350441DF2260A005E8331 /* Account.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Account.storyboard; sourceTree = "<group>"; };
 		78C350461DF232AF005E8331 /* UserProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileViewController.swift; sourceTree = "<group>"; };
 		78C350481DF28756005E8331 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
-		78CDA09A1DE5307200ABC5E1 /* VideosListVC.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = VideosListVC.storyboard; sourceTree = "<group>"; };
-		78CDA09B1DE5307200ABC5E1 /* VideosListVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideosListVC.swift; sourceTree = "<group>"; };
 		78CDA09E1DE5307C00ABC5E1 /* FIRManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FIRManager.swift; sourceTree = "<group>"; };
 		78F511351DF6D0860074050F /* WhiteRevealOverlayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WhiteRevealOverlayView.swift; sourceTree = "<group>"; };
 		78F511371DF6D09E0074050F /* WhiteRevealOverlayView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WhiteRevealOverlayView.xib; sourceTree = "<group>"; };
@@ -465,12 +453,6 @@
 		78CDA0A01DE5311F00ABC5E1 /* Examples */ = {
 			isa = PBXGroup;
 			children = (
-				78B369BA1DE7E040001ADD53 /* CompositionTestViewController.swift */,
-				78B369BB1DE7E040001ADD53 /* CompositionTest.storyboard */,
-				78CDA09B1DE5307200ABC5E1 /* VideosListVC.swift */,
-				78CDA09A1DE5307200ABC5E1 /* VideosListVC.storyboard */,
-				78B369BE1DE7F844001ADD53 /* TemplateListVC.swift */,
-				78B369C01DE7F85F001ADD53 /* TemplateListVC.storyboard */,
 			);
 			name = Examples;
 			sourceTree = "<group>";
@@ -586,7 +568,7 @@
 				TargetAttributes = {
 					78469A571DE3958000A40D53 = {
 						CreatedOnToolsVersion = 8.0;
-						DevelopmentTeam = PY8CHQP699;
+						DevelopmentTeam = Y4GA6H5JHE;
 						ProvisioningStyle = Automatic;
 					};
 					78469A6B1DE3958100A40D53 = {
@@ -640,7 +622,6 @@
 				781E71401DF4036E00041855 /* sound-wave-yellow.png in Resources */,
 				781E71591DF5330E00041855 /* circle-white.png in Resources */,
 				781E71441DF407F600041855 /* location.png in Resources */,
-				78CDA09C1DE5307200ABC5E1 /* VideosListVC.storyboard in Resources */,
 				7821C3C21DEF939A0023B95E /* Camera.storyboard in Resources */,
 				78BCDF431DF752F9002D399E /* hook-black.png in Resources */,
 				78469A661DE3958100A40D53 /* LaunchScreen.storyboard in Resources */,
@@ -651,9 +632,7 @@
 				78BCDF3C1DF74ABC002D399E /* nextarrow-yellow.png in Resources */,
 				781E71621DF5DF4000041855 /* black_truffle.jpg in Resources */,
 				78469A631DE3958100A40D53 /* Assets.xcassets in Resources */,
-				78B369C11DE7F85F001ADD53 /* TemplateListVC.storyboard in Resources */,
 				785E87C61DED445000C9FF59 /* Play image- white.png in Resources */,
-				78B369BD1DE7E040001ADD53 /* CompositionTest.storyboard in Resources */,
 				78BCDF461DF75D16002D399E /* hook-yellow.png in Resources */,
 				78B56A0A1DF5FD1B00A13915 /* user-yellow.png in Resources */,
 				78BCDF321DF7464D002D399E /* cross-yellow.png in Resources */,
@@ -836,7 +815,6 @@
 				E3C357A21DEF451E00AC0832 /* YPManager.swift in Sources */,
 				E3D1D55F1DF11D700021942A /* Styles.swift in Sources */,
 				78BCDF3F1DF751E8002D399E /* BusyView.swift in Sources */,
-				78B369BC1DE7E040001ADD53 /* CompositionTestViewController.swift in Sources */,
 				78469A5E1DE3958100A40D53 /* LoginViewController.swift in Sources */,
 				785E87CA1DED4E5800C9FF59 /* VideoComposerCollectionViewCell.swift in Sources */,
 				78BCDF371DF749CC002D399E /* PostButton.swift in Sources */,
@@ -846,7 +824,6 @@
 				781E71521DF4EEE000041855 /* Post.swift in Sources */,
 				783008A61DE3B9A000B070D4 /* MediaSelectorCollectionViewCell.swift in Sources */,
 				E35AC4891DE4D75C00FCB0D0 /* BrowseViewController.swift in Sources */,
-				78CDA09D1DE5307200ABC5E1 /* VideosListVC.swift in Sources */,
 				783008AA1DE3B9A000B070D4 /* Constants.swift in Sources */,
 				781E71501DF4E52A00041855 /* YelpViewController.swift in Sources */,
 				7830089A1DE3B0B500B070D4 /* MeasurementHelper.swift in Sources */,
@@ -862,7 +839,6 @@
 				781E71561DF5196F00041855 /* Image.swift in Sources */,
 				78F511361DF6D0860074050F /* WhiteRevealOverlayView.swift in Sources */,
 				E38E32B81DF3B6FC00631AEC /* ShowImageViewController.swift in Sources */,
-				78B369BF1DE7F844001ADD53 /* TemplateListVC.swift in Sources */,
 				783008A71DE3B9A000B070D4 /* MediaSelectorViewController.swift in Sources */,
 				78B95F8C1DF6B4EA00B6C83E /* BrowserImageTableViewCell.swift in Sources */,
 				E3C357A41DEF484E00AC0832 /* Restaurant.swift in Sources */,
@@ -1022,7 +998,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				DEVELOPMENT_TEAM = PY8CHQP699;
+				DEVELOPMENT_TEAM = Y4GA6H5JHE;
 				INFOPLIST_FILE = BMe/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.op.BMe;
@@ -1040,7 +1016,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				DEVELOPMENT_TEAM = PY8CHQP699;
+				DEVELOPMENT_TEAM = Y4GA6H5JHE;
 				INFOPLIST_FILE = BMe/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.op.BMe;

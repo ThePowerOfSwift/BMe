@@ -15,12 +15,23 @@ class LoginViewController: UIViewController {
 
     @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
+    @IBOutlet weak var signupButton: UIButton!
+    @IBOutlet weak var loginButton: UIButton!
+    @IBOutlet weak var logoImageView: UIImageView!
+    @IBOutlet weak var logoImageViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var logoImageViewWidthConstraint: NSLayoutConstraint!
     
 // MARK: - Lifecycle methods
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         // Do any additional setup after loading the view, typically from a nib.
+        view.backgroundColor = Styles.Color.Primary
+        logoImageViewWidthConstraint.constant = Styles.Logo.size.width
+        logoImageViewHeightConstraint.constant = Styles.Logo.size.height
+        logoImageView.image = UIImage(named: Constants.Images.hookBlack)
+            
         // Subscribe to notifications for login (and send to root VC)
         // Add notification send user back to login screen after logout
         NotificationCenter.default.addObserver(self, selector: #selector(presentRootVC), name: NSNotification.Name(rawValue: Constants.NotificationKeys.didSignIn), object: nil)
@@ -67,19 +78,25 @@ class LoginViewController: UIViewController {
 
     }
     
-   
+    // MARK: -  Methods
     
-    //TODO: - Hook this up
-    @IBAction func signOut(_ sender: UIButton) {
-        AppState.shared.signOut()
+    func animateSignIn() {
+        UIView.animate(withDuration: 0.5, animations: {
+            // disappear logo
+            self.logoImageView.alpha = 0
+        }, completion: { (success) in
+            self.logoImageView.image = UIImage(named: Constants.Images.hookYellow)
+            UIView.animate(withDuration: 0.5 , animations: {
+                self.logoImageView.alpha = 1
+            }, completion: { (success) in
+                // Present root vc after login success
+                self.present(self.getRootVCAfterLogin(), animated: false, completion: nil)
+            })
+        })
     }
     
-    
-    // MARK: -  Methods
-
     func presentRootVC() {
-        // Present root vc after login success
-        present(getRootVCAfterLogin(), animated: true, completion: nil)
+        animateSignIn()
     }
 
     func getRootVCAfterLogin() -> UIViewController {

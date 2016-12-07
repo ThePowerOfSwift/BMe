@@ -61,6 +61,7 @@ class BusyView: UIView {
     }
     func stopAnimating() {
         animate = false
+        animate(animate)
         UIApplication.shared.endIgnoringInteractionEvents()
     }
 

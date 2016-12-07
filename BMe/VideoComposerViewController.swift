@@ -71,6 +71,7 @@ class VideoComposerViewController: UIViewController, UICollectionViewDataSource,
     
     //MARK: - Navigation  methods
 
+    // Deprecate
     func nextButtonTapped(_ sender: UIBarButtonItem) {
         next()
     }
