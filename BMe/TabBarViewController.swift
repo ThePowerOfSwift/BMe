@@ -10,8 +10,7 @@ import UIKit
 import FontAwesome_swift
 import QuartzCore
 
-
-class TabBarViewController: UIViewController, CameraPageDelegate {
+class TabBarViewController: UIViewController, UIScrollViewDelegate, CameraPageDelegate {
 
     @IBOutlet weak var contentView: UIView!
     @IBOutlet var tabs: [UIButton]!
@@ -36,7 +35,9 @@ class TabBarViewController: UIViewController, CameraPageDelegate {
     
     // scroll title text
     @IBOutlet weak var titleScrollView: UIScrollView!
+    var titlePages: [UILabel]?
     
+    @IBOutlet weak var titleBar: UIView!
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -83,27 +84,64 @@ class TabBarViewController: UIViewController, CameraPageDelegate {
     // MARK: Scroll Title
     
     func setupTitleScrollView() {
-        let colors: [UIColor] = [UIColor.red, UIColor.green]
+        titleBar.backgroundColor = Styles.Color.Tertiary
+        titleBar.alpha = 0
+        // Round corner
+        titleBar.layer.cornerRadius = 5
+        titleBar.layer.masksToBounds = true
         
-        for i in 0..<colors.count {
+        let titles: [String] = ["camera", "compose"]
+        
+        titlePages = [UILabel]()
+        for i in 0..<titles.count {
             var frame = CGRect()
             frame.origin.x = self.titleScrollView.frame.size.width * CGFloat(i)
             frame.size = self.titleScrollView.frame.size
             self.titleScrollView.isPagingEnabled = true
-            
-            let subview = UIView(frame: frame)
-            subview.backgroundColor = colors[i]
-            titleScrollView.addSubview(subview)
-            
+            let titleLabel = UILabel(frame: frame)
+            titleLabel.font = UIFont(name: titleLabel.font.fontName, size: 20)
+//            titleLabel.textColor = Styles.Color.Tertiary
+            titleLabel.textColor = UIColor.white
+            titleLabel.textAlignment = NSTextAlignment.center
+            titleLabel.text = titles[i]
+            titleScrollView.addSubview(titleLabel)
+            titlePages?.append(titleLabel)
         }
         
-        titleScrollView.contentSize = CGSize(width: titleScrollView.frame.width * CGFloat(colors.count), height: titleScrollView.frame.size.height)
+        titleScrollView.contentSize = CGSize(width: titleScrollView.frame.width * CGFloat(titles.count), height: titleScrollView.frame.size.height)
     }
     
     func scrollTitleTo(index: Int) {
         let point = CGPoint(x: titleScrollView.frame.width * CGFloat(index), y: 0)
         titleScrollView.setContentOffset(point, animated: true)
+        
+        for i in 0..<(titlePages?.count)! {
+            if i == index {
+                
+                UIView.animate(withDuration: 0.5, animations: {
+                    self.titlePages?[i].alpha = 1
+                })
+                
+            } else {
+                
+                UIView.animate(withDuration: 0.5, animations: {
+                    self.titlePages?[i].alpha = 0.2
+
+                })
+            }
+        }
+        
+        // animate bar
+
+        UIView.animate(withDuration: 1, animations: {
+            self.titleBar.alpha = 1
+        }, completion: { (completed :Bool) in
+            UIView.animate(withDuration: 1, animations: {
+                self.titleBar.alpha = 0
+            })
+        })
     }
+    
     
     // MARK: Tab Setups
     // Call setupButtons(imageName, tabIndex) to setup tabs
