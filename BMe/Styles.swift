@@ -20,7 +20,7 @@ struct Styles {
                 static let G: CGFloat = 164 / 255.0
                 static let B: CGFloat = 164 / 255.0
             }
-            struct Secondary { // gray
+            struct Secondary { // gray 605860
                 static let R: CGFloat = 96 / 255.0
                 static let G: CGFloat = 88 / 255.0
                 static let B: CGFloat = 96 / 255.0

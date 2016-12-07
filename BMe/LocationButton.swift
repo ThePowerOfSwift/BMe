@@ -23,8 +23,12 @@ class LocationButton: UIButton, YelpViewControllerDelegate {
     }
     
     func setup() {
-        changeImageDefault()
+        //manually pull nearest resto now
+        yelpVC = UIStoryboard(name: Constants.SegueID.Storyboard.Yelp, bundle: nil).instantiateInitialViewController() as? YelpViewController
         yelpVC?.delegate = self
+        
+        changeImageDefault()
+        yelpVC?.delegate = self  //needed?
         addTarget(self, action: #selector(tappedButton(_:)), for: UIControlEvents.touchUpInside)
     }
     

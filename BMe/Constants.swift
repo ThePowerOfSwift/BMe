@@ -73,6 +73,12 @@ struct Constants {
         static let crossYellow = "cross-yellow.png"
         static let next = "nextarrow.png"
         static let nextYellow = "nextarrow-yellow.png"
+        static let raincheck = "raincheck.png"
+        static let raincheckYellow = "raincheck-yellow.png"
+        static let raincheckBlue = "raincheck-blue.png"
+        static let raincheckBlack = "raincheck-black.png"
+        static let raincheckClosed = "raincheck-closed.png"
+        static let raincheckGray = "raincheck-gray.png"
     }
     
     struct ImageCompressionAndResizingRate {

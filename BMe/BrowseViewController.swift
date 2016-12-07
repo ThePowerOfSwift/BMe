@@ -18,10 +18,10 @@ class BrowseViewController: UIViewController {
     // Model
     var posts: [FIRDataSnapshot]! = []
     fileprivate var _refHandle: FIRDatabaseHandle!
-    fileprivate let dbReference = FIRManager.shared.database.child(ContentType.post.objectKey())
+    fileprivate let dbReference = FIRManager.shared.database.child(ContentType.post.objectKey()).queryOrdered(byChild: Post.Key.timestamp)
     var isFetchingData = false
     let fetchBatchSize = 5
-    let cellOffsetToFetchMoreData = 1
+    let cellOffsetToFetchMoreData = 2
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,9 +33,12 @@ class BrowseViewController: UIViewController {
         // Put in white reveal
         view.addSubview(WhiteRevealOverlayView(frame: view.bounds))
         
+        tableView.allowsSelection = false
         tableView.delegate = self
         tableView.dataSource = self
-
+        tableView.estimatedRowHeight = 500
+        tableView.rowHeight = UITableViewAutomaticDimension
+        
         // Pull to refresh
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(pullToRefresh(_:)), for: UIControlEvents.valueChanged)
@@ -167,13 +170,12 @@ extension BrowseViewController:  UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: false)
-        
+        print("Did select table row \(indexPath.row)")
 //        if let video = videos?[indexPath.row] {
 //        }
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        print("row at indexPath \(indexPath.row) of \(posts.count - 1)")
         
         //if two rows off, request and block
         if indexPath.row > (posts.count - 1 - cellOffsetToFetchMoreData) {
@@ -189,7 +191,7 @@ extension BrowseViewController:  UITableViewDelegate, UITableViewDataSource {
             // Request with upper limit on the last loaded post with a lower limit bound by batch size
             let lastPost = Post(posts[posts.count - 1].dictionary)
             let lastTimestamp = lastPost.timestamp?.toString()
-            dbReference.queryOrdered(byChild: Post.Key.timestamp).queryEnding(atValue: lastTimestamp).queryLimited(toLast: UInt(fetchBatchSize)).observeSingleEvent(of: .value, with:
+            dbReference.queryEnding(atValue: lastTimestamp).queryLimited(toLast: UInt(fetchBatchSize)).observeSingleEvent(of: .value, with:
                 { (snapshot) in
                     
                     // returns posts oldest to youngest, inclusive, so remove last child

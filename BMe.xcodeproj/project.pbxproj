@@ -36,6 +36,13 @@
 		783008A91DE3B9A000B070D4 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783008A21DE3B9A000B070D4 /* Extensions.swift */; };
 		783008AA1DE3B9A000B070D4 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783008A31DE3B9A000B070D4 /* Constants.swift */; };
 		78337D8D1DE3AC6600A1B32C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 78337D8C1DE3AC6600A1B32C /* GoogleService-Info.plist */; };
+		7837A20C1DF8B898000CB9CB /* raincheck-black.png in Resources */ = {isa = PBXBuildFile; fileRef = 7837A2061DF8B898000CB9CB /* raincheck-black.png */; };
+		7837A20D1DF8B898000CB9CB /* raincheck-blue.png in Resources */ = {isa = PBXBuildFile; fileRef = 7837A2071DF8B898000CB9CB /* raincheck-blue.png */; };
+		7837A20E1DF8B898000CB9CB /* raincheck-closed.png in Resources */ = {isa = PBXBuildFile; fileRef = 7837A2081DF8B898000CB9CB /* raincheck-closed.png */; };
+		7837A20F1DF8B898000CB9CB /* raincheck-gray.png in Resources */ = {isa = PBXBuildFile; fileRef = 7837A2091DF8B898000CB9CB /* raincheck-gray.png */; };
+		7837A2101DF8B898000CB9CB /* raincheck-yellow.png in Resources */ = {isa = PBXBuildFile; fileRef = 7837A20A1DF8B898000CB9CB /* raincheck-yellow.png */; };
+		7837A2111DF8B898000CB9CB /* raincheck.png in Resources */ = {isa = PBXBuildFile; fileRef = 7837A20B1DF8B898000CB9CB /* raincheck.png */; };
+		7837A2131DF8BB96000CB9CB /* RainCheckButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7837A2121DF8BB96000CB9CB /* RainCheckButton.swift */; };
 		78469A5C1DE3958100A40D53 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78469A5B1DE3958100A40D53 /* AppDelegate.swift */; };
 		78469A5E1DE3958100A40D53 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78469A5D1DE3958100A40D53 /* LoginViewController.swift */; };
 		78469A611DE3958100A40D53 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 78469A5F1DE3958100A40D53 /* Main.storyboard */; };
@@ -148,6 +155,13 @@
 		783008A21DE3B9A000B070D4 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		783008A31DE3B9A000B070D4 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		78337D8C1DE3AC6600A1B32C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		7837A2061DF8B898000CB9CB /* raincheck-black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "raincheck-black.png"; sourceTree = "<group>"; };
+		7837A2071DF8B898000CB9CB /* raincheck-blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "raincheck-blue.png"; sourceTree = "<group>"; };
+		7837A2081DF8B898000CB9CB /* raincheck-closed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "raincheck-closed.png"; sourceTree = "<group>"; };
+		7837A2091DF8B898000CB9CB /* raincheck-gray.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "raincheck-gray.png"; sourceTree = "<group>"; };
+		7837A20A1DF8B898000CB9CB /* raincheck-yellow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "raincheck-yellow.png"; sourceTree = "<group>"; };
+		7837A20B1DF8B898000CB9CB /* raincheck.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = raincheck.png; sourceTree = "<group>"; };
+		7837A2121DF8BB96000CB9CB /* RainCheckButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RainCheckButton.swift; sourceTree = "<group>"; };
 		78469A581DE3958000A40D53 /* BMe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BMe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		78469A5B1DE3958100A40D53 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		78469A5D1DE3958100A40D53 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -337,7 +351,6 @@
 			isa = PBXGroup;
 			children = (
 				7821C3B91DEF10F60023B95E /* TimeLapseBuilder.swift */,
-				78CDA0A01DE5311F00ABC5E1 /* Examples */,
 			);
 			name = JJ;
 			sourceTree = "<group>";
@@ -422,6 +435,12 @@
 				78B56A081DF5FD1B00A13915 /* user-yellow.png */,
 				78BCDF3A1DF74ABC002D399E /* nextarrow-yellow.png */,
 				78BCDF3B1DF74ABC002D399E /* nextarrow.png */,
+				7837A2061DF8B898000CB9CB /* raincheck-black.png */,
+				7837A2071DF8B898000CB9CB /* raincheck-blue.png */,
+				7837A2081DF8B898000CB9CB /* raincheck-closed.png */,
+				7837A2091DF8B898000CB9CB /* raincheck-gray.png */,
+				7837A20A1DF8B898000CB9CB /* raincheck-yellow.png */,
+				7837A20B1DF8B898000CB9CB /* raincheck.png */,
 			);
 			name = Images;
 			sourceTree = "<group>";
@@ -446,15 +465,9 @@
 				78BCDF331DF74663002D399E /* CrossButton.swift */,
 				78BCDF361DF749CC002D399E /* PostButton.swift */,
 				78BCDF381DF74A15002D399E /* NextButton.swift */,
+				7837A2121DF8BB96000CB9CB /* RainCheckButton.swift */,
 			);
 			name = Buttons;
-			sourceTree = "<group>";
-		};
-		78CDA0A01DE5311F00ABC5E1 /* Examples */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Examples;
 			sourceTree = "<group>";
 		};
 		E35AC4841DE4D01C00FCB0D0 /* Storyboards */ = {
@@ -618,14 +631,19 @@
 				78F511381DF6D09E0074050F /* WhiteRevealOverlayView.xib in Resources */,
 				78BCDF491DF7643D002D399E /* hook-blue.png in Resources */,
 				78BCDF411DF75204002D399E /* BusyView.xib in Resources */,
+				7837A2101DF8B898000CB9CB /* raincheck-yellow.png in Resources */,
+				7837A20E1DF8B898000CB9CB /* raincheck-closed.png in Resources */,
 				78BCDF311DF7464D002D399E /* cross-white.png in Resources */,
 				781E71401DF4036E00041855 /* sound-wave-yellow.png in Resources */,
 				781E71591DF5330E00041855 /* circle-white.png in Resources */,
 				781E71441DF407F600041855 /* location.png in Resources */,
+				7837A20C1DF8B898000CB9CB /* raincheck-black.png in Resources */,
 				7821C3C21DEF939A0023B95E /* Camera.storyboard in Resources */,
+				7837A20F1DF8B898000CB9CB /* raincheck-gray.png in Resources */,
 				78BCDF431DF752F9002D399E /* hook-black.png in Resources */,
 				78469A661DE3958100A40D53 /* LaunchScreen.storyboard in Resources */,
 				78337D8D1DE3AC6600A1B32C /* GoogleService-Info.plist in Resources */,
+				7837A2111DF8B898000CB9CB /* raincheck.png in Resources */,
 				E35AC4871DE4D0F500FCB0D0 /* Sato.storyboard in Resources */,
 				78B56A061DF5EBFB00A13915 /* error.png in Resources */,
 				781E715E1DF53D1E00041855 /* home-yellow.png in Resources */,
@@ -635,6 +653,7 @@
 				785E87C61DED445000C9FF59 /* Play image- white.png in Resources */,
 				78BCDF461DF75D16002D399E /* hook-yellow.png in Resources */,
 				78B56A0A1DF5FD1B00A13915 /* user-yellow.png in Resources */,
+				7837A20D1DF8B898000CB9CB /* raincheck-blue.png in Resources */,
 				78BCDF321DF7464D002D399E /* cross-yellow.png in Resources */,
 				78BCDF3D1DF74ABC002D399E /* nextarrow.png in Resources */,
 				781E714C1DF486A900041855 /* Yelp.storyboard in Resources */,
@@ -839,6 +858,7 @@
 				781E71561DF5196F00041855 /* Image.swift in Sources */,
 				78F511361DF6D0860074050F /* WhiteRevealOverlayView.swift in Sources */,
 				E38E32B81DF3B6FC00631AEC /* ShowImageViewController.swift in Sources */,
+				7837A2131DF8BB96000CB9CB /* RainCheckButton.swift in Sources */,
 				783008A71DE3B9A000B070D4 /* MediaSelectorViewController.swift in Sources */,
 				78B95F8C1DF6B4EA00B6C83E /* BrowserImageTableViewCell.swift in Sources */,
 				E3C357A41DEF484E00AC0832 /* Restaurant.swift in Sources */,

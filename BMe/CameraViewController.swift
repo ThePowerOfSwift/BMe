@@ -76,6 +76,7 @@ class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePicker
         let tap = UITapGestureRecognizer(target: self, action: #selector(tappedCamerView(_:)))
         cameraControlView.addGestureRecognizer(tap)
         
+        //TODO: - haha
         metadata = ["missing metadata" : "you didn't add metadata for this pic, bitch!" as Optional<AnyObject>]
         
         //hideCameraControlView()

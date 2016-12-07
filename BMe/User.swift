@@ -39,7 +39,7 @@ class User: NSObject {
             }
             // Change database
             let data = [UserMeta.Key.username: newValue as AnyObject]
-            firUserDBReference?.updateChildValues(data) 
+            firUserDBReference?.updateChildValues(data)
         }
     }
     var email: String? {

@@ -45,7 +45,6 @@ class FIRManager: NSObject {
 
 // MARK: - Methods
     
-    
     // Put file data to Storage: storagebucket/<content type>/<UID>/file...
     // Returns reference to uploaded file FIRStorageMetadata.gsURL
     func putObjectOnStorage(data: Data, contentType: ContentType, completion: @escaping (FIRStorageMetadata?, Error?) -> ()) {
@@ -164,10 +163,18 @@ class FIRManager: NSObject {
                     print("Success: post created for \(contentType.objectKey())")
                     completion?()
                 })
-                
             })
         })
     }
+    
+    func postsWithKeyID(keys: [String], completion: ([FIRDataSnapshot])->() ) {
+        // TODO: - Example code inserted below
+        let postID = "-KYM789sRCcZy6cj48BW"
+        FIRManager.shared.database.child(ContentType.post.objectKey()).queryOrderedByKey().queryEqual(toValue: postID).observeSingleEvent(of: .value, with: { (snapshot) in
+                print(snapshot.value ?? "no post at this id")
+        })
+    }
+    
     
     //TODO: - Should move this to VideoComposition
     func uploadVideoComposition(composition: VideoComposition, completion:(()->())?) {
