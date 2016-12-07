@@ -10,15 +10,17 @@ import UIKit
 import FontAwesome_swift
 import QuartzCore
 
-class TabBarViewController: UIViewController, UIScrollViewDelegate, CameraPageDelegate, CameraViewDelegate {
+class TabBarViewController: UIViewController, UIScrollViewDelegate, PageViewDelegate, CameraViewDelegate {
 
     @IBOutlet weak var contentView: UIView!
     @IBOutlet var tabs: [UIButton]!
     
     var browseViewController: UIViewController!
+    var browsePageViewController: PageViewController!
+    
     var cameraNavigationController: UINavigationController!
     var cameraViewController: CameraViewController!
-    var cameraPageViewController: CameraPageViewController!
+    var cameraPageViewController: PageViewController!
     var createViewController: UINavigationController!
     var accountViewController: UIViewController!
     var viewControllers: [UIViewController]!
@@ -38,7 +40,9 @@ class TabBarViewController: UIViewController, UIScrollViewDelegate, CameraPageDe
     
     // scroll title text
     @IBOutlet weak var titleScrollView: UIScrollView!
-    var titlePages: [UILabel]?
+    var cameraViewPageTitles: [String] = ["camera", "compose"]
+    var browseViewPageTitles: [String] = ["browse", "dummy"]
+    var titlePages: [UILabel] = [UILabel]()
     
     @IBOutlet weak var titleBar: UIView!
     override func viewDidLoad() {
@@ -46,7 +50,12 @@ class TabBarViewController: UIViewController, UIScrollViewDelegate, CameraPageDe
 
         // Browse view controller
         browseViewController = UIStoryboard(name: "Browser", bundle: nil).instantiateInitialViewController()
-        addChildViewController(browseViewController)
+        browsePageViewController = UIStoryboard(name: "PageView", bundle: nil).instantiateViewController(withIdentifier: "PageViewController") as! PageViewController
+        addChildViewController(browsePageViewController)
+        
+        let dummyViewController = UIViewController()
+        dummyViewController.view.backgroundColor = UIColor.red
+        browsePageViewController.orderedViewControllers = [browseViewController, dummyViewController]
 
         // Create view controller which will be in camera page view controller
         let createStoryboard = UIStoryboard(name: VideoComposition.StoryboardKey.ID, bundle: nil)
@@ -58,9 +67,8 @@ class TabBarViewController: UIViewController, UIScrollViewDelegate, CameraPageDe
         cameraViewController.cameraViewDelegate = self
         
         // Camera page view controller
-        cameraPageViewController = UIStoryboard(name: "Camera", bundle: nil).instantiateViewController(withIdentifier: "CameraPageViewController") as! CameraPageViewController
+        cameraPageViewController = UIStoryboard(name: "PageView", bundle: nil).instantiateViewController(withIdentifier: "PageViewController") as! PageViewController
         cameraPageViewController.orderedViewControllers = [cameraViewController, createViewController]
-        //cameraPageViewController.orderedViewControllers = [cameraNavigationController, createViewController]
         addChildViewController(cameraPageViewController)
         
         // Account view controller
@@ -68,7 +76,7 @@ class TabBarViewController: UIViewController, UIScrollViewDelegate, CameraPageDe
         addChildViewController(accountViewController)
         
         // Init with view controllers
-        viewControllers = [browseViewController, cameraPageViewController, accountViewController]
+        viewControllers = [browsePageViewController, cameraPageViewController, accountViewController]
 
         setupTabs()
         layoutTabs()
@@ -80,11 +88,11 @@ class TabBarViewController: UIViewController, UIScrollViewDelegate, CameraPageDe
         isInitialStartup = false
         
         // title text animateion
-        cameraPageViewController.cameraPageDelegate = self
+        browsePageViewController.pageViewDelegate = self
+        cameraPageViewController.pageViewDelegate = self
         
         // scroll title 
         setupTitleScrollView()
-        //hideScrollTitle()
     }
     
     // MARK: Scroll Title
@@ -95,8 +103,15 @@ class TabBarViewController: UIViewController, UIScrollViewDelegate, CameraPageDe
         // Round corner
         titleBar.layer.cornerRadius = 2
         titleBar.layer.masksToBounds = true
-        
-        let titles: [String] = ["camera", "compose"]
+    }
+    
+    func changeTitleLabels(titles: [String]) {
+        // Remove previous titls labels
+        for view in titleScrollView.subviews {
+            if let label = view as? UILabel {
+                label.removeFromSuperview()
+            }
+        }
         
         titlePages = [UILabel]()
         for i in 0..<titles.count {
@@ -111,9 +126,15 @@ class TabBarViewController: UIViewController, UIScrollViewDelegate, CameraPageDe
             titleLabel.textAlignment = NSTextAlignment.center
             titleLabel.text = titles[i]
             titleScrollView.addSubview(titleLabel)
-            titlePages?.append(titleLabel)
+            titlePages.append(titleLabel)
         }
         
+        print("titleScrollView.isHidden: \(titleScrollView.isHidden)")
+        for view in titleScrollView.subviews {
+            if let label = view as? UILabel {
+                print("UILabel text: \(label.text)")
+            }
+        }
         titleScrollView.contentSize = CGSize(width: titleScrollView.frame.width * CGFloat(titles.count), height: titleScrollView.frame.size.height)
     }
     
@@ -121,18 +142,14 @@ class TabBarViewController: UIViewController, UIScrollViewDelegate, CameraPageDe
         let point = CGPoint(x: titleScrollView.frame.width * CGFloat(index), y: 0)
         titleScrollView.setContentOffset(point, animated: true)
         
-        for i in 0..<(titlePages?.count)! {
+        for i in 0..<titlePages.count {
             if i == index {
-                
                 UIView.animate(withDuration: 0.5, animations: {
-                    self.titlePages?[i].alpha = 1
+                    self.titlePages[i].alpha = 1
                 })
-                
             } else {
-                
                 UIView.animate(withDuration: 0.5, animations: {
-                    self.titlePages?[i].alpha = 0.2
-
+                    self.titlePages[i].alpha = 0.2
                 })
             }
         }
@@ -146,6 +163,16 @@ class TabBarViewController: UIViewController, UIScrollViewDelegate, CameraPageDe
                 self.titleBar.alpha = 0
             })
         })
+    }
+    
+    func setupAlphaAt(index: Int) {
+        for i in 0..<titlePages.count {
+            if i != index {
+                UIView.animate(withDuration: 0.5, animations: {
+                    self.titlePages[i].alpha = 0.2
+                })
+            }
+        }
     }
     
     func showScrollTitle() {
@@ -240,14 +267,21 @@ class TabBarViewController: UIViewController, UIScrollViewDelegate, CameraPageDe
         tabs[selectedIndex].isSelected =  true
         
         // Show title scroll label if selected index is 1
-        if selectedIndex == 1 {
-            showScrollTitle()
-        } else {
-            hideScrollTitle()
-        }
+        if selectedIndex != previousIndex || isInitialStartup {
+            switch selectedIndex {
+            case 0:
+                changeTitleLabels(titles: browseViewPageTitles)
+                showScrollTitle()
+            case 1:
+                changeTitleLabels(titles: cameraViewPageTitles)
+                showScrollTitle()
+            default:
+                hideScrollTitle()
+            }
+        } 
         
-        // Take picture when cameraButton tapped again
-        if previousIndex == 1 && selectedIndex == 1 && !isInitialStartup {
+        // Take picture when cameraButton tapped again in camera view (disabled in compose view)
+        if previousIndex == 1 && selectedIndex == 1 && !isInitialStartup && cameraPageViewController.currentIndex != 1 {
             cameraViewController.takePicture()
             
         } else {
@@ -262,7 +296,6 @@ class TabBarViewController: UIViewController, UIScrollViewDelegate, CameraPageDe
                 switch previousIndex {
                     case 0:
                         whiteButton = UIImage(named: Constants.Images.home)
-                    
                     case 1:
                         whiteButton = UIImage(named: Constants.Images.circle)
                     case 2:

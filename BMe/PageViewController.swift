@@ -8,17 +8,19 @@
 
 import UIKit
 
-@objc protocol CameraPageDelegate {
-    @objc optional func scrollTitleTo(index: Int)
+protocol PageViewDelegate {
+    func scrollTitleTo(index: Int)
+    func setupAlphaAt(index: Int)
 }
 
-class CameraPageViewController: UIPageViewController {
+class PageViewController: UIPageViewController {
     
     var orderedViewControllers: [UIViewController]?
-    var cameraViewController: CameraViewController?
     
-    var cameraPageDelegate: CameraPageDelegate?
+    var pageViewDelegate: PageViewDelegate?
     var lastContentOffset: CGFloat = 0
+    
+    var currentIndex: Int = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,20 +28,22 @@ class CameraPageViewController: UIPageViewController {
         dataSource = self
         delegate = self
         
-        
         if let firstViewController = orderedViewControllers?
             .first {
-            cameraViewController = firstViewController as? CameraViewController
-
             setViewControllers([firstViewController],
                                direction: .reverse,
                                animated: true,
                                completion: nil)
         }
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        pageViewDelegate?.setupAlphaAt(index: currentIndex)
+        pageViewDelegate?.scrollTitleTo(index: currentIndex)
+    }
 }
 
-extension CameraPageViewController: UIPageViewControllerDelegate, UIPageViewControllerDataSource {
+extension PageViewController: UIPageViewControllerDelegate, UIPageViewControllerDataSource {
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         
@@ -76,17 +80,15 @@ extension CameraPageViewController: UIPageViewControllerDelegate, UIPageViewCont
     }
     // http://stackoverflow.com/questions/8751633/how-can-i-know-if-uipageviewcontroller-flipped-forward-or-reversed
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
-        let previousViewControllerIndex = orderedViewControllers?.index(of: previousViewControllers.first!)
         
         // Get current index
         let pageContentViewController = pageViewController.viewControllers![0]
-        let index = orderedViewControllers?.index(of: pageContentViewController)
+        currentIndex = (orderedViewControllers?.index(of: pageContentViewController))!
         
         // Move title scroll view to the current index
         if completed {
-            cameraPageDelegate?.scrollTitleTo!(index: index!)
+            pageViewDelegate?.scrollTitleTo(index: currentIndex)
         }
-
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, willTransitionTo pendingViewControllers: [UIViewController]) {

@@ -81,7 +81,8 @@
 		78CDA09F1DE5307C00ABC5E1 /* FIRManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CDA09E1DE5307C00ABC5E1 /* FIRManager.swift */; };
 		78F511361DF6D0860074050F /* WhiteRevealOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F511351DF6D0860074050F /* WhiteRevealOverlayView.swift */; };
 		78F511381DF6D09E0074050F /* WhiteRevealOverlayView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 78F511371DF6D09E0074050F /* WhiteRevealOverlayView.xib */; };
-		E342CF951DF65D1D00AD45D2 /* CameraPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E342CF941DF65D1D00AD45D2 /* CameraPageViewController.swift */; };
+		E313E1361DF8B60100F79B8F /* PageView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E313E1351DF8B60100F79B8F /* PageView.storyboard */; };
+		E342CF951DF65D1D00AD45D2 /* PageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E342CF941DF65D1D00AD45D2 /* PageViewController.swift */; };
 		E35AC4831DE4D00400FCB0D0 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E35AC4821DE4D00400FCB0D0 /* TabBarViewController.swift */; };
 		E35AC4871DE4D0F500FCB0D0 /* Sato.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E35AC4861DE4D0F500FCB0D0 /* Sato.storyboard */; };
 		E35AC4891DE4D75C00FCB0D0 /* BrowseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E35AC4881DE4D75C00FCB0D0 /* BrowseViewController.swift */; };
@@ -208,7 +209,8 @@
 		78F511371DF6D09E0074050F /* WhiteRevealOverlayView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WhiteRevealOverlayView.xib; sourceTree = "<group>"; };
 		86BFB4E3203608C3B4F447D0 /* Pods-BMeTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BMeTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BMeTests/Pods-BMeTests.debug.xcconfig"; sourceTree = "<group>"; };
 		89C6C4AE3BCC216444B1A558 /* Pods_BMeUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BMeUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		E342CF941DF65D1D00AD45D2 /* CameraPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraPageViewController.swift; sourceTree = "<group>"; };
+		E313E1351DF8B60100F79B8F /* PageView.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = PageView.storyboard; sourceTree = "<group>"; };
+		E342CF941DF65D1D00AD45D2 /* PageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageViewController.swift; sourceTree = "<group>"; };
 		E35AC4821DE4D00400FCB0D0 /* TabBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		E35AC4861DE4D0F500FCB0D0 /* Sato.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Sato.storyboard; sourceTree = "<group>"; };
 		E35AC4881DE4D75C00FCB0D0 /* BrowseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrowseViewController.swift; sourceTree = "<group>"; };
@@ -475,6 +477,7 @@
 			children = (
 				E35AC4861DE4D0F500FCB0D0 /* Sato.storyboard */,
 				7821C3C11DEF939A0023B95E /* Camera.storyboard */,
+				E313E1351DF8B60100F79B8F /* PageView.storyboard */,
 			);
 			name = Storyboards;
 			sourceTree = "<group>";
@@ -484,7 +487,7 @@
 			children = (
 				E35AC4821DE4D00400FCB0D0 /* TabBarViewController.swift */,
 				7821C3C31DEF94350023B95E /* CameraViewController.swift */,
-				E342CF941DF65D1D00AD45D2 /* CameraPageViewController.swift */,
+				E342CF941DF65D1D00AD45D2 /* PageViewController.swift */,
 				E38E32B71DF3B6FC00631AEC /* ShowImageViewController.swift */,
 			);
 			name = ViewControllers;
@@ -581,7 +584,7 @@
 				TargetAttributes = {
 					78469A571DE3958000A40D53 = {
 						CreatedOnToolsVersion = 8.0;
-						DevelopmentTeam = Y4GA6H5JHE;
+						DevelopmentTeam = PY8CHQP699;
 						ProvisioningStyle = Automatic;
 					};
 					78469A6B1DE3958100A40D53 = {
@@ -651,6 +654,7 @@
 				781E71621DF5DF4000041855 /* black_truffle.jpg in Resources */,
 				78469A631DE3958100A40D53 /* Assets.xcassets in Resources */,
 				785E87C61DED445000C9FF59 /* Play image- white.png in Resources */,
+				E313E1361DF8B60100F79B8F /* PageView.storyboard in Resources */,
 				78BCDF461DF75D16002D399E /* hook-yellow.png in Resources */,
 				78B56A0A1DF5FD1B00A13915 /* user-yellow.png in Resources */,
 				7837A20D1DF8B898000CB9CB /* raincheck-blue.png in Resources */,
@@ -854,7 +858,7 @@
 				7830089C1DE3B2B100B070D4 /* AppState.swift in Sources */,
 				E35AC4831DE4D00400FCB0D0 /* TabBarViewController.swift in Sources */,
 				7821C3C41DEF94350023B95E /* CameraViewController.swift in Sources */,
-				E342CF951DF65D1D00AD45D2 /* CameraPageViewController.swift in Sources */,
+				E342CF951DF65D1D00AD45D2 /* PageViewController.swift in Sources */,
 				781E71561DF5196F00041855 /* Image.swift in Sources */,
 				78F511361DF6D0860074050F /* WhiteRevealOverlayView.swift in Sources */,
 				E38E32B81DF3B6FC00631AEC /* ShowImageViewController.swift in Sources */,
@@ -1018,7 +1022,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				DEVELOPMENT_TEAM = Y4GA6H5JHE;
+				DEVELOPMENT_TEAM = PY8CHQP699;
 				INFOPLIST_FILE = BMe/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.op.BMe;
@@ -1036,7 +1040,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				DEVELOPMENT_TEAM = Y4GA6H5JHE;
+				DEVELOPMENT_TEAM = PY8CHQP699;
 				INFOPLIST_FILE = BMe/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.op.BMe;
