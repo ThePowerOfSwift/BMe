@@ -153,13 +153,6 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <view alpha="0.20000000000000001" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bq1-lV-2Hf">
-                                <rect key="frame" x="0.0" y="587" width="375" height="80"/>
-                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="80" id="Yqj-OI-vng"/>
-                                </constraints>
-                            </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
@@ -167,14 +160,10 @@
                             <constraint firstItem="vn0-9Z-GtB" firstAttribute="top" secondItem="wFZ-b6-dkq" secondAttribute="bottom" id="9iS-ei-y6L"/>
                             <constraint firstItem="wFZ-b6-dkq" firstAttribute="leading" secondItem="hNS-r9-vwT" secondAttribute="leading" id="EFc-5V-dHn"/>
                             <constraint firstItem="wFZ-b6-dkq" firstAttribute="top" secondItem="hNS-r9-vwT" secondAttribute="top" id="baz-rx-Lnd"/>
-                            <constraint firstItem="vn0-9Z-GtB" firstAttribute="top" secondItem="bq1-lV-2Hf" secondAttribute="bottom" id="kWg-tr-eV0"/>
-                            <constraint firstAttribute="trailing" secondItem="bq1-lV-2Hf" secondAttribute="trailing" id="rfh-hA-WOa"/>
-                            <constraint firstItem="bq1-lV-2Hf" firstAttribute="leading" secondItem="hNS-r9-vwT" secondAttribute="leading" id="zgi-Mx-0oJ"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="FAt-zJ-Pdz"/>
                     <connections>
-                        <outlet property="tabOverlay" destination="bq1-lV-2Hf" id="KuK-fl-LQB"/>
                         <outlet property="tableView" destination="wFZ-b6-dkq" id="Aka-mu-iaG"/>
                     </connections>
                 </viewController>

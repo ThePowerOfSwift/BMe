@@ -15,6 +15,7 @@ class VideoComposerViewController: UIViewController, UICollectionViewDataSource,
     @IBOutlet weak var bannerView: UIView!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var postButton: UIButton!
+    @IBOutlet weak var cancelButton: CrossButton!
     
     //MARK: - Models
     var phAssets: [PHAsset]!
@@ -24,6 +25,7 @@ class VideoComposerViewController: UIViewController, UICollectionViewDataSource,
     var composition: VideoComposition!
     
     let imgManager = PHCachingImageManager.default()
+    let indicator = BusyView()
     
     // MARK: - Constants
     private let kTempSaveRoot = "tempSave"
@@ -31,10 +33,19 @@ class VideoComposerViewController: UIViewController, UICollectionViewDataSource,
     //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        bannerView.backgroundColor = UIColor.gray
+        
         
         // Do any additional setup after loading the view.
+        // Hide nav
+        navigationController?.isNavigationBarHidden = true
+        bannerView.backgroundColor = UIColor.gray
+//        cancelButton.setImageYellow()
+        
+        // set activity indicator
+        indicator.view.center = self.view.center
+        view.addSubview(indicator)
+        indicator.startAnimating()
+
         collectionView.dataSource = self
         collectionView.delegate = self
         
@@ -65,11 +76,16 @@ class VideoComposerViewController: UIViewController, UICollectionViewDataSource,
     }
     
     func next() {
+        
         RenderAndPost()
     }
     
     @IBAction func postButtonTapped(_ sender: Any) {
         next()
+    }
+    
+    @IBAction func cancelButtonTapped(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
     }
     
     //MARK: - CollectionView Datasource methods
@@ -202,10 +218,14 @@ class VideoComposerViewController: UIViewController, UICollectionViewDataSource,
             vc.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
             self.bannerView.addSubview(vc.view)
             vc.didMove(toParentViewController: self)
+            
+            self.indicator.stopAnimating()
         }
     }
     
     func RenderAndPost() {
+        indicator.startAnimating()
+        
         // render timing?
         // split up the times automatically? (take the natural length of videos)?
         // use pre marked split?
@@ -219,6 +239,7 @@ class VideoComposerViewController: UIViewController, UICollectionViewDataSource,
             let url = URL(string: (session.outputURL?.absoluteString)!)
             FIRManager.shared.postObject(url: url!, contentType: ContentType.video, meta: self.meta, completion:
                 {
+                    self.indicator.stopAnimating()
                     self.dismiss(animated: true, completion: nil)})
         })
     }

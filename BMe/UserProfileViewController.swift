@@ -20,18 +20,28 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
     @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var label: UILabel!
-    
+
+    // Deprecate
     @IBAction func tappedSignout(_ sender: Any) {
         AppState.shared.signOut()
+    }
+    @IBAction func tappedSignoutButton(_ sender: Any) {
+        AppState.shared.signOut()
+
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        // Hide nav bar
+        navigationController?.isNavigationBarHidden = true
+        // Add tab bar reveal
+        view.addSubview(WhiteRevealOverlayView(frame: view.bounds))
+
         user = User(AppState.shared.currentUser!)
         setupAvatar()
-        setupUser()
+        setupUser()        
     }
     
     override func didReceiveMemoryWarning() {
@@ -65,9 +75,9 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
     func setupAvatar() {
         // Avatar
         avatarImageView.clipsToBounds = true
-        avatarImageView.layer.cornerRadius = 20
-        avatarImageView.layer.borderWidth = 1
-        avatarImageView.layer.borderColor = Styles.Color.Primary.cgColor
+        avatarImageView.layer.cornerRadius = Styles.Shapes.cornerRadius
+        avatarImageView.layer.borderWidth = Styles.Avatar.borderWidth
+        avatarImageView.layer.borderColor = Styles.Avatar.borderColor.cgColor
         avatarImageView.isUserInteractionEnabled = true
         
         // Reference to an image file in Firebase Storage and pull image

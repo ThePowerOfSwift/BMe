@@ -15,11 +15,10 @@ class BrowseViewController: UIViewController {
     
     
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var tabOverlay: UIView!
     
     var posts: [FIRDataSnapshot]! = []
     private var _refHandle: FIRDatabaseHandle!
-    private let dbReference = FIRManager.shared.database.child(ContentType.post.objectKey())
+    private let dbReference = FIRManager.shared.database.child(ContentType.post.objectKey()).queryOrdered(byChild: Post.Key.timestamp)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,13 +26,9 @@ class BrowseViewController: UIViewController {
         // Turn off pushing down scrollview (in TV) but keep content below status bar
 //        automaticallyAdjustsScrollViewInsets = false
         navigationController?.isNavigationBarHidden = true
-        let gradientLayer = CAGradientLayer()
         
-        tabOverlay.alpha = 0.05
-        gradientLayer.frame = tabOverlay.bounds
-        gradientLayer.colors = [UIColor.white.cgColor, UIColor.black.cgColor]
-        gradientLayer.locations = [0, 0.5]
-        tabOverlay.layer.addSublayer(gradientLayer)
+        // Put in white reveal
+        view.addSubview(WhiteRevealOverlayView(frame: view.bounds))
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -48,8 +43,9 @@ class BrowseViewController: UIViewController {
         
         // Setup datasource
         _refHandle = dbReference.observe(.childAdded, with: { (snapshot) in
-            self.posts.insert(snapshot, at: 0)
-            self.tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
+            print("Setting child \(self.posts.count)")
+            self.posts.append(snapshot)
+            self.tableView.insertRows(at: [IndexPath(row: self.posts.count - 1, section: 0)], with: .automatic)
         })
     }
     
@@ -76,57 +72,72 @@ extension BrowseViewController:  UITableViewDelegate, UITableViewDataSource {
         let postedObject = posts![indexPath.row].dictionary
         let post = Post(postedObject)
         let url = post.url
+        let currentIndex = indexPath.row
         
+print("Processing cell: \(currentIndex) timestamp\(post.timestamp?.toString())")
         if post.contentType == .video {
             let cell = tableView.dequeueReusableCell(withIdentifier: BrowserVideoTableViewCell.ID, for: indexPath) as! BrowserVideoTableViewCell
+            cell.tag = currentIndex
             
             // Setup user content
             if let uid = post.uid {
+print("Fetching user meta for \(currentIndex)")
                 User.userMeta(uid, block: { (usermeta) in
-                    // Get the avatar if it exists
-                    let ref = FIRManager.shared.storage.child(usermeta.avatarURL!.path)
-                    cell.avatarImageView.loadImageFromGS(with: ref, placeholderImage: UIImage(named: Constants.Images.avatarDefault))
-                    cell.usernameLabel.text = usermeta.username
+print("Got user meta for \(currentIndex)")
+                    if cell.tag == currentIndex {
+                        // Get the avatar if it exists
+print("Setting user meta for \(indexPath.row)")
+                        let ref = FIRManager.shared.storage.child(usermeta.avatarURL!.path)
+                        cell.avatarImageView.loadImageFromGS(with: ref, placeholderImage: UIImage(named: Constants.Images.avatarDefault))
+                        cell.usernameLabel.text = usermeta.username
+                    }
                 })
             }
             
 // fetch video JSON
-            FIRManager.shared.database.child(url!.path).observe(.value, with: { (snapshot) in
-                let video = Video(snapshot.dictionary)
-                if let meta = video.meta {
-                    let restaurant = Restaurant(dictionary: meta)
-                    cell.headingLabel.text = restaurant.name
+            FIRManager.shared.database.child(url!.path).observeSingleEvent(of: .value, with: { (snapshot) in
+                if cell.tag == currentIndex {
+                    let video = Video(snapshot.dictionary)
+                    if let meta = video.meta {
+                        let restaurant = Restaurant(dictionary: meta)
+                        cell.headingLabel.text = restaurant.name
+                    }
+                    let playerItem = AVPlayerItem(url: video.downloadURL!)
+                    cell.player.replaceCurrentItem(with: playerItem)
+                    cell.player.automaticallyWaitsToMinimizeStalling = true
+                    cell.player.play()
+                    cell.playerLayer.isHidden = false
                 }
-                let playerItem = AVPlayerItem(url: video.downloadURL!)
-                cell.player.replaceCurrentItem(with: playerItem)
-                cell.player.automaticallyWaitsToMinimizeStalling = true
-                cell.player.play()
-                cell.playerLayer.isHidden = false                
             })
             
         } else if post.contentType == .image {
             let cell = tableView.dequeueReusableCell(withIdentifier: BrowserImageTableViewCell.ID, for: indexPath) as! BrowserImageTableViewCell
+            cell.tag = currentIndex
 
             // Setup user content
             if let uid = post.uid {
                 User.userMeta(uid, block: { (usermeta) in
-                    // Get the avatar if it exists
-                    let ref = FIRManager.shared.storage.child(usermeta.avatarURL!.path)
-                    cell.avatarImageView.loadImageFromGS(with: ref, placeholderImage: UIImage(named: Constants.Images.avatarDefault))
-                    cell.usernameLabel.text = usermeta.username
+                    if cell.tag == currentIndex {
+                        // Get the avatar if it exists
+                        let ref = FIRManager.shared.storage.child(usermeta.avatarURL!.path)
+                        cell.avatarImageView.loadImageFromGS(with: ref, placeholderImage: UIImage(named: Constants.Images.avatarDefault))
+                        cell.usernameLabel.text = usermeta.username
+                    }
                 })
             }
             
 // fetch image JSON
-            FIRManager.shared.database.child(url!.path).observe(.value, with: { (snapshot) in
-                let image = Image(snapshot.dictionary)
-                if let meta = image.meta {
-                    let restaurant = Restaurant(dictionary: meta)
-                    cell.headingLabel.text = restaurant.name
+            FIRManager.shared.database.child(url!.path).observeSingleEvent(of: .value, with: { (snapshot) in
+                if cell.tag == currentIndex {
+                    let image = Image(snapshot.dictionary)
+                    if let meta = image.meta {
+                        let restaurant = Restaurant(dictionary: meta)
+                        cell.headingLabel.text = restaurant.name
+                    }
+                    let imageRef = FIRManager.shared.storage.child(image.gsURL!.path)
+                    cell.postImageView.loadImageFromGS(with: imageRef, placeholderImage: nil)
+                    cell.postImageView.isHidden = false
                 }
-                let imageRef = FIRManager.shared.storage.child(image.gsURL!.path)
-                cell.postImageView.loadImageFromGS(with: imageRef, placeholderImage: nil)
-                cell.postImageView.isHidden = false
             })
             
             return cell

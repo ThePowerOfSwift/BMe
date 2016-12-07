@@ -41,11 +41,12 @@ class BrowserVideoTableViewCell: UITableViewCell {
         busy.color = UIColor.lightGray
         busy.frame = postContentView.bounds
         busy.startAnimating()
+        
         postContentView.addSubview(busy)
         
         avatarImageView.layer.cornerRadius = avatarImageView.frame.width / 2
-        avatarImageView.layer.borderColor = Styles.Color.Tertiary.cgColor
-        avatarImageView.layer.borderWidth = 1
+        avatarImageView.layer.borderColor = Styles.Color.Primary.cgColor
+        avatarImageView.layer.borderWidth = 1.5
         avatarImageView.clipsToBounds = true
         
         // Setup video replay

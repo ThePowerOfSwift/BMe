@@ -109,7 +109,7 @@ class CompositionTestViewController: UIViewController, UIImagePickerControllerDe
 //                                  templateId: "",
 //                                  videoURL: url!.absoluteString,
 //                                  gsURL: "",
-//                                  createdAt: Date(),
+//                                  created: Date(),
 //                                  restaurantName: "")
 //                activityIndicator.startAnimating()
 ////                FIRManager.shared.uploadVideo(video: video, completion: {
