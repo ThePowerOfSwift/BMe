@@ -79,6 +79,7 @@ class TabBarViewController: UIViewController, UIScrollViewDelegate, CameraPageDe
         
         // scroll title 
         setupTitleScrollView()
+        //hideScrollTitle()
     }
     
     // MARK: Scroll Title
@@ -100,7 +101,7 @@ class TabBarViewController: UIViewController, UIScrollViewDelegate, CameraPageDe
             self.titleScrollView.isPagingEnabled = true
             let titleLabel = UILabel(frame: frame)
             titleLabel.font = UIFont(name: titleLabel.font.fontName, size: 20)
-//            titleLabel.textColor = Styles.Color.Tertiary
+            //titleLabel.textColor = Styles.Color.Tertiary
             titleLabel.textColor = UIColor.white
             titleLabel.textAlignment = NSTextAlignment.center
             titleLabel.text = titles[i]
@@ -142,6 +143,13 @@ class TabBarViewController: UIViewController, UIScrollViewDelegate, CameraPageDe
         })
     }
     
+    func showScrollTitle() {
+        titleScrollView.isHidden = false
+    }
+    
+    func hideScrollTitle() {
+        titleScrollView.isHidden = true
+    }
     
     // MARK: Tab Setups
     // Call setupButtons(imageName, tabIndex) to setup tabs
@@ -201,6 +209,13 @@ class TabBarViewController: UIViewController, UIScrollViewDelegate, CameraPageDe
         let previousIndex = selectedIndex
         selectedIndex = sender.tag // Assign the index of current tab to selectedIndex
         tabs[selectedIndex].isSelected =  true
+        
+        // Show title scroll label if selected index is 1
+        if selectedIndex == 1 {
+            showScrollTitle()
+        } else {
+            hideScrollTitle()
+        }
         
         // Take picture when cameraButton tapped again
         if previousIndex == 1 && selectedIndex == 1 && !isInitialStartup {
