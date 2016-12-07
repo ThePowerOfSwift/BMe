@@ -145,16 +145,12 @@ class TabBarViewController: UIViewController, UIScrollViewDelegate, PageViewDele
         
         for i in 0..<(titlePages?.count)! {
             if i == index {
-                
                 UIView.animate(withDuration: 0.5, animations: {
                     self.titlePages?[i].alpha = 1
                 })
-                
             } else {
-                
                 UIView.animate(withDuration: 0.5, animations: {
                     self.titlePages?[i].alpha = 0.2
-
                 })
             }
         }
@@ -168,6 +164,16 @@ class TabBarViewController: UIViewController, UIScrollViewDelegate, PageViewDele
                 self.titleBar.alpha = 0
             })
         })
+    }
+    
+    func setupAlphaAt(index: Int) {
+        for i in 0..<(titlePages?.count)! {
+            if i != index {
+                UIView.animate(withDuration: 0.5, animations: {
+                    self.titlePages?[i].alpha = 0.2
+                })
+            }
+        }
     }
     
     func showScrollTitle() {
@@ -264,18 +270,8 @@ class TabBarViewController: UIViewController, UIScrollViewDelegate, PageViewDele
         // Show title scroll label if selected index is 1
         switch selectedIndex {
         case 0:
-            
             changeTitleLabels(titles: browseViewPageTitles)
             showScrollTitle()
-            
-            print("titleScrollView.isHidden: \(titleScrollView.isHidden)")
-            let label = UILabel()
-            label.backgroundColor = UIColor.blue
-            label.text = "TESTTTTT"
-            label.center = view.center
-            label.frame.size = CGSize(width: 100, height: 50)
-            self.view.addSubview(label)
-            
         case 1:
             changeTitleLabels(titles: cameraViewPageTitles)
             showScrollTitle()

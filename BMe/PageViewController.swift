@@ -8,8 +8,9 @@
 
 import UIKit
 
-@objc protocol PageViewDelegate {
-    @objc optional func scrollTitleTo(index: Int)
+protocol PageViewDelegate {
+    func scrollTitleTo(index: Int)
+    func setupAlphaAt(index: Int)
 }
 
 class PageViewController: UIPageViewController {
@@ -18,6 +19,8 @@ class PageViewController: UIPageViewController {
     
     var pageViewDelegate: PageViewDelegate?
     var lastContentOffset: CGFloat = 0
+    
+    var currentIndex: Int = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,6 +35,12 @@ class PageViewController: UIPageViewController {
                                animated: true,
                                completion: nil)
         }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        print("appeared")
+        pageViewDelegate?.setupAlphaAt(index: currentIndex)
+        pageViewDelegate?.scrollTitleTo(index: currentIndex)
     }
 }
 
@@ -75,11 +84,11 @@ extension PageViewController: UIPageViewControllerDelegate, UIPageViewController
         
         // Get current index
         let pageContentViewController = pageViewController.viewControllers![0]
-        let index = orderedViewControllers?.index(of: pageContentViewController)
+        currentIndex = (orderedViewControllers?.index(of: pageContentViewController))!
         
         // Move title scroll view to the current index
         if completed {
-            pageViewDelegate?.scrollTitleTo!(index: index!)
+            pageViewDelegate?.scrollTitleTo(index: currentIndex)
         }
     }
     
