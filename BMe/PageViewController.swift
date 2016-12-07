@@ -38,7 +38,6 @@ class PageViewController: UIPageViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        print("appeared")
         pageViewDelegate?.setupAlphaAt(index: currentIndex)
         pageViewDelegate?.scrollTitleTo(index: currentIndex)
     }

@@ -42,7 +42,7 @@ class TabBarViewController: UIViewController, UIScrollViewDelegate, PageViewDele
     @IBOutlet weak var titleScrollView: UIScrollView!
     var cameraViewPageTitles: [String] = ["camera", "compose"]
     var browseViewPageTitles: [String] = ["browse", "dummy"]
-    var titlePages: [UILabel]?
+    var titlePages: [UILabel] = [UILabel]()
     
     @IBOutlet weak var titleBar: UIView!
     override func viewDidLoad() {
@@ -93,7 +93,6 @@ class TabBarViewController: UIViewController, UIScrollViewDelegate, PageViewDele
         
         // scroll title 
         setupTitleScrollView()
-        //hideScrollTitle()
     }
     
     // MARK: Scroll Title
@@ -127,7 +126,7 @@ class TabBarViewController: UIViewController, UIScrollViewDelegate, PageViewDele
             titleLabel.textAlignment = NSTextAlignment.center
             titleLabel.text = titles[i]
             titleScrollView.addSubview(titleLabel)
-            titlePages?.append(titleLabel)
+            titlePages.append(titleLabel)
         }
         
         print("titleScrollView.isHidden: \(titleScrollView.isHidden)")
@@ -143,14 +142,14 @@ class TabBarViewController: UIViewController, UIScrollViewDelegate, PageViewDele
         let point = CGPoint(x: titleScrollView.frame.width * CGFloat(index), y: 0)
         titleScrollView.setContentOffset(point, animated: true)
         
-        for i in 0..<(titlePages?.count)! {
+        for i in 0..<titlePages.count {
             if i == index {
                 UIView.animate(withDuration: 0.5, animations: {
-                    self.titlePages?[i].alpha = 1
+                    self.titlePages[i].alpha = 1
                 })
             } else {
                 UIView.animate(withDuration: 0.5, animations: {
-                    self.titlePages?[i].alpha = 0.2
+                    self.titlePages[i].alpha = 0.2
                 })
             }
         }
@@ -167,10 +166,10 @@ class TabBarViewController: UIViewController, UIScrollViewDelegate, PageViewDele
     }
     
     func setupAlphaAt(index: Int) {
-        for i in 0..<(titlePages?.count)! {
+        for i in 0..<titlePages.count {
             if i != index {
                 UIView.animate(withDuration: 0.5, animations: {
-                    self.titlePages?[i].alpha = 0.2
+                    self.titlePages[i].alpha = 0.2
                 })
             }
         }
@@ -268,19 +267,21 @@ class TabBarViewController: UIViewController, UIScrollViewDelegate, PageViewDele
         tabs[selectedIndex].isSelected =  true
         
         // Show title scroll label if selected index is 1
-        switch selectedIndex {
-        case 0:
-            changeTitleLabels(titles: browseViewPageTitles)
-            showScrollTitle()
-        case 1:
-            changeTitleLabels(titles: cameraViewPageTitles)
-            showScrollTitle()
-        default:
-            hideScrollTitle()
-        }
+        if selectedIndex != previousIndex || isInitialStartup {
+            switch selectedIndex {
+            case 0:
+                changeTitleLabels(titles: browseViewPageTitles)
+                showScrollTitle()
+            case 1:
+                changeTitleLabels(titles: cameraViewPageTitles)
+                showScrollTitle()
+            default:
+                hideScrollTitle()
+            }
+        } 
         
-        // Take picture when cameraButton tapped again
-        if previousIndex == 1 && selectedIndex == 1 && !isInitialStartup {
+        // Take picture when cameraButton tapped again in camera view (disabled in compose view)
+        if previousIndex == 1 && selectedIndex == 1 && !isInitialStartup && cameraPageViewController.currentIndex != 1 {
             cameraViewController.takePicture()
             
         } else {
