@@ -10,8 +10,7 @@ import UIKit
 import FontAwesome_swift
 import QuartzCore
 
-
-class TabBarViewController: UIViewController, CameraPageDelegate {
+class TabBarViewController: UIViewController, UIScrollViewDelegate, CameraPageDelegate, CameraViewDelegate {
 
     @IBOutlet weak var contentView: UIView!
     @IBOutlet var tabs: [UIButton]!
@@ -34,12 +33,11 @@ class TabBarViewController: UIViewController, CameraPageDelegate {
     // detect if it is just after app started. if so, don't enable camera button to take picture
     var isInitialStartup: Bool = true
     
-    // title labels
-    @IBOutlet weak var cameraTitleLabel: UILabel!
-    @IBOutlet weak var composeTitleLabel: UILabel!
-    @IBOutlet weak var leftConstraint: NSLayoutConstraint!
-    @IBOutlet weak var rightConstraint: NSLayoutConstraint!
+    // scroll title text
+    @IBOutlet weak var titleScrollView: UIScrollView!
+    var titlePages: [UILabel]?
     
+    @IBOutlet weak var titleBar: UIView!
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -54,6 +52,7 @@ class TabBarViewController: UIViewController, CameraPageDelegate {
         // Camera view controller which will be in camera page view controller
         cameraNavigationController = UIStoryboard(name: "Camera", bundle: nil).instantiateInitialViewController() as! UINavigationController
         cameraViewController = cameraNavigationController.viewControllers[0] as! CameraViewController
+        cameraViewController.cameraViewDelegate = self
         
         // Camera page view controller
         cameraPageViewController = UIStoryboard(name: "Camera", bundle: nil).instantiateViewController(withIdentifier: "CameraPageViewController") as! CameraPageViewController
@@ -78,18 +77,80 @@ class TabBarViewController: UIViewController, CameraPageDelegate {
         
         // title text animateion
         cameraPageViewController.cameraPageDelegate = self
-    }
-    
-    // MARK: title text for camera and compose vc
-    func animatePhotoToCenter(offset: CGFloat) {
-        leftConstraint.constant -= abs(offset) * 30/375
         
+        // scroll title 
+        setupTitleScrollView()
+        //hideScrollTitle()
     }
     
-    func animateComposeToCenter(offset: CGFloat) {
-        rightConstraint.constant -= abs(offset) * 30/375
+    // MARK: Scroll Title
+    
+    func setupTitleScrollView() {
+        titleBar.backgroundColor = Styles.Color.Tertiary
+        titleBar.alpha = 0
+        // Round corner
+        titleBar.layer.cornerRadius = 5
+        titleBar.layer.masksToBounds = true
+        
+        let titles: [String] = ["camera", "compose"]
+        
+        titlePages = [UILabel]()
+        for i in 0..<titles.count {
+            var frame = CGRect()
+            frame.origin.x = self.titleScrollView.frame.size.width * CGFloat(i)
+            frame.size = self.titleScrollView.frame.size
+            self.titleScrollView.isPagingEnabled = true
+            let titleLabel = UILabel(frame: frame)
+            titleLabel.font = UIFont(name: titleLabel.font.fontName, size: 20)
+            //titleLabel.textColor = Styles.Color.Tertiary
+            titleLabel.textColor = UIColor.white
+            titleLabel.textAlignment = NSTextAlignment.center
+            titleLabel.text = titles[i]
+            titleScrollView.addSubview(titleLabel)
+            titlePages?.append(titleLabel)
+        }
+        
+        titleScrollView.contentSize = CGSize(width: titleScrollView.frame.width * CGFloat(titles.count), height: titleScrollView.frame.size.height)
     }
     
+    func scrollTitleTo(index: Int) {
+        let point = CGPoint(x: titleScrollView.frame.width * CGFloat(index), y: 0)
+        titleScrollView.setContentOffset(point, animated: true)
+        
+        for i in 0..<(titlePages?.count)! {
+            if i == index {
+                
+                UIView.animate(withDuration: 0.5, animations: {
+                    self.titlePages?[i].alpha = 1
+                })
+                
+            } else {
+                
+                UIView.animate(withDuration: 0.5, animations: {
+                    self.titlePages?[i].alpha = 0.2
+
+                })
+            }
+        }
+        
+        // animate bar
+
+        UIView.animate(withDuration: 1, animations: {
+            self.titleBar.alpha = 1
+        }, completion: { (completed :Bool) in
+            UIView.animate(withDuration: 1, animations: {
+                self.titleBar.alpha = 0
+            })
+        })
+    }
+    
+    func showScrollTitle() {
+        titleScrollView.isHidden = false
+    }
+    
+    func hideScrollTitle() {
+        titleScrollView.isHidden = true
+    }
     
     // MARK: Tab Setups
     // Call setupButtons(imageName, tabIndex) to setup tabs
@@ -142,13 +203,21 @@ class TabBarViewController: UIViewController, CameraPageDelegate {
         tabs[index].center = CGPoint(x: x, y: y)
     }
     
-    // MARK: Tab Action
+    // Show and hide tab bar
     
+    // MARK: Tab Action
     @IBAction func didTapTab(_ sender: UIButton) {
         // Previous view controller
         let previousIndex = selectedIndex
         selectedIndex = sender.tag // Assign the index of current tab to selectedIndex
         tabs[selectedIndex].isSelected =  true
+        
+        // Show title scroll label if selected index is 1
+        if selectedIndex == 1 {
+            showScrollTitle()
+        } else {
+            hideScrollTitle()
+        }
         
         // Take picture when cameraButton tapped again
         if previousIndex == 1 && selectedIndex == 1 && !isInitialStartup {
