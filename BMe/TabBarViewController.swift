@@ -10,7 +10,7 @@ import UIKit
 import FontAwesome_swift
 import QuartzCore
 
-class TabBarViewController: UIViewController, UIScrollViewDelegate, CameraPageDelegate {
+class TabBarViewController: UIViewController, UIScrollViewDelegate, CameraPageDelegate, CameraViewDelegate {
 
     @IBOutlet weak var contentView: UIView!
     @IBOutlet var tabs: [UIButton]!
@@ -52,6 +52,7 @@ class TabBarViewController: UIViewController, UIScrollViewDelegate, CameraPageDe
         // Camera view controller which will be in camera page view controller
         cameraNavigationController = UIStoryboard(name: "Camera", bundle: nil).instantiateInitialViewController() as! UINavigationController
         cameraViewController = cameraNavigationController.viewControllers[0] as! CameraViewController
+        cameraViewController.cameraViewDelegate = self
         
         // Camera page view controller
         cameraPageViewController = UIStoryboard(name: "Camera", bundle: nil).instantiateViewController(withIdentifier: "CameraPageViewController") as! CameraPageViewController
@@ -202,8 +203,9 @@ class TabBarViewController: UIViewController, UIScrollViewDelegate, CameraPageDe
         tabs[index].center = CGPoint(x: x, y: y)
     }
     
-    // MARK: Tab Action
+    // Show and hide tab bar
     
+    // MARK: Tab Action
     @IBAction func didTapTab(_ sender: UIButton) {
         // Previous view controller
         let previousIndex = selectedIndex

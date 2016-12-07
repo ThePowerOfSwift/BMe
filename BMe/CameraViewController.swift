@@ -12,7 +12,12 @@ import AVFoundation
 import FontAwesome_swift
 import Photos
 
-class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, LocationButtonDelegate {
+@objc protocol CameraViewDelegate {
+    @objc optional func hideScrollTitle()
+    @objc optional func showScrollTitle()
+}
+
+class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, LocationButtonDelegate, CameraViewDelegate {
     
     //MARK: - Outlets
     @IBOutlet weak var cameraControlView: UIView!
@@ -23,6 +28,10 @@ class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePicker
     @IBOutlet weak var uploadButton: UIButton!
     
     @IBOutlet weak var cancelButton: UIButton!
+    
+    // MARK: - Delegate
+    var cameraViewDelegate: CameraViewDelegate?
+    
     //MARK:- Model
     var textFields: [UITextField] {
         get {
@@ -107,6 +116,7 @@ class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePicker
         imagePickerView?.isHidden = false
         isEditingMode = false
         isCameraMode = true
+        cameraViewDelegate?.showScrollTitle!()
     }
     
     func enterEditMode() {
@@ -114,6 +124,7 @@ class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePicker
         cameraControlView.isHidden = false
         isCameraMode = false
         isEditingMode = false
+        cameraViewDelegate?.hideScrollTitle!()
     }
     
     // MARK: image picker
