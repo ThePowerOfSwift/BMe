@@ -40,6 +40,7 @@ struct Constants {
             static let VideoComposer = "VideoComposer"
             static let Main = "Main"
             static let Sato = "Sato"
+            static let Browser = "Browser"
         }
         struct ViewController {
             static let CameraViewController = "CameraViewController"
@@ -47,6 +48,7 @@ struct Constants {
             static let VideoComposerViewController = "VideoComposerViewController"
             static let LoginViewController = "LoginViewController"
             static let TabBarViewController = "TabBarViewController"
+            static let BrowserViewController = "BrowseViewController"
         }
     }
     struct Images {

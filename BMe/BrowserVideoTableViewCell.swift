@@ -60,9 +60,7 @@ class BrowserVideoTableViewCell: UITableViewCell {
         postImageView.isHidden = true
 
         headingLabel.textColor = Styles.Color.Secondary
-        headingLabel.text = ""
         headingLabel.textColor = Styles.Color.Primary
-        usernameLabel.text = ""
         
         // Activity indicator
         activityIndicator.color = UIColor.lightGray

@@ -41,9 +41,7 @@ class BrowserImageTableViewCell: UITableViewCell {
         postImageView.clipsToBounds = true
         
         headingLabel.textColor = Styles.Color.Secondary
-        headingLabel.text = ""
         headingLabel.textColor = Styles.Color.Primary
-        usernameLabel.text = ""
         
         // Activity indicator
         activityIndicator.color = UIColor.lightGray

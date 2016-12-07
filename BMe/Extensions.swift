@@ -10,51 +10,6 @@ import UIKit
 import MobileCoreServices
 import AVFoundation
 
-extension UIViewController {
-    // TODO: - remove following three func
-    // present modally camera to record
-//    func presentCameraPicker(timeInterval: TimeInterval?, delegate: (UIImagePickerControllerDelegate & UINavigationControllerDelegate), completion: (() -> Void)?) {
-//        let imagePicker = UIImagePickerController()
-//        
-//        imagePicker.delegate = delegate
-//        imagePicker.allowsEditing = true
-//        // Set to camera & video record
-//        imagePicker.sourceType = .camera
-//        imagePicker.mediaTypes = [kUTTypeMovie as NSString as String]
-//        
-//        // Set maximum video length, if any
-//        if let timeInterval = timeInterval {
-//            imagePicker.videoMaximumDuration = timeInterval
-//        }
-//        
-//        present(imagePicker, animated: true) {
-//            if let completion = completion { completion() }
-//        }
-//    }
-    //Deprecated
-    func presentImagePicker(delegate: (UIImagePickerControllerDelegate & UINavigationControllerDelegate), completion: (() -> Void)?) {
-        let imagePicker = configuredImagePicker()
-        imagePicker.delegate = delegate
-        
-        present(imagePicker, animated: true) {
-            if let completion = completion { completion() }
-        }
-    }
-    //Deprecated
-    // Returns configured image picker
-    func configuredImagePicker() -> UIImagePickerController {
-        let imagePicker = UIImagePickerController()
-        
-        imagePicker.allowsEditing = true
-        // Set to camera & video record
-        imagePicker.sourceType = .photoLibrary
-        imagePicker.mediaTypes = [kUTTypeMovie as NSString as String]
-        
-        return imagePicker
-    }
- 
-}
-
 extension CGAffineTransform {
     func orientation() -> UIInterfaceOrientation {
         let txf = self

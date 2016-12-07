@@ -21,7 +21,7 @@ class BrowseViewController: UIViewController {
     fileprivate let dbReference = FIRManager.shared.database.child(ContentType.post.objectKey())
     var isFetchingData = false
     let fetchBatchSize = 5
-    let cellOffsetToFetchMoreData = 2
+    let cellOffsetToFetchMoreData = 1
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,7 +49,7 @@ class BrowseViewController: UIViewController {
     
     func setupDatasource() {
         // Setup datasource
-        _refHandle = dbReference.queryLimited(toLast: UInt(3)).observe(.childAdded, with: { (snapshot) in
+        _refHandle = dbReference.queryLimited(toLast: UInt(fetchBatchSize)).observe(.childAdded, with: { (snapshot) in
             self.posts.insert(snapshot, at: 0)
             self.tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
             //            self.tableView.insertRows(at: [IndexPath(row: self.posts.count - 1, section: 0)], with: .automatic)
@@ -81,6 +81,8 @@ extension BrowseViewController:  UITableViewDelegate, UITableViewDataSource {
         let url = post.url
         let currentIndex = indexPath.row
 
+        print("Processing row \(currentIndex) post stamped \(post.timestamp?.toString())")
+        
         // ------- VIDEO
         if post.contentType == .video {
             let cell = tableView.dequeueReusableCell(withIdentifier: BrowserVideoTableViewCell.ID, for: indexPath) as! BrowserVideoTableViewCell
@@ -103,14 +105,12 @@ extension BrowseViewController:  UITableViewDelegate, UITableViewDataSource {
 
             FIRManager.shared.database.child(url!.path).observeSingleEvent(of: .value, with: { (snapshot) in
                 if cell.tag == currentIndex {
-                    //TODO: - TEST
-                    cell.headingLabel.text = post.timestamp?.toString() //delete and uncomment three below
                     
                     let video = Video(snapshot.dictionary)
-//                    if let meta = video.meta {
-//                        let restaurant = Restaurant(dictionary: meta)
-//                        cell.headingLabel.text = restaurant.name
-//                    }
+                    if let meta = video.meta {
+                        let restaurant = Restaurant(dictionary: meta)
+                        cell.headingLabel.text = restaurant.name
+                    }
                     let playerItem = AVPlayerItem(url: video.downloadURL!)
                     cell.player.replaceCurrentItem(with: playerItem)
                     cell.player.automaticallyWaitsToMinimizeStalling = true
@@ -120,6 +120,8 @@ extension BrowseViewController:  UITableViewDelegate, UITableViewDataSource {
                     cell.didFinishLoadingContent()
                 }
             })
+            
+            return cell
             
         // ------- IMAGE
         } else if post.contentType == .image {
@@ -142,24 +144,24 @@ extension BrowseViewController:  UITableViewDelegate, UITableViewDataSource {
             cell.didStartloading()
             FIRManager.shared.database.child(url!.path).observeSingleEvent(of: .value, with: { (snapshot) in
                 if cell.tag == currentIndex {
-                    //TODO: - TEST
-                    cell.headingLabel.text = post.timestamp?.toString() //delete and uncomment three below
-                    
+
                     let image = Image(snapshot.dictionary)
-//                    if let meta = image.meta {
-//                        let restaurant = Restaurant(dictionary: meta)
-//                        cell.headingLabel.text = restaurant.name
-//                    }
+                    if let meta = image.meta {
+                        let restaurant = Restaurant(dictionary: meta)
+                        cell.headingLabel.text = restaurant.name
+                    }
                     let imageRef = FIRManager.shared.storage.child(image.gsURL!.path)
                     cell.postImageView.loadImageFromGS(with: imageRef, placeholderImage: nil)
-
+                    
                     cell.didFinishloading()
                 }
             })
-            
+
             return cell
         }
         
+        // Unknown content type
+        print("Error: post of unknown content type \(post.contentType) at row \(indexPath.row)")
         return UITableViewCell()
     }
     
@@ -182,21 +184,31 @@ extension BrowseViewController:  UITableViewDelegate, UITableViewDataSource {
     func fetchMoreDatasource() {
         if !isFetchingData {
             isFetchingData = true
-            let db = FIRManager.shared.database.child(ContentType.post.objectKey())
-            let lastKey = posts[posts.count - 1].key
-            print("last key '\(lastKey)'")
-//            let lastPost = Post(posts[posts.count - 1].dictionary)
-//            let lastTimestamp = lastPost.timestamp
-//            print("should request from timestamp: \(lastTimestamp)")
             
-//            queryStarting(atValue: lastKey).queryLimited(toLast: UInt(fetchBatchSize))
-            db.child("timestamp").queryEqual(toValue: "2016-12-06 19:44:44 -0800").observeSingleEvent(of: .value, with:
+            // Get the "next batch" of posts
+            // Request with upper limit on the last loaded post with a lower limit bound by batch size
+            let lastPost = Post(posts[posts.count - 1].dictionary)
+            let lastTimestamp = lastPost.timestamp?.toString()
+            dbReference.queryOrdered(byChild: Post.Key.timestamp).queryEnding(atValue: lastTimestamp).queryLimited(toLast: UInt(fetchBatchSize)).observeSingleEvent(of: .value, with:
                 { (snapshot) in
-                    print(snapshot.value)
                     
+                    // returns posts oldest to youngest, inclusive, so remove last child
+                    // and reverse to revert to youngest to oldest order (or reverse and remove first child)
+                    var ignoreFirst = true
+                    for child in snapshot.children.reversed() {
+                        if ignoreFirst { //ignore reference post and add the rest
+                            ignoreFirst = false
+                        }
+                        else {
+                            let postSnap = child as! FIRDataSnapshot
+                            // append data
+                            self.posts.append(postSnap)
+                            // load into tv
+                            self.tableView.insertRows(at: [IndexPath(row: self.posts.count - 1, section: 0)], with: .automatic)
+                        }
+                    }
                     self.isFetchingData = false
             })
-            
         }
     }
     
