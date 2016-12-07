@@ -17,7 +17,7 @@ class Asset: NSObject {
     var uid: String?
     var meta: [String: AnyObject?]?
     
-    var _ref: FIRDatabaseHandle?
+//    var _ref: FIRDatabaseHandle?
         
     struct Key {
         static let uid = "uid"
@@ -36,6 +36,6 @@ class Asset: NSObject {
         if let gsURLString = dictionary[Key.gsURL] as? String {
             gsURL = URL(string: gsURLString)
         }
-        meta = dictionary[Key.meta] as? [String: AnyObject?]
+        meta = dictionary[Key.meta] as? [String: AnyObject?]        
     }
 }

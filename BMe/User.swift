@@ -88,7 +88,7 @@ class User: NSObject {
                 // Create DB userMeta obj using defaults (overwrite any existing leaf data)
                 let user = User(newFIRUser)
                 let username = newFIRUser.email!.components(separatedBy: "@")[0]
-                let data = [UserMeta.Key.createdAt: Date().description as AnyObject,
+                let data = [UserMeta.Key.timestamp: Date().description as AnyObject,
                             UserMeta.Key.username: username as AnyObject]
                 user.firUserDBReference?.setValue(data, withCompletionBlock: { (error, ref) in
                     if let error = error {

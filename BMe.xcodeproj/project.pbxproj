@@ -350,7 +350,6 @@
 			children = (
 				7821C3B91DEF10F60023B95E /* TimeLapseBuilder.swift */,
 				78CDA0A01DE5311F00ABC5E1 /* Examples */,
-				786727DA1DE3ADDC0059AEC7 /* ViewControllers */,
 			);
 			name = JJ;
 			sourceTree = "<group>";
@@ -437,13 +436,6 @@
 				78BCDF3B1DF74ABC002D399E /* nextarrow.png */,
 			);
 			name = Images;
-			sourceTree = "<group>";
-		};
-		786727DA1DE3ADDC0059AEC7 /* ViewControllers */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = ViewControllers;
 			sourceTree = "<group>";
 		};
 		78B56A0B1DF5FE7B00A13915 /* Other */ = {

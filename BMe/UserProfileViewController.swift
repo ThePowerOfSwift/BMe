@@ -20,9 +20,14 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
     @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var label: UILabel!
-    
+
+    // Deprecate
     @IBAction func tappedSignout(_ sender: Any) {
         AppState.shared.signOut()
+    }
+    @IBAction func tappedSignoutButton(_ sender: Any) {
+        AppState.shared.signOut()
+
     }
     
     override func viewDidLoad() {

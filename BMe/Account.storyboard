@@ -22,14 +22,14 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="gDQ-yQ-0o0">
-                                <rect key="frame" x="15" y="79" width="96" height="96"/>
+                                <rect key="frame" x="15" y="35" width="96" height="96"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="96" id="air-Go-Q9L"/>
                                     <constraint firstAttribute="height" constant="96" id="fPV-Su-xS4"/>
                                 </constraints>
                             </imageView>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="username" adjustsFontSizeToFit="NO" minimumFontSize="18" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="aw8-1c-6y0">
-                                <rect key="frame" x="126" y="84" width="234" height="30"/>
+                                <rect key="frame" x="126" y="40" width="234" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="HqW-n2-cpI"/>
                                 </constraints>
@@ -38,7 +38,7 @@
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="alphabet" returnKeyType="done"/>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="email" adjustsFontSizeToFit="NO" minimumFontSize="18" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="dpv-rN-stJ">
-                                <rect key="frame" x="126" y="129" width="234" height="30"/>
+                                <rect key="frame" x="126" y="85" width="234" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="30" id="lwY-ym-FzS"/>
                                     <constraint firstAttribute="height" constant="30" id="yfw-DZ-ucN"/>
@@ -47,6 +47,14 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" returnKeyType="done"/>
                             </textField>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fUy-5h-fMK">
+                                <rect key="frame" x="309" y="28" width="57" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Sign out"/>
+                                <connections>
+                                    <action selector="tappedSignoutButton:" destination="UXQ-Pk-cUw" eventType="touchUpInside" id="Ycc-5s-Xyi"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -80,9 +88,9 @@
         <!--Navigation Controller-->
         <scene sceneID="Moj-Vk-pAl">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="EXp-8c-HWe" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="EXp-8c-HWe" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="j9I-hs-ZlV">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="j9I-hs-ZlV">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>

@@ -10,12 +10,12 @@ import UIKit
 
 class UserMeta: NSObject {
     var avatarURL: URL?
-    var createdAt: Date?
+    var timestamp: Date?
     var username: String?
     
     //MARK: - User Database keys
     struct Key {
-        static let createdAt = "createdAt"
+        static let timestamp = "timestamp"
         static let avatarURL = "avatarURL"
         static let username = "username"
     }
@@ -24,8 +24,8 @@ class UserMeta: NSObject {
         if let avatar = dictionary[Key.avatarURL] as? String {
             self.avatarURL = URL(string: avatar)
         }
-        if let date = dictionary[Key.createdAt] as? String {
-            self.createdAt = date.toDate()
+        if let date = dictionary[Key.timestamp] as? String {
+            self.timestamp = date.toDate()
         }
         if let username = dictionary[Key.username] as? String {
             self.username = username

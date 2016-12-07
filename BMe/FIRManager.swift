@@ -153,6 +153,7 @@ class FIRManager: NSObject {
                     Post.Key.uid: AppState.shared.currentUser?.uid as AnyObject,
                     Post.Key.url: ref.url as AnyObject,
                     Post.Key.contentType: contentType.string() as AnyObject,
+                    Post.Key.timestamp: Date().toString() as AnyObject
                     ]
                 
                 self.putObjectOnDatabase(named: ContentType.post.objectKey(), data: jsonObject, completion: { (ref, error) in
