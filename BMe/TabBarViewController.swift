@@ -30,6 +30,9 @@ class TabBarViewController: UIViewController, UIScrollViewDelegate, CameraPageDe
     var selectedTabSize: Double = 70
     var unselectedTabSize: Double = 50
     
+    // hide and show animation
+    var tabOriginalCenterYPositions: [CGFloat]?
+    
     // detect if it is just after app started. if so, don't enable camera button to take picture
     var isInitialStartup: Bool = true
     
@@ -69,6 +72,7 @@ class TabBarViewController: UIViewController, UIScrollViewDelegate, CameraPageDe
 
         setupTabs()
         layoutTabs()
+        obtainOriginalTabOriginalPositions()
         
         // Set first tab selected
         tabs[selectedIndex].isSelected = true
@@ -89,7 +93,7 @@ class TabBarViewController: UIViewController, UIScrollViewDelegate, CameraPageDe
         titleBar.backgroundColor = Styles.Color.Tertiary
         titleBar.alpha = 0
         // Round corner
-        titleBar.layer.cornerRadius = 5
+        titleBar.layer.cornerRadius = 2
         titleBar.layer.masksToBounds = true
         
         let titles: [String] = ["camera", "compose"]
@@ -102,8 +106,8 @@ class TabBarViewController: UIViewController, UIScrollViewDelegate, CameraPageDe
             self.titleScrollView.isPagingEnabled = true
             let titleLabel = UILabel(frame: frame)
             titleLabel.font = UIFont(name: titleLabel.font.fontName, size: 20)
-            //titleLabel.textColor = Styles.Color.Tertiary
-            titleLabel.textColor = UIColor.white
+            titleLabel.textColor = Styles.Color.Tertiary
+            //titleLabel.textColor = UIColor.white
             titleLabel.textAlignment = NSTextAlignment.center
             titleLabel.text = titles[i]
             titleScrollView.addSubview(titleLabel)
@@ -203,7 +207,30 @@ class TabBarViewController: UIViewController, UIScrollViewDelegate, CameraPageDe
         tabs[index].center = CGPoint(x: x, y: y)
     }
     
+    // Get dynamic tab original tab y coordinate for show and hide animation
+    func obtainOriginalTabOriginalPositions() {
+        tabOriginalCenterYPositions = [CGFloat]()
+        for tab in tabs {
+            tabOriginalCenterYPositions?.append(tab.center.y)
+        }
+    }
+    
     // Show and hide tab bar
+    func showTabBar() {
+        UIView.animate(withDuration: 0.2, animations: {
+            for i in 0..<self.tabs.count {
+                self.tabs[i].center.y = self.tabOriginalCenterYPositions![i]
+            }
+        })
+    }
+    
+    func hideTabBar() {
+        UIView.animate(withDuration: 0.2, animations: {
+            for i in 0..<self.tabs.count {
+                self.tabs[i].center.y = self.tabOriginalCenterYPositions![i] + CGFloat(self.selectedTabSize) + 20
+            }
+        })
+    }
     
     // MARK: Tab Action
     @IBAction func didTapTab(_ sender: UIButton) {
