@@ -25,6 +25,7 @@ class CameraPageViewController: UIPageViewController {
         super.viewDidLoad()
         
         dataSource = self
+        delegate = self
         
         
         if let firstViewController = orderedViewControllers?
@@ -79,7 +80,23 @@ extension CameraPageViewController: UIPageViewControllerDelegate, UIPageViewCont
         guard orderedViewControllersCount != nextIndex else {
             return nil
         }
+        print("in viewControllerAfter")
         return orderedViewControllers?[nextIndex]
+    }
+    // http://stackoverflow.com/questions/8751633/how-can-i-know-if-uipageviewcontroller-flipped-forward-or-reversed
+    func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+        let previousViewControllerIndex = orderedViewControllers?.index(of: previousViewControllers.first!)
+        
+        // Get current index
+        let pageContentViewController = pageViewController.viewControllers![0]
+        let index = orderedViewControllers?.index(of: pageContentViewController)
+        
+        print("Completed: \(completed). Current index: \(index!). Previous Index: \(previousViewControllerIndex!)\n")
+    }
+    
+    func pageViewController(_ pageViewController: UIPageViewController, willTransitionTo pendingViewControllers: [UIViewController]) {
+        let pendingViewControllerIndex = orderedViewControllers?.index(of: pendingViewControllers.first!)
+        print("Start. pendingViewControllerIndex: \(pendingViewControllerIndex!)\n")
     }
     
 }
@@ -102,5 +119,6 @@ extension CameraPageViewController: UIScrollViewDelegate {
         self.lastContentOffset = scrollView.contentOffset.x
     }
     
+
 }
 
