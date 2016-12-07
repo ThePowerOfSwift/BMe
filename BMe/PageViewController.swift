@@ -15,7 +15,6 @@ import UIKit
 class PageViewController: UIPageViewController {
     
     var orderedViewControllers: [UIViewController]?
-    var firstViewController: CameraViewController?
     
     var pageViewDelegate: PageViewDelegate?
     var lastContentOffset: CGFloat = 0

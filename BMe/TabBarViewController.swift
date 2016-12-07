@@ -69,7 +69,6 @@ class TabBarViewController: UIViewController, UIScrollViewDelegate, PageViewDele
         // Camera page view controller
         cameraPageViewController = UIStoryboard(name: "PageView", bundle: nil).instantiateViewController(withIdentifier: "PageViewController") as! PageViewController
         cameraPageViewController.orderedViewControllers = [cameraViewController, createViewController]
-
         addChildViewController(cameraPageViewController)
         
         // Account view controller
@@ -137,7 +136,6 @@ class TabBarViewController: UIViewController, UIScrollViewDelegate, PageViewDele
                 print("UILabel text: \(label.text)")
             }
         }
-        
         titleScrollView.contentSize = CGSize(width: titleScrollView.frame.width * CGFloat(titles.count), height: titleScrollView.frame.size.height)
     }
     
@@ -266,18 +264,22 @@ class TabBarViewController: UIViewController, UIScrollViewDelegate, PageViewDele
         // Show title scroll label if selected index is 1
         switch selectedIndex {
         case 0:
+            
             changeTitleLabels(titles: browseViewPageTitles)
             showScrollTitle()
+            
             print("titleScrollView.isHidden: \(titleScrollView.isHidden)")
+            let label = UILabel()
+            label.backgroundColor = UIColor.blue
+            label.text = "TESTTTTT"
+            label.center = view.center
+            label.frame.size = CGSize(width: 100, height: 50)
+            self.view.addSubview(label)
+            
         case 1:
             changeTitleLabels(titles: cameraViewPageTitles)
             showScrollTitle()
         default:
-            hideScrollTitle()
-        }
-        
-        if selectedIndex == 1 {
-        } else {
             hideScrollTitle()
         }
         
@@ -297,7 +299,6 @@ class TabBarViewController: UIViewController, UIScrollViewDelegate, PageViewDele
                 switch previousIndex {
                     case 0:
                         whiteButton = UIImage(named: Constants.Images.home)
-                    
                     case 1:
                         whiteButton = UIImage(named: Constants.Images.circle)
                     case 2:
