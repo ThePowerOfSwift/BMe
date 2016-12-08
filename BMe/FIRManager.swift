@@ -183,7 +183,7 @@ class FIRManager: NSObject {
         raincheckRef.removeValue()
     }
     
-    func fetchPostsWithID(IDs: [String], completion: @escaping ([FIRDataSnapshot])->() ) {
+    func fetchPostsWithID(_ IDs: [String], completion: @escaping ([FIRDataSnapshot])->() ) {
         // Trackers
         var index = 0
         var completed = 0

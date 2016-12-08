@@ -18,6 +18,7 @@ class BrowseViewController: UIViewController, UITableViewDelegate, UITableViewDa
     // Model
     var posts: [FIRDataSnapshot]! = []
     fileprivate var _refHandle: FIRDatabaseHandle?
+    fileprivate var _refHandleRemove: FIRDatabaseHandle?
     fileprivate let dbReference = FIRManager.shared.database.child(ContentType.post.objectKey()).queryOrdered(byChild: Post.Key.timestamp)
     var isFetchingData = false
     let fetchBatchSize = 5
@@ -82,26 +83,44 @@ class BrowseViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func setupRaincheckDB() {
-        AppState.shared.currentUserMeta { (usermeta) in
-            if let rainchecks = usermeta.raincheck {
-                let keys = Array(rainchecks.keys)
-                FIRManager.shared.fetchPostsWithID(IDs: keys, completion: { (snapshot) in
-                    // data is returned chronologically, we want the reverse
-                    self.posts = snapshot
-                    print("count \(self.posts.count)")
-                    self.tableView.reloadData()
-                    
-                    // stop refresh control if was refreshed
-                    self.refreshControl.endRefreshing()
-                })
+        
+        // Observe vales for init loading and for newly added rainchecked posts
+        _refHandle = AppState.shared.currentUserMetaRef?.child(UserMeta.Key.raincheck).queryOrdered(byChild: UserMeta.Key.timestamp).observe(.childAdded, with: { (snapshot) in
+            print(snapshot.key)
+            let postID = snapshot.key 
+            FIRManager.shared.fetchPostsWithID([postID], completion: { (snapshots) in
+                // data is returned chronologically, we want the reverse
+                if snapshots.count > 0 {
+                    self.posts.insert(snapshots.first!, at: 0)
+                    self.tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .fade)
+                }
+                // stop refresh control if was refreshed
+                self.refreshControl.endRefreshing()
+            })            
+        })
+        
+        // Observe vales for real time removed rainchecked posts
+        _refHandleRemove = AppState.shared.currentUserMetaRef?.child(UserMeta.Key.raincheck).queryOrdered(byChild: UserMeta.Key.timestamp).observe(.childRemoved, with: { (snapshot) in
+            // match up the post ID from usermeta with the post ID of
+            let removedPostID = snapshot.key
+            for snap in self.posts {
+                if snap.key == removedPostID {
+                    if let foundIndex = self.posts.index(of: snap) {
+                        self.posts.remove(at: foundIndex)
+                        self.tableView.deleteRows(at: [IndexPath(row: foundIndex, section: 0)], with: .fade)
+                        break
+                    }
+                }
             }
-        }
+        })
+        //stop tvc batching feature
         isFetchingData = true
     }
     
     // Deregister for notifications
     deinit {
         dbReference.removeObserver(withHandle: _refHandle!)
+        dbReference.removeObserver(withHandle: _refHandleRemove!)
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil)
     }
     

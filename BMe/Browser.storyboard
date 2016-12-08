@@ -219,7 +219,6 @@
                                 </prototypes>
                             </tableView>
                         </subviews>
-                        <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="wFZ-b6-dkq" secondAttribute="trailing" id="1hJ-XZ-3cu"/>
                             <constraint firstItem="vn0-9Z-GtB" firstAttribute="top" secondItem="wFZ-b6-dkq" secondAttribute="bottom" id="9iS-ei-y6L"/>
@@ -234,14 +233,14 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Kye-mK-bR8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1357.5999999999999" y="781.70914542728644"/>
+            <point key="canvasLocation" x="1337" y="813"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="8eO-Fs-boO">
             <objects>
                 <navigationController storyboardIdentifier="BrowseNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="yTM-M5-7WI" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="ocb-hQ-2YP">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="ocb-hQ-2YP">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>

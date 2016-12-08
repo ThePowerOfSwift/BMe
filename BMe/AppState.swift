@@ -27,6 +27,11 @@ class AppState: NSObject {
             return firebaseAuth?.currentUser
         }
     }
+    var currentUserMetaRef: FIRDatabaseReference? {
+        get {
+            return FIRManager.shared.database.child(ContentType.userMeta.objectKey()).child(currentUser!.uid)
+        }
+    }
     var firebaseAuth: FIRAuth? {
         get {
             return FIRAuth.auth()
@@ -38,7 +43,7 @@ class AppState: NSObject {
         }
     }
     
-    func currentUserMeta(completion: @escaping (UserMeta)->()) {
+    func currentUserMeta(completion: @escaping (UserMeta)->()) {        
         User.userMeta(currentUser!.uid, completion: { (usermeta) in
             completion(usermeta)
         })
