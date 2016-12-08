@@ -37,8 +37,6 @@ class BrowserImageTableViewCell: UITableViewCell, RainCheckButtonDatasource {
     }
     
     func setup() {
-        raincheckButton.datasource = self
-        
         avatarImageView.layer.cornerRadius = avatarImageView.frame.width / 2
         avatarImageView.layer.borderColor = Styles.Avatar.borderColor.cgColor
         avatarImageView.layer.borderWidth = Styles.Avatar.borderWidth
@@ -54,6 +52,8 @@ class BrowserImageTableViewCell: UITableViewCell, RainCheckButtonDatasource {
         activityIndicator.color = UIColor.lightGray
         activityIndicator.frame = postContentView.bounds
         postContentView.addSubview(activityIndicator)
+        
+        raincheckButton.datasource = self
     }
     
     func didStartloading() {
@@ -71,11 +71,14 @@ class BrowserImageTableViewCell: UITableViewCell, RainCheckButtonDatasource {
         avatarImageView.image = nil
         postImageView.image = nil
         postImageView.contentMode = .scaleAspectFill
+        tag = 0
+        postID = ""
+        raincheckButton.isSelected = false
     }
-    
     
     // MARK: - Raincheck button datasource
     func postID(_ forRainCheckButton: RainCheckButton) -> String {
+        print("Returning ID \(postID) to raincheck")
         return postID
     }
 }

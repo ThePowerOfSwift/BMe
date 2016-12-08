@@ -172,14 +172,14 @@ class FIRManager: NSObject {
         // Add postID for userMeta
         // Construct userMeta ref
         let metaRef = FIRManager.shared.database.child(ContentType.userMeta.objectKey()).child(AppState.shared.currentUser!.uid)
-        let raincheckRef = metaRef.child("raincheck").child(postID)
+        let raincheckRef = metaRef.child(UserMeta.Key.raincheck).child(postID)
         let meta: [String: AnyObject] = ["timestamp": Date().toString() as AnyObject]
         raincheckRef.setValue(meta)
     }
     
     func removeRainCheckPost(_ postID: String) {
         let metaRef = FIRManager.shared.database.child(ContentType.userMeta.objectKey()).child(AppState.shared.currentUser!.uid)
-        let raincheckRef = metaRef.child("raincheck").child(postID)
+        let raincheckRef = metaRef.child(UserMeta.Key.raincheck).child(postID)
         raincheckRef.removeValue()
     }
     
@@ -320,6 +320,7 @@ extension FIRDatabaseReference {
 extension FIRDataSnapshot {
     var dictionary: [String: AnyObject?] {
         get {
+            if self.childrenCount <= 0 { return [:] }
             return self.value as! [String: AnyObject?]
         }
     }

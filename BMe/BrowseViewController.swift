@@ -28,7 +28,13 @@ class BrowseViewController: UIViewController {
 
         // Turn off pushing down scrollview (in TV) but keep content below status bar
 //        automaticallyAdjustsScrollViewInsets = false
-        navigationController?.isNavigationBarHidden = true
+//        navigationController?.isNavigationBarHidden = true
+        
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
+        navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBar.isTranslucent = true
+        navigationController?.view.backgroundColor = UIColor.clear
+        
         
         // Put in white reveal
         view.addSubview(WhiteRevealOverlayView(frame: view.bounds))
@@ -53,6 +59,7 @@ class BrowseViewController: UIViewController {
     func setupDatasource() {
         // Setup datasource
         self.posts.removeAll()
+        tableView.reloadData()
         _refHandle = dbReference.queryLimited(toLast: UInt(fetchBatchSize)).observe(.childAdded, with: { (snapshot) in
             self.posts.insert(snapshot, at: 0)
             self.tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
@@ -90,15 +97,27 @@ extension BrowseViewController:  UITableViewDelegate, UITableViewDataSource {
         if post.contentType == .video {
             let cell = tableView.dequeueReusableCell(withIdentifier: BrowserVideoTableViewCell.ID, for: indexPath) as! BrowserVideoTableViewCell
             cell.tag = currentIndex
+            cell.postID = post.postID
             
             // Setup user content
             if let uid = post.uid {
-                User.userMeta(uid, block: { (usermeta) in
+                User.userMeta(uid, completion: { (usermeta) in
                     if cell.tag == currentIndex {
                         // Get the avatar if it exists
                         let ref = FIRManager.shared.storage.child(usermeta.avatarURL!.path)
                         cell.avatarImageView.loadImageFromGS(with: ref, placeholderImage: UIImage(named: Constants.Images.avatarDefault))
                         cell.usernameLabel.text = usermeta.username
+                    
+                        // Set raincheck
+                        AppState.shared.currentUserMeta(completion: { (usermeta) in
+                            if usermeta.raincheck?[post.postID!] != nil {
+                                if cell.tag == currentIndex {
+                                    cell.raincheckButton.isSelected = true
+                                }
+                            }
+                        })
+                        // Set raincheck
+                        
                     }
                 })
             }
@@ -130,17 +149,25 @@ extension BrowseViewController:  UITableViewDelegate, UITableViewDataSource {
         } else if post.contentType == .image {
             let cell = tableView.dequeueReusableCell(withIdentifier: BrowserImageTableViewCell.ID, for: indexPath) as! BrowserImageTableViewCell
             cell.tag = currentIndex
-            // TODO: - Short term fix- need to add post ID to Post object
             cell.postID = post.postID
             
             // Setup user content
             if let uid = post.uid {
-                User.userMeta(uid, block: { (usermeta) in
+                User.userMeta(uid, completion: { (usermeta) in
                     if cell.tag == currentIndex {
                         // Get the avatar if it exists
                         let ref = FIRManager.shared.storage.child(usermeta.avatarURL!.path)
                         cell.avatarImageView.loadImageFromGS(with: ref, placeholderImage: UIImage(named: Constants.Images.avatarDefault))
                         cell.usernameLabel.text = usermeta.username
+                        
+                        // Set raincheck
+                        AppState.shared.currentUserMeta(completion: { (usermeta) in
+                            if usermeta.raincheck?[post.postID!] != nil {
+                                if cell.tag == currentIndex {
+                                    cell.raincheckButton.isSelected = true
+                                }
+                            }
+                        })
                     }
                 })
             }
@@ -219,6 +246,5 @@ extension BrowseViewController:  UITableViewDelegate, UITableViewDataSource {
     func pullToRefresh(_ refreshControl: UIRefreshControl) {
         refreshControl.endRefreshing()
         setupDatasource()
-        tableView.reloadData()
     }
 }

@@ -79,16 +79,19 @@ class LoginViewController: UIViewController {
     }
     
     // MARK: -  Methods
-    
+    let intervals: TimeInterval = 0.5
     func animateSignIn() {
-        UIView.animate(withDuration: 0.5, animations: {
+        UIView.animate(withDuration: intervals, animations: {
             // disappear logo
             self.logoImageView.alpha = 0
         }, completion: { (success) in
             self.logoImageView.image = UIImage(named: Constants.Images.hookYellow)
-            UIView.animate(withDuration: 0.5 , animations: {
+            UIView.animate(withDuration: self.intervals , animations: {
                 self.logoImageView.alpha = 1
             }, completion: { (success) in
+                UIView.animate(withDuration: self.intervals, animations: {
+                    self.logoImageView.alpha = 0
+                })
                 // Present root vc after login success
                 self.present(self.getRootVCAfterLogin(), animated: false, completion: nil)
             })

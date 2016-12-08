@@ -20,6 +20,7 @@ class AppState: NSObject {
     
     var signedIn = false
     
+    // TODO: - should move below to User
     // For use with User.swift
     var currentUser: FIRUser? {
         get {
@@ -35,6 +36,12 @@ class AppState: NSObject {
         get {
             return currentUser?.profileChangeRequest()
         }
+    }
+    
+    func currentUserMeta(completion: @escaping (UserMeta)->()) {
+        User.userMeta(currentUser!.uid, completion: { (usermeta) in
+            completion(usermeta)
+        })
     }
     
 // MARK: - Methods

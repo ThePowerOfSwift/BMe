@@ -11,9 +11,9 @@ import FirebaseDatabase
 
 class Post: NSObject {
     let contentType: ContentType?
-    let url: URL?
-    let uid: String?
     let timestamp: Date?
+    let uid: String?
+    let url: URL?
     let postID: String?
     
     struct Key {
@@ -23,22 +23,6 @@ class Post: NSObject {
         static let timestamp = "timestamp"
         static let postID = "postID"
     }
-    
-//    init(_ dictionary: [String: AnyObject?]) {
-//        if let contentType = dictionary[Key.contentType] as? String {
-//            self.contentType = ContentType(string: contentType)
-//        } else { contentType = nil }
-//        if let urlString = dictionary[Key.url] as? String {
-//            url = URL(string: urlString)
-//        } else { url = nil }
-//        uid = dictionary[Key.uid] as? String
-//        if let timeString = dictionary[Key.timestamp] as? String {
-//            timestamp = timeString.toDate()
-//        } else { timestamp = nil }
-//        if let id = dictionary[Key.postID] as? String {
-//            postID = id
-//        }
-//    }
     
     init(_ snapshot: FIRDataSnapshot) {
         self.postID = snapshot.key
@@ -57,7 +41,8 @@ class Post: NSObject {
     }
 
     override var description : String {
-        return "\tuid: \(self.uid)" +
+        return "\tpostID: \(self.postID)" +
+        "\n\tuid: \(self.uid)" +
         "\n\tcontent type: \(self.contentType?.string())" +
         "\n\turl path: \(self.url?.path)" +
         "\n\tcreated: \(self.timestamp?.toString())"

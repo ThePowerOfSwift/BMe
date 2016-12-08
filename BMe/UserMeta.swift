@@ -7,28 +7,28 @@
 //
 
 import UIKit
+import FirebaseDatabase
 
 class UserMeta: NSObject {
-    var avatarURL: URL?
-    var timestamp: Date?
-    var username: String?
+    let uid: String?
+    let avatarURL: URL?
+    let timestamp: Date?
+    let username: String?
+    let raincheck: [String: AnyObject]?
     
     //MARK: - User Database keys
     struct Key {
         static let timestamp = "timestamp"
         static let avatarURL = "avatarURL"
         static let username = "username"
+        static let raincheck = "raincheck"
     }
     
-    init(_ dictionary: [String: AnyObject?]) {
-        if let avatar = dictionary[Key.avatarURL] as? String {
-            self.avatarURL = URL(string: avatar)
-        }
-        if let date = dictionary[Key.timestamp] as? String {
-            self.timestamp = date.toDate()
-        }
-        if let username = dictionary[Key.username] as? String {
-            self.username = username
-        }
+    init(_ snapshot: FIRDataSnapshot) {
+        uid = snapshot.key
+        self.avatarURL = URL(string: snapshot.dictionary[Key.avatarURL] as! String) ?? nil
+        self.timestamp = (snapshot.dictionary[Key.timestamp] as? String)?.toDate() ?? nil
+        self.username = snapshot.dictionary[Key.username] as? String ?? nil
+        self.raincheck = snapshot.dictionary[Key.raincheck] as? [String: AnyObject] ?? nil
     }
 }

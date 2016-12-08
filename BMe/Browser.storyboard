@@ -152,14 +152,6 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6le-nC-K7I" customClass="RainCheckButton" customModule="BMe" customModuleProvider="target">
-                                                    <rect key="frame" x="20" y="468" width="25" height="25"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" secondItem="6le-nC-K7I" secondAttribute="height" multiplier="1:1" id="StL-eG-T4v"/>
-                                                        <constraint firstAttribute="width" constant="25" id="kFQ-7K-6xZ"/>
-                                                    </constraints>
-                                                    <state key="normal" title="raincheck"/>
-                                                </button>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="location-yellow.png" translatesAutoresizingMaskIntoConstraints="NO" id="8Cc-wE-IpN">
                                                     <rect key="frame" x="78" y="49" width="18" height="18"/>
                                                     <constraints>
@@ -167,20 +159,28 @@
                                                         <constraint firstAttribute="width" constant="18" id="aoN-Wn-IUa"/>
                                                     </constraints>
                                                 </imageView>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6ym-i9-srZ" customClass="RainCheckButton" customModule="BMe" customModuleProvider="target">
+                                                    <rect key="frame" x="20" y="468" width="25" height="25"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="25" id="GBY-BG-HOu"/>
+                                                        <constraint firstAttribute="width" secondItem="6ym-i9-srZ" secondAttribute="height" multiplier="1:1" id="yah-iZ-3s2"/>
+                                                    </constraints>
+                                                    <state key="normal" title="raincheck"/>
+                                                </button>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="6le-nC-K7I" firstAttribute="leading" secondItem="GDb-bK-9Bi" secondAttribute="leading" constant="20" id="DYC-s6-tiV"/>
+                                                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="6ym-i9-srZ" secondAttribute="bottom" constant="20" id="7aj-to-RW6"/>
                                                 <constraint firstItem="epl-SM-5ZC" firstAttribute="leading" secondItem="GDb-bK-9Bi" secondAttribute="leading" id="Ogx-Mw-a0f"/>
+                                                <constraint firstItem="6ym-i9-srZ" firstAttribute="top" secondItem="epl-SM-5ZC" secondAttribute="bottom" constant="15" id="Uyu-Rq-lIR"/>
                                                 <constraint firstItem="8Cc-wE-IpN" firstAttribute="leading" secondItem="QBa-ag-6Qb" secondAttribute="leading" id="VgK-cp-qtm"/>
                                                 <constraint firstItem="8Cc-wE-IpN" firstAttribute="top" secondItem="QBa-ag-6Qb" secondAttribute="bottom" constant="8" id="agj-qb-oxg"/>
-                                                <constraint firstItem="6le-nC-K7I" firstAttribute="top" secondItem="epl-SM-5ZC" secondAttribute="bottom" constant="15" id="b7G-bN-Ui9"/>
-                                                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="6le-nC-K7I" secondAttribute="bottom" constant="20" id="bGT-g6-IGj"/>
                                                 <constraint firstItem="0oa-tE-6nR" firstAttribute="leading" secondItem="8Cc-wE-IpN" secondAttribute="trailing" constant="8" id="cw3-46-KG7"/>
                                                 <constraint firstItem="QBa-ag-6Qb" firstAttribute="leading" secondItem="8it-LM-ffU" secondAttribute="trailing" constant="10" id="dJD-Sj-i4k"/>
                                                 <constraint firstItem="8it-LM-ffU" firstAttribute="leading" secondItem="GDb-bK-9Bi" secondAttribute="leading" constant="20" id="hOd-61-tvk"/>
                                                 <constraint firstItem="0oa-tE-6nR" firstAttribute="centerY" secondItem="8Cc-wE-IpN" secondAttribute="centerY" id="n0L-je-9ic"/>
                                                 <constraint firstAttribute="trailing" secondItem="epl-SM-5ZC" secondAttribute="trailing" id="nJY-x3-sJU"/>
                                                 <constraint firstItem="epl-SM-5ZC" firstAttribute="top" secondItem="8it-LM-ffU" secondAttribute="bottom" constant="10" id="s8W-3P-Soz"/>
+                                                <constraint firstItem="6ym-i9-srZ" firstAttribute="leading" secondItem="GDb-bK-9Bi" secondAttribute="leading" constant="20" id="tg1-CE-9OS"/>
                                                 <constraint firstItem="8it-LM-ffU" firstAttribute="top" secondItem="GDb-bK-9Bi" secondAttribute="top" constant="20" id="xSY-Tz-9pd"/>
                                                 <constraint firstItem="QBa-ag-6Qb" firstAttribute="top" secondItem="8it-LM-ffU" secondAttribute="top" id="ziR-PM-3Y5"/>
                                             </constraints>
@@ -190,6 +190,7 @@
                                             <outlet property="headingLabel" destination="0oa-tE-6nR" id="SWI-fw-sJI"/>
                                             <outlet property="postContentView" destination="epl-SM-5ZC" id="lvZ-dD-maj"/>
                                             <outlet property="postImageView" destination="A9J-y8-wEM" id="xIf-Jn-ecz"/>
+                                            <outlet property="raincheckButton" destination="6ym-i9-srZ" id="Aca-q7-6SJ"/>
                                             <outlet property="usernameLabel" destination="QBa-ag-6Qb" id="z5U-vK-BMZ"/>
                                         </connections>
                                     </tableViewCell>
@@ -218,13 +219,17 @@
         <!--Navigation Controller-->
         <scene sceneID="8eO-Fs-boO">
             <objects>
-                <navigationController storyboardIdentifier="BrowseNavigationController" automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="yTM-M5-7WI" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="BrowseNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="yTM-M5-7WI" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="ocb-hQ-2YP">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="ocb-hQ-2YP">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
+                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="EQA-Ir-kdp">
+                        <rect key="frame" x="0.0" y="623" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </toolbar>
                     <connections>
                         <segue destination="ZwO-wP-yUE" kind="relationship" relationship="rootViewController" id="DRG-ie-YHU"/>
                     </connections>
