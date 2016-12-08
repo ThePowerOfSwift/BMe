@@ -20,6 +20,7 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var logoImageView: UIImageView!
     @IBOutlet weak var logoImageViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var logoImageViewWidthConstraint: NSLayoutConstraint!
+    @IBOutlet weak var loginLabel: UILabel!
     
 // MARK: - Lifecycle methods
     
@@ -35,6 +36,8 @@ class LoginViewController: UIViewController {
         // Subscribe to notifications for login (and send to root VC)
         // Add notification send user back to login screen after logout
         NotificationCenter.default.addObserver(self, selector: #selector(presentRootVC), name: NSNotification.Name(rawValue: Constants.NotificationKeys.didSignIn), object: nil)
+        
+        loginLabel.alpha = 0
     }
 
     override func didReceiveMemoryWarning() {
@@ -84,6 +87,7 @@ class LoginViewController: UIViewController {
         UIView.animate(withDuration: intervals, animations: {
             // disappear logo
             self.logoImageView.alpha = 0
+            self.loginLabel.alpha = 1
         }, completion: { (success) in
             self.logoImageView.image = UIImage(named: Constants.Images.hookYellow)
             UIView.animate(withDuration: self.intervals , animations: {
@@ -91,6 +95,7 @@ class LoginViewController: UIViewController {
             }, completion: { (success) in
                 UIView.animate(withDuration: self.intervals, animations: {
                     self.logoImageView.alpha = 0
+                    self.loginLabel.alpha = 0
                 })
                 // Present root vc after login success
                 self.present(self.getRootVCAfterLogin(), animated: false, completion: nil)
