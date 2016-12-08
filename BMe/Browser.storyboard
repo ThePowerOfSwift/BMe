@@ -106,6 +106,7 @@
                                             <outlet property="headingLabel" destination="3MI-nO-4BQ" id="X3Y-gd-CYb"/>
                                             <outlet property="postContentView" destination="ggE-l9-2Ea" id="j5F-V4-YqD"/>
                                             <outlet property="postImageView" destination="qYU-Wi-D8x" id="xn2-Hs-ZgA"/>
+                                            <outlet property="raincheckButton" destination="i5O-iE-Dya" id="lPL-Bb-Qu8"/>
                                             <outlet property="usernameLabel" destination="Pys-YN-VZy" id="kCu-qL-m24"/>
                                         </connections>
                                     </tableViewCell>

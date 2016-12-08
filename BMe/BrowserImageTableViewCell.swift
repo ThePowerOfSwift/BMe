@@ -9,16 +9,21 @@
 import UIKit
 import AVFoundation
 
-class BrowserImageTableViewCell: UITableViewCell {
+class BrowserImageTableViewCell: UITableViewCell, RainCheckButtonDatasource {
     
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var postContentView: UIView!
     @IBOutlet weak var postImageView: UIImageView!
     @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var headingLabel: UILabel!
+    @IBOutlet weak var raincheckButton: RainCheckButton!
+    var postID: String!
     
     private let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
 
+    // MARK: - Constants
+    static let ID = "BrowserImageTableViewCell"
+    
     // MARK: - Lifecycle
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -32,6 +37,8 @@ class BrowserImageTableViewCell: UITableViewCell {
     }
     
     func setup() {
+        raincheckButton.datasource = self
+        
         avatarImageView.layer.cornerRadius = avatarImageView.frame.width / 2
         avatarImageView.layer.borderColor = Styles.Avatar.borderColor.cgColor
         avatarImageView.layer.borderWidth = Styles.Avatar.borderWidth
@@ -66,6 +73,9 @@ class BrowserImageTableViewCell: UITableViewCell {
         postImageView.contentMode = .scaleAspectFill
     }
     
-    // MARK: - Constants
-    static let ID = "BrowserImageTableViewCell"
+    
+    // MARK: - Raincheck button datasource
+    func postID(_ forRainCheckButton: RainCheckButton) -> String {
+        return postID
+    }
 }

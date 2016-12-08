@@ -9,7 +9,7 @@
 import UIKit
 
 @objc protocol RainCheckButtonDatasource: class {
-    
+    func postID(_ forRainCheckButton: RainCheckButton) -> String
 }
 @objc protocol RainCheckButtonDelegate: class {
     
@@ -20,11 +20,15 @@ class RainCheckButton: UIButton {
     private let actionType = "Raincheck"
     
     func performSelection() {
-        
+        if let datasource = datasource {
+            FIRManager.shared.rainCheckPost(datasource.postID(self))
+        }
     }
     
     func performDeSelection() {
-        
+        if let datasource = datasource {
+            FIRManager.shared.removeRainCheckPost(datasource.postID(self))
+        }
     }
 
 // MARK: - template setup

@@ -167,7 +167,23 @@ class FIRManager: NSObject {
         })
     }
     
-    func postsWithKeyID(keys: [String], completion: ([FIRDataSnapshot])->() ) {
+    func rainCheckPost(_ postID: String) {
+        print("Rainchecking post \(postID)")
+        // Add postID for userMeta
+        // Construct userMeta ref
+        let metaRef = FIRManager.shared.database.child(ContentType.userMeta.objectKey()).child(AppState.shared.currentUser!.uid)
+        let raincheckRef = metaRef.child("raincheck").child(postID)
+        let meta: [String: AnyObject] = ["timestamp": Date().toString() as AnyObject]
+        raincheckRef.setValue(meta)
+    }
+    
+    func removeRainCheckPost(_ postID: String) {
+        let metaRef = FIRManager.shared.database.child(ContentType.userMeta.objectKey()).child(AppState.shared.currentUser!.uid)
+        let raincheckRef = metaRef.child("raincheck").child(postID)
+        raincheckRef.removeValue()
+    }
+    
+    func fetchPostsWithKeyID(keys: [String], completion: ([FIRDataSnapshot])->() ) {
         // TODO: - Example code inserted below
         let postID = "-KYM789sRCcZy6cj48BW"
         FIRManager.shared.database.child(ContentType.post.objectKey()).queryOrderedByKey().queryEqual(toValue: postID).observeSingleEvent(of: .value, with: { (snapshot) in

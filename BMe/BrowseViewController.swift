@@ -52,6 +52,7 @@ class BrowseViewController: UIViewController {
     
     func setupDatasource() {
         // Setup datasource
+        self.posts.removeAll()
         _refHandle = dbReference.queryLimited(toLast: UInt(fetchBatchSize)).observe(.childAdded, with: { (snapshot) in
             self.posts.insert(snapshot, at: 0)
             self.tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
@@ -79,8 +80,7 @@ extension BrowseViewController:  UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let postedObject = posts![indexPath.row].dictionary
-        let post = Post(postedObject)
+        let post = Post(posts![indexPath.row])
         let url = post.url
         let currentIndex = indexPath.row
 
@@ -130,7 +130,9 @@ extension BrowseViewController:  UITableViewDelegate, UITableViewDataSource {
         } else if post.contentType == .image {
             let cell = tableView.dequeueReusableCell(withIdentifier: BrowserImageTableViewCell.ID, for: indexPath) as! BrowserImageTableViewCell
             cell.tag = currentIndex
-
+            // TODO: - Short term fix- need to add post ID to Post object
+            cell.postID = post.postID
+            
             // Setup user content
             if let uid = post.uid {
                 User.userMeta(uid, block: { (usermeta) in
@@ -189,7 +191,7 @@ extension BrowseViewController:  UITableViewDelegate, UITableViewDataSource {
             
             // Get the "next batch" of posts
             // Request with upper limit on the last loaded post with a lower limit bound by batch size
-            let lastPost = Post(posts[posts.count - 1].dictionary)
+            let lastPost = Post(posts[posts.count - 1])
             let lastTimestamp = lastPost.timestamp?.toString()
             dbReference.queryEnding(atValue: lastTimestamp).queryLimited(toLast: UInt(fetchBatchSize)).observeSingleEvent(of: .value, with:
                 { (snapshot) in
@@ -214,9 +216,9 @@ extension BrowseViewController:  UITableViewDelegate, UITableViewDataSource {
         }
     }
     
-    // Deprecate or replace - does not pull from Network
     func pullToRefresh(_ refreshControl: UIRefreshControl) {
         refreshControl.endRefreshing()
+        setupDatasource()
         tableView.reloadData()
     }
 }
