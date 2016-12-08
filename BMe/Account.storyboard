@@ -29,43 +29,56 @@
                                 </constraints>
                             </imageView>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="username" adjustsFontSizeToFit="NO" minimumFontSize="18" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="aw8-1c-6y0">
-                                <rect key="frame" x="126" y="40" width="234" height="30"/>
+                                <rect key="frame" x="126" y="40" width="219" height="50"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="HqW-n2-cpI"/>
+                                    <constraint firstAttribute="height" constant="50" id="HqW-n2-cpI"/>
                                 </constraints>
-                                <nil key="textColor"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="alphabet" returnKeyType="done"/>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="email" adjustsFontSizeToFit="NO" minimumFontSize="18" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="dpv-rN-stJ">
-                                <rect key="frame" x="126" y="85" width="234" height="30"/>
+                                <rect key="frame" x="126" y="105" width="219" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="30" id="lwY-ym-FzS"/>
                                     <constraint firstAttribute="height" constant="30" id="yfw-DZ-ucN"/>
                                 </constraints>
-                                <nil key="textColor"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" returnKeyType="done"/>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fUy-5h-fMK">
-                                <rect key="frame" x="309" y="28" width="57" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Sign out"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fUy-5h-fMK">
+                                <rect key="frame" x="330" y="30" width="30" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="30" id="j9a-Da-bQr"/>
+                                    <constraint firstAttribute="height" constant="30" id="juS-nm-w9d"/>
+                                </constraints>
+                                <state key="normal" title="Sign out" image="logout.png"/>
                                 <connections>
                                     <action selector="tappedSignoutButton:" destination="UXQ-Pk-cUw" eventType="touchUpInside" id="Ycc-5s-Xyi"/>
                                 </connections>
                             </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UIr-h8-eBL">
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="aw8-1c-6y0" firstAttribute="leading" secondItem="gDQ-yQ-0o0" secondAttribute="trailing" constant="15" id="0cY-JB-i6P"/>
+                            <constraint firstAttribute="trailing" secondItem="fUy-5h-fMK" secondAttribute="trailing" constant="15" id="0mr-29-05P"/>
+                            <constraint firstItem="KGi-Dd-jJa" firstAttribute="top" secondItem="UIr-h8-eBL" secondAttribute="bottom" id="1Ts-p8-ujl"/>
                             <constraint firstItem="aw8-1c-6y0" firstAttribute="top" secondItem="GD9-0L-hnW" secondAttribute="bottom" constant="20" id="4Ia-uh-rzl"/>
                             <constraint firstItem="dpv-rN-stJ" firstAttribute="top" secondItem="aw8-1c-6y0" secondAttribute="bottom" constant="15" id="H21-g2-JsC"/>
                             <constraint firstItem="gDQ-yQ-0o0" firstAttribute="leading" secondItem="dfh-1a-csY" secondAttribute="leading" constant="15" id="HeI-NG-GzA"/>
-                            <constraint firstAttribute="trailing" secondItem="aw8-1c-6y0" secondAttribute="trailing" constant="15" id="KYj-LI-Y1x"/>
+                            <constraint firstAttribute="trailing" secondItem="aw8-1c-6y0" secondAttribute="trailing" constant="30" id="KYj-LI-Y1x"/>
+                            <constraint firstItem="UIr-h8-eBL" firstAttribute="leading" secondItem="dfh-1a-csY" secondAttribute="leading" id="Q8M-7O-djM"/>
+                            <constraint firstItem="fUy-5h-fMK" firstAttribute="top" secondItem="dfh-1a-csY" secondAttribute="top" constant="30" id="Rhe-dR-sMs"/>
                             <constraint firstItem="dpv-rN-stJ" firstAttribute="leading" secondItem="gDQ-yQ-0o0" secondAttribute="trailing" constant="15" id="Wau-P2-o52"/>
-                            <constraint firstAttribute="trailing" secondItem="dpv-rN-stJ" secondAttribute="trailing" constant="15" id="Xxy-bM-Yfd"/>
+                            <constraint firstAttribute="trailing" secondItem="dpv-rN-stJ" secondAttribute="trailing" constant="30" id="Xxy-bM-Yfd"/>
+                            <constraint firstItem="UIr-h8-eBL" firstAttribute="top" secondItem="GD9-0L-hnW" secondAttribute="bottom" id="r1c-IX-06f"/>
                             <constraint firstItem="gDQ-yQ-0o0" firstAttribute="top" secondItem="GD9-0L-hnW" secondAttribute="bottom" constant="15" id="s82-lQ-FVC"/>
+                            <constraint firstAttribute="trailing" secondItem="UIr-h8-eBL" secondAttribute="trailing" id="tNj-2X-UaE"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="mBa-Z3-dCT">
@@ -78,6 +91,7 @@
                     <connections>
                         <outlet property="avatarImageView" destination="gDQ-yQ-0o0" id="JDK-hq-iJk"/>
                         <outlet property="emailTextField" destination="dpv-rN-stJ" id="cFM-zE-haU"/>
+                        <outlet property="tableViewContainer" destination="UIr-h8-eBL" id="PRi-wD-6RE"/>
                         <outlet property="usernameTextField" destination="aw8-1c-6y0" id="k7U-39-ztU"/>
                     </connections>
                 </viewController>
@@ -90,7 +104,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="EXp-8c-HWe" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="j9I-hs-ZlV">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="j9I-hs-ZlV">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -104,4 +118,7 @@
             <point key="canvasLocation" x="189.59999999999999" y="160.56971514242881"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="logout.png" width="240" height="240"/>
+    </resources>
 </document>

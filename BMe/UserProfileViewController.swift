@@ -21,6 +21,8 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var label: UILabel!
 
+    @IBOutlet weak var tableViewContainer: UIView!
+    
     // Deprecate
     @IBAction func tappedSignout(_ sender: Any) {
         AppState.shared.signOut()
@@ -30,18 +32,45 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
 
     }
     
+    func setupRaincheckDB() {
+        // empty call
+        // cheat to trick BrowseVC to call func of same name
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
         // Hide nav bar
         navigationController?.isNavigationBarHidden = true
-        // Add tab bar reveal
-        view.addSubview(WhiteRevealOverlayView(frame: view.bounds))
-
+    
         user = User(AppState.shared.currentUser!)
         setupAvatar()
-        setupUser()        
+        setupUser()
+        
+        view.backgroundColor = Styles.Color.Primary
+        
+        // TODO: - NEED TO REFACTOR TVC MODEL
+        // Add tableview child vc
+        let tvc = UIStoryboard(name: Constants.SegueID.Storyboard.Browser, bundle: nil).instantiateViewController(withIdentifier: Constants.SegueID.ViewController.BrowserViewController) as! BrowseViewController
+        // Setup data as rainchecks
+        tvc.dataSelector =  #selector(setupRaincheckDB)
+        addChildViewController(tvc)
+        // Configuration
+        tvc.view.frame = tableViewContainer.bounds
+        tvc.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        // TODO: - hardcoded buffer
+        tvc.tableView.contentInset = UIEdgeInsetsMake(134, 0, 0, 0)
+        // Complete adding to containter
+        tableViewContainer.addSubview(tvc.view)
+        tvc.didMove(toParentViewController: self)
+        
+        tvc.view.backgroundColor = UIColor.clear
+        tvc.tableView.backgroundColor = tvc.view.backgroundColor
+        tableViewContainer.backgroundColor = UIColor.clear
+        
+        // Add tab bar reveal
+        view.addSubview(WhiteRevealOverlayView(frame: view.bounds))
     }
     
     override func didReceiveMemoryWarning() {

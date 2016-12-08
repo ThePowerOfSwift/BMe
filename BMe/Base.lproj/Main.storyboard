@@ -58,6 +58,12 @@
                                     <constraint firstAttribute="width" constant="100" id="xql-Zg-mpZ"/>
                                 </constraints>
                             </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Logging in" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RC1-dg-gwf">
+                                <rect key="frame" x="147.5" y="250" width="80" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -68,7 +74,9 @@
                             <constraint firstItem="cVg-CF-vZU" firstAttribute="top" secondItem="hn9-PR-dcw" secondAttribute="bottom" constant="60" id="E29-C9-LLB"/>
                             <constraint firstItem="hn9-PR-dcw" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Jos-er-zcU"/>
                             <constraint firstItem="cVg-CF-vZU" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="275" id="P31-SG-nIN"/>
+                            <constraint firstItem="RC1-dg-gwf" firstAttribute="top" secondItem="hn9-PR-dcw" secondAttribute="bottom" constant="15" id="RqJ-rI-ZGP"/>
                             <constraint firstItem="f90-8V-udb" firstAttribute="top" secondItem="LyF-Gn-jy4" secondAttribute="top" id="VhT-0Y-trg"/>
+                            <constraint firstItem="RC1-dg-gwf" firstAttribute="centerX" secondItem="hn9-PR-dcw" secondAttribute="centerX" id="dEu-Z0-AJE"/>
                             <constraint firstAttribute="trailing" secondItem="cVg-CF-vZU" secondAttribute="trailing" constant="50" id="eDS-xO-HJE"/>
                             <constraint firstItem="cVg-CF-vZU" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="50" id="gHo-mk-B7T"/>
                             <constraint firstItem="LyF-Gn-jy4" firstAttribute="leading" secondItem="xm5-si-3SY" secondAttribute="leading" id="gcH-5H-tpQ"/>
@@ -77,6 +85,7 @@
                     </view>
                     <connections>
                         <outlet property="loginButton" destination="f90-8V-udb" id="5XN-ie-ldK"/>
+                        <outlet property="loginLabel" destination="RC1-dg-gwf" id="GaV-ce-JSA"/>
                         <outlet property="logoImageView" destination="hn9-PR-dcw" id="Nfq-Jf-hgs"/>
                         <outlet property="logoImageViewHeightConstraint" destination="geB-LU-Sab" id="T81-8Q-1wq"/>
                         <outlet property="logoImageViewWidthConstraint" destination="xql-Zg-mpZ" id="3em-0L-tmJ"/>

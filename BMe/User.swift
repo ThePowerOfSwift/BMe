@@ -107,14 +107,13 @@ class User: NSObject {
     }
     
     // Return the user's meta data dictionary from Database using UID
-    public class func userMeta(_ uid: String, block:@escaping (UserMeta)->()) {
+    public class func userMeta(_ uid: String, completion:@escaping (UserMeta)->()) {
         // Construct reference to user meta in Database
         let ref = FIRManager.shared.database.child(ContentType.userMeta.objectKey()).child(uid)
         // Get existing values
         ref.observeSingleEvent(of: .value, with: {(snapshot: FIRDataSnapshot) in
-            let data = snapshot.dictionary
-            let userMeta = UserMeta(data)
-            block(userMeta)
+            let userMeta = UserMeta(snapshot)
+            completion(userMeta)
         })
     }
     

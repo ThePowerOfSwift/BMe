@@ -9,13 +9,18 @@
 import UIKit
 import AVFoundation
 
-class BrowserVideoTableViewCell: UITableViewCell {
+class BrowserVideoTableViewCell: UITableViewCell, RainCheckButtonDatasource, HeartButtonDatasource {
 
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var postContentView: UIView!
     @IBOutlet weak var postImageView: UIImageView!
     @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var headingLabel: UILabel!
+    @IBOutlet weak var raincheckButton: RainCheckButton!
+    @IBOutlet weak var heartButton: HeartButton!
+
+    // Model
+    var postID: String!
 
     // Deprecate- takes too much bandwidth?
     // Video player objects
@@ -24,6 +29,9 @@ class BrowserVideoTableViewCell: UITableViewCell {
     
     private let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
     
+    // MARK: - Constants
+    static let ID = "BrowserVideoTableViewCell"
+
     // MARK: - Lifecycle
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -66,6 +74,9 @@ class BrowserVideoTableViewCell: UITableViewCell {
         activityIndicator.color = UIColor.lightGray
         activityIndicator.frame = postContentView.bounds
         postContentView.addSubview(activityIndicator)
+        
+        raincheckButton.datasource = self
+        heartButton.datasource = self
     }
     
     func didStartLoadingContent() {
@@ -88,9 +99,16 @@ class BrowserVideoTableViewCell: UITableViewCell {
         // Clear videos
         player.pause()
         player.replaceCurrentItem(with: nil)
-//        playerLayer.isHidden = true
+        
+        tag = 0
+        postID = ""
+        raincheckButton.isSelected = false
+        heartButton.isSelected = false
     }
     
-    // MARK: - Constants
-    static let ID = "BrowserVideoTableViewCell"
+    // MARK: - Raincheck button datasource
+    func postID(_ sender: UIButton) -> String {
+        print("Returning ID \(postID) to button")
+        return postID
+    }
 }

@@ -7,21 +7,27 @@
 //
 
 import UIKit
+import FirebaseDatabase
 
 class Post: NSObject {
     let contentType: ContentType?
-    let url: URL?
-    let uid: String?
     let timestamp: Date?
-
+    let uid: String?
+    let url: URL?
+    let postID: String?
+    
     struct Key {
         static let contentType = "contentType"
         static let url = "url"
         static let uid = "uid"
         static let timestamp = "timestamp"
+        static let postID = "postID"
     }
     
-    init(_ dictionary: [String: AnyObject?]) {
+    init(_ snapshot: FIRDataSnapshot) {
+        self.postID = snapshot.key
+        let dictionary = snapshot.dictionary
+        
         if let contentType = dictionary[Key.contentType] as? String {
             self.contentType = ContentType(string: contentType)
         } else { contentType = nil }
@@ -33,9 +39,10 @@ class Post: NSObject {
             timestamp = timeString.toDate()
         } else { timestamp = nil }
     }
-    
+
     override var description : String {
-        return "\tuid: \(self.uid)" +
+        return "\tpostID: \(self.postID)" +
+        "\n\tuid: \(self.uid)" +
         "\n\tcontent type: \(self.contentType?.string())" +
         "\n\turl path: \(self.url?.path)" +
         "\n\tcreated: \(self.timestamp?.toString())"

@@ -9,16 +9,24 @@
 import UIKit
 import AVFoundation
 
-class BrowserImageTableViewCell: UITableViewCell {
+class BrowserImageTableViewCell: UITableViewCell, RainCheckButtonDatasource, HeartButtonDatasource {
     
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var postContentView: UIView!
     @IBOutlet weak var postImageView: UIImageView!
     @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var headingLabel: UILabel!
+    @IBOutlet weak var raincheckButton: RainCheckButton!
+    @IBOutlet weak var heartButton: HeartButton!
+    
+    // Model
+    var postID: String!
     
     private let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
 
+    // MARK: - Constants
+    static let ID = "BrowserImageTableViewCell"
+    
     // MARK: - Lifecycle
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -47,6 +55,9 @@ class BrowserImageTableViewCell: UITableViewCell {
         activityIndicator.color = UIColor.lightGray
         activityIndicator.frame = postContentView.bounds
         postContentView.addSubview(activityIndicator)
+        
+        raincheckButton.datasource = self
+        heartButton.datasource = self
     }
     
     func didStartloading() {
@@ -64,8 +75,15 @@ class BrowserImageTableViewCell: UITableViewCell {
         avatarImageView.image = nil
         postImageView.image = nil
         postImageView.contentMode = .scaleAspectFill
+        tag = 0
+        postID = ""
+        raincheckButton.isSelected = false
+        heartButton.isSelected = false
     }
     
-    // MARK: - Constants
-    static let ID = "BrowserImageTableViewCell"
+    // MARK: - Raincheck button datasource
+    func postID(_ sender: UIButton) -> String {
+        print("Returning ID \(postID) to button")
+        return postID
+    }
 }

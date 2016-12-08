@@ -43,6 +43,12 @@
 		7837A2101DF8B898000CB9CB /* raincheck-yellow.png in Resources */ = {isa = PBXBuildFile; fileRef = 7837A20A1DF8B898000CB9CB /* raincheck-yellow.png */; };
 		7837A2111DF8B898000CB9CB /* raincheck.png in Resources */ = {isa = PBXBuildFile; fileRef = 7837A20B1DF8B898000CB9CB /* raincheck.png */; };
 		7837A2131DF8BB96000CB9CB /* RainCheckButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7837A2121DF8BB96000CB9CB /* RainCheckButton.swift */; };
+		7837A2191DF959F2000CB9CB /* hear-yellow.png in Resources */ = {isa = PBXBuildFile; fileRef = 7837A2141DF959F2000CB9CB /* hear-yellow.png */; };
+		7837A21A1DF959F2000CB9CB /* heart-black.png in Resources */ = {isa = PBXBuildFile; fileRef = 7837A2151DF959F2000CB9CB /* heart-black.png */; };
+		7837A21B1DF959F2000CB9CB /* heart-blue.png in Resources */ = {isa = PBXBuildFile; fileRef = 7837A2161DF959F2000CB9CB /* heart-blue.png */; };
+		7837A21C1DF959F2000CB9CB /* heart-gray.png in Resources */ = {isa = PBXBuildFile; fileRef = 7837A2171DF959F2000CB9CB /* heart-gray.png */; };
+		7837A21D1DF959F2000CB9CB /* heart.png in Resources */ = {isa = PBXBuildFile; fileRef = 7837A2181DF959F2000CB9CB /* heart.png */; };
+		7837A21F1DF95A43000CB9CB /* HeartButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7837A21E1DF95A43000CB9CB /* HeartButton.swift */; };
 		78469A5C1DE3958100A40D53 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78469A5B1DE3958100A40D53 /* AppDelegate.swift */; };
 		78469A5E1DE3958100A40D53 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78469A5D1DE3958100A40D53 /* LoginViewController.swift */; };
 		78469A611DE3958100A40D53 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 78469A5F1DE3958100A40D53 /* Main.storyboard */; };
@@ -50,6 +56,7 @@
 		78469A661DE3958100A40D53 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 78469A641DE3958100A40D53 /* LaunchScreen.storyboard */; };
 		78469A711DE3958100A40D53 /* BMeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78469A701DE3958100A40D53 /* BMeTests.swift */; };
 		78469A7C1DE3958100A40D53 /* BMeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78469A7B1DE3958100A40D53 /* BMeUITests.swift */; };
+		7851239C1DF9F66800B70CC4 /* logout.png in Resources */ = {isa = PBXBuildFile; fileRef = 7851239B1DF9F66800B70CC4 /* logout.png */; };
 		785E87C61DED445000C9FF59 /* Play image- white.png in Resources */ = {isa = PBXBuildFile; fileRef = 785E87C51DED445000C9FF59 /* Play image- white.png */; };
 		785E87C81DED4C4F00C9FF59 /* VideoComposerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785E87C71DED4C4F00C9FF59 /* VideoComposerViewController.swift */; };
 		785E87CA1DED4E5800C9FF59 /* VideoComposerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785E87C91DED4E5800C9FF59 /* VideoComposerCollectionViewCell.swift */; };
@@ -163,6 +170,12 @@
 		7837A20A1DF8B898000CB9CB /* raincheck-yellow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "raincheck-yellow.png"; sourceTree = "<group>"; };
 		7837A20B1DF8B898000CB9CB /* raincheck.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = raincheck.png; sourceTree = "<group>"; };
 		7837A2121DF8BB96000CB9CB /* RainCheckButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RainCheckButton.swift; sourceTree = "<group>"; };
+		7837A2141DF959F2000CB9CB /* hear-yellow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hear-yellow.png"; sourceTree = "<group>"; };
+		7837A2151DF959F2000CB9CB /* heart-black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "heart-black.png"; sourceTree = "<group>"; };
+		7837A2161DF959F2000CB9CB /* heart-blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "heart-blue.png"; sourceTree = "<group>"; };
+		7837A2171DF959F2000CB9CB /* heart-gray.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "heart-gray.png"; sourceTree = "<group>"; };
+		7837A2181DF959F2000CB9CB /* heart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = heart.png; sourceTree = "<group>"; };
+		7837A21E1DF95A43000CB9CB /* HeartButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeartButton.swift; sourceTree = "<group>"; };
 		78469A581DE3958000A40D53 /* BMe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BMe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		78469A5B1DE3958100A40D53 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		78469A5D1DE3958100A40D53 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -176,6 +189,7 @@
 		78469A771DE3958100A40D53 /* BMeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BMeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		78469A7B1DE3958100A40D53 /* BMeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BMeUITests.swift; sourceTree = "<group>"; };
 		78469A7D1DE3958100A40D53 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7851239B1DF9F66800B70CC4 /* logout.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logout.png; sourceTree = "<group>"; };
 		785E87C51DED445000C9FF59 /* Play image- white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Play image- white.png"; sourceTree = "<group>"; };
 		785E87C71DED4C4F00C9FF59 /* VideoComposerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoComposerViewController.swift; sourceTree = "<group>"; };
 		785E87C91DED4E5800C9FF59 /* VideoComposerCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoComposerCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -415,6 +429,12 @@
 		785E87C41DED444400C9FF59 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				7851239B1DF9F66800B70CC4 /* logout.png */,
+				7837A2141DF959F2000CB9CB /* hear-yellow.png */,
+				7837A2151DF959F2000CB9CB /* heart-black.png */,
+				7837A2161DF959F2000CB9CB /* heart-blue.png */,
+				7837A2171DF959F2000CB9CB /* heart-gray.png */,
+				7837A2181DF959F2000CB9CB /* heart.png */,
 				78BCDF2F1DF7464D002D399E /* cross-white.png */,
 				78BCDF301DF7464D002D399E /* cross-yellow.png */,
 				781E71611DF5DF4000041855 /* black_truffle.jpg */,
@@ -468,6 +488,7 @@
 				78BCDF361DF749CC002D399E /* PostButton.swift */,
 				78BCDF381DF74A15002D399E /* NextButton.swift */,
 				7837A2121DF8BB96000CB9CB /* RainCheckButton.swift */,
+				7837A21E1DF95A43000CB9CB /* HeartButton.swift */,
 			);
 			name = Buttons;
 			sourceTree = "<group>";
@@ -584,7 +605,7 @@
 				TargetAttributes = {
 					78469A571DE3958000A40D53 = {
 						CreatedOnToolsVersion = 8.0;
-						DevelopmentTeam = PY8CHQP699;
+						DevelopmentTeam = Y4GA6H5JHE;
 						ProvisioningStyle = Automatic;
 					};
 					78469A6B1DE3958100A40D53 = {
@@ -630,6 +651,8 @@
 				78BCDF471DF75D16002D399E /* hook.png in Resources */,
 				781E715A1DF5330E00041855 /* circle-yellow.png in Resources */,
 				78B56A091DF5FD1B00A13915 /* user-white.png in Resources */,
+				7837A21A1DF959F2000CB9CB /* heart-black.png in Resources */,
+				7837A2191DF959F2000CB9CB /* hear-yellow.png in Resources */,
 				78C3503F1DF12E17005E8331 /* blank user avatar.jpeg in Resources */,
 				78F511381DF6D09E0074050F /* WhiteRevealOverlayView.xib in Resources */,
 				78BCDF491DF7643D002D399E /* hook-blue.png in Resources */,
@@ -645,8 +668,11 @@
 				7837A20F1DF8B898000CB9CB /* raincheck-gray.png in Resources */,
 				78BCDF431DF752F9002D399E /* hook-black.png in Resources */,
 				78469A661DE3958100A40D53 /* LaunchScreen.storyboard in Resources */,
+				7837A21D1DF959F2000CB9CB /* heart.png in Resources */,
 				78337D8D1DE3AC6600A1B32C /* GoogleService-Info.plist in Resources */,
+				7851239C1DF9F66800B70CC4 /* logout.png in Resources */,
 				7837A2111DF8B898000CB9CB /* raincheck.png in Resources */,
+				7837A21C1DF959F2000CB9CB /* heart-gray.png in Resources */,
 				E35AC4871DE4D0F500FCB0D0 /* Sato.storyboard in Resources */,
 				78B56A061DF5EBFB00A13915 /* error.png in Resources */,
 				781E715E1DF53D1E00041855 /* home-yellow.png in Resources */,
@@ -662,6 +688,7 @@
 				78BCDF3D1DF74ABC002D399E /* nextarrow.png in Resources */,
 				781E714C1DF486A900041855 /* Yelp.storyboard in Resources */,
 				78BCDF2C1DF74421002D399E /* README in Resources */,
+				7837A21B1DF959F2000CB9CB /* heart-blue.png in Resources */,
 				78C350431DF2251A005E8331 /* Browser.storyboard in Resources */,
 				78C350451DF2260A005E8331 /* Account.storyboard in Resources */,
 				78469A611DE3958100A40D53 /* Main.storyboard in Resources */,
@@ -862,6 +889,7 @@
 				781E71561DF5196F00041855 /* Image.swift in Sources */,
 				78F511361DF6D0860074050F /* WhiteRevealOverlayView.swift in Sources */,
 				E38E32B81DF3B6FC00631AEC /* ShowImageViewController.swift in Sources */,
+				7837A21F1DF95A43000CB9CB /* HeartButton.swift in Sources */,
 				7837A2131DF8BB96000CB9CB /* RainCheckButton.swift in Sources */,
 				783008A71DE3B9A000B070D4 /* MediaSelectorViewController.swift in Sources */,
 				78B95F8C1DF6B4EA00B6C83E /* BrowserImageTableViewCell.swift in Sources */,
@@ -1022,7 +1050,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				DEVELOPMENT_TEAM = PY8CHQP699;
+				DEVELOPMENT_TEAM = Y4GA6H5JHE;
 				INFOPLIST_FILE = BMe/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.op.BMe;
@@ -1040,7 +1068,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				DEVELOPMENT_TEAM = PY8CHQP699;
+				DEVELOPMENT_TEAM = Y4GA6H5JHE;
 				INFOPLIST_FILE = BMe/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.op.BMe;

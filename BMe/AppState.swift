@@ -20,10 +20,16 @@ class AppState: NSObject {
     
     var signedIn = false
     
+    // TODO: - should move below to User
     // For use with User.swift
     var currentUser: FIRUser? {
         get {
             return firebaseAuth?.currentUser
+        }
+    }
+    var currentUserMetaRef: FIRDatabaseReference? {
+        get {
+            return FIRManager.shared.database.child(ContentType.userMeta.objectKey()).child(currentUser!.uid)
         }
     }
     var firebaseAuth: FIRAuth? {
@@ -35,6 +41,12 @@ class AppState: NSObject {
         get {
             return currentUser?.profileChangeRequest()
         }
+    }
+    
+    func currentUserMeta(completion: @escaping (UserMeta)->()) {        
+        User.userMeta(currentUser!.uid, completion: { (usermeta) in
+            completion(usermeta)
+        })
     }
     
 // MARK: - Methods

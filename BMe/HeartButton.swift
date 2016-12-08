@@ -1,40 +1,40 @@
 //
-//  RainCheckButton.swift
+//  HeartButton.swift
 //  BMe
 //
-//  Created by Jonathan Cheng on 12/7/16.
+//  Created by Jonathan Cheng on 12/8/16.
 //  Copyright © 2016 Jonathan Cheng. All rights reserved.
 //
 
 import UIKit
 
-@objc protocol RainCheckButtonDatasource: class {
+@objc protocol HeartButtonDatasource: class {
     func postID(_ sender: UIButton) -> String
 }
-@objc protocol RainCheckButtonDelegate: class {
+@objc protocol HeartButtonDelegate: class {
     
 }
-class RainCheckButton: UIButton {
-    private let deselectedImage = UIImage(named: Constants.Images.raincheckClosed)
-    private let selectedImage = UIImage(named: Constants.Images.raincheckBlue)
-    private let actionType = "Raincheck"
+class HeartButton: UIButton {
+    private let deselectedImage = UIImage(named: Constants.Images.heartGray)
+    private let selectedImage = UIImage(named: Constants.Images.hearBlue)
+    private let actionType = "HeartButton"
     
     func performSelection() {
         if let datasource = datasource {
-            FIRManager.shared.rainCheckPost(datasource.postID(self))
+            FIRManager.shared.heartPost(datasource.postID(self))
         }
     }
     
     func performDeSelection() {
         if let datasource = datasource {
-            FIRManager.shared.removeRainCheckPost(datasource.postID(self))
+            FIRManager.shared.removeHeartPost(datasource.postID(self))
         }
     }
-
-// MARK: - template setup
-    weak var datasource: RainCheckButtonDatasource?
-    weak var delegate: RainCheckButtonDelegate?
-
+    
+    // MARK: - template setup
+    weak var datasource: HeartButtonDatasource?
+    weak var delegate: HeartButtonDelegate?
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
@@ -63,3 +63,4 @@ class RainCheckButton: UIButton {
         }
     }
 }
+
