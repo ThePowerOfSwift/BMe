@@ -47,10 +47,13 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" returnKeyType="done"/>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fUy-5h-fMK">
-                                <rect key="frame" x="309" y="28" width="57" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Sign out"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fUy-5h-fMK">
+                                <rect key="frame" x="330" y="30" width="30" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="30" id="j9a-Da-bQr"/>
+                                    <constraint firstAttribute="height" constant="30" id="juS-nm-w9d"/>
+                                </constraints>
+                                <state key="normal" title="Sign out" image="logout.png"/>
                                 <connections>
                                     <action selector="tappedSignoutButton:" destination="UXQ-Pk-cUw" eventType="touchUpInside" id="Ycc-5s-Xyi"/>
                                 </connections>
@@ -59,10 +62,12 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="aw8-1c-6y0" firstAttribute="leading" secondItem="gDQ-yQ-0o0" secondAttribute="trailing" constant="15" id="0cY-JB-i6P"/>
+                            <constraint firstAttribute="trailing" secondItem="fUy-5h-fMK" secondAttribute="trailing" constant="15" id="0mr-29-05P"/>
                             <constraint firstItem="aw8-1c-6y0" firstAttribute="top" secondItem="GD9-0L-hnW" secondAttribute="bottom" constant="20" id="4Ia-uh-rzl"/>
                             <constraint firstItem="dpv-rN-stJ" firstAttribute="top" secondItem="aw8-1c-6y0" secondAttribute="bottom" constant="15" id="H21-g2-JsC"/>
                             <constraint firstItem="gDQ-yQ-0o0" firstAttribute="leading" secondItem="dfh-1a-csY" secondAttribute="leading" constant="15" id="HeI-NG-GzA"/>
                             <constraint firstAttribute="trailing" secondItem="aw8-1c-6y0" secondAttribute="trailing" constant="30" id="KYj-LI-Y1x"/>
+                            <constraint firstItem="fUy-5h-fMK" firstAttribute="top" secondItem="dfh-1a-csY" secondAttribute="top" constant="30" id="Rhe-dR-sMs"/>
                             <constraint firstItem="dpv-rN-stJ" firstAttribute="leading" secondItem="gDQ-yQ-0o0" secondAttribute="trailing" constant="15" id="Wau-P2-o52"/>
                             <constraint firstAttribute="trailing" secondItem="dpv-rN-stJ" secondAttribute="trailing" constant="30" id="Xxy-bM-Yfd"/>
                             <constraint firstItem="gDQ-yQ-0o0" firstAttribute="top" secondItem="GD9-0L-hnW" secondAttribute="bottom" constant="15" id="s82-lQ-FVC"/>
@@ -104,4 +109,7 @@
             <point key="canvasLocation" x="189.59999999999999" y="160.56971514242881"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="logout.png" width="240" height="240"/>
+    </resources>
 </document>

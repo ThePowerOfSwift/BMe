@@ -56,6 +56,7 @@
 		78469A661DE3958100A40D53 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 78469A641DE3958100A40D53 /* LaunchScreen.storyboard */; };
 		78469A711DE3958100A40D53 /* BMeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78469A701DE3958100A40D53 /* BMeTests.swift */; };
 		78469A7C1DE3958100A40D53 /* BMeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78469A7B1DE3958100A40D53 /* BMeUITests.swift */; };
+		7851239C1DF9F66800B70CC4 /* logout.png in Resources */ = {isa = PBXBuildFile; fileRef = 7851239B1DF9F66800B70CC4 /* logout.png */; };
 		785E87C61DED445000C9FF59 /* Play image- white.png in Resources */ = {isa = PBXBuildFile; fileRef = 785E87C51DED445000C9FF59 /* Play image- white.png */; };
 		785E87C81DED4C4F00C9FF59 /* VideoComposerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785E87C71DED4C4F00C9FF59 /* VideoComposerViewController.swift */; };
 		785E87CA1DED4E5800C9FF59 /* VideoComposerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785E87C91DED4E5800C9FF59 /* VideoComposerCollectionViewCell.swift */; };
@@ -188,6 +189,7 @@
 		78469A771DE3958100A40D53 /* BMeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BMeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		78469A7B1DE3958100A40D53 /* BMeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BMeUITests.swift; sourceTree = "<group>"; };
 		78469A7D1DE3958100A40D53 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7851239B1DF9F66800B70CC4 /* logout.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logout.png; sourceTree = "<group>"; };
 		785E87C51DED445000C9FF59 /* Play image- white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Play image- white.png"; sourceTree = "<group>"; };
 		785E87C71DED4C4F00C9FF59 /* VideoComposerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoComposerViewController.swift; sourceTree = "<group>"; };
 		785E87C91DED4E5800C9FF59 /* VideoComposerCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoComposerCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -427,6 +429,7 @@
 		785E87C41DED444400C9FF59 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				7851239B1DF9F66800B70CC4 /* logout.png */,
 				7837A2141DF959F2000CB9CB /* hear-yellow.png */,
 				7837A2151DF959F2000CB9CB /* heart-black.png */,
 				7837A2161DF959F2000CB9CB /* heart-blue.png */,
@@ -667,6 +670,7 @@
 				78469A661DE3958100A40D53 /* LaunchScreen.storyboard in Resources */,
 				7837A21D1DF959F2000CB9CB /* heart.png in Resources */,
 				78337D8D1DE3AC6600A1B32C /* GoogleService-Info.plist in Resources */,
+				7851239C1DF9F66800B70CC4 /* logout.png in Resources */,
 				7837A2111DF8B898000CB9CB /* raincheck.png in Resources */,
 				7837A21C1DF959F2000CB9CB /* heart-gray.png in Resources */,
 				E35AC4871DE4D0F500FCB0D0 /* Sato.storyboard in Resources */,
