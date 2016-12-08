@@ -212,7 +212,12 @@ class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePicker
     }
     
     @IBAction func onUpload(_ sender: UIButton) {
-        print("update button tapped.")
+        
+        let busy = BusyView()
+        busy.view.center = self.view.center
+        self.view.addSubview(busy)
+        busy.startAnimating()
+        
         var newImage = imageView.image
         if textFields.count > 0 {
             newImage = add(textFields: textFields, to: imageView.image!)
@@ -220,7 +225,6 @@ class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePicker
         let storyboard = UIStoryboard(name: "Camera", bundle: nil)
         let testVC = storyboard.instantiateViewController(withIdentifier: "ShowImageViewController") as! ShowImageViewController
         testVC.image = newImage
-        
         
         // Resize the image
         var localID: String!
@@ -243,6 +247,8 @@ class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePicker
                 FIRManager.shared.postObject(object: imageData!, contentType: .image, meta: self.metadata!, completion: {
                     print("Upload completed")
                     self.removeAllItems()
+                    busy.stopAnimating()
+                    busy.removeFromSuperview()
                     self.enterCameraMode()
                 })
             })

@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -27,11 +28,11 @@
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="dz3-xN-PWO">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                     </imageView>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8UK-bU-d50">
-                                        <rect key="frame" x="315" y="24" width="50" height="50"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8UK-bU-d50" customClass="PostButton" customModule="BMe" customModuleProvider="target">
+                                        <rect key="frame" x="335" y="24" width="30" height="30"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="50" id="j0J-8k-99S"/>
-                                            <constraint firstAttribute="width" constant="50" id="prl-Zu-a54"/>
+                                            <constraint firstAttribute="width" secondItem="8UK-bU-d50" secondAttribute="height" multiplier="1:1" id="2E5-rb-yqY"/>
+                                            <constraint firstAttribute="width" constant="30" id="prl-Zu-a54"/>
                                         </constraints>
                                         <state key="normal" title="Done"/>
                                         <connections>
@@ -39,9 +40,9 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mKh-1y-Tmo">
-                                        <rect key="frame" x="255" y="24" width="50" height="50"/>
+                                        <rect key="frame" x="325" y="308.5" width="50" height="50"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="50" id="YjZ-RD-1Sq"/>
+                                            <constraint firstAttribute="width" secondItem="mKh-1y-Tmo" secondAttribute="height" multiplier="1:1" id="lk7-pc-gh2"/>
                                             <constraint firstAttribute="width" constant="50" id="oBX-yE-Grt"/>
                                         </constraints>
                                         <state key="normal">
@@ -57,19 +58,11 @@
                                             <action selector="tappedAddTextButton:" destination="CUT-KW-ZOC" eventType="touchUpInside" id="CEV-qh-hPO"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iDy-FN-Eyx" customClass="LocationButton" customModule="BMe" customModuleProvider="target">
-                                        <rect key="frame" x="205" y="29" width="40" height="40"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xlN-QO-tNR" customClass="CrossButton" customModule="BMe" customModuleProvider="target">
+                                        <rect key="frame" x="10" y="24" width="30" height="30"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="40" id="Tj8-dL-7UX"/>
-                                            <constraint firstAttribute="width" constant="40" id="e6Q-gV-pef"/>
-                                        </constraints>
-                                        <state key="normal" title="Button"/>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xlN-QO-tNR">
-                                        <rect key="frame" x="10" y="24" width="50" height="50"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="50" id="R85-WD-8AF"/>
-                                            <constraint firstAttribute="height" constant="50" id="aet-Kc-1eu"/>
+                                            <constraint firstAttribute="width" secondItem="xlN-QO-tNR" secondAttribute="height" multiplier="1:1" id="87q-3k-Bmg"/>
+                                            <constraint firstAttribute="width" constant="30" id="R85-WD-8AF"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="40"/>
                                         <state key="normal" title="✕"/>
@@ -77,20 +70,28 @@
                                             <action selector="onCancel:" destination="CUT-KW-ZOC" eventType="touchUpInside" id="gfx-3N-kM6"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iDy-FN-Eyx" customClass="LocationButton" customModule="BMe" customModuleProvider="target">
+                                        <rect key="frame" x="330" y="253.5" width="40" height="40"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="iDy-FN-Eyx" secondAttribute="height" multiplier="1:1" id="OeA-fM-1b6"/>
+                                            <constraint firstAttribute="width" constant="40" id="e6Q-gV-pef"/>
+                                        </constraints>
+                                        <state key="normal" title="Button"/>
+                                    </button>
                                 </subviews>
                                 <constraints>
+                                    <constraint firstItem="iDy-FN-Eyx" firstAttribute="centerX" secondItem="mKh-1y-Tmo" secondAttribute="centerX" id="4rW-aY-xx5"/>
                                     <constraint firstItem="xlN-QO-tNR" firstAttribute="leading" secondItem="fZo-83-kBt" secondAttribute="leading" constant="10" id="AwP-Pj-i1W"/>
+                                    <constraint firstItem="8UK-bU-d50" firstAttribute="centerX" secondItem="mKh-1y-Tmo" secondAttribute="centerX" id="B1F-dy-Ryr"/>
                                     <constraint firstAttribute="bottom" secondItem="dz3-xN-PWO" secondAttribute="bottom" id="Dnb-5H-seb"/>
-                                    <constraint firstItem="iDy-FN-Eyx" firstAttribute="centerY" secondItem="xlN-QO-tNR" secondAttribute="centerY" id="MGd-Jn-spW"/>
-                                    <constraint firstItem="mKh-1y-Tmo" firstAttribute="centerY" secondItem="xlN-QO-tNR" secondAttribute="centerY" id="OPN-zS-C9F"/>
                                     <constraint firstItem="dz3-xN-PWO" firstAttribute="leading" secondItem="fZo-83-kBt" secondAttribute="leading" id="QJa-6k-lXV"/>
-                                    <constraint firstItem="8UK-bU-d50" firstAttribute="leading" secondItem="mKh-1y-Tmo" secondAttribute="trailing" constant="10" id="bgM-R0-toE"/>
                                     <constraint firstAttribute="trailing" secondItem="dz3-xN-PWO" secondAttribute="trailing" id="jth-4Q-cEz"/>
+                                    <constraint firstItem="mKh-1y-Tmo" firstAttribute="top" secondItem="iDy-FN-Eyx" secondAttribute="bottom" constant="15" id="oSi-DC-Ukd"/>
                                     <constraint firstItem="8UK-bU-d50" firstAttribute="centerY" secondItem="xlN-QO-tNR" secondAttribute="centerY" id="pFt-Wf-pzY"/>
                                     <constraint firstItem="dz3-xN-PWO" firstAttribute="top" secondItem="fZo-83-kBt" secondAttribute="top" id="qqL-ms-get"/>
                                     <constraint firstAttribute="trailing" secondItem="8UK-bU-d50" secondAttribute="trailing" constant="10" id="rO8-Ad-344"/>
                                     <constraint firstItem="8UK-bU-d50" firstAttribute="top" secondItem="fZo-83-kBt" secondAttribute="top" constant="24" id="t0s-De-A39"/>
-                                    <constraint firstItem="mKh-1y-Tmo" firstAttribute="leading" secondItem="iDy-FN-Eyx" secondAttribute="trailing" constant="10" id="vcw-Dr-Dyf"/>
+                                    <constraint firstItem="mKh-1y-Tmo" firstAttribute="centerY" secondItem="fZo-83-kBt" secondAttribute="centerY" id="tRW-6s-UsZ"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -152,9 +153,9 @@
         <!--Navigation Controller-->
         <scene sceneID="YzR-vx-M5u">
             <objects>
-                <navigationController storyboardIdentifier="CameraNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="xOp-WN-I6t" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="CameraNavigationController" automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="xOp-WN-I6t" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="dk5-Sv-Cm5">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="dk5-Sv-Cm5">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
