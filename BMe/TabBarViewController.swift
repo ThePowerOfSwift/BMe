@@ -160,6 +160,7 @@ class TabBarViewController: UIViewController, UIScrollViewDelegate, PageViewDele
             self.titleBar.alpha = 1
         }, completion: { (completed :Bool) in
             UIView.animate(withDuration: 1, animations: {
+                self.titlePages[index].alpha = 0.2
                 self.titleBar.alpha = 0
             })
         })
