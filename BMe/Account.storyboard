@@ -29,16 +29,16 @@
                                 </constraints>
                             </imageView>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="username" adjustsFontSizeToFit="NO" minimumFontSize="18" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="aw8-1c-6y0">
-                                <rect key="frame" x="126" y="40" width="234" height="30"/>
+                                <rect key="frame" x="126" y="40" width="219" height="50"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="HqW-n2-cpI"/>
+                                    <constraint firstAttribute="height" constant="50" id="HqW-n2-cpI"/>
                                 </constraints>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="alphabet" returnKeyType="done"/>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="email" adjustsFontSizeToFit="NO" minimumFontSize="18" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="dpv-rN-stJ">
-                                <rect key="frame" x="126" y="85" width="234" height="30"/>
+                                <rect key="frame" x="126" y="105" width="219" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="30" id="lwY-ym-FzS"/>
                                     <constraint firstAttribute="height" constant="30" id="yfw-DZ-ucN"/>
@@ -62,9 +62,9 @@
                             <constraint firstItem="aw8-1c-6y0" firstAttribute="top" secondItem="GD9-0L-hnW" secondAttribute="bottom" constant="20" id="4Ia-uh-rzl"/>
                             <constraint firstItem="dpv-rN-stJ" firstAttribute="top" secondItem="aw8-1c-6y0" secondAttribute="bottom" constant="15" id="H21-g2-JsC"/>
                             <constraint firstItem="gDQ-yQ-0o0" firstAttribute="leading" secondItem="dfh-1a-csY" secondAttribute="leading" constant="15" id="HeI-NG-GzA"/>
-                            <constraint firstAttribute="trailing" secondItem="aw8-1c-6y0" secondAttribute="trailing" constant="15" id="KYj-LI-Y1x"/>
+                            <constraint firstAttribute="trailing" secondItem="aw8-1c-6y0" secondAttribute="trailing" constant="30" id="KYj-LI-Y1x"/>
                             <constraint firstItem="dpv-rN-stJ" firstAttribute="leading" secondItem="gDQ-yQ-0o0" secondAttribute="trailing" constant="15" id="Wau-P2-o52"/>
-                            <constraint firstAttribute="trailing" secondItem="dpv-rN-stJ" secondAttribute="trailing" constant="15" id="Xxy-bM-Yfd"/>
+                            <constraint firstAttribute="trailing" secondItem="dpv-rN-stJ" secondAttribute="trailing" constant="30" id="Xxy-bM-Yfd"/>
                             <constraint firstItem="gDQ-yQ-0o0" firstAttribute="top" secondItem="GD9-0L-hnW" secondAttribute="bottom" constant="15" id="s82-lQ-FVC"/>
                         </constraints>
                     </view>

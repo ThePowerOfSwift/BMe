@@ -11,7 +11,7 @@ import AVKit
 import AVFoundation
 import Firebase
 
-class BrowseViewController: UIViewController {
+class BrowseViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -23,6 +23,11 @@ class BrowseViewController: UIViewController {
     let fetchBatchSize = 5
     let cellOffsetToFetchMoreData = 2
     
+    let refreshControl = UIRefreshControl()
+    
+    var dataSelector = #selector(setupDatasource)
+//    var dataSelector = #selector(setupRaincheckDB)
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -30,11 +35,11 @@ class BrowseViewController: UIViewController {
 //        automaticallyAdjustsScrollViewInsets = false
 //        navigationController?.isNavigationBarHidden = true
         
+        // Add buffer at top (by setting nav bar clear)
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
         navigationController?.navigationBar.shadowImage = UIImage()
         navigationController?.navigationBar.isTranslucent = true
         navigationController?.view.backgroundColor = UIColor.clear
-        
         
         // Put in white reveal
         view.addSubview(WhiteRevealOverlayView(frame: view.bounds))
@@ -46,29 +51,52 @@ class BrowseViewController: UIViewController {
         tableView.rowHeight = UITableViewAutomaticDimension
         
         // Pull to refresh
-        let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(pullToRefresh(_:)), for: UIControlEvents.valueChanged)
         tableView.insertSubview(refreshControl, at: 0)
-   
+        
         // Setup player end for loop observation
         NotificationCenter.default.addObserver(self, selector: #selector(playerItemDidReachEnd(_:)), name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil)
         
-        setupDatasource()
+        // Get data
+        perform(dataSelector)
+//        setupDatasource()
     }
     
     func setupDatasource() {
         // Setup datasource
-        self.posts.removeAll()
         if let _refHandle = _refHandle {
             dbReference.removeObserver(withHandle: _refHandle)
         }
+        self.posts.removeAll()
         tableView.reloadData()
         
         _refHandle = dbReference.queryLimited(toLast: UInt(fetchBatchSize)).observe(.childAdded, with: { (snapshot) in
+            // data is returned chronologically, we want the reverse
+//            print(snapshot)
             self.posts.insert(snapshot, at: 0)
-            self.tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
-            //            self.tableView.insertRows(at: [IndexPath(row: self.posts.count - 1, section: 0)], with: .automatic)
+            self.tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .fade)
+            
+            // stop refresh control if was refreshed
+            self.refreshControl.endRefreshing()
         })
+    }
+    
+    func setupRaincheckDB() {
+        AppState.shared.currentUserMeta { (usermeta) in
+            if let rainchecks = usermeta.raincheck {
+                let keys = Array(rainchecks.keys)
+                FIRManager.shared.fetchPostsWithID(IDs: keys, completion: { (snapshot) in
+                    // data is returned chronologically, we want the reverse
+                    self.posts = snapshot
+                    print("count \(self.posts.count)")
+                    self.tableView.reloadData()
+                    
+                    // stop refresh control if was refreshed
+                    self.refreshControl.endRefreshing()
+                })
+            }
+        }
+        isFetchingData = true
     }
     
     // Deregister for notifications
@@ -82,9 +110,8 @@ class BrowseViewController: UIViewController {
         let playerItem = notification.object as! AVPlayerItem
         playerItem.seek(to: kCMTimeZero)
     }
-}
-
-extension BrowseViewController:  UITableViewDelegate, UITableViewDataSource {
+    
+    //MARK: - Tableview methods
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return posts.count
@@ -255,7 +282,6 @@ extension BrowseViewController:  UITableViewDelegate, UITableViewDataSource {
     }
     
     func pullToRefresh(_ refreshControl: UIRefreshControl) {
-        refreshControl.endRefreshing()
-        setupDatasource()
+        perform(dataSelector)
     }
 }

@@ -183,12 +183,30 @@ class FIRManager: NSObject {
         raincheckRef.removeValue()
     }
     
-    func fetchPostsWithKeyID(keys: [String], completion: ([FIRDataSnapshot])->() ) {
-        // TODO: - Example code inserted below
-        let postID = "-KYM789sRCcZy6cj48BW"
-        FIRManager.shared.database.child(ContentType.post.objectKey()).queryOrderedByKey().queryEqual(toValue: postID).observeSingleEvent(of: .value, with: { (snapshot) in
-                print(snapshot.value ?? "no post at this id")
-        })
+    func fetchPostsWithID(IDs: [String], completion: @escaping ([FIRDataSnapshot])->() ) {
+        // Trackers
+        var index = 0
+        var completed = 0
+        
+        var snapshots = Array(repeatElement(FIRDataSnapshot(), count: IDs.count)) 
+        print("Generating snapshots for \(snapshots.count)")
+        
+        for id in IDs {
+            // Use a copied index to track for completion block later
+            let currentIndex = index
+            FIRManager.shared.database.child(ContentType.post.objectKey()).child(id).observeSingleEvent(of: .value, with: { (snapshot) in
+                snapshots[currentIndex] = snapshot
+                completed += 1
+                
+                if completed == IDs.count
+                {
+                    print("returning snapshots with count \(snapshots.count)")
+                    completion(snapshots)
+                }
+            })
+            index += 1
+        }
+        
     }
     
     func heartPost(_ postID: String) {
@@ -200,7 +218,6 @@ class FIRManager: NSObject {
         let meta: [String: AnyObject] = ["timestamp": Date().toString() as AnyObject]
         heartRef.setValue(meta)
     }
-    
     
     func removeHeartPost(_ postID: String) {
         let metaRef = FIRManager.shared.database.child(ContentType.userMeta.objectKey()).child(AppState.shared.currentUser!.uid)
