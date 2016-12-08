@@ -177,10 +177,12 @@ class TabBarViewController: UIViewController, UIScrollViewDelegate, PageViewDele
     
     func showScrollTitle() {
         titleScrollView.isHidden = false
+        titleBar.isHidden = false
     }
     
     func hideScrollTitle() {
         titleScrollView.isHidden = true
+        titleBar.isHidden = true
     }
     
     // MARK: Tab Setups

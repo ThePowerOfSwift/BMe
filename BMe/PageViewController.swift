@@ -76,6 +76,7 @@ extension PageViewController: UIPageViewControllerDelegate, UIPageViewController
         guard orderedViewControllersCount != nextIndex else {
             return nil
         }
+        print("in viewControllerAfter")
         return orderedViewControllers?[nextIndex]
     }
     // http://stackoverflow.com/questions/8751633/how-can-i-know-if-uipageviewcontroller-flipped-forward-or-reversed
