@@ -191,6 +191,22 @@ class FIRManager: NSObject {
         })
     }
     
+    func heartPost(_ postID: String) {
+        print("Hearting post \(postID)")
+        // Add postID for userMeta
+        // Construct userMeta ref
+        let metaRef = FIRManager.shared.database.child(ContentType.userMeta.objectKey()).child(AppState.shared.currentUser!.uid)
+        let heartRef = metaRef.child(UserMeta.Key.heart).child(postID)
+        let meta: [String: AnyObject] = ["timestamp": Date().toString() as AnyObject]
+        heartRef.setValue(meta)
+    }
+    
+    
+    func removeHeartPost(_ postID: String) {
+        let metaRef = FIRManager.shared.database.child(ContentType.userMeta.objectKey()).child(AppState.shared.currentUser!.uid)
+        let heartRef = metaRef.child(UserMeta.Key.heart).child(postID)
+        heartRef.removeValue()
+    }
     
     //TODO: - Should move this to VideoComposition
     func uploadVideoComposition(composition: VideoComposition, completion:(()->())?) {

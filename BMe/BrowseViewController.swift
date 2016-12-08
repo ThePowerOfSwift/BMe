@@ -17,7 +17,7 @@ class BrowseViewController: UIViewController {
     
     // Model
     var posts: [FIRDataSnapshot]! = []
-    fileprivate var _refHandle: FIRDatabaseHandle!
+    fileprivate var _refHandle: FIRDatabaseHandle?
     fileprivate let dbReference = FIRManager.shared.database.child(ContentType.post.objectKey()).queryOrdered(byChild: Post.Key.timestamp)
     var isFetchingData = false
     let fetchBatchSize = 5
@@ -59,7 +59,11 @@ class BrowseViewController: UIViewController {
     func setupDatasource() {
         // Setup datasource
         self.posts.removeAll()
+        if let _refHandle = _refHandle {
+            dbReference.removeObserver(withHandle: _refHandle)
+        }
         tableView.reloadData()
+        
         _refHandle = dbReference.queryLimited(toLast: UInt(fetchBatchSize)).observe(.childAdded, with: { (snapshot) in
             self.posts.insert(snapshot, at: 0)
             self.tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
@@ -69,7 +73,7 @@ class BrowseViewController: UIViewController {
     
     // Deregister for notifications
     deinit {
-        dbReference.removeObserver(withHandle: _refHandle)
+        dbReference.removeObserver(withHandle: _refHandle!)
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil)
     }
     
@@ -108,16 +112,19 @@ extension BrowseViewController:  UITableViewDelegate, UITableViewDataSource {
                         cell.avatarImageView.loadImageFromGS(with: ref, placeholderImage: UIImage(named: Constants.Images.avatarDefault))
                         cell.usernameLabel.text = usermeta.username
                     
-                        // Set raincheck
+                        
                         AppState.shared.currentUserMeta(completion: { (usermeta) in
-                            if usermeta.raincheck?[post.postID!] != nil {
-                                if cell.tag == currentIndex {
+                            if cell.tag == currentIndex {
+                                // Set raincheck
+                                if usermeta.raincheck?[post.postID!] != nil {
                                     cell.raincheckButton.isSelected = true
+                                }
+                                // Set heart
+                                if usermeta.heart?[post.postID!] != nil {
+                                    cell.heartButton.isSelected = true
                                 }
                             }
                         })
-                        // Set raincheck
-                        
                     }
                 })
             }
@@ -160,11 +167,15 @@ extension BrowseViewController:  UITableViewDelegate, UITableViewDataSource {
                         cell.avatarImageView.loadImageFromGS(with: ref, placeholderImage: UIImage(named: Constants.Images.avatarDefault))
                         cell.usernameLabel.text = usermeta.username
                         
-                        // Set raincheck
                         AppState.shared.currentUserMeta(completion: { (usermeta) in
-                            if usermeta.raincheck?[post.postID!] != nil {
-                                if cell.tag == currentIndex {
+                            if cell.tag == currentIndex {
+                                // Set raincheck
+                                if usermeta.raincheck?[post.postID!] != nil {
                                     cell.raincheckButton.isSelected = true
+                                }
+                                // Set heart
+                                if usermeta.heart?[post.postID!] != nil {
+                                    cell.heartButton.isSelected = true
                                 }
                             }
                         })

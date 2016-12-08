@@ -9,7 +9,7 @@
 import UIKit
 import AVFoundation
 
-class BrowserImageTableViewCell: UITableViewCell, RainCheckButtonDatasource {
+class BrowserImageTableViewCell: UITableViewCell, RainCheckButtonDatasource, HeartButtonDatasource {
     
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var postContentView: UIView!
@@ -17,6 +17,9 @@ class BrowserImageTableViewCell: UITableViewCell, RainCheckButtonDatasource {
     @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var headingLabel: UILabel!
     @IBOutlet weak var raincheckButton: RainCheckButton!
+    @IBOutlet weak var heartButton: HeartButton!
+    
+    // Model
     var postID: String!
     
     private let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
@@ -54,6 +57,7 @@ class BrowserImageTableViewCell: UITableViewCell, RainCheckButtonDatasource {
         postContentView.addSubview(activityIndicator)
         
         raincheckButton.datasource = self
+        heartButton.datasource = self
     }
     
     func didStartloading() {
@@ -74,11 +78,12 @@ class BrowserImageTableViewCell: UITableViewCell, RainCheckButtonDatasource {
         tag = 0
         postID = ""
         raincheckButton.isSelected = false
+        heartButton.isSelected = false
     }
     
     // MARK: - Raincheck button datasource
-    func postID(_ forRainCheckButton: RainCheckButton) -> String {
-        print("Returning ID \(postID) to raincheck")
+    func postID(_ sender: UIButton) -> String {
+        print("Returning ID \(postID) to button")
         return postID
     }
 }

@@ -62,6 +62,12 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Heading label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3MI-nO-4BQ">
+                                                    <rect key="frame" x="104" y="49" width="94" height="18"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i5O-iE-Dya" customClass="RainCheckButton" customModule="BMe" customModuleProvider="target">
                                                     <rect key="frame" x="20" y="468" width="25" height="25"/>
                                                     <constraints>
@@ -77,12 +83,14 @@
                                                         <constraint firstAttribute="width" constant="18" id="mwh-wa-F06"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Heading label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3MI-nO-4BQ">
-                                                    <rect key="frame" x="104" y="49" width="94" height="18"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qIr-ku-mPN" customClass="HeartButton" customModule="BMe" customModuleProvider="target">
+                                                    <rect key="frame" x="65" y="468" width="25" height="25"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" secondItem="qIr-ku-mPN" secondAttribute="height" multiplier="1:1" id="XFQ-zY-kUK"/>
+                                                        <constraint firstAttribute="width" constant="25" id="wOB-DS-1mf"/>
+                                                    </constraints>
+                                                    <state key="normal" title="heart"/>
+                                                </button>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="i5O-iE-Dya" firstAttribute="top" secondItem="ggE-l9-2Ea" secondAttribute="bottom" constant="15" id="BkY-mi-gPR"/>
@@ -90,9 +98,11 @@
                                                 <constraint firstAttribute="trailing" secondItem="ggE-l9-2Ea" secondAttribute="trailing" id="C1G-2u-UTF"/>
                                                 <constraint firstItem="pMQ-Fv-3Lb" firstAttribute="leading" secondItem="Pys-YN-VZy" secondAttribute="leading" id="GaU-bI-Ohf"/>
                                                 <constraint firstItem="ggE-l9-2Ea" firstAttribute="leading" secondItem="8wJ-8b-nfG" secondAttribute="leading" id="Lyz-4t-q6x"/>
+                                                <constraint firstItem="qIr-ku-mPN" firstAttribute="centerY" secondItem="i5O-iE-Dya" secondAttribute="centerY" id="Uca-rT-fMo"/>
                                                 <constraint firstItem="Pys-YN-VZy" firstAttribute="top" secondItem="vMu-aW-4dz" secondAttribute="top" id="daZ-9c-PCp"/>
                                                 <constraint firstItem="pMQ-Fv-3Lb" firstAttribute="top" secondItem="Pys-YN-VZy" secondAttribute="bottom" constant="8" id="i43-aw-9fP"/>
                                                 <constraint firstItem="ggE-l9-2Ea" firstAttribute="top" secondItem="vMu-aW-4dz" secondAttribute="bottom" constant="10" id="kLw-jI-pKW"/>
+                                                <constraint firstItem="qIr-ku-mPN" firstAttribute="leading" secondItem="i5O-iE-Dya" secondAttribute="trailing" constant="20" id="lJ6-CX-7VG"/>
                                                 <constraint firstItem="pMQ-Fv-3Lb" firstAttribute="centerY" secondItem="3MI-nO-4BQ" secondAttribute="centerY" id="o4n-LG-LM2"/>
                                                 <constraint firstItem="i5O-iE-Dya" firstAttribute="leading" secondItem="8wJ-8b-nfG" secondAttribute="leading" constant="20" id="pDw-av-5Py"/>
                                                 <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="i5O-iE-Dya" secondAttribute="bottom" constant="20" id="pn5-O1-Pyv"/>
@@ -104,6 +114,7 @@
                                         <connections>
                                             <outlet property="avatarImageView" destination="vMu-aW-4dz" id="nnn-bF-jhO"/>
                                             <outlet property="headingLabel" destination="3MI-nO-4BQ" id="X3Y-gd-CYb"/>
+                                            <outlet property="heartButton" destination="qIr-ku-mPN" id="AfD-O5-gut"/>
                                             <outlet property="postContentView" destination="ggE-l9-2Ea" id="j5F-V4-YqD"/>
                                             <outlet property="postImageView" destination="qYU-Wi-D8x" id="xn2-Hs-ZgA"/>
                                             <outlet property="raincheckButton" destination="i5O-iE-Dya" id="lPL-Bb-Qu8"/>
@@ -167,10 +178,20 @@
                                                     </constraints>
                                                     <state key="normal" title="raincheck"/>
                                                 </button>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="88M-C8-Mn2" customClass="HeartButton" customModule="BMe" customModuleProvider="target">
+                                                    <rect key="frame" x="65" y="468" width="25" height="25"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" secondItem="88M-C8-Mn2" secondAttribute="height" multiplier="1:1" id="E7n-Yr-tOq"/>
+                                                        <constraint firstAttribute="width" constant="25" id="mbm-l1-vbv"/>
+                                                    </constraints>
+                                                    <state key="normal" title="heart"/>
+                                                </button>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="88M-C8-Mn2" firstAttribute="centerY" secondItem="6ym-i9-srZ" secondAttribute="centerY" id="4Ud-M6-PbQ"/>
                                                 <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="6ym-i9-srZ" secondAttribute="bottom" constant="20" id="7aj-to-RW6"/>
                                                 <constraint firstItem="epl-SM-5ZC" firstAttribute="leading" secondItem="GDb-bK-9Bi" secondAttribute="leading" id="Ogx-Mw-a0f"/>
+                                                <constraint firstItem="88M-C8-Mn2" firstAttribute="leading" secondItem="6ym-i9-srZ" secondAttribute="trailing" constant="20" id="Tx0-Og-Ads"/>
                                                 <constraint firstItem="6ym-i9-srZ" firstAttribute="top" secondItem="epl-SM-5ZC" secondAttribute="bottom" constant="15" id="Uyu-Rq-lIR"/>
                                                 <constraint firstItem="8Cc-wE-IpN" firstAttribute="leading" secondItem="QBa-ag-6Qb" secondAttribute="leading" id="VgK-cp-qtm"/>
                                                 <constraint firstItem="8Cc-wE-IpN" firstAttribute="top" secondItem="QBa-ag-6Qb" secondAttribute="bottom" constant="8" id="agj-qb-oxg"/>
@@ -188,6 +209,7 @@
                                         <connections>
                                             <outlet property="avatarImageView" destination="8it-LM-ffU" id="JCx-MF-hQ1"/>
                                             <outlet property="headingLabel" destination="0oa-tE-6nR" id="SWI-fw-sJI"/>
+                                            <outlet property="heartButton" destination="88M-C8-Mn2" id="SIH-9V-d1o"/>
                                             <outlet property="postContentView" destination="epl-SM-5ZC" id="lvZ-dD-maj"/>
                                             <outlet property="postImageView" destination="A9J-y8-wEM" id="xIf-Jn-ecz"/>
                                             <outlet property="raincheckButton" destination="6ym-i9-srZ" id="Aca-q7-6SJ"/>
