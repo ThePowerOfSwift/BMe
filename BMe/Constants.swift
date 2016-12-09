@@ -59,8 +59,15 @@ struct Constants {
     
     struct TabBar {
         static let selectedIndex: Int = 1 // Set default vc to camera
-        static let selectedTabSize: Double = 70
-        static let unselectedTabSize: Double = 50
+        static let selectedTabSize: CGFloat = 70
+        static let unselectedTabSize: CGFloat = 50
+        static let titleTextFadeAwayAnimationDuration: TimeInterval = 0.5
+        static let titleBarBlinkAnimationDuration: TimeInterval = 1
+        static let tabbarShowAnimationDuration: TimeInterval = 0.2
+        static let titleTextMaxAlpha: CGFloat = 1
+        static let titleTextMinAlpha: CGFloat = 0.2
+        
+        static let tabbarAnimationDuration: TimeInterval = 0.1
     }
     
     struct PageTitles {

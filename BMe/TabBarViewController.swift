@@ -27,15 +27,20 @@ class TabBarViewController: UIViewController {
     var cameraNavigationController: UINavigationController!
     var cameraViewController: CameraViewController!
     var cameraPageViewController: PageViewController!
+    
     var createViewController: UINavigationController!
     var accountViewController: UIViewController!
     var viewControllers: [UIViewController]!
     
     // tag value from selected UIButton
     var selectedIndex: Int = Constants.TabBar.selectedIndex
+    // original tab position to show tabbar with animation
+    var tabOriginalCenterYPositions: [CGFloat] = [CGFloat]()
     
-    // hide and show animation
-    var tabOriginalCenterYPositions: [CGFloat]?
+    // Get the width of each "box" by dividing view by 3
+    var boxWidth: CGFloat { return view.frame.width / CGFloat(tabs.count) }
+    // Get the center offset in box
+    var centerOffset: CGFloat { return boxWidth / 2 }
     
     // detect if it is just after app started. if so, don't enable camera button to take picture
     var isInitialStartup: Bool = true
@@ -43,7 +48,7 @@ class TabBarViewController: UIViewController {
     // scroll title text
     @IBOutlet weak var titleScrollView: UIScrollView!
 
-    var titlePages: [UILabel] = [UILabel]()
+    var titlePages: [UILabel]?
     
     @IBOutlet weak var titleBar: UIView!
     override func viewDidLoad() {
@@ -62,14 +67,15 @@ class TabBarViewController: UIViewController {
         let createStoryboard = UIStoryboard(name: VideoComposition.StoryboardKey.ID, bundle: nil)
         createViewController = createStoryboard.instantiateViewController(withIdentifier: VideoComposition.StoryboardKey.mediaSelectorNavigationController) as! UINavigationController
         
-        // Preload media selector vc so paging in camera page vc will be smooth
-        // Doing this here because it is hard to detect what view controller is showed  in page view controller (too many types of vcs in page view controller)
-        let mediaSelectorVC = createViewController.viewControllers[0] as! MediaSelectorViewController
+        let mediaSelectorVC = createViewController.viewControllers.first as! MediaSelectorViewController
+        
+        // Preload media selector vc's view for smooth transition in page view controller
         _ = mediaSelectorVC.view
 
         // Camera view controller which will be in camera page view controller
         cameraNavigationController = UIStoryboard(name: Constants.SegueID.Storyboard.Camera, bundle: nil).instantiateInitialViewController() as! UINavigationController
-        cameraViewController = cameraNavigationController.viewControllers[0] as! CameraViewController
+        cameraViewController = cameraNavigationController.viewControllers.first as! CameraViewController
+
         cameraViewController.cameraViewDelegate = self
         
         // Camera page view controller
@@ -86,7 +92,6 @@ class TabBarViewController: UIViewController {
 
         setupTabs()
         layoutTabs()
-        obtainOriginalTabOriginalPositions()
         
         // Set first tab selected
         tabs[selectedIndex].isSelected = true
@@ -127,13 +132,11 @@ class TabBarViewController: UIViewController {
             let titleLabel = UILabel(frame: frame)
             titleLabel.font = UIFont(name: titleLabel.font.fontName, size: Constants.PageTitles.fontSize)
             titleLabel.textColor = Styles.Color.Tertiary
-            //titleLabel.textColor = UIColor.white
             titleLabel.textAlignment = NSTextAlignment.center
             titleLabel.text = titles[i]
             titleScrollView.addSubview(titleLabel)
-            titlePages.append(titleLabel)
+            titlePages?.append(titleLabel)
         }
-        
         titleScrollView.contentSize = CGSize(width: titleScrollView.frame.width * CGFloat(titles.count), height: titleScrollView.frame.size.height)
     }
     
@@ -164,39 +167,31 @@ class TabBarViewController: UIViewController {
         layoutTab(index: Tab.Browse.rawValue, w: Constants.TabBar.unselectedTabSize, h: Constants.TabBar.unselectedTabSize)
         layoutTab(index: Tab.Camera.rawValue, w: Constants.TabBar.unselectedTabSize, h: Constants.TabBar.unselectedTabSize)
         layoutTab(index: Tab.Account.rawValue, w: Constants.TabBar.unselectedTabSize, h: Constants.TabBar.unselectedTabSize)
+        
+        // Get original tab position to show tabbar with animation
+        for tab in tabs {
+            tabOriginalCenterYPositions.append(tab.center.y)
+        }
     }
     
-    func layoutTab(index: Int, w: Double, h: Double) {
-        // Get the width of each "box" by dividing view by 3
-        let boxWidth: Double = Double(view.frame.width) / Double(tabs.count)
-        // Get the center offset in box
-        let centerOffset: Double = boxWidth / 2
-        let y: Double = Double(view.frame.height) - Constants.TabBar.unselectedTabSize
-        var x: Double = 0
+    func layoutTab(index: Int, w: CGFloat, h: CGFloat) {
+
+        let y: CGFloat = view.frame.height - Constants.TabBar.unselectedTabSize
+        var x: CGFloat = 0
         
         // Set only width and height
-        tabs[index].frame = CGRect(x: 0, y: 0, width: w, height: h)
+        tabs[index].frame = CGRect(x: CGRect.zero.origin.x, y: CGRect.zero.origin.y, width: w, height: h)
         
         // Get the center x coordinate
         if index == Tab.Browse.rawValue {
             x = centerOffset
         } else {
-            x = centerOffset + boxWidth * Double(index)
+            x = centerOffset + boxWidth * CGFloat(index)
         }
         
         // Set center coordinate
         tabs[index].center = CGPoint(x: x, y: y)
     }
-    
-    // Get dynamic tab original tab y coordinate for show and hide animation
-    func obtainOriginalTabOriginalPositions() {
-        tabOriginalCenterYPositions = [CGFloat]()
-        for tab in tabs {
-            tabOriginalCenterYPositions?.append(tab.center.y)
-        }
-    }
-    
-
     
     // MARK: Tab Action
     @IBAction func didTapTab(_ sender: UIButton) {
@@ -220,11 +215,11 @@ class TabBarViewController: UIViewController {
         } 
         
         // Take picture when cameraButton tapped again in camera view (disabled in compose view)
-        if previousIndex == 1 && selectedIndex == 1 && !isInitialStartup && cameraPageViewController.currentIndex != 1 {
+        if previousIndex == Tab.Camera.rawValue && selectedIndex == Tab.Camera.rawValue && !isInitialStartup && cameraPageViewController.currentIndex != 1 {
             cameraViewController.takePicture()
             
         } else {
-            UIView.animate(withDuration: 0.1, animations: {
+            UIView.animate(withDuration: Constants.TabBar.tabbarAnimationDuration, animations: {
                 // change the color
                 self.tabs[previousIndex].imageView?.tintColor = Styles.Color.Secondary
                 self.tabs[self.selectedIndex].imageView?.tintColor = Styles.Color.Primary
@@ -283,10 +278,13 @@ class TabBarViewController: UIViewController {
 extension TabBarViewController: PageViewDelegate {
     
     func setupAlphaAt(index: Int) {
+        
+        guard let titlePages = titlePages else { return }
+        
         for i in 0..<titlePages.count {
             if i != index {
-                UIView.animate(withDuration: 0.5, animations: {
-                    self.titlePages[i].alpha = 0.2
+                UIView.animate(withDuration: Constants.TabBar.titleTextFadeAwayAnimationDuration, animations: {
+                    titlePages[i].alpha = Constants.TabBar.titleTextMinAlpha
                 })
             }
         }
@@ -296,25 +294,27 @@ extension TabBarViewController: PageViewDelegate {
         let point = CGPoint(x: titleScrollView.frame.width * CGFloat(index), y: 0)
         titleScrollView.setContentOffset(point, animated: true)
         
+        guard let titlePages = titlePages else { return }
+        
+        // Display title text corresponding to page
         for i in 0..<titlePages.count {
             if i == index {
-                UIView.animate(withDuration: 0.5, animations: {
-                    self.titlePages[i].alpha = 1
+                UIView.animate(withDuration: Constants.TabBar.titleTextFadeAwayAnimationDuration, animations: {
+                    titlePages[i].alpha = Constants.TabBar.titleTextMaxAlpha
                 })
             } else {
-                UIView.animate(withDuration: 0.5, animations: {
-                    self.titlePages[i].alpha = 0.2
+                UIView.animate(withDuration: Constants.TabBar.titleTextFadeAwayAnimationDuration, animations: {
+//                    titlePages[i].alpha = 0.2
                 })
             }
         }
         
         // animate bar
-        
-        UIView.animate(withDuration: 1, animations: {
-            self.titleBar.alpha = 1
+        UIView.animate(withDuration: Constants.TabBar.titleBarBlinkAnimationDuration, animations: {
+            self.titleBar.alpha = Constants.TabBar.titleTextMaxAlpha
         }, completion: { (completed :Bool) in
-            UIView.animate(withDuration: 1, animations: {
-                self.titlePages[index].alpha = 0.2
+            UIView.animate(withDuration: Constants.TabBar.titleBarBlinkAnimationDuration, animations: {
+                titlePages[index].alpha = Constants.TabBar.titleTextMinAlpha
                 self.titleBar.alpha = 0
             })
         })
@@ -335,17 +335,17 @@ extension TabBarViewController: CameraViewDelegate {
     
     // Show and hide tab bar
     func showTabBar() {
-        UIView.animate(withDuration: 0.2, animations: {
+        UIView.animate(withDuration: Constants.TabBar.tabbarShowAnimationDuration, animations: {
             for i in 0..<self.tabs.count {
-                self.tabs[i].center.y = self.tabOriginalCenterYPositions![i]
+                self.tabs[i].center.y = self.tabOriginalCenterYPositions[i]
             }
         })
     }
     
     func hideTabBar() {
-        UIView.animate(withDuration: 0.2, animations: {
+        UIView.animate(withDuration: Constants.TabBar.tabbarShowAnimationDuration, animations: {
             for i in 0..<self.tabs.count {
-                self.tabs[i].center.y = self.tabOriginalCenterYPositions![i] + CGFloat(Constants.TabBar.selectedTabSize) + 20
+                self.tabs[i].center.y = self.tabOriginalCenterYPositions[i] + CGFloat(Constants.TabBar.selectedTabSize) + 20
             }
         })
     }

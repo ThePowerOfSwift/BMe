@@ -326,7 +326,6 @@ extension CameraViewController: UIImagePickerControllerDelegate, UINavigationCon
         let screenSize = UIScreen.main.bounds.size
         let cameraAspectRatio: CGFloat = 4.0 / 3.0
         let imageWidth = floor(screenSize.width * cameraAspectRatio)
-        //let scale = ceil(((screenSize.height) / imageWidth) * 10.0) / 10.0
         let scale = ceil((screenSize.height) / imageWidth)
         imagePicker?.cameraViewTransform = CGAffineTransform(scaleX: scale, y: scale)
         

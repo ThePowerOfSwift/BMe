@@ -20,9 +20,7 @@ class PageViewController: UIPageViewController {
     
     var orderedViewControllers: [UIViewController]?
     
-    var pageViewDelegate: PageViewDelegate?
-    var lastContentOffset: CGFloat = 0
-    
+    var pageViewDelegate: PageViewDelegate?    
     var currentIndex: Int = 0
 
     override func viewDidLoad() {
@@ -86,8 +84,8 @@ extension PageViewController: UIPageViewControllerDelegate, UIPageViewController
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         
         // Get current index
-        let pageContentViewController = pageViewController.viewControllers![0]
-        currentIndex = (orderedViewControllers?.index(of: pageContentViewController))!
+        let pageContentViewController = pageViewController.viewControllers!.first
+        currentIndex = (orderedViewControllers?.index(of: pageContentViewController!))!
         
         // Move title scroll view to the current index
         if completed {
@@ -98,5 +96,4 @@ extension PageViewController: UIPageViewControllerDelegate, UIPageViewController
     func pageViewController(_ pageViewController: UIPageViewController, willTransitionTo pendingViewControllers: [UIViewController]) {
 
     }
-    
 }
