@@ -66,6 +66,7 @@ struct Constants {
     struct PageTitles {
         static let cameraPageTitles: [String] = ["camera", "compose"]
         static let browsePageTitles: [String] = ["browse", "featured"]
+        static let fontSize: CGFloat = 20
     }
     
     struct Images {

@@ -10,7 +10,13 @@ import UIKit
 import FontAwesome_swift
 import QuartzCore
 
-class TabBarViewController: UIViewController, UIScrollViewDelegate, PageViewDelegate, CameraViewDelegate {
+enum Tab: Int {
+    case Browse = 0
+    case Camera
+    case Account
+}
+
+class TabBarViewController: UIViewController {
 
     @IBOutlet weak var contentView: UIView!
     @IBOutlet var tabs: [UIButton]!
@@ -43,6 +49,7 @@ class TabBarViewController: UIViewController, UIScrollViewDelegate, PageViewDele
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        // MARK: TODO refactor
         // Browse view controller
         browseViewController = UIStoryboard(name: Constants.SegueID.Storyboard.Browser, bundle: nil).instantiateInitialViewController()
         browsePageViewController = UIStoryboard(name: Constants.SegueID.Storyboard.PageView, bundle: nil).instantiateViewController(withIdentifier: Constants.SegueID.ViewController.PageViewController) as! PageViewController
@@ -95,7 +102,6 @@ class TabBarViewController: UIViewController, UIScrollViewDelegate, PageViewDele
     }
     
     // MARK: Scroll Title
-    
     func setupTitleScrollView() {
         titleBar.backgroundColor = Styles.Color.Tertiary
         titleBar.alpha = 0
@@ -119,7 +125,7 @@ class TabBarViewController: UIViewController, UIScrollViewDelegate, PageViewDele
             frame.size = self.titleScrollView.frame.size
             self.titleScrollView.isPagingEnabled = true
             let titleLabel = UILabel(frame: frame)
-            titleLabel.font = UIFont(name: titleLabel.font.fontName, size: 20)
+            titleLabel.font = UIFont(name: titleLabel.font.fontName, size: Constants.PageTitles.fontSize)
             titleLabel.textColor = Styles.Color.Tertiary
             //titleLabel.textColor = UIColor.white
             titleLabel.textAlignment = NSTextAlignment.center
@@ -131,60 +137,12 @@ class TabBarViewController: UIViewController, UIScrollViewDelegate, PageViewDele
         titleScrollView.contentSize = CGSize(width: titleScrollView.frame.width * CGFloat(titles.count), height: titleScrollView.frame.size.height)
     }
     
-    func scrollTitleTo(index: Int) {
-        let point = CGPoint(x: titleScrollView.frame.width * CGFloat(index), y: 0)
-        titleScrollView.setContentOffset(point, animated: true)
-        
-        for i in 0..<titlePages.count {
-            if i == index {
-                UIView.animate(withDuration: 0.5, animations: {
-                    self.titlePages[i].alpha = 1
-                })
-            } else {
-                UIView.animate(withDuration: 0.5, animations: {
-                    self.titlePages[i].alpha = 0.2
-                })
-            }
-        }
-        
-        // animate bar
-
-        UIView.animate(withDuration: 1, animations: {
-            self.titleBar.alpha = 1
-        }, completion: { (completed :Bool) in
-            UIView.animate(withDuration: 1, animations: {
-                self.titlePages[index].alpha = 0.2
-                self.titleBar.alpha = 0
-            })
-        })
-    }
-    
-    func setupAlphaAt(index: Int) {
-        for i in 0..<titlePages.count {
-            if i != index {
-                UIView.animate(withDuration: 0.5, animations: {
-                    self.titlePages[i].alpha = 0.2
-                })
-            }
-        }
-    }
-    
-    func showScrollTitle() {
-        titleScrollView.isHidden = false
-        titleBar.isHidden = false
-    }
-    
-    func hideScrollTitle() {
-        titleScrollView.isHidden = true
-        titleBar.isHidden = true
-    }
-    
     // MARK: Tab Setups
     // Call setupButtons(imageName, tabIndex) to setup tabs
     func setupTabs() {
-        setupTab(imageName: Constants.Images.home, tabIndex: 0)
-        setupTab(imageName: Constants.Images.circle, tabIndex: 1)
-        setupTab(imageName: Constants.Images.user, tabIndex: 2)
+        setupTab(imageName: Constants.Images.home, tabIndex: Tab.Browse.rawValue)
+        setupTab(imageName: Constants.Images.circle, tabIndex: Tab.Camera.rawValue)
+        setupTab(imageName: Constants.Images.user, tabIndex: Tab.Account.rawValue)
     }
     
     // Set icon image at index
@@ -203,9 +161,9 @@ class TabBarViewController: UIViewController, UIScrollViewDelegate, PageViewDele
     }
     
     func layoutTabs () {
-        layoutTab(index: 0, w: Constants.TabBar.unselectedTabSize, h: Constants.TabBar.unselectedTabSize)
-        layoutTab(index: 1, w: Constants.TabBar.unselectedTabSize, h: Constants.TabBar.unselectedTabSize)
-        layoutTab(index: 2, w: Constants.TabBar.unselectedTabSize, h: Constants.TabBar.unselectedTabSize)
+        layoutTab(index: Tab.Browse.rawValue, w: Constants.TabBar.unselectedTabSize, h: Constants.TabBar.unselectedTabSize)
+        layoutTab(index: Tab.Camera.rawValue, w: Constants.TabBar.unselectedTabSize, h: Constants.TabBar.unselectedTabSize)
+        layoutTab(index: Tab.Account.rawValue, w: Constants.TabBar.unselectedTabSize, h: Constants.TabBar.unselectedTabSize)
     }
     
     func layoutTab(index: Int, w: Double, h: Double) {
@@ -220,7 +178,7 @@ class TabBarViewController: UIViewController, UIScrollViewDelegate, PageViewDele
         tabs[index].frame = CGRect(x: 0, y: 0, width: w, height: h)
         
         // Get the center x coordinate
-        if index == 0 {
+        if index == Tab.Browse.rawValue {
             x = centerOffset
         } else {
             x = centerOffset + boxWidth * Double(index)
@@ -238,22 +196,7 @@ class TabBarViewController: UIViewController, UIScrollViewDelegate, PageViewDele
         }
     }
     
-    // Show and hide tab bar
-    func showTabBar() {
-        UIView.animate(withDuration: 0.2, animations: {
-            for i in 0..<self.tabs.count {
-                self.tabs[i].center.y = self.tabOriginalCenterYPositions![i]
-            }
-        })
-    }
-    
-    func hideTabBar() {
-        UIView.animate(withDuration: 0.2, animations: {
-            for i in 0..<self.tabs.count {
-                self.tabs[i].center.y = self.tabOriginalCenterYPositions![i] + CGFloat(Constants.TabBar.selectedTabSize) + 20
-            }
-        })
-    }
+
     
     // MARK: Tab Action
     @IBAction func didTapTab(_ sender: UIButton) {
@@ -265,10 +208,10 @@ class TabBarViewController: UIViewController, UIScrollViewDelegate, PageViewDele
         // Show title scroll label if selected index is 1
         if selectedIndex != previousIndex || isInitialStartup {
             switch selectedIndex {
-            case 0:
+            case Tab.Browse.rawValue:
                 changeTitleLabels(titles: Constants.PageTitles.browsePageTitles)
                 showScrollTitle()
-            case 1:
+            case Tab.Camera.rawValue:
                 changeTitleLabels(titles: Constants.PageTitles.cameraPageTitles)
                 showScrollTitle()
             default:
@@ -290,11 +233,11 @@ class TabBarViewController: UIViewController, UIScrollViewDelegate, PageViewDele
                 // Set unselected to white
                 var whiteButton: UIImage? = UIImage()
                 switch previousIndex {
-                    case 0:
+                    case Tab.Browse.rawValue:
                         whiteButton = UIImage(named: Constants.Images.home)
-                    case 1:
+                    case Tab.Camera.rawValue:
                         whiteButton = UIImage(named: Constants.Images.circle)
-                    case 2:
+                    case Tab.Account.rawValue:
                         whiteButton = UIImage(named: Constants.Images.user)
                     default:
                         break
@@ -304,11 +247,11 @@ class TabBarViewController: UIViewController, UIScrollViewDelegate, PageViewDele
                 // Set selected to yellow
                 var yellowButton: UIImage? = UIImage()
                 switch self.selectedIndex {
-                    case 0:
+                    case Tab.Browse.rawValue:
                         yellowButton = UIImage(named: Constants.Images.homeYellow)
-                    case 1:
+                    case Tab.Camera.rawValue:
                         yellowButton = UIImage(named: Constants.Images.circleYellow)
-                    case 2:
+                    case Tab.Account.rawValue:
                         yellowButton = UIImage(named: Constants.Images.userYellow)
                     default:
                         break
@@ -334,5 +277,76 @@ class TabBarViewController: UIViewController, UIScrollViewDelegate, PageViewDele
             contentView.addSubview(currentVC.view)
             currentVC.didMove(toParentViewController: self) // calls viewDidAppear
         }
+    }
+}
+
+extension TabBarViewController: PageViewDelegate {
+    
+    func setupAlphaAt(index: Int) {
+        for i in 0..<titlePages.count {
+            if i != index {
+                UIView.animate(withDuration: 0.5, animations: {
+                    self.titlePages[i].alpha = 0.2
+                })
+            }
+        }
+    }
+    
+    func scrollTitleTo(index: Int) {
+        let point = CGPoint(x: titleScrollView.frame.width * CGFloat(index), y: 0)
+        titleScrollView.setContentOffset(point, animated: true)
+        
+        for i in 0..<titlePages.count {
+            if i == index {
+                UIView.animate(withDuration: 0.5, animations: {
+                    self.titlePages[i].alpha = 1
+                })
+            } else {
+                UIView.animate(withDuration: 0.5, animations: {
+                    self.titlePages[i].alpha = 0.2
+                })
+            }
+        }
+        
+        // animate bar
+        
+        UIView.animate(withDuration: 1, animations: {
+            self.titleBar.alpha = 1
+        }, completion: { (completed :Bool) in
+            UIView.animate(withDuration: 1, animations: {
+                self.titlePages[index].alpha = 0.2
+                self.titleBar.alpha = 0
+            })
+        })
+    }
+}
+
+extension TabBarViewController: CameraViewDelegate {
+    
+    func showScrollTitle() {
+        titleScrollView.isHidden = false
+        titleBar.isHidden = false
+    }
+    
+    func hideScrollTitle() {
+        titleScrollView.isHidden = true
+        titleBar.isHidden = true
+    }
+    
+    // Show and hide tab bar
+    func showTabBar() {
+        UIView.animate(withDuration: 0.2, animations: {
+            for i in 0..<self.tabs.count {
+                self.tabs[i].center.y = self.tabOriginalCenterYPositions![i]
+            }
+        })
+    }
+    
+    func hideTabBar() {
+        UIView.animate(withDuration: 0.2, animations: {
+            for i in 0..<self.tabs.count {
+                self.tabs[i].center.y = self.tabOriginalCenterYPositions![i] + CGFloat(Constants.TabBar.selectedTabSize) + 20
+            }
+        })
     }
 }

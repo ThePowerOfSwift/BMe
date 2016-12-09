@@ -12,14 +12,14 @@ import AVFoundation
 import FontAwesome_swift
 import Photos
 
-@objc protocol CameraViewDelegate {
-    @objc optional func hideScrollTitle()
-    @objc optional func showScrollTitle()
-    @objc optional func hideTabBar()
-    @objc optional func showTabBar()
+protocol CameraViewDelegate {
+    func hideScrollTitle()
+    func showScrollTitle()
+    func hideTabBar()
+    func showTabBar()
 }
 
-class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, LocationButtonDelegate, CameraViewDelegate {
+class CameraViewController: UIViewController {
     
     //MARK: - Outlets
     @IBOutlet weak var cameraControlView: UIView!
@@ -35,7 +35,7 @@ class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePicker
     var cameraViewDelegate: CameraViewDelegate?
     
     //MARK:- Model
-    var textFields: [UITextField] {
+    fileprivate var textFields: [UITextField] {
         get {
             var textFields: [UITextField] = []
             for view in cameraControlView.subviews {
@@ -53,20 +53,19 @@ class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePicker
     }
     
     //MARK:- Variables
-    var chosenImage: UIImage?
-    var renderedImage: UIImage?
-    var metadata: [String: AnyObject?]?
+    fileprivate var chosenImage: UIImage?
+    fileprivate var renderedImage: UIImage?
+    fileprivate var metadata: [String: AnyObject?]?
     
-    var imagePicker: UIImagePickerController?
-    var imagePickerView: UIView?
-    //var cameraButton: UIButton?
+    fileprivate var imagePicker: UIImagePickerController?
+    fileprivate var imagePickerView: UIView?
     
     // Detect current mode
-    var isCameraMode: Bool?
-    var isEditingMode: Bool?
+    fileprivate var isCameraMode: Bool?
+    fileprivate var isEditingMode: Bool?
     
     // Title
-    var titleLabel: UILabel?
+    fileprivate var titleLabel: UILabel?
     
     //MARK: - Lifecycle
     override func viewDidLoad() {
@@ -104,23 +103,14 @@ class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePicker
         cancelButton.tintColor = Styles.Color.Tertiary
     }
     
-    func locationButton(yelpDidSelect restaurant: Restaurant) {
-        metadata = restaurant.dictionary
-    }
-    
-    func locationButton(_ viewControllerToPresent: UIViewController, animated: Bool, completion: (() -> ())?) {
-        present(viewControllerToPresent, animated: true, completion: {
-        })
-    }
-    
     // MARK: Mode switching
     func enterCameraMode() {
         cameraControlView.isHidden = true
         imagePickerView?.isHidden = false
         isEditingMode = false
         isCameraMode = true
-        cameraViewDelegate?.showScrollTitle!()
-        cameraViewDelegate?.showTabBar!()
+        cameraViewDelegate?.showScrollTitle()
+        cameraViewDelegate?.showTabBar()
     }
     
     func enterEditMode() {
@@ -128,87 +118,8 @@ class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePicker
         cameraControlView.isHidden = false
         isCameraMode = false
         isEditingMode = false
-        cameraViewDelegate?.hideScrollTitle!()
-        cameraViewDelegate?.hideTabBar!()
-    }
-    
-    // MARK: image picker
-    
-    func addImagePickerToSubview(timeInterval: TimeInterval?, delegate: (UIImagePickerControllerDelegate & UINavigationControllerDelegate), completion: (() -> Void)?) {
-        imagePicker = UIImagePickerController()
-        imagePicker?.delegate = delegate
-        imagePicker?.allowsEditing = false
-        // Set to camera & video record
-        imagePicker?.sourceType = .camera
-        
-        // Capable for video and camera
-        imagePicker?.mediaTypes = [kUTTypeImage as String]
-        
-        // Set maximum video length, if any
-        if let timeInterval = timeInterval {
-            imagePicker?.videoMaximumDuration = timeInterval
-        }
-        
-        imagePicker?.showsCameraControls = false
-        
-        // http://stackoverflow.com/questions/2674375/uiimagepickercontroller-doesnt-fill-screen
-        let screenSize = UIScreen.main.bounds.size
-        let cameraAspectRatio: CGFloat = 4.0 / 3.0
-        let imageWidth = floor(screenSize.width * cameraAspectRatio)
-        //let scale = ceil(((screenSize.height) / imageWidth) * 10.0) / 10.0
-        let scale = ceil((screenSize.height) / imageWidth)
-        imagePicker?.cameraViewTransform = CGAffineTransform(scaleX: scale, y: scale)
-        
-        imagePickerView = imagePicker?.view
-        view.addSubview((imagePicker?.view)!)
-    }
-    
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        // Delegate to return the chosen image
-        if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
-            imageView.image = image
-            enterEditMode()
-        }
-    }
-    
-    // MARK: Add Text To Image
-    func add(textFields: [UITextField], to image: UIImage) -> UIImage? {
-        
-        let scaleScreenToImageWidth = image.size.width / imageView.frame.width
-        let scaleScreenToImageHeight = image.size.height / imageView.frame.height
-        
-        // Configure context
-        let scale = UIScreen.main.scale
-        UIGraphicsBeginImageContextWithOptions(image.size, false, scale)
-        image.draw(in: CGRect(origin: CGPoint.zero, size: image.size))
-
-        for textField in textFields {
-            // Prepare coordinate for text to set it in image
-            let textLabelXInScreen = textField.frame.origin.x
-            let textLabelYInScreen = textField.frame.origin.y
-            
-            // Find where to put text in image
-            let textLabelXInImage = textLabelXInScreen * scaleScreenToImageWidth
-            let textLabelYInImage = textLabelYInScreen * scaleScreenToImageHeight
-            let textLabelPointInImage = CGPoint(x: textLabelXInImage, y: textLabelYInImage)
-            
-            // Text Attributes
-            let textNSString = NSString(string: textField.text!)
-            let textColor = UIColor.white
-            let textFont = UIFont(name: "Helvetica", size: 150)!
-            let textFontAttributes = [NSFontAttributeName: textFont,
-                                      NSForegroundColorAttributeName: textColor] as [String : Any]
-            
-            // Draw text in rect
-            let rect = CGRect(origin: textLabelPointInImage, size: image.size)
-            textNSString.draw(in: rect, withAttributes: textFontAttributes)
-            
-        }
-        
-        let newImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        
-        return newImage
+        cameraViewDelegate?.hideScrollTitle()
+        cameraViewDelegate?.hideTabBar()
     }
     
     @IBAction func onUpload(_ sender: UIButton) {
@@ -240,7 +151,6 @@ class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePicker
                 // use image
                 // Convert image to JPEG with specified compression quality
                 let imageData = UIImageJPEGRepresentation(image!, Constants.ImageCompressionAndResizingRate.compressionRate)
-                print("image size: \(imageData!.count)")
                 FIRManager.shared.postObject(object: imageData!, contentType: .image, meta: self.metadata!, completion: {
                     print("Upload completed")
                     self.removeAllItems()
@@ -250,15 +160,6 @@ class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePicker
                 })
             })
         })
-    }
-    
-    // MARK: Removing
-    func removeTextfieldFromSubbiew() {
-        for view in cameraControlView.subviews {
-            if let textField = view as? UITextField {
-                textField.removeFromSuperview()
-            }
-        }
     }
     
     func removeAllItems() {
@@ -277,6 +178,50 @@ class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePicker
     //MARK: - Manging Textfeld methods
     @IBAction func tappedAddTextButton(_ sender: Any) {
         addTextFieldToView()
+    }
+}
+
+// MARK: Text Field
+extension CameraViewController: UITextFieldDelegate {
+    
+    // MARK: Add Text To Image
+    func add(textFields: [UITextField], to image: UIImage) -> UIImage? {
+        
+        let scaleScreenToImageWidth = image.size.width / imageView.frame.width
+        let scaleScreenToImageHeight = image.size.height / imageView.frame.height
+        
+        // Configure context
+        let scale = UIScreen.main.scale
+        UIGraphicsBeginImageContextWithOptions(image.size, false, scale)
+        image.draw(in: CGRect(origin: CGPoint.zero, size: image.size))
+        
+        for textField in textFields {
+            // Prepare coordinate for text to set it in image
+            let textLabelXInScreen = textField.frame.origin.x
+            let textLabelYInScreen = textField.frame.origin.y
+            
+            // Find where to put text in image
+            let textLabelXInImage = textLabelXInScreen * scaleScreenToImageWidth
+            let textLabelYInImage = textLabelYInScreen * scaleScreenToImageHeight
+            let textLabelPointInImage = CGPoint(x: textLabelXInImage, y: textLabelYInImage)
+            
+            // Text Attributes
+            let textNSString = NSString(string: textField.text!)
+            let textColor = UIColor.white
+            let textFont = UIFont(name: "Helvetica", size: 150)!
+            let textFontAttributes = [NSFontAttributeName: textFont,
+                                      NSForegroundColorAttributeName: textColor] as [String : Any]
+            
+            // Draw text in rect
+            let rect = CGRect(origin: textLabelPointInImage, size: image.size)
+            textNSString.draw(in: rect, withAttributes: textFontAttributes)
+            
+        }
+        
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return newImage
     }
     
     // Add a next text field to the screen
@@ -313,6 +258,15 @@ class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePicker
         textField.becomeFirstResponder()
     }
     
+    // MARK: Removing
+    func removeTextfieldFromSubbiew() {
+        for view in cameraControlView.subviews {
+            if let textField = view as? UITextField {
+                textField.removeFromSuperview()
+            }
+        }
+    }
+    
     // On change resize the view
     func textFieldDidChange(_ sender: UITextField) {
         sender.sizeToFit()
@@ -333,7 +287,6 @@ class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePicker
         }
     }
     
-    //MARK: - Textfield Delegate & FirstResponder methods
     // Tapped on background: end editing on all textfields
     func tappedCamerView(_ sender: UITapGestureRecognizer) {
         cameraControlView.endEditing(true)
@@ -346,5 +299,57 @@ class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePicker
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
+    }
+}
+
+// MARK: image picker
+extension CameraViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+
+    func addImagePickerToSubview(timeInterval: TimeInterval?, delegate: (UIImagePickerControllerDelegate & UINavigationControllerDelegate), completion: (() -> Void)?) {
+        imagePicker = UIImagePickerController()
+        imagePicker?.delegate = delegate
+        imagePicker?.allowsEditing = false
+        // Set to camera & video record
+        imagePicker?.sourceType = .camera
+        
+        // Capable for video and camera
+        imagePicker?.mediaTypes = [kUTTypeImage as String]
+        
+        // Set maximum video length, if any
+        if let timeInterval = timeInterval {
+            imagePicker?.videoMaximumDuration = timeInterval
+        }
+        
+        imagePicker?.showsCameraControls = false
+        
+        // http://stackoverflow.com/questions/2674375/uiimagepickercontroller-doesnt-fill-screen
+        let screenSize = UIScreen.main.bounds.size
+        let cameraAspectRatio: CGFloat = 4.0 / 3.0
+        let imageWidth = floor(screenSize.width * cameraAspectRatio)
+        //let scale = ceil(((screenSize.height) / imageWidth) * 10.0) / 10.0
+        let scale = ceil((screenSize.height) / imageWidth)
+        imagePicker?.cameraViewTransform = CGAffineTransform(scaleX: scale, y: scale)
+        
+        imagePickerView = imagePicker?.view
+        view.addSubview((imagePicker?.view)!)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        // Delegate to return the chosen image
+        if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
+            imageView.image = image
+            enterEditMode()
+        }
+    }
+}
+
+extension CameraViewController: LocationButtonDelegate {
+    func locationButton(yelpDidSelect restaurant: Restaurant) {
+        metadata = restaurant.dictionary
+    }
+    
+    func locationButton(_ viewControllerToPresent: UIViewController, animated: Bool, completion: (() -> ())?) {
+        present(viewControllerToPresent, animated: true, completion: {
+        })
     }
 }

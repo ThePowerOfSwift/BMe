@@ -62,7 +62,7 @@ extension PageViewController: UIPageViewControllerDelegate, UIPageViewController
         guard (orderedViewControllers?.count)! > previousIndex else {
             return nil
         }
-        print("in viewControllerBefore")
+        
         return orderedViewControllers?[previousIndex]
     }
     
@@ -79,9 +79,9 @@ extension PageViewController: UIPageViewControllerDelegate, UIPageViewController
             return nil
         }
 
-        print("in viewControllerAfter")
         return orderedViewControllers?[nextIndex]
     }
+    
     // http://stackoverflow.com/questions/8751633/how-can-i-know-if-uipageviewcontroller-flipped-forward-or-reversed
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         
@@ -96,7 +96,6 @@ extension PageViewController: UIPageViewControllerDelegate, UIPageViewController
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, willTransitionTo pendingViewControllers: [UIViewController]) {
-        print("willTransitionTo")
 
     }
     
