@@ -16,10 +16,13 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
     var user: User!
     
     //MARK: - Outlets
+    @IBOutlet weak var baseProfileView: UIView!
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var label: UILabel!
+    @IBOutlet weak var raincheckLabel: UILabel!
+    @IBOutlet weak var heartLabel: UILabel!
 
     @IBOutlet weak var tableViewContainer: UIView!
     
@@ -48,6 +51,22 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
         setupAvatar()
         setupUser()
         
+        // set raincheck and heart count
+        User.userMeta(AppState.shared.currentUser!.uid, completion: {
+            (usermeta) in
+            if let raincheckCount = usermeta.raincheck?.count {
+                self.raincheckLabel.text = String(raincheckCount)
+            } else {
+                self.raincheckLabel.text = String(0)
+            }
+            
+            if let heartCount = usermeta.heart?.count {
+                self.heartLabel.text = String(heartCount)
+            } else {
+                self.heartLabel.text = String(0)
+            }
+        })
+        
         view.backgroundColor = Styles.Color.Primary
         
         // TODO: - NEED TO REFACTOR TVC MODEL
@@ -60,7 +79,7 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
         tvc.view.frame = tableViewContainer.bounds
         tvc.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         // TODO: - hardcoded buffer
-        tvc.tableView.contentInset = UIEdgeInsetsMake(134, 0, 0, 0)
+        tvc.tableView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0)
         // Complete adding to containter
         tableViewContainer.addSubview(tvc.view)
         tvc.didMove(toParentViewController: self)
@@ -71,6 +90,8 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
         
         // Add tab bar reveal
         view.addSubview(WhiteRevealOverlayView(frame: view.bounds))
+        
+        baseProfileView.backgroundColor = Styles.Color.Primary
     }
     
     override func didReceiveMemoryWarning() {
