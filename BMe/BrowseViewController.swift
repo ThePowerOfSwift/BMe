@@ -157,10 +157,12 @@ class BrowseViewController: UIViewController, UITableViewDelegate, UITableViewDa
                 User.userMeta(uid, completion: { (usermeta) in
                     if cell.tag == currentIndex {
                         // Get the avatar if it exists
-                        let ref = FIRManager.shared.storage.child(usermeta.avatarURL!.path)
-                        cell.avatarImageView.loadImageFromGS(with: ref, placeholderImage: UIImage(named: Constants.Images.avatarDefault))
+                        if let avatarURL = usermeta.avatarURL {
+                            let ref = FIRManager.shared.storage.child(avatarURL.path)
+                            cell.avatarImageView.loadImageFromGS(with: ref, placeholderImage: UIImage(named: Constants.Images.avatarDefault))
+                        }
                         cell.usernameLabel.text = usermeta.username
-                    
+                        
                         
                         AppState.shared.currentUserMeta(completion: { (usermeta) in
                             if cell.tag == currentIndex {
@@ -212,8 +214,10 @@ class BrowseViewController: UIViewController, UITableViewDelegate, UITableViewDa
                 User.userMeta(uid, completion: { (usermeta) in
                     if cell.tag == currentIndex {
                         // Get the avatar if it exists
-                        let ref = FIRManager.shared.storage.child(usermeta.avatarURL!.path)
-                        cell.avatarImageView.loadImageFromGS(with: ref, placeholderImage: UIImage(named: Constants.Images.avatarDefault))
+                        if let avatarURL = usermeta.avatarURL {
+                            let ref = FIRManager.shared.storage.child(avatarURL.path)
+                            cell.avatarImageView.loadImageFromGS(with: ref, placeholderImage: UIImage(named: Constants.Images.avatarDefault))
+                        }
                         cell.usernameLabel.text = usermeta.username
                         
                         AppState.shared.currentUserMeta(completion: { (usermeta) in
