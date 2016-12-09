@@ -26,11 +26,7 @@ class TabBarViewController: UIViewController, UIScrollViewDelegate, PageViewDele
     var viewControllers: [UIViewController]!
     
     // tag value from selected UIButton
-    var selectedIndex: Int = 1
-    
-    // tab size
-    var selectedTabSize: Double = 70
-    var unselectedTabSize: Double = 50
+    var selectedIndex: Int = Constants.TabBar.selectedIndex
     
     // hide and show animation
     var tabOriginalCenterYPositions: [CGFloat]?
@@ -40,8 +36,7 @@ class TabBarViewController: UIViewController, UIScrollViewDelegate, PageViewDele
     
     // scroll title text
     @IBOutlet weak var titleScrollView: UIScrollView!
-    var cameraViewPageTitles: [String] = ["camera", "compose"]
-    var browseViewPageTitles: [String] = ["browse", "featured"]
+
     var titlePages: [UILabel] = [UILabel]()
     
     @IBOutlet weak var titleBar: UIView!
@@ -49,8 +44,8 @@ class TabBarViewController: UIViewController, UIScrollViewDelegate, PageViewDele
         super.viewDidLoad()
 
         // Browse view controller
-        browseViewController = UIStoryboard(name: "Browser", bundle: nil).instantiateInitialViewController()
-        browsePageViewController = UIStoryboard(name: "PageView", bundle: nil).instantiateViewController(withIdentifier: "PageViewController") as! PageViewController
+        browseViewController = UIStoryboard(name: Constants.SegueID.Storyboard.Browser, bundle: nil).instantiateInitialViewController()
+        browsePageViewController = UIStoryboard(name: Constants.SegueID.Storyboard.PageView, bundle: nil).instantiateViewController(withIdentifier: Constants.SegueID.ViewController.PageViewController) as! PageViewController
         addChildViewController(browsePageViewController)
         
         let secondVC = UIStoryboard(name: Constants.SegueID.Storyboard.Featured, bundle: nil).instantiateViewController(withIdentifier: Constants.SegueID.ViewController.FeaturedViewController)
@@ -66,17 +61,17 @@ class TabBarViewController: UIViewController, UIScrollViewDelegate, PageViewDele
         _ = mediaSelectorVC.view
 
         // Camera view controller which will be in camera page view controller
-        cameraNavigationController = UIStoryboard(name: "Camera", bundle: nil).instantiateInitialViewController() as! UINavigationController
+        cameraNavigationController = UIStoryboard(name: Constants.SegueID.Storyboard.Camera, bundle: nil).instantiateInitialViewController() as! UINavigationController
         cameraViewController = cameraNavigationController.viewControllers[0] as! CameraViewController
         cameraViewController.cameraViewDelegate = self
         
         // Camera page view controller
-        cameraPageViewController = UIStoryboard(name: "PageView", bundle: nil).instantiateViewController(withIdentifier: "PageViewController") as! PageViewController
+        cameraPageViewController = UIStoryboard(name: Constants.SegueID.Storyboard.PageView, bundle: nil).instantiateViewController(withIdentifier: Constants.SegueID.ViewController.PageViewController) as! PageViewController
         cameraPageViewController.orderedViewControllers = [cameraViewController, createViewController]
         addChildViewController(cameraPageViewController)
         
         // Account view controller
-        accountViewController = UIStoryboard(name: "Account", bundle: nil).instantiateInitialViewController()
+        accountViewController = UIStoryboard(name: Constants.SegueID.Storyboard.Account, bundle: nil).instantiateInitialViewController()
         addChildViewController(accountViewController)
         
         // Init with view controllers
@@ -133,12 +128,6 @@ class TabBarViewController: UIViewController, UIScrollViewDelegate, PageViewDele
             titlePages.append(titleLabel)
         }
         
-        print("titleScrollView.isHidden: \(titleScrollView.isHidden)")
-        for view in titleScrollView.subviews {
-            if let label = view as? UILabel {
-                print("UILabel text: \(label.text)")
-            }
-        }
         titleScrollView.contentSize = CGSize(width: titleScrollView.frame.width * CGFloat(titles.count), height: titleScrollView.frame.size.height)
     }
     
@@ -214,9 +203,9 @@ class TabBarViewController: UIViewController, UIScrollViewDelegate, PageViewDele
     }
     
     func layoutTabs () {
-        layoutTab(index: 0, w: unselectedTabSize, h: unselectedTabSize)
-        layoutTab(index: 1, w: unselectedTabSize, h: unselectedTabSize)
-        layoutTab(index: 2, w: unselectedTabSize, h: unselectedTabSize)
+        layoutTab(index: 0, w: Constants.TabBar.unselectedTabSize, h: Constants.TabBar.unselectedTabSize)
+        layoutTab(index: 1, w: Constants.TabBar.unselectedTabSize, h: Constants.TabBar.unselectedTabSize)
+        layoutTab(index: 2, w: Constants.TabBar.unselectedTabSize, h: Constants.TabBar.unselectedTabSize)
     }
     
     func layoutTab(index: Int, w: Double, h: Double) {
@@ -224,7 +213,7 @@ class TabBarViewController: UIViewController, UIScrollViewDelegate, PageViewDele
         let boxWidth: Double = Double(view.frame.width) / Double(tabs.count)
         // Get the center offset in box
         let centerOffset: Double = boxWidth / 2
-        let y: Double = Double(view.frame.height) - unselectedTabSize
+        let y: Double = Double(view.frame.height) - Constants.TabBar.unselectedTabSize
         var x: Double = 0
         
         // Set only width and height
@@ -261,7 +250,7 @@ class TabBarViewController: UIViewController, UIScrollViewDelegate, PageViewDele
     func hideTabBar() {
         UIView.animate(withDuration: 0.2, animations: {
             for i in 0..<self.tabs.count {
-                self.tabs[i].center.y = self.tabOriginalCenterYPositions![i] + CGFloat(self.selectedTabSize) + 20
+                self.tabs[i].center.y = self.tabOriginalCenterYPositions![i] + CGFloat(Constants.TabBar.selectedTabSize) + 20
             }
         })
     }
@@ -277,10 +266,10 @@ class TabBarViewController: UIViewController, UIScrollViewDelegate, PageViewDele
         if selectedIndex != previousIndex || isInitialStartup {
             switch selectedIndex {
             case 0:
-                changeTitleLabels(titles: browseViewPageTitles)
+                changeTitleLabels(titles: Constants.PageTitles.browsePageTitles)
                 showScrollTitle()
             case 1:
-                changeTitleLabels(titles: cameraViewPageTitles)
+                changeTitleLabels(titles: Constants.PageTitles.cameraPageTitles)
                 showScrollTitle()
             default:
                 hideScrollTitle()
@@ -327,8 +316,8 @@ class TabBarViewController: UIViewController, UIScrollViewDelegate, PageViewDele
                 self.tabs[self.selectedIndex].setImage(yellowButton, for: .normal)
             
                 
-                self.layoutTab(index: previousIndex, w: self.unselectedTabSize, h: self.unselectedTabSize)
-                self.layoutTab(index: self.selectedIndex, w: self.selectedTabSize, h: self.selectedTabSize)
+                self.layoutTab(index: previousIndex, w: Constants.TabBar.unselectedTabSize, h: Constants.TabBar.unselectedTabSize)
+                self.layoutTab(index: self.selectedIndex, w: Constants.TabBar.selectedTabSize, h: Constants.TabBar.selectedTabSize)
             })
             
             let previousVC = viewControllers[previousIndex]

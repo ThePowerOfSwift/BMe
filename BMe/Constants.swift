@@ -41,7 +41,9 @@ struct Constants {
             static let Main = "Main"
             static let TabBar = "TabBar"
             static let Browser = "Browser"
+            static let PageView = "PageView"
             static let Featured = "Featured"
+            static let Account = "Account"
         }
         struct ViewController {
             static let CameraViewController = "CameraViewController"
@@ -50,9 +52,22 @@ struct Constants {
             static let LoginViewController = "LoginViewController"
             static let TabBarViewController = "TabBarViewController"
             static let BrowserViewController = "BrowseViewController"
+            static let PageViewController = "PageViewController"
             static let FeaturedViewController = "FeaturedNavigationController"
         }
     }
+    
+    struct TabBar {
+        static let selectedIndex: Int = 1 // Set default vc to camera
+        static let selectedTabSize: Double = 70
+        static let unselectedTabSize: Double = 50
+    }
+    
+    struct PageTitles {
+        static let cameraPageTitles: [String] = ["camera", "compose"]
+        static let browsePageTitles: [String] = ["browse", "featured"]
+    }
+    
     struct Images {
         static let avatarDefault = "blank user avatar.jpeg"
         static let audioYellow = "sound-wave-yellow.png"

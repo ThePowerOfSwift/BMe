@@ -367,8 +367,6 @@
 		78337D8F1DE3AC9300A1B32C /* Sato */ = {
 			isa = PBXGroup;
 			children = (
-				E35AC4851DE4D02D00FCB0D0 /* ViewControllers */,
-				E35AC4841DE4D01C00FCB0D0 /* Storyboards */,
 			);
 			name = Sato;
 			sourceTree = "<group>";
@@ -504,20 +502,6 @@
 				7837A21E1DF95A43000CB9CB /* HeartButton.swift */,
 			);
 			name = Buttons;
-			sourceTree = "<group>";
-		};
-		E35AC4841DE4D01C00FCB0D0 /* Storyboards */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Storyboards;
-			sourceTree = "<group>";
-		};
-		E35AC4851DE4D02D00FCB0D0 /* ViewControllers */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = ViewControllers;
 			sourceTree = "<group>";
 		};
 		FC4986E74E30DCE926CC8007 /* Pods */ = {
