@@ -60,6 +60,11 @@ class TabBarViewController: UIViewController, UIScrollViewDelegate, PageViewDele
         // Create view controller which will be in camera page view controller
         let createStoryboard = UIStoryboard(name: VideoComposition.StoryboardKey.ID, bundle: nil)
         createViewController = createStoryboard.instantiateViewController(withIdentifier: VideoComposition.StoryboardKey.mediaSelectorNavigationController) as! UINavigationController
+        
+        // Preload media selector vc so paging in camera page vc will be smooth
+        // Doing this here because it is hard to detect what view controller is showed  in page view controller (too many types of vcs in page view controller)
+        let mediaSelectorVC = createViewController.viewControllers[0] as! MediaSelectorViewController
+        let view = mediaSelectorVC.view
 
         // Camera view controller which will be in camera page view controller
         cameraNavigationController = UIStoryboard(name: "Camera", bundle: nil).instantiateInitialViewController() as! UINavigationController
