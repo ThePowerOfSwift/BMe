@@ -58,6 +58,8 @@ class BrowseViewController: UIViewController, UITableViewDelegate, UITableViewDa
         // Setup player end for loop observation
         NotificationCenter.default.addObserver(self, selector: #selector(playerItemDidReachEnd(_:)), name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil)
         
+
+        
         // Get data
         perform(dataSelector)
 //        setupDatasource()
