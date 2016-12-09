@@ -28,7 +28,9 @@ class UserMeta: NSObject {
     
     init(_ snapshot: FIRDataSnapshot) {
         uid = snapshot.key
-        self.avatarURL = URL(string: snapshot.dictionary[Key.avatarURL] as! String) ?? nil
+        if let url = snapshot.dictionary[Key.avatarURL] as? String {
+            self.avatarURL = URL(string: url) ?? nil
+        } else { self.avatarURL = nil }
         self.timestamp = (snapshot.dictionary[Key.timestamp] as? String)?.toDate() ?? nil
         self.username = snapshot.dictionary[Key.username] as? String ?? nil
         self.raincheck = snapshot.dictionary[Key.raincheck] as? [String: AnyObject] ?? nil
