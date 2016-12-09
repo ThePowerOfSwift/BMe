@@ -222,9 +222,6 @@ class CameraViewController: UIViewController, UITextFieldDelegate, UIImagePicker
         if textFields.count > 0 {
             newImage = add(textFields: textFields, to: imageView.image!)
         }
-        let storyboard = UIStoryboard(name: "Camera", bundle: nil)
-        let testVC = storyboard.instantiateViewController(withIdentifier: "ShowImageViewController") as! ShowImageViewController
-        testVC.image = newImage
         
         // Resize the image
         var localID: String!

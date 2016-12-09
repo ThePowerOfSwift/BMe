@@ -97,42 +97,6 @@
             </objects>
             <point key="canvasLocation" x="1647.2" y="123.68815592203899"/>
         </scene>
-        <!--Create View Controller-->
-        <scene sceneID="aza-jQ-jwg">
-            <objects>
-                <viewController storyboardIdentifier="CreateViewController" id="ISZ-D8-ryu" customClass="CreateViewController" customModule="BMe" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="Y7M-L0-tRW"/>
-                        <viewControllerLayoutGuide type="bottom" id="Paq-K8-jQe"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="6bD-H9-eAO">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="1" green="0.86666666670000003" blue="0.2784313725" alpha="1" colorSpace="calibratedRGB"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="1DV-uu-By4" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2599.1999999999998" y="812.74362818590714"/>
-        </scene>
-        <!--Account View Controller-->
-        <scene sceneID="o0f-Ob-qbx">
-            <objects>
-                <viewController storyboardIdentifier="AccountViewController" id="VXI-No-DvY" customClass="AccountViewController" customModule="BMe" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="tVB-zt-fm6"/>
-                        <viewControllerLayoutGuide type="bottom" id="qe9-07-lXZ"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="Ogk-Vw-Avl">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="0.1450980392" green="0.68235294120000001" blue="0.45098039220000002" alpha="1" colorSpace="calibratedRGB"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="rX0-bQ-MSf" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="3247.1999999999998" y="812.74362818590714"/>
-        </scene>
         <!--Browse Test View Controller-->
         <scene sceneID="DA9-hB-kuU">
             <objects>

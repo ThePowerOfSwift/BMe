@@ -37,24 +37,6 @@ class PageViewController: UIPageViewController {
                                animated: true,
                                completion: nil)
         }
-        
-
-        
-        // load all the vc
-//        var count = 0
-//        for vc in orderedViewControllers! {
-//            //let view = vc.view
-//            print("\(count) isViewLoaded? : \(isViewLoaded)")
-//            count += 1
-//        }
-//        let mediaSelectorNVC = orderedViewControllers?[1] as! UINavigationController
-//        let mediaSelectorVC = mediaSelectorNVC.viewControllers[0] as! MediaSelectorViewController
-//        let view = mediaSelectorVC.view
-//        
-//        for vc in viewControllers! {
-//            print("vc: \(vc)")
-//        }
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -119,55 +101,3 @@ extension PageViewController: UIPageViewControllerDelegate, UIPageViewController
     }
     
 }
-
-// for disable bouncing. put this in viewDidLoad
-//        for view in view.subviews {
-//            if view is UIScrollView {
-//                (view as! UIScrollView).delegate =  self
-//                //(view as! UIScrollView).alwaysBounceHorizontal = false
-////                (view as! UIScrollView).bounces = false
-////                print("(view as! UIScrollView).isScrollEnabled): \(view as! UIScrollView).isScrollEnabled))")
-//                break
-//            }
-//        }
-
-
-
-// Disable bouncing
-//// http://stackoverflow.com/questions/21798218/disable-uipageviewcontroller-bounce
-//extension PageViewController: UIScrollViewDelegate {
-//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-//        if currentIndex == 0 && scrollView.contentOffset.x < scrollView.bounds.size.width {
-//            scrollView.contentOffset = CGPoint(x: scrollView.bounds.size.width, y: 0)
-//        } else if currentIndex == (orderedViewControllers?.count)! - 1 && scrollView.contentOffset.x > scrollView.bounds.size.width {
-//            scrollView.contentOffset = CGPoint(x: scrollView.bounds.size.width, y: 0)
-//        }
-//        
-//    }
-//    
-//    private func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: CGPoint) {
-//        if currentIndex == 0 && scrollView.contentOffset.x <= scrollView.bounds.size.width {
-//            scrollView.contentOffset = CGPoint(x: scrollView.bounds.size.width, y: CGFloat(0))
-//        } else if currentIndex == (orderedViewControllers?.count)! - 1 && scrollView.contentOffset.x >= scrollView.bounds.size.width {
-//            scrollView.contentOffset = CGPoint(x: scrollView.bounds.size.width, y: CGFloat(0))
-//        }
-//
-//    }
-//    
-//    // for bouncing
-//    
-//    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-//        print("bouncing back")
-//        if currentIndex == 0 && scrollView.contentOffset.x < scrollView.bounds.size.width {
-//            scrollView.contentOffset = CGPoint(x: scrollView.bounds.size.width, y: 0)
-//        } else if currentIndex == (orderedViewControllers?.count)! - 1 && scrollView.contentOffset.x > scrollView.bounds.size.width {
-//            scrollView.contentOffset = CGPoint(x: scrollView.bounds.size.width, y: 0)
-//        }
-//    }
-//}
-
-
-
-
-
-

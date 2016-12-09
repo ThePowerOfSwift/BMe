@@ -13,7 +13,7 @@ struct Constants {
     struct OnLogin {
         
 
-        static let StoryboardID = SegueID.Storyboard.Sato
+        static let StoryboardID = SegueID.Storyboard.TabBar
         static let RootViewController = SegueID.ViewController.TabBarViewController
 
 //        static let StoryboardID = SegueID.Storyboard.Camera
@@ -39,7 +39,7 @@ struct Constants {
             static let Yelp = "Yelp"
             static let VideoComposer = "VideoComposer"
             static let Main = "Main"
-            static let Sato = "Sato"
+            static let TabBar = "TabBar"
             static let Browser = "Browser"
             static let Featured = "Featured"
         }
