@@ -111,6 +111,7 @@ class User: NSObject {
         // Construct reference to user meta in Database
         let ref = FIRManager.shared.database.child(ContentType.userMeta.objectKey()).child(uid)
         // Get existing values
+        
         ref.observeSingleEvent(of: .value, with: {(snapshot: FIRDataSnapshot) in
             let userMeta = UserMeta(snapshot)
             completion(userMeta)

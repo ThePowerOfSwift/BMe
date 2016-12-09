@@ -41,7 +41,7 @@ class TabBarViewController: UIViewController, UIScrollViewDelegate, PageViewDele
     // scroll title text
     @IBOutlet weak var titleScrollView: UIScrollView!
     var cameraViewPageTitles: [String] = ["camera", "compose"]
-    var browseViewPageTitles: [String] = ["browse", "dummy"]
+    var browseViewPageTitles: [String] = ["browse", "featured"]
     var titlePages: [UILabel] = [UILabel]()
     
     @IBOutlet weak var titleBar: UIView!
@@ -53,9 +53,8 @@ class TabBarViewController: UIViewController, UIScrollViewDelegate, PageViewDele
         browsePageViewController = UIStoryboard(name: "PageView", bundle: nil).instantiateViewController(withIdentifier: "PageViewController") as! PageViewController
         addChildViewController(browsePageViewController)
         
-        let dummyViewController = UIViewController()
-        dummyViewController.view.backgroundColor = UIColor.red
-        browsePageViewController.orderedViewControllers = [browseViewController, dummyViewController]
+        let secondVC = UIStoryboard(name: Constants.SegueID.Storyboard.Featured, bundle: nil).instantiateViewController(withIdentifier: Constants.SegueID.ViewController.FeaturedViewController)
+        browsePageViewController.orderedViewControllers = [browseViewController, secondVC]
 
         // Create view controller which will be in camera page view controller
         let createStoryboard = UIStoryboard(name: VideoComposition.StoryboardKey.ID, bundle: nil)

@@ -41,6 +41,7 @@ struct Constants {
             static let Main = "Main"
             static let Sato = "Sato"
             static let Browser = "Browser"
+            static let Featured = "Featured"
         }
         struct ViewController {
             static let CameraViewController = "CameraViewController"
@@ -49,6 +50,7 @@ struct Constants {
             static let LoginViewController = "LoginViewController"
             static let TabBarViewController = "TabBarViewController"
             static let BrowserViewController = "BrowseViewController"
+            static let FeaturedViewController = "FeaturedNavigationController"
         }
     }
     struct Images {
@@ -90,7 +92,7 @@ struct Constants {
     struct ImageCompressionAndResizingRate {
         static let compressionRate: CGFloat = 0.005
         static let resizingScale: CGFloat = 0.2
-        static let avExportQualityPreset = AVAssetExportPresetMediumQuality
+        static let avExportQualityPreset =  AVAssetExportPresetMediumQuality
 //AVAssetExportPresetLowQuality
 //AVAssetExportPresetMediumQuality
 //AVAssetExportPresetHighestQuality

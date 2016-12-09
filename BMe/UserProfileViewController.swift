@@ -69,8 +69,9 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
         tvc.tableView.backgroundColor = tvc.view.backgroundColor
         tableViewContainer.backgroundColor = UIColor.clear
         
+        // tab bar reveal already embedded in child tvc above
         // Add tab bar reveal
-        view.addSubview(WhiteRevealOverlayView(frame: view.bounds))
+//        view.addSubview(WhiteRevealOverlayView(frame: view.bounds))
     }
     
     override func didReceiveMemoryWarning() {

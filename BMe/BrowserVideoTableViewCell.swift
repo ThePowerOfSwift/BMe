@@ -22,7 +22,6 @@ class BrowserVideoTableViewCell: UITableViewCell, RainCheckButtonDatasource, Hea
     // Model
     var postID: String!
 
-    // Deprecate- takes too much bandwidth?
     // Video player objects
     var playerLayer: AVPlayerLayer!
     var player: AVPlayer!

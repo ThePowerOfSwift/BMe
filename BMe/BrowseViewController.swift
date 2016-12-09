@@ -143,6 +143,7 @@ class BrowseViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
         print("Processing row \(currentIndex) post stamped \(post.timestamp?.toString())")
         
+        //TODO: - Refactor cells to one model instead of one per media type (2)
         // ------- VIDEO
         if post.contentType == .video {
             let cell = tableView.dequeueReusableCell(withIdentifier: BrowserVideoTableViewCell.ID, for: indexPath) as! BrowserVideoTableViewCell
