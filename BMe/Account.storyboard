@@ -88,7 +88,7 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="hear-yellow.png" translatesAutoresizingMaskIntoConstraints="NO" id="2QL-MI-X7r">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="heart-yellow.png" translatesAutoresizingMaskIntoConstraints="NO" id="2QL-MI-X7r">
                                         <rect key="frame" x="231" y="81" width="25" height="25"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="25" id="xXo-6v-e8K"/>
@@ -175,7 +175,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="hear-yellow.png" width="240" height="240"/>
+        <image name="heart-yellow.png" width="240" height="240"/>
         <image name="logout.png" width="240" height="240"/>
         <image name="raincheck-yellow.png" width="240" height="240"/>
     </resources>
