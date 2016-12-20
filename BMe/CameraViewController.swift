@@ -323,14 +323,28 @@ extension CameraViewController: UIImagePickerControllerDelegate, UINavigationCon
         imagePicker?.showsCameraControls = false
         
         // http://stackoverflow.com/questions/2674375/uiimagepickercontroller-doesnt-fill-screen
-        let screenSize = UIScreen.main.bounds.size
-        let cameraAspectRatio: CGFloat = 4.0 / 3.0
-        let imageWidth = floor(screenSize.width * cameraAspectRatio)
-        let scale = ceil((screenSize.height) / imageWidth)
-        imagePicker?.cameraViewTransform = CGAffineTransform(scaleX: scale, y: scale)
-        
+//        let screenSize = UIScreen.main.bounds.size
+//        let cameraAspectRatio: CGFloat = 4.0 / 3.0
+//        let imageWidth = floor(screenSize.width * cameraAspectRatio)
+//        let scale = ceil((screenSize.height) / imageWidth)
+//        imagePicker?.cameraViewTransform = CGAffineTransform(scaleX: scale, y: scale)
         imagePickerView = imagePicker?.view
+        imagePicker?.view.frame.origin.y = 75
         view.addSubview((imagePicker?.view)!)
+        
+//        imagePickerView?.translatesAutoresizingMaskIntoConstraints = false
+//        self.view.addConstraints([
+//            
+//            NSLayoutConstraint(
+//                item: imagePickerView!,
+//                attribute: NSLayoutAttribute.top,
+//                relatedBy: NSLayoutRelation.equal,
+//                toItem: self.view,
+//                attribute: NSLayoutAttribute.top,
+//                multiplier: 1.0,
+//                constant: 100
+//            )]
+//        )
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
