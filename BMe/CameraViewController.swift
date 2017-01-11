@@ -180,31 +180,10 @@ class CameraViewController: UIViewController {
         addTextFieldToView()
     }
     
-    // MARK: Pinch Text Field
-    // http://stackoverflow.com/questions/13669457/ios-scaling-uitextview-with-pinching
-    fileprivate var currentTextField: UITextField?
-    
-    fileprivate func addPinchGesture(to textField: UITextField) {
-        let pinchGestureRecognizer = UIPinchGestureRecognizer(target: self, action: #selector(CameraViewController.scaleTextField(sender:)))
-        //pinchGestureRecognizer.delegate = self
-        textField.addGestureRecognizer(pinchGestureRecognizer)
-        currentTextField = textField
-        
-    }
-    
-    var oldScale: CGFloat?
+    // To store current font size for pinch gesture scaling
     var currentFontSize: CGFloat?
-    // http://stackoverflow.com/questions/13439797/change-font-size-uitextfield-when-pinch
-    func scaleTextField(sender: UIPinchGestureRecognizer) {
-        if sender.state == .began {
-            currentFontSize = currentTextField?.font?.pointSize
-        } else if sender.state == .changed {
-            currentTextField?.font = UIFont(name: currentTextField!.font!.fontName, size: currentFontSize! * sender.scale)
-            textFieldDidChange(currentTextField!)
-        } else if sender.state == .ended {
-            
-        }
-    }
+    var lastRotation: CGFloat = 0
+
 }
 
 // MARK: Text Field
@@ -255,7 +234,7 @@ extension CameraViewController: UITextFieldDelegate {
         // Create new textfield
         let textField = UITextField()
         textField.delegate = self
-        
+
         textField.autocorrectionType = .no
         textField.autocapitalizationType = .sentences
         textField.spellCheckingType = .no
@@ -274,18 +253,86 @@ extension CameraViewController: UITextFieldDelegate {
         let pan = UIPanGestureRecognizer(target: self, action: #selector(pannedTextField(_:)))
         textField.addGestureRecognizer(pan)
         
+        // Add pinch gesture (to scale)
+        let pinch = UIPinchGestureRecognizer(target: self, action: #selector(pinchedTextField(_:)))
+        textField.addGestureRecognizer(pinch)
+        
+        // Add rotation gesture (to rotate)
+        let rotate = UIRotationGestureRecognizer(target: self, action: #selector(rotatedTextField(_:)))
+        textField.addGestureRecognizer(rotate)
+        
         // Default appearance
         textField.attributedPlaceholder = NSAttributedString(string: "T", attributes: [NSForegroundColorAttributeName: UIColor.white])
         textField.sizeToFit()
-        
-        // Add pinch gesture to text field
-        addPinchGesture(to: textField)
         
         // Add textField to cameraControlView
         textField.center = cameraControlView.center
         textField.keyboardType = UIKeyboardType.default
         cameraControlView.addSubview(textField)
         textField.becomeFirstResponder()
+    }
+    
+    // MARK: Pinch Text Field
+    // http://stackoverflow.com/questions/13669457/ios-scaling-uitextview-with-pinching
+    // http://stackoverflow.com/questions/13439797/change-font-size-uitextfield-when-pinch
+    func pinchedTextField(_ sender: UIPinchGestureRecognizer) {
+        if let textField = sender.view as? UITextField {
+            if sender.state == .began {
+                currentFontSize = textField.font?.pointSize
+            } else if sender.state == .changed {
+                textField.font = UIFont(name: textField.font!.fontName, size: currentFontSize! * sender.scale)
+                textFieldDidChange(textField)
+            } else if sender.state == .ended {
+                
+            }
+        }
+    }
+    
+    // http://www.avocarrot.com/blog/implement-gesture-recognizers-swift/
+    func rotatedTextField(_ sender: UIRotationGestureRecognizer) {
+//        var currentRotation = CGFloat()
+//        var currentTransform = CGAffineTransform()
+//        
+//        if sender.state == .ended {
+//            lastRotation = 0.0
+//        }
+//        if sender.state == .began {
+//            currentTransform = sender.view!.transform
+//            currentRotation = sender.rotation
+//            
+//        } else if sender.state == .changed {
+//            let newRotation = 0.0 - (lastRotation! - sender.rotation)
+//            //let newRotation = currentRotation + sender.rotation
+//            print("currentRotation: \(currentRotation), sender.rotation: \(sender.rotation), newRotation: \(newRotation), lastRotation: \(lastRotation!)")
+//            var newTransform = currentTransform.rotated(by: newRotation)
+//            sender.view!.transform = newTransform
+//        } else if sender.state == .ended {
+//            lastRotation = sender.rotation
+//            
+//        }
+        
+//        if sender.state == .ended {
+//            lastRotation = 0.0
+//        }
+//        
+//        let rotation = 0.0 - (lastRotation - sender.rotation)
+        var originalRotation = CGFloat()
+        if sender.state == .began {
+            //originalRotation = sender.rotation
+            originalRotation = lastRotation
+            sender.rotation = lastRotation
+            
+        } else if sender.state == .changed {
+        
+            let newRotation = sender.rotation + originalRotation
+            sender.view?.transform = CGAffineTransform(rotationAngle: newRotation)
+            print("rotation: \(newRotation)")
+        } else if sender.state == .ended {
+            lastRotation = sender.rotation
+            print("lastRotation: \(lastRotation)")
+        }
+        //lastRotation = sender.rotation
+        //sender.rotation = 0
     }
     
     // MARK: Removing
