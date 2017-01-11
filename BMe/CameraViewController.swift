@@ -179,6 +179,66 @@ class CameraViewController: UIViewController {
     @IBAction func tappedAddTextButton(_ sender: Any) {
         addTextFieldToView()
     }
+    
+    // MARK: Pinch Text Field
+    // http://stackoverflow.com/questions/13669457/ios-scaling-uitextview-with-pinching
+    fileprivate var currentTextField: UITextField?
+    
+    fileprivate func addPinchGesture(to textField: UITextField) {
+        let pinchGestureRecognizer = UIPinchGestureRecognizer(target: self, action: #selector(CameraViewController.scaleTextField(sender:)))
+        //pinchGestureRecognizer.delegate = self
+        textField.addGestureRecognizer(pinchGestureRecognizer)
+        currentTextField = textField
+        
+    }
+    
+    var oldScale: CGFloat?
+    var originalPoint = CGPoint()
+
+    func scaleTextField(sender: UIPinchGestureRecognizer) {
+        
+        let parentView = self.view
+        let point = sender.location(in: parentView)
+        
+        var originalFontSize = CGFloat()
+        if sender.state == .began {
+            print("Gesture began at: \(point)")
+//            originalFontSize = currentTextField!.font!.pointSize
+            originalPoint = sender.location(in: self.view)
+            
+        } else if sender.state == .changed {
+            print("Gesture changed at: \(point)")
+            
+            var lastPoint = sender.location(in: self.view)
+            print("lAST POINT: \(lastPoint) orig: \(originalPoint)")
+            var delta = lastPoint - originalPoint
+            
+            let scale = sender.scale
+            
+            var offset = CGFloat()
+            if let oldScale = oldScale {
+                //offset = scale - oldScale
+                //var delta = (offset*currentTextField!.font!.pointSize) * 0.5
+                var fontSize = originalFontSize*scale
+                //var newfontsize = fontSize - originalFontSize
+                currentTextField?.font = UIFont(name: currentTextField!.font!.fontName, size: currentTextField!.font!.pointSize + delta)
+                //currentTextField?.font = UIFont(name: currentTextField!.font!.fontName, size: newfontsize)
+                print("fontsize: \(fontSize)")
+                self.textFieldDidChange(currentTextField!)
+            }
+            
+            oldScale = scale
+            print("scale:\(scale) offset: \(offset)")
+            
+            currentTextField!.center = point
+            
+        } else if sender.state == .ended {
+            print("Gesture ended at: \(point)")
+            
+        }
+
+
+    }
 }
 
 // MARK: Text Field
@@ -236,7 +296,7 @@ extension CameraViewController: UITextFieldDelegate {
         textField.keyboardType = .asciiCapable
         textField.returnKeyType = .done
         textField.textColor = UIColor.white
-        textField.font = UIFont(name: "Helvetica", size: 20)
+        textField.font = UIFont(name: "Helvetica", size: 50)
         
         // Add didedit event notifier
         textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: UIControlEvents.editingChanged)
@@ -252,9 +312,11 @@ extension CameraViewController: UITextFieldDelegate {
         textField.attributedPlaceholder = NSAttributedString(string: "T", attributes: [NSForegroundColorAttributeName: UIColor.white])
         textField.sizeToFit()
         
+        // Add pinch gesture to text field
+        addPinchGesture(to: textField)
+        
         // Add textField to cameraControlView
         textField.center = cameraControlView.center
-        
         textField.keyboardType = UIKeyboardType.default
         cameraControlView.addSubview(textField)
         textField.becomeFirstResponder()
