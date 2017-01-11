@@ -318,10 +318,11 @@ extension CameraViewController: UITextFieldDelegate {
 //        let rotation = 0.0 - (lastRotation - sender.rotation)
         var originalRotation = CGFloat()
         if sender.state == .began {
-            //originalRotation = sender.rotation
             originalRotation = lastRotation
+            // sender.rotation renews everytime the rotation starts
+            // delta value but not absolute value
             sender.rotation = lastRotation
-            
+            print("sender.rotation: \(sender.rotation)")
         } else if sender.state == .changed {
         
             let newRotation = sender.rotation + originalRotation
