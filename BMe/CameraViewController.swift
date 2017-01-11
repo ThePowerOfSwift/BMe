@@ -193,51 +193,17 @@ class CameraViewController: UIViewController {
     }
     
     var oldScale: CGFloat?
-    var originalPoint = CGPoint()
-
+    var currentFontSize: CGFloat?
+    // http://stackoverflow.com/questions/13439797/change-font-size-uitextfield-when-pinch
     func scaleTextField(sender: UIPinchGestureRecognizer) {
-        
-        let parentView = self.view
-        let point = sender.location(in: parentView)
-        
-        var originalFontSize = CGFloat()
         if sender.state == .began {
-            print("Gesture began at: \(point)")
-//            originalFontSize = currentTextField!.font!.pointSize
-            originalPoint = sender.location(in: self.view)
-            
+            currentFontSize = currentTextField?.font?.pointSize
         } else if sender.state == .changed {
-            print("Gesture changed at: \(point)")
-            
-            var lastPoint = sender.location(in: self.view)
-            print("lAST POINT: \(lastPoint) orig: \(originalPoint)")
-            var delta = lastPoint - originalPoint
-            
-            let scale = sender.scale
-            
-            var offset = CGFloat()
-            if let oldScale = oldScale {
-                //offset = scale - oldScale
-                //var delta = (offset*currentTextField!.font!.pointSize) * 0.5
-                var fontSize = originalFontSize*scale
-                //var newfontsize = fontSize - originalFontSize
-                currentTextField?.font = UIFont(name: currentTextField!.font!.fontName, size: currentTextField!.font!.pointSize + delta)
-                //currentTextField?.font = UIFont(name: currentTextField!.font!.fontName, size: newfontsize)
-                print("fontsize: \(fontSize)")
-                self.textFieldDidChange(currentTextField!)
-            }
-            
-            oldScale = scale
-            print("scale:\(scale) offset: \(offset)")
-            
-            currentTextField!.center = point
-            
+            currentTextField?.font = UIFont(name: currentTextField!.font!.fontName, size: currentFontSize! * sender.scale)
+            textFieldDidChange(currentTextField!)
         } else if sender.state == .ended {
-            print("Gesture ended at: \(point)")
             
         }
-
-
     }
 }
 
