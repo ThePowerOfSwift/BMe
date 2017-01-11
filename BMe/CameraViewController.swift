@@ -290,50 +290,29 @@ extension CameraViewController: UITextFieldDelegate {
     
     // http://www.avocarrot.com/blog/implement-gesture-recognizers-swift/
     func rotatedTextField(_ sender: UIRotationGestureRecognizer) {
-//        var currentRotation = CGFloat()
-//        var currentTransform = CGAffineTransform()
-//        
-//        if sender.state == .ended {
-//            lastRotation = 0.0
-//        }
-//        if sender.state == .began {
-//            currentTransform = sender.view!.transform
-//            currentRotation = sender.rotation
-//            
-//        } else if sender.state == .changed {
-//            let newRotation = 0.0 - (lastRotation! - sender.rotation)
-//            //let newRotation = currentRotation + sender.rotation
-//            print("currentRotation: \(currentRotation), sender.rotation: \(sender.rotation), newRotation: \(newRotation), lastRotation: \(lastRotation!)")
-//            var newTransform = currentTransform.rotated(by: newRotation)
-//            sender.view!.transform = newTransform
-//        } else if sender.state == .ended {
-//            lastRotation = sender.rotation
-//            
-//        }
         
-//        if sender.state == .ended {
-//            lastRotation = 0.0
-//        }
-//        
-//        let rotation = 0.0 - (lastRotation - sender.rotation)
         var originalRotation = CGFloat()
         if sender.state == .began {
+            
+            // the last rotation is the relative rotation value when rotation stopped last time, 
+            // which indicates the current rotation
             originalRotation = lastRotation
+            
             // sender.rotation renews everytime the rotation starts
             // delta value but not absolute value
             sender.rotation = lastRotation
-            print("sender.rotation: \(sender.rotation)")
-        } else if sender.state == .changed {
         
+        } else if sender.state == .changed {
+            
             let newRotation = sender.rotation + originalRotation
             sender.view?.transform = CGAffineTransform(rotationAngle: newRotation)
-            print("rotation: \(newRotation)")
+    
         } else if sender.state == .ended {
+            
+            // Save the last rotation
             lastRotation = sender.rotation
-            print("lastRotation: \(lastRotation)")
+
         }
-        //lastRotation = sender.rotation
-        //sender.rotation = 0
     }
     
     // MARK: Removing
