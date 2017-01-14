@@ -204,7 +204,7 @@ extension CameraViewController: UITextFieldDelegate {
             // Prepare coordinate for text to set it in image
             let textLabelXInScreen = textField.frame.origin.x
             let textLabelYInScreen = textField.frame.origin.y
-            
+
             // Find where to put text in image
             let textLabelXInImage = textLabelXInScreen * scaleScreenToImageWidth
             let textLabelYInImage = textLabelYInScreen * scaleScreenToImageHeight
@@ -213,18 +213,28 @@ extension CameraViewController: UITextFieldDelegate {
             // Text Attributes
             let textNSString = NSString(string: textField.text!)
             let textColor = UIColor.white
-            let textFont = UIFont(name: "Helvetica", size: 150)!
+            let fontSize = textField.font?.pointSize
+            let textFont = UIFont(name: "Helvetica", size: fontSize! * scaleScreenToImageWidth)!
             let textFontAttributes = [NSFontAttributeName: textFont,
                                       NSForegroundColorAttributeName: textColor] as [String : Any]
             
             // Draw text in rect
             let rect = CGRect(origin: textLabelPointInImage, size: image.size)
+            
             textNSString.draw(in: rect, withAttributes: textFontAttributes)
             
         }
         
         let newImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
+        
+        // To test
+//        let testVC = UIViewController()
+//        let testImageView = UIImageView(image: newImage)
+//        testImageView.frame = UIScreen.main.bounds
+//        testImageView.contentMode = UIViewContentMode.scaleAspectFit
+//        testVC.view.addSubview(testImageView)
+//        present(testVC, animated: true, completion: nil)
         
         return newImage
     }
