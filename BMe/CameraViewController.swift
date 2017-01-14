@@ -184,6 +184,9 @@ class CameraViewController: UIViewController {
     var currentFontSize: CGFloat?
     var lastRotation: CGFloat = 0
 
+    // To store original center position for panned gesture
+    var originalCenter: CGPoint?
+
 }
 
 // MARK: Text Field
@@ -347,11 +350,18 @@ extension CameraViewController: UITextFieldDelegate {
     
     // On pan move the textfield
     func pannedTextField(_ sender: UIPanGestureRecognizer) {
-        if let textField = sender.view {
+        
+        if sender.state == UIGestureRecognizerState.began {
+            originalCenter = sender.view!.center
+        } else if sender.state == UIGestureRecognizerState.changed {
+
+            let translation = sender.translation(in: cameraControlView)
+            sender.view?.center = CGPoint(x: originalCenter!.x + translation.x , y: originalCenter!.y + translation.y)
+
+        } else if sender.state == UIGestureRecognizerState.ended {
             
-            let point = sender.location(in: cameraControlView)
-            textField.center = point
         }
+            
     }
     
     // Tapped on background: end editing on all textfields
