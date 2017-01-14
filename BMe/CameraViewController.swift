@@ -12,7 +12,11 @@ import AVFoundation
 import FontAwesome_swift
 import Photos
 
-protocol CameraViewDelegate {
+/**
+ CameraViewDelegate protocol defines methods to show and hide things in delegate object. 
+ In this case, the delegate object is TabBarViewController.
+ */
+protocol TabBarViewControllerDelegate {
     func hideScrollTitle()
     func showScrollTitle()
     func hideTabBar()
@@ -32,7 +36,7 @@ class CameraViewController: UIViewController {
     @IBOutlet weak var cancelButton: UIButton!
     
     // MARK: - Delegate
-    var cameraViewDelegate: CameraViewDelegate?
+    var tabBarViewControllerDelegate: TabBarViewControllerDelegate?
     
     //MARK:- Model
     fileprivate var textFields: [UITextField] {
@@ -72,25 +76,25 @@ class CameraViewController: UIViewController {
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
-        let tap = UITapGestureRecognizer(target: self, action: #selector(tappedCamerView(_:)))
+        let tap = UITapGestureRecognizer(target: self, action: #selector(tappedBackground(_:)))
         cameraControlView.addGestureRecognizer(tap)
         
         //TODO: - haha
         metadata = ["missing metadata" : "you didn't add metadata for this pic, bitch!" as Optional<AnyObject>]
         
-        //hideCameraControlView()
         setupButtons()
         addImagePickerToSubview(timeInterval: 0.5, delegate: self, completion: nil)
         enterCameraMode()
     }
     
-    func takePicture() {
+    // Will be called from TabBarViewController
+    internal func takePicture() {
         if isCameraMode! {
             imagePicker?.takePicture()
         }
     }
     
-    func setupButtons() {
+    private func setupButtons() {
         // Button Configuration
         addButton.tintColor = Styles.Color.Tertiary
         
@@ -104,22 +108,22 @@ class CameraViewController: UIViewController {
     }
     
     // MARK: Mode switching
-    func enterCameraMode() {
+    private func enterCameraMode() {
         cameraControlView.isHidden = true
         imagePickerView?.isHidden = false
         isEditingMode = false
         isCameraMode = true
-        cameraViewDelegate?.showScrollTitle()
-        cameraViewDelegate?.showTabBar()
+        tabBarViewControllerDelegate?.showScrollTitle()
+        tabBarViewControllerDelegate?.showTabBar()
     }
     
-    func enterEditMode() {
+    fileprivate func enterEditMode() {
         imagePickerView?.isHidden = true
         cameraControlView.isHidden = false
         isCameraMode = false
         isEditingMode = false
-        cameraViewDelegate?.hideScrollTitle()
-        cameraViewDelegate?.hideTabBar()
+        tabBarViewControllerDelegate?.hideScrollTitle()
+        tabBarViewControllerDelegate?.hideTabBar()
     }
     
     @IBAction func onUpload(_ sender: UIButton) {
@@ -142,8 +146,11 @@ class CameraViewController: UIViewController {
         }, completionHandler: { (success, error) in
             let phAssets = PHAsset.fetchAssets(withLocalIdentifiers: [localID], options: nil)
             let imageSize = newImage?.size
-            let scale: CGFloat = Constants.ImageCompressionAndResizingRate.resizingScale
-            let targetSize = CGSize(width: imageSize!.width * scale, height: imageSize!.height * scale)
+            
+            // Why is scaling needed?
+            //let scale: CGFloat = Constants.ImageCompressionAndResizingRate.resizingScale
+            //let targetSize = CGSize(width: imageSize!.width * scale, height: imageSize!.height * scale)
+            let targetSize = imageSize!
             
             let options = PHImageRequestOptions()
             options.isSynchronous = true
@@ -162,7 +169,7 @@ class CameraViewController: UIViewController {
         })
     }
     
-    func removeAllItems() {
+    private func removeAllItems() {
         removeTextfieldFromSubbiew()
         metadata?.removeAll()
         locationButton.changeImageDefault()
@@ -177,15 +184,15 @@ class CameraViewController: UIViewController {
     
     //MARK: - Manging Textfeld methods
     @IBAction func tappedAddTextButton(_ sender: Any) {
-        addTextFieldToView()
+        addNewTextFieldToCameraControlView()
     }
     
     // To store current font size for pinch gesture scaling
-    var currentFontSize: CGFloat?
-    var lastRotation: CGFloat = 0
+    fileprivate var currentFontSize: CGFloat?
+    fileprivate var lastRotation: CGFloat = 0
 
     // To store original center position for panned gesture
-    var originalCenter: CGPoint?
+    fileprivate var originalCenter: CGPoint?
 
 }
 
@@ -193,7 +200,7 @@ class CameraViewController: UIViewController {
 extension CameraViewController: UITextFieldDelegate {
     
     // MARK: Add Text To Image
-    func add(textFields: [UITextField], to image: UIImage) -> UIImage? {
+    fileprivate func add(textFields: [UITextField], to image: UIImage) -> UIImage? {
         
         let scaleScreenToImageWidth = image.size.width / imageView.frame.width
         let scaleScreenToImageHeight = image.size.height / imageView.frame.height
@@ -242,8 +249,8 @@ extension CameraViewController: UITextFieldDelegate {
         return newImage
     }
     
-    // Add a next text field to the screen
-    func addTextFieldToView() {
+    // Add the next text field to the screen
+    fileprivate func addNewTextFieldToCameraControlView() {
         // Create new textfield
         let textField = UITextField()
         textField.delegate = self
@@ -288,7 +295,7 @@ extension CameraViewController: UITextFieldDelegate {
     // MARK: Pinch Text Field
     // http://stackoverflow.com/questions/13669457/ios-scaling-uitextview-with-pinching
     // http://stackoverflow.com/questions/13439797/change-font-size-uitextfield-when-pinch
-    func pinchedTextField(_ sender: UIPinchGestureRecognizer) {
+    @objc private func pinchedTextField(_ sender: UIPinchGestureRecognizer) {
         if let textField = sender.view as? UITextField {
             if sender.state == .began {
                 currentFontSize = textField.font?.pointSize
@@ -302,7 +309,7 @@ extension CameraViewController: UITextFieldDelegate {
     }
     
     // http://www.avocarrot.com/blog/implement-gesture-recognizers-swift/
-    func rotatedTextField(_ sender: UIRotationGestureRecognizer) {
+    @objc private func rotatedTextField(_ sender: UIRotationGestureRecognizer) {
         
         var originalRotation = CGFloat()
         if sender.state == .began {
@@ -329,7 +336,7 @@ extension CameraViewController: UITextFieldDelegate {
     }
     
     // MARK: Removing
-    func removeTextfieldFromSubbiew() {
+    fileprivate func removeTextfieldFromSubbiew() {
         for view in cameraControlView.subviews {
             if let textField = view as? UITextField {
                 textField.removeFromSuperview()
@@ -338,18 +345,18 @@ extension CameraViewController: UITextFieldDelegate {
     }
     
     // On change resize the view
-    func textFieldDidChange(_ sender: UITextField) {
+    @objc private func textFieldDidChange(_ sender: UITextField) {
         sender.sizeToFit()
     }
     
     // On double tap remove the textfield
-    func doubleTappedTextField(_ sender: UITapGestureRecognizer) {
+    @objc private func doubleTappedTextField(_ sender: UITapGestureRecognizer) {
         let textField = sender.view
         textField?.removeFromSuperview()
     }
     
     // On pan move the textfield
-    func pannedTextField(_ sender: UIPanGestureRecognizer) {
+    @objc private func pannedTextField(_ sender: UIPanGestureRecognizer) {
         
         if sender.state == UIGestureRecognizerState.began {
             originalCenter = sender.view!.center
@@ -365,15 +372,15 @@ extension CameraViewController: UITextFieldDelegate {
     }
     
     // Tapped on background: end editing on all textfields
-    func tappedCamerView(_ sender: UITapGestureRecognizer) {
+    @objc fileprivate func tappedBackground(_ sender: UITapGestureRecognizer) {
         cameraControlView.endEditing(true)
     }
     
-    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+    internal func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
         return true
     }
     
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+    internal func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
     }
@@ -382,7 +389,7 @@ extension CameraViewController: UITextFieldDelegate {
 // MARK: image picker
 extension CameraViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
-    func addImagePickerToSubview(timeInterval: TimeInterval?, delegate: (UIImagePickerControllerDelegate & UINavigationControllerDelegate), completion: (() -> Void)?) {
+    fileprivate func addImagePickerToSubview(timeInterval: TimeInterval?, delegate: (UIImagePickerControllerDelegate & UINavigationControllerDelegate), completion: (() -> Void)?) {
         imagePicker = UIImagePickerController()
         imagePicker?.delegate = delegate
         imagePicker?.allowsEditing = false
@@ -408,23 +415,9 @@ extension CameraViewController: UIImagePickerControllerDelegate, UINavigationCon
         imagePickerView = imagePicker?.view
         imagePicker?.view.frame.origin.y = 75
         view.addSubview((imagePicker?.view)!)
-        
-//        imagePickerView?.translatesAutoresizingMaskIntoConstraints = false
-//        self.view.addConstraints([
-//            
-//            NSLayoutConstraint(
-//                item: imagePickerView!,
-//                attribute: NSLayoutAttribute.top,
-//                relatedBy: NSLayoutRelation.equal,
-//                toItem: self.view,
-//                attribute: NSLayoutAttribute.top,
-//                multiplier: 1.0,
-//                constant: 100
-//            )]
-//        )
     }
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+    internal func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         // Delegate to return the chosen image
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
             imageView.image = image
@@ -434,11 +427,11 @@ extension CameraViewController: UIImagePickerControllerDelegate, UINavigationCon
 }
 
 extension CameraViewController: LocationButtonDelegate {
-    func locationButton(yelpDidSelect restaurant: Restaurant) {
+    internal func locationButton(yelpDidSelect restaurant: Restaurant) {
         metadata = restaurant.dictionary
     }
     
-    func locationButton(_ viewControllerToPresent: UIViewController, animated: Bool, completion: (() -> ())?) {
+    internal func locationButton(_ viewControllerToPresent: UIViewController, animated: Bool, completion: (() -> ())?) {
         present(viewControllerToPresent, animated: true, completion: {
         })
     }

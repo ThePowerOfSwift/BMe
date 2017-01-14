@@ -76,7 +76,7 @@ class TabBarViewController: UIViewController {
         cameraNavigationController = UIStoryboard(name: Constants.SegueID.Storyboard.Camera, bundle: nil).instantiateInitialViewController() as! UINavigationController
         cameraViewController = cameraNavigationController.viewControllers.first as! CameraViewController
 
-        cameraViewController.cameraViewDelegate = self
+        cameraViewController.tabBarViewControllerDelegate = self
         
         // Camera page view controller
         cameraPageViewController = UIStoryboard(name: Constants.SegueID.Storyboard.PageView, bundle: nil).instantiateViewController(withIdentifier: Constants.SegueID.ViewController.PageViewController) as! PageViewController
@@ -321,7 +321,7 @@ extension TabBarViewController: PageViewDelegate {
     }
 }
 
-extension TabBarViewController: CameraViewDelegate {
+extension TabBarViewController: TabBarViewControllerDelegate {
     
     func showScrollTitle() {
         titleScrollView.isHidden = false
