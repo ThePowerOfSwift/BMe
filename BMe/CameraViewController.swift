@@ -28,7 +28,7 @@ class CameraViewController: UIViewController {
     //MARK: - Outlets
     @IBOutlet weak var cameraControlView: UIView!
     @IBOutlet weak var addTextButton: UIButton!
-    @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var editImageView: UIImageView!
     @IBOutlet weak var addButton: UIButton!
     @IBOutlet weak var locationButton: LocationButton!
     @IBOutlet weak var uploadButton: UIButton!
@@ -83,14 +83,30 @@ class CameraViewController: UIViewController {
         metadata = ["missing metadata" : "you didn't add metadata for this pic, bitch!" as Optional<AnyObject>]
         
         setupButtons()
-        addImagePickerToSubview(timeInterval: 0.5, delegate: self, completion: nil)
+        //addImagePickerToSubview(timeInterval: 0.5, delegate: self, completion: nil)
+        setupCaptureSession()
+        
         enterCameraMode()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        previewLayer?.frame = cameraView.bounds
+    }
+    
     // Will be called from TabBarViewController
+//    internal func takePicture() {
+//        if isCameraMode! {
+//            imagePicker?.takePicture()
+//        }
+//    }
     internal func takePicture() {
+        
         if isCameraMode! {
-            imagePicker?.takePicture()
+            captureSession?.startRunning()
+            didTakePhoto = true
+            didPressTakePhoto()
+
+            
         }
     }
     
@@ -110,7 +126,8 @@ class CameraViewController: UIViewController {
     // MARK: Mode switching
     private func enterCameraMode() {
         cameraControlView.isHidden = true
-        imagePickerView?.isHidden = false
+        //imagePickerView?.isHidden = false
+        cameraView.isHidden = false
         isEditingMode = false
         isCameraMode = true
         tabBarViewControllerDelegate?.showScrollTitle()
@@ -119,7 +136,8 @@ class CameraViewController: UIViewController {
     
     fileprivate func enterEditMode() {
         imagePickerView?.isHidden = true
-        cameraControlView.isHidden = false
+        //cameraControlView.isHidden = false
+        cameraView.isHidden = true
         isCameraMode = false
         isEditingMode = false
         tabBarViewControllerDelegate?.hideScrollTitle()
@@ -133,9 +151,9 @@ class CameraViewController: UIViewController {
         self.view.addSubview(busy)
         busy.startAnimating()
         
-        var newImage = imageView.image
+        var newImage = editImageView.image
         if textFields.count > 0 {
-            newImage = add(textFields: textFields, to: imageView.image!)
+            newImage = add(textFields: textFields, to: editImageView.image!)
         }
         
         // Resize the image
@@ -173,13 +191,20 @@ class CameraViewController: UIViewController {
         removeTextfieldFromSubbiew()
         metadata?.removeAll()
         locationButton.changeImageDefault()
-        imageView.image = nil
+        editImageView.image = nil
     }
     
     // MARK: Button Actionss
     @IBAction func onCancel(_ sender: UIButton) {
         removeAllItems()
         enterCameraMode()
+        if didTakePhoto {
+            editImageView.isHidden = true
+            didTakePhoto = false
+            
+            
+        }
+
     }
     
     //MARK: - Manging Textfeld methods
@@ -193,6 +218,13 @@ class CameraViewController: UIViewController {
 
     // To store original center position for panned gesture
     fileprivate var originalCenter: CGPoint?
+    
+    // MARK: Properties for AVCapturePhotoOutput
+    var captureSession: AVCaptureSession?
+    var photoOutput: AVCapturePhotoOutput?
+    var previewLayer: AVCaptureVideoPreviewLayer?
+    var didTakePhoto = Bool()
+    @IBOutlet weak var cameraView: UIImageView!
 
 }
 
@@ -202,8 +234,8 @@ extension CameraViewController: UITextFieldDelegate {
     // MARK: Add Text To Image
     fileprivate func add(textFields: [UITextField], to image: UIImage) -> UIImage? {
         
-        let scaleScreenToImageWidth = image.size.width / imageView.frame.width
-        let scaleScreenToImageHeight = image.size.height / imageView.frame.height
+        let scaleScreenToImageWidth = image.size.width / editImageView.frame.width
+        let scaleScreenToImageHeight = image.size.height / editImageView.frame.height
         
         // Configure context
         let scale = UIScreen.main.scale
@@ -420,8 +452,65 @@ extension CameraViewController: UIImagePickerControllerDelegate, UINavigationCon
     internal func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         // Delegate to return the chosen image
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
-            imageView.image = image
+            editImageView.image = image
             enterEditMode()
+        }
+    }
+}
+
+extension CameraViewController: AVCapturePhotoCaptureDelegate {
+    internal func setupCaptureSession() {
+        captureSession = AVCaptureSession()
+        captureSession?.sessionPreset = AVCaptureSessionPreset1920x1080
+        
+        let backCamera = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeVideo)
+        
+        var input: AVCaptureInput?
+        
+        do {
+            try input = AVCaptureDeviceInput(device: backCamera)
+        } catch {
+            print("error")
+        }
+        
+        if input != nil && captureSession!.canAddInput(input) {
+            captureSession?.addInput(input)
+            
+            photoOutput = AVCapturePhotoOutput()
+            
+            if captureSession!.canAddOutput(photoOutput) {
+                captureSession?.addOutput(photoOutput)
+                
+                previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
+                previewLayer?.videoGravity = AVLayerVideoGravityResizeAspect
+                previewLayer?.connection.videoOrientation = AVCaptureVideoOrientation.portrait
+                cameraView.layer.addSublayer(previewLayer!)
+                
+                captureSession?.startRunning()
+                
+            }
+        }
+    }
+    
+    func capture(_ captureOutput: AVCapturePhotoOutput, didFinishProcessingPhotoSampleBuffer photoSampleBuffer: CMSampleBuffer?, previewPhotoSampleBuffer: CMSampleBuffer?, resolvedSettings: AVCaptureResolvedPhotoSettings, bracketSettings: AVCaptureBracketedStillImageSettings?, error: Error?) {
+        
+        let imageData = AVCapturePhotoOutput.jpegPhotoDataRepresentation(forJPEGSampleBuffer: photoSampleBuffer!, previewPhotoSampleBuffer: previewPhotoSampleBuffer)
+        let dataProvider = CGDataProvider(data: imageData as! CFData)
+        let cgImageRef = CGImage(jpegDataProviderSource: dataProvider!, decode: nil, shouldInterpolate: true, intent: CGColorRenderingIntent.defaultIntent)
+        
+        let image = UIImage(cgImage: cgImageRef!, scale: 1.0, orientation: UIImageOrientation.right)
+        self.editImageView.image = image
+        self.editImageView.isHidden = false
+        self.cameraView.isHidden = true
+        enterEditMode()
+    }
+    
+    func didPressTakePhoto() {
+        if let videoConnection = photoOutput?.connection(withMediaType: AVMediaTypeVideo) {
+            videoConnection.videoOrientation = AVCaptureVideoOrientation.portrait
+            let settings = AVCapturePhotoSettings(format: [AVVideoCodecKey : AVVideoCodecJPEG])
+            photoOutput?.capturePhoto(with: settings, delegate: self)
+            
         }
     }
 }
