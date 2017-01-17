@@ -19,6 +19,8 @@ target 'BMe' do
   pod 'MBProgressHUD'
   pod 'FontAwesome.swift'
 
+  pod 'ColorSlider', '~> 3.0'
+
   target 'BMeTests' do
     inherit! :search_paths
     # Pods for testing

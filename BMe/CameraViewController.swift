@@ -11,6 +11,7 @@ import MobileCoreServices
 import AVFoundation
 import FontAwesome_swift
 import Photos
+import ColorSlider
 
 /**
  CameraViewDelegate protocol defines methods to show and hide things in delegate object. 
@@ -34,6 +35,7 @@ class CameraViewController: UIViewController {
     @IBOutlet weak var uploadButton: UIButton!
     
     @IBOutlet weak var cancelButton: UIButton!
+    @IBOutlet weak var colorSliderView: UIView!
     
     // MARK: - Delegate
     var tabBarViewControllerDelegate: TabBarViewControllerDelegate?
@@ -85,7 +87,7 @@ class CameraViewController: UIViewController {
         setupButtons()
         //addImagePickerToSubview(timeInterval: 0.5, delegate: self, completion: nil)
         setupCaptureSession()
-        
+        setupColorSlider()
         enterCameraMode()
     }
     
@@ -117,6 +119,24 @@ class CameraViewController: UIViewController {
 
         locationButton.delegate = self
         cancelButton.tintColor = Styles.Color.Tertiary
+    }
+    
+    private func setupColorSlider() {
+        let colorSlider = ColorSlider()
+        colorSlider.frame = CGRect(x: 0, y: 0, width: colorSliderView.frame.width, height: colorSliderView.frame.height)
+        colorSlider.borderWidth = 2.0
+        colorSlider.borderColor = UIColor.white
+        colorSliderView.addSubview(colorSlider)
+        colorSlider.addTarget(self, action: #selector(changedColor(_:)), for: .valueChanged)
+    }
+    
+    @objc private func changedColor(_ slider: ColorSlider) {
+        let color = slider.color
+        for textField in textFields {
+            if textField.isEditing {
+                textField.textColor = color
+            }
+        }
     }
     
     // MARK: Mode switching
@@ -244,11 +264,10 @@ extension CameraViewController: UITextFieldDelegate {
             
             // Text Attributes
             let textNSString = NSString(string: textField.text!)
-            let textColor = UIColor.white
+            let textColor = textField.textColor
             let fontSize = textField.font?.pointSize
             let textFont = UIFont(name: "Helvetica", size: fontSize! * scaleScreenToImageWidth)!
-            let textFontAttributes = [NSFontAttributeName: textFont,
-                                      NSForegroundColorAttributeName: textColor] as [String : Any]
+            let textFontAttributes = [NSFontAttributeName: textFont, NSForegroundColorAttributeName: textColor]
             
             // Draw text in rect
             let rect = CGRect(origin: textLabelPointInImage, size: image.size)

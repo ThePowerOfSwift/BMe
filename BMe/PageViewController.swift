@@ -16,7 +16,7 @@ protocol PageViewDelegate {
     func setupAlphaAt(index: Int)
 }
 
-class PageViewController: UIPageViewController {
+class PageViewController: UIPageViewController, UIGestureRecognizerDelegate {
     
     var orderedViewControllers: [UIViewController]?
     
@@ -35,6 +35,25 @@ class PageViewController: UIPageViewController {
                                animated: true,
                                completion: nil)
         }
+        
+        // loop over your pageViewController gestures
+        
+        for gesture in gestureRecognizers {
+            // get the good one, i discover there are 2
+            if(gesture is UIPanGestureRecognizer)
+            {
+                // replace delegate by yours (Do not forget to implement the gesture protocol)
+                (gesture as! UIPanGestureRecognizer).delegate = self
+            }
+        }
+
+    }
+    
+    
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool
+    {
+        // add custom logic
+        return true
     }
     
     override func viewWillAppear(_ animated: Bool) {

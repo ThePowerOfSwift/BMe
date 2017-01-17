@@ -81,13 +81,22 @@
                                         </constraints>
                                         <state key="normal" title="Button"/>
                                     </button>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bon-WE-qh9">
+                                        <rect key="frame" x="335" y="74" width="30" height="179.5"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="30" id="O9z-FF-9FG"/>
+                                        </constraints>
+                                    </view>
                                 </subviews>
                                 <constraints>
+                                    <constraint firstItem="8UK-bU-d50" firstAttribute="centerX" secondItem="bon-WE-qh9" secondAttribute="centerX" id="3M4-yw-aES"/>
                                     <constraint firstItem="iDy-FN-Eyx" firstAttribute="centerX" secondItem="mKh-1y-Tmo" secondAttribute="centerX" id="4rW-aY-xx5"/>
+                                    <constraint firstItem="bon-WE-qh9" firstAttribute="top" secondItem="8UK-bU-d50" secondAttribute="bottom" constant="20" id="4yu-0f-cKh"/>
                                     <constraint firstItem="xlN-QO-tNR" firstAttribute="leading" secondItem="fZo-83-kBt" secondAttribute="leading" constant="10" id="AwP-Pj-i1W"/>
                                     <constraint firstItem="8UK-bU-d50" firstAttribute="centerX" secondItem="mKh-1y-Tmo" secondAttribute="centerX" id="B1F-dy-Ryr"/>
                                     <constraint firstAttribute="bottom" secondItem="dz3-xN-PWO" secondAttribute="bottom" id="Dnb-5H-seb"/>
                                     <constraint firstItem="dz3-xN-PWO" firstAttribute="leading" secondItem="fZo-83-kBt" secondAttribute="leading" id="QJa-6k-lXV"/>
+                                    <constraint firstItem="iDy-FN-Eyx" firstAttribute="top" secondItem="bon-WE-qh9" secondAttribute="bottom" id="XaN-8G-XI8"/>
                                     <constraint firstAttribute="trailing" secondItem="dz3-xN-PWO" secondAttribute="trailing" id="jth-4Q-cEz"/>
                                     <constraint firstItem="mKh-1y-Tmo" firstAttribute="top" secondItem="iDy-FN-Eyx" secondAttribute="bottom" constant="15" id="oSi-DC-Ukd"/>
                                     <constraint firstItem="8UK-bU-d50" firstAttribute="centerY" secondItem="xlN-QO-tNR" secondAttribute="centerY" id="pFt-Wf-pzY"/>
@@ -117,6 +126,7 @@
                         <outlet property="cameraControlView" destination="fZo-83-kBt" id="esG-sT-Tyw"/>
                         <outlet property="cameraView" destination="cto-9D-aD4" id="R4C-gB-5YM"/>
                         <outlet property="cancelButton" destination="xlN-QO-tNR" id="Rcu-5B-W9j"/>
+                        <outlet property="colorSliderView" destination="bon-WE-qh9" id="d6d-Uj-UjC"/>
                         <outlet property="editImageView" destination="dz3-xN-PWO" id="j9X-8z-ed5"/>
                         <outlet property="locationButton" destination="iDy-FN-Eyx" id="Rt9-76-ptE"/>
                         <outlet property="uploadButton" destination="8UK-bU-d50" id="e89-cX-jr9"/>
@@ -124,7 +134,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Vyl-ZK-pPK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="724" y="159.67016491754123"/>
+            <point key="canvasLocation" x="724" y="158.77061469265368"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="YzR-vx-M5u">

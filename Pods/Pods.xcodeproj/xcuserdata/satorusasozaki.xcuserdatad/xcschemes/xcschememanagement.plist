@@ -14,6 +14,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>ColorSlider.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>FontAwesome.swift-FontAwesome.swift.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -62,6 +67,11 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>0EED5EB50BC59E2DDD04E0F2D0BFDEAE</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>1FE2578FF0805299395CF2A0206BB671</key>
 		<dict>
 			<key>primary</key>
@@ -77,22 +87,22 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>4B5036DF6A88D37E7EEA6B77C1D3548B</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>5584F59F4192D201B45636454BAB6B17</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>5806010AC7D1D4266C4713118E6E29EF</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>798F6119E4B3CB1FAA394911B7A752C9</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>7D04535608058A2FABC0D16935868FB9</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>ABB83F43E307A391F10B3E7EE3BA4DB7</key>
 		<dict>
 			<key>primary</key>
 			<true/>
