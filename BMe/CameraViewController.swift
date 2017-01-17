@@ -90,23 +90,21 @@ class CameraViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        previewLayer?.frame = cameraView.bounds
+        // cameraView resizes incorrectly for some reason.
+        // At first call, cameraView.bounds is (0.0, 0.0, 375.0, 667.0)
+        // At second call, cameraView.bounds is (0.0, 0.0, 414.0, 736.0)
+        // Use UIScreen.main.bounds instead
+        //previewLayer?.frame = cameraView.bounds
+        previewLayer?.frame = UIScreen.main.bounds
+        print("cameraView.bounds: \(cameraView.bounds)")
     }
     
-    // Will be called from TabBarViewController
-//    internal func takePicture() {
-//        if isCameraMode! {
-//            imagePicker?.takePicture()
-//        }
-//    }
+
     internal func takePicture() {
-        
         if isCameraMode! {
             captureSession?.startRunning()
             didTakePhoto = true
             didPressTakePhoto()
-
-            
         }
     }
     
@@ -125,9 +123,8 @@ class CameraViewController: UIViewController {
     
     // MARK: Mode switching
     private func enterCameraMode() {
-        cameraControlView.isHidden = true
-        //imagePickerView?.isHidden = false
         cameraView.isHidden = false
+        cameraControlView.isHidden = true
         isEditingMode = false
         isCameraMode = true
         tabBarViewControllerDelegate?.showScrollTitle()
@@ -135,9 +132,8 @@ class CameraViewController: UIViewController {
     }
     
     fileprivate func enterEditMode() {
-        imagePickerView?.isHidden = true
-        //cameraControlView.isHidden = false
         cameraView.isHidden = true
+        cameraControlView.isHidden = false
         isCameraMode = false
         isEditingMode = false
         tabBarViewControllerDelegate?.hideScrollTitle()
@@ -199,12 +195,8 @@ class CameraViewController: UIViewController {
         removeAllItems()
         enterCameraMode()
         if didTakePhoto {
-            editImageView.isHidden = true
             didTakePhoto = false
-            
-            
         }
-
     }
     
     //MARK: - Manging Textfeld methods
@@ -421,41 +413,41 @@ extension CameraViewController: UITextFieldDelegate {
 // MARK: image picker
 extension CameraViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
-    fileprivate func addImagePickerToSubview(timeInterval: TimeInterval?, delegate: (UIImagePickerControllerDelegate & UINavigationControllerDelegate), completion: (() -> Void)?) {
-        imagePicker = UIImagePickerController()
-        imagePicker?.delegate = delegate
-        imagePicker?.allowsEditing = false
-        // Set to camera & video record
-        imagePicker?.sourceType = .camera
-        
-        // Capable for video and camera
-        imagePicker?.mediaTypes = [kUTTypeImage as String]
-        
-        // Set maximum video length, if any
-        if let timeInterval = timeInterval {
-            imagePicker?.videoMaximumDuration = timeInterval
-        }
-        
-        imagePicker?.showsCameraControls = false
-        
-        // http://stackoverflow.com/questions/2674375/uiimagepickercontroller-doesnt-fill-screen
-//        let screenSize = UIScreen.main.bounds.size
-//        let cameraAspectRatio: CGFloat = 4.0 / 3.0
-//        let imageWidth = floor(screenSize.width * cameraAspectRatio)
-//        let scale = ceil((screenSize.height) / imageWidth)
-//        imagePicker?.cameraViewTransform = CGAffineTransform(scaleX: scale, y: scale)
-        imagePickerView = imagePicker?.view
-        imagePicker?.view.frame.origin.y = 75
-        view.addSubview((imagePicker?.view)!)
-    }
-    
-    internal func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        // Delegate to return the chosen image
-        if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
-            editImageView.image = image
-            enterEditMode()
-        }
-    }
+//    fileprivate func addImagePickerToSubview(timeInterval: TimeInterval?, delegate: (UIImagePickerControllerDelegate & UINavigationControllerDelegate), completion: (() -> Void)?) {
+//        imagePicker = UIImagePickerController()
+//        imagePicker?.delegate = delegate
+//        imagePicker?.allowsEditing = false
+//        // Set to camera & video record
+//        imagePicker?.sourceType = .camera
+//        
+//        // Capable for video and camera
+//        imagePicker?.mediaTypes = [kUTTypeImage as String]
+//        
+//        // Set maximum video length, if any
+//        if let timeInterval = timeInterval {
+//            imagePicker?.videoMaximumDuration = timeInterval
+//        }
+//        
+//        imagePicker?.showsCameraControls = false
+//        
+//        // http://stackoverflow.com/questions/2674375/uiimagepickercontroller-doesnt-fill-screen
+////        let screenSize = UIScreen.main.bounds.size
+////        let cameraAspectRatio: CGFloat = 4.0 / 3.0
+////        let imageWidth = floor(screenSize.width * cameraAspectRatio)
+////        let scale = ceil((screenSize.height) / imageWidth)
+////        imagePicker?.cameraViewTransform = CGAffineTransform(scaleX: scale, y: scale)
+//        imagePickerView = imagePicker?.view
+//        imagePicker?.view.frame.origin.y = 75
+//        view.addSubview((imagePicker?.view)!)
+//    }
+//    
+//    internal func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+//        // Delegate to return the chosen image
+//        if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
+//            editImageView.image = image
+//            enterEditMode()
+//        }
+//    }
 }
 
 extension CameraViewController: AVCapturePhotoCaptureDelegate {
@@ -500,8 +492,6 @@ extension CameraViewController: AVCapturePhotoCaptureDelegate {
         
         let image = UIImage(cgImage: cgImageRef!, scale: 1.0, orientation: UIImageOrientation.right)
         self.editImageView.image = image
-        self.editImageView.isHidden = false
-        self.cameraView.isHidden = true
         enterEditMode()
     }
     
