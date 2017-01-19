@@ -248,7 +248,7 @@ class CameraViewController: UIViewController {
     var lineWidth: CGFloat = 7.0
     var swiped = false
     var isDrawing = false
-    var hasDrawingBeenAdded = false
+    var isDrawingAdded = false
     var drawingImageView: UIImageView?
     
     @IBAction func onDraw(_ sender: Any) {
@@ -257,12 +257,12 @@ class CameraViewController: UIViewController {
             
             // set isDrawing true
             isDrawing = true
+            isDrawingAdded = true
             
             // setup drawingImageView
             drawingImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: editImageView.frame.width, height: editImageView.frame.height))
             // insert it on editImageView at index of 1
             cameraControlView.insertSubview(drawingImageView!, at: 1)
-            
             if let pageViewController = parent as? PageViewController {
                 pageViewController.disableScrolling()
             }
@@ -279,9 +279,10 @@ class CameraViewController: UIViewController {
     }
     
     // TODO:
-    // in onUpload if hasDrawingBeenAdded then 
+    // in onUpload if isDrawingAdded then
     // integrate drawImageView into editImageView
     // set drawingImageView to nil
+    // set isDrawingAdded to false
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if isDrawing {
@@ -331,6 +332,18 @@ class CameraViewController: UIViewController {
                 lastPoint = currentPoint
                 
             }
+        }
+    }
+    
+    func add(drawing: UIImageView, to image: UIImageView) {
+        if let drawingImageView = drawingImageView {
+            // Merge tempImageView into mainImageView
+            UIGraphicsBeginImageContext(editImageView.frame.size)
+            editImageView.image?.draw(in: CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.height))
+            drawingImageView.image?.draw(in: CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.height))
+            editImageView.image = UIGraphicsGetImageFromCurrentImageContext()
+            UIGraphicsEndImageContext()
+            drawingImageView.image = nil
         }
     }
 
