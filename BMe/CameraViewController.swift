@@ -191,6 +191,7 @@ class CameraViewController: UIViewController {
         
         // Combine all the component: drawings, texts, and the image
         merge()
+        //drawItemsToImage()
         
         // Resize the image
         var localID: String!
@@ -377,6 +378,64 @@ class CameraViewController: UIViewController {
         if textFields.count > 0 {
             add(textFields: textFields, to: editImageView.image!)
         }
+    }
+    
+    
+    // Draw text and image into main image in the same context at the same time
+    // TODO: fix. text won't show up. unnecessary zoom happens
+    func drawItemsToImage() {
+        UIGraphicsBeginImageContext(editImageView.frame.size)
+        
+        // add texts
+        if textFields.count > 0 {
+            let scaleScreenToImageWidth = editImageView.image!.size.width / editImageView.frame.width
+            let scaleScreenToImageHeight = editImageView.image!.size.height / editImageView.frame.height
+            
+            // Configure context
+//            let scale = UIScreen.main.scale
+//            UIGraphicsBeginImageContextWithOptions(editImageView.image!.size, false, scale)
+            editImageView.image!.draw(in: CGRect(origin: CGPoint.zero, size: editImageView.image!.size))
+            
+            for textField in textFields {
+                // Prepare coordinate for text to set it in image
+                let textLabelXInScreen = textField.frame.origin.x
+                let textLabelYInScreen = textField.frame.origin.y
+                
+                // Find where to put text in image
+                let textLabelXInImage = textLabelXInScreen * scaleScreenToImageWidth
+                let textLabelYInImage = textLabelYInScreen * scaleScreenToImageHeight
+                let textLabelPointInImage = CGPoint(x: textLabelXInImage, y: textLabelYInImage)
+                
+                // Text Attributes
+                let textNSString = NSString(string: textField.text!)
+                let textColor = textField.textColor
+                let fontSize = textField.font?.pointSize
+                let textFont = UIFont(name: "Helvetica", size: fontSize! * scaleScreenToImageWidth)!
+                let textFontAttributes = [NSFontAttributeName: textFont, NSForegroundColorAttributeName: textColor]
+                
+                // Draw text in rect
+                let rect = CGRect(origin: textLabelPointInImage, size: editImageView.image!.size)
+                
+                textNSString.draw(in: rect, withAttributes: textFontAttributes)
+            }
+            
+//            editImageView.image = UIGraphicsGetImageFromCurrentImageContext()
+//            UIGraphicsEndImageContext()
+        }
+        
+        // add draw
+        if let drawingImageView = drawingImageView {
+            // Merge tempImageView into mainImageView
+            //UIGraphicsBeginImageContext(editImageView.frame.size)
+            //editImageView.image?.draw(in: CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.height))
+            drawingImageView.image?.draw(in: CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.height))
+//            editImageView.image = UIGraphicsGetImageFromCurrentImageContext()
+//            UIGraphicsEndImageContext()
+            drawingImageView.image = nil
+        }
+        
+        editImageView.image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
     }
 
 }
