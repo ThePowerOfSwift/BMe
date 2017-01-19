@@ -60,6 +60,8 @@ class PageViewController: UIPageViewController, UIGestureRecognizerDelegate {
         pageViewDelegate?.setupAlphaAt(index: currentIndex)
         pageViewDelegate?.scrollTitleTo(index: currentIndex)
     }
+    
+    
 }
 
 extension PageViewController: UIPageViewControllerDelegate, UIPageViewControllerDataSource {
@@ -114,5 +116,25 @@ extension PageViewController: UIPageViewControllerDelegate, UIPageViewController
     
     func pageViewController(_ pageViewController: UIPageViewController, willTransitionTo pendingViewControllers: [UIViewController]) {
 
+    }
+}
+
+// When drawing, scrolling should be off
+extension PageViewController: PageViewControllerDelegate {
+    
+    func disableScrolling() {
+        for view in view.subviews {
+            if let view = view as? UIScrollView {
+                view.isScrollEnabled = false
+            }
+        }
+    }
+    
+    func enableScrolling() {
+        for view in view.subviews {
+            if let view = view as? UIScrollView {
+                view.isScrollEnabled = true
+            }
+        }
     }
 }

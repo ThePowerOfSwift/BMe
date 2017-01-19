@@ -289,7 +289,6 @@
 				78C350461DF232AF005E8331 /* UserProfileViewController.swift */,
 				781E714F1DF4E52A00041855 /* YelpViewController.swift */,
 				E35AC4821DE4D00400FCB0D0 /* TabBarViewController.swift */,
-				E342CF941DF65D1D00AD45D2 /* PageViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -365,6 +364,7 @@
 		78337D8F1DE3AC9300A1B32C /* Sato */ = {
 			isa = PBXGroup;
 			children = (
+				E342CF941DF65D1D00AD45D2 /* PageViewController.swift */,
 				7821C3C31DEF94350023B95E /* CameraViewController.swift */,
 				7821C3C11DEF939A0023B95E /* Camera.storyboard */,
 			);

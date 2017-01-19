@@ -24,6 +24,11 @@ protocol TabBarViewControllerDelegate {
     func showTabBar()
 }
 
+protocol PageViewControllerDelegate {
+    func disableScrolling()
+    func enableScrolling()
+}
+
 class CameraViewController: UIViewController {
     
     //MARK: - Outlets
@@ -258,11 +263,17 @@ class CameraViewController: UIViewController {
             // insert it on editImageView at index of 1
             cameraControlView.insertSubview(drawingImageView!, at: 1)
             
+            if let pageViewController = parent as? PageViewController {
+                pageViewController.disableScrolling()
+            }
+            
         } else {
             // stop drawing
             // set isDrawing true
             isDrawing = false
-            
+            if let pageViewController = parent as? PageViewController {
+                pageViewController.enableScrolling()
+            }
         }
         print(cameraControlView.subviews)
     }
