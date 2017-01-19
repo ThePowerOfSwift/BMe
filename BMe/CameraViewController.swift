@@ -98,7 +98,6 @@ class CameraViewController: UIViewController {
         // Use UIScreen.main.bounds instead
         //previewLayer?.frame = cameraView.bounds
         previewLayer?.frame = UIScreen.main.bounds
-        print("cameraView.bounds: \(cameraView.bounds)")
     }
 
     internal func takePicture() {
@@ -235,6 +234,92 @@ class CameraViewController: UIViewController {
     var previewLayer: AVCaptureVideoPreviewLayer?
     var didTakePhoto = Bool()
     @IBOutlet weak var cameraView: UIImageView!
+    
+    // MARK: Drawing
+    
+    var lastPoint = CGPoint.zero
+    // TODO: Move these to Constants.swift
+    var opacity: CGFloat = 1.0
+    var lineWidth: CGFloat = 7.0
+    var swiped = false
+    var isDrawing = false
+    var hasDrawingBeenAdded = false
+    var drawingImageView: UIImageView?
+    
+    @IBAction func onDraw(_ sender: Any) {
+        if !isDrawing {
+            // start drawing
+            
+            // set isDrawing true
+            isDrawing = true
+            
+            // setup drawingImageView
+            drawingImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: editImageView.frame.width, height: editImageView.frame.height))
+            // insert it on editImageView at index of 1
+            cameraControlView.insertSubview(drawingImageView!, at: 1)
+            
+        } else {
+            // stop drawing
+            // set isDrawing true
+            isDrawing = false
+            
+        }
+        print(cameraControlView.subviews)
+    }
+    
+    // in onUpload if hasDrawingBeenAdded then 
+    // integrate drawImageView into editImageView
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if isDrawing {
+            swiped = false
+            if let touch = touches.first {
+                lastPoint = touch.location(in: view)
+            }
+        }
+    }
+    
+    func drawLine(fromPoint: CGPoint, toPoint: CGPoint) {
+        if isDrawing {
+            // 1
+            UIGraphicsBeginImageContext(view.frame.size)
+            let context = UIGraphicsGetCurrentContext()
+            drawingImageView?.image?.draw(in: CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.height))
+            
+            // 2
+            context?.move(to: fromPoint)
+            context?.addLine(to: toPoint)
+            
+            // 3
+            context?.setLineCap(CGLineCap.round)
+            context?.setLineWidth(lineWidth)
+            context?.setStrokeColor(red: 0, green: 0, blue: 0, alpha: 1.0)
+            context?.setBlendMode(CGBlendMode.normal)
+            
+            // 4
+            context?.strokePath()
+            
+            // 5
+            drawingImageView?.image = UIGraphicsGetImageFromCurrentImageContext()
+            drawingImageView?.alpha = opacity
+            UIGraphicsEndImageContext()
+        }
+    }
+    
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if isDrawing {
+            // 6
+            swiped = true
+            if let touch = touches.first {
+                let currentPoint = touch.location(in: view)
+                drawLine(fromPoint: lastPoint, toPoint: currentPoint)
+                
+                // 7
+                lastPoint = currentPoint
+                
+            }
+        }
+    }
 
 }
 
