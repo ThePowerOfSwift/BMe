@@ -169,24 +169,22 @@ class CameraViewController: UIViewController {
         self.view.addSubview(busy)
         busy.startAnimating()
         
-        var newImage = editImageView.image
-        if textFields.count > 0 {
-            newImage = add(textFields: textFields, to: editImageView.image!)
-        }
+        // Combine all the component: drawings, texts, and the image
+        merge()
         
         // Resize the image
         var localID: String!
         PHPhotoLibrary.shared().performChanges({
-            let creationRequest = PHAssetChangeRequest.creationRequestForAsset(from: newImage!)
+            let creationRequest = PHAssetChangeRequest.creationRequestForAsset(from: self.editImageView.image!)
             localID = (creationRequest.placeholderForCreatedAsset?.localIdentifier)!
         }, completionHandler: { (success, error) in
             let phAssets = PHAsset.fetchAssets(withLocalIdentifiers: [localID], options: nil)
-            let imageSize = newImage?.size
+            let imageSize = self.editImageView.image!.size
             
             // Why is scaling needed?
             //let scale: CGFloat = Constants.ImageCompressionAndResizingRate.resizingScale
             //let targetSize = CGSize(width: imageSize!.width * scale, height: imageSize!.height * scale)
-            let targetSize = imageSize!
+            let targetSize = imageSize
             
             let options = PHImageRequestOptions()
             options.isSynchronous = true
@@ -346,6 +344,16 @@ class CameraViewController: UIViewController {
             drawingImageView.image = nil
         }
     }
+    
+    func merge() {
+        if isDrawingAdded {
+            add(drawing: drawingImageView!, to: editImageView)
+        }
+        
+        if textFields.count > 0 {
+            add(textFields: textFields, to: editImageView.image!)
+        }
+    }
 
 }
 
@@ -353,7 +361,7 @@ class CameraViewController: UIViewController {
 extension CameraViewController: UITextFieldDelegate {
     
     // MARK: Add Text To Image
-    fileprivate func add(textFields: [UITextField], to image: UIImage) -> UIImage? {
+    fileprivate func add(textFields: [UITextField], to image: UIImage) {
         
         let scaleScreenToImageWidth = image.size.width / editImageView.frame.width
         let scaleScreenToImageHeight = image.size.height / editImageView.frame.height
@@ -384,10 +392,9 @@ extension CameraViewController: UITextFieldDelegate {
             let rect = CGRect(origin: textLabelPointInImage, size: image.size)
             
             textNSString.draw(in: rect, withAttributes: textFontAttributes)
-            
         }
         
-        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        editImageView.image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
         // To test
@@ -398,7 +405,6 @@ extension CameraViewController: UITextFieldDelegate {
 //        testVC.view.addSubview(testImageView)
 //        present(testVC, animated: true, completion: nil)
         
-        return newImage
     }
     
     // Add the next text field to the screen
