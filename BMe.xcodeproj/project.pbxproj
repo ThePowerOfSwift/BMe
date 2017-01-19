@@ -304,7 +304,6 @@
 				78C350441DF2260A005E8331 /* Account.storyboard */,
 				781E714B1DF486A900041855 /* Yelp.storyboard */,
 				E35AC4861DE4D0F500FCB0D0 /* TabBar.storyboard */,
-				7821C3C11DEF939A0023B95E /* Camera.storyboard */,
 				E313E1351DF8B60100F79B8F /* PageView.storyboard */,
 			);
 			name = Storyboards;
@@ -367,6 +366,7 @@
 		78337D8F1DE3AC9300A1B32C /* Sato */ = {
 			isa = PBXGroup;
 			children = (
+				7821C3C11DEF939A0023B95E /* Camera.storyboard */,
 			);
 			name = Sato;
 			sourceTree = "<group>";

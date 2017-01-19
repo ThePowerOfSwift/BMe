@@ -330,6 +330,8 @@ extension CameraViewController: UITextFieldDelegate {
         textField.center = cameraControlView.center
         textField.keyboardType = UIKeyboardType.default
         cameraControlView.addSubview(textField)
+        cameraControlView.insertSubview(textField, at: view.subviews.count)
+        
         textField.becomeFirstResponder()
     }
     
