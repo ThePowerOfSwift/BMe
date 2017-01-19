@@ -41,6 +41,8 @@ class CameraViewController: UIViewController {
     
     @IBOutlet weak var cancelButton: UIButton!
     @IBOutlet weak var colorSliderView: UIView!
+    @IBOutlet weak var colorIndicatorView: UIView!
+    
     
     // MARK: - Delegate
     var tabBarViewControllerDelegate: TabBarViewControllerDelegate?
@@ -96,6 +98,7 @@ class CameraViewController: UIViewController {
         //addImagePickerToSubview(timeInterval: 0.5, delegate: self, completion: nil)
         setupCaptureSession()
         setupColorSlider()
+        setupColorIndicatorView()
         enterCameraMode()
     }
     
@@ -130,14 +133,23 @@ class CameraViewController: UIViewController {
     
     private func setupColorSlider() {
         colorSlider = ColorSlider()
-        colorSlider!.frame = CGRect(x: 0, y: 0, width: colorSliderView.frame.width, height: colorSliderView.frame.height)
+        colorSlider!.frame = CGRect(x: 0, y: 0, width: colorSliderView.frame.width, height: colorSliderView.frame.height+20)
         colorSlider!.borderWidth = 2.0
         colorSlider!.borderColor = UIColor.white
         colorSliderView.addSubview(colorSlider!)
         colorSlider!.addTarget(self, action: #selector(changedColor(_:)), for: .valueChanged)
     }
     
+    private func setupColorIndicatorView() {
+        colorIndicatorView.backgroundColor = colorSlider?.color
+        colorIndicatorView.layer.cornerRadius = 5
+        colorIndicatorView.layer.masksToBounds = true
+        colorIndicatorView.layer.borderColor = UIColor.white.cgColor
+        colorIndicatorView.layer.borderWidth = 2.0
+    }
+    
     @objc private func changedColor(_ slider: ColorSlider) {
+        
         let color = slider.color
         if isEditing {
             for textField in textFields {
@@ -146,11 +158,9 @@ class CameraViewController: UIViewController {
                 }
             }
         }
-        if isDrawing {
-            if let context = context {
-                context.setFillColor(color.cgColor)
-            }
-        }
+        
+        colorIndicatorView.backgroundColor = slider.color
+        
     }
     
     // MARK: Mode switching
@@ -316,7 +326,6 @@ class CameraViewController: UIViewController {
             // 3
             context?.setLineCap(CGLineCap.round)
             context?.setLineWidth(lineWidth)
-            //context?.setStrokeColor(red: 0, green: 0, blue: 0, alpha: 1.0)
             context?.setStrokeColor(colorSlider!.color.cgColor)
             context?.setBlendMode(CGBlendMode.normal)
             
