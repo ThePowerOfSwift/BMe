@@ -267,8 +267,10 @@ class CameraViewController: UIViewController {
         print(cameraControlView.subviews)
     }
     
+    // TODO:
     // in onUpload if hasDrawingBeenAdded then 
     // integrate drawImageView into editImageView
+    // set drawingImageView to nil
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if isDrawing {
