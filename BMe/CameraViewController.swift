@@ -136,9 +136,16 @@ class CameraViewController: UIViewController {
     
     @objc private func changedColor(_ slider: ColorSlider) {
         let color = slider.color
-        for textField in textFields {
-            if textField.isEditing {
-                textField.textColor = color
+        if isEditing {
+            for textField in textFields {
+                if textField.isEditing {
+                    textField.textColor = color
+                }
+            }
+        }
+        if isDrawing {
+            if let context = context {
+                context.setFillColor(color.cgColor)
             }
         }
     }
@@ -244,6 +251,7 @@ class CameraViewController: UIViewController {
     // TODO: Move these to Constants.swift
     var opacity: CGFloat = 1.0
     var lineWidth: CGFloat = 7.0
+    var context: CGContext?
     var swiped = false
     var isDrawing = false
     var isDrawingAdded = false
@@ -295,7 +303,7 @@ class CameraViewController: UIViewController {
         if isDrawing {
             // 1
             UIGraphicsBeginImageContext(view.frame.size)
-            let context = UIGraphicsGetCurrentContext()
+            context = UIGraphicsGetCurrentContext()
             drawingImageView?.image?.draw(in: CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.height))
             
             // 2
@@ -333,6 +341,7 @@ class CameraViewController: UIViewController {
         }
     }
     
+    
     func add(drawing: UIImageView, to image: UIImageView) {
         if let drawingImageView = drawingImageView {
             // Merge tempImageView into mainImageView
@@ -345,6 +354,8 @@ class CameraViewController: UIViewController {
         }
     }
     
+    
+    // Draw text and drawing into image
     func merge() {
         if isDrawingAdded {
             add(drawing: drawingImageView!, to: editImageView)
