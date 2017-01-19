@@ -299,10 +299,9 @@ class CameraViewController: UIViewController {
     }
     
     // TODO:
-    // in onUpload if isDrawingAdded then
-    // integrate drawImageView into editImageView
-    // set drawingImageView to nil
-    // set isDrawingAdded to false
+    // Fix bad quality
+    // put properties into the same place (at the top of the file)
+    // put constants into Constants.swift
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if isDrawing {
