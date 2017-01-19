@@ -71,6 +71,9 @@ class CameraViewController: UIViewController {
     fileprivate var imagePicker: UIImagePickerController?
     fileprivate var imagePickerView: UIView?
     
+    // Color slider on the right
+    fileprivate var colorSlider: ColorSlider?
+    
     // Detect current mode
     fileprivate var isCameraMode: Bool?
     fileprivate var isEditingMode: Bool?
@@ -126,12 +129,12 @@ class CameraViewController: UIViewController {
     }
     
     private func setupColorSlider() {
-        let colorSlider = ColorSlider()
-        colorSlider.frame = CGRect(x: 0, y: 0, width: colorSliderView.frame.width, height: colorSliderView.frame.height)
-        colorSlider.borderWidth = 2.0
-        colorSlider.borderColor = UIColor.white
-        colorSliderView.addSubview(colorSlider)
-        colorSlider.addTarget(self, action: #selector(changedColor(_:)), for: .valueChanged)
+        colorSlider = ColorSlider()
+        colorSlider!.frame = CGRect(x: 0, y: 0, width: colorSliderView.frame.width, height: colorSliderView.frame.height)
+        colorSlider!.borderWidth = 2.0
+        colorSlider!.borderColor = UIColor.white
+        colorSliderView.addSubview(colorSlider!)
+        colorSlider!.addTarget(self, action: #selector(changedColor(_:)), for: .valueChanged)
     }
     
     @objc private func changedColor(_ slider: ColorSlider) {
@@ -313,7 +316,8 @@ class CameraViewController: UIViewController {
             // 3
             context?.setLineCap(CGLineCap.round)
             context?.setLineWidth(lineWidth)
-            context?.setStrokeColor(red: 0, green: 0, blue: 0, alpha: 1.0)
+            //context?.setStrokeColor(red: 0, green: 0, blue: 0, alpha: 1.0)
+            context?.setStrokeColor(colorSlider!.color.cgColor)
             context?.setBlendMode(CGBlendMode.normal)
             
             // 4
