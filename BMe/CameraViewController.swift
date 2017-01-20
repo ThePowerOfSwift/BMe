@@ -31,29 +31,38 @@ protocol PageViewControllerDelegate {
     func enableScrolling()
 }
 
+/**
+ CameraViewController class is in charge of taking photos, 
+ editing photos by adding text and drawing, adding locations, uploading
+*/
 class CameraViewController: UIViewController {
     
     //MARK: - Outlets
-    @IBOutlet weak var cameraControlView: UIView!
+    // Views
+    @IBOutlet weak var photoEditView: UIView!   // view which all the buttons are the subview of
+    @IBOutlet weak var mainImageView: UIImageView!  // image view taken by the camera. text and drawings is rendered into this image view
+    @IBOutlet weak var cameraView: UIImageView!     // view where camera exists
+    
+    // Buttons
     @IBOutlet weak var addTextButton: UIButton!
-    @IBOutlet weak var editImageView: UIImageView!
     @IBOutlet weak var addButton: UIButton!
     @IBOutlet weak var locationButton: LocationButton!
     @IBOutlet weak var uploadButton: UIButton!
-    
     @IBOutlet weak var cancelButton: UIButton!
+    
+    // To change the color of text and drawing
     @IBOutlet weak var colorSliderView: UIView!
-    @IBOutlet weak var colorIndicatorView: UIView!
-    
-    
+    @IBOutlet weak var colorIndicatorView: UIView!  // Indicates the selected color
+
     // MARK: - Delegate
     var tabBarViewControllerDelegate: TabBarViewControllerDelegate?
     
-    //MARK:- Model
+    //MARK:- Properties
+    // Computed property that has all the text fields added in camera control view
     fileprivate var textFields: [UITextField] {
         get {
             var textFields: [UITextField] = []
-            for view in cameraControlView.subviews {
+            for view in photoEditView.subviews {
                 //grab textfields
                 if let textField = view as? UITextField {
                     textFields.append(textField)
@@ -61,29 +70,41 @@ class CameraViewController: UIViewController {
             }
             return textFields
         }
-        
-        set {
-            // Empty set is needed to remove all items
-        }
     }
     
-    //MARK:- Variables
-    fileprivate var chosenImage: UIImage?
-    fileprivate var renderedImage: UIImage?
-    fileprivate var metadata: [String: AnyObject?]?
+    fileprivate var metadata: [String: AnyObject?]? // meta data for the picture
     
+    // Image pickers are not currently in use because AVCaptureSession is in use for full screen view
     fileprivate var imagePicker: UIImagePickerController?
     fileprivate var imagePickerView: UIView?
     
-    // Color slider on the right
-    fileprivate var colorSlider: ColorSlider?
+    fileprivate var colorSlider: ColorSlider?   // Color slider to change color
     
     // Detect current mode
     fileprivate var isCameraMode: Bool?
     fileprivate var isEditingMode: Bool?
     
-    // Title
-    fileprivate var titleLabel: UILabel?
+    // To store current font size for pinch gesture scaling
+    fileprivate var currentFontSize: CGFloat?
+    fileprivate var lastRotation: CGFloat = 0
+    
+    // To store original center position for panned gesture
+    fileprivate var originalCenter: CGPoint?
+    
+    // AVCapturePhotoOutput
+    var captureSession: AVCaptureSession?
+    var photoOutput: AVCapturePhotoOutput?
+    var previewLayer: AVCaptureVideoPreviewLayer?
+    
+    // Drawing
+    // https://www.raywenderlich.com/87899/make-simple-drawing-app-uikit-swift
+    var lastPoint = CGPoint.zero
+    // TODO: Move these to Constants.swift
+    var lineWidth: CGFloat = 7.0
+    //var context: CGContext?
+    var isDrawing = false
+    var isDrawingAdded = false
+    var drawingImageView: UIImageView?
     
     //MARK: - Lifecycle
     override func viewDidLoad() {
@@ -91,13 +112,11 @@ class CameraViewController: UIViewController {
         
         // Do any additional setup after loading the view.
         let tap = UITapGestureRecognizer(target: self, action: #selector(tappedBackground(_:)))
-        cameraControlView.addGestureRecognizer(tap)
+        photoEditView.addGestureRecognizer(tap)
         
-        //TODO: - haha
-        metadata = ["missing metadata" : "you didn't add metadata for this pic, bitch!" as Optional<AnyObject>]
+        metadata = ["missing metadata" : "you didn't add metadata for this picture" as Optional<AnyObject>]
         
         setupButtons()
-        //addImagePickerToSubview(timeInterval: 0.5, delegate: self, completion: nil)
         setupCaptureSession()
         setupColorSlider()
         setupColorIndicatorView()
@@ -111,14 +130,6 @@ class CameraViewController: UIViewController {
         // Use UIScreen.main.bounds instead
         //previewLayer?.frame = cameraView.bounds
         previewLayer?.frame = UIScreen.main.bounds
-    }
-
-    internal func takePicture() {
-        if isCameraMode! {
-            captureSession?.startRunning()
-            didTakePhoto = true
-            didPressTakePhoto()
-        }
     }
     
     private func setupButtons() {
@@ -168,7 +179,8 @@ class CameraViewController: UIViewController {
     // MARK: Mode switching
     private func enterCameraMode() {
         cameraView.isHidden = false
-        cameraControlView.isHidden = true
+        photoEditView.isHidden = true
+        captureSession?.startRunning()
         isEditingMode = false
         isCameraMode = true
         tabBarViewControllerDelegate?.showScrollTitle()
@@ -177,7 +189,8 @@ class CameraViewController: UIViewController {
     
     fileprivate func enterEditMode() {
         cameraView.isHidden = true
-        cameraControlView.isHidden = false
+        photoEditView.isHidden = false
+        captureSession?.stopRunning()
         isCameraMode = false
         isEditingMode = false
         tabBarViewControllerDelegate?.hideScrollTitle()
@@ -198,11 +211,11 @@ class CameraViewController: UIViewController {
         // Resize the image
         var localID: String!
         PHPhotoLibrary.shared().performChanges({
-            let creationRequest = PHAssetChangeRequest.creationRequestForAsset(from: self.editImageView.image!)
+            let creationRequest = PHAssetChangeRequest.creationRequestForAsset(from: self.mainImageView.image!)
             localID = (creationRequest.placeholderForCreatedAsset?.localIdentifier)!
         }, completionHandler: { (success, error) in
             let phAssets = PHAsset.fetchAssets(withLocalIdentifiers: [localID], options: nil)
-            let imageSize = self.editImageView.image!.size
+            let imageSize = self.mainImageView.image!.size
             
             // Why is scaling needed?
             //let scale: CGFloat = Constants.ImageCompressionAndResizingRate.resizingScale
@@ -230,62 +243,34 @@ class CameraViewController: UIViewController {
         removeTextfieldFromSubbiew()
         metadata?.removeAll()
         locationButton.changeImageDefault()
-        editImageView.image = nil
+        mainImageView.image = nil
     }
     
     // MARK: Button Actionss
     @IBAction func onCancel(_ sender: UIButton) {
         removeAllItems()
         enterCameraMode()
-        if didTakePhoto {
-            didTakePhoto = false
-        }
     }
     
     //MARK: - Manging Textfeld methods
     @IBAction func tappedAddTextButton(_ sender: Any) {
         addNewTextFieldToCameraControlView()
     }
-    
-    // To store current font size for pinch gesture scaling
-    fileprivate var currentFontSize: CGFloat?
-    fileprivate var lastRotation: CGFloat = 0
 
-    // To store original center position for panned gesture
-    fileprivate var originalCenter: CGPoint?
-    
-    // MARK: Properties for AVCapturePhotoOutput
-    var captureSession: AVCaptureSession?
-    var photoOutput: AVCapturePhotoOutput?
-    var previewLayer: AVCaptureVideoPreviewLayer?
-    var didTakePhoto = Bool()
-    @IBOutlet weak var cameraView: UIImageView!
-    
     // MARK: Drawing
-    // https://www.raywenderlich.com/87899/make-simple-drawing-app-uikit-swift
     
-    var lastPoint = CGPoint.zero
-    // TODO: Move these to Constants.swift
-    var opacity: CGFloat = 1.0
-    var lineWidth: CGFloat = 7.0
-    //var context: CGContext?
-    var swiped = false
-    var isDrawing = false
-    var isDrawingAdded = false
-    var drawingImageView: UIImageView?
-    
+    // Draw button clicked
     @IBAction func onDraw(_ sender: Any) {
         if !isDrawing {
             // start drawing
-            
             // set isDrawing true
             isDrawing = true
             isDrawingAdded = true
             
             // setup drawingImageView
-            drawingImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: editImageView.frame.width, height: editImageView.frame.height))
+            drawingImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: mainImageView.frame.width, height: mainImageView.frame.height))
             // insert it on editImageView at index of 1
-            cameraControlView.insertSubview(drawingImageView!, at: 1)
+            photoEditView.insertSubview(drawingImageView!, at: 1)
             if let pageViewController = parent as? PageViewController {
                 pageViewController.disableScrolling()
             }
@@ -298,7 +283,7 @@ class CameraViewController: UIViewController {
                 pageViewController.enableScrolling()
             }
         }
-        print(cameraControlView.subviews)
+        print(photoEditView.subviews)
     }
     
     // TODO:
@@ -308,72 +293,51 @@ class CameraViewController: UIViewController {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if isDrawing {
-            swiped = false
             if let touch = touches.first {
                 lastPoint = touch.location(in: view)
             }
         }
     }
-    
-    func drawLine(fromPoint: CGPoint, toPoint: CGPoint) {
+    /**
+     Draw a line from a point to another point on an image view. This method is called everytime touchesMoved is called
+     */
+    private func drawLine(fromPoint: CGPoint, toPoint: CGPoint) {
         if isDrawing {
-//            // 1
-//            UIGraphicsBeginImageContext(view.frame.size)
-//            context = UIGraphicsGetCurrentContext()
-//            drawingImageView?.image?.draw(in: CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.height))
-//            
-//            // 2
-//            context?.move(to: fromPoint)
-//            context?.addLine(to: toPoint)
-//            
-//            // 3
-//            context?.setLineCap(CGLineCap.round)
-//            context?.setLineWidth(lineWidth)
-//            context?.setStrokeColor(colorSlider!.color.cgColor)
-//            context?.setBlendMode(CGBlendMode.normal)
-//            
-//            // 4
-//            context?.strokePath()
-//            
-//            // 5
-//            drawingImageView?.image = UIGraphicsGetImageFromCurrentImageContext()
-//            drawingImageView?.alpha = opacity
-//            UIGraphicsEndImageContext()
-            // 1
-            UIGraphicsBeginImageContext(view.frame.size)
+            // 1 Start a context with the size of drawingImageView
+            UIGraphicsBeginImageContext(drawingImageView!.frame.size)
             if let context = UIGraphicsGetCurrentContext() {
                 drawingImageView?.image?.draw(in: CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.height))
                 
-                // 2
+                // 2 Add a line segment from lastPoint to currentPoint.
                 context.move(to: fromPoint)
                 context.addLine(to: toPoint)
                 
-                // 3
+                // 3 Setup some preferences
                 context.setLineCap(CGLineCap.round)
                 context.setLineWidth(lineWidth)
                 context.setStrokeColor(colorSlider!.color.cgColor)
                 context.setBlendMode(CGBlendMode.normal)
                 
-                // 4
+                // 4 Draw the path
                 context.strokePath()
                 
-                // 5
+                // 5 Apply the path to drawingImageView
                 drawingImageView?.image = UIGraphicsGetImageFromCurrentImageContext()
-                drawingImageView?.alpha = opacity
             }
             UIGraphicsEndImageContext()
         }
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        // if drawing mode is on
         if isDrawing {
-            // 6
-            swiped = true
             if let touch = touches.first {
                 let currentPoint = touch.location(in: view)
+                
+                // 6 Pass last point and current point into drawLine
                 drawLine(fromPoint: lastPoint, toPoint: currentPoint)
                 
-                // 7
+                // 7 Assign the current point to last point
                 lastPoint = currentPoint
                 
             }
@@ -381,45 +345,51 @@ class CameraViewController: UIViewController {
     }
     
     
-    func add(drawing: UIImageView, to image: UIImageView) {
+    /**
+     Render drawn image view into picture image view
+    */
+    private func add(drawing: UIImageView, to image: UIImageView) {
         if let drawingImageView = drawingImageView {
             // Merge tempImageView into mainImageView
-            UIGraphicsBeginImageContext(editImageView.frame.size)
-            editImageView.image?.draw(in: CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.height))
+            UIGraphicsBeginImageContext(mainImageView.frame.size)
+            mainImageView.image?.draw(in: CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.height))
             drawingImageView.image?.draw(in: CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.height))
-            editImageView.image = UIGraphicsGetImageFromCurrentImageContext()
+            mainImageView.image = UIGraphicsGetImageFromCurrentImageContext()
             UIGraphicsEndImageContext()
             drawingImageView.image = nil
         }
     }
     
     
-    // Draw text and drawing into image
-    func merge() {
+    /**
+     Draw text and drawing into image
+    */
+    private func merge() {
         if isDrawingAdded {
-            add(drawing: drawingImageView!, to: editImageView)
+            add(drawing: drawingImageView!, to: mainImageView)
         }
         
         if textFields.count > 0 {
-            add(textFields: textFields, to: editImageView.image!)
+            add(textFields: textFields, to: mainImageView.image!)
         }
     }
     
     
-    // Draw text and image into main image in the same context at the same time
+    /**
+     Draw text and image into main image in the same context at the same time
+    */
     // TODO: fix. text won't show up. unnecessary zoom happens
-    func drawItemsToImage() {
-        UIGraphicsBeginImageContext(editImageView.frame.size)
+    private func drawItemsToImage() {
+        
+        // Begin context
+        UIGraphicsBeginImageContext(mainImageView.frame.size)
         
         // add texts
         if textFields.count > 0 {
-            let scaleScreenToImageWidth = editImageView.image!.size.width / editImageView.frame.width
-            let scaleScreenToImageHeight = editImageView.image!.size.height / editImageView.frame.height
+            let scaleScreenToImageWidth = mainImageView.image!.size.width / mainImageView.frame.width
+            let scaleScreenToImageHeight = mainImageView.image!.size.height / mainImageView.frame.height
             
-            // Configure context
-//            let scale = UIScreen.main.scale
-//            UIGraphicsBeginImageContextWithOptions(editImageView.image!.size, false, scale)
-            editImageView.image!.draw(in: CGRect(origin: CGPoint.zero, size: editImageView.image!.size))
+            mainImageView.image!.draw(in: CGRect(origin: CGPoint.zero, size: mainImageView.image!.size))
             
             for textField in textFields {
                 // Prepare coordinate for text to set it in image
@@ -439,27 +409,20 @@ class CameraViewController: UIViewController {
                 let textFontAttributes = [NSFontAttributeName: textFont, NSForegroundColorAttributeName: textColor]
                 
                 // Draw text in rect
-                let rect = CGRect(origin: textLabelPointInImage, size: editImageView.image!.size)
+                let rect = CGRect(origin: textLabelPointInImage, size: mainImageView.image!.size)
                 
                 textNSString.draw(in: rect, withAttributes: textFontAttributes)
             }
-            
-//            editImageView.image = UIGraphicsGetImageFromCurrentImageContext()
-//            UIGraphicsEndImageContext()
         }
         
-        // add draw
+        // add drawings
         if let drawingImageView = drawingImageView {
-            // Merge tempImageView into mainImageView
-            //UIGraphicsBeginImageContext(editImageView.frame.size)
-            //editImageView.image?.draw(in: CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.height))
             drawingImageView.image?.draw(in: CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.height))
-//            editImageView.image = UIGraphicsGetImageFromCurrentImageContext()
-//            UIGraphicsEndImageContext()
             drawingImageView.image = nil
         }
         
-        editImageView.image = UIGraphicsGetImageFromCurrentImageContext()
+        // Get the final result and end the context
+        mainImageView.image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
     }
 
@@ -471,8 +434,8 @@ extension CameraViewController: UITextFieldDelegate {
     // MARK: Add Text To Image
     fileprivate func add(textFields: [UITextField], to image: UIImage) {
         
-        let scaleScreenToImageWidth = image.size.width / editImageView.frame.width
-        let scaleScreenToImageHeight = image.size.height / editImageView.frame.height
+        let scaleScreenToImageWidth = image.size.width / mainImageView.frame.width
+        let scaleScreenToImageHeight = image.size.height / mainImageView.frame.height
         
         // Configure context
         let scale = UIScreen.main.scale
@@ -502,16 +465,8 @@ extension CameraViewController: UITextFieldDelegate {
             textNSString.draw(in: rect, withAttributes: textFontAttributes)
         }
         
-        editImageView.image = UIGraphicsGetImageFromCurrentImageContext()
+        mainImageView.image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
-        
-        // To test
-//        let testVC = UIViewController()
-//        let testImageView = UIImageView(image: newImage)
-//        testImageView.frame = UIScreen.main.bounds
-//        testImageView.contentMode = UIViewContentMode.scaleAspectFit
-//        testVC.view.addSubview(testImageView)
-//        present(testVC, animated: true, completion: nil)
         
     }
     
@@ -552,17 +507,16 @@ extension CameraViewController: UITextFieldDelegate {
         textField.sizeToFit()
         
         // Add textField to cameraControlView
-        textField.center = cameraControlView.center
+        textField.center = photoEditView.center
         textField.keyboardType = UIKeyboardType.default
-        cameraControlView.addSubview(textField)
-        cameraControlView.insertSubview(textField, at: view.subviews.count)
+        photoEditView.addSubview(textField)
+        photoEditView.insertSubview(textField, at: view.subviews.count)
         
         textField.becomeFirstResponder()
     }
     
-    // MARK: Pinch Text Field
+    // MARK: Gestures
     // http://stackoverflow.com/questions/13669457/ios-scaling-uitextview-with-pinching
-    // http://stackoverflow.com/questions/13439797/change-font-size-uitextfield-when-pinch
     @objc private func pinchedTextField(_ sender: UIPinchGestureRecognizer) {
         if let textField = sender.view as? UITextField {
             if sender.state == .began {
@@ -603,20 +557,6 @@ extension CameraViewController: UITextFieldDelegate {
         }
     }
     
-    // MARK: Removing
-    fileprivate func removeTextfieldFromSubbiew() {
-        for view in cameraControlView.subviews {
-            if let textField = view as? UITextField {
-                textField.removeFromSuperview()
-            }
-        }
-    }
-    
-    // On change resize the view
-    @objc private func textFieldDidChange(_ sender: UITextField) {
-        sender.sizeToFit()
-    }
-    
     // On double tap remove the textfield
     @objc private func doubleTappedTextField(_ sender: UITapGestureRecognizer) {
         let textField = sender.view
@@ -629,23 +569,33 @@ extension CameraViewController: UITextFieldDelegate {
         if sender.state == UIGestureRecognizerState.began {
             originalCenter = sender.view!.center
         } else if sender.state == UIGestureRecognizerState.changed {
-
-            let translation = sender.translation(in: cameraControlView)
+            
+            let translation = sender.translation(in: photoEditView)
             sender.view?.center = CGPoint(x: originalCenter!.x + translation.x , y: originalCenter!.y + translation.y)
-
+            
         } else if sender.state == UIGestureRecognizerState.ended {
             
         }
-            
+        
     }
     
     // Tapped on background: end editing on all textfields
     @objc fileprivate func tappedBackground(_ sender: UITapGestureRecognizer) {
-        cameraControlView.endEditing(true)
+        photoEditView.endEditing(true)
     }
     
-    internal func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
-        return true
+    fileprivate func removeTextfieldFromSubbiew() {
+        for view in photoEditView.subviews {
+            if let textField = view as? UITextField {
+                textField.removeFromSuperview()
+            }
+        }
+    }
+    
+    // MARK: Delegate methods
+    // On change resize the view
+    @objc private func textFieldDidChange(_ sender: UITextField) {
+        sender.sizeToFit()
     }
     
     internal func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -654,48 +604,54 @@ extension CameraViewController: UITextFieldDelegate {
     }
 }
 
-// MARK: image picker
+// MARK: image picker (Not being used. Instead AVCaptureSession is used for full screen)
 extension CameraViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
-//    fileprivate func addImagePickerToSubview(timeInterval: TimeInterval?, delegate: (UIImagePickerControllerDelegate & UINavigationControllerDelegate), completion: (() -> Void)?) {
-//        imagePicker = UIImagePickerController()
-//        imagePicker?.delegate = delegate
-//        imagePicker?.allowsEditing = false
-//        // Set to camera & video record
-//        imagePicker?.sourceType = .camera
-//        
-//        // Capable for video and camera
-//        imagePicker?.mediaTypes = [kUTTypeImage as String]
-//        
-//        // Set maximum video length, if any
-//        if let timeInterval = timeInterval {
-//            imagePicker?.videoMaximumDuration = timeInterval
-//        }
-//        
-//        imagePicker?.showsCameraControls = false
-//        
-//        // http://stackoverflow.com/questions/2674375/uiimagepickercontroller-doesnt-fill-screen
-////        let screenSize = UIScreen.main.bounds.size
-////        let cameraAspectRatio: CGFloat = 4.0 / 3.0
-////        let imageWidth = floor(screenSize.width * cameraAspectRatio)
-////        let scale = ceil((screenSize.height) / imageWidth)
-////        imagePicker?.cameraViewTransform = CGAffineTransform(scaleX: scale, y: scale)
-//        imagePickerView = imagePicker?.view
-//        imagePicker?.view.frame.origin.y = 75
-//        view.addSubview((imagePicker?.view)!)
-//    }
-//    
-//    internal func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-//        // Delegate to return the chosen image
-//        if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
-//            editImageView.image = image
-//            enterEditMode()
-//        }
-//    }
+    fileprivate func addImagePickerToSubview(timeInterval: TimeInterval?, delegate: (UIImagePickerControllerDelegate & UINavigationControllerDelegate), completion: (() -> Void)?) {
+        imagePicker = UIImagePickerController()
+        imagePicker?.delegate = delegate
+        imagePicker?.allowsEditing = false
+        // Set to camera & video record
+        imagePicker?.sourceType = .camera
+        
+        // Capable for video and camera
+        imagePicker?.mediaTypes = [kUTTypeImage as String]
+        
+        // Set maximum video length, if any
+        if let timeInterval = timeInterval {
+            imagePicker?.videoMaximumDuration = timeInterval
+        }
+        
+        imagePicker?.showsCameraControls = false
+        
+        // http://stackoverflow.com/questions/2674375/uiimagepickercontroller-doesnt-fill-screen
+//        let screenSize = UIScreen.main.bounds.size
+//        let cameraAspectRatio: CGFloat = 4.0 / 3.0
+//        let imageWidth = floor(screenSize.width * cameraAspectRatio)
+//        let scale = ceil((screenSize.height) / imageWidth)
+//        imagePicker?.cameraViewTransform = CGAffineTransform(scaleX: scale, y: scale)
+        imagePickerView = imagePicker?.view
+        imagePicker?.view.frame.origin.y = 75
+        view.addSubview((imagePicker?.view)!)
+    }
+    
+    internal func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        // Delegate to return the chosen image
+        if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
+            mainImageView.image = image
+            enterEditMode()
+        }
+    }
 }
 
+// MARK: AVCaptureSession
+// https://www.youtube.com/watch?v=994Hsi1zs6Q&t=3s
 extension CameraViewController: AVCapturePhotoCaptureDelegate {
-    internal func setupCaptureSession() {
+    
+    /** 
+     Setup full screen camera preview
+    */
+    fileprivate func setupCaptureSession() {
         captureSession = AVCaptureSession()
         captureSession?.sessionPreset = AVCaptureSessionPreset1920x1080
         
@@ -728,27 +684,34 @@ extension CameraViewController: AVCapturePhotoCaptureDelegate {
         }
     }
     
-    func capture(_ captureOutput: AVCapturePhotoOutput, didFinishProcessingPhotoSampleBuffer photoSampleBuffer: CMSampleBuffer?, previewPhotoSampleBuffer: CMSampleBuffer?, resolvedSettings: AVCaptureResolvedPhotoSettings, bracketSettings: AVCaptureBracketedStillImageSettings?, error: Error?) {
+    // MARK: Delegate methods
+    internal func capture(_ captureOutput: AVCapturePhotoOutput, didFinishProcessingPhotoSampleBuffer photoSampleBuffer: CMSampleBuffer?, previewPhotoSampleBuffer: CMSampleBuffer?, resolvedSettings: AVCaptureResolvedPhotoSettings, bracketSettings: AVCaptureBracketedStillImageSettings?, error: Error?) {
         
         let imageData = AVCapturePhotoOutput.jpegPhotoDataRepresentation(forJPEGSampleBuffer: photoSampleBuffer!, previewPhotoSampleBuffer: previewPhotoSampleBuffer)
         let dataProvider = CGDataProvider(data: imageData as! CFData)
         let cgImageRef = CGImage(jpegDataProviderSource: dataProvider!, decode: nil, shouldInterpolate: true, intent: CGColorRenderingIntent.defaultIntent)
         
         let image = UIImage(cgImage: cgImageRef!, scale: 1.0, orientation: UIImageOrientation.right)
-        self.editImageView.image = image
+        self.mainImageView.image = image
         enterEditMode()
     }
     
-    func didPressTakePhoto() {
-        if let videoConnection = photoOutput?.connection(withMediaType: AVMediaTypeVideo) {
-            videoConnection.videoOrientation = AVCaptureVideoOrientation.portrait
-            let settings = AVCapturePhotoSettings(format: [AVVideoCodecKey : AVVideoCodecJPEG])
-            photoOutput?.capturePhoto(with: settings, delegate: self)
-            
+    /**
+     This method is called from tab view controller because shutter button is in tab view controller.
+     */
+    internal func takePicture() {
+        if isCameraMode! {
+            if let videoConnection = photoOutput?.connection(withMediaType: AVMediaTypeVideo) {
+                videoConnection.videoOrientation = AVCaptureVideoOrientation.portrait
+                let settings = AVCapturePhotoSettings(format: [AVVideoCodecKey : AVVideoCodecJPEG])
+                photoOutput?.capturePhoto(with: settings, delegate: self)
+                
+            }
         }
     }
 }
 
+// MARK: Button delegate
 extension CameraViewController: LocationButtonDelegate {
     internal func locationButton(yelpDidSelect restaurant: Restaurant) {
         metadata = restaurant.dictionary
