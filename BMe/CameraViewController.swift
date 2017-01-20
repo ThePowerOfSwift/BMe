@@ -13,8 +13,10 @@ import FontAwesome_swift
 import Photos
 import ColorSlider
 
+
+// MARK: - Protocols
 /**
- CameraViewDelegate protocol defines methods to show and hide things in delegate object. 
+ CameraViewDelegate protocol defines methods to show and hide things in delegate object.
  In this case, the delegate object is TabBarViewController.
  */
 protocol TabBarViewControllerDelegate {
@@ -260,12 +262,13 @@ class CameraViewController: UIViewController {
     @IBOutlet weak var cameraView: UIImageView!
     
     // MARK: Drawing
+    // https://www.raywenderlich.com/87899/make-simple-drawing-app-uikit-swift
     
     var lastPoint = CGPoint.zero
     // TODO: Move these to Constants.swift
     var opacity: CGFloat = 1.0
     var lineWidth: CGFloat = 7.0
-    var context: CGContext?
+    //var context: CGContext?
     var swiped = false
     var isDrawing = false
     var isDrawingAdded = false
@@ -314,27 +317,50 @@ class CameraViewController: UIViewController {
     
     func drawLine(fromPoint: CGPoint, toPoint: CGPoint) {
         if isDrawing {
+//            // 1
+//            UIGraphicsBeginImageContext(view.frame.size)
+//            context = UIGraphicsGetCurrentContext()
+//            drawingImageView?.image?.draw(in: CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.height))
+//            
+//            // 2
+//            context?.move(to: fromPoint)
+//            context?.addLine(to: toPoint)
+//            
+//            // 3
+//            context?.setLineCap(CGLineCap.round)
+//            context?.setLineWidth(lineWidth)
+//            context?.setStrokeColor(colorSlider!.color.cgColor)
+//            context?.setBlendMode(CGBlendMode.normal)
+//            
+//            // 4
+//            context?.strokePath()
+//            
+//            // 5
+//            drawingImageView?.image = UIGraphicsGetImageFromCurrentImageContext()
+//            drawingImageView?.alpha = opacity
+//            UIGraphicsEndImageContext()
             // 1
             UIGraphicsBeginImageContext(view.frame.size)
-            context = UIGraphicsGetCurrentContext()
-            drawingImageView?.image?.draw(in: CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.height))
-            
-            // 2
-            context?.move(to: fromPoint)
-            context?.addLine(to: toPoint)
-            
-            // 3
-            context?.setLineCap(CGLineCap.round)
-            context?.setLineWidth(lineWidth)
-            context?.setStrokeColor(colorSlider!.color.cgColor)
-            context?.setBlendMode(CGBlendMode.normal)
-            
-            // 4
-            context?.strokePath()
-            
-            // 5
-            drawingImageView?.image = UIGraphicsGetImageFromCurrentImageContext()
-            drawingImageView?.alpha = opacity
+            if let context = UIGraphicsGetCurrentContext() {
+                drawingImageView?.image?.draw(in: CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.height))
+                
+                // 2
+                context.move(to: fromPoint)
+                context.addLine(to: toPoint)
+                
+                // 3
+                context.setLineCap(CGLineCap.round)
+                context.setLineWidth(lineWidth)
+                context.setStrokeColor(colorSlider!.color.cgColor)
+                context.setBlendMode(CGBlendMode.normal)
+                
+                // 4
+                context.strokePath()
+                
+                // 5
+                drawingImageView?.image = UIGraphicsGetImageFromCurrentImageContext()
+                drawingImageView?.alpha = opacity
+            }
             UIGraphicsEndImageContext()
         }
     }
