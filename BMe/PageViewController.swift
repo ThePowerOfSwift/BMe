@@ -45,7 +45,7 @@ class PageViewController: UIPageViewController, UIGestureRecognizerDelegate {
                 // replace delegate by yours (Do not forget to implement the gesture protocol)
                 (gesture as! UIPanGestureRecognizer).delegate = self
             }
-        }
+        }        
     }
     
     

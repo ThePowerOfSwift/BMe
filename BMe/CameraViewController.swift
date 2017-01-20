@@ -20,10 +20,15 @@ import ColorSlider
  In this case, the delegate object is TabBarViewController.
  */
 protocol TabBarViewControllerDelegate {
-    func hideScrollTitle()
-    func showScrollTitle()
-    func hideTabBar()
+
+    /** Shows scroll title label when camera mode is on. Called by camera view controller. */
+    func showTitleScrollView()
+    /** Hide scroll title label when photo edit mode is on. Called by camera view controller. */
+    func hideTitleScrollView()
+    /** Show tab bar when camera mode is on. Called by camera view controller. */
     func showTabBar()
+    /** Hide tab bar when photo edit mode is on. Called by camera view controller. */
+    func hideTabBar()
 }
 
 protocol PageViewControllerDelegate {
@@ -35,6 +40,7 @@ protocol PageViewControllerDelegate {
  CameraViewController class is in charge of taking photos, 
  editing photos by adding text and drawing, adding locations, uploading
 */
+
 class CameraViewController: UIViewController {
     
     //MARK: - Outlets
@@ -105,6 +111,7 @@ class CameraViewController: UIViewController {
     var isDrawing = false
     var isDrawingAdded = false
     var drawingImageView: UIImageView?
+    var imageScale: CGFloat = 0 // scaling for image context
     
     //MARK: - Lifecycle
     override func viewDidLoad() {
@@ -176,9 +183,10 @@ class CameraViewController: UIViewController {
         cameraView.isHidden = false
         photoEditView.isHidden = true
         captureSession?.startRunning()
+        drawingImageView?.image = nil
         isEditingMode = false
         isCameraMode = true
-        tabBarViewControllerDelegate?.showScrollTitle()
+        tabBarViewControllerDelegate?.showTitleScrollView()
         tabBarViewControllerDelegate?.showTabBar()
     }
     
@@ -188,7 +196,7 @@ class CameraViewController: UIViewController {
         captureSession?.stopRunning()
         isCameraMode = false
         isEditingMode = false
-        tabBarViewControllerDelegate?.hideScrollTitle()
+        tabBarViewControllerDelegate?.hideTitleScrollView()
         tabBarViewControllerDelegate?.hideTabBar()
     }
     
@@ -299,7 +307,8 @@ class CameraViewController: UIViewController {
     private func drawLine(fromPoint: CGPoint, toPoint: CGPoint) {
         if isDrawing {
             // 1 Start a context with the size of drawingImageView
-            UIGraphicsBeginImageContext(drawingImageView!.frame.size)
+            //UIGraphicsBeginImageContext(mainImageView!.frame.size)
+            UIGraphicsBeginImageContextWithOptions(drawingImageView!.frame.size, false, imageScale)
             if let context = UIGraphicsGetCurrentContext() {
                 drawingImageView?.image?.draw(in: CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.height))
                 
@@ -321,6 +330,9 @@ class CameraViewController: UIViewController {
             }
             UIGraphicsEndImageContext()
         }
+        
+        // Directly draw into main image view.
+        // If you draw drawing image view and
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -346,7 +358,8 @@ class CameraViewController: UIViewController {
     private func add(drawing: UIImageView, to image: UIImageView) {
         if let drawingImageView = drawingImageView {
             // Merge tempImageView into mainImageView
-            UIGraphicsBeginImageContext(mainImageView.frame.size)
+            //UIGraphicsBeginImageContext(mainImageView.frame.size)
+            UIGraphicsBeginImageContextWithOptions(mainImageView.frame.size, false, imageScale)
             mainImageView.image?.draw(in: CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.height))
             drawingImageView.image?.draw(in: CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.height))
             mainImageView.image = UIGraphicsGetImageFromCurrentImageContext()
@@ -433,8 +446,7 @@ extension CameraViewController: UITextFieldDelegate {
         let scaleScreenToImageHeight = image.size.height / mainImageView.frame.height
         
         // Configure context
-        let scale = UIScreen.main.scale
-        UIGraphicsBeginImageContextWithOptions(image.size, false, scale)
+        UIGraphicsBeginImageContextWithOptions(image.size, false, imageScale)
         image.draw(in: CGRect(origin: CGPoint.zero, size: image.size))
         
         for textField in textFields {

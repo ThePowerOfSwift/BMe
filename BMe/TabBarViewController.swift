@@ -22,33 +22,42 @@ class TabBarViewController: UIViewController {
     @IBOutlet weak var contentView: UIView!
     @IBOutlet var tabs: [UIButton]!
     // scroll title text
+    // TODO: make title scroll view a class and have show and hide method in it
     @IBOutlet weak var titleScrollView: UIScrollView!
-    @IBOutlet weak var titleBar: UIView!
+    @IBOutlet weak var titleIndicatorBar: UIView!
 
-    
     // MARK: Properties
-    var browseViewController: UIViewController!
-    var browsePageViewController: PageViewController!
-    var cameraNavigationController: UINavigationController!
-    var cameraViewController: CameraViewController!
-    var cameraPageViewController: PageViewController!
-    var createViewController: UINavigationController!
-    var accountViewController: UIViewController!
-    var viewControllers: [UIViewController]!
+    /** Child view controller of browse page view controller */
+    private var browseViewController: UIViewController!
+    /** Page view controller that holds browse view controller and restaurant review page. */
+    private var browsePageViewController: PageViewController!
+    /** Holds camera view controller. nav vc is needed for image picker. */
+    private var cameraNavigationController: UINavigationController!
+    /** Child view controller of camera page view controller. */
+    private var cameraViewController: CameraViewController!
+    /** Holds camera navigation controller (camera view controller in it) and  create view controller. */
+    private var cameraPageViewController: PageViewController!
+    /** Child view controller of camera page view controller. */
+    private var createViewController: UINavigationController!
+    private var accountViewController: UIViewController!
+    private var viewControllers: [UIViewController]!
     
-    var selectedIndex: Int = Constants.TabBar.selectedIndex  // tag value from selected UIButton
+    /** Selected index of tab bar. Initial index is defined in Constants.swift. */
+    private var selectedIndex: Int = Constants.TabBar.selectedIndex  // tag value from selected UIButton
 
-    // original tab position to show tabbar with animation
-    var tabOriginalCenterYPositions: [CGFloat] = [CGFloat]()
+    /** original tab position to show tabbar with animation */
+    fileprivate var tabOriginalCenterYPositions: [CGFloat] = [CGFloat]()
     
-    // To layout each tab button correctly
-    var boxWidth: CGFloat { return view.frame.width / CGFloat(tabs.count) } // Get the width of each "box" by dividing view by 3
-    var centerOffset: CGFloat { return boxWidth / 2 }   // Get the center offset in box
+    // To layout each tab button at appropriate position
+    /** Width of each "box" by dividing view by 3 */
+    private var oneThirdOfViewWidth: CGFloat { return view.frame.width / CGFloat(tabs.count) }
+    /** Center x coordinate inside the area where view width is divided by three */
+    private var centerOffset: CGFloat { return oneThirdOfViewWidth / 2 }   // Get the center offset in box
     
-    // detect if it is just after app started. if so, don't enable camera button to take picture
-    var isInitialStartup: Bool = true
-    // labels that show title at the top
-    var titlePages: [UILabel]?
+    /** to detect if it is just after app started. if so, don't enable camera button to take picture. */
+    private var isInitialStartup: Bool = true
+    /** labels that show title of page at the top. */
+    fileprivate var titleLabels: [UILabel]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -73,7 +82,7 @@ class TabBarViewController: UIViewController {
     
     // MARK: View Controller Initial Setup
     
-    func setupViewControllers() {
+    private func setupViewControllers() {
         // MARK: TODO refactor
         // Browse view controller
         browseViewController = UIStoryboard(name: Constants.SegueID.Storyboard.Browser, bundle: nil).instantiateInitialViewController()
@@ -113,15 +122,17 @@ class TabBarViewController: UIViewController {
 
     
     // MARK: Scroll Title
-    func setupTitleScrollView() {
-        titleBar.backgroundColor = Styles.Color.Tertiary
-        titleBar.alpha = 0
+    private func setupTitleScrollView() {
+        titleIndicatorBar.backgroundColor = Styles.Color.Tertiary
+        titleIndicatorBar.alpha = 0
         // Round corner
-        titleBar.layer.cornerRadius = 2
-        titleBar.layer.masksToBounds = true
+        titleIndicatorBar.layer.cornerRadius = 2
+        titleIndicatorBar.layer.masksToBounds = true
     }
     
-    func changeTitleLabels(titles: [String]) {
+    /** Changes title labels corresponding to the page view. 
+     If browse page view is displayed, then set of "browse" and "featured" will be in title lebels. */
+    private func changeTitleLabels(titles: [String]) {
         // Remove previous titls labels
         for view in titleScrollView.subviews {
             if let label = view as? UILabel {
@@ -129,7 +140,7 @@ class TabBarViewController: UIViewController {
             }
         }
         
-        titlePages = [UILabel]()
+        titleLabels = [UILabel]()
         for i in 0..<titles.count {
             var frame = CGRect()
             frame.origin.x = self.titleScrollView.frame.size.width * CGFloat(i)
@@ -141,21 +152,21 @@ class TabBarViewController: UIViewController {
             titleLabel.textAlignment = NSTextAlignment.center
             titleLabel.text = titles[i]
             titleScrollView.addSubview(titleLabel)
-            titlePages?.append(titleLabel)
+            titleLabels?.append(titleLabel)
         }
         titleScrollView.contentSize = CGSize(width: titleScrollView.frame.width * CGFloat(titles.count), height: titleScrollView.frame.size.height)
     }
     
     // MARK: Tab Setups
-    // Call setupButtons(imageName, tabIndex) to setup tabs
-    func setupTabs() {
+    /** Sets icon image of all the tabs using setupTab(imageName:tabIndex) */
+    private func setupTabs() {
         setupTab(imageName: Constants.Images.home, tabIndex: Tab.Browse.rawValue)
         setupTab(imageName: Constants.Images.circle, tabIndex: Tab.Camera.rawValue)
         setupTab(imageName: Constants.Images.user, tabIndex: Tab.Account.rawValue)
     }
     
-    // Set icon image at index
-    func setupTab(imageName: String, tabIndex: Int) {
+    /** Sets icon image of tab at specified index */
+    private func setupTab(imageName: String, tabIndex: Int) {
         let image = UIImage(named: imageName)
         
         // Bound checking
@@ -169,7 +180,8 @@ class TabBarViewController: UIViewController {
         }
     }
     
-    func layoutTabs () {
+    /** Configures all tabs using layoutTab. Stores original y coordinate for the animation that shows and hides tabs. */
+    private func layoutTabs () {
         layoutTab(index: Tab.Browse.rawValue, w: Constants.TabBar.unselectedTabSize, h: Constants.TabBar.unselectedTabSize)
         layoutTab(index: Tab.Camera.rawValue, w: Constants.TabBar.unselectedTabSize, h: Constants.TabBar.unselectedTabSize)
         layoutTab(index: Tab.Account.rawValue, w: Constants.TabBar.unselectedTabSize, h: Constants.TabBar.unselectedTabSize)
@@ -180,7 +192,8 @@ class TabBarViewController: UIViewController {
         }
     }
     
-    func layoutTab(index: Int, w: CGFloat, h: CGFloat) {
+    /** Configures a tab with computed frame. */
+    private func layoutTab(index: Int, w: CGFloat, h: CGFloat) {
 
         let y: CGFloat = view.frame.height - Constants.TabBar.unselectedTabSize
         var x: CGFloat = 0
@@ -192,7 +205,7 @@ class TabBarViewController: UIViewController {
         if index == Tab.Browse.rawValue {
             x = centerOffset
         } else {
-            x = centerOffset + boxWidth * CGFloat(index)
+            x = centerOffset + oneThirdOfViewWidth * CGFloat(index)
         }
         
         // Set center coordinate
@@ -211,12 +224,12 @@ class TabBarViewController: UIViewController {
             switch selectedIndex {
             case Tab.Browse.rawValue:
                 changeTitleLabels(titles: Constants.PageTitles.browsePageTitles)
-                showScrollTitle()
+                showTitleScrollView()
             case Tab.Camera.rawValue:
                 changeTitleLabels(titles: Constants.PageTitles.cameraPageTitles)
-                showScrollTitle()
+                showTitleScrollView()
             default:
-                hideScrollTitle()
+                hideTitleScrollView()
             }
         } 
         
@@ -283,24 +296,26 @@ class TabBarViewController: UIViewController {
 
 extension TabBarViewController: PageViewDelegate {
     
-    func setupAlphaAt(index: Int) {
+    /** This method is called by page view controller to make title label transparent that is not selected, and vice versa.*/
+    internal func setupAlphaAt(index: Int) {
         
-        guard let titlePages = titlePages else { return }
+        guard let titleLabels = titleLabels else { return }
         
-        for i in 0..<titlePages.count {
+        for i in 0..<titleLabels.count {
             if i != index {
                 UIView.animate(withDuration: Constants.TabBar.titleTextFadeAwayAnimationDuration, animations: {
-                    titlePages[i].alpha = Constants.TabBar.titleTextMinAlpha
+                    titleLabels[i].alpha = Constants.TabBar.titleTextMinAlpha
                 })
             }
         }
     }
     
-    func scrollTitleTo(index: Int) {
+    /** Scrolls title label corresponding to current view in page view controller. Called by page view controller.*/
+    internal func scrollTitleTo(index: Int) {
         let point = CGPoint(x: titleScrollView.frame.width * CGFloat(index), y: 0)
         titleScrollView.setContentOffset(point, animated: true)
         
-        guard let titlePages = titlePages else { return }
+        guard let titlePages = titleLabels else { return }
         
         // Display title text corresponding to page
         for i in 0..<titlePages.count {
@@ -310,36 +325,40 @@ extension TabBarViewController: PageViewDelegate {
                 })
             } else {
                 UIView.animate(withDuration: Constants.TabBar.titleTextFadeAwayAnimationDuration, animations: {
-//                    titlePages[i].alpha = 0.2
                 })
             }
         }
         
         // animate bar
         UIView.animate(withDuration: Constants.TabBar.titleBarBlinkAnimationDuration, animations: {
-            self.titleBar.alpha = Constants.TabBar.titleTextMaxAlpha
+            self.titleIndicatorBar.alpha = Constants.TabBar.titleTextMaxAlpha
         }, completion: { (completed :Bool) in
             UIView.animate(withDuration: Constants.TabBar.titleBarBlinkAnimationDuration, animations: {
                 titlePages[index].alpha = Constants.TabBar.titleTextMinAlpha
-                self.titleBar.alpha = 0
+                self.titleIndicatorBar.alpha = 0
             })
         })
     }
+    
 }
 
+/** These methods are called by camera view controller to set the tab bar and title label state 
+ corresponding to the camera state.*/
 extension TabBarViewController: TabBarViewControllerDelegate {
     
-    func showScrollTitle() {
+    /** Shows scroll title label when camera mode is on. Called by camera view controller. */
+    func showTitleScrollView() {
         titleScrollView.isHidden = false
-        titleBar.isHidden = false
+        titleIndicatorBar.isHidden = false
     }
     
-    func hideScrollTitle() {
+    /** Hide scroll title label when photo edit mode is on. Called by camera view controller. */
+    func hideTitleScrollView() {
         titleScrollView.isHidden = true
-        titleBar.isHidden = true
+        titleIndicatorBar.isHidden = true
     }
     
-    // Show and hide tab bar
+    /** Show tab bar when camera mode is on. Called by camera view controller. */
     func showTabBar() {
         UIView.animate(withDuration: Constants.TabBar.tabbarShowAnimationDuration, animations: {
             for i in 0..<self.tabs.count {
@@ -348,6 +367,7 @@ extension TabBarViewController: TabBarViewControllerDelegate {
         })
     }
     
+    /** Hide tab bar when photo edit mode is on. Called by camera view controller. */
     func hideTabBar() {
         UIView.animate(withDuration: Constants.TabBar.tabbarShowAnimationDuration, animations: {
             for i in 0..<self.tabs.count {
