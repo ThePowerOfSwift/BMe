@@ -18,77 +18,42 @@ enum Tab: Int {
 
 class TabBarViewController: UIViewController {
 
+    // MARK: Outlets
     @IBOutlet weak var contentView: UIView!
     @IBOutlet var tabs: [UIButton]!
+    // scroll title text
+    @IBOutlet weak var titleScrollView: UIScrollView!
+    @IBOutlet weak var titleBar: UIView!
+
     
+    // MARK: Properties
     var browseViewController: UIViewController!
     var browsePageViewController: PageViewController!
-    
     var cameraNavigationController: UINavigationController!
     var cameraViewController: CameraViewController!
     var cameraPageViewController: PageViewController!
-    
     var createViewController: UINavigationController!
     var accountViewController: UIViewController!
     var viewControllers: [UIViewController]!
     
-    // tag value from selected UIButton
-    var selectedIndex: Int = Constants.TabBar.selectedIndex
+    var selectedIndex: Int = Constants.TabBar.selectedIndex  // tag value from selected UIButton
+
     // original tab position to show tabbar with animation
     var tabOriginalCenterYPositions: [CGFloat] = [CGFloat]()
     
-    // Get the width of each "box" by dividing view by 3
-    var boxWidth: CGFloat { return view.frame.width / CGFloat(tabs.count) }
-    // Get the center offset in box
-    var centerOffset: CGFloat { return boxWidth / 2 }
+    // To layout each tab button correctly
+    var boxWidth: CGFloat { return view.frame.width / CGFloat(tabs.count) } // Get the width of each "box" by dividing view by 3
+    var centerOffset: CGFloat { return boxWidth / 2 }   // Get the center offset in box
     
     // detect if it is just after app started. if so, don't enable camera button to take picture
     var isInitialStartup: Bool = true
-    
-    // scroll title text
-    @IBOutlet weak var titleScrollView: UIScrollView!
-
+    // labels that show title at the top
     var titlePages: [UILabel]?
     
-    @IBOutlet weak var titleBar: UIView!
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // MARK: TODO refactor
-        // Browse view controller
-        browseViewController = UIStoryboard(name: Constants.SegueID.Storyboard.Browser, bundle: nil).instantiateInitialViewController()
-        browsePageViewController = UIStoryboard(name: Constants.SegueID.Storyboard.PageView, bundle: nil).instantiateViewController(withIdentifier: Constants.SegueID.ViewController.PageViewController) as! PageViewController
-        addChildViewController(browsePageViewController)
-        
-        let secondVC = UIStoryboard(name: Constants.SegueID.Storyboard.Featured, bundle: nil).instantiateViewController(withIdentifier: Constants.SegueID.ViewController.FeaturedViewController)
-        browsePageViewController.orderedViewControllers = [browseViewController, secondVC]
-
-        // Create view controller which will be in camera page view controller
-        let createStoryboard = UIStoryboard(name: VideoComposition.StoryboardKey.ID, bundle: nil)
-        createViewController = createStoryboard.instantiateViewController(withIdentifier: VideoComposition.StoryboardKey.mediaSelectorNavigationController) as! UINavigationController
-        
-        let mediaSelectorVC = createViewController.viewControllers.first as! MediaSelectorViewController
-        
-        // Preload media selector vc's view for smooth transition in page view controller
-        _ = mediaSelectorVC.view
-
-        // Camera view controller which will be in camera page view controller
-        cameraNavigationController = UIStoryboard(name: Constants.SegueID.Storyboard.Camera, bundle: nil).instantiateInitialViewController() as! UINavigationController
-        cameraViewController = cameraNavigationController.viewControllers.first as! CameraViewController
-
-        cameraViewController.tabBarViewControllerDelegate = self
-        
-        // Camera page view controller
-        cameraPageViewController = UIStoryboard(name: Constants.SegueID.Storyboard.PageView, bundle: nil).instantiateViewController(withIdentifier: Constants.SegueID.ViewController.PageViewController) as! PageViewController
-        cameraPageViewController.orderedViewControllers = [cameraViewController, createViewController]
-        addChildViewController(cameraPageViewController)
-        
-        // Account view controller
-        accountViewController = UIStoryboard(name: Constants.SegueID.Storyboard.Account, bundle: nil).instantiateInitialViewController()
-        addChildViewController(accountViewController)
-        
-        // Init with view controllers
-        viewControllers = [browsePageViewController, cameraPageViewController, accountViewController]
+        setupViewControllers()
 
         setupTabs()
         layoutTabs()
@@ -105,6 +70,47 @@ class TabBarViewController: UIViewController {
         // scroll title 
         setupTitleScrollView()
     }
+    
+    // MARK: View Controller Initial Setup
+    
+    func setupViewControllers() {
+        // MARK: TODO refactor
+        // Browse view controller
+        browseViewController = UIStoryboard(name: Constants.SegueID.Storyboard.Browser, bundle: nil).instantiateInitialViewController()
+        browsePageViewController = UIStoryboard(name: Constants.SegueID.Storyboard.PageView, bundle: nil).instantiateViewController(withIdentifier: Constants.SegueID.ViewController.PageViewController) as! PageViewController
+        addChildViewController(browsePageViewController)
+        
+        let secondVC = UIStoryboard(name: Constants.SegueID.Storyboard.Featured, bundle: nil).instantiateViewController(withIdentifier: Constants.SegueID.ViewController.FeaturedViewController)
+        browsePageViewController.orderedViewControllers = [browseViewController, secondVC]
+        
+        // Create view controller which will be in camera page view controller
+        let createStoryboard = UIStoryboard(name: VideoComposition.StoryboardKey.ID, bundle: nil)
+        createViewController = createStoryboard.instantiateViewController(withIdentifier: VideoComposition.StoryboardKey.mediaSelectorNavigationController) as! UINavigationController
+        
+        let mediaSelectorVC = createViewController.viewControllers.first as! MediaSelectorViewController
+        
+        // Preload media selector vc's view for smooth transition in page view controller
+        _ = mediaSelectorVC.view
+        
+        // Camera view controller which will be in camera page view controller
+        cameraNavigationController = UIStoryboard(name: Constants.SegueID.Storyboard.Camera, bundle: nil).instantiateInitialViewController() as! UINavigationController
+        cameraViewController = cameraNavigationController.viewControllers.first as! CameraViewController
+        
+        cameraViewController.tabBarViewControllerDelegate = self
+        
+        // Camera page view controller
+        cameraPageViewController = UIStoryboard(name: Constants.SegueID.Storyboard.PageView, bundle: nil).instantiateViewController(withIdentifier: Constants.SegueID.ViewController.PageViewController) as! PageViewController
+        cameraPageViewController.orderedViewControllers = [cameraViewController, createViewController]
+        addChildViewController(cameraPageViewController)
+        
+        // Account view controller
+        accountViewController = UIStoryboard(name: Constants.SegueID.Storyboard.Account, bundle: nil).instantiateInitialViewController()
+        addChildViewController(accountViewController)
+        
+        // Init with view controllers
+        viewControllers = [browsePageViewController, cameraPageViewController, accountViewController]
+    }
+
     
     // MARK: Scroll Title
     func setupTitleScrollView() {

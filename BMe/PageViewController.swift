@@ -11,6 +11,7 @@
 
 import UIKit
 
+/** PageViewDelegate is a protocol to control slide title in tab bar. */
 protocol PageViewDelegate {
     func scrollTitleTo(index: Int)
     func setupAlphaAt(index: Int)
@@ -18,10 +19,10 @@ protocol PageViewDelegate {
 
 class PageViewController: UIPageViewController, UIGestureRecognizerDelegate {
     
-    var orderedViewControllers: [UIViewController]?
+    var orderedViewControllers: [UIViewController]? // Holds view controllers used here. view controllers are to be assigned from the caller
     
-    var pageViewDelegate: PageViewDelegate?    
-    var currentIndex: Int = 0
+    var pageViewDelegate: PageViewDelegate? // page view delegate is tab bar view controller
+    var currentIndex: Int = 0 // the index of the view controller currently selected
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,7 +38,6 @@ class PageViewController: UIPageViewController, UIGestureRecognizerDelegate {
         }
         
         // loop over your pageViewController gestures
-        
         for gesture in gestureRecognizers {
             // get the good one, i discover there are 2
             if(gesture is UIPanGestureRecognizer)
@@ -46,7 +46,6 @@ class PageViewController: UIPageViewController, UIGestureRecognizerDelegate {
                 (gesture as! UIPanGestureRecognizer).delegate = self
             }
         }
-
     }
     
     

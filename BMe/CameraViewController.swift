@@ -135,11 +135,6 @@ class CameraViewController: UIViewController {
     private func setupButtons() {
         // Button Configuration
         addButton.tintColor = Styles.Color.Tertiary
-        
-        uploadButton.titleLabel?.font = UIFont.fontAwesome(ofSize: 40)
-        uploadButton.tintColor = Styles.Color.Tertiary
-        uploadButton.setTitle(String.fontAwesomeIcon(name: .upload), for: .normal)
-
         locationButton.delegate = self
         cancelButton.tintColor = Styles.Color.Tertiary
     }
