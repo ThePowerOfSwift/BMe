@@ -339,9 +339,6 @@
 		783008AB1DE3B9AF00B070D4 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				7830089B1DE3B2B100B070D4 /* AppState.swift */,
-				78CDA09E1DE5307C00ABC5E1 /* FIRManager.swift */,
-				78C350481DF28756005E8331 /* User.swift */,
 				E3C357A11DEF451E00AC0832 /* YPManager.swift */,
 				7830089D1DE3B9A000B070D4 /* VideoComposition.swift */,
 				7821C3BF1DEF81D10023B95E /* JSON */,
@@ -374,10 +371,10 @@
 		78337D901DE3ACA700A1B32C /* JJ */ = {
 			isa = PBXGroup;
 			children = (
-				7821C3B91DEF10F60023B95E /* TimeLapseBuilder.swift */,
-				78288FAC1DFA173B00B0FA10 /* FeaturedViewController.swift */,
-				78288FAE1DFA174800B0FA10 /* Featured.storyboard */,
-				7806A3C81DFA5ACB0059B593 /* FeaturedTableViewCell.swift */,
+				7830089B1DE3B2B100B070D4 /* AppState.swift */,
+				78CDA09E1DE5307C00ABC5E1 /* FIRManager.swift */,
+				78C350481DF28756005E8331 /* User.swift */,
+				78A2449B1E32C52200D0B21D /* Archive */,
 			);
 			name = JJ;
 			sourceTree = "<group>";
@@ -476,6 +473,17 @@
 				7837A20B1DF8B898000CB9CB /* raincheck.png */,
 			);
 			name = Images;
+			sourceTree = "<group>";
+		};
+		78A2449B1E32C52200D0B21D /* Archive */ = {
+			isa = PBXGroup;
+			children = (
+				7821C3B91DEF10F60023B95E /* TimeLapseBuilder.swift */,
+				78288FAC1DFA173B00B0FA10 /* FeaturedViewController.swift */,
+				78288FAE1DFA174800B0FA10 /* Featured.storyboard */,
+				7806A3C81DFA5ACB0059B593 /* FeaturedTableViewCell.swift */,
+			);
+			name = Archive;
 			sourceTree = "<group>";
 		};
 		78B56A0B1DF5FE7B00A13915 /* Other */ = {
