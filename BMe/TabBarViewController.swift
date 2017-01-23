@@ -105,7 +105,7 @@ class TabBarViewController: UIViewController {
         cameraNavigationController = UIStoryboard(name: Constants.SegueID.Storyboard.Camera, bundle: nil).instantiateInitialViewController() as! UINavigationController
         cameraViewController = cameraNavigationController.viewControllers.first as! CameraViewController
         
-        cameraViewController.tabBarViewControllerDelegate = self
+        cameraViewController.delegate = self
         
         // Camera page view controller
         cameraPageViewController = UIStoryboard(name: Constants.SegueID.Storyboard.PageView, bundle: nil).instantiateViewController(withIdentifier: Constants.SegueID.ViewController.PageViewController) as! PageViewController
@@ -344,7 +344,7 @@ extension TabBarViewController: PageViewDelegate {
 
 /** These methods are called by camera view controller to set the tab bar and title label state 
  corresponding to the camera state.*/
-extension TabBarViewController: TabBarViewControllerDelegate {
+extension TabBarViewController: CameraViewControllerDelegate {
     
     /** Shows scroll title label when camera mode is on. Called by camera view controller. */
     func showTitleScrollView() {

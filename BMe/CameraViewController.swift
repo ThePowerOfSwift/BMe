@@ -13,14 +13,21 @@ import FontAwesome_swift
 import Photos
 import ColorSlider
 
-
 // MARK: - Protocols
 /**
  CameraViewDelegate protocol defines methods to show and hide things in delegate object.
  In this case, the delegate object is TabBarViewController.
+ 
+ The reason why this class needs to have tab bar view controller as a delegate is 
+ to control tab bar behaviour. For example, your need to hide tab bar when you're in
+ photo edit mode. You can get the reference to tab bar view controller from here by
+ going up parent view controller, but there is page view controller between them and 
+ going through page view controller need more work to get the reference to tab bar view controller.
+ Using delegate is simpler way.
  */
-protocol TabBarViewControllerDelegate {
-
+protocol CameraViewControllerDelegate {
+    
+    // These four methods should be implemented in tab bar view controller
     /** Shows scroll title label when camera mode is on. Called by camera view controller. */
     func showTitleScrollView()
     /** Hide scroll title label when photo edit mode is on. Called by camera view controller. */
@@ -29,17 +36,8 @@ protocol TabBarViewControllerDelegate {
     func showTabBar()
     /** Hide tab bar when photo edit mode is on. Called by camera view controller. */
     func hideTabBar()
+    
 }
-
-protocol PageViewControllerDelegate {
-    func disableScrolling()
-    func enableScrolling()
-}
-
-/**
- CameraViewController class is in charge of taking photos, 
- editing photos by adding text and drawing, adding locations, uploading
-*/
 
 class CameraViewController: UIViewController {
     
@@ -61,7 +59,7 @@ class CameraViewController: UIViewController {
     @IBOutlet weak var colorIndicatorView: UIView!  // Indicates the selected color
 
     // MARK: - Delegate
-    var tabBarViewControllerDelegate: TabBarViewControllerDelegate?
+    var delegate: CameraViewControllerDelegate?
     
     //MARK:- Properties
     // Computed property that has all the text fields added in camera control view
@@ -186,8 +184,8 @@ class CameraViewController: UIViewController {
         drawingImageView?.image = nil
         isEditingMode = false
         isCameraMode = true
-        tabBarViewControllerDelegate?.showTitleScrollView()
-        tabBarViewControllerDelegate?.showTabBar()
+        delegate?.showTitleScrollView()
+        delegate?.showTabBar()
     }
     
     fileprivate func enterEditMode() {
@@ -196,8 +194,8 @@ class CameraViewController: UIViewController {
         captureSession?.stopRunning()
         isCameraMode = false
         isEditingMode = false
-        tabBarViewControllerDelegate?.hideTitleScrollView()
-        tabBarViewControllerDelegate?.hideTabBar()
+        delegate?.hideTitleScrollView()
+        delegate?.hideTabBar()
     }
     
     @IBAction func onUpload(_ sender: UIButton) {
@@ -289,11 +287,10 @@ class CameraViewController: UIViewController {
         print(photoEditView.subviews)
     }
     
-    // TODO:
-    // Fix bad quality
-    // put properties into the same place (at the top of the file)
-    // put constants into Constants.swift
-    
+    /**
+     Called when you are about to touch the screen. 
+     Stores the point you have touched to use it as the starting point of a line.
+     */
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if isDrawing {
             if let touch = touches.first {
@@ -301,6 +298,7 @@ class CameraViewController: UIViewController {
             }
         }
     }
+    
     /**
      Draw a line from a point to another point on an image view. This method is called everytime touchesMoved is called
      */
@@ -335,6 +333,10 @@ class CameraViewController: UIViewController {
         // If you draw drawing image view and
     }
     
+    /**
+     Called when you move fingers on the screen. Holds the point before the finger moves and after it has moved
+     and draws a line between them.
+     */
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         // if drawing mode is on
         if isDrawing {
@@ -350,7 +352,6 @@ class CameraViewController: UIViewController {
             }
         }
     }
-    
     
     /**
      Render drawn image view into picture image view
@@ -612,44 +613,44 @@ extension CameraViewController: UITextFieldDelegate {
 }
 
 // MARK: image picker (Not being used. Instead AVCaptureSession is used for full screen)
-extension CameraViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-
-    fileprivate func addImagePickerToSubview(timeInterval: TimeInterval?, delegate: (UIImagePickerControllerDelegate & UINavigationControllerDelegate), completion: (() -> Void)?) {
-        imagePicker = UIImagePickerController()
-        imagePicker?.delegate = delegate
-        imagePicker?.allowsEditing = false
-        // Set to camera & video record
-        imagePicker?.sourceType = .camera
-        
-        // Capable for video and camera
-        imagePicker?.mediaTypes = [kUTTypeImage as String]
-        
-        // Set maximum video length, if any
-        if let timeInterval = timeInterval {
-            imagePicker?.videoMaximumDuration = timeInterval
-        }
-        
-        imagePicker?.showsCameraControls = false
-        
-        // http://stackoverflow.com/questions/2674375/uiimagepickercontroller-doesnt-fill-screen
-//        let screenSize = UIScreen.main.bounds.size
-//        let cameraAspectRatio: CGFloat = 4.0 / 3.0
-//        let imageWidth = floor(screenSize.width * cameraAspectRatio)
-//        let scale = ceil((screenSize.height) / imageWidth)
-//        imagePicker?.cameraViewTransform = CGAffineTransform(scaleX: scale, y: scale)
-        imagePickerView = imagePicker?.view
-        imagePicker?.view.frame.origin.y = 75
-        view.addSubview((imagePicker?.view)!)
-    }
-    
-    internal func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        // Delegate to return the chosen image
-        if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
-            mainImageView.image = image
-            enterEditMode()
-        }
-    }
-}
+//extension CameraViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+//
+//    fileprivate func addImagePickerToSubview(timeInterval: TimeInterval?, delegate: (UIImagePickerControllerDelegate & UINavigationControllerDelegate), completion: (() -> Void)?) {
+//        imagePicker = UIImagePickerController()
+//        imagePicker?.delegate = delegate
+//        imagePicker?.allowsEditing = false
+//        // Set to camera & video record
+//        imagePicker?.sourceType = .camera
+//        
+//        // Capable for video and camera
+//        imagePicker?.mediaTypes = [kUTTypeImage as String]
+//        
+//        // Set maximum video length, if any
+//        if let timeInterval = timeInterval {
+//            imagePicker?.videoMaximumDuration = timeInterval
+//        }
+//        
+//        imagePicker?.showsCameraControls = false
+//        
+//        // http://stackoverflow.com/questions/2674375/uiimagepickercontroller-doesnt-fill-screen
+////        let screenSize = UIScreen.main.bounds.size
+////        let cameraAspectRatio: CGFloat = 4.0 / 3.0
+////        let imageWidth = floor(screenSize.width * cameraAspectRatio)
+////        let scale = ceil((screenSize.height) / imageWidth)
+////        imagePicker?.cameraViewTransform = CGAffineTransform(scaleX: scale, y: scale)
+//        imagePickerView = imagePicker?.view
+//        imagePicker?.view.frame.origin.y = 75
+//        view.addSubview((imagePicker?.view)!)
+//    }
+//    
+//    internal func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+//        // Delegate to return the chosen image
+//        if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
+//            mainImageView.image = image
+//            enterEditMode()
+//        }
+//    }
+//}
 
 // MARK: AVCaptureSession
 // https://www.youtube.com/watch?v=994Hsi1zs6Q&t=3s

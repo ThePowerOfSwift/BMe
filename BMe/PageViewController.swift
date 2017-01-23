@@ -116,11 +116,9 @@ extension PageViewController: UIPageViewControllerDelegate, UIPageViewController
     func pageViewController(_ pageViewController: UIPageViewController, willTransitionTo pendingViewControllers: [UIViewController]) {
 
     }
-}
-
-// When drawing, scrolling should be off
-extension PageViewController: PageViewControllerDelegate {
     
+    // When drawing, scrolling should be off
+    /** Disables scrolling horizontally, because scrolling should be off when drawing. Called from camera view controller.*/
     func disableScrolling() {
         for view in view.subviews {
             if let view = view as? UIScrollView {
@@ -129,6 +127,7 @@ extension PageViewController: PageViewControllerDelegate {
         }
     }
     
+    /** Enables scrolling horizontally, because scrolling should be off when not drawing. Called from camera view controller.*/
     func enableScrolling() {
         for view in view.subviews {
             if let view = view as? UIScrollView {
@@ -137,3 +136,6 @@ extension PageViewController: PageViewControllerDelegate {
         }
     }
 }
+
+
+
