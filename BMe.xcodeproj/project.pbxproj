@@ -372,8 +372,7 @@
 			children = (
 				7830089B1DE3B2B100B070D4 /* AppState.swift */,
 				78CDA09E1DE5307C00ABC5E1 /* FIRManager.swift */,
-				78C350481DF28756005E8331 /* UserAccount.swift */,
-				78B56A011DF5E7AE00A13915 /* UserProfile.swift */,
+				7863842E1E37D8C6005DD454 /* User */,
 				78A2449B1E32C52200D0B21D /* Archive */,
 			);
 			name = JJ;
@@ -473,6 +472,15 @@
 				7837A20B1DF8B898000CB9CB /* raincheck.png */,
 			);
 			name = Images;
+			sourceTree = "<group>";
+		};
+		7863842E1E37D8C6005DD454 /* User */ = {
+			isa = PBXGroup;
+			children = (
+				78C350481DF28756005E8331 /* UserAccount.swift */,
+				78B56A011DF5E7AE00A13915 /* UserProfile.swift */,
+			);
+			name = User;
 			sourceTree = "<group>";
 		};
 		78A2449B1E32C52200D0B21D /* Archive */ = {
