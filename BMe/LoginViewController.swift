@@ -74,7 +74,7 @@ class LoginViewController: UIViewController {
             else { return }
         
         // Sign up with credentials
-        User.createUser(withEmail: email, password: password) { (user: FIRUser?, error: Error?) in
+        UserAccount.createUser(withEmail: email, password: password) { (user: FIRUser?, error: Error?) in
             // Present error alert
             self.presentErrorAlert(error: error)
         }

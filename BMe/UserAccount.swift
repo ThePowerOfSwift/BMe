@@ -10,13 +10,16 @@ import UIKit
 import FirebaseAuth
 import Firebase
 
-// Made to complement FIRUser with extra metadata stored on database (FIRUser is not directly editable)
-class User: NSObject {
+/**
+ UserAccount tracks and updates a user's account.  Model is based on FIRUser (since FIRUser is not directly editable).  Customized user data is implemented in UserProfile class
+ */
+class UserAccount: NSObject {
     
     // General reference
-    private var firUserDBReference: FIRDatabaseReference? {
+    private var userProfileReference: FIRDatabaseReference? {
         get {
             // Path: Database/<User Meta key>/<UID>/
+            // TODO: refactor ContentType.userMeta.objectKey
             return FIRManager.shared.database.child(ContentType.userMeta.objectKey()).child(firUser.uid)
         }
     }
@@ -24,12 +27,13 @@ class User: NSObject {
     // Model (from FIRUser)
     private var firUser: FIRUser
     
+    
     var username: String? {
         get {
             return firUser.displayName
         }
         set {
-            // Change storage
+            // Change firUser
             let changeRequest = firUser.profileChangeRequest()
             changeRequest.displayName = newValue
             changeRequest.commitChanges(){ (error) in
@@ -37,9 +41,9 @@ class User: NSObject {
                     print("Error updating User display name: \(error.localizedDescription)")
                 }
             }
-            // Change database
-            let data = [UserMeta.Key.username: newValue as AnyObject]
-            firUserDBReference?.updateChildValues(data)
+            // Change UserProfile
+            let data = [UserProfile.Key.username: newValue as AnyObject]
+            userProfileReference?.updateChildValues(data)
         }
     }
     var email: String? {
@@ -47,6 +51,7 @@ class User: NSObject {
             return firUser.email
         }
     }
+    
     var avatarURL: URL? {
         get {
             // Returns the avatar's GS URL
@@ -62,12 +67,12 @@ class User: NSObject {
                 }
             }
             // Change database
-            let data = [UserMeta.Key.avatarURL: newValue?.absoluteString as AnyObject]
-            firUserDBReference?.updateChildValues(data)
+            let data = [UserProfile.Key.avatarURL: newValue?.absoluteString as AnyObject]
+            userProfileReference?.updateChildValues(data)
         }
     }
     
-    // MARK: - methods
+    // MARK: - Methods
 
     required init(_ user: FIRUser) {
         firUser = user
@@ -76,8 +81,11 @@ class User: NSObject {
     
     // MARK: - Class methods
     
-    // Creates a new user using stock FIRUser and adds a corresponding user object onto Database to hold extraneous information (metadata) not held by FIRUser
+    /**
+     Creates a new user using stock FIRUser and creates a new UserProfile to Database
+     */
     public class func createUser(withEmail email: String, password: String, completion: FirebaseAuth.FIRAuthResultCallback? = nil) {
+        // Create stock FIRUser
         FIRAuth.auth()?.createUser(withEmail: email, password: password, completion: { (newFIRUser: FIRUser?, error: Error?) in
             if let error = error {
                 print("Error creating new user: \(error.localizedDescription)")
@@ -85,12 +93,12 @@ class User: NSObject {
                 return
             }
             else if let newFIRUser = newFIRUser {
-                // Create DB userMeta obj using defaults (overwrite any existing leaf data)
-                let user = User(newFIRUser)
+                let user = UserAccount(newFIRUser)
+                // Create UserProfile (overwrite any existing leaf data)
                 let username = newFIRUser.email!.components(separatedBy: "@")[0]
-                let data = [UserMeta.Key.timestamp: Date().description as AnyObject,
-                            UserMeta.Key.username: username as AnyObject]
-                user.firUserDBReference?.setValue(data, withCompletionBlock: { (error, ref) in
+                let data = [UserProfile.Key.timestamp: Date().description as AnyObject,
+                            UserProfile.Key.username: username as AnyObject]
+                user.userProfileReference?.setValue(data, withCompletionBlock: { (error, ref) in
                     if let error = error {
                         print("Error creating new user on Database: \(error.localizedDescription)")
                     }
@@ -107,13 +115,13 @@ class User: NSObject {
     }
     
     // Return the user's meta data dictionary from Database using UID
-    public class func userMeta(_ uid: String, completion:@escaping (UserMeta)->()) {
+    public class func profile(_ uid: String, completion:@escaping (UserProfile)->()) {
         // Construct reference to user meta in Database
         let ref = FIRManager.shared.database.child(ContentType.userMeta.objectKey()).child(uid)
         // Get existing values
         
         ref.observeSingleEvent(of: .value, with: {(snapshot: FIRDataSnapshot) in
-            let userMeta = UserMeta(snapshot)
+            let userMeta = UserProfile(snapshot)
             completion(userMeta)
         })
     }

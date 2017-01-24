@@ -9,7 +9,7 @@
 import UIKit
 import FirebaseDatabase
 
-class UserMeta: NSObject {
+class UserProfile: NSObject {
     let uid: String?
     let avatarURL: URL?
     let timestamp: Date?

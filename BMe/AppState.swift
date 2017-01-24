@@ -24,7 +24,7 @@ class AppState: NSObject {
     // For use with User.swift
     var currentUser: FIRUser? {
         get {
-            return firebaseAuth?.currentUser
+            return FIRAuth.auth()?.currentUser
         }
     }
     var currentUserMetaRef: FIRDatabaseReference? {
@@ -32,26 +32,22 @@ class AppState: NSObject {
             return FIRManager.shared.database.child(ContentType.userMeta.objectKey()).child(currentUser!.uid)
         }
     }
-    var firebaseAuth: FIRAuth? {
-        get {
-            return FIRAuth.auth()
-        }
-    }
+    
     var userProfileChangeRequest: FIRUserProfileChangeRequest? {
         get {
             return currentUser?.profileChangeRequest()
         }
     }
     
-    func currentUserMeta(completion: @escaping (UserMeta)->()) {        
-        User.userMeta(currentUser!.uid, completion: { (usermeta) in
+    func currentUserMeta(completion: @escaping (UserProfile)->()) {        
+        UserAccount.profile(currentUser!.uid, completion: { (usermeta) in
             completion(usermeta)
         })
     }
     
 // MARK: - Methods
     func signIn(withEmail email: String, password: String, completion: FirebaseAuth.FIRAuthResultCallback? = nil) {
-        firebaseAuth?.signIn(withEmail: email, password: password, completion: { (user: FIRUser?, error: Error?) in
+        FIRAuth.auth()?.signIn(withEmail: email, password: password, completion: { (user: FIRUser?, error: Error?) in
             if let error = error {
                 print("Error on login: \(error.localizedDescription)")
                 completion?(nil, error)
@@ -76,7 +72,7 @@ class AppState: NSObject {
     
     func signOut() {
         do {
-            try firebaseAuth?.signOut()
+            try FIRAuth.auth()?.signOut()
             signedIn = false
 
             // Broadcast signout notification (AppDelegate should pick up and present Login VC
