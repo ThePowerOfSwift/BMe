@@ -11,7 +11,7 @@ import FirebaseAuth
 import Firebase
 
 // Made to complement FIRUser with extra metadata stored on database (FIRUser is not directly editable)
-class User: NSObject {
+class UserAccount: NSObject {
     
     // General reference
     private var firUserDBReference: FIRDatabaseReference? {
@@ -38,7 +38,7 @@ class User: NSObject {
                 }
             }
             // Change database
-            let data = [UserMeta.Key.username: newValue as AnyObject]
+            let data = [UserProfile.Key.username: newValue as AnyObject]
             firUserDBReference?.updateChildValues(data)
         }
     }
@@ -62,7 +62,7 @@ class User: NSObject {
                 }
             }
             // Change database
-            let data = [UserMeta.Key.avatarURL: newValue?.absoluteString as AnyObject]
+            let data = [UserProfile.Key.avatarURL: newValue?.absoluteString as AnyObject]
             firUserDBReference?.updateChildValues(data)
         }
     }
@@ -86,10 +86,10 @@ class User: NSObject {
             }
             else if let newFIRUser = newFIRUser {
                 // Create DB userMeta obj using defaults (overwrite any existing leaf data)
-                let user = User(newFIRUser)
+                let user = UserAccount(newFIRUser)
                 let username = newFIRUser.email!.components(separatedBy: "@")[0]
-                let data = [UserMeta.Key.timestamp: Date().description as AnyObject,
-                            UserMeta.Key.username: username as AnyObject]
+                let data = [UserProfile.Key.timestamp: Date().description as AnyObject,
+                            UserProfile.Key.username: username as AnyObject]
                 user.firUserDBReference?.setValue(data, withCompletionBlock: { (error, ref) in
                     if let error = error {
                         print("Error creating new user on Database: \(error.localizedDescription)")
@@ -107,13 +107,13 @@ class User: NSObject {
     }
     
     // Return the user's meta data dictionary from Database using UID
-    public class func userMeta(_ uid: String, completion:@escaping (UserMeta)->()) {
+    public class func userMeta(_ uid: String, completion:@escaping (UserProfile)->()) {
         // Construct reference to user meta in Database
         let ref = FIRManager.shared.database.child(ContentType.userMeta.objectKey()).child(uid)
         // Get existing values
         
         ref.observeSingleEvent(of: .value, with: {(snapshot: FIRDataSnapshot) in
-            let userMeta = UserMeta(snapshot)
+            let userMeta = UserProfile(snapshot)
             completion(userMeta)
         })
     }

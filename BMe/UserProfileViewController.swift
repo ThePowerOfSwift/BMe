@@ -13,7 +13,7 @@ import FirebaseStorageUI
 class UserProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
 
     // Model
-    var user: User!
+    var user: UserAccount!
     
     //MARK: - Outlets
     @IBOutlet weak var baseProfileView: UIView!
@@ -47,12 +47,12 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
         // Hide nav bar
         navigationController?.isNavigationBarHidden = true
     
-        user = User(AppState.shared.currentUser!)
+        user = UserAccount(AppState.shared.currentUser!)
         setupAvatar()
         setupUser()
         
         // set raincheck and heart count
-        User.userMeta(AppState.shared.currentUser!.uid, completion: {
+        UserAccount.userMeta(AppState.shared.currentUser!.uid, completion: {
             (usermeta) in
             if let raincheckCount = usermeta.raincheck?.count {
                 self.raincheckLabel.text = String(raincheckCount)

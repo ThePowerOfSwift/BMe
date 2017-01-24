@@ -87,7 +87,7 @@ class BrowseViewController: UIViewController, UITableViewDelegate, UITableViewDa
     func setupRaincheckDB() {
         
         // Observe vales for init loading and for newly added rainchecked posts
-        _refHandle = AppState.shared.currentUserMetaRef?.child(UserMeta.Key.raincheck).queryOrdered(byChild: UserMeta.Key.timestamp).observe(.childAdded, with: { (snapshot) in
+        _refHandle = AppState.shared.currentUserMetaRef?.child(UserProfile.Key.raincheck).queryOrdered(byChild: UserProfile.Key.timestamp).observe(.childAdded, with: { (snapshot) in
             print(snapshot.key)
             let postID = snapshot.key 
             FIRManager.shared.fetchPostsWithID([postID], completion: { (snapshots) in
@@ -102,7 +102,7 @@ class BrowseViewController: UIViewController, UITableViewDelegate, UITableViewDa
         })
         
         // Observe vales for real time removed rainchecked posts
-        _refHandleRemove = AppState.shared.currentUserMetaRef?.child(UserMeta.Key.raincheck).queryOrdered(byChild: UserMeta.Key.timestamp).observe(.childRemoved, with: { (snapshot) in
+        _refHandleRemove = AppState.shared.currentUserMetaRef?.child(UserProfile.Key.raincheck).queryOrdered(byChild: UserProfile.Key.timestamp).observe(.childRemoved, with: { (snapshot) in
             // match up the post ID from usermeta with the post ID of
             let removedPostID = snapshot.key
             for snap in self.posts {
@@ -154,7 +154,7 @@ class BrowseViewController: UIViewController, UITableViewDelegate, UITableViewDa
             
             // Setup user content
             if let uid = post.uid {
-                User.userMeta(uid, completion: { (usermeta) in
+                UserAccount.userMeta(uid, completion: { (usermeta) in
                     if cell.tag == currentIndex {
                         // Get the avatar if it exists
                         let ref = FIRManager.shared.storage.child(usermeta.avatarURL!.path)
@@ -209,7 +209,7 @@ class BrowseViewController: UIViewController, UITableViewDelegate, UITableViewDa
             
             // Setup user content
             if let uid = post.uid {
-                User.userMeta(uid, completion: { (usermeta) in
+                UserAccount.userMeta(uid, completion: { (usermeta) in
                     if cell.tag == currentIndex {
                         // Get the avatar if it exists
                         let ref = FIRManager.shared.storage.child(usermeta.avatarURL!.path)

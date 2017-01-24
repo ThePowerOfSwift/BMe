@@ -43,8 +43,8 @@ class AppState: NSObject {
         }
     }
     
-    func currentUserMeta(completion: @escaping (UserMeta)->()) {        
-        User.userMeta(currentUser!.uid, completion: { (usermeta) in
+    func currentUserMeta(completion: @escaping (UserProfile)->()) {        
+        UserAccount.userMeta(currentUser!.uid, completion: { (usermeta) in
             completion(usermeta)
         })
     }
