@@ -148,6 +148,7 @@
                         <outlet property="colorSliderView" destination="bon-WE-qh9" id="d6d-Uj-UjC"/>
                         <outlet property="locationButton" destination="iDy-FN-Eyx" id="Rt9-76-ptE"/>
                         <outlet property="mainImageView" destination="dz3-xN-PWO" id="tuE-Jq-HQr"/>
+                        <outlet property="mainImageViewBottomConstraint" destination="Dnb-5H-seb" id="vAM-E9-zCW"/>
                         <outlet property="photoEditView" destination="fZo-83-kBt" id="gFi-c7-Tbe"/>
                         <outlet property="uploadButton" destination="8UK-bU-d50" id="e89-cX-jr9"/>
                     </connections>
@@ -161,7 +162,7 @@
             <objects>
                 <navigationController storyboardIdentifier="CameraNavigationController" automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="xOp-WN-I6t" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="dk5-Sv-Cm5">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="dk5-Sv-Cm5">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
