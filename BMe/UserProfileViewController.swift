@@ -52,7 +52,7 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
         setupUser()
         
         // set raincheck and heart count
-        UserAccount.userMeta(AppState.shared.currentUser!.uid, completion: {
+        UserAccount.profile(AppState.shared.currentUser!.uid, completion: {
             (usermeta) in
             if let raincheckCount = usermeta.raincheck?.count {
                 self.raincheckLabel.text = String(raincheckCount)

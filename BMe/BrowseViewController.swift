@@ -154,7 +154,7 @@ class BrowseViewController: UIViewController, UITableViewDelegate, UITableViewDa
             
             // Setup user content
             if let uid = post.uid {
-                UserAccount.userMeta(uid, completion: { (usermeta) in
+                UserAccount.profile(uid, completion: { (usermeta) in
                     if cell.tag == currentIndex {
                         // Get the avatar if it exists
                         let ref = FIRManager.shared.storage.child(usermeta.avatarURL!.path)
@@ -209,7 +209,7 @@ class BrowseViewController: UIViewController, UITableViewDelegate, UITableViewDa
             
             // Setup user content
             if let uid = post.uid {
-                UserAccount.userMeta(uid, completion: { (usermeta) in
+                UserAccount.profile(uid, completion: { (usermeta) in
                     if cell.tag == currentIndex {
                         // Get the avatar if it exists
                         let ref = FIRManager.shared.storage.child(usermeta.avatarURL!.path)
