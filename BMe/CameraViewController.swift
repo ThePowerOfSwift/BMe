@@ -18,7 +18,7 @@ import ColorSlider
  CameraViewDelegate protocol defines methods to show and hide things in delegate object.
  In this case, the delegate object is TabBarViewController.
  
- The reason why this class needs to have tab bar view controller as a delegate is 
+ The reason why this class needs to have tab bar view controller as a delegate is
  to control tab bar behaviour. For example, your need to hide tab bar when you're in
  photo edit mode. You can get the reference to tab bar view controller from here by
  going up parent view controller, but there is page view controller between them and 
@@ -43,9 +43,13 @@ class CameraViewController: UIViewController {
     
     //MARK: - Outlets
     // Views
-    @IBOutlet weak var photoEditView: UIView!   // view which all the buttons are the subview of
-    @IBOutlet weak var mainImageView: UIImageView!  // image view taken by the camera. text and drawings is rendered into this image view
-    @IBOutlet weak var cameraView: UIImageView!     // view where camera exists
+    /** view which all the buttons are the subview of. */
+    @IBOutlet weak var photoEditView: UIView!
+    /** picture image view taken by the camera which is a subview of photoEditView.
+     text and drawings is rendered into this image view. */
+    @IBOutlet weak var mainImageView: UIImageView!
+    /** [Not in use currently] View where AVCaptureSesstion video camera exists. */
+    @IBOutlet weak var cameraView: UIImageView!
     
     // Buttons
     @IBOutlet weak var addTextButton: UIButton!
@@ -57,7 +61,10 @@ class CameraViewController: UIViewController {
     // To change the color of text and drawing
     @IBOutlet weak var colorSliderView: UIView!
     @IBOutlet weak var colorIndicatorView: UIView!  // Indicates the selected color
-
+    
+    /** Need to adjust this constraint to move up main image view to the top.*/
+    @IBOutlet weak var mainImageViewBottomConstraint: NSLayoutConstraint!
+    
     // MARK: - Delegate
     var delegate: CameraViewControllerDelegate?
     
@@ -122,10 +129,12 @@ class CameraViewController: UIViewController {
         metadata = ["missing metadata" : "you didn't add metadata for this picture" as Optional<AnyObject>]
         
         setupButtons()
-        setupCaptureSession()
+        //setupCaptureSession()
+        addImagePickerToSubview(timeInterval: 0, delegate: self, completion: nil)
         setupColorSlider()
         setupColorIndicatorView()
         enterCameraMode()
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -135,6 +144,11 @@ class CameraViewController: UIViewController {
         // Use UIScreen.main.bounds instead
         //previewLayer?.frame = cameraView.bounds
         previewLayer?.frame = UIScreen.main.bounds
+    }
+    
+    // TODO: not being called.
+    override var prefersStatusBarHidden: Bool {
+        return true
     }
     
     private func setupButtons() {
@@ -178,6 +192,7 @@ class CameraViewController: UIViewController {
     
     // MARK: Mode switching
     private func enterCameraMode() {
+        imagePickerView?.isHidden = false
         cameraView.isHidden = false
         photoEditView.isHidden = true
         captureSession?.startRunning()
@@ -189,6 +204,7 @@ class CameraViewController: UIViewController {
     }
     
     fileprivate func enterEditMode() {
+        imagePickerView?.isHidden = true
         cameraView.isHidden = true
         photoEditView.isHidden = false
         captureSession?.stopRunning()
@@ -613,111 +629,117 @@ extension CameraViewController: UITextFieldDelegate {
 }
 
 // MARK: image picker (Not being used. Instead AVCaptureSession is used for full screen)
-//extension CameraViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-//
-//    fileprivate func addImagePickerToSubview(timeInterval: TimeInterval?, delegate: (UIImagePickerControllerDelegate & UINavigationControllerDelegate), completion: (() -> Void)?) {
-//        imagePicker = UIImagePickerController()
-//        imagePicker?.delegate = delegate
-//        imagePicker?.allowsEditing = false
-//        // Set to camera & video record
-//        imagePicker?.sourceType = .camera
-//        
-//        // Capable for video and camera
-//        imagePicker?.mediaTypes = [kUTTypeImage as String]
-//        
-//        // Set maximum video length, if any
-//        if let timeInterval = timeInterval {
-//            imagePicker?.videoMaximumDuration = timeInterval
-//        }
-//        
-//        imagePicker?.showsCameraControls = false
-//        
-//        // http://stackoverflow.com/questions/2674375/uiimagepickercontroller-doesnt-fill-screen
-////        let screenSize = UIScreen.main.bounds.size
-////        let cameraAspectRatio: CGFloat = 4.0 / 3.0
-////        let imageWidth = floor(screenSize.width * cameraAspectRatio)
-////        let scale = ceil((screenSize.height) / imageWidth)
-////        imagePicker?.cameraViewTransform = CGAffineTransform(scaleX: scale, y: scale)
-//        imagePickerView = imagePicker?.view
-//        imagePicker?.view.frame.origin.y = 75
-//        view.addSubview((imagePicker?.view)!)
-//    }
-//    
-//    internal func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-//        // Delegate to return the chosen image
-//        if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
-//            mainImageView.image = image
-//            enterEditMode()
-//        }
-//    }
-//}
+extension CameraViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+
+    fileprivate func addImagePickerToSubview(timeInterval: TimeInterval?, delegate: (UIImagePickerControllerDelegate & UINavigationControllerDelegate), completion: (() -> Void)?) {
+        imagePicker = UIImagePickerController()
+        imagePicker?.delegate = delegate
+        imagePicker?.allowsEditing = false
+        // Set to camera & video record
+        imagePicker?.sourceType = .camera
+        
+        // Capable for video and camera
+        imagePicker?.mediaTypes = [kUTTypeImage as String]
+        
+        // Set maximum video length, if any
+        if let timeInterval = timeInterval {
+            imagePicker?.videoMaximumDuration = timeInterval
+        }
+        
+        imagePicker?.showsCameraControls = false
+        
+        // http://stackoverflow.com/questions/2674375/uiimagepickercontroller-doesnt-fill-screen
+//        let screenSize = UIScreen.main.bounds.size
+//        let cameraAspectRatio: CGFloat = 4.0 / 3.0
+//        let imageWidth = floor(screenSize.width * cameraAspectRatio)
+//        let scale = ceil((screenSize.height) / imageWidth)
+//        imagePicker?.cameraViewTransform = CGAffineTransform(scaleX: scale, y: scale)
+        imagePickerView = imagePicker?.view        
+        // Adjust the bottom constraint so that the mainImageView is aside the top and apart from the bottom. There is no way to get the size of the camera in imagePicker (cameraOverlayView is screen size), so I had to calculate manually using the aspect ratio of camera which is 4:3
+        mainImageViewBottomConstraint.constant = UIScreen.main.bounds.height - UIScreen.main.bounds.width*4/3
+        self.view.layoutIfNeeded()
+        view.addSubview((imagePicker?.view)!)
+    }
+    
+    internal func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        // Delegate to return the chosen image
+        if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
+            mainImageView.image = image
+            enterEditMode()
+        }
+    }
+    
+    func takePicture() {
+        imagePicker?.takePicture()
+    }
+}
 
 // MARK: AVCaptureSession
 // https://www.youtube.com/watch?v=994Hsi1zs6Q&t=3s
-extension CameraViewController: AVCapturePhotoCaptureDelegate {
-    
-    /** 
-     Setup full screen camera preview
-    */
-    fileprivate func setupCaptureSession() {
-        captureSession = AVCaptureSession()
-        captureSession?.sessionPreset = AVCaptureSessionPreset1920x1080
-        
-        let backCamera = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeVideo)
-        
-        var input: AVCaptureInput?
-        
-        do {
-            try input = AVCaptureDeviceInput(device: backCamera)
-        } catch {
-            print("error")
-        }
-        
-        if input != nil && captureSession!.canAddInput(input) {
-            captureSession?.addInput(input)
-            
-            photoOutput = AVCapturePhotoOutput()
-            
-            if captureSession!.canAddOutput(photoOutput) {
-                captureSession?.addOutput(photoOutput)
-                
-                previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
-                previewLayer?.videoGravity = AVLayerVideoGravityResizeAspect
-                previewLayer?.connection.videoOrientation = AVCaptureVideoOrientation.portrait
-                cameraView.layer.addSublayer(previewLayer!)
-                
-                captureSession?.startRunning()
-                
-            }
-        }
-    }
-    
-    // MARK: Delegate methods
-    internal func capture(_ captureOutput: AVCapturePhotoOutput, didFinishProcessingPhotoSampleBuffer photoSampleBuffer: CMSampleBuffer?, previewPhotoSampleBuffer: CMSampleBuffer?, resolvedSettings: AVCaptureResolvedPhotoSettings, bracketSettings: AVCaptureBracketedStillImageSettings?, error: Error?) {
-        
-        let imageData = AVCapturePhotoOutput.jpegPhotoDataRepresentation(forJPEGSampleBuffer: photoSampleBuffer!, previewPhotoSampleBuffer: previewPhotoSampleBuffer)
-        let dataProvider = CGDataProvider(data: imageData as! CFData)
-        let cgImageRef = CGImage(jpegDataProviderSource: dataProvider!, decode: nil, shouldInterpolate: true, intent: CGColorRenderingIntent.defaultIntent)
-        
-        let image = UIImage(cgImage: cgImageRef!, scale: 1.0, orientation: UIImageOrientation.right)
-        self.mainImageView.image = image
-        enterEditMode()
-    }
-    
-    /**
-     This method is called from tab view controller because shutter button is in tab view controller.
-     */
-    internal func takePicture() {
-        if isCameraMode! {
-            if let videoConnection = photoOutput?.connection(withMediaType: AVMediaTypeVideo) {
-                videoConnection.videoOrientation = AVCaptureVideoOrientation.portrait
-                let settings = AVCapturePhotoSettings(format: [AVVideoCodecKey : AVVideoCodecJPEG])
-                photoOutput?.capturePhoto(with: settings, delegate: self)
-                
-            }
-        }
-    }
-}
+//extension CameraViewController: AVCapturePhotoCaptureDelegate {
+//    
+//    /** 
+//     Setup full screen camera preview
+//    */
+//    fileprivate func setupCaptureSession() {
+//        captureSession = AVCaptureSession()
+//        captureSession?.sessionPreset = AVCaptureSessionPreset1920x1080
+//        
+//        let backCamera = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeVideo)
+//        
+//        var input: AVCaptureInput?
+//        
+//        do {
+//            try input = AVCaptureDeviceInput(device: backCamera)
+//        } catch {
+//            print("error")
+//        }
+//        
+//        if input != nil && captureSession!.canAddInput(input) {
+//            captureSession?.addInput(input)
+//            
+//            photoOutput = AVCapturePhotoOutput()
+//            
+//            if captureSession!.canAddOutput(photoOutput) {
+//                captureSession?.addOutput(photoOutput)
+//                
+//                previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
+//                previewLayer?.videoGravity = AVLayerVideoGravityResizeAspect
+//                previewLayer?.connection.videoOrientation = AVCaptureVideoOrientation.portrait
+//                cameraView.layer.addSublayer(previewLayer!)
+//                
+//                captureSession?.startRunning()
+//                
+//            }
+//        }
+//    }
+//    
+//    // MARK: Delegate methods
+//    internal func capture(_ captureOutput: AVCapturePhotoOutput, didFinishProcessingPhotoSampleBuffer photoSampleBuffer: CMSampleBuffer?, previewPhotoSampleBuffer: CMSampleBuffer?, resolvedSettings: AVCaptureResolvedPhotoSettings, bracketSettings: AVCaptureBracketedStillImageSettings?, error: Error?) {
+//        
+//        let imageData = AVCapturePhotoOutput.jpegPhotoDataRepresentation(forJPEGSampleBuffer: photoSampleBuffer!, previewPhotoSampleBuffer: previewPhotoSampleBuffer)
+//        let dataProvider = CGDataProvider(data: imageData as! CFData)
+//        let cgImageRef = CGImage(jpegDataProviderSource: dataProvider!, decode: nil, shouldInterpolate: true, intent: CGColorRenderingIntent.defaultIntent)
+//        
+//        let image = UIImage(cgImage: cgImageRef!, scale: 1.0, orientation: UIImageOrientation.right)
+//        self.mainImageView.image = image
+//        enterEditMode()
+//    }
+//    
+//    /**
+//     This method is called from tab view controller because shutter button is in tab view controller.
+//     */
+//    internal func takePicture() {
+//        if isCameraMode! {
+//            if let videoConnection = photoOutput?.connection(withMediaType: AVMediaTypeVideo) {
+//                videoConnection.videoOrientation = AVCaptureVideoOrientation.portrait
+//                let settings = AVCapturePhotoSettings(format: [AVVideoCodecKey : AVVideoCodecJPEG])
+//                photoOutput?.capturePhoto(with: settings, delegate: self)
+//                
+//            }
+//        }
+//    }
+//}
 
 // MARK: Button delegate
 extension CameraViewController: LocationButtonDelegate {
