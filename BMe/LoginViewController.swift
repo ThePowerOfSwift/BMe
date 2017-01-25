@@ -46,8 +46,8 @@ class LoginViewController: UIViewController {
     }
 
     override func viewDidAppear(_ animated: Bool) {
-        if let user = AppState.shared.currentUser {
-            AppState.shared.signedIn(user)
+        if UserAccount.currentUser.isSignedIn {
+            UserAccount.currentUser.signedIn()
         }
     }
 
@@ -61,7 +61,7 @@ class LoginViewController: UIViewController {
             else { return }
         
         // Sign In with credentials.
-        AppState.shared.signIn(withEmail: email, password: password) { (user: FIRUser?, error: Error?) in
+        UserAccount.currentUser.signIn(withEmail: email, password: password) { (user: FIRUser?, error: Error?) in
             // Present error alert
             self.presentErrorAlert(error: error)
         }

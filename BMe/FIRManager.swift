@@ -9,8 +9,6 @@
 import UIKit
 import Firebase
 
-
-
 class FIRManager: NSObject {
     
     // Singleton
@@ -121,7 +119,7 @@ class FIRManager: NSObject {
             
             // Construct JSON Asset object template to put on Database
             let jsonObject: [String: AnyObject?] = [
-                Asset.Key.uid: AppState.shared.currentUser?.uid as AnyObject,
+                Asset.Key.uid: UserAccount.currentUser.uid as AnyObject,
                 Asset.Key.downloadURL: downloadURL.absoluteString as AnyObject,
                 Asset.Key.gsURL: gsURL as AnyObject,
                 Asset.Key.contentType: contentType.string() as AnyObject,
@@ -149,7 +147,7 @@ class FIRManager: NSObject {
                 
                 // Construct JSON Post object to put on Database
                 let jsonObject: [String: AnyObject?] = [
-                    Post.Key.uid: AppState.shared.currentUser?.uid as AnyObject,
+                    Post.Key.uid: UserAccount.currentUser.uid as AnyObject,
                     Post.Key.url: ref.url as AnyObject,
                     Post.Key.contentType: contentType.string() as AnyObject,
                     Post.Key.timestamp: Date().toString() as AnyObject
@@ -171,14 +169,14 @@ class FIRManager: NSObject {
         print("Rainchecking post \(postID)")
         // Add postID for userMeta
         // Construct userMeta ref
-        let metaRef = FIRManager.shared.database.child(ContentType.userMeta.objectKey()).child(AppState.shared.currentUser!.uid)
+        let metaRef = FIRManager.shared.database.child(ContentType.userMeta.objectKey()).child(UserAccount.currentUser.uid!)
         let raincheckRef = metaRef.child(UserProfile.Key.raincheck).child(postID)
         let meta: [String: AnyObject] = ["timestamp": Date().toString() as AnyObject]
         raincheckRef.setValue(meta)
     }
     
     func removeRainCheckPost(_ postID: String) {
-        let metaRef = FIRManager.shared.database.child(ContentType.userMeta.objectKey()).child(AppState.shared.currentUser!.uid)
+        let metaRef = FIRManager.shared.database.child(ContentType.userMeta.objectKey()).child(UserAccount.currentUser.uid!)
         let raincheckRef = metaRef.child(UserProfile.Key.raincheck).child(postID)
         raincheckRef.removeValue()
     }
@@ -213,14 +211,14 @@ class FIRManager: NSObject {
         print("Hearting post \(postID)")
         // Add postID for userMeta
         // Construct userMeta ref
-        let metaRef = FIRManager.shared.database.child(ContentType.userMeta.objectKey()).child(AppState.shared.currentUser!.uid)
+        let metaRef = FIRManager.shared.database.child(ContentType.userMeta.objectKey()).child(UserAccount.currentUser.uid!)
         let heartRef = metaRef.child(UserProfile.Key.heart).child(postID)
         let meta: [String: AnyObject] = ["timestamp": Date().toString() as AnyObject]
         heartRef.setValue(meta)
     }
     
     func removeHeartPost(_ postID: String) {
-        let metaRef = FIRManager.shared.database.child(ContentType.userMeta.objectKey()).child(AppState.shared.currentUser!.uid)
+        let metaRef = FIRManager.shared.database.child(ContentType.userMeta.objectKey()).child(UserAccount.currentUser.uid!)
         let heartRef = metaRef.child(UserProfile.Key.heart).child(postID)
         heartRef.removeValue()
     }

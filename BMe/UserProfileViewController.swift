@@ -11,9 +11,6 @@ import MobileCoreServices
 import FirebaseStorageUI
 
 class UserProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
-
-    // Model
-    var user: UserAccount!
     
     //MARK: - Outlets
     @IBOutlet weak var baseProfileView: UIView!
@@ -28,11 +25,10 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
     
     // Deprecate
     @IBAction func tappedSignout(_ sender: Any) {
-        AppState.shared.signOut()
+        UserAccount.currentUser.signOut()
     }
     @IBAction func tappedSignoutButton(_ sender: Any) {
-        AppState.shared.signOut()
-
+        UserAccount.currentUser.signOut()
     }
     
     func setupRaincheckDB() {
@@ -47,23 +43,23 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
         // Hide nav bar
         navigationController?.isNavigationBarHidden = true
     
-        user = UserAccount(AppState.shared.currentUser!)
         setupAvatar()
         setupUser()
         
         // set raincheck and heart count
-        UserAccount.profile(AppState.shared.currentUser!.uid, completion: {
-            (usermeta) in
-            if let raincheckCount = usermeta.raincheck?.count {
-                self.raincheckLabel.text = String(raincheckCount)
-            } else {
-                self.raincheckLabel.text = String(0)
-            }
-            
-            if let heartCount = usermeta.heart?.count {
-                self.heartLabel.text = String(heartCount)
-            } else {
-                self.heartLabel.text = String(0)
+        UserProfile.currentUser(completion: { (userProfile) in
+            if let userProfile = userProfile {
+                if let raincheckCount = userProfile.raincheck?.count {
+                    self.raincheckLabel.text = String(raincheckCount)
+                } else {
+                    self.raincheckLabel.text = String(0)
+                }
+                
+                if let heartCount = userProfile.heart?.count {
+                    self.heartLabel.text = String(heartCount)
+                } else {
+                    self.heartLabel.text = String(0)
+                }
             }
         })
         
@@ -114,8 +110,8 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
         emailTextField.tag = Textfields.email.rawValue
         emailTextField.delegate = self
         
-        usernameTextField.text = user.username
-        emailTextField.text = user.email
+        usernameTextField.text = UserAccount.currentUser.username
+        emailTextField.text = UserAccount.currentUser.email
     }
 
     
@@ -133,7 +129,7 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
         // Reference to an image file in Firebase Storage and pull image
         let defaultImage = UIImage(named: Constants.Images.avatarDefault)
         
-        if let path = user.avatarURL?.path {
+        if let path = UserAccount.currentUser.avatarURL?.path {
             let avatarRef = FIRManager.shared.storage.child(path)
             avatarImageView.loadImageFromGS(with: avatarRef, placeholderImage: defaultImage)
         } else { avatarImageView.image = defaultImage }
@@ -200,7 +196,7 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
                 }
                 else {
                     // Delete old profile pic
-                    if let oldAvatarURL = self.user.avatarURL {
+                    if let oldAvatarURL = UserAccount.currentUser.avatarURL {
                         FIRManager.shared.storage.child(oldAvatarURL.path).delete(completion: { (error) in
                             if let error = error {
                                 print("Error removing old user avatar: aborted profile update: \(error.localizedDescription)")
@@ -209,7 +205,7 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
                     }
         
                     // Update user profile and change avatar
-                    self.user.avatarURL = URL(string: (meta?.gsURL)!)
+                    UserAccount.currentUser.avatarURL = URL(string: (meta?.gsURL)!)
                 }
                 finish()
             })
@@ -226,7 +222,7 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
     func textFieldDidEndEditing(_ textField: UITextField) {
         let newValue = textField.text
         if textField.tag == Textfields.username.rawValue {
-            user.username = newValue
+            UserAccount.currentUser.username = newValue
         }
     }
 }

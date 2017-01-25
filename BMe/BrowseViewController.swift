@@ -75,7 +75,6 @@ class BrowseViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         _refHandle = dbReference.queryLimited(toLast: UInt(fetchBatchSize)).observe(.childAdded, with: { (snapshot) in
             // data is returned chronologically, we want the reverse
-//            print(snapshot)
             self.posts.insert(snapshot, at: 0)
             self.tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .fade)
             
@@ -87,7 +86,7 @@ class BrowseViewController: UIViewController, UITableViewDelegate, UITableViewDa
     func setupRaincheckDB() {
         
         // Observe vales for init loading and for newly added rainchecked posts
-        _refHandle = AppState.shared.currentUserMetaRef?.child(UserProfile.Key.raincheck).queryOrdered(byChild: UserProfile.Key.timestamp).observe(.childAdded, with: { (snapshot) in
+        _refHandle = UserProfile.firebasePath(UserAccount.currentUser.uid!).child(UserProfile.Key.raincheck).queryOrdered(byChild: UserProfile.Key.timestamp).observe(.childAdded, with: { (snapshot) in
             print(snapshot.key)
             let postID = snapshot.key 
             FIRManager.shared.fetchPostsWithID([postID], completion: { (snapshots) in
@@ -102,7 +101,7 @@ class BrowseViewController: UIViewController, UITableViewDelegate, UITableViewDa
         })
         
         // Observe vales for real time removed rainchecked posts
-        _refHandleRemove = AppState.shared.currentUserMetaRef?.child(UserProfile.Key.raincheck).queryOrdered(byChild: UserProfile.Key.timestamp).observe(.childRemoved, with: { (snapshot) in
+        _refHandleRemove = UserProfile.firebasePath(UserAccount.currentUser.uid!).child(UserProfile.Key.raincheck).queryOrdered(byChild: UserProfile.Key.timestamp).observe(.childRemoved, with: { (snapshot) in
             // match up the post ID from usermeta with the post ID of
             let removedPostID = snapshot.key
             for snap in self.posts {
@@ -154,26 +153,30 @@ class BrowseViewController: UIViewController, UITableViewDelegate, UITableViewDa
             
             // Setup user content
             if let uid = post.uid {
-                UserAccount.profile(uid, completion: { (usermeta) in
-                    if cell.tag == currentIndex {
-                        // Get the avatar if it exists
-                        let ref = FIRManager.shared.storage.child(usermeta.avatarURL!.path)
-                        cell.avatarImageView.loadImageFromGS(with: ref, placeholderImage: UIImage(named: Constants.Images.avatarDefault))
-                        cell.usernameLabel.text = usermeta.username
-                    
+                UserProfile.get(uid, completion: { (userProfile) in
+                    if let userProfile = userProfile {
+                        if cell.tag == currentIndex {
+                            // Get the avatar if it exists
+                            let ref = FIRManager.shared.storage.child(userProfile.avatarURL!.path)
+                            cell.avatarImageView.loadImageFromGS(with: ref, placeholderImage: UIImage(named: Constants.Images.avatarDefault))
+                            cell.usernameLabel.text = userProfile.username
                         
-                        AppState.shared.currentUserMeta(completion: { (usermeta) in
-                            if cell.tag == currentIndex {
-                                // Set raincheck
-                                if usermeta.raincheck?[post.postID!] != nil {
-                                    cell.raincheckButton.isSelected = true
+                            
+                            UserProfile.currentUser(completion: { (userProfile) in
+                                if let userProfile = userProfile {
+                                    if cell.tag == currentIndex {
+                                        // Set raincheck
+                                        if userProfile.raincheck?[post.postID!] != nil {
+                                            cell.raincheckButton.isSelected = true
+                                        }
+                                        // Set heart
+                                        if userProfile.heart?[post.postID!] != nil {
+                                            cell.heartButton.isSelected = true
+                                        }
+                                    }
                                 }
-                                // Set heart
-                                if usermeta.heart?[post.postID!] != nil {
-                                    cell.heartButton.isSelected = true
-                                }
-                            }
-                        })
+                            })
+                        }
                     }
                 })
             }
@@ -209,25 +212,29 @@ class BrowseViewController: UIViewController, UITableViewDelegate, UITableViewDa
             
             // Setup user content
             if let uid = post.uid {
-                UserAccount.profile(uid, completion: { (usermeta) in
-                    if cell.tag == currentIndex {
-                        // Get the avatar if it exists
-                        let ref = FIRManager.shared.storage.child(usermeta.avatarURL!.path)
-                        cell.avatarImageView.loadImageFromGS(with: ref, placeholderImage: UIImage(named: Constants.Images.avatarDefault))
-                        cell.usernameLabel.text = usermeta.username
-                        
-                        AppState.shared.currentUserMeta(completion: { (usermeta) in
-                            if cell.tag == currentIndex {
-                                // Set raincheck
-                                if usermeta.raincheck?[post.postID!] != nil {
-                                    cell.raincheckButton.isSelected = true
+                UserProfile.get(uid, completion: { (userProfile) in
+                    if let userProfile = userProfile {
+                        if cell.tag == currentIndex {
+                            // Get the avatar if it exists
+                            let ref = FIRManager.shared.storage.child(userProfile.avatarURL!.path)
+                            cell.avatarImageView.loadImageFromGS(with: ref, placeholderImage: UIImage(named: Constants.Images.avatarDefault))
+                            cell.usernameLabel.text = userProfile.username
+                            
+                            UserProfile.currentUser(completion: { (userProfile) in
+                                if let userProfile = userProfile {
+                                    if cell.tag == currentIndex {
+                                        // Set raincheck
+                                        if userProfile.raincheck?[post.postID!] != nil {
+                                            cell.raincheckButton.isSelected = true
+                                        }
+                                        // Set heart
+                                        if userProfile.heart?[post.postID!] != nil {
+                                            cell.heartButton.isSelected = true
+                                        }
+                                    }
                                 }
-                                // Set heart
-                                if usermeta.heart?[post.postID!] != nil {
-                                    cell.heartButton.isSelected = true
-                                }
-                            }
-                        })
+                            })
+                        }
                     }
                 })
             }
