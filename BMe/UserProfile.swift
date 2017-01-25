@@ -44,10 +44,7 @@ class UserProfile: NSObject {
      Gets the UserProfile of a user given it's uid and returns in the completion block
      */
     class func get(_ uid: String, completion:@escaping (UserProfile?)->()) {
-        // Construct reference to user meta in Database
-        let ref = FIRManager.shared.database.child(Key.object).child(uid)
-        // Get existing values
-        ref.observeSingleEvent(of: .value, with: {(snapshot: FIRDataSnapshot) in
+        firebasePath(uid).observeSingleEvent(of: .value, with: {(snapshot: FIRDataSnapshot) in
             if snapshot.exists() {
                 let userProfile = UserProfile(snapshot)
                 completion(userProfile)
