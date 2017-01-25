@@ -27,7 +27,6 @@ class BrowseViewController: UIViewController, UITableViewDelegate, UITableViewDa
     let refreshControl = UIRefreshControl()
     
     var dataSelector = #selector(setupDatasource)
-//    var dataSelector = #selector(setupRaincheckDB)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,15 +53,9 @@ class BrowseViewController: UIViewController, UITableViewDelegate, UITableViewDa
         // Pull to refresh
         refreshControl.addTarget(self, action: #selector(pullToRefresh(_:)), for: UIControlEvents.valueChanged)
         tableView.insertSubview(refreshControl, at: 0)
-        
-        // Setup player end for loop observation
-        NotificationCenter.default.addObserver(self, selector: #selector(playerItemDidReachEnd(_:)), name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil)
-        
-
-        
+                
         // Get data
         perform(dataSelector)
-//        setupDatasource()
     }
     
     func setupDatasource() {
@@ -125,12 +118,6 @@ class BrowseViewController: UIViewController, UITableViewDelegate, UITableViewDa
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil)
     }
     
-    // Loop video
-    func playerItemDidReachEnd(_ notification: NSNotification) {
-        let playerItem = notification.object as! AVPlayerItem
-        playerItem.seek(to: kCMTimeZero)
-    }
-    
     //MARK: - Tableview methods
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -142,137 +129,67 @@ class BrowseViewController: UIViewController, UITableViewDelegate, UITableViewDa
         let url = post.url
         let currentIndex = indexPath.row
 
-        print("Processing row \(currentIndex) post stamped \(post.timestamp?.toString())")
+        print("Processing row \(currentIndex) post stamped \(post.timestamp?.toString()) of type \(post.contentType)")
         
-        //TODO: - Refactor cells to one model instead of one per media type (2)
-        // ------- VIDEO
-        if post.contentType == .video {
-            let cell = tableView.dequeueReusableCell(withIdentifier: BrowserVideoTableViewCell.ID, for: indexPath) as! BrowserVideoTableViewCell
-            cell.tag = currentIndex
-            cell.postID = post.postID
-            
-            // Setup user content
-            if let uid = post.uid {
-                UserProfile.get(uid, completion: { (userProfile) in
-                    if let userProfile = userProfile {
-                        if cell.tag == currentIndex {
-                            // Get the avatar if it exists
-                            let ref = FIRManager.shared.storage.child(userProfile.avatarURL!.path)
+        let cell = tableView.dequeueReusableCell(withIdentifier: BrowserImageTableViewCell.ID, for: indexPath) as! BrowserImageTableViewCell
+        cell.tag = currentIndex
+        cell.postID = post.postID
+        
+        // Setup user content
+        if let uid = post.uid {
+            UserProfile.get(uid, completion: { (userProfile) in
+                if let userProfile = userProfile {
+                    if cell.postID == post.postID {
+                        // Get the avatar if it exists
+                        if let avatarURL = userProfile.avatarURL {
+                            let ref = FIRManager.shared.storage.child(avatarURL.path)
                             cell.avatarImageView.loadImageFromGS(with: ref, placeholderImage: UIImage(named: Constants.Images.avatarDefault))
                             cell.usernameLabel.text = userProfile.username
-                        
-                            
-                            UserProfile.currentUser(completion: { (userProfile) in
-                                if let userProfile = userProfile {
-                                    if cell.tag == currentIndex {
-                                        // Set raincheck
-                                        if userProfile.raincheck?[post.postID!] != nil {
-                                            cell.raincheckButton.isSelected = true
-                                        }
-                                        // Set heart
-                                        if userProfile.heart?[post.postID!] != nil {
-                                            cell.heartButton.isSelected = true
-                                        }
+                        }
+                        // Setup social links
+                        UserProfile.currentUser(completion: { (userProfile) in
+                            if let userProfile = userProfile {
+                                if cell.tag == currentIndex {
+                                    // Set raincheck
+                                    if userProfile.raincheck?[post.postID!] != nil {
+                                        cell.raincheckButton.isSelected = true
+                                    }
+                                    // Set heart
+                                    if userProfile.heart?[post.postID!] != nil {
+                                        cell.heartButton.isSelected = true
                                     }
                                 }
-                            })
-                        }
+                            }
+                        })
                     }
-                })
-            }
-            
-            // fetch video JSON
-            cell.didStartLoadingContent()
-
-            FIRManager.shared.database.child(url!.path).observeSingleEvent(of: .value, with: { (snapshot) in
-                if cell.tag == currentIndex {
-                    
-                    let video = Video(snapshot.dictionary)
-                    if let meta = video.meta {
-                        let restaurant = Restaurant(dictionary: meta)
-                        cell.headingLabel.text = restaurant.name
-                    }
-                    let playerItem = AVPlayerItem(url: video.downloadURL!)
-                    cell.player.replaceCurrentItem(with: playerItem)
-                    cell.player.automaticallyWaitsToMinimizeStalling = true
-                    cell.player.play()
-                    cell.playerLayer.isHidden = false
-                    
-                    cell.didFinishLoadingContent()
                 }
             })
-            
-            return cell
-            
-        // ------- IMAGE
-        } else if post.contentType == .image {
-            let cell = tableView.dequeueReusableCell(withIdentifier: BrowserImageTableViewCell.ID, for: indexPath) as! BrowserImageTableViewCell
-            cell.tag = currentIndex
-            cell.postID = post.postID
-            
-            // Setup user content
-            if let uid = post.uid {
-                UserProfile.get(uid, completion: { (userProfile) in
-                    if let userProfile = userProfile {
-                        if cell.tag == currentIndex {
-                            // Get the avatar if it exists
-                            let ref = FIRManager.shared.storage.child(userProfile.avatarURL!.path)
-                            cell.avatarImageView.loadImageFromGS(with: ref, placeholderImage: UIImage(named: Constants.Images.avatarDefault))
-                            cell.usernameLabel.text = userProfile.username
-                            
-                            UserProfile.currentUser(completion: { (userProfile) in
-                                if let userProfile = userProfile {
-                                    if cell.tag == currentIndex {
-                                        // Set raincheck
-                                        if userProfile.raincheck?[post.postID!] != nil {
-                                            cell.raincheckButton.isSelected = true
-                                        }
-                                        // Set heart
-                                        if userProfile.heart?[post.postID!] != nil {
-                                            cell.heartButton.isSelected = true
-                                        }
-                                    }
-                                }
-                            })
-                        }
-                    }
-                })
-            }
-            
-            // fetch image JSON
-            cell.didStartloading()
-            FIRManager.shared.database.child(url!.path).observeSingleEvent(of: .value, with: { (snapshot) in
-                if cell.tag == currentIndex {
-
-                    let image = Image(snapshot.dictionary)
-                    if let meta = image.meta {
-                        let restaurant = Restaurant(dictionary: meta)
-                        cell.headingLabel.text = restaurant.name
-                    }
-                    let imageRef = FIRManager.shared.storage.child(image.gsURL!.path)
-                    cell.postImageView.loadImageFromGS(with: imageRef, placeholderImage: nil)
-                    
-                    cell.didFinishloading()
-                }
-            })
-
-            return cell
         }
         
-        // Unknown content type
-        print("Error: post of unknown content type \(post.contentType) at row \(indexPath.row)")
-        return UITableViewCell()
+        // fetch image
+//        cell.didStartloading()
+        FIRManager.shared.database.child(url!.path).observeSingleEvent(of: .value, with: { (snapshot) in
+            if cell.postID == post.postID {
+                let image = Image(snapshot.dictionary)
+                if let meta = image.meta {
+                    let restaurant = Restaurant(dictionary: meta)
+                    cell.headingLabel.text = restaurant.name
+                }
+                let imageRef = FIRManager.shared.storage.child(image.gsURL!.path)
+                    cell.postImageView.loadImageFromGS(with: imageRef, placeholderImage: nil)
+//                cell.didFinishloading()
+            }
+        })
+
+        return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: false)
         print("Did select table row \(indexPath.row)")
-//        if let video = videos?[indexPath.row] {
-//        }
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        
         //if two rows off, request and block
         if indexPath.row > (posts.count - 1 - cellOffsetToFetchMoreData) {
             fetchMoreDatasource()

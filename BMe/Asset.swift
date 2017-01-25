@@ -27,6 +27,7 @@ class Asset: NSObject {
         static let meta = "meta"
     }
     
+    // TODO: convert to Snapshot instead of dictionary
     init(_ dictionary: [String: AnyObject?]) {
         uid = dictionary[Key.uid] as? String
         contentType = ContentType(string: dictionary[Key.contentType] as? String ?? "")
