@@ -6,7 +6,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -25,21 +24,6 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nvO-L1-cF2">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
-                            <scrollView multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gGU-0e-kv7">
-                                <rect key="frame" x="137" y="15" width="100" height="50"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="100" id="Mxl-mM-ORl"/>
-                                    <constraint firstAttribute="height" constant="50" id="yUu-ZJ-Lh3"/>
-                                </constraints>
-                            </scrollView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="H8I-nF-erb" userLabel="Title Indicator Bar">
-                                <rect key="frame" x="177" y="65" width="20" height="5"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="20" id="17c-px-dM8"/>
-                                    <constraint firstAttribute="height" constant="5" id="Ik2-Tk-lFe"/>
-                                </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JQT-ft-PdT">
                                 <rect key="frame" x="16" y="620" width="86" height="34"/>
@@ -73,21 +57,14 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="NkX-li-CHE" firstAttribute="top" secondItem="nvO-L1-cF2" secondAttribute="bottom" id="6Ho-WD-KG2"/>
-                            <constraint firstItem="gGU-0e-kv7" firstAttribute="top" secondItem="wMN-RY-k2J" secondAttribute="topMargin" constant="15" id="BHk-dd-ylu"/>
-                            <constraint firstItem="gGU-0e-kv7" firstAttribute="centerX" secondItem="wMN-RY-k2J" secondAttribute="centerX" id="EP8-YX-LlB"/>
                             <constraint firstItem="nvO-L1-cF2" firstAttribute="top" secondItem="wMN-RY-k2J" secondAttribute="top" id="ecX-og-MU1"/>
                             <constraint firstItem="nvO-L1-cF2" firstAttribute="leading" secondItem="wMN-RY-k2J" secondAttribute="leading" id="lyh-Ir-4hd"/>
-                            <constraint firstItem="H8I-nF-erb" firstAttribute="centerX" secondItem="wMN-RY-k2J" secondAttribute="centerX" id="pwX-Dh-i0i"/>
-                            <constraint firstItem="gGU-0e-kv7" firstAttribute="centerX" secondItem="wMN-RY-k2J" secondAttribute="centerX" id="snJ-Jq-Kqe"/>
-                            <constraint firstItem="H8I-nF-erb" firstAttribute="top" secondItem="gGU-0e-kv7" secondAttribute="bottom" id="wCw-aM-Hu5"/>
                             <constraint firstAttribute="trailing" secondItem="nvO-L1-cF2" secondAttribute="trailing" id="ySH-L1-dPC"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="iIn-BS-LWr"/>
                     <connections>
                         <outlet property="contentView" destination="nvO-L1-cF2" id="1to-dP-2Sn"/>
-                        <outlet property="titleIndicatorBar" destination="H8I-nF-erb" id="Ksi-As-CDM"/>
-                        <outlet property="titleScrollView" destination="gGU-0e-kv7" id="9zo-Fk-jOg"/>
                         <outletCollection property="tabs" destination="JQT-ft-PdT" collectionClass="NSMutableArray" id="HAc-Sc-vBx"/>
                         <outletCollection property="tabs" destination="b01-OA-ZOp" collectionClass="NSMutableArray" id="mrQ-5n-jte"/>
                         <outletCollection property="tabs" destination="UY9-Th-wXZ" collectionClass="NSMutableArray" id="Bpl-Uc-Vt5"/>

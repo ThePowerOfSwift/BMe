@@ -22,21 +22,14 @@ class TabBarViewController: UIViewController {
     @IBOutlet weak var contentView: UIView!
     @IBOutlet var tabs: [UIButton]!
     // scroll title text
-    // TODO: make title scroll view a class and have show and hide method in it
-    @IBOutlet weak var titleScrollView: UIScrollView!
-    @IBOutlet weak var titleIndicatorBar: UIView!
 
     // MARK: Properties
     /** Child view controller of browse page view controller */
     private var browseViewController: UIViewController!
-    /** Page view controller that holds browse view controller and restaurant review page. */
-    private var browsePageViewController: PageViewController!
     /** Holds camera view controller. nav vc is needed for image picker. */
     private var cameraNavigationController: UINavigationController!
     /** Child view controller of camera page view controller. */
     private var cameraViewController: CameraViewController!
-    /** Holds camera navigation controller (camera view controller in it) and  create view controller. */
-    private var cameraPageViewController: PageViewController!
     /** Child view controller of camera page view controller. */
     private var createViewController: UINavigationController!
     private var accountViewController: UIViewController!
@@ -72,90 +65,30 @@ class TabBarViewController: UIViewController {
         didTapTab(tabs[selectedIndex])
         isInitialStartup = false
         
-        // title text animateion
-        browsePageViewController.pageViewDelegate = self
-        cameraPageViewController.pageViewDelegate = self
-        
-        // scroll title 
-        setupTitleScrollView()
     }
     
     // MARK: View Controller Initial Setup
     
     private func setupViewControllers() {
-        // MARK: TODO refactor
+        // Initialize and setup tabbar viewcontrollers
         // Browse view controller
         browseViewController = UIStoryboard(name: Constants.SegueID.Storyboard.Browser, bundle: nil).instantiateInitialViewController()
-        browsePageViewController = UIStoryboard(name: Constants.SegueID.Storyboard.PageView, bundle: nil).instantiateViewController(withIdentifier: Constants.SegueID.ViewController.PageViewController) as! PageViewController
-        addChildViewController(browsePageViewController)
-        
-        let secondVC = UIStoryboard(name: Constants.SegueID.Storyboard.Featured, bundle: nil).instantiateViewController(withIdentifier: Constants.SegueID.ViewController.FeaturedViewController)
-        browsePageViewController.orderedViewControllers = [browseViewController, secondVC]
-        
-        // Create view controller which will be in camera page view controller
-        let createStoryboard = UIStoryboard(name: VideoComposition.StoryboardKey.ID, bundle: nil)
-        createViewController = createStoryboard.instantiateViewController(withIdentifier: VideoComposition.StoryboardKey.mediaSelectorNavigationController) as! UINavigationController
-        
-        let mediaSelectorVC = createViewController.viewControllers.first as! MediaSelectorViewController
-        
-        // Preload media selector vc's view for smooth transition in page view controller
-        _ = mediaSelectorVC.view
+        addChildViewController(browseViewController)
         
         // Camera view controller which will be in camera page view controller
         cameraNavigationController = UIStoryboard(name: Constants.SegueID.Storyboard.Camera, bundle: nil).instantiateInitialViewController() as! UINavigationController
         cameraViewController = cameraNavigationController.viewControllers.first as! CameraViewController
-        
         cameraViewController.delegate = self
-        
-        // Camera page view controller
-        cameraPageViewController = UIStoryboard(name: Constants.SegueID.Storyboard.PageView, bundle: nil).instantiateViewController(withIdentifier: Constants.SegueID.ViewController.PageViewController) as! PageViewController
-        cameraPageViewController.orderedViewControllers = [cameraViewController, createViewController]
-        addChildViewController(cameraPageViewController)
+        addChildViewController(cameraViewController)
         
         // Account view controller
         accountViewController = UIStoryboard(name: Constants.SegueID.Storyboard.Account, bundle: nil).instantiateInitialViewController()
         addChildViewController(accountViewController)
         
         // Init with view controllers
-        viewControllers = [browsePageViewController, cameraPageViewController, accountViewController]
-    }
-
-    
-    // MARK: Scroll Title
-    private func setupTitleScrollView() {
-        titleIndicatorBar.backgroundColor = Styles.Color.Tertiary
-        titleIndicatorBar.alpha = 0
-        // Round corner
-        titleIndicatorBar.layer.cornerRadius = 2
-        titleIndicatorBar.layer.masksToBounds = true
+        viewControllers = [browseViewController, cameraViewController, accountViewController]
     }
     
-    /** Changes title labels corresponding to the page view. 
-     If browse page view is displayed, then set of "browse" and "featured" will be in title lebels. */
-    private func changeTitleLabels(titles: [String]) {
-        // Remove previous titls labels
-        for view in titleScrollView.subviews {
-            if let label = view as? UILabel {
-                label.removeFromSuperview()
-            }
-        }
-        
-        titleLabels = [UILabel]()
-        for i in 0..<titles.count {
-            var frame = CGRect()
-            frame.origin.x = self.titleScrollView.frame.size.width * CGFloat(i)
-            frame.size = self.titleScrollView.frame.size
-            self.titleScrollView.isPagingEnabled = true
-            let titleLabel = UILabel(frame: frame)
-            titleLabel.font = UIFont(name: titleLabel.font.fontName, size: Constants.PageTitles.fontSize)
-            titleLabel.textColor = Styles.Color.Tertiary
-            titleLabel.textAlignment = NSTextAlignment.center
-            titleLabel.text = titles[i]
-            titleScrollView.addSubview(titleLabel)
-            titleLabels?.append(titleLabel)
-        }
-        titleScrollView.contentSize = CGSize(width: titleScrollView.frame.width * CGFloat(titles.count), height: titleScrollView.frame.size.height)
-    }
     
     // MARK: Tab Setups
     /** Sets icon image of all the tabs using setupTab(imageName:tabIndex) */
@@ -219,22 +152,8 @@ class TabBarViewController: UIViewController {
         selectedIndex = sender.tag // Assign the index of current tab to selectedIndex
         tabs[selectedIndex].isSelected =  true
         
-        // Show title scroll label if selected index is 1
-        if selectedIndex != previousIndex || isInitialStartup {
-            switch selectedIndex {
-            case Tab.Browse.rawValue:
-                changeTitleLabels(titles: Constants.PageTitles.browsePageTitles)
-                showTitleScrollView()
-            case Tab.Camera.rawValue:
-                changeTitleLabels(titles: Constants.PageTitles.cameraPageTitles)
-                showTitleScrollView()
-            default:
-                hideTitleScrollView()
-            }
-        } 
-        
         // Take picture when cameraButton tapped again in camera view (disabled in compose view)
-        if previousIndex == Tab.Camera.rawValue && selectedIndex == Tab.Camera.rawValue && !isInitialStartup && cameraPageViewController.currentIndex != 1 {
+        if previousIndex == Tab.Camera.rawValue && selectedIndex == Tab.Camera.rawValue && !isInitialStartup {
             cameraViewController.takePicture()
             
         } else {
@@ -294,70 +213,9 @@ class TabBarViewController: UIViewController {
     }
 }
 
-extension TabBarViewController: PageViewDelegate {
-    
-    /** This method is called by page view controller to make title label transparent that is not selected, and vice versa.*/
-    internal func setupAlphaAt(index: Int) {
-        
-        guard let titleLabels = titleLabels else { return }
-        
-        for i in 0..<titleLabels.count {
-            if i != index {
-                UIView.animate(withDuration: Constants.TabBar.titleTextFadeAwayAnimationDuration, animations: {
-                    titleLabels[i].alpha = Constants.TabBar.titleTextMinAlpha
-                })
-            }
-        }
-    }
-    
-    /** Scrolls title label corresponding to current view in page view controller. Called by page view controller.*/
-    internal func scrollTitleTo(index: Int) {
-        let point = CGPoint(x: titleScrollView.frame.width * CGFloat(index), y: 0)
-        titleScrollView.setContentOffset(point, animated: true)
-        
-        guard let titlePages = titleLabels else { return }
-        
-        // Display title text corresponding to page
-        for i in 0..<titlePages.count {
-            if i == index {
-                UIView.animate(withDuration: Constants.TabBar.titleTextFadeAwayAnimationDuration, animations: {
-                    titlePages[i].alpha = Constants.TabBar.titleTextMaxAlpha
-                })
-            } else {
-                UIView.animate(withDuration: Constants.TabBar.titleTextFadeAwayAnimationDuration, animations: {
-                })
-            }
-        }
-        
-        // animate bar
-        UIView.animate(withDuration: Constants.TabBar.titleBarBlinkAnimationDuration, animations: {
-            self.titleIndicatorBar.alpha = Constants.TabBar.titleTextMaxAlpha
-        }, completion: { (completed :Bool) in
-            UIView.animate(withDuration: Constants.TabBar.titleBarBlinkAnimationDuration, animations: {
-                titlePages[index].alpha = Constants.TabBar.titleTextMinAlpha
-                self.titleIndicatorBar.alpha = 0
-            })
-        })
-    }
-    
-}
-
-/** These methods are called by camera view controller to set the tab bar and title label state 
+/** These methods are called by camera view controller to set the tab bar and title label state
  corresponding to the camera state.*/
 extension TabBarViewController: CameraViewControllerDelegate {
-    
-    /** Shows scroll title label when camera mode is on. Called by camera view controller. */
-    func showTitleScrollView() {
-        titleScrollView.isHidden = false
-        titleIndicatorBar.isHidden = false
-    }
-    
-    /** Hide scroll title label when photo edit mode is on. Called by camera view controller. */
-    func hideTitleScrollView() {
-        titleScrollView.isHidden = true
-        titleIndicatorBar.isHidden = true
-    }
-    
     /** Show tab bar when camera mode is on. Called by camera view controller. */
     func showTabBar() {
         UIView.animate(withDuration: Constants.TabBar.tabbarShowAnimationDuration, animations: {

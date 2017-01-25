@@ -26,17 +26,10 @@ import ColorSlider
  Using delegate is simpler way.
  */
 protocol CameraViewControllerDelegate {
-    
-    // These four methods should be implemented in tab bar view controller
-    /** Shows scroll title label when camera mode is on. Called by camera view controller. */
-    func showTitleScrollView()
-    /** Hide scroll title label when photo edit mode is on. Called by camera view controller. */
-    func hideTitleScrollView()
     /** Show tab bar when camera mode is on. Called by camera view controller. */
     func showTabBar()
     /** Hide tab bar when photo edit mode is on. Called by camera view controller. */
     func hideTabBar()
-    
 }
 
 class CameraViewController: UIViewController {
@@ -199,7 +192,6 @@ class CameraViewController: UIViewController {
         drawingImageView?.image = nil
         isEditingMode = false
         isCameraMode = true
-        delegate?.showTitleScrollView()
         delegate?.showTabBar()
     }
     
@@ -210,7 +202,6 @@ class CameraViewController: UIViewController {
         captureSession?.stopRunning()
         isCameraMode = false
         isEditingMode = false
-        delegate?.hideTitleScrollView()
         delegate?.hideTabBar()
     }
     

@@ -282,12 +282,11 @@
 		7821C3BB1DEF24730023B95E /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				78469A5D1DE3958100A40D53 /* LoginViewController.swift */,
 				E35AC4881DE4D75C00FCB0D0 /* BrowseViewController.swift */,
-				783008A01DE3B9A000B070D4 /* MediaSelectorViewController.swift */,
 				785E87C71DED4C4F00C9FF59 /* VideoComposerViewController.swift */,
 				78C350461DF232AF005E8331 /* UserProfileViewController.swift */,
 				781E714F1DF4E52A00041855 /* YelpViewController.swift */,
+				E35AC4821DE4D00400FCB0D0 /* TabBarViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -295,12 +294,10 @@
 		7821C3BC1DEF249D0023B95E /* Storyboards */ = {
 			isa = PBXGroup;
 			children = (
-				78469A5F1DE3958100A40D53 /* Main.storyboard */,
-				783008A11DE3B9A000B070D4 /* VideoComposer.storyboard */,
 				78C350421DF2251A005E8331 /* Browser.storyboard */,
 				78C350441DF2260A005E8331 /* Account.storyboard */,
 				781E714B1DF486A900041855 /* Yelp.storyboard */,
-				E313E1351DF8B60100F79B8F /* PageView.storyboard */,
+				E35AC4861DE4D0F500FCB0D0 /* TabBar.storyboard */,
 			);
 			name = Storyboards;
 			sourceTree = "<group>";
@@ -358,8 +355,6 @@
 		78337D8F1DE3AC9300A1B32C /* Sato */ = {
 			isa = PBXGroup;
 			children = (
-				E35AC4861DE4D0F500FCB0D0 /* TabBar.storyboard */,
-				E35AC4821DE4D00400FCB0D0 /* TabBarViewController.swift */,
 				E342CF941DF65D1D00AD45D2 /* PageViewController.swift */,
 				7821C3C31DEF94350023B95E /* CameraViewController.swift */,
 				7821C3C11DEF939A0023B95E /* Camera.storyboard */,
@@ -372,8 +367,9 @@
 			children = (
 				7830089B1DE3B2B100B070D4 /* AppState.swift */,
 				78CDA09E1DE5307C00ABC5E1 /* FIRManager.swift */,
+				78469A5F1DE3958100A40D53 /* Main.storyboard */,
+				78469A5D1DE3958100A40D53 /* LoginViewController.swift */,
 				7863842E1E37D8C6005DD454 /* User */,
-				78A2449B1E32C52200D0B21D /* Archive */,
 			);
 			name = JJ;
 			sourceTree = "<group>";
@@ -403,6 +399,7 @@
 		78469A5A1DE3958000A40D53 /* BMe */ = {
 			isa = PBXGroup;
 			children = (
+				78A2449B1E32C52200D0B21D /* Archive */,
 				78BCDF2B1DF74421002D399E /* README */,
 				78337D8E1DE3AC7400A1B32C /* Shared */,
 				7821C3BB1DEF24730023B95E /* ViewControllers */,
@@ -490,6 +487,9 @@
 				78288FAC1DFA173B00B0FA10 /* FeaturedViewController.swift */,
 				78288FAE1DFA174800B0FA10 /* Featured.storyboard */,
 				7806A3C81DFA5ACB0059B593 /* FeaturedTableViewCell.swift */,
+				783008A01DE3B9A000B070D4 /* MediaSelectorViewController.swift */,
+				783008A11DE3B9A000B070D4 /* VideoComposer.storyboard */,
+				E313E1351DF8B60100F79B8F /* PageView.storyboard */,
 			);
 			name = Archive;
 			sourceTree = "<group>";
