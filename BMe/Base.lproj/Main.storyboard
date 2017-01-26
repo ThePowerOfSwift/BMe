@@ -22,7 +22,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LyF-Gn-jy4">
-                                <rect key="frame" x="50" y="405" width="52" height="30"/>
+                                <rect key="frame" x="50" y="450" width="275" height="30"/>
                                 <state key="normal" title="Sign up">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -31,7 +31,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="f90-8V-udb">
-                                <rect key="frame" x="287" y="405" width="38" height="30"/>
+                                <rect key="frame" x="50" y="405" width="275" height="30"/>
                                 <state key="normal" title="Login">
                                     <color key="titleColor" red="1" green="0.86101692914962769" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
@@ -52,14 +52,14 @@
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress"/>
                             </textField>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hn9-PR-dcw">
-                                <rect key="frame" x="137.5" y="135" width="100" height="100"/>
+                                <rect key="frame" x="138" y="135" width="100" height="100"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="100" id="geB-LU-Sab"/>
                                     <constraint firstAttribute="width" constant="100" id="xql-Zg-mpZ"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Logging in" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RC1-dg-gwf">
-                                <rect key="frame" x="147.5" y="250" width="80" height="21"/>
+                                <rect key="frame" x="148" y="250" width="80" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
@@ -67,7 +67,7 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="LyF-Gn-jy4" firstAttribute="top" secondItem="xm5-si-3SY" secondAttribute="bottom" constant="20" id="0eW-Ht-xDW"/>
+                            <constraint firstItem="LyF-Gn-jy4" firstAttribute="top" secondItem="xm5-si-3SY" secondAttribute="bottom" constant="65" id="0eW-Ht-xDW"/>
                             <constraint firstItem="xm5-si-3SY" firstAttribute="top" secondItem="cVg-CF-vZU" secondAttribute="bottom" constant="30" id="1gq-ia-Mj1"/>
                             <constraint firstItem="xm5-si-3SY" firstAttribute="trailing" secondItem="cVg-CF-vZU" secondAttribute="trailing" id="3XH-aT-Y3y"/>
                             <constraint firstItem="xm5-si-3SY" firstAttribute="leading" secondItem="cVg-CF-vZU" secondAttribute="leading" id="5Tz-nh-CkF"/>
@@ -75,11 +75,13 @@
                             <constraint firstItem="hn9-PR-dcw" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Jos-er-zcU"/>
                             <constraint firstItem="cVg-CF-vZU" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="275" id="P31-SG-nIN"/>
                             <constraint firstItem="RC1-dg-gwf" firstAttribute="top" secondItem="hn9-PR-dcw" secondAttribute="bottom" constant="15" id="RqJ-rI-ZGP"/>
-                            <constraint firstItem="f90-8V-udb" firstAttribute="top" secondItem="LyF-Gn-jy4" secondAttribute="top" id="VhT-0Y-trg"/>
+                            <constraint firstItem="f90-8V-udb" firstAttribute="top" secondItem="xm5-si-3SY" secondAttribute="bottom" constant="20" id="S3K-f2-scK"/>
                             <constraint firstItem="RC1-dg-gwf" firstAttribute="centerX" secondItem="hn9-PR-dcw" secondAttribute="centerX" id="dEu-Z0-AJE"/>
                             <constraint firstAttribute="trailing" secondItem="cVg-CF-vZU" secondAttribute="trailing" constant="50" id="eDS-xO-HJE"/>
                             <constraint firstItem="cVg-CF-vZU" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="50" id="gHo-mk-B7T"/>
                             <constraint firstItem="LyF-Gn-jy4" firstAttribute="leading" secondItem="xm5-si-3SY" secondAttribute="leading" id="gcH-5H-tpQ"/>
+                            <constraint firstItem="LyF-Gn-jy4" firstAttribute="trailing" secondItem="xm5-si-3SY" secondAttribute="trailing" id="xdg-rE-rPC"/>
+                            <constraint firstItem="f90-8V-udb" firstAttribute="leading" secondItem="xm5-si-3SY" secondAttribute="leading" id="yka-Gb-kvs"/>
                             <constraint firstItem="f90-8V-udb" firstAttribute="trailing" secondItem="xm5-si-3SY" secondAttribute="trailing" id="zvd-dm-ecK"/>
                         </constraints>
                     </view>
