@@ -282,8 +282,6 @@
 		7821C3BB1DEF24730023B95E /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				E35AC4881DE4D75C00FCB0D0 /* BrowseViewController.swift */,
-				785E87C71DED4C4F00C9FF59 /* VideoComposerViewController.swift */,
 				78C350461DF232AF005E8331 /* UserProfileViewController.swift */,
 				781E714F1DF4E52A00041855 /* YelpViewController.swift */,
 				E35AC4821DE4D00400FCB0D0 /* TabBarViewController.swift */,
@@ -478,6 +476,7 @@
 		78A2449B1E32C52200D0B21D /* Archive */ = {
 			isa = PBXGroup;
 			children = (
+				785E87C71DED4C4F00C9FF59 /* VideoComposerViewController.swift */,
 				7830089F1DE3B9A000B070D4 /* MediaSelectorCollectionViewCell.swift */,
 				785E87C91DED4E5800C9FF59 /* VideoComposerCollectionViewCell.swift */,
 				7830089D1DE3B9A000B070D4 /* VideoComposition.swift */,
