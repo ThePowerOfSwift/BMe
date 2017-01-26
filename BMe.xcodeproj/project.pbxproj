@@ -283,7 +283,6 @@
 			isa = PBXGroup;
 			children = (
 				E35AC4881DE4D75C00FCB0D0 /* BrowseViewController.swift */,
-				78469A5D1DE3958100A40D53 /* LoginViewController.swift */,
 				785E87C71DED4C4F00C9FF59 /* VideoComposerViewController.swift */,
 				78C350461DF232AF005E8331 /* UserProfileViewController.swift */,
 				781E714F1DF4E52A00041855 /* YelpViewController.swift */,
@@ -295,7 +294,6 @@
 		7821C3BC1DEF249D0023B95E /* Storyboards */ = {
 			isa = PBXGroup;
 			children = (
-				78469A5F1DE3958100A40D53 /* Main.storyboard */,
 				78C350421DF2251A005E8331 /* Browser.storyboard */,
 				78C350441DF2260A005E8331 /* Account.storyboard */,
 				781E714B1DF486A900041855 /* Yelp.storyboard */,
@@ -335,7 +333,6 @@
 		783008AB1DE3B9AF00B070D4 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				7863842E1E37D8C6005DD454 /* User */,
 				E3C357A11DEF451E00AC0832 /* YPManager.swift */,
 				7830089D1DE3B9A000B070D4 /* VideoComposition.swift */,
 				7821C3BF1DEF81D10023B95E /* JSON */,
@@ -406,6 +403,7 @@
 				7821C3BC1DEF249D0023B95E /* Storyboards */,
 				783008AB1DE3B9AF00B070D4 /* Models */,
 				78337D8F1DE3AC9300A1B32C /* Sato */,
+				BFF9AE951E398C6D0012C1F2 /* Louis */,
 				78337D901DE3ACA700A1B32C /* JJ */,
 			);
 			path = BMe;
@@ -518,6 +516,16 @@
 				7837A21E1DF95A43000CB9CB /* HeartButton.swift */,
 			);
 			name = Buttons;
+			sourceTree = "<group>";
+		};
+		BFF9AE951E398C6D0012C1F2 /* Louis */ = {
+			isa = PBXGroup;
+			children = (
+				7863842E1E37D8C6005DD454 /* User */,
+				78469A5D1DE3958100A40D53 /* LoginViewController.swift */,
+				78469A5F1DE3958100A40D53 /* Main.storyboard */,
+			);
+			name = Louis;
 			sourceTree = "<group>";
 		};
 		FC4986E74E30DCE926CC8007 /* Pods */ = {
