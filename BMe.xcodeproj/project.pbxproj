@@ -317,8 +317,6 @@
 		7821C3C01DEF82680023B95E /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				7830089F1DE3B9A000B070D4 /* MediaSelectorCollectionViewCell.swift */,
-				785E87C91DED4E5800C9FF59 /* VideoComposerCollectionViewCell.swift */,
 				78B95F8B1DF6B4EA00B6C83E /* BrowserImageTableViewCell.swift */,
 				78C3503C1DF126A6005E8331 /* BrowserVideoTableViewCell.swift */,
 				78F511351DF6D0860074050F /* WhiteRevealOverlayView.swift */,
@@ -334,7 +332,6 @@
 			isa = PBXGroup;
 			children = (
 				E3C357A11DEF451E00AC0832 /* YPManager.swift */,
-				7830089D1DE3B9A000B070D4 /* VideoComposition.swift */,
 				7821C3BF1DEF81D10023B95E /* JSON */,
 			);
 			name = Models;
@@ -365,6 +362,7 @@
 		78337D901DE3ACA700A1B32C /* JJ */ = {
 			isa = PBXGroup;
 			children = (
+				E35AC4881DE4D75C00FCB0D0 /* BrowseViewController.swift */,
 				78CDA09E1DE5307C00ABC5E1 /* FIRManager.swift */,
 			);
 			name = JJ;
@@ -480,6 +478,9 @@
 		78A2449B1E32C52200D0B21D /* Archive */ = {
 			isa = PBXGroup;
 			children = (
+				7830089F1DE3B9A000B070D4 /* MediaSelectorCollectionViewCell.swift */,
+				785E87C91DED4E5800C9FF59 /* VideoComposerCollectionViewCell.swift */,
+				7830089D1DE3B9A000B070D4 /* VideoComposition.swift */,
 				7830089B1DE3B2B100B070D4 /* AppState.swift */,
 				7821C3B91DEF10F60023B95E /* TimeLapseBuilder.swift */,
 				78288FAC1DFA173B00B0FA10 /* FeaturedViewController.swift */,
