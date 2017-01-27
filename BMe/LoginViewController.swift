@@ -69,18 +69,7 @@ class LoginViewController: UIViewController {
     }
     
     @IBAction func didTapSignUp(_ sender: AnyObject) {
-        //self.present(getRootVCForSignUp(), animated: false, completion: nil)
-        
-        guard let email = usernameTextField.text,
-            let password = passwordTextField.text
-            else { return }
-        
-        // Sign up with credentials
-        UserAccount.createUser(withEmail: email, password: password) { (user: FIRUser?, error: Error?) in
-            // Present error alert
-            self.presentErrorAlert(error: error)
-        }
-        
+        self.present(getRootVCForSignUp(), animated: false, completion: nil)
     }
     
     // MARK: -  Methods
