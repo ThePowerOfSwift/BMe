@@ -55,7 +55,7 @@ struct Constants {
             static let YelpViewController = "YelpViewController"
             static let VideoComposerViewController = "VideoComposerViewController"
             static let LoginViewController = "LoginViewController"
-            static let SignUpViewController = "SignUpViewController"
+            static let SignUpViewController = "SignUpNavViewController"//"SignUpViewController"
             static let TabBarViewController = "TabBarViewController"
             static let BrowserViewController = "BrowseViewController"
             static let PageViewController = "PageViewController"

@@ -165,7 +165,7 @@ class UserAccount: NSObject {
     /**
      Creates and switches to new user using stock FIRUser and creates a new UserProfile to Database.
      */
-    public class func createUser(withEmail email: String, password: String, completion: FirebaseAuth.FIRAuthResultCallback? = nil) {
+    public class func createUser(withUsername userName: String, email: String, password: String, completion: FirebaseAuth.FIRAuthResultCallback? = nil) {
         // Create stock FIRUser
         print("Attempting to create user")
         
@@ -179,7 +179,7 @@ class UserAccount: NSObject {
                 print("Created new user with uid \(newFIRUser.uid)")
                 
                 // TODO: let users choose a unique username
-                let username = newFIRUser.email!.components(separatedBy: "@")[0]
+                let username = userName//newFIRUser.email!.components(separatedBy: "@")[0]
                 // Set username to default email handle
                 UserAccount.currentUser.username = username
                 
