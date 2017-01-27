@@ -53,13 +53,15 @@ class SignUpViewController: UIViewController {
             guard let email = userNameTextField.text,
                 let password = passWordTextField.text,
                 let username = self.username
-                else { return }
+                else {
+                    presentEmptyFieldErrorAlert()
+                    return
+            }
             
             // Sign up with credentials
             UserAccount.createUser(withUsername: username, email: email, password: password) { (user: FIRUser?, error: Error?) in
                 // Present error alert
-                self.dismiss(animated: true, completion: nil) // Send user back to login page and automatically login after sign up
-                //self.presentErrorAlert(error: error)
+                self.presentErrorAlert(error: error)
             }
         }
     }
@@ -127,9 +129,35 @@ class SignUpViewController: UIViewController {
         }
     }
     
-    
-    
-    
+    /**
+     Present Error Alert
+     
+     - Parameter error: Nothing
+     - Returns:  Void
+     */
+    func presentErrorAlert(error: Error?) {
+        // Present error alert
+        if let error = error {
+            let prompt = UIAlertController.init(title: "Error", message: "\(error.localizedDescription)", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel, handler: nil)
+            prompt.addAction(okAction)
+            
+            present(prompt, animated: true, completion: nil)
+        }
+        else{
+            self.dismiss(animated: true, completion: nil) // Send user back to login page and automatically login after sign up
+        }
+    }
+    /**
+     Present empty fields alert
+    */
+    func presentEmptyFieldErrorAlert() -> Void {
+        // Present error alert
+        let prompt = UIAlertController.init(title: "Error", message: "Please fill out all fields sucka!!", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel, handler: nil)
+        prompt.addAction(okAction)
+        present(prompt, animated: true, completion: nil)
+    }
     
     
 
