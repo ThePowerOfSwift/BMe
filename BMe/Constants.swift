@@ -20,6 +20,10 @@ struct Constants {
 //        static let RootViewController = SegueID.ViewController.CameraViewController
         
     }
+    struct OnSignUp {
+        static let StoryboardID = SegueID.Storyboard.SignUp
+        static let RootViewController = SegueID.ViewController.SignUpViewController
+    }
     struct OnLogout {
         static let StoryboardID = SegueID.Storyboard.Main
         static let RootViewController = SegueID.ViewController.LoginViewController
@@ -39,6 +43,7 @@ struct Constants {
             static let Yelp = "Yelp"
             static let VideoComposer = "VideoComposer"
             static let Main = "Main"
+            static let SignUp = "SignUp"
             static let TabBar = "TabBar"
             static let Browser = "Browser"
             static let PageView = "PageView"
@@ -50,6 +55,7 @@ struct Constants {
             static let YelpViewController = "YelpViewController"
             static let VideoComposerViewController = "VideoComposerViewController"
             static let LoginViewController = "LoginViewController"
+            static let SignUpViewController = "SignUpViewController"
             static let TabBarViewController = "TabBarViewController"
             static let BrowserViewController = "BrowseViewController"
             static let PageViewController = "PageViewController"

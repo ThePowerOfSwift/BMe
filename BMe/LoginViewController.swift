@@ -69,6 +69,8 @@ class LoginViewController: UIViewController {
     }
     
     @IBAction func didTapSignUp(_ sender: AnyObject) {
+        //self.present(getRootVCForSignUp(), animated: false, completion: nil)
+        
         guard let email = usernameTextField.text,
             let password = passwordTextField.text
             else { return }
@@ -78,7 +80,7 @@ class LoginViewController: UIViewController {
             // Present error alert
             self.presentErrorAlert(error: error)
         }
-
+        
     }
     
     // MARK: -  Methods
@@ -111,10 +113,26 @@ class LoginViewController: UIViewController {
         // Completion code upon successful login
         let storyboard = UIStoryboard.init(name: Constants.OnLogin.StoryboardID, bundle: nil)
         let rootVC = storyboard.instantiateViewController(withIdentifier: Constants.OnLogin.RootViewController)
-        
         return rootVC
     }
     
+    /**
+     Get the SignUpViewController
+     - Returns: UIViewController
+    */
+    func getRootVCForSignUp() -> UIViewController {
+        // Completion code upon successful login
+        let storyboard = UIStoryboard.init(name: Constants.OnSignUp.StoryboardID, bundle: nil)
+        let rootVC = storyboard.instantiateViewController(withIdentifier: Constants.OnSignUp.RootViewController)
+        return rootVC
+    }
+    
+    /**
+     Present Error Alert
+     
+     - Parameter error: Nothing
+     - Returns:  Void
+     */
     func presentErrorAlert(error: Error?) {
         // Present error alert
         if let error = error {

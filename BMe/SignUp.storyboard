@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Sign Up View Controller-->
+        <scene sceneID="Kse-NC-imf">
+            <objects>
+                <viewController storyboardIdentifier="SignUpViewController" id="wY4-av-u4v" customClass="SignUpViewController" customModule="BMe" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="fJz-la-N3m"/>
+                        <viewControllerLayoutGuide type="bottom" id="QMq-sz-sCs"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="srw-ax-py0">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ymw-J9-6XU" userLabel="Email Text Field">
+                                <rect key="frame" x="66" y="259" width="243" height="30"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3BB-LU-Ydp" userLabel="Password Text Field">
+                                <rect key="frame" x="66" y="319" width="243" height="30"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Username" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="2oY-LU-9s0" userLabel="Username Text Field">
+                                <rect key="frame" x="66" y="199" width="243" height="30"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W63-JS-uv6" userLabel="Continue">
+                                <rect key="frame" x="66" y="332" width="243" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Submit"/>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wIv-Gc-8mF" userLabel="Description Label">
+                                <rect key="frame" x="166" y="83" width="42" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="3BB-LU-Ydp" firstAttribute="leading" secondItem="ymw-J9-6XU" secondAttribute="leading" id="4ZM-RU-7kA"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="ymw-J9-6XU" secondAttribute="trailing" constant="50" id="7Qe-0e-8eJ"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="2oY-LU-9s0" secondAttribute="trailing" constant="50" id="Blr-4B-rJo"/>
+                            <constraint firstItem="ymw-J9-6XU" firstAttribute="top" secondItem="2oY-LU-9s0" secondAttribute="bottom" constant="30" id="Dya-uM-niy"/>
+                            <constraint firstItem="2oY-LU-9s0" firstAttribute="leading" secondItem="srw-ax-py0" secondAttribute="leadingMargin" constant="50" id="FQB-Eg-dTu"/>
+                            <constraint firstItem="3BB-LU-Ydp" firstAttribute="top" secondItem="ymw-J9-6XU" secondAttribute="bottom" constant="30" id="Ie5-7m-vpr"/>
+                            <constraint firstItem="2oY-LU-9s0" firstAttribute="top" secondItem="fJz-la-N3m" secondAttribute="bottom" constant="135" id="KWf-yR-gsY"/>
+                            <constraint firstItem="ymw-J9-6XU" firstAttribute="leading" secondItem="srw-ax-py0" secondAttribute="leadingMargin" constant="50" id="UdU-jf-nJh"/>
+                            <constraint firstItem="3BB-LU-Ydp" firstAttribute="trailing" secondItem="ymw-J9-6XU" secondAttribute="trailing" id="i3R-xN-Ejy"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="l1Q-wp-Llc"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="YMB-fN-j0d" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2132" y="-18.440779610194905"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="LQS-Rk-7on">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Neb-U8-095" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="phS-VL-hME">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="wY4-av-u4v" kind="relationship" relationship="rootViewController" id="NSM-Zl-ceI"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="9em-Ty-VHL" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1192.8" y="-18.440779610194905"/>
+        </scene>
+    </scenes>
+</document>
