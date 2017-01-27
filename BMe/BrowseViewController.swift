@@ -138,36 +138,32 @@ class BrowseViewController: UIViewController, UITableViewDelegate, UITableViewDa
         // Setup user content
         if let uid = post.uid {
             UserProfile.get(uid, completion: { (userProfile) in
-                if let userProfile = userProfile {
-                    if cell.postID == post.postID {
-                        // Get the avatar if it exists
-                        if let avatarURL = userProfile.avatarURL {
-                            let ref = FIRManager.shared.storage.child(avatarURL.path)
-                            cell.avatarImageView.loadImageFromGS(with: ref, placeholderImage: UIImage(named: Constants.Images.avatarDefault))
-                            cell.usernameLabel.text = userProfile.username
-                        }
-                        // Setup social links
-                        UserProfile.currentUser(completion: { (userProfile) in
-                            if let userProfile = userProfile {
-                                if cell.tag == currentIndex {
-                                    // Set raincheck
-                                    if userProfile.raincheck?[post.postID!] != nil {
-                                        cell.raincheckButton.isSelected = true
-                                    }
-                                    // Set heart
-                                    if userProfile.heart?[post.postID!] != nil {
-                                        cell.heartButton.isSelected = true
-                                    }
+                if let userProfile = userProfile, cell.postID == post.postID {
+                    // Get the avatar if it exists
+                    if let avatarURL = userProfile.avatarURL {
+                        cell.avatarImageView.loadImageFromGS(url: avatarURL, placeholderImage: UIImage(named: Constants.Images.avatarDefault))
+                        cell.usernameLabel.text = userProfile.username
+                    }
+                    // Setup social links
+                    UserProfile.currentUser(completion: { (userProfile) in
+                        if let userProfile = userProfile {
+                            if cell.tag == currentIndex {
+                                // Set raincheck
+                                if userProfile.raincheck?[post.postID!] != nil {
+                                    cell.raincheckButton.isSelected = true
+                                }
+                                // Set heart
+                                if userProfile.heart?[post.postID!] != nil {
+                                    cell.heartButton.isSelected = true
                                 }
                             }
-                        })
-                    }
+                        }
+                    })
                 }
             })
         }
         
         // fetch image
-//        cell.didStartloading()
         FIRManager.shared.database.child(url!.path).observeSingleEvent(of: .value, with: { (snapshot) in
             if cell.postID == post.postID {
                 let image = Image(snapshot.dictionary)
@@ -175,9 +171,7 @@ class BrowseViewController: UIViewController, UITableViewDelegate, UITableViewDa
                     let restaurant = Restaurant(dictionary: meta)
                     cell.headingLabel.text = restaurant.name
                 }
-                let imageRef = FIRManager.shared.storage.child(image.gsURL!.path)
-                    cell.postImageView.loadImageFromGS(with: imageRef, placeholderImage: nil)
-//                cell.didFinishloading()
+                cell.postImageView.loadImageFromGS(url: image.gsURL!, placeholderImage: nil)
             }
         })
 

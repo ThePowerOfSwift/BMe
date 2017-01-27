@@ -129,9 +129,8 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
         // Reference to an image file in Firebase Storage and pull image
         let defaultImage = UIImage(named: Constants.Images.avatarDefault)
         
-        if let path = UserAccount.currentUser.avatarURL?.path {
-            let avatarRef = FIRManager.shared.storage.child(path)
-            avatarImageView.loadImageFromGS(with: avatarRef, placeholderImage: defaultImage)
+        if let avatarURL = UserAccount.currentUser.avatarURL {
+            avatarImageView.loadImageFromGS(url: avatarURL, placeholderImage: defaultImage)
         } else { avatarImageView.image = defaultImage }
         
         
@@ -205,7 +204,7 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
                     }
         
                     // Update user profile and change avatar
-                    UserAccount.currentUser.avatarURL = URL(string: (meta?.gsURL)!)
+                    UserAccount.currentUser.avatarURL = URL(string: (meta?.storageURL)!)
                 }
                 finish()
             })

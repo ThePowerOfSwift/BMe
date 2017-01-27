@@ -193,8 +193,7 @@ class FeaturedViewController: UIViewController, UITableViewDataSource, UITableVi
                 cell.contentLabel.isHidden = true
                 
                 cell.contentImageView.contentMode = .scaleAspectFill
-                let imageRef = FIRManager.shared.storage.child(imageGSurl.path)
-                cell.contentImageView.loadImageFromGS(with: imageRef, placeholderImage: nil)
+                cell.contentImageView.loadImageFromGS(url: imageGSurl, placeholderImage: nil)
             }
         }
         return cell

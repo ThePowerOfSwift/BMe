@@ -316,7 +316,6 @@
 			isa = PBXGroup;
 			children = (
 				78B95F8B1DF6B4EA00B6C83E /* BrowserImageTableViewCell.swift */,
-				78C3503C1DF126A6005E8331 /* BrowserVideoTableViewCell.swift */,
 				78F511351DF6D0860074050F /* WhiteRevealOverlayView.swift */,
 				78F511371DF6D09E0074050F /* WhiteRevealOverlayView.xib */,
 				78BCDF3E1DF751E8002D399E /* BusyView.swift */,
@@ -476,6 +475,7 @@
 		78A2449B1E32C52200D0B21D /* Archive */ = {
 			isa = PBXGroup;
 			children = (
+				78C3503C1DF126A6005E8331 /* BrowserVideoTableViewCell.swift */,
 				785E87C71DED4C4F00C9FF59 /* VideoComposerViewController.swift */,
 				7830089F1DE3B9A000B070D4 /* MediaSelectorCollectionViewCell.swift */,
 				785E87C91DED4E5800C9FF59 /* VideoComposerCollectionViewCell.swift */,

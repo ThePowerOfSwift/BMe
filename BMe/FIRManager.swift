@@ -13,32 +13,28 @@ class FIRManager: NSObject {
     
     // Singleton
     static let shared = FIRManager()
-    
+    private override init() {
+        super.init()
+    }
+
     // Properties
     var database: FIRDatabaseReference {
         get{ return FIRDatabase.database().reference()
         }
     }
-    var storageBucketURLString: String {
-        get {
-             return FIRApp.defaultApp()!.options.storageBucket
-        }
-    }
+
     // Reference to storage bucket
     var storage: FIRStorageReference {
         get {
-            return FIRStorage.storage().reference(forURL: "gs://" + storageBucketURLString)
+            return FIRStorage.storage().reference(forURL: "gs://" + FIRApp.defaultApp()!.options.storageBucket)
         }
     }
+    
     // Returns a unique timestamp with the UID as parent folder
     var uniqueIdentifier: String {
         get {
             return "\((FIRAuth.auth()?.currentUser?.uid)!)/\(Int(Date.timeIntervalSinceReferenceDate * 1000))"
         }
-    }
-
-    private override init() {
-        super.init()
     }
 
 // MARK: - Methods
@@ -111,7 +107,7 @@ class FIRManager: NSObject {
         }
         
         // Get resultant URLs and create object on Databasae
-        let gsURL = metadata?.gsURL
+        let gsURL = metadata?.storageURL
         FIRManager.shared.fetchDownloadURLs([URL(string: gsURL!)!], completion: { (urls) in
             let downloadURL = urls.first!
             
@@ -165,6 +161,7 @@ class FIRManager: NSObject {
         })
     }
     
+    //Deprecate
     func rainCheckPost(_ postID: String) {
         print("Rainchecking post \(postID)")
         // Add postID for userMeta
@@ -175,12 +172,14 @@ class FIRManager: NSObject {
         raincheckRef.setValue(meta)
     }
     
+    //Deprecate
     func removeRainCheckPost(_ postID: String) {
         let metaRef = FIRManager.shared.database.child(ContentType.userMeta.objectKey()).child(UserAccount.currentUser.uid!)
         let raincheckRef = metaRef.child(UserProfile.Key.raincheck).child(postID)
         raincheckRef.removeValue()
     }
     
+    // TODO: Move to posts
     func fetchPostsWithID(_ IDs: [String], completion: @escaping ([FIRDataSnapshot])->() ) {
         // Trackers
         var index = 0
@@ -207,6 +206,7 @@ class FIRManager: NSObject {
         
     }
     
+    //Deprecate
     func heartPost(_ postID: String) {
         print("Hearting post \(postID)")
         // Add postID for userMeta
@@ -217,79 +217,11 @@ class FIRManager: NSObject {
         heartRef.setValue(meta)
     }
     
+    //Deprecate
     func removeHeartPost(_ postID: String) {
         let metaRef = FIRManager.shared.database.child(ContentType.userMeta.objectKey()).child(UserAccount.currentUser.uid!)
         let heartRef = metaRef.child(UserProfile.Key.heart).child(postID)
         heartRef.removeValue()
-    }
-    
-    //TODO: - Should move this to VideoComposition
-    func uploadVideoComposition(composition: VideoComposition, completion:(()->())?) {
-        var newData = composition.dictionaryFormat
-        
-        // Upload audio to Storage and get new audio Storage url to newData
-        self.putObjectOnStorage(url: composition.audioURL!, contentType: .audio, completion:
-            { (metadata, error) in
-            
-                // Update Storage gs url into Database object
-            
-                newData[VideoComposition.Key.gsAudioURL] = metadata!.gsURL as AnyObject
-            
-                
-                let gsURL = URL(string: metadata!.gsURL)
-                FIRManager.shared.fetchDownloadURLs([gsURL!], completion: { (urls) in
-                newData[VideoComposition.Key.audioURL] = urls.first?.absoluteString as AnyObject
-                print("Success: uploaded audio")
-                
-                // Upload the video URLs to Storage and get new video Database urls into newData
-                // Generate array of download urls
-                var gsVideoURLs: [String] = Array(repeating: "nil", count: composition.videoURLs.count)
-                var didFinish = 0
-                for i in 0..<composition.videoURLs.count {
-                    let index = i
-                    self.putObjectOnStorage(url: composition.videoURLs[index], contentType: .video, completion: {
-                        (metadata, error) in
-                        
-                        let urlString = metadata!.gsURL
-                        gsVideoURLs[index] = urlString
-                        
-                        print("Success: uploaded video \(index + 1) of \(composition.videoURLs.count): \(urlString)")
-                        didFinish += 1
-                        
-                        if didFinish == gsVideoURLs.count {
-                            // Upload the new array of download urls
-                            newData[VideoComposition.Key.gsVideoURLs] = gsVideoURLs as AnyObject
-                            
-                            FIRManager.shared.fetchDownloadURLs(urlStrings: gsVideoURLs, completion: { (urls) in
-                                
-                                var urlStrings: [String] = []
-                                for url in urls {
-                                    let absString = url.absoluteString
-                                    urlStrings.append(absString)
-                                }
-                                newData[VideoComposition.Key.videoURLs] = urlStrings as AnyObject
-                                
-                                // Put new Template object to Database
-                                self.putObjectOnDatabase(named: ContentType.template.objectKey(), data: newData, completion: {
-                                    (templateDatabaseReference, error) in
-                                    if  error != nil {
-                                        print("Error- abort putting template")
-                                        return
-                                    }
-                                    print("Success: created template object on Database, path: \(templateDatabaseReference.url)")
-                                    
-                                    // Update template ID
-                                    templateDatabaseReference.updateChildValues([VideoComposition.Key.templateID: templateDatabaseReference.key])
-                                    
-                                    completion?()
-                                })
-                            })
-                            
-                        }
-                    })
-                }
-            })
-        })
     }
     
     func fetchDownloadURLs(urlStrings: [String], completion: @escaping ([URL])->()) {
@@ -314,7 +246,7 @@ class FIRManager: NSObject {
         for i in 0..<newURLs.count {
             let index = i
             let cloudURL = newURLs[index]
-            if cloudURL.absoluteString.isCloudStorage {
+            if cloudURL.absoluteString.isStorage {
                 FIRStorage.storage().reference(forURL: cloudURL.absoluteString).downloadURL(completion: { (url, error) in
                     if let error = error {
                         print("Error getting download URL for cloud object, aborting: \(error.localizedDescription)")
@@ -358,7 +290,7 @@ extension FIRDataSnapshot {
 }
 
 extension String {
-    var isCloudStorage: Bool {
+    var isStorage: Bool {
         get {
             return self.hasPrefix("gs://")
         }
@@ -366,7 +298,7 @@ extension String {
 }
 
 extension FIRStorageMetadata {
-    var gsURL: String {
+    var storageURL: String {
         get {
             return FIRManager.shared.storage.child(self.path!).description
         }
@@ -377,8 +309,10 @@ extension UIImageView {
     /** 
      Load an image from Google Storage and layover busy indicator over imageView during load
      */
-    func loadImageFromGS(with storageRef: FIRStorageReference, placeholderImage placeholder: UIImage?) {
-        if let task = self.sd_setImage(with: storageRef, placeholderImage: placeholder) {
+    func loadImageFromGS(url: URL, placeholderImage placeholder: UIImage?) {
+        let storagePath: FIRStorageReference = FIRManager.shared.storage.child(url.path)
+        if let task = self.sd_setImage(with: storagePath, placeholderImage: placeholder) {
+            // Setup progress indicator
 //            let busyIndicator = UIActivityIndicatorView(frame: self.bounds)
 //            self.addSubview(busyIndicator)
 //            busyIndicator.startAnimating()
