@@ -98,7 +98,7 @@
             <objects>
                 <navigationController storyboardIdentifier="SignUpNavViewController" automaticallyAdjustsScrollViewInsets="NO" id="Neb-U8-095" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" id="phS-VL-hME">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" barStyle="black" id="phS-VL-hME">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

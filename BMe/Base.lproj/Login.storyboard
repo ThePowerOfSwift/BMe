@@ -21,15 +21,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LyF-Gn-jy4">
-                                <rect key="frame" x="50" y="450" width="275" height="30"/>
-                                <state key="normal" title="Sign up">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="didTapSignUp:" destination="BYZ-38-t0r" eventType="touchUpInside" id="RU7-Ro-VgN"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="f90-8V-udb">
                                 <rect key="frame" x="50" y="405" width="275" height="30"/>
                                 <state key="normal" title="Login">
@@ -75,7 +66,6 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="LyF-Gn-jy4" firstAttribute="top" secondItem="xm5-si-3SY" secondAttribute="bottom" constant="65" id="0eW-Ht-xDW"/>
                             <constraint firstItem="xm5-si-3SY" firstAttribute="top" secondItem="cVg-CF-vZU" secondAttribute="bottom" constant="30" id="1gq-ia-Mj1"/>
                             <constraint firstItem="xm5-si-3SY" firstAttribute="trailing" secondItem="cVg-CF-vZU" secondAttribute="trailing" id="3XH-aT-Y3y"/>
                             <constraint firstItem="xm5-si-3SY" firstAttribute="leading" secondItem="cVg-CF-vZU" secondAttribute="leading" id="5Tz-nh-CkF"/>
@@ -87,8 +77,6 @@
                             <constraint firstItem="RC1-dg-gwf" firstAttribute="centerX" secondItem="hn9-PR-dcw" secondAttribute="centerX" id="dEu-Z0-AJE"/>
                             <constraint firstAttribute="trailing" secondItem="cVg-CF-vZU" secondAttribute="trailing" constant="50" id="eDS-xO-HJE"/>
                             <constraint firstItem="cVg-CF-vZU" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="50" id="gHo-mk-B7T"/>
-                            <constraint firstItem="LyF-Gn-jy4" firstAttribute="leading" secondItem="xm5-si-3SY" secondAttribute="leading" id="gcH-5H-tpQ"/>
-                            <constraint firstItem="LyF-Gn-jy4" firstAttribute="trailing" secondItem="xm5-si-3SY" secondAttribute="trailing" id="xdg-rE-rPC"/>
                             <constraint firstItem="f90-8V-udb" firstAttribute="leading" secondItem="xm5-si-3SY" secondAttribute="leading" id="yka-Gb-kvs"/>
                             <constraint firstItem="f90-8V-udb" firstAttribute="trailing" secondItem="xm5-si-3SY" secondAttribute="trailing" id="zvd-dm-ecK"/>
                         </constraints>
@@ -100,7 +88,6 @@
                         <outlet property="logoImageViewHeightConstraint" destination="geB-LU-Sab" id="T81-8Q-1wq"/>
                         <outlet property="logoImageViewWidthConstraint" destination="xql-Zg-mpZ" id="3em-0L-tmJ"/>
                         <outlet property="passwordTextField" destination="xm5-si-3SY" id="Xnn-oO-CCL"/>
-                        <outlet property="signupButton" destination="LyF-Gn-jy4" id="BN7-FP-80d"/>
                         <outlet property="usernameTextField" destination="cVg-CF-vZU" id="R2q-ra-RYG"/>
                     </connections>
                 </viewController>

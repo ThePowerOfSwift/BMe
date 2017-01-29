@@ -15,7 +15,6 @@ class LoginViewController: UIViewController {
 
     @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
-    @IBOutlet weak var signupButton: UIButton!
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var logoImageView: UIImageView!
     @IBOutlet weak var logoImageViewHeightConstraint: NSLayoutConstraint!
@@ -26,7 +25,6 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.signupButton.isHidden = true//Disable the button
         // Do any additional setup after loading the view, typically from a nib.
         view.backgroundColor = Styles.Color.Primary
         logoImageViewWidthConstraint.constant = Styles.Logo.size.width
@@ -68,14 +66,10 @@ class LoginViewController: UIViewController {
         
     }
     
-    @IBAction func didTapSignUp(_ sender: AnyObject) {
-        self.present(getRootVCForSignUp(), animated: false, completion: nil)
-    }
+    
     @IBAction func onBack(_ sender: Any) {
         self.dismiss(animated: false, completion: nil)
     }
-    
-    
     
     
     // MARK: -  Methods
@@ -108,17 +102,6 @@ class LoginViewController: UIViewController {
         // Completion code upon successful login
         let storyboard = UIStoryboard.init(name: Constants.OnLogin.StoryboardID, bundle: nil)
         let rootVC = storyboard.instantiateViewController(withIdentifier: Constants.OnLogin.RootViewController)
-        return rootVC
-    }
-    
-    /**
-     Get the SignUpViewController
-     - Returns: UIViewController
-    */
-    func getRootVCForSignUp() -> UIViewController {
-        // Completion code upon successful login
-        let storyboard = UIStoryboard.init(name: Constants.OnSignUp.StoryboardID, bundle: nil)
-        let rootVC = storyboard.instantiateViewController(withIdentifier: Constants.OnSignUp.RootViewController)
         return rootVC
     }
     
