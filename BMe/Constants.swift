@@ -28,6 +28,10 @@ struct Constants {
         static let StoryboardID = SegueID.Storyboard.Main
         static let RootViewController = SegueID.ViewController.LoginViewController
     }
+    struct ToLogin {
+        static let StoryboardID = SegueID.Storyboard.Login
+        static let RootViewController = SegueID.ViewController.LoginViewController
+    }
     struct NotificationKeys {
         static let didSignIn = "onSignInCompleted"
         static let didSignOut = "onSignOutCompleted"
@@ -43,6 +47,7 @@ struct Constants {
             static let Yelp = "Yelp"
             static let VideoComposer = "VideoComposer"
             static let Main = "Main"
+            static let Login = "Login"
             static let SignUp = "SignUp"
             static let TabBar = "TabBar"
             static let Browser = "Browser"

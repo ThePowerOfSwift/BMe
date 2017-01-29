@@ -26,7 +26,7 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.signupButton.isHidden = true//Disable the button
         // Do any additional setup after loading the view, typically from a nib.
         view.backgroundColor = Styles.Color.Primary
         logoImageViewWidthConstraint.constant = Styles.Logo.size.width
@@ -71,6 +71,12 @@ class LoginViewController: UIViewController {
     @IBAction func didTapSignUp(_ sender: AnyObject) {
         self.present(getRootVCForSignUp(), animated: false, completion: nil)
     }
+    @IBAction func onBack(_ sender: Any) {
+        self.dismiss(animated: false, completion: nil)
+    }
+    
+    
+    
     
     // MARK: -  Methods
     let intervals: TimeInterval = 0.5
