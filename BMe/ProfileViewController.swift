@@ -69,11 +69,13 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
       } else {
         self.heartLabel.text = String(0)
       }
+      
+      self.setupAvatar()
+      self.setupUser()
 
     }
-//    
-//    setupAvatar()
-//    setupUser()
+    
+
     
     // set raincheck and heart count
     
