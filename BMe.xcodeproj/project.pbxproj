@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		254F915EC76BE78350CEE7B5 /* Pods_BMe.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40191E5B9CEF388CFBDD07FC /* Pods_BMe.framework */; };
+		4276E9331E3FFDA40020992D /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4276E9321E3FFDA40020992D /* ProfileViewController.swift */; };
+		4276E9351E3FFDCA0020992D /* malcolm.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4276E9341E3FFDCA0020992D /* malcolm.storyboard */; };
 		6A9D8CE7FB89247C93EB3755 /* Pods_BMeTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 191E6E9B7B3527D1F818254D /* Pods_BMeTests.framework */; };
 		781E713E1DF401A100041855 /* sound-wave.png in Resources */ = {isa = PBXBuildFile; fileRef = 781E713D1DF401A100041855 /* sound-wave.png */; };
 		781E71401DF4036E00041855 /* sound-wave-yellow.png in Resources */ = {isa = PBXBuildFile; fileRef = 781E713F1DF4036E00041855 /* sound-wave-yellow.png */; };
@@ -128,6 +130,8 @@
 		1B3943A2C1F5F5DBD966A650 /* Pods-BMe.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BMe.release.xcconfig"; path = "Pods/Target Support Files/Pods-BMe/Pods-BMe.release.xcconfig"; sourceTree = "<group>"; };
 		3B904E80464934303F529DA3 /* Pods-BMeUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BMeUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BMeUITests/Pods-BMeUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		40191E5B9CEF388CFBDD07FC /* Pods_BMe.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BMe.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4276E9321E3FFDA40020992D /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		4276E9341E3FFDCA0020992D /* malcolm.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = malcolm.storyboard; sourceTree = "<group>"; };
 		500EAC6FA5C71681BCC723C6 /* Pods-BMeTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BMeTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-BMeTests/Pods-BMeTests.release.xcconfig"; sourceTree = "<group>"; };
 		781E713D1DF401A100041855 /* sound-wave.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sound-wave.png"; sourceTree = "<group>"; };
 		781E713F1DF4036E00041855 /* sound-wave-yellow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sound-wave-yellow.png"; sourceTree = "<group>"; };
@@ -251,6 +255,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4276E9311E3FFD710020992D /* Malcolm */ = {
+			isa = PBXGroup;
+			children = (
+				4276E9341E3FFDCA0020992D /* malcolm.storyboard */,
+				4276E9321E3FFDA40020992D /* ProfileViewController.swift */,
+			);
+			name = Malcolm;
+			sourceTree = "<group>";
+		};
 		73CBDC81D6C6910129B5EE25 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -380,6 +393,7 @@
 				783008AB1DE3B9AF00B070D4 /* Models */,
 				78337D8F1DE3AC9300A1B32C /* Sato */,
 				BFF9AE951E398C6D0012C1F2 /* Louis */,
+				4276E9311E3FFD710020992D /* Malcolm */,
 				78337D901DE3ACA700A1B32C /* JJ */,
 			);
 			path = BMe;
@@ -584,7 +598,7 @@
 				TargetAttributes = {
 					78469A571DE3958000A40D53 = {
 						CreatedOnToolsVersion = 8.0;
-						DevelopmentTeam = Y4GA6H5JHE;
+						DevelopmentTeam = QF43K5VRQT;
 						ProvisioningStyle = Automatic;
 					};
 					78469A6B1DE3958100A40D53 = {
@@ -653,6 +667,7 @@
 				7851239C1DF9F66800B70CC4 /* logout.png in Resources */,
 				7837A2111DF8B898000CB9CB /* raincheck.png in Resources */,
 				7837A21C1DF959F2000CB9CB /* heart-gray.png in Resources */,
+				4276E9351E3FFDCA0020992D /* malcolm.storyboard in Resources */,
 				BFF9AE9B1E3D90020012C1F2 /* Main.storyboard in Resources */,
 				E35AC4871DE4D0F500FCB0D0 /* TabBar.storyboard in Resources */,
 				78B56A061DF5EBFB00A13915 /* error.png in Resources */,
@@ -842,6 +857,7 @@
 				E3C357A21DEF451E00AC0832 /* YPManager.swift in Sources */,
 				E3D1D55F1DF11D700021942A /* Styles.swift in Sources */,
 				BFF9AE971E39BBE90012C1F2 /* SignUpViewController.swift in Sources */,
+				4276E9331E3FFDA40020992D /* ProfileViewController.swift in Sources */,
 				78BCDF3F1DF751E8002D399E /* BusyView.swift in Sources */,
 				78469A5E1DE3958100A40D53 /* LoginViewController.swift in Sources */,
 				78BCDF371DF749CC002D399E /* PostButton.swift in Sources */,
@@ -1022,10 +1038,10 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				DEVELOPMENT_TEAM = Y4GA6H5JHE;
+				DEVELOPMENT_TEAM = QF43K5VRQT;
 				INFOPLIST_FILE = BMe/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.op.BMe;
+				PRODUCT_BUNDLE_IDENTIFIER = com.op.poop;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1040,10 +1056,10 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				DEVELOPMENT_TEAM = Y4GA6H5JHE;
+				DEVELOPMENT_TEAM = QF43K5VRQT;
 				INFOPLIST_FILE = BMe/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.op.BMe;
+				PRODUCT_BUNDLE_IDENTIFIER = com.op.poop;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 3.0;
