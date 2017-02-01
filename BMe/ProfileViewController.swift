@@ -25,6 +25,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
   @IBOutlet weak var label: UILabel!
   @IBOutlet weak var raincheckLabel: UILabel!
   @IBOutlet weak var heartLabel: UILabel!
+    @IBOutlet weak var tableViewContainer: UIView!
   
   @IBOutlet weak var photosCollectionView: UICollectionView!
   @IBOutlet weak var photosTableView: UITableView!
@@ -61,8 +62,32 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
       self.setupAvatar()
       self.setupUser()
     }
-
+    
     view.backgroundColor = Styles.Color.Primary
+
+
+    // TODO: - NEED TO REFACTOR TVC MODEL
+    // Add tableview child vc
+    let tvc = UIStoryboard(name: Constants.SegueID.Storyboard.Browser, bundle: nil).instantiateViewController(withIdentifier: Constants.SegueID.ViewController.BrowserViewController) as! BrowseViewController
+    // Setup data as rainchecks
+    tvc.dataSelector =  #selector(setupRaincheckDB)
+    addChildViewController(tvc)
+    // Configuration
+    tvc.view.frame = tableViewContainer.bounds
+    tvc.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+    // TODO: - hardcoded buffer
+    tvc.tableView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0)
+    // Complete adding to containter
+    tableViewContainer.addSubview(tvc.view)
+    tvc.didMove(toParentViewController: self)
+    
+    tvc.view.backgroundColor = UIColor.clear
+    tvc.tableView.backgroundColor = tvc.view.backgroundColor
+    tableViewContainer.backgroundColor = UIColor.clear
+    
+    // tab bar reveal already embedded in child tvc above
+    // Add tab bar reveal
+    view.addSubview(WhiteRevealOverlayView(frame: view.bounds))
   }
   
     
@@ -194,6 +219,22 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         if textField.tag == Textfields.username.rawValue {
             UserAccount.currentUser.username = newValue
         }
+    }
+    
+    
+    // MARK: - MiddleMenu Actions
+    
+    @IBAction func onGridButtonPressed(_ sender: UIButton) {
+        
+        photosCollectionView.isHidden = false
+        tableViewContainer.isHidden = true
+
+    }
+
+    @IBAction func onTableButtonPressed(_ sender: UIButton) {
+        photosCollectionView.isHidden = true
+        tableViewContainer.isHidden = false
+
     }
 
 
