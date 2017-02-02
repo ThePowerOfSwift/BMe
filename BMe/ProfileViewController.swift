@@ -38,15 +38,8 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     fileprivate var _refHandleRemove: FIRDatabaseHandle?
     fileprivate let dbReference = FIRManager.shared.database.child(ContentType.post.objectKey()).queryOrdered(byChild: Post.Key.timestamp)
     var isFetchingData = false
-    
     var posts: [FIRDataSnapshot]! = []
-    var isListButtonHighlighted = MiddleMenuButton.off
-    var isGridHighLighted = MiddleMenuButton.on
 
-    
-    var isTableHighLighted:Bool = false
-//    var isGridHighLighted:Bool = true
-    
     @IBOutlet weak var gridButton: UIButton!
     @IBOutlet weak var listButton: UIButton!
     @IBOutlet weak var tagButton: UIButton!
@@ -54,7 +47,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     let gridFlowLayout = PhotoGridFlowLayout()
     let listFlowLayout = PhotoListFlowLayout()
     var isGridFlowLayoutUsed: Bool = false
-    
     
     @IBAction func tappedSignoutButton(_ sender: UIButton) {
         UserAccount.currentUser.signOut()
@@ -76,7 +68,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         }
         
         setupInitialLayout()
-        
         
         view.backgroundColor = Styles.Color.Primary
         gridButton.tintColor = MiddleMenuButton.on
@@ -223,7 +214,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     @IBAction func onGridButtonPressed(_ sender: UIButton) {
         listButton.tintColor = MiddleMenuButton.off
         gridButton.tintColor = MiddleMenuButton.on
-
         
         //switch to grid :)
         isGridFlowLayoutUsed = true
@@ -240,7 +230,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         isGridFlowLayoutUsed = false
         UIView.animate(withDuration: 0.2, animations: { () -> Void in
             self.photosCollectionView.collectionViewLayout.invalidateLayout()
-            self.photosCollectionView.setCollectionViewLayout(self.listFlowLayout, animated: true)
+        self.photosCollectionView.setCollectionViewLayout(self.listFlowLayout, animated: true)
         })
         
     }
@@ -307,11 +297,6 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
         return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
-        let size = CGSize(width: 120, height: 120)
-        return size
-    }
 }
 
 // MARK: - UICollectionViewDelegate

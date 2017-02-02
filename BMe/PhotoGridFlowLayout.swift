@@ -32,7 +32,7 @@ class PhotoGridFlowLayout: UICollectionViewFlowLayout {
     }
     
     func itemWidth() -> CGFloat {
-        return (collectionView!.frame.width/3)-1
+        return (collectionView!.frame.width/2)-1
     }
     
     override var itemSize: CGSize {
