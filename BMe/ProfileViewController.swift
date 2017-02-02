@@ -41,7 +41,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     
     var posts: [FIRDataSnapshot]! = []
     
-    let tvc = UIStoryboard(name: Constants.SegueID.Storyboard.Browser, bundle: nil).instantiateViewController(withIdentifier: Constants.SegueID.ViewController.BrowserViewController) as! BrowseViewController
+//    let tvc = UIStoryboard(name: Constants.SegueID.Storyboard.Browser, bundle: nil).instantiateViewController(withIdentifier: Constants.SegueID.ViewController.BrowserViewController) as! BrowseViewController
     
     @IBAction func tappedSignoutButton(_ sender: UIButton) {
                UserAccount.currentUser.signOut()
@@ -72,26 +72,26 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         
         // TODO: - NEED TO REFACTOR TVC MODEL
         // Add tableview child vc
-        
-        // Setup data as rainchecks
-        tvc.dataSelector =  #selector(setupRaincheckDB)
-        addChildViewController(tvc)
-        // Configuration
-        tvc.view.frame = tableViewContainer.bounds
-        tvc.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        // TODO: - hardcoded buffer
-        tvc.tableView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0)
-        // Complete adding to containter
-        tableViewContainer.addSubview(tvc.view)
-        tvc.didMove(toParentViewController: self)
-        
-        tvc.view.backgroundColor = UIColor.clear
-        tvc.tableView.backgroundColor = tvc.view.backgroundColor
-        tableViewContainer.backgroundColor = UIColor.clear
-        
-        // tab bar reveal already embedded in child tvc above
-        // Add tab bar reveal
-        view.addSubview(WhiteRevealOverlayView(frame: view.bounds))
+//        
+//        // Setup data as rainchecks
+//        tvc.dataSelector =  #selector(setupRaincheckDB)
+//        addChildViewController(tvc)
+//        // Configuration
+//        tvc.view.frame = tableViewContainer.bounds
+//        tvc.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+//        // TODO: - hardcoded buffer
+//        tvc.tableView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0)
+//        // Complete adding to containter
+//        tableViewContainer.addSubview(tvc.view)
+//        tvc.didMove(toParentViewController: self)
+//        
+//        tvc.view.backgroundColor = UIColor.clear
+//        tvc.tableView.backgroundColor = tvc.view.backgroundColor
+//        tableViewContainer.backgroundColor = UIColor.clear
+//        
+//        // tab bar reveal already embedded in child tvc above
+//        // Add tab bar reveal
+//        view.addSubview(WhiteRevealOverlayView(frame: view.bounds))
     }
     
     
@@ -236,7 +236,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         tableViewContainer.isHidden = false
     }
     
-    
+    // TODO: - Change to pull all posts not just rainchecks
     func fetchPosts() {
         
         // Observe vales for init loading and for newly added rainchecked posts
@@ -290,7 +290,9 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             //         fetch image
             FIRManager.shared.database.child(url!.path).observeSingleEvent(of: .value, with: { (snapshot) in
                 let image = Image(snapshot.dictionary)
-                cell.imageView.loadImageFromGS(url: image.gsURL!, placeholderImage: nil)
+                if let url = image.gsURL {
+                    cell.imageView.loadImageFromGS(url: url, placeholderImage: nil)
+                }
             })
         }
         return cell

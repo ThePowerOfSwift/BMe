@@ -10,6 +10,7 @@
 		254F915EC76BE78350CEE7B5 /* Pods_BMe.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40191E5B9CEF388CFBDD07FC /* Pods_BMe.framework */; };
 		4216315A1E42991100E644A5 /* ProfileCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 421631591E42991100E644A5 /* ProfileCollectionViewCell.swift */; };
 		4216315C1E42ACB900E644A5 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4216315B1E42ACB900E644A5 /* View.swift */; };
+		4216315E1E43C26600E644A5 /* ProfileTableCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4216315D1E43C26600E644A5 /* ProfileTableCollectionViewCell.swift */; };
 		4276E9331E3FFDA40020992D /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4276E9321E3FFDA40020992D /* ProfileViewController.swift */; };
 		4276E9351E3FFDCA0020992D /* malcolm.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4276E9341E3FFDCA0020992D /* malcolm.storyboard */; };
 		6A9D8CE7FB89247C93EB3755 /* Pods_BMeTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 191E6E9B7B3527D1F818254D /* Pods_BMeTests.framework */; };
@@ -134,6 +135,7 @@
 		40191E5B9CEF388CFBDD07FC /* Pods_BMe.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BMe.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		421631591E42991100E644A5 /* ProfileCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileCollectionViewCell.swift; sourceTree = "<group>"; };
 		4216315B1E42ACB900E644A5 /* View.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
+		4216315D1E43C26600E644A5 /* ProfileTableCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileTableCollectionViewCell.swift; sourceTree = "<group>"; };
 		4276E9321E3FFDA40020992D /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		4276E9341E3FFDCA0020992D /* malcolm.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = malcolm.storyboard; sourceTree = "<group>"; };
 		500EAC6FA5C71681BCC723C6 /* Pods-BMeTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BMeTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-BMeTests/Pods-BMeTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -266,6 +268,7 @@
 				4216315B1E42ACB900E644A5 /* View.swift */,
 				4276E9321E3FFDA40020992D /* ProfileViewController.swift */,
 				421631591E42991100E644A5 /* ProfileCollectionViewCell.swift */,
+				4216315D1E43C26600E644A5 /* ProfileTableCollectionViewCell.swift */,
 			);
 			name = Malcolm;
 			sourceTree = "<group>";
@@ -884,6 +887,7 @@
 				7821C3C41DEF94350023B95E /* CameraViewController.swift in Sources */,
 				E342CF951DF65D1D00AD45D2 /* PageViewController.swift in Sources */,
 				BFF9AE9D1E3D90540012C1F2 /* MainViewController.swift in Sources */,
+				4216315E1E43C26600E644A5 /* ProfileTableCollectionViewCell.swift in Sources */,
 				781E71561DF5196F00041855 /* Image.swift in Sources */,
 				78F511361DF6D0860074050F /* WhiteRevealOverlayView.swift in Sources */,
 				7837A21F1DF95A43000CB9CB /* HeartButton.swift in Sources */,
