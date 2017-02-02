@@ -10,7 +10,7 @@ import UIKit
 
 class PhotoGridFlowLayout: UICollectionViewFlowLayout {
     
-    let itemHeight: CGFloat = 120
+    let itemHeight: CGFloat = 180
     
     override init() {
         super.init()

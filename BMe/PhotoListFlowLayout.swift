@@ -10,7 +10,7 @@ import UIKit
 
 class PhotoListFlowLayout: UICollectionViewFlowLayout {
     
-    let itemHeight: CGFloat = 120
+    let itemHeight: CGFloat = 500
     
     override init() {
         super.init()
