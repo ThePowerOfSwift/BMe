@@ -147,7 +147,7 @@
                         <outlet property="emailTextField" destination="dpv-rN-stJ" id="cFM-zE-haU"/>
                         <outlet property="heartLabel" destination="eps-np-bFA" id="NOW-9S-JqZ"/>
                         <outlet property="raincheckLabel" destination="vm7-Dm-E1C" id="bBr-Ki-gXn"/>
-                        <outlet property="tableViewContainer" destination="UIr-h8-eBL" id="PRi-wD-6RE"/>
+                        <outlet property="tableViewContainer" destination="UIr-h8-eBL" id="zJy-kB-Z0P"/>
                         <outlet property="usernameTextField" destination="aw8-1c-6y0" id="k7U-39-ztU"/>
                     </connections>
                 </viewController>

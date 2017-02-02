@@ -149,7 +149,7 @@
                                             <constraint firstAttribute="width" constant="27" id="Bvn-TJ-RSU"/>
                                             <constraint firstAttribute="height" constant="21" id="XZQ-Xt-fRp"/>
                                         </constraints>
-                                        <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="tintColor" red="1" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <state key="normal" title="Button" image="profilegrid"/>
                                         <connections>
                                             <action selector="onGridButtonPressed:" destination="cT0-Eh-3BH" eventType="touchUpInside" id="GHf-Po-Nmm"/>
@@ -278,7 +278,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="heading label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3ap-le-FFx">
-                                                    <rect key="frame" x="104" y="55.5" width="102" height="21"/>
+                                                    <rect key="frame" x="104" y="56" width="102" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -358,14 +358,15 @@
                     <nil key="simulatedTopBarMetrics"/>
                     <connections>
                         <outlet property="avatarImageView" destination="QJg-S6-hO4" id="hzA-st-ngu"/>
-                        <outlet property="bioTextField" destination="EB8-NU-pDp" id="5XV-HD-1q4"/>
                         <outlet property="emailTextField" destination="EB8-NU-pDp" id="Vh8-au-9zW"/>
                         <outlet property="followersLabel" destination="aJF-Qq-1OR" id="ILX-NE-aCY"/>
                         <outlet property="followingLabel" destination="1zI-d9-mex" id="Kw9-5j-1V2"/>
+                        <outlet property="gridButton" destination="5mg-Pw-Oac" id="407-uF-mYj"/>
                         <outlet property="headerProfileView" destination="2If-Wn-upO" id="rCa-8V-JK5"/>
+                        <outlet property="listButton" destination="x3g-xa-RDc" id="x9c-sX-NO2"/>
                         <outlet property="photosCollectionView" destination="rPT-GT-slZ" id="f5C-6t-Gi7"/>
                         <outlet property="postLabel" destination="2Ls-Wu-CdN" id="YsL-yt-Z4F"/>
-                        <outlet property="tableViewContainer" destination="1UM-ye-IGB" id="qDH-DD-LRQ"/>
+                        <outlet property="tagButton" destination="DeA-Wd-xcR" id="Fpw-9w-ESp"/>
                         <outlet property="usernameTextField" destination="NOP-f4-qf5" id="HBT-YB-ELz"/>
                     </connections>
                 </viewController>
@@ -378,7 +379,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="e7v-dG-9Q0" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="fuJ-S1-kQJ">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="fuJ-S1-kQJ">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>

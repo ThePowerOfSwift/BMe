@@ -12,6 +12,11 @@ import MobileCoreServices
 import FirebaseStorageUI
 import Firebase
 
+struct MiddleMenuButton {
+    static let off = UIColor.lightGray
+    static let on = UIColor.yellow
+}
+
 class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
     
     // Model
@@ -22,9 +27,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var emailTextField: UITextField!
-    @IBOutlet weak var bioTextField: UITextField!
-    @IBOutlet weak var tableViewContainer: UIView!
-    
     @IBOutlet weak var photosCollectionView: UICollectionView!
     
     @IBOutlet weak var postLabel: UILabel!
@@ -36,21 +38,26 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     fileprivate var _refHandleRemove: FIRDatabaseHandle?
     fileprivate let dbReference = FIRManager.shared.database.child(ContentType.post.objectKey()).queryOrdered(byChild: Post.Key.timestamp)
     var isFetchingData = false
-    let fetchBatchSize = 5
-    let cellOffsetToFetchMoreData = 2
     
     var posts: [FIRDataSnapshot]! = []
-    
-//    let tvc = UIStoryboard(name: Constants.SegueID.Storyboard.Browser, bundle: nil).instantiateViewController(withIdentifier: Constants.SegueID.ViewController.BrowserViewController) as! BrowseViewController
-    
-    @IBAction func tappedSignoutButton(_ sender: UIButton) {
-               UserAccount.currentUser.signOut()
-    }
+    var isListButtonHighlighted = MiddleMenuButton.off
+    var isGridHighLighted = MiddleMenuButton.on
 
     
-    func setupRaincheckDB() {
-        // empty call
-        // cheat to trick BrowseVC to call func of same name
+    var isTableHighLighted:Bool = false
+//    var isGridHighLighted:Bool = true
+    
+    @IBOutlet weak var gridButton: UIButton!
+    @IBOutlet weak var listButton: UIButton!
+    @IBOutlet weak var tagButton: UIButton!
+    
+    let gridFlowLayout = PhotoGridFlowLayout()
+    let listFlowLayout = PhotoListFlowLayout()
+    var isGridFlowLayoutUsed: Bool = false
+    
+    
+    @IBAction func tappedSignoutButton(_ sender: UIButton) {
+        UserAccount.currentUser.signOut()
     }
     
     
@@ -68,30 +75,12 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             self.fetchPosts()
         }
         
-        view.backgroundColor = Styles.Color.Primary
+        setupInitialLayout()
         
-        // TODO: - NEED TO REFACTOR TVC MODEL
-        // Add tableview child vc
-//        
-//        // Setup data as rainchecks
-//        tvc.dataSelector =  #selector(setupRaincheckDB)
-//        addChildViewController(tvc)
-//        // Configuration
-//        tvc.view.frame = tableViewContainer.bounds
-//        tvc.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-//        // TODO: - hardcoded buffer
-//        tvc.tableView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0)
-//        // Complete adding to containter
-//        tableViewContainer.addSubview(tvc.view)
-//        tvc.didMove(toParentViewController: self)
-//        
-//        tvc.view.backgroundColor = UIColor.clear
-//        tvc.tableView.backgroundColor = tvc.view.backgroundColor
-//        tableViewContainer.backgroundColor = UIColor.clear
-//        
-//        // tab bar reveal already embedded in child tvc above
-//        // Add tab bar reveal
-//        view.addSubview(WhiteRevealOverlayView(frame: view.bounds))
+        
+        view.backgroundColor = Styles.Color.Primary
+        gridButton.tintColor = MiddleMenuButton.on
+
     }
     
     
@@ -112,6 +101,11 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         
         usernameTextField.text = UserAccount.currentUser.username
         emailTextField.text = UserAccount.currentUser.email
+    }
+    
+    func setupInitialLayout() {
+        isGridFlowLayoutUsed = true
+        photosCollectionView.collectionViewLayout = gridFlowLayout
     }
     
     
@@ -227,13 +221,28 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     
     // MARK: - MiddleMenu Actions
     @IBAction func onGridButtonPressed(_ sender: UIButton) {
-        photosCollectionView.isHidden = false
-        tableViewContainer.isHidden = true
+        listButton.tintColor = MiddleMenuButton.off
+        gridButton.tintColor = MiddleMenuButton.on
+
+        
+        //switch to grid :)
+        isGridFlowLayoutUsed = true
+        UIView.animate(withDuration: 0.2, animations: { () -> Void in
+            self.photosCollectionView.collectionViewLayout.invalidateLayout()
+        self.photosCollectionView.setCollectionViewLayout(self.gridFlowLayout, animated: true)
+        })
     }
     
     @IBAction func onTableButtonPressed(_ sender: UIButton) {
-        photosCollectionView.isHidden = true
-        tableViewContainer.isHidden = false
+        gridButton.tintColor = MiddleMenuButton.off
+        listButton.tintColor = MiddleMenuButton.on
+        
+        isGridFlowLayoutUsed = false
+        UIView.animate(withDuration: 0.2, animations: { () -> Void in
+            self.photosCollectionView.collectionViewLayout.invalidateLayout()
+            self.photosCollectionView.setCollectionViewLayout(self.listFlowLayout, animated: true)
+        })
+        
     }
     
     // TODO: - Change to pull all posts not just rainchecks
