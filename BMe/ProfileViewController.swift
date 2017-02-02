@@ -293,7 +293,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
 
 
 // MARK: - UICollectionViewDataSource
-extension ProfileViewController: UICollectionViewDataSource {
+extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -318,6 +318,12 @@ extension ProfileViewController: UICollectionViewDataSource {
 
         return cell
     }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        let size = CGSize(width: 120, height: 120)
+        return size
+    }
 }
 
 // MARK: - UICollectionViewDelegate
@@ -328,4 +334,5 @@ extension ProfileViewController: UICollectionViewDelegate {
         return posts.count
         
     }
+    
 }
