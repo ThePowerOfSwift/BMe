@@ -10,6 +10,7 @@
 import UIKit
 import MobileCoreServices
 import FirebaseStorageUI
+import Firebase
 
 class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
   
@@ -33,8 +34,21 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
   @IBOutlet weak var postLabel: UILabel!
   @IBOutlet weak var followersLabel: UILabel!
   @IBOutlet weak var followingLabel: UILabel!
+    
+    
+    fileprivate var _refHandle: FIRDatabaseHandle?
+    fileprivate var _refHandleRemove: FIRDatabaseHandle?
+    fileprivate let dbReference = FIRManager.shared.database.child(ContentType.post.objectKey()).queryOrdered(byChild: Post.Key.timestamp)
+    var isFetchingData = false
+    let fetchBatchSize = 5
+    let cellOffsetToFetchMoreData = 2
+    
+
+    
+    var posts: [FIRDataSnapshot]! = []
+
   
-  
+   let tvc = UIStoryboard(name: Constants.SegueID.Storyboard.Browser, bundle: nil).instantiateViewController(withIdentifier: Constants.SegueID.ViewController.BrowserViewController) as! BrowseViewController
   
   // Deprecate
   @IBAction func tappedSignout(_ sender: Any) {
@@ -45,10 +59,11 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     
   }
   
-  func setupRaincheckDB() {
-    // empty call
-    // cheat to trick BrowseVC to call func of same name
-  }
+    func setupRaincheckDB() {
+        // empty call
+        // cheat to trick BrowseVC to call func of same name
+    }
+
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -61,6 +76,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
       
       self.setupAvatar()
       self.setupUser()
+        self.fetchPosts()
     }
     
     view.backgroundColor = Styles.Color.Primary
@@ -68,7 +84,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
 
     // TODO: - NEED TO REFACTOR TVC MODEL
     // Add tableview child vc
-    let tvc = UIStoryboard(name: Constants.SegueID.Storyboard.Browser, bundle: nil).instantiateViewController(withIdentifier: Constants.SegueID.ViewController.BrowserViewController) as! BrowseViewController
+   
     // Setup data as rainchecks
     tvc.dataSelector =  #selector(setupRaincheckDB)
     addChildViewController(tvc)
@@ -117,7 +133,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     func setupAvatar() {
         // Avatar
         avatarImageView.clipsToBounds = true
-        avatarImageView.layer.cornerRadius = Styles.Shapes.cornerRadius
+        avatarImageView.layer.cornerRadius = avatarImageView.frame.size.width / 2
         avatarImageView.layer.borderWidth = Styles.Avatar.borderWidth
         avatarImageView.layer.borderColor = Styles.Avatar.borderColor.cgColor
         avatarImageView.isUserInteractionEnabled = true
@@ -236,28 +252,80 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         tableViewContainer.isHidden = false
 
     }
+    
+    
+    func fetchPosts() {
+        
+        // Observe vales for init loading and for newly added rainchecked posts
+        _refHandle = UserProfile.firebasePath(UserAccount.currentUser.uid!).child(UserProfile.Key.raincheck).queryOrdered(byChild: UserProfile.Key.timestamp).observe(.childAdded, with: { (snapshot) in
+            print(snapshot.key)
+            let postID = snapshot.key
+            FIRManager.shared.fetchPostsWithID([postID], completion: { (snapshots) in
+                // data is returned chronologically, we want the reverse
+                if snapshots.count > 0 {
+                    self.posts.insert(snapshots.first!, at: 0)
+                    self.photosCollectionView.reloadData()
+                }
+                // stop refresh control if was refreshed
+            })
+        })
+        
+        // Observe vales for real time removed rainchecked posts
+        _refHandleRemove = UserProfile.firebasePath(UserAccount.currentUser.uid!).child(UserProfile.Key.raincheck).queryOrdered(byChild: UserProfile.Key.timestamp).observe(.childRemoved, with: { (snapshot) in
+            // match up the post ID from usermeta with the post ID of
+            let removedPostID = snapshot.key
+            for snap in self.posts {
+                if snap.key == removedPostID {
+                    if let foundIndex = self.posts.index(of: snap) {
+                        self.posts.remove(at: foundIndex)
+                        break
+                    }
+                }
+            }
+        })
+        //stop tvc batching feature
+        isFetchingData = true
+    }
+
 
 
 }
 
-//
-//// MARK: - UITableViewDataSource
-//extension ProfileViewController: UITableViewDataSource {
-//    // table view data source methods
-//}
-//
-//// MARK: - UITableViewDelegate
-//extension ProfileViewController: UITableViewDelegate {
-//    // table view data source methods
-//}
-//
-//
-//// MARK: - UICollectionViewDataSource
-//extension ProfileViewController: UICollectionViewDataSource {
-//    // table view data source methods
-//}
+
+// MARK: - UICollectionViewDataSource
+extension ProfileViewController: UICollectionViewDataSource {
+    
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! ProfileCollectionViewCell
+        
+
+        if posts != nil {
+            let post = Post(posts[indexPath.row])
+            let url = post.url
+            //         fetch image
+            FIRManager.shared.database.child(url!.path).observeSingleEvent(of: .value, with: { (snapshot) in
+                let image = Image(snapshot.dictionary)
+                cell.imageView.loadImageFromGS(url: image.gsURL!, placeholderImage: nil)
+            })
+        }
+
+
+
+        return cell
+    }
+}
 
 // MARK: - UICollectionViewDelegate
 extension ProfileViewController: UICollectionViewDelegate {
     // table view data source methods
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        
+        return posts.count
+        
+    }
 }
