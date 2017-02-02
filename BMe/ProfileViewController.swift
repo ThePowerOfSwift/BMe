@@ -13,27 +13,23 @@ import FirebaseStorageUI
 import Firebase
 
 class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
-  
-  // Model
-  var user: UserProfile!
-  
-  //MARK: - Outlets
-  @IBOutlet weak var headerProfileView: UIView!
-  @IBOutlet weak var avatarImageView: UIImageView!
-  @IBOutlet weak var usernameTextField: UITextField!
-  @IBOutlet weak var emailTextField: UITextField!
-  @IBOutlet weak var bioTextField: UITextField!
-  @IBOutlet weak var label: UILabel!
-  @IBOutlet weak var raincheckLabel: UILabel!
-  @IBOutlet weak var heartLabel: UILabel!
+    
+    // Model
+    var user: UserProfile!
+    
+    //MARK: - Outlets
+    @IBOutlet weak var headerProfileView: UIView!
+    @IBOutlet weak var avatarImageView: UIImageView!
+    @IBOutlet weak var usernameTextField: UITextField!
+    @IBOutlet weak var emailTextField: UITextField!
+    @IBOutlet weak var bioTextField: UITextField!
     @IBOutlet weak var tableViewContainer: UIView!
-  
-  @IBOutlet weak var photosCollectionView: UICollectionView!
-  @IBOutlet weak var photosTableView: UITableView!
-  
-  @IBOutlet weak var postLabel: UILabel!
-  @IBOutlet weak var followersLabel: UILabel!
-  @IBOutlet weak var followingLabel: UILabel!
+    
+    @IBOutlet weak var photosCollectionView: UICollectionView!
+    
+    @IBOutlet weak var postLabel: UILabel!
+    @IBOutlet weak var followersLabel: UILabel!
+    @IBOutlet weak var followingLabel: UILabel!
     
     
     fileprivate var _refHandle: FIRDatabaseHandle?
@@ -43,69 +39,61 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     let fetchBatchSize = 5
     let cellOffsetToFetchMoreData = 2
     
-
-    
     var posts: [FIRDataSnapshot]! = []
-
-  
-   let tvc = UIStoryboard(name: Constants.SegueID.Storyboard.Browser, bundle: nil).instantiateViewController(withIdentifier: Constants.SegueID.ViewController.BrowserViewController) as! BrowseViewController
-  
-  // Deprecate
-  @IBAction func tappedSignout(_ sender: Any) {
-    UserAccount.currentUser.signOut()
-  }
-  @IBAction func tappedSignoutButton(_ sender: Any) {
-    UserAccount.currentUser.signOut()
     
-  }
-  
+    let tvc = UIStoryboard(name: Constants.SegueID.Storyboard.Browser, bundle: nil).instantiateViewController(withIdentifier: Constants.SegueID.ViewController.BrowserViewController) as! BrowseViewController
+    
+    @IBAction func tappedSignoutButton(_ sender: UIButton) {
+               UserAccount.currentUser.signOut()
+    }
+
+    
     func setupRaincheckDB() {
         // empty call
         // cheat to trick BrowseVC to call func of same name
     }
-
-  
-  override func viewDidLoad() {
-    super.viewDidLoad()
     
-    // Hide nav bar
-    navigationController?.isNavigationBarHidden = true
     
-    UserProfile.currentUser { (userProfile) in
-      self.user = userProfile
-      
-      self.setupAvatar()
-      self.setupUser()
-        self.fetchPosts()
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        // Hide nav bar
+        navigationController?.isNavigationBarHidden = true
+        
+        UserProfile.currentUser { (userProfile) in
+            self.user = userProfile
+            
+            self.setupAvatar()
+            self.setupUser()
+            self.fetchPosts()
+        }
+        
+        view.backgroundColor = Styles.Color.Primary
+        
+        // TODO: - NEED TO REFACTOR TVC MODEL
+        // Add tableview child vc
+        
+        // Setup data as rainchecks
+        tvc.dataSelector =  #selector(setupRaincheckDB)
+        addChildViewController(tvc)
+        // Configuration
+        tvc.view.frame = tableViewContainer.bounds
+        tvc.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        // TODO: - hardcoded buffer
+        tvc.tableView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0)
+        // Complete adding to containter
+        tableViewContainer.addSubview(tvc.view)
+        tvc.didMove(toParentViewController: self)
+        
+        tvc.view.backgroundColor = UIColor.clear
+        tvc.tableView.backgroundColor = tvc.view.backgroundColor
+        tableViewContainer.backgroundColor = UIColor.clear
+        
+        // tab bar reveal already embedded in child tvc above
+        // Add tab bar reveal
+        view.addSubview(WhiteRevealOverlayView(frame: view.bounds))
     }
     
-    view.backgroundColor = Styles.Color.Primary
-
-
-    // TODO: - NEED TO REFACTOR TVC MODEL
-    // Add tableview child vc
-   
-    // Setup data as rainchecks
-    tvc.dataSelector =  #selector(setupRaincheckDB)
-    addChildViewController(tvc)
-    // Configuration
-    tvc.view.frame = tableViewContainer.bounds
-    tvc.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-    // TODO: - hardcoded buffer
-    tvc.tableView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0)
-    // Complete adding to containter
-    tableViewContainer.addSubview(tvc.view)
-    tvc.didMove(toParentViewController: self)
-    
-    tvc.view.backgroundColor = UIColor.clear
-    tvc.tableView.backgroundColor = tvc.view.backgroundColor
-    tableViewContainer.backgroundColor = UIColor.clear
-    
-    // tab bar reveal already embedded in child tvc above
-    // Add tab bar reveal
-    view.addSubview(WhiteRevealOverlayView(frame: view.bounds))
-  }
-  
     
     //MARK: - User info methods
     enum Textfields: Int {
@@ -237,20 +225,15 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         }
     }
     
-    
     // MARK: - MiddleMenu Actions
-    
     @IBAction func onGridButtonPressed(_ sender: UIButton) {
-        
         photosCollectionView.isHidden = false
         tableViewContainer.isHidden = true
-
     }
-
+    
     @IBAction func onTableButtonPressed(_ sender: UIButton) {
         photosCollectionView.isHidden = true
         tableViewContainer.isHidden = false
-
     }
     
     
@@ -286,15 +269,13 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         //stop tvc batching feature
         isFetchingData = true
     }
-
-
-
+    
+    
 }
 
 
 // MARK: - UICollectionViewDataSource
 extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
@@ -303,7 +284,6 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! ProfileCollectionViewCell
         
-
         if posts != nil {
             let post = Post(posts[indexPath.row])
             let url = post.url
@@ -313,9 +293,6 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                 cell.imageView.loadImageFromGS(url: image.gsURL!, placeholderImage: nil)
             })
         }
-
-
-
         return cell
     }
     
@@ -332,7 +309,6 @@ extension ProfileViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
         return posts.count
-        
     }
     
 }

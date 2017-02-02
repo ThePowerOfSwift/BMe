@@ -106,6 +106,9 @@
                                             <constraint firstAttribute="width" constant="20" id="aSh-Lj-M2S"/>
                                         </constraints>
                                         <state key="normal" image="logout.png"/>
+                                        <connections>
+                                            <action selector="tappedSignoutButton:" destination="cT0-Eh-3BH" eventType="touchUpInside" id="VbQ-wP-Ryr"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <constraints>
