@@ -171,6 +171,7 @@ class BrowseViewController: UIViewController, UITableViewDelegate, UITableViewDa
                     let restaurant = Restaurant(dictionary: meta)
                     cell.headingLabel.text = restaurant.name
                 }
+                
                 cell.postImageView.loadImageFromGS(url: image.gsURL!, placeholderImage: nil)
             }
         })

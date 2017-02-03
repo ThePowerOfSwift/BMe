@@ -26,8 +26,6 @@ class TabBarViewController: UIViewController {
     // MARK: Properties
     /** Child view controller of browse page view controller */
     private var browseViewController: UIViewController!
-    /** Holds camera view controller. nav vc is needed for image picker. */
-    private var cameraNavigationController: UINavigationController!
     /** Child view controller of camera page view controller. */
     private var cameraViewController: CameraViewController!
     /** Child view controller of camera page view controller. */
@@ -76,14 +74,13 @@ class TabBarViewController: UIViewController {
         addChildViewController(browseViewController)
         
         // Camera view controller which will be in camera page view controller
-        cameraNavigationController = UIStoryboard(name: Constants.SegueID.Storyboard.Camera, bundle: nil).instantiateInitialViewController() as! UINavigationController
-        cameraViewController = cameraNavigationController.viewControllers.first as! CameraViewController
+        cameraViewController = UIStoryboard(name: Constants.SegueID.Storyboard.Camera, bundle: nil).instantiateInitialViewController() as? CameraViewController
         cameraViewController.delegate = self
         addChildViewController(cameraViewController)
         
         // Account view controller
-        accountViewController = UIStoryboard(name: Constants.SegueID.Storyboard.Account, bundle: nil).instantiateInitialViewController()
-        addChildViewController(accountViewController)
+      accountViewController = UIStoryboard(name: "malcolm", bundle: nil).instantiateInitialViewController()
+      addChildViewController(accountViewController)
         
         // Init with view controllers
         viewControllers = [browseViewController, cameraViewController, accountViewController]
@@ -217,7 +214,7 @@ class TabBarViewController: UIViewController {
  corresponding to the camera state.*/
 extension TabBarViewController: CameraViewControllerDelegate {
     /** Show tab bar when camera mode is on. Called by camera view controller. */
-    func showTabBar() {
+    func showAllTabs() {
         UIView.animate(withDuration: Constants.TabBar.tabbarShowAnimationDuration, animations: {
             for i in 0..<self.tabs.count {
                 self.tabs[i].center.y = self.tabOriginalCenterYPositions[i]
@@ -226,11 +223,52 @@ extension TabBarViewController: CameraViewControllerDelegate {
     }
     
     /** Hide tab bar when photo edit mode is on. Called by camera view controller. */
-    func hideTabBar() {
+    func hideAllTabs() {
         UIView.animate(withDuration: Constants.TabBar.tabbarShowAnimationDuration, animations: {
             for i in 0..<self.tabs.count {
                 self.tabs[i].center.y = self.tabOriginalCenterYPositions[i] + CGFloat(Constants.TabBar.selectedTabSize) + 20
             }
         })
+    }
+    
+    /** Shows the left and right tabs. Called when bubble collection view is shown and filter button is down. */
+    func showSideTabs() {
+        let leftTabIndex = 0
+        let rightTabIndex = tabs.count - 1
+        UIView.animate(withDuration: Constants.TabBar.tabbarShowAnimationDuration, animations: {
+            // very left tab
+            self.tabs[leftTabIndex].center.y = self.tabOriginalCenterYPositions[leftTabIndex]
+            // very right tab
+            self.tabs[rightTabIndex].center.y = self.tabOriginalCenterYPositions[rightTabIndex]
+        })
+    }
+    
+    /** Hides the left and right tabs. Called when bubble collection view is hidden and filter button is up. */
+    func hideSideTabs() {
+        let leftTabIndex = 0
+        let rightTabIndex = tabs.count - 1
+        UIView.animate(withDuration: Constants.TabBar.tabbarShowAnimationDuration, animations: {
+            // very left tab
+            self.tabs[leftTabIndex].center.y = self.tabOriginalCenterYPositions[leftTabIndex] + CGFloat(Constants.TabBar.selectedTabSize) + 20
+            // very right tab
+            self.tabs[rightTabIndex].center.y = self.tabOriginalCenterYPositions[rightTabIndex] + CGFloat(Constants.TabBar.selectedTabSize) + 20
+        })
+    }
+    
+    /** Shows the center tab. Called when cancel button is tapped while bubble collection view is shown, filter button is down. */
+    func showCenterTab() {
+        let centerTabIndex: Int = tabs.count / 2
+        UIView.animate(withDuration: Constants.TabBar.tabbarShowAnimationDuration) { 
+            self.tabs[centerTabIndex].center.y = self.tabOriginalCenterYPositions[centerTabIndex]
+        }
+        
+    }
+    
+    /** Hides the center tab. Called nowhere but in case we need it. */
+    func hideCenterTab() {
+        let centerTabIndex: Int = tabs.count / 2
+        UIView.animate(withDuration: Constants.TabBar.tabbarShowAnimationDuration) {
+            self.tabs[centerTabIndex].center.y = self.tabOriginalCenterYPositions[centerTabIndex] + CGFloat(Constants.TabBar.selectedTabSize) + 20
+        }
     }
 }

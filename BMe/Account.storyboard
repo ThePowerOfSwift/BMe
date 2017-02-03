@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="EXp-8c-HWe">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="EXp-8c-HWe">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -147,7 +147,7 @@
                         <outlet property="emailTextField" destination="dpv-rN-stJ" id="cFM-zE-haU"/>
                         <outlet property="heartLabel" destination="eps-np-bFA" id="NOW-9S-JqZ"/>
                         <outlet property="raincheckLabel" destination="vm7-Dm-E1C" id="bBr-Ki-gXn"/>
-                        <outlet property="tableViewContainer" destination="UIr-h8-eBL" id="PRi-wD-6RE"/>
+                        <outlet property="tableViewContainer" destination="UIr-h8-eBL" id="zJy-kB-Z0P"/>
                         <outlet property="usernameTextField" destination="aw8-1c-6y0" id="k7U-39-ztU"/>
                     </connections>
                 </viewController>
