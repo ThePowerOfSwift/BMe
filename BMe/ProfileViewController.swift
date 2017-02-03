@@ -28,21 +28,17 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var photosCollectionView: UICollectionView!
-    
     @IBOutlet weak var postLabel: UILabel!
     @IBOutlet weak var followersLabel: UILabel!
     @IBOutlet weak var followingLabel: UILabel!
-    
-    
-    fileprivate var _refHandle: FIRDatabaseHandle?
-    fileprivate var _refHandleRemove: FIRDatabaseHandle?
-    fileprivate let dbReference = FIRManager.shared.database.child(ContentType.post.objectKey()).queryOrdered(byChild: Post.Key.timestamp)
-    var isFetchingData = false
-    var posts: [FIRDataSnapshot]! = []
-
     @IBOutlet weak var gridButton: UIButton!
     @IBOutlet weak var listButton: UIButton!
     @IBOutlet weak var tagButton: UIButton!
+    
+    fileprivate var _refHandle: FIRDatabaseHandle?
+    fileprivate var _refHandleRemove: FIRDatabaseHandle?
+    var isFetchingData = false
+    var posts: [FIRDataSnapshot]! = []
     
     let gridFlowLayout = PhotoGridFlowLayout()
     let listFlowLayout = PhotoListFlowLayout()
@@ -51,7 +47,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     @IBAction func tappedSignoutButton(_ sender: UIButton) {
         UserAccount.currentUser.signOut()
     }
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -68,13 +63,11 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         }
         
         setupInitialLayout()
-        
         view.backgroundColor = Styles.Color.Primary
         gridButton.tintColor = MiddleMenuButton.on
 
     }
-    
-    
+
     //MARK: - User info methods
     enum Textfields: Int {
         case username = 0, email
@@ -98,7 +91,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         isGridFlowLayoutUsed = true
         photosCollectionView.collectionViewLayout = gridFlowLayout
     }
-    
     
     //MARK: - User Avatar methods
     
@@ -158,7 +150,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        let pickedImage = info[UIImagePickerControllerEditedImage] as! UIImage
+        if let pickedImage = info[UIImagePickerControllerEditedImage] as? UIImage {
         
         dismiss(animated: true, completion: nil)
         
@@ -189,12 +181,16 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
                     }
                     
                     // Update user profile and change avatar
-                    UserAccount.currentUser.avatarURL = URL(string: (meta?.storageURL)!)
+                    if let url = meta?.storageURL {
+                        UserAccount.currentUser.avatarURL = URL(string: url)
+                    }
                 }
                 finish()
             })
         }
         else { print("Error converting profile image to data- aborted upload") }
+    
+        }
     }
     
     // MARK: - Textfield Delegate
@@ -239,37 +235,39 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     func fetchPosts() {
         
         // Observe vales for init loading and for newly added rainchecked posts
-        _refHandle = UserProfile.firebasePath(UserAccount.currentUser.uid!).child(UserProfile.Key.raincheck).queryOrdered(byChild: UserProfile.Key.timestamp).observe(.childAdded, with: { (snapshot) in
-            print(snapshot.key)
-            let postID = snapshot.key
-            FIRManager.shared.fetchPostsWithID([postID], completion: { (snapshots) in
-                // data is returned chronologically, we want the reverse
-                if snapshots.count > 0 {
-                    self.posts.insert(snapshots.first!, at: 0)
-                    self.photosCollectionView.reloadData()
-                }
-                // stop refresh control if was refreshed
+        if let uid = UserAccount.currentUser.uid {
+            _refHandle = UserProfile.firebasePath(uid).child(UserProfile.Key.raincheck).queryOrdered(byChild: UserProfile.Key.timestamp).observe(.childAdded, with: { (snapshot) in
+                print(snapshot.key)
+                let postID = snapshot.key
+                FIRManager.shared.fetchPostsWithID([postID], completion: { (snapshots) in
+                    // data is returned chronologically, we want the reverse
+                    if snapshots.count > 0 {
+                        if let first = snapshots.first {
+                            self.posts.insert(first, at: 0)
+                            self.photosCollectionView.reloadData()
+                        }
+                    }
+                    // stop refresh control if was refreshed
+                })
             })
-        })
-        
-        // Observe vales for real time removed rainchecked posts
-        _refHandleRemove = UserProfile.firebasePath(UserAccount.currentUser.uid!).child(UserProfile.Key.raincheck).queryOrdered(byChild: UserProfile.Key.timestamp).observe(.childRemoved, with: { (snapshot) in
-            // match up the post ID from usermeta with the post ID of
-            let removedPostID = snapshot.key
-            for snap in self.posts {
-                if snap.key == removedPostID {
-                    if let foundIndex = self.posts.index(of: snap) {
-                        self.posts.remove(at: foundIndex)
-                        break
+            
+            // Observe vales for real time removed rainchecked posts
+            _refHandleRemove = UserProfile.firebasePath(uid).child(UserProfile.Key.raincheck).queryOrdered(byChild: UserProfile.Key.timestamp).observe(.childRemoved, with: { (snapshot) in
+                // match up the post ID from usermeta with the post ID of
+                let removedPostID = snapshot.key
+                for snap in self.posts {
+                    if snap.key == removedPostID {
+                        if let foundIndex = self.posts.index(of: snap) {
+                            self.posts.remove(at: foundIndex)
+                            break
+                        }
                     }
                 }
-            }
-        })
-        //stop tvc batching feature
-        isFetchingData = true
+            })
+            //stop tvc batching feature
+            isFetchingData = true
+        }
     }
-    
-    
 }
 
 
@@ -285,18 +283,19 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
         
         if posts != nil {
             let post = Post(posts[indexPath.row])
-            let url = post.url
-            //         fetch image
-            FIRManager.shared.database.child(url!.path).observeSingleEvent(of: .value, with: { (snapshot) in
-                let image = Image(snapshot.dictionary)
-                if let url = image.gsURL {
-                    cell.imageView.loadImageFromGS(url: url, placeholderImage: nil)
-                }
-            })
+            if let path = post.url?.path {
+                
+                //  fetch image
+                FIRManager.shared.database.child(path).observeSingleEvent(of: .value, with: { (snapshot) in
+                    let image = Image(snapshot.dictionary)
+                    if let url = image.gsURL {
+                        cell.imageView.loadImageFromGS(url: url, placeholderImage: nil)
+                    }
+                })
+            }
         }
         return cell
     }
-    
 }
 
 // MARK: - UICollectionViewDelegate
