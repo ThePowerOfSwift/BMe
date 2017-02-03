@@ -100,37 +100,33 @@ class FIRManager: NSObject {
         })
     }
     
+    /** 
+     Complete posting of an object to storage by inserting posted metadata into database.
+        i) asset meta data is inserted (i.e. image/ etc.)
+        ii) post meta data is inserted (i.e. post/)
+     TODO: post a direct database path to the original image in post meta
+     */
     private func completePost(contentType: ContentType, meta: [String: AnyObject?], completion:(()->())?, metadata: FIRStorageMetadata?, error: Error?) {
+        // Error putting post on storage, abort
         if let error = error {
             print("Error posting object \(contentType.string()), aborting: \(error.localizedDescription)")
             return
         }
         
-        // Get resultant URLs and create object on Databasae
-        let gsURL = metadata?.storageURL
-        FIRManager.shared.fetchDownloadURLs([URL(string: gsURL!)!], completion: { (urls) in
+        // Get resultant asset download URLs and start writing meta to database
+        let storageURL = metadata?.storageURL
+        FIRManager.shared.fetchDownloadURLs([URL(string: storageURL!)!], completion: { (urls) in
             let downloadURL = urls.first!
             
-            // Create object on Database
-            
-            // Construct JSON Asset object template to put on Database
+            // Construct meta of asset
             let jsonObject: [String: AnyObject?] = [
                 Asset.Key.uid: UserAccount.currentUser.uid as AnyObject,
                 Asset.Key.downloadURL: downloadURL.absoluteString as AnyObject,
-                Asset.Key.gsURL: gsURL as AnyObject,
+                Asset.Key.gsURL: storageURL as AnyObject,
                 Asset.Key.contentType: contentType.string() as AnyObject,
                 Asset.Key.meta: meta as AnyObject]
             
-            // Amend JSON object as needed
-            switch contentType {
-            case .image:
-                break
-            case .video:
-                break
-            default:
-                break
-            }
-            print("About to post with JSON \(jsonObject)")
+            // Write asset meta to database
             self.putObjectOnDatabase(named: contentType.objectKey(), data: jsonObject, completion: { (ref, error) in
                 if let error = error {
                     print("Error putting \(contentType.objectKey()) on Database, aborting \(error.localizedDescription)")
@@ -139,7 +135,7 @@ class FIRManager: NSObject {
                 
                 print("Success: uploaded \(contentType.objectKey())")
                 
-                // Create Post on Database
+                // Write Post to database
                 
                 // Construct JSON Post object to put on Database
                 let jsonObject: [String: AnyObject?] = [
@@ -149,12 +145,16 @@ class FIRManager: NSObject {
                     Post.Key.timestamp: Date().toString() as AnyObject
                     ]
                 
+                // Write Post meta to database
                 self.putObjectOnDatabase(named: ContentType.post.objectKey(), data: jsonObject, completion: { (ref, error) in
                     if let error = error {
                         print("Error putting \(contentType.objectKey()) on Database, aborting \(error.localizedDescription)")
                         return
                     }
                     print("Success: post created for \(contentType.objectKey())")
+                    
+                    // submit to votebooth
+                    VoteBooth.submitPost(ref.key)
                     completion?()
                 })
             })
@@ -180,6 +180,7 @@ class FIRManager: NSObject {
     }
     
     // TODO: Move to posts
+    // TODO: change completion parameter to Post type
     func fetchPostsWithID(_ IDs: [String], completion: @escaping ([FIRDataSnapshot])->() ) {
         // Trackers
         var index = 0
