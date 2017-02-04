@@ -114,6 +114,8 @@
 		E3DC85231E450EDC0017E6A2 /* transamerica.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E3DC85141E450EDC0017E6A2 /* transamerica.jpg */; };
 		E3DC85241E450EDC0017E6A2 /* BubbleCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3DC85151E450EDC0017E6A2 /* BubbleCollectionViewCell.swift */; };
 		E3ECAFD91DE3CCB500F221AE /* Video.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3ECAFD81DE3CCB500F221AE /* Video.swift */; };
+		E3F189A01E45778E00A654AE /* CategoryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F1899F1E45778E00A654AE /* CategoryTableViewController.swift */; };
+		E3F189A21E45780700A654AE /* CategoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F189A11E45780700A654AE /* CategoryTableViewCell.swift */; };
 		EED9BEFA11E85E773E6416A7 /* Pods_BMeUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89C6C4AE3BCC216444B1A558 /* Pods_BMeUITests.framework */; };
 /* End PBXBuildFile section */
 
@@ -286,6 +288,8 @@
 		E3DC85141E450EDC0017E6A2 /* transamerica.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = transamerica.jpg; path = ../transamerica.jpg; sourceTree = "<group>"; };
 		E3DC85151E450EDC0017E6A2 /* BubbleCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BubbleCollectionViewCell.swift; sourceTree = "<group>"; };
 		E3ECAFD81DE3CCB500F221AE /* Video.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Video.swift; sourceTree = "<group>"; };
+		E3F1899F1E45778E00A654AE /* CategoryTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryTableViewController.swift; sourceTree = "<group>"; };
+		E3F189A11E45780700A654AE /* CategoryTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryTableViewCell.swift; sourceTree = "<group>"; };
 		E7764343275603CBAE9394EC /* Pods-BMeUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BMeUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-BMeUITests/Pods-BMeUITests.release.xcconfig"; sourceTree = "<group>"; };
 		EF9B8E045282684264E31D83 /* Pods-BMe.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BMe.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BMe/Pods-BMe.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -418,6 +422,8 @@
 			children = (
 				7870B8591E45537100B754D6 /* Browser.storyboard */,
 				7850E80E1E452281001F8BCF /* HomeViewController.swift */,
+				E3F1899F1E45778E00A654AE /* CategoryTableViewController.swift */,
+				E3F189A11E45780700A654AE /* CategoryTableViewCell.swift */,
 			);
 			name = Sato;
 			sourceTree = "<group>";
@@ -1024,6 +1030,7 @@
 				781E71521DF4EEE000041855 /* Post.swift in Sources */,
 				E35AC4891DE4D75C00FCB0D0 /* BrowseViewController.swift in Sources */,
 				783008AA1DE3B9A000B070D4 /* Constants.swift in Sources */,
+				E3F189A01E45778E00A654AE /* CategoryTableViewController.swift in Sources */,
 				781E71501DF4E52A00041855 /* YelpViewController.swift in Sources */,
 				7830089A1DE3B0B500B070D4 /* MeasurementHelper.swift in Sources */,
 				E3ECAFD91DE3CCB500F221AE /* Video.swift in Sources */,
@@ -1040,6 +1047,7 @@
 				7837A21F1DF95A43000CB9CB /* HeartButton.swift in Sources */,
 				7837A2131DF8BB96000CB9CB /* RainCheckButton.swift in Sources */,
 				78B95F8C1DF6B4EA00B6C83E /* BrowserImageTableViewCell.swift in Sources */,
+				E3F189A21E45780700A654AE /* CategoryTableViewCell.swift in Sources */,
 				E3C357A41DEF484E00AC0832 /* Restaurant.swift in Sources */,
 				78C350491DF28756005E8331 /* UserAccount.swift in Sources */,
 				421631621E43DC2A00E644A5 /* PhotoListFlowLayout.swift in Sources */,

@@ -10,11 +10,54 @@ import UIKit
 
 class HomeViewController: UIViewController {
 
+    static let storyboardID = "Browser"
+    static let viewControllerID = "CategoryTableViewController"
+    
     // TODO testing
 
+    @IBOutlet weak var leftImageView: UIImageView!
+    @IBOutlet weak var rightImageView: UIImageView!
+    @IBOutlet weak var firstTableViewContainerView: UIView!
+    @IBOutlet weak var secondTableViewContainerView: UIView!
     
+    @IBOutlet weak var firstTableViewHeightConstraint: NSLayoutConstraint!
+    
+    @IBOutlet weak var secondTableViewHeightConstraint: NSLayoutConstraint!
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        let storyboard = UIStoryboard(name: HomeViewController.storyboardID, bundle: nil)
+        guard let firstTVC = storyboard.instantiateViewController(withIdentifier: HomeViewController.viewControllerID) as? CategoryTableViewController,
+            let secondTVC = storyboard.instantiateViewController(withIdentifier: HomeViewController.viewControllerID) as? CategoryTableViewController else {
+                print("Failed to instantiate tvc")
+                return
+        }
+        
+        // CategoryTableViewController's viewDidLoad is called here
+        firstTVC.view.layoutIfNeeded()
+        secondTVC.view.layoutIfNeeded()
+        
+        // After CategoryTableViewController's viewDidLoad is called, 
+        // you can get tableView's frame that has been configured there
+        // to set the container size of tableView
+        firstTableViewHeightConstraint.constant = firstTVC.tableView.frame.height
+        secondTableViewHeightConstraint.constant = secondTVC.tableView.frame.height
+        view.layoutIfNeeded()
+        
+        guard let firstTableView = firstTVC.tableView, let secondTableView = secondTVC.tableView else {
+            print("Failed to instantiate tableView")
+            return
+        }
+        firstTableViewContainerView.addSubview(firstTableView)
+        secondTableViewContainerView.addSubview(secondTableView)
+    }
+    
+//    override func viewDidLoad() {
+//        super.viewDidLoad()
 
         // Do any additional setup after loading the view.
         
@@ -27,7 +70,7 @@ class HomeViewController: UIViewController {
         //TODO: testing
 //        loadImages()
 
-    }
+//    }
     
 //    func loadImages() {
 //        // Request matchup
