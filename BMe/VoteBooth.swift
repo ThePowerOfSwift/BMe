@@ -77,9 +77,10 @@ class VoteBooth: NSObject {
      */
     class func serve(completion:@escaping (Matchup)->()) {
         // return matchup
+
+        // Return first matchup
+        // TODO: change rule
         VoteBooth.matchupQueue.queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
-            // Return first matchup
-            // TODO: change rule
             var snap: FIRDataSnapshot?
             for snapChild in snapshot.children {
                 if let snapChild = snapChild as? FIRDataSnapshot {
@@ -88,10 +89,11 @@ class VoteBooth: NSObject {
                 break
             }
             
+            // return matchup struct/object
             if let snap = snap {
                 let data = snap.value as! [String: AnyObject?]
                 let timestamp = data[Key.timestamp] as! String
-                let posts = data["posts"] as! [String: AnyObject?]
+                let posts = data[Key.posts] as! [String: AnyObject?]
                 
                 let matchup = Matchup(ID: snap.key, timestamp: timestamp, posts: posts)
                 
@@ -104,10 +106,10 @@ class VoteBooth: NSObject {
      Report results of vote-off
      */
     class func result(matchID: String, winnerID: String) {
-        // log result to matchup
-        let meta = ["uid": UserAccount.currentUser.uid]
-        // votebooth/matchup/(key)/votes/(winner key)/autoid
-        VoteBooth.matchupQueue.child(matchID).child(Key.votes).child(winnerID).childByAutoId().setValue(meta)
+        
+        let meta = [Key.timestamp: Date().toString()]
+        // votebooth/matchup/(key)/posts/(winner key)/votes/
+        VoteBooth.matchupQueue.child(matchID).child(Key.posts).child(winnerID).child(Key.votes).child(UserAccount.currentUser.uid!).setValue(meta)
     }
     
     /** 
