@@ -33,6 +33,7 @@ class HomeViewController: UIViewController {
     func loadImages() {
         // Request matchup
         VoteBooth.serve { (matchup) in
+            print("matchup ID: \(matchup.ID)")
             // Get post IDs of matchup
             var IDs: [String] = []
             for post in matchup.posts {
@@ -59,10 +60,12 @@ class HomeViewController: UIViewController {
                     
                 })
 
+                // TODO: test vote
+                VoteBooth.result(matchID: matchup.ID, winnerID: postB.postID!)
             })
         }
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

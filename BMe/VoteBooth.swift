@@ -17,6 +17,13 @@ class VoteBooth: NSObject {
         static var contentType = "contentType"
         static var matchup = "matchup"
         static var posts = "posts"
+        static var votes = "votes"
+    }
+    
+    struct Matchup {
+        let ID: String
+        let timestamp: String
+        let posts: [String: AnyObject?]
     }
     
     static var database: FIRDatabaseReference = FIRManager.shared.database
@@ -86,17 +93,11 @@ class VoteBooth: NSObject {
                 let timestamp = data[Key.timestamp] as! String
                 let posts = data["posts"] as! [String: AnyObject?]
                 
-                let matchup = Matchup(timestamp: timestamp, posts: posts)
+                let matchup = Matchup(ID: snap.key, timestamp: timestamp, posts: posts)
                 
                 completion(matchup)
             }
         })
-    }
-    
-    
-    struct Matchup {
-        let timestamp: String
-        let posts: [String: AnyObject?]
     }
     
     /** 
@@ -104,7 +105,9 @@ class VoteBooth: NSObject {
      */
     class func result(matchID: String, winnerID: String) {
         // log result to matchup
-        // VoteBooth.matchupQueue.child(matchID)
+        let meta = ["uid": UserAccount.currentUser.uid]
+        // votebooth/matchup/(key)/votes/(winner key)/autoid
+        VoteBooth.matchupQueue.child(matchID).child(Key.votes).child(winnerID).childByAutoId().setValue(meta)
     }
     
     /** 
