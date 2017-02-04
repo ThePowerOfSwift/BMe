@@ -105,7 +105,6 @@
 		E3DC85191E450EDC0017E6A2 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3DC850A1E450EDC0017E6A2 /* Color.swift */; };
 		E3DC851A1E450EDC0017E6A2 /* Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3DC850B1E450EDC0017E6A2 /* Filter.swift */; };
 		E3DC851B1E450EDC0017E6A2 /* golden_gate_bridge.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E3DC850C1E450EDC0017E6A2 /* golden_gate_bridge.jpg */; };
-		E3DC851C1E450EDC0017E6A2 /* ImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3DC850D1E450EDC0017E6A2 /* ImageViewController.swift */; };
 		E3DC851D1E450EDC0017E6A2 /* lookup_amatorka.png in Resources */ = {isa = PBXBuildFile; fileRef = E3DC850E1E450EDC0017E6A2 /* lookup_amatorka.png */; };
 		E3DC851E1E450EDC0017E6A2 /* lookup_miss_etikate.png in Resources */ = {isa = PBXBuildFile; fileRef = E3DC850F1E450EDC0017E6A2 /* lookup_miss_etikate.png */; };
 		E3DC851F1E450EDC0017E6A2 /* lookup_soft_elegance_1.png in Resources */ = {isa = PBXBuildFile; fileRef = E3DC85101E450EDC0017E6A2 /* lookup_soft_elegance_1.png */; };
@@ -278,7 +277,6 @@
 		E3DC850A1E450EDC0017E6A2 /* Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Color.swift; path = ../Color.swift; sourceTree = "<group>"; };
 		E3DC850B1E450EDC0017E6A2 /* Filter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Filter.swift; path = ../Filter.swift; sourceTree = "<group>"; };
 		E3DC850C1E450EDC0017E6A2 /* golden_gate_bridge.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = golden_gate_bridge.jpg; path = ../golden_gate_bridge.jpg; sourceTree = "<group>"; };
-		E3DC850D1E450EDC0017E6A2 /* ImageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImageViewController.swift; path = ../ImageViewController.swift; sourceTree = "<group>"; };
 		E3DC850E1E450EDC0017E6A2 /* lookup_amatorka.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = lookup_amatorka.png; path = ../lookup_amatorka.png; sourceTree = "<group>"; };
 		E3DC850F1E450EDC0017E6A2 /* lookup_miss_etikate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = lookup_miss_etikate.png; path = ../lookup_miss_etikate.png; sourceTree = "<group>"; };
 		E3DC85101E450EDC0017E6A2 /* lookup_soft_elegance_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = lookup_soft_elegance_1.png; path = ../lookup_soft_elegance_1.png; sourceTree = "<group>"; };
@@ -350,6 +348,8 @@
 			children = (
 				78C350461DF232AF005E8331 /* UserProfileViewController.swift */,
 				781E714F1DF4E52A00041855 /* YelpViewController.swift */,
+				E35AC4821DE4D00400FCB0D0 /* TabBarViewController.swift */,
+				E3DC85081E450EDC0017E6A2 /* CameraViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -360,6 +360,7 @@
 				78C350441DF2260A005E8331 /* Account.storyboard */,
 				781E714B1DF486A900041855 /* Yelp.storyboard */,
 				E35AC4861DE4D0F500FCB0D0 /* TabBar.storyboard */,
+				E3DC85071E450EDC0017E6A2 /* Camera.storyboard */,
 			);
 			name = Storyboards;
 			sourceTree = "<group>";
@@ -379,6 +380,7 @@
 		7821C3C01DEF82680023B95E /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				E3DC85151E450EDC0017E6A2 /* BubbleCollectionViewCell.swift */,
 				78F511351DF6D0860074050F /* WhiteRevealOverlayView.swift */,
 				78F511371DF6D09E0074050F /* WhiteRevealOverlayView.xib */,
 				78BCDF3E1DF751E8002D399E /* BusyView.swift */,
@@ -391,6 +393,8 @@
 		783008AB1DE3B9AF00B070D4 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				E3DC850A1E450EDC0017E6A2 /* Color.swift */,
+				E3DC850B1E450EDC0017E6A2 /* Filter.swift */,
 				E3C357A11DEF451E00AC0832 /* YPManager.swift */,
 				7821C3BF1DEF81D10023B95E /* JSON */,
 			);
@@ -412,13 +416,8 @@
 		78337D8F1DE3AC9300A1B32C /* Sato */ = {
 			isa = PBXGroup;
 			children = (
-				E3DC85071E450EDC0017E6A2 /* Camera.storyboard */,
-				E35AC4821DE4D00400FCB0D0 /* TabBarViewController.swift */,
-				E3DC85081E450EDC0017E6A2 /* CameraViewController.swift */,
-				E3DC850A1E450EDC0017E6A2 /* Color.swift */,
-				E3DC850B1E450EDC0017E6A2 /* Filter.swift */,
-				E3DC850D1E450EDC0017E6A2 /* ImageViewController.swift */,
-				E3DC85151E450EDC0017E6A2 /* BubbleCollectionViewCell.swift */,
+				7870B8591E45537100B754D6 /* Browser.storyboard */,
+				7850E80E1E452281001F8BCF /* HomeViewController.swift */,
 			);
 			name = Sato;
 			sourceTree = "<group>";
@@ -427,8 +426,6 @@
 			isa = PBXGroup;
 			children = (
 				7850E80D1E45222F001F8BCF /* archive */,
-				7870B8591E45537100B754D6 /* Browser.storyboard */,
-				7850E80E1E452281001F8BCF /* HomeViewController.swift */,
 				78CDA09E1DE5307C00ABC5E1 /* FIRManager.swift */,
 				78BE7F061E400F0B001D8BAA /* VoteBooth.swift */,
 			);
@@ -719,7 +716,7 @@
 				TargetAttributes = {
 					78469A571DE3958000A40D53 = {
 						CreatedOnToolsVersion = 8.0;
-						DevelopmentTeam = Y4GA6H5JHE;
+						DevelopmentTeam = PY8CHQP699;
 						ProvisioningStyle = Automatic;
 					};
 					78469A6B1DE3958100A40D53 = {
@@ -1016,7 +1013,6 @@
 				E3D1D55F1DF11D700021942A /* Styles.swift in Sources */,
 				421631601E43DC1A00E644A5 /* PhotoGridFlowLayout.swift in Sources */,
 				BFF9AE971E39BBE90012C1F2 /* SignUpViewController.swift in Sources */,
-				E3DC851C1E450EDC0017E6A2 /* ImageViewController.swift in Sources */,
 				4276E9331E3FFDA40020992D /* ProfileViewController.swift in Sources */,
 				78BCDF3F1DF751E8002D399E /* BusyView.swift in Sources */,
 				78469A5E1DE3958100A40D53 /* LoginViewController.swift in Sources */,
@@ -1208,7 +1204,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = Y4GA6H5JHE;
+				DEVELOPMENT_TEAM = PY8CHQP699;
 				INFOPLIST_FILE = BMe/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.op.BMe;
@@ -1227,7 +1223,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = Y4GA6H5JHE;
+				DEVELOPMENT_TEAM = PY8CHQP699;
 				INFOPLIST_FILE = BMe/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.op.BMe;
