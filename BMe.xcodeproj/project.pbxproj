@@ -50,7 +50,6 @@
 		7837A21F1DF95A43000CB9CB /* HeartButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7837A21E1DF95A43000CB9CB /* HeartButton.swift */; };
 		78469A5C1DE3958100A40D53 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78469A5B1DE3958100A40D53 /* AppDelegate.swift */; };
 		78469A5E1DE3958100A40D53 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78469A5D1DE3958100A40D53 /* LoginViewController.swift */; };
-		78469A611DE3958100A40D53 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 78469A5F1DE3958100A40D53 /* Login.storyboard */; };
 		78469A631DE3958100A40D53 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 78469A621DE3958100A40D53 /* Assets.xcassets */; };
 		78469A661DE3958100A40D53 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 78469A641DE3958100A40D53 /* LaunchScreen.storyboard */; };
 		78469A711DE3958100A40D53 /* BMeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78469A701DE3958100A40D53 /* BMeTests.swift */; };
@@ -88,7 +87,6 @@
 		78F511361DF6D0860074050F /* WhiteRevealOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F511351DF6D0860074050F /* WhiteRevealOverlayView.swift */; };
 		78F511381DF6D09E0074050F /* WhiteRevealOverlayView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 78F511371DF6D09E0074050F /* WhiteRevealOverlayView.xib */; };
 		BFF9AE971E39BBE90012C1F2 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF9AE961E39BBE90012C1F2 /* SignUpViewController.swift */; };
-		BFF9AE991E39BC270012C1F2 /* SignUp.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BFF9AE981E39BC270012C1F2 /* SignUp.storyboard */; };
 		BFF9AE9B1E3D90020012C1F2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BFF9AE9A1E3D90020012C1F2 /* Main.storyboard */; };
 		BFF9AE9D1E3D90540012C1F2 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF9AE9C1E3D90540012C1F2 /* MainViewController.swift */; };
 		E3433EE41E45487400C69650 /* GPUImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3433EE11E45486600C69650 /* GPUImage.framework */; };
@@ -218,7 +216,6 @@
 		78469A581DE3958000A40D53 /* BMe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BMe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		78469A5B1DE3958100A40D53 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		78469A5D1DE3958100A40D53 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
-		78469A601DE3958100A40D53 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Login.storyboard; sourceTree = "<group>"; };
 		78469A621DE3958100A40D53 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		78469A651DE3958100A40D53 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		78469A671DE3958100A40D53 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -263,7 +260,6 @@
 		86BFB4E3203608C3B4F447D0 /* Pods-BMeTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BMeTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BMeTests/Pods-BMeTests.debug.xcconfig"; sourceTree = "<group>"; };
 		89C6C4AE3BCC216444B1A558 /* Pods_BMeUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BMeUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BFF9AE961E39BBE90012C1F2 /* SignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
-		BFF9AE981E39BC270012C1F2 /* SignUp.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = SignUp.storyboard; sourceTree = "<group>"; };
 		BFF9AE9A1E3D90020012C1F2 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		BFF9AE9C1E3D90540012C1F2 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		E3433ED81E45486600C69650 /* GPUImage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = GPUImage.xcodeproj; path = framework/GPUImage.xcodeproj; sourceTree = SOURCE_ROOT; };
@@ -589,8 +585,6 @@
 				7863842E1E37D8C6005DD454 /* User */,
 				BFF9AE961E39BBE90012C1F2 /* SignUpViewController.swift */,
 				78469A5D1DE3958100A40D53 /* LoginViewController.swift */,
-				78469A5F1DE3958100A40D53 /* Login.storyboard */,
-				BFF9AE981E39BC270012C1F2 /* SignUp.storyboard */,
 				BFF9AE9A1E3D90020012C1F2 /* Main.storyboard */,
 				BFF9AE9C1E3D90540012C1F2 /* MainViewController.swift */,
 			);
@@ -796,7 +790,6 @@
 				78C3503F1DF12E17005E8331 /* blank user avatar.jpeg in Resources */,
 				78F511381DF6D09E0074050F /* WhiteRevealOverlayView.xib in Resources */,
 				78BCDF491DF7643D002D399E /* hook-blue.png in Resources */,
-				BFF9AE991E39BC270012C1F2 /* SignUp.storyboard in Resources */,
 				E3DC85181E450EDC0017E6A2 /* chinatown.jpg in Resources */,
 				78BCDF411DF75204002D399E /* BusyView.xib in Resources */,
 				7837A2101DF8B898000CB9CB /* raincheck-yellow.png in Resources */,
@@ -843,7 +836,6 @@
 				78BCDF2C1DF74421002D399E /* README in Resources */,
 				7837A21B1DF959F2000CB9CB /* heart-blue.png in Resources */,
 				78C350451DF2260A005E8331 /* Account.storyboard in Resources */,
-				78469A611DE3958100A40D53 /* Login.storyboard in Resources */,
 				781E713E1DF401A100041855 /* sound-wave.png in Resources */,
 				781E715D1DF53D1E00041855 /* home-white.png in Resources */,
 			);
@@ -1092,14 +1084,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		78469A5F1DE3958100A40D53 /* Login.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				78469A601DE3958100A40D53 /* Base */,
-			);
-			name = Login.storyboard;
-			sourceTree = "<group>";
-		};
 		78469A641DE3958100A40D53 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (

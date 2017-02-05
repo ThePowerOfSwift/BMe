@@ -21,7 +21,8 @@ class SignUpViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        toEnterUsername()
+        toEnterUsernameState()
+        NotificationCenter.default.addObserver(self, selector: #selector(presentRootVC), name: NSNotification.Name(rawValue: Constants.NotificationKeys.didSignIn), object: nil)
         // Do any additional setup after loading the view.
     }
 
@@ -38,7 +39,7 @@ class SignUpViewController: UIViewController {
             self.dismiss(animated: true, completion: nil)
         }
         else{
-            toEnterUsername()
+            toEnterUsernameState()
         }
     }
     
@@ -47,7 +48,14 @@ class SignUpViewController: UIViewController {
     */
     @IBAction func onContinue(_ sender: Any) {
         if infoEnterState() == "username"{
-            toEnterEmail()
+            //TODO: Check against username format once there is one
+            if userNameTextField.text == ""{
+                presentEmptyFieldErrorAlert()
+            }
+            else{
+                toEnterEmail()
+            }
+            
         }
         else{
             guard let email = userNameTextField.text,
@@ -75,6 +83,16 @@ class SignUpViewController: UIViewController {
         }
     }
     
+    func presentRootVC() {
+        self.present(self.getRootVCAfterLogin(), animated: false, completion: nil)
+    }
+    
+    func getRootVCAfterLogin() -> UIViewController {
+        // Completion code upon successful login
+        let storyboard = UIStoryboard.init(name: Constants.OnLogin.StoryboardID, bundle: nil)
+        let rootVC = storyboard.instantiateViewController(withIdentifier: Constants.OnLogin.RootViewController)
+        return rootVC
+    }
     
     
     
@@ -84,7 +102,7 @@ class SignUpViewController: UIViewController {
      - Username textfield placeholder should be "username"
      - Title on the button should be "Continue"
     */
-    func toEnterUsername() -> Void{
+    func toEnterUsernameState() -> Void{
         if let username = self.username{
             userNameTextField.text = username
         }

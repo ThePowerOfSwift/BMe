@@ -21,15 +21,15 @@ struct Constants {
         
     }
     struct OnSignUp {
-        static let StoryboardID = SegueID.Storyboard.SignUp
+        static let StoryboardID = SegueID.Storyboard.Main
         static let RootViewController = SegueID.ViewController.SignUpViewController
     }
     struct OnLogout {
-        static let StoryboardID = SegueID.Storyboard.Login
-        static let RootViewController = SegueID.ViewController.LoginViewController
+        static let StoryboardID = SegueID.Storyboard.Main
+        static let RootViewController = SegueID.ViewController.MainViewController
     }
     struct ToLogin {
-        static let StoryboardID = SegueID.Storyboard.Login
+        static let StoryboardID = SegueID.Storyboard.Main
         static let RootViewController = SegueID.ViewController.LoginViewController
     }
     struct NotificationKeys {
@@ -56,6 +56,7 @@ struct Constants {
             static let Account = "Account"
         }
         struct ViewController {
+            static let MainViewController = "MainViewController"
             static let CameraViewController = "CameraViewController"
             static let YelpViewController = "YelpViewController"
             static let VideoComposerViewController = "VideoComposerViewController"
