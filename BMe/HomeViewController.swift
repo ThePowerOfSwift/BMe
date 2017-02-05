@@ -8,10 +8,30 @@
 
 import UIKit
 
+struct MatchupTableViewDataSource {
+    var userName: String
+    var image: UIImage
+}
+
 class HomeViewController: UIViewController {
 
     static let storyboardID = "Browser"
     static let viewControllerID = "CategoryTableViewController"
+    
+    var trendingMatchupTableViewDataSource: [MatchupTableViewDataSource] =
+        [MatchupTableViewDataSource(userName: "AAAA", image: UIImage(named: "chinatown.jpg")!),
+         MatchupTableViewDataSource(userName: "AAAA", image: UIImage(named: "chinatown.jpg")!),
+         MatchupTableViewDataSource(userName: "AAAA", image: UIImage(named: "chinatown.jpg")!),
+         MatchupTableViewDataSource(userName: "AAAA", image: UIImage(named: "chinatown.jpg")!),
+         MatchupTableViewDataSource(userName: "AAAA", image: UIImage(named: "chinatown.jpg")!)]
+    
+    var discoverMatchupTableViewDataSource: [MatchupTableViewDataSource] =
+        [MatchupTableViewDataSource(userName: "BBBB", image: UIImage(named: "golden_gate_bridge.jpg")!),
+         MatchupTableViewDataSource(userName: "BBBB", image: UIImage(named: "golden_gate_bridge.jpg")!),
+         MatchupTableViewDataSource(userName: "BBBB", image: UIImage(named: "golden_gate_bridge.jpg")!),
+         MatchupTableViewDataSource(userName: "BBBB", image: UIImage(named: "golden_gate_bridge.jpg")!),
+         MatchupTableViewDataSource(userName: "BBBB", image: UIImage(named: "golden_gate_bridge.jpg")!)]
+
     
     // TODO testing
 
@@ -39,17 +59,23 @@ class HomeViewController: UIViewController {
         self.addChildViewController(firstTVC)
         self.addChildViewController(secondTVC)
         
+        // Assign data source
+        firstTVC.matchupTableViewDataSource = trendingMatchupTableViewDataSource
+        firstTVC.matchupTitle = "Trending"
+        secondTVC.matchupTableViewDataSource = discoverMatchupTableViewDataSource
+        secondTVC.matchupTitle = "Discover"
+        
         // CategoryTableViewController's viewDidLoad is called here
         firstTVC.view.layoutIfNeeded()
         secondTVC.view.layoutIfNeeded()
         
-        // Get table view's height here and determine container's height
         // After CategoryTableViewController's viewDidLoad is called,
         // you can get tableView's frame that has been configured there
         // to set the container size of tableView
         firstTableViewHeightConstraint.constant = firstTVC.tableView.frame.height
         secondTableViewHeightConstraint.constant = secondTVC.tableView.frame.height
         view.layoutIfNeeded()
+        print("firstTVC.tableView.frame.height: \(firstTVC.tableView.frame.height) in Home view controller")
         
         guard let firstTableView = firstTVC.tableView, let secondTableView = secondTVC.tableView else {
             print("Failed to instantiate tableView")
@@ -57,6 +83,7 @@ class HomeViewController: UIViewController {
         }
         firstTableViewContainerView.addSubview(firstTableView)
         secondTableViewContainerView.addSubview(secondTableView)
+        
     }
     
 //    override func viewDidLoad() {
