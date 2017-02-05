@@ -28,17 +28,17 @@ class FIR: NSObject {
     func databasePath(_ object:object) -> FIRDatabaseReference? {
         // Return path structure for given object
         // Current structure: ~/<object>/...
-        return FIR.manager.database.child(object.string())
+        return FIR.manager.database.child(object.key())
     }
     
     func storagePath(_ object: object) -> FIRStorageReference? {
         // Return path structure for given object
         // Current structure: ~/<object>/...
-        return FIR.manager.storage.child(object.string())
+        return FIR.manager.storage.child(object.key())
     }
     
     // save to storage + associated json object to db
-    func put(_ file: AnyObject, object: object) {
+    func put(file data: Data, object: object) {
         // put file on storage
         // put file info on database
         // TODO: complete
@@ -71,10 +71,10 @@ class FIR: NSObject {
      Firebase object types
      */
     enum object {
-        static var key = "object"
-
+        // list object types
         case image
 
+        // initialized based on object type
         init(_ type: String) {
             self = .image
         }
@@ -83,9 +83,13 @@ class FIR: NSObject {
             self = .image
         }
         
-        func string() -> String {
+        func key() -> String {
             return "image"
-        }        
+        }
+        
+        func contentType() -> String {
+            return "image/jpeg"
+        }
     }
 }
 
@@ -98,18 +102,24 @@ class FIR: NSObject {
  */
 class JSONObject: NSObject {
 
+    // JSON Object type
+    class var object: FIR.object {
+        get {
+            assert(false, "Must override this property with FIR.object type")
+            return FIR.object.image
+        }
+    }
+
+    // Instance Properties
     // Unique identifier for the object
     let ID: String
     // JSON dictionary that contains object properties
     let json: [String: AnyObject?]
-    // JSON Object type
-    let object: FIR.object
     
     // Create object with snapshot
     init(_ snapshot: FIRDataSnapshot) {
         ID = snapshot.key
         json = snapshot.value as! [String: AnyObject?]
-        object = FIR.object(json[FIR.object.key] as! String)
     }
     
     // Helper function to retrieve JSON object from database
@@ -125,6 +135,11 @@ class JSONObject: NSObject {
 
 class Image_new: JSONObject {
     // Properties
+    override class var object: FIR.object {
+        get {
+            return FIR.object.image
+        }
+    }
     // TODO: edit
     var contentType: ContentType?
     var downloadURL: URL?
@@ -140,14 +155,20 @@ class Image_new: JSONObject {
     
     // Helper function to retrieve Image JSON object from database
     class func get(ID: String, completion:@escaping (Image_new)->()) {
-        JSONObject.get(ID: ID, object: FIR.object.image) { (snapshot) in
+        super.get(ID: ID, object: object) { (snapshot) in
+            // return initialized object
             completion(Image_new(snapshot))
         }
     }
     
+    //TODO: complete
+    class func save() {
+        // save image 
+    }
+    
     // Keys for dictionary that holds JSON properties
+    // TODO: edit
     struct keys {
         static let uid = "uid"
     }
-
 }
