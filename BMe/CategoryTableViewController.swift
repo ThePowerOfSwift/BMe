@@ -93,7 +93,63 @@ extension CategoryTableViewController: UITableViewDelegate, UITableViewDataSourc
        // let headerView = UIView(frame: CGRect(x: 0, y: 0, width: screenWidth, height: tableViewSectionHeaderHeight))
         //headerView.backgroundColor = UIColor.blue
         //return headerLabel
-        return nil//headerView
+        
+        guard let matchupTitle = matchupTitle else {
+            print("matchupTitle is nil")
+            return nil
+        }
+        
+        let headerView = UIView()
+        headerView.backgroundColor = UIColor.blue
+        let headerLabel = UILabel()
+        headerLabel.backgroundColor = UIColor.green
+
+        //headerView.translatesAutoresizingMaskIntoConstraints = false
+        headerLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+//        headerLabel.text = matchupTitle
+        headerLabel.text = "TITLE"
+        headerView.addSubview(headerLabel)
+        headerView.addConstraints([
+            NSLayoutConstraint(
+                item: headerLabel,
+                attribute: NSLayoutAttribute.top,
+                relatedBy: NSLayoutRelation.equal,
+                toItem: headerView,
+                attribute: NSLayoutAttribute.top,
+                multiplier: 1.0,
+                constant: 0
+            ),
+            NSLayoutConstraint(
+                item: headerLabel,
+                attribute: NSLayoutAttribute.leading,
+                relatedBy: NSLayoutRelation.equal,
+                toItem: headerView,
+                attribute: NSLayoutAttribute.leading,
+                multiplier: 1.0,
+                constant: 20
+            ),
+            NSLayoutConstraint(
+                item: headerLabel,
+                attribute: NSLayoutAttribute.height,
+                relatedBy: NSLayoutRelation.equal,
+                toItem: nil,
+                attribute: NSLayoutAttribute.height,
+                multiplier: 1.0,
+                constant: 20
+            ),
+            NSLayoutConstraint(
+                item: headerLabel,
+                attribute: NSLayoutAttribute.width,
+                relatedBy: NSLayoutRelation.equal,
+                toItem: nil,
+                attribute: NSLayoutAttribute.width,
+                multiplier: 1.0,
+                constant: 100
+            )])
+        
+        
+        return headerView
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
