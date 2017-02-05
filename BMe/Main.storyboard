@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="86H-4g-x8P">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="86H-4g-x8P">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -22,43 +22,41 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" hidesForSinglePage="YES" numberOfPages="5" translatesAutoresizingMaskIntoConstraints="NO" id="MMl-It-VXH">
+                                <rect key="frame" x="152" y="612" width="71" height="37"/>
+                                <color key="pageIndicatorTintColor" red="0.39960005920000002" green="0.2096609821" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </pageControl>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wvt-Po-dUz">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            </scrollView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cO8-QL-h99">
-                                <rect key="frame" x="37" y="440" width="300" height="30"/>
+                                <rect key="frame" x="37" y="520" width="300" height="30"/>
                                 <state key="normal" title="Login"/>
                                 <connections>
                                     <action selector="didTapLogin:" destination="86H-4g-x8P" eventType="touchUpInside" id="bOx-DS-cVd"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9eE-Z9-IBS">
-                                <rect key="frame" x="37" y="485" width="300" height="30"/>
+                                <rect key="frame" x="37" y="565" width="300" height="30"/>
                                 <state key="normal" title="Signup"/>
                                 <connections>
                                     <action selector="didTapSignUp:" destination="86H-4g-x8P" eventType="touchUpInside" id="b69-TV-e0G"/>
                                 </connections>
                             </button>
-                            <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="MMl-It-VXH">
-                                <rect key="frame" x="168" y="532" width="39" height="37"/>
-                                <color key="pageIndicatorTintColor" red="0.39960005920000002" green="0.2096609821" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            </pageControl>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wvt-Po-dUz">
-                                <rect key="frame" x="16" y="28" width="343" height="351"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="351" id="Dli-IA-xu0"/>
-                                </constraints>
-                            </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="cO8-QL-h99" firstAttribute="top" secondItem="L2k-C6-sHV" secondAttribute="bottom" constant="420" id="5qh-JO-844"/>
-                            <constraint firstItem="wvt-Po-dUz" firstAttribute="leading" secondItem="G1P-ry-ZLQ" secondAttribute="leadingMargin" id="7SF-yz-1wC"/>
+                            <constraint firstItem="cO8-QL-h99" firstAttribute="top" secondItem="L2k-C6-sHV" secondAttribute="bottom" constant="500" id="5qh-JO-844"/>
+                            <constraint firstItem="4v7-m9-0lr" firstAttribute="top" secondItem="wvt-Po-dUz" secondAttribute="bottom" id="EYM-2V-79R"/>
                             <constraint firstItem="MMl-It-VXH" firstAttribute="centerX" secondItem="G1P-ry-ZLQ" secondAttribute="centerX" id="EeD-14-P5A"/>
-                            <constraint firstItem="wvt-Po-dUz" firstAttribute="top" secondItem="L2k-C6-sHV" secondAttribute="bottom" constant="8" id="Ibh-R2-NSg"/>
                             <constraint firstItem="cO8-QL-h99" firstAttribute="leading" secondItem="G1P-ry-ZLQ" secondAttribute="leadingMargin" constant="21" id="NbV-Z5-KVv"/>
                             <constraint firstItem="9eE-Z9-IBS" firstAttribute="trailing" secondItem="cO8-QL-h99" secondAttribute="trailing" id="SnL-cW-kG8"/>
                             <constraint firstAttribute="trailingMargin" secondItem="cO8-QL-h99" secondAttribute="trailing" constant="22" id="TeX-Tm-Kj1"/>
+                            <constraint firstAttribute="trailing" secondItem="wvt-Po-dUz" secondAttribute="trailing" id="Y22-NC-34I"/>
+                            <constraint firstItem="wvt-Po-dUz" firstAttribute="leading" secondItem="G1P-ry-ZLQ" secondAttribute="leading" id="fAM-Il-Txe"/>
                             <constraint firstItem="MMl-It-VXH" firstAttribute="top" secondItem="9eE-Z9-IBS" secondAttribute="bottom" constant="17" id="gjy-ew-ali"/>
-                            <constraint firstItem="wvt-Po-dUz" firstAttribute="trailing" secondItem="G1P-ry-ZLQ" secondAttribute="trailingMargin" id="r8S-6e-iUv"/>
                             <constraint firstItem="9eE-Z9-IBS" firstAttribute="top" secondItem="cO8-QL-h99" secondAttribute="bottom" constant="15" id="upD-ON-jPb"/>
+                            <constraint firstItem="wvt-Po-dUz" firstAttribute="top" secondItem="G1P-ry-ZLQ" secondAttribute="top" id="x0q-ia-MDH"/>
                             <constraint firstItem="9eE-Z9-IBS" firstAttribute="leading" secondItem="cO8-QL-h99" secondAttribute="leading" id="xkj-dG-qtk"/>
                         </constraints>
                     </view>

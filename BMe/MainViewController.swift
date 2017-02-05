@@ -14,30 +14,9 @@ class MainViewController: UIViewController, UIScrollViewDelegate {
     @IBOutlet weak var pagingControl: UIPageControl!
     
     
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.aboutPageView.frame = CGRect(x:16, y:28, width:343, height:351)
-        let aboutPageViewWidth:CGFloat = self.aboutPageView.frame.width
-        let aboutPageViewHeight:CGFloat = self.aboutPageView.frame.height
-        
-        let imgOne = UIImageView(frame: CGRect(x:0, y:0,width:aboutPageViewWidth, height:aboutPageViewHeight))
-        imgOne.image = #imageLiteral(resourceName: "hook-black.png")
-        let imgTwo = UIImageView(frame: CGRect(x:aboutPageViewWidth + 1, y:0,width:aboutPageViewWidth, height:aboutPageViewHeight))
-        imgTwo.image = #imageLiteral(resourceName: "home")
-        let imgThree = UIImageView(frame: CGRect(x:2*aboutPageViewWidth, y:0,width:aboutPageViewWidth, height:aboutPageViewHeight))
-        imgThree.image = #imageLiteral(resourceName: "hook-blue.png")
-        
-        self.aboutPageView.addSubview(imgOne)
-        self.aboutPageView.addSubview(imgTwo)
-        self.aboutPageView.addSubview(imgThree)
-        
-        self.aboutPageView.contentSize = CGSize(width:self.aboutPageView.frame.width * 4, height:self.aboutPageView.frame.height)
-        self.aboutPageView.delegate = self
-        self.pagingControl.currentPage = 0
-        
-        // Do any additional setup after loading the view.
+        setUpScrollView()
         // Add notification send user back to login screen after logout
         NotificationCenter.default.addObserver(self, selector: #selector(presentRootVC), name: NSNotification.Name(rawValue: Constants.NotificationKeys.didSignIn), object: nil)
     }
@@ -92,23 +71,62 @@ class MainViewController: UIViewController, UIScrollViewDelegate {
     }
     
     
-    
+    //ScrollView Delegate, to calculate which page is showing, can be use if needed
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView){
         // Test the offset and calculate the current page after scrolling ends
         let pageWidth:CGFloat = scrollView.frame.width
-        let currentPage:CGFloat = floor((scrollView.contentOffset.x-pageWidth/2)/pageWidth)+1
-        // Change the indicator
-        self.pagingControl.currentPage = Int(currentPage);
-        // Change the text accordingly
-        if Int(currentPage) == 0{
-            
-        }else if Int(currentPage) == 1{
-            
-        }else if Int(currentPage) == 2{
-            
-        }else{
-            
-        }
+        let currentPage:CGFloat = floor((scrollView.contentOffset.x - pageWidth/2)/pageWidth) + 1
+        // Change the dot indicator
+        self.pagingControl.currentPage = Int(currentPage)
     }
+    
+    /**
+     Setup the scroll view, it's conttent and margin and more
+    */
+    func setUpScrollView(){
+        //Setup the szie for scroll view to be the same size of the screen
+        self.aboutPageView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
+        let aboutPageViewWidth:CGFloat = self.aboutPageView.frame.width
+        let aboutPageViewHeight:CGFloat = self.aboutPageView.frame.height
+        
+        // It is UIImageView now, can be replaced by .xib, if need, but not yet be tested suceessfully
+        let imgOne = UIImageView(frame: CGRect(x: 0, y: 0,width: aboutPageViewWidth, height: aboutPageViewHeight))
+        imgOne.contentMode = .scaleAspectFit
+        imgOne.image = #imageLiteral(resourceName: "hook-black.png")
+        
+        let imgTwo = UIImageView(frame: CGRect(x: aboutPageViewWidth, y: 0,width: aboutPageViewWidth, height: aboutPageViewHeight))
+        imgTwo.contentMode = .scaleAspectFit
+        imgTwo.image = #imageLiteral(resourceName: "home")
+        
+        let imgThree = UIImageView(frame: CGRect(x: aboutPageViewWidth * 2, y: 0,width: aboutPageViewWidth, height: aboutPageViewHeight))
+        imgThree.contentMode = .scaleAspectFit
+        imgThree.image = #imageLiteral(resourceName: "hook-blue.png")
+        
+        let imgFour = UIImageView(frame: CGRect(x: aboutPageViewWidth * 3, y: 0,width: aboutPageViewWidth, height: aboutPageViewHeight))
+        imgFour.contentMode = .scaleAspectFit
+        imgFour.image = #imageLiteral(resourceName: "hook-black.png")
+        
+        let imgFive = UIImageView(frame: CGRect(x: aboutPageViewWidth * 4, y: 0,width: aboutPageViewWidth, height: aboutPageViewHeight))
+        imgFive.contentMode = .scaleAspectFit
+        imgFive.image = #imageLiteral(resourceName: "hook-yellow.png")
+        
+        let testView = BusyView(frame: CGRect(x: aboutPageViewWidth * 5, y: 0,width: aboutPageViewWidth, height: aboutPageViewHeight))
+        
+        // Add views in order in the scroll view
+        self.aboutPageView.addSubview(imgOne)
+        self.aboutPageView.addSubview(imgTwo)
+        self.aboutPageView.addSubview(imgThree)
+        self.aboutPageView.addSubview(imgFour)
+        self.aboutPageView.addSubview(imgFive)
+        self.aboutPageView.addSubview(testView)
+        
+        // Setup total numbers of pages and total numbers of dots
+        self.aboutPageView.contentSize = CGSize(width :self.aboutPageView.frame.width * 6, height: self.aboutPageView.frame.height)
+        self.aboutPageView.delegate = self
+        self.pagingControl.currentPage = 0
+        self.pagingControl.numberOfPages = 6
+        
+    }
+    
 
 }
