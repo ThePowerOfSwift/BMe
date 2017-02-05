@@ -58,6 +58,7 @@
 		7851239C1DF9F66800B70CC4 /* logout.png in Resources */ = {isa = PBXBuildFile; fileRef = 7851239B1DF9F66800B70CC4 /* logout.png */; };
 		785E87C61DED445000C9FF59 /* Play image- white.png in Resources */ = {isa = PBXBuildFile; fileRef = 785E87C51DED445000C9FF59 /* Play image- white.png */; };
 		7870B85A1E45537100B754D6 /* Browser.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7870B8591E45537100B754D6 /* Browser.storyboard */; };
+		7870B85F1E468DAF00B754D6 /* FIR.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7870B85E1E468DAF00B754D6 /* FIR.swift */; };
 		78B56A021DF5E7AE00A13915 /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78B56A011DF5E7AE00A13915 /* UserProfile.swift */; };
 		78B56A061DF5EBFB00A13915 /* error.png in Resources */ = {isa = PBXBuildFile; fileRef = 78B56A051DF5EBFB00A13915 /* error.png */; };
 		78B56A091DF5FD1B00A13915 /* user-white.png in Resources */ = {isa = PBXBuildFile; fileRef = 78B56A071DF5FD1B00A13915 /* user-white.png */; };
@@ -228,6 +229,7 @@
 		7851239B1DF9F66800B70CC4 /* logout.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logout.png; sourceTree = "<group>"; };
 		785E87C51DED445000C9FF59 /* Play image- white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Play image- white.png"; sourceTree = "<group>"; };
 		7870B8591E45537100B754D6 /* Browser.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Browser.storyboard; sourceTree = "<group>"; };
+		7870B85E1E468DAF00B754D6 /* FIR.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FIR.swift; sourceTree = "<group>"; };
 		78B56A011DF5E7AE00A13915 /* UserProfile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
 		78B56A051DF5EBFB00A13915 /* error.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = error.png; sourceTree = "<group>"; };
 		78B56A071DF5FD1B00A13915 /* user-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "user-white.png"; sourceTree = "<group>"; };
@@ -344,8 +346,6 @@
 		7821C3BB1DEF24730023B95E /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				78C350461DF232AF005E8331 /* UserProfileViewController.swift */,
-				781E714F1DF4E52A00041855 /* YelpViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -353,8 +353,6 @@
 		7821C3BC1DEF249D0023B95E /* Storyboards */ = {
 			isa = PBXGroup;
 			children = (
-				78C350441DF2260A005E8331 /* Account.storyboard */,
-				781E714B1DF486A900041855 /* Yelp.storyboard */,
 				E35AC4861DE4D0F500FCB0D0 /* TabBar.storyboard */,
 			);
 			name = Storyboards;
@@ -363,7 +361,6 @@
 		7821C3BF1DEF81D10023B95E /* JSON */ = {
 			isa = PBXGroup;
 			children = (
-				E3C357A31DEF484E00AC0832 /* Restaurant.swift */,
 				781E71511DF4EEE000041855 /* Post.swift */,
 				E3ECAFD81DE3CCB500F221AE /* Video.swift */,
 				781E71551DF5196F00041855 /* Image.swift */,
@@ -387,7 +384,6 @@
 		783008AB1DE3B9AF00B070D4 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				E3C357A11DEF451E00AC0832 /* YPManager.swift */,
 				7821C3BF1DEF81D10023B95E /* JSON */,
 			);
 			name = Models;
@@ -422,10 +418,10 @@
 		78337D901DE3ACA700A1B32C /* JJ */ = {
 			isa = PBXGroup;
 			children = (
-				7850E80D1E45222F001F8BCF /* archive */,
 				7870B8591E45537100B754D6 /* Browser.storyboard */,
 				7850E80E1E452281001F8BCF /* HomeViewController.swift */,
 				78CDA09E1DE5307C00ABC5E1 /* FIRManager.swift */,
+				7870B85E1E468DAF00B754D6 /* FIR.swift */,
 				78BE7F061E400F0B001D8BAA /* VoteBooth.swift */,
 			);
 			name = JJ;
@@ -456,6 +452,7 @@
 		78469A5A1DE3958000A40D53 /* BMe */ = {
 			isa = PBXGroup;
 			children = (
+				7850E80D1E45222F001F8BCF /* archive */,
 				E3433ED81E45486600C69650 /* GPUImage.xcodeproj */,
 				78BCDF2B1DF74421002D399E /* README */,
 				78337D8E1DE3AC7400A1B32C /* Shared */,
@@ -492,8 +489,15 @@
 		7850E80D1E45222F001F8BCF /* archive */ = {
 			isa = PBXGroup;
 			children = (
+				E3C357A31DEF484E00AC0832 /* Restaurant.swift */,
+				E3C357A11DEF451E00AC0832 /* YPManager.swift */,
+				78C350441DF2260A005E8331 /* Account.storyboard */,
+				781E714B1DF486A900041855 /* Yelp.storyboard */,
 				78B95F8B1DF6B4EA00B6C83E /* BrowserImageTableViewCell.swift */,
 				E35AC4881DE4D75C00FCB0D0 /* BrowseViewController.swift */,
+				781E714F1DF4E52A00041855 /* YelpViewController.swift */,
+				78C350461DF232AF005E8331 /* UserProfileViewController.swift */,
+				7837A21E1DF95A43000CB9CB /* HeartButton.swift */,
 			);
 			name = archive;
 			sourceTree = "<group>";
@@ -571,7 +575,6 @@
 				78BCDF361DF749CC002D399E /* PostButton.swift */,
 				78BCDF381DF74A15002D399E /* NextButton.swift */,
 				7837A2121DF8BB96000CB9CB /* RainCheckButton.swift */,
-				7837A21E1DF95A43000CB9CB /* HeartButton.swift */,
 			);
 			name = Buttons;
 			sourceTree = "<group>";
@@ -1022,6 +1025,7 @@
 				783008AA1DE3B9A000B070D4 /* Constants.swift in Sources */,
 				781E71501DF4E52A00041855 /* YelpViewController.swift in Sources */,
 				7830089A1DE3B0B500B070D4 /* MeasurementHelper.swift in Sources */,
+				7870B85F1E468DAF00B754D6 /* FIR.swift in Sources */,
 				E3ECAFD91DE3CCB500F221AE /* Video.swift in Sources */,
 				781E71461DF4086700041855 /* LocationButton.swift in Sources */,
 				E3DC85241E450EDC0017E6A2 /* BubbleCollectionViewCell.swift in Sources */,
