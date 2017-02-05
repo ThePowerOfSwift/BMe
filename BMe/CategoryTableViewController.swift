@@ -85,6 +85,7 @@ extension CategoryTableViewController: UITableViewDelegate, UITableViewDataSourc
         // make show more button
     }
     
+    // http://stackoverflow.com/questions/27860126/viewforheaderinsection-autolayout-pin-width
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let screenWidth = UIScreen.main.bounds.width
         //let headerLabel = UILabel(frame: CGRect(x: 0, y: 0, width: screenWidth, height: tableViewSectionHeaderHeight))
@@ -107,16 +108,15 @@ extension CategoryTableViewController: UITableViewDelegate, UITableViewDataSourc
         //headerView.translatesAutoresizingMaskIntoConstraints = false
         headerLabel.translatesAutoresizingMaskIntoConstraints = false
         
-//        headerLabel.text = matchupTitle
-        headerLabel.text = "TITLE"
+        headerLabel.text = matchupTitle
         headerView.addSubview(headerLabel)
         headerView.addConstraints([
             NSLayoutConstraint(
                 item: headerLabel,
-                attribute: NSLayoutAttribute.top,
+                attribute: NSLayoutAttribute.centerY,
                 relatedBy: NSLayoutRelation.equal,
                 toItem: headerView,
-                attribute: NSLayoutAttribute.top,
+                attribute: NSLayoutAttribute.centerY,
                 multiplier: 1.0,
                 constant: 0
             ),
@@ -137,19 +137,58 @@ extension CategoryTableViewController: UITableViewDelegate, UITableViewDataSourc
                 attribute: NSLayoutAttribute.height,
                 multiplier: 1.0,
                 constant: 20
+            )])
+        
+        let showMoreButton = UIButton()
+        showMoreButton.backgroundColor = UIColor.green
+        
+        showMoreButton.translatesAutoresizingMaskIntoConstraints = false
+        showMoreButton.setTitle("show more", for: UIControlState.normal)
+        showMoreButton.setTitleColor(UIColor.white, for: .normal)
+        showMoreButton.setTitleColor(UIColor.darkGray, for: UIControlState.highlighted)
+        showMoreButton.addTarget(self, action: #selector(onShowMoreButton(sender:)), for: UIControlEvents.touchUpInside)
+        headerView.addSubview(showMoreButton)
+        
+        headerView.addConstraints([
+            NSLayoutConstraint(
+                item: showMoreButton,
+                attribute: NSLayoutAttribute.centerY,
+                relatedBy: NSLayoutRelation.equal,
+                toItem: headerView,
+                attribute: NSLayoutAttribute.centerY,
+                multiplier: 1.0,
+                constant: 0
             ),
             NSLayoutConstraint(
-                item: headerLabel,
-                attribute: NSLayoutAttribute.width,
+                item: showMoreButton,
+                attribute: NSLayoutAttribute.trailing,
                 relatedBy: NSLayoutRelation.equal,
-                toItem: nil,
-                attribute: NSLayoutAttribute.width,
+                toItem: headerView,
+                attribute: NSLayoutAttribute.trailing,
                 multiplier: 1.0,
-                constant: 100
+                constant: -20
+            ),
+            NSLayoutConstraint(
+                item: showMoreButton,
+                attribute: NSLayoutAttribute.top,
+                relatedBy: NSLayoutRelation.equal,
+                toItem: headerView,
+                attribute: NSLayoutAttribute.top,
+                multiplier: 1.0,
+                constant: 0
             )])
         
         
+        
         return headerView
+    }
+    
+    func onShowMoreButton(sender: UIButton) {
+        print("Show more button tapped")
+        print("sender.state: \(sender.state)")
+        if sender.isSelected {
+            //sender.setTitleColor(UIColor.gray, for: UIControlState)
+        }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -160,5 +199,9 @@ extension CategoryTableViewController: UITableViewDelegate, UITableViewDataSourc
         return tableViewSectionHeaderHeight
     }
     
+    
+}
+
+extension UIButton {
     
 }
