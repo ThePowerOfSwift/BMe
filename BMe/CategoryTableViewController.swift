@@ -11,6 +11,7 @@ import UIKit
 class CategoryTableViewController: UIViewController {
     
     static let cellIdentifier = "CategoryTableViewCell"
+    let tableViewSectionHeaderHeight: CGFloat = 50
 
     @IBOutlet weak var tableView: UITableView!
     
@@ -23,17 +24,21 @@ class CategoryTableViewController: UIViewController {
         // Autolayout is not possible because tableView is added into HomeViewController's subview
         let rowHeight = tableView.rowHeight
         let screenWidth = UIScreen.main.bounds.width
-        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: screenWidth, height: 30))
-        headerView.backgroundColor = UIColor.cyan
-        tableView.tableHeaderView = headerView
-        let tableViewHeight = rowHeight * CGFloat(tableView.numberOfRows(inSection: 0)) + headerView.frame.height + 30
+        
+        // hearder view with height 30
+        //let headerView = UIView(frame: CGRect(x: 0, y: 0, width: screenWidth, height: 30))
+        //headerView.backgroundColor = UIColor.cyan
+        //tableView.tableHeaderView = headerView
+        
+//        let tableViewHeight = rowHeight * CGFloat(tableView.numberOfRows(inSection: 0)) + tableView.sectionHeaderHeight
+        let tableViewHeight = rowHeight * CGFloat(tableView.numberOfRows(inSection: 0)) + tableView(tableView, heightForHeaderInSection: 0)
         let tableViewWidth = UIScreen.main.bounds.width
         tableView.frame = CGRect(x: 0, y: 0, width: tableViewWidth, height: tableViewHeight)
         tableView.isScrollEnabled = false
-        tableView.isUserInteractionEnabled = false
-        
+        //tableView.isUserInteractionEnabled = false
+        //self.tableView.sectionHeaderHeight = UITableViewAutomaticDimension
+        //self.tableView.estimatedSectionHeaderHeight = 25
     }
-
 }
 
 extension CategoryTableViewController: UITableViewDelegate, UITableViewDataSource {
@@ -58,12 +63,22 @@ extension CategoryTableViewController: UITableViewDelegate, UITableViewDataSourc
         return "TITLE"
     }
     
-//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-//        let screenWidth = UIScreen.main.bounds.width
-//        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: screenWidth, height: 30))
-//        headerView.backgroundColor = UIColor.cyan
-//        return headerView
-//    }
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let screenWidth = UIScreen.main.bounds.width
+        let headerLabel = UILabel(frame: CGRect(x: 0, y: 0, width: screenWidth, height: tableViewSectionHeaderHeight))
+        headerLabel.text = "Label"
+        headerLabel.backgroundColor = UIColor.green
+        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: screenWidth, height: tableViewSectionHeaderHeight))
+        headerView.backgroundColor = UIColor.blue
+        return headerLabel
+    }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        return
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return tableViewSectionHeaderHeight
+    }
     
 }

@@ -36,12 +36,15 @@ class HomeViewController: UIViewController {
                 print("Failed to instantiate tvc")
                 return
         }
+        self.addChildViewController(firstTVC)
+        self.addChildViewController(secondTVC)
         
         // CategoryTableViewController's viewDidLoad is called here
         firstTVC.view.layoutIfNeeded()
         secondTVC.view.layoutIfNeeded()
         
-        // After CategoryTableViewController's viewDidLoad is called, 
+        // Get table view's height here and determine container's height
+        // After CategoryTableViewController's viewDidLoad is called,
         // you can get tableView's frame that has been configured there
         // to set the container size of tableView
         firstTableViewHeightConstraint.constant = firstTVC.tableView.frame.height
