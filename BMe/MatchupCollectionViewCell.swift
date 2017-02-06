@@ -16,7 +16,8 @@ class MatchupCollectionViewCell: UICollectionViewCell {
     var rightLabel: UILabel?
     
     /** To scroll colleciton view. */
-    var delegate: UICollectionView?
+    var collectionViewDelegate: UICollectionView?
+    var homeViewControllerDelegate: HomeViewController?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -191,9 +192,8 @@ class MatchupCollectionViewCell: UICollectionViewCell {
             return
         }
         
-        // Change selectedImageView property to notify which image view is selected
-        imageViewSelected(which: ImageViewSelection.Left)
-        print("image view selected id \(selectedImageView)")
+        // upload match up result to server via home view controller
+        homeViewControllerDelegate?.uploadMatchupResult(winner: WinnerPost.Left)
         
         UIView.animate(withDuration: 0.2, delay: 5, options: [], animations: {
             
@@ -201,15 +201,15 @@ class MatchupCollectionViewCell: UICollectionViewCell {
             leftLabel.text = "Thanks!"
             rightLabel.text = "Fuck!"
             
-            guard let indexPath = self.delegate?.indexPath(for: self) else { return }
-            guard let delegate = self.delegate else {
+            guard let indexPath = self.collectionViewDelegate?.indexPath(for: self) else { return }
+            guard let collectionViewDelegate = self.collectionViewDelegate else {
                 print("delegate is nil")
                 return
             }
             
             let nextIndexPath = IndexPath(item: indexPath.item + 1, section: 0)
-            if nextIndexPath.item < delegate.numberOfItems(inSection: 0) {
-                delegate.scrollToItem(at: nextIndexPath, at: UICollectionViewScrollPosition.centeredHorizontally, animated: true)
+            if nextIndexPath.item < collectionViewDelegate.numberOfItems(inSection: 0) {
+                collectionViewDelegate.scrollToItem(at: nextIndexPath, at: UICollectionViewScrollPosition.centeredHorizontally, animated: true)
             }
         }
     }
@@ -221,9 +221,8 @@ class MatchupCollectionViewCell: UICollectionViewCell {
             return
         }
         
-        // Change selectedImageView property to notify which image view is selected
-        imageViewSelected(which: ImageViewSelection.Right)
-        print("image view selected id \(selectedImageView)")
+        // upload match up result to server via home view controller
+        homeViewControllerDelegate?.uploadMatchupResult(winner: WinnerPost.Right)
         
         UIView.animate(withDuration: 0.2, delay: 5, options: [], animations: {
             leftLabel.text = "Fuck!"
@@ -231,27 +230,17 @@ class MatchupCollectionViewCell: UICollectionViewCell {
         }) { (completed: Bool) in
 
             
-            guard let indexPath = self.delegate?.indexPath(for: self) else { return }
-            guard let delegate = self.delegate else {
-                print("delegate is nil")
+            guard let indexPath = self.collectionViewDelegate?.indexPath(for: self) else { return }
+            guard let collectionViewDelegate = self.collectionViewDelegate else {
+                print("collectionViewDelegate is nil")
                 return
             }
             
             let nextIndexPath = IndexPath(item: indexPath.item + 1, section: 0)
             // Check the bound
-            if nextIndexPath.item < delegate.numberOfItems(inSection: 0) {
-                delegate.scrollToItem(at: nextIndexPath, at: UICollectionViewScrollPosition.centeredHorizontally, animated: true)
+            if nextIndexPath.item < collectionViewDelegate.numberOfItems(inSection: 0) {
+                collectionViewDelegate.scrollToItem(at: nextIndexPath, at: UICollectionViewScrollPosition.centeredHorizontally, animated: true)
             }
-        }
-    }
-    
-    var selectedImageView: ImageViewSelection = ImageViewSelection.Left
-    /** Change selectedImageView when image is selected. Called from MatchupCollectionViewCell. */
-    internal func imageViewSelected(which: ImageViewSelection) {
-        if which == .Left {
-            selectedImageView = .Left
-        } else {
-            selectedImageView = .Right
         }
     }
 }

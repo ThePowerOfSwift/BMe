@@ -17,7 +17,7 @@ struct MatchupTableViewDataSource {
     var image: UIImage
 }
 
-enum ImageViewSelection {
+enum WinnerPost {
     case Left
     case Right
 }
@@ -165,6 +165,11 @@ class HomeViewController: UIViewController {
 //
 //    }
 //    
+    
+    var leftPost: Post?
+    var rightPost: Post?
+    var matchup: VoteBooth.Matchup?
+    
     func loadImages(leftImageView: UIImageView?, rightImageView: UIImageView?) {
         guard let leftImageView = leftImageView, let rightImageView = rightImageView else {
             print("image view is nil")
@@ -174,6 +179,7 @@ class HomeViewController: UIViewController {
         // Request matchup
         VoteBooth.serve { (matchup) in
             print("matchup ID: \(matchup.ID)")
+            self.matchup = matchup
             // Get post IDs of matchup
             var IDs: [String] = []
             for post in matchup.posts {
@@ -181,11 +187,16 @@ class HomeViewController: UIViewController {
             }
 
             FIRManager.shared.fetchPostsWithID(IDs, completion: { (snapshots) in
-                let postA = Post(snapshots[0])
-                let postB = Post(snapshots[1])
+                self.leftPost = Post(snapshots[0])
+                self.rightPost = Post(snapshots[1])
+                
+                guard let leftPost = self.leftPost, let rightPost = self.rightPost else {
+                    print("post is nil")
+                    return
+                }
                 
                 // fetch image A
-                FIRManager.shared.database.child(postA.url!.path).observeSingleEvent(of: .value, with: { (snapshot) in
+                FIRManager.shared.database.child(leftPost.url!.path).observeSingleEvent(of: .value, with: { (snapshot) in
                     let image = Image(snapshot.value as! [String: AnyObject?])
                     
                     leftImageView.loadImageFromGS(url: image.gsURL!, placeholderImage: nil)
@@ -193,7 +204,7 @@ class HomeViewController: UIViewController {
                 })
 
                 // fetch image B
-                FIRManager.shared.database.child(postB.url!.path).observeSingleEvent(of: .value, with: { (snapshot) in
+                FIRManager.shared.database.child(rightPost.url!.path).observeSingleEvent(of: .value, with: { (snapshot) in
                     let image = Image(snapshot.value as! [String: AnyObject?])
                     
                     rightImageView.loadImageFromGS(url: image.gsURL!, placeholderImage: nil)
@@ -201,9 +212,29 @@ class HomeViewController: UIViewController {
                 })
 
                 // TODO: test vote
-                VoteBooth.result(matchID: matchup.ID, winnerID: postB.postID!)
+                //VoteBooth.result(matchID: matchup.ID, winnerID: rightPost.postID!)
             })
         }
+    }
+    
+    /** Uploads matchup result to server. Called from MatchupCollectionViewCell when image view is selected. */
+    func uploadMatchupResult(winner: WinnerPost) {
+        guard let leftPost = leftPost, let rightPost = rightPost, let matchup = matchup else {
+            print("leftPost, rightPost or matchup is nil")
+            return
+        }
+        
+        var winnerPost: Post = leftPost
+        if winner == WinnerPost.Right {
+            winnerPost = rightPost
+        }
+        
+        guard let winnerPostID = winnerPost.postID else {
+            print("winnerPost.postID is nil")
+            return
+        }
+        
+        VoteBooth.result(matchID: matchup.ID, winnerID: winnerPostID)
     }
     
     let trendingMatchupTableViewDataSource: [MatchupTableViewDataSource] =
@@ -256,7 +287,11 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         
         // Set cell's delegate to collection view so that cell can tell collection view to scroll
         // to the next cell when either of images is tapped
-        cell.delegate = collectionView
+        cell.collectionViewDelegate = collectionView
+        
+        // HomeViewController.uploadMatchupResult() is called from MatchupCollectionViewCell when image is selected
+        cell.homeViewControllerDelegate = self
+        
 //        cell.leftImageView?.backgroundColor = leftColors[indexPath.item]
 //        cell.rightImageView?.backgroundColor = rightColors[indexPath.item]
         
