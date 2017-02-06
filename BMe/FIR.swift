@@ -38,7 +38,7 @@ class FIR: NSObject {
     }
     
     // save to storage + associated json object to db
-    func put(file data: Data, object: object) {
+    func put(file data: Data, object: object) -> String {
         // Put file on storage
         // Get unique path using UID as root
         let path = storagePath(object)
@@ -64,6 +64,8 @@ class FIR: NSObject {
                 self.databasePath(object).child(filename).setValue(json)
             }
         }
+        
+        return filename
     }
     
     // get asset by ID and content type from storage
@@ -200,8 +202,7 @@ class Image_new: JSONObject {
             return FIR.object.image
         }
     }
-
-    var uid: String?
+    var userProfile: UserProfile?
     var timestamp: String?
 
     // Initializer
@@ -209,7 +210,9 @@ class Image_new: JSONObject {
         super.init(snapshot)
         
         if let uid = json[keys.uid] as? String {
-            self.uid = uid
+            UserProfile.get(uid, completion: { (profile) in
+                self.userProfile = profile
+            })
         }
         if let timestamp = json[keys.timestamp] as? String {
             self.timestamp = timestamp
@@ -225,14 +228,76 @@ class Image_new: JSONObject {
     }
     
     // Helper function to save Image to storage and database
-    class func save(image: Data) {
-        // save image 
-        FIR.manager.put(file: image, object: FIR.object.image)
+    class func save(image: Data) -> String {
+        // save image & return filename/ID
+        return FIR.manager.put(file: image, object: FIR.object.image)
     }
     
     // Keys for dictionary that holds JSON properties
     struct keys {
         static let uid = "uid"
         static let timestamp = "timestamp"
+    }
+}
+
+
+class Post_new: JSONObject {
+    // Properties
+    override class var object: FIR.object {
+        get {
+            return FIR.object.post
+        }
+    }
+
+    var userProfile: UserProfile?
+    var timestamp: String?
+    // TODO: add asset type
+    var asset: Image_new?
+    
+    // Initializer
+    override init(_ snapshot: FIRDataSnapshot) {
+        super.init(snapshot)
+        
+        if let uid = json[keys.uid] as? String {
+            UserProfile.get(uid, completion: { (profile) in
+                self.userProfile = profile
+            })
+        }
+        if let timestamp = json[keys.timestamp] as? String {
+            self.timestamp = timestamp
+        }
+        if let assetID = json[keys.assetID] as? String {
+            Image_new.get(ID: assetID, completion: { (image) in
+                self.asset = image
+            })
+        }
+    }
+    
+    // Helper function to retrieve Image JSON object from database
+    class func get(ID: String, completion:@escaping (Post_new)->()) {
+        super.get(ID: ID, object: object) { (snapshot) in
+            // return initialized object
+            completion(Post_new(snapshot))
+        }
+    }
+    
+    // Helper function to create posts
+    class func create(assetID: String, assetType: FIR.object) {
+        // Construct json to save
+        let json: [String: AnyObject?] = [keys.uid: FIR.manager.uid as AnyObject,
+                                          keys.timestamp: Date().toString()  as AnyObject,
+                                          keys.assetID: assetID  as AnyObject,
+                                          keys.assetObject: assetType.key()  as AnyObject]
+        
+        // Save image
+        FIR.manager.databasePath(object).childByAutoId().setValue(json)
+    }
+    
+    // Keys for dictionary that holds JSON properties
+    struct keys {
+        static let uid = "uid"
+        static let timestamp = "timestamp"
+        static let assetID = "assetID"
+        static let assetObject = "assetObject"
     }
 }
