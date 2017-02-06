@@ -13,6 +13,8 @@ class CategoryTableViewController: UIViewController {
     static let cellIdentifier = "CategoryTableViewCell"
     let tableViewSectionHeaderHeight: CGFloat = 50
     
+    var isFullScreen: Bool = false
+    
     var matchupTableViewDataSource: [MatchupTableViewDataSource]?
     var matchupTitle: String?
 
@@ -38,21 +40,45 @@ class CategoryTableViewController: UIViewController {
         let tableViewHeight = rowHeight * CGFloat(tableView.numberOfRows(inSection: 0)) + tableView(tableView, heightForHeaderInSection: 0)
         let tableViewWidth = UIScreen.main.bounds.width
         tableView.frame = CGRect(x: 0, y: 0, width: tableViewWidth, height: tableViewHeight)
-        tableView.isScrollEnabled = false
         print("tableViewHeight: \(tableViewHeight) in Category Table view controller")
         //tableView.isUserInteractionEnabled = false
         //self.tableView.sectionHeaderHeight = UITableViewAutomaticDimension
         //self.tableView.estimatedSectionHeaderHeight = 25
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // Show or hide navigation bar. I had to do this in viewWillAppear 
+        // because it's still nil in viewDidLoad
+        if isFullScreen {
+            navigationController?.navigationBar.isHidden = false
+            tableView.isScrollEnabled = true
+        } else {
+            navigationController?.navigationBar.isHidden = true
+            tableView.isScrollEnabled = false
+        }
     }
 }
 
 extension CategoryTableViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        // Limit the table view number of rows when 
+        if !isFullScreen {
+            guard matchupTableViewDataSource != nil else {
+                return 0
+            }
+            return 5
+        }
+        
         guard let matchupTableViewDataSource = matchupTableViewDataSource else {
             return 0
         }
+        
         return matchupTableViewDataSource.count
+        
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -177,18 +203,74 @@ extension CategoryTableViewController: UITableViewDelegate, UITableViewDataSourc
                 multiplier: 1.0,
                 constant: 0
             )])
-        
-        
-        
         return headerView
     }
     
     func onShowMoreButton(sender: UIButton) {
         print("Show more button tapped")
-        print("sender.state: \(sender.state)")
-        if sender.isSelected {
-            //sender.setTitleColor(UIColor.gray, for: UIControlState)
+        showFullTableView()
+    }
+    
+    func showFullTableView() {
+        let storyboard = UIStoryboard(name: HomeViewController.storyboardID, bundle: nil)
+        guard let fullCategoryTVC = storyboard.instantiateViewController(withIdentifier: HomeViewController.viewControllerID) as? CategoryTableViewController else {
+            print("failed to instantiate CategoryTableViewController")
+            return
         }
+        
+        fullCategoryTVC.matchupTableViewDataSource = matchupTableViewDataSource
+        fullCategoryTVC.isFullScreen = true
+        fullCategoryTVC.view.layoutIfNeeded()
+        guard let fullTableView = fullCategoryTVC.tableView else {
+            print("failed to get full table view from CategoryTableViewController")
+            return
+        }
+        
+        fullTableView.translatesAutoresizingMaskIntoConstraints = false
+        fullCategoryTVC.view.addConstraints([
+            NSLayoutConstraint(
+                item: fullTableView,
+                attribute: NSLayoutAttribute.top,
+                relatedBy: NSLayoutRelation.equal,
+                toItem: fullCategoryTVC.view,
+                attribute: NSLayoutAttribute.top,
+                multiplier: 1.0,
+                constant: 0
+            ),
+            NSLayoutConstraint(
+                item: fullTableView,
+                attribute: NSLayoutAttribute.leading,
+                relatedBy: NSLayoutRelation.equal,
+                toItem: fullCategoryTVC.view,
+                attribute: NSLayoutAttribute.leading,
+                multiplier: 1.0,
+                constant: 0
+            ),
+            NSLayoutConstraint(
+                item: fullTableView,
+                attribute: NSLayoutAttribute.trailing,
+                relatedBy: NSLayoutRelation.equal,
+                toItem: fullCategoryTVC.view,
+                attribute: NSLayoutAttribute.trailing,
+                multiplier: 1.0,
+                constant: 0
+            ),
+            NSLayoutConstraint(
+                item: fullTableView,
+                attribute: NSLayoutAttribute.bottom,
+                relatedBy: NSLayoutRelation.equal,
+                toItem: fullCategoryTVC.view,
+                attribute: NSLayoutAttribute.bottom,
+                multiplier: 1.0,
+                constant: 0
+            ),
+        ])
+        
+        fullCategoryTVC.title = matchupTitle
+        
+        //present(fullCategoryTVC, animated: true, completion: nil)
+        navigationController?.pushViewController(fullCategoryTVC, animated: true)
+        
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -196,6 +278,12 @@ extension CategoryTableViewController: UITableViewDelegate, UITableViewDataSourc
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        
+        // If the table view is full screen after show more button is tapped
+        // Hide section header
+        if isFullScreen {
+            return 0 
+        }
         return tableViewSectionHeaderHeight
     }
     

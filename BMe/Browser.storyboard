@@ -239,9 +239,9 @@
         <!--Navigation Controller-->
         <scene sceneID="8eO-Fs-boO">
             <objects>
-                <navigationController storyboardIdentifier="BrowseNavigationController" automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="yTM-M5-7WI" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="BrowseNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="yTM-M5-7WI" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="ocb-hQ-2YP">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="ocb-hQ-2YP">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -256,7 +256,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9yS-6H-Gyh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="527" y="813"/>
+            <point key="canvasLocation" x="-393" y="813"/>
         </scene>
         <!--Home View Controller-->
         <scene sceneID="p8c-wH-nFj">
@@ -363,11 +363,12 @@
                         <outlet property="rightImageView" destination="aeQ-ld-F7y" id="MGi-1g-7ig"/>
                         <outlet property="secondTableViewContainerView" destination="XPR-4k-pcU" id="Waa-sd-heE"/>
                         <outlet property="secondTableViewHeightConstraint" destination="XaR-gg-h0J" id="qpg-fD-X3T"/>
+                        <segue destination="Lqj-3W-fIK" kind="show" id="fGt-AD-iZr"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mjX-Ty-ipm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="525.60000000000002" y="1610.6446776611695"/>
+            <point key="canvasLocation" x="700" y="1703"/>
         </scene>
         <!--Category Table View Controller-->
         <scene sceneID="SYT-2C-fua">
@@ -427,13 +428,15 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="375" height="667"/>
                     <connections>
                         <outlet property="tableView" destination="k5n-nH-vWX" id="rA8-1c-7bZ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Fpg-2P-Q8d" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1528.8" y="1625.0374812593705"/>
+            <point key="canvasLocation" x="1455" y="1463"/>
         </scene>
     </scenes>
     <resources>
