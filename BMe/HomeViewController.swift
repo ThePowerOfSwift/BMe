@@ -31,9 +31,10 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var secondTableViewHeightConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var matchupContainerView: UIView!
+    var matchupCollectionView: UICollectionView?
     
-    let leftColors = [UIColor.red, UIColor.blue, UIColor.yellow, UIColor.cyan, UIColor.orange]
-    let rightColors = [UIColor.orange, UIColor.cyan, UIColor.black, UIColor.blue, UIColor.red]
+    var leftColors = [UIColor.red, UIColor.blue, UIColor.yellow, UIColor.cyan, UIColor.orange]
+    var rightColors = [UIColor.orange, UIColor.cyan, UIColor.black, UIColor.blue, UIColor.red]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -92,20 +93,24 @@ class HomeViewController: UIViewController {
         layout.minimumLineSpacing = 0
         
         // Configure collection view
-        let collectionView = UICollectionView(frame: matchupContainerView.frame, collectionViewLayout: layout)
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.register(MatchupCollectionViewCell.self, forCellWithReuseIdentifier: "cell")
-        collectionView.isPagingEnabled = true
-        collectionView.backgroundColor = UIColor.green
-        collectionView.allowsSelection = false
-        collectionView.delegate = self
-        collectionView.dataSource = self
+        matchupCollectionView = UICollectionView(frame: matchupContainerView.frame, collectionViewLayout: layout)
+        guard let matchupCollectionView = matchupCollectionView else {
+            print("failed to instantiate matchupCollectionView")
+            return
+        }
+        matchupCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        matchupCollectionView.register(MatchupCollectionViewCell.self, forCellWithReuseIdentifier: "cell")
+        matchupCollectionView.isPagingEnabled = true
+        matchupCollectionView.backgroundColor = UIColor.green
+        matchupCollectionView.allowsSelection = false
+        matchupCollectionView.delegate = self
+        matchupCollectionView.dataSource = self
         
         // Add constraint
-        matchupContainerView.addSubview(collectionView)
+        matchupContainerView.addSubview(matchupCollectionView)
         matchupContainerView.addConstraints([
             NSLayoutConstraint(
-                item: collectionView,
+                item: matchupCollectionView,
                 attribute: NSLayoutAttribute.top,
                 relatedBy: NSLayoutRelation.equal,
                 toItem: matchupContainerView,
@@ -113,7 +118,7 @@ class HomeViewController: UIViewController {
                 multiplier: 1.0,
                 constant: 0),
             NSLayoutConstraint(
-                item: collectionView,
+                item: matchupCollectionView,
                 attribute: NSLayoutAttribute.bottom,
                 relatedBy: NSLayoutRelation.equal,
                 toItem: matchupContainerView,
@@ -121,7 +126,7 @@ class HomeViewController: UIViewController {
                 multiplier: 1.0,
                 constant: 0),
             NSLayoutConstraint(
-                item: collectionView,
+                item: matchupCollectionView,
                 attribute: NSLayoutAttribute.leading,
                 relatedBy: NSLayoutRelation.equal,
                 toItem: matchupContainerView,
@@ -129,7 +134,7 @@ class HomeViewController: UIViewController {
                 multiplier: 1.0,
                 constant: 0),
             NSLayoutConstraint(
-                item: collectionView,
+                item: matchupCollectionView,
                 attribute: NSLayoutAttribute.trailing,
                 relatedBy: NSLayoutRelation.equal,
                 toItem: matchupContainerView,
@@ -259,6 +264,18 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
 
 extension HomeViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        <#code#>
+        guard let matchupCollectionView = matchupCollectionView else {
+            print("matchup collection view is nil")
+            return
+        }
+        let scrollViewContentWidth = matchupCollectionView.contentSize.width
+        let scrollOffsetThreshold = scrollViewContentWidth - matchupCollectionView.bounds.size.width - 1000
+        
+        // When the user has scrolled past the threshold, start requesting
+        if(scrollView.contentOffset.x > scrollOffsetThreshold) {
+            leftColors = leftColors + leftColors
+            rightColors = rightColors + rightColors
+            matchupCollectionView.reloadData()
+        }
     }
 }
