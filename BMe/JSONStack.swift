@@ -19,9 +19,9 @@ class JSONStack: NSObject {
      Queue object onto JSON stack
      */
     class func queue(object: [String: AnyObject?], database: FIRDatabaseReference) {
-        // Add object to stack
+        // Add object to stack with timestamped key as parent (childByAutoID)
         // Path: ~/queue
-        database.child(keys.object).updateChildValues(object)
+        database.child(keys.object).childByAutoId().updateChildValues(object)
     }
     
     /**
@@ -36,20 +36,27 @@ class JSONStack: NSObject {
             if (snapshot.childrenCount < 1) || (!snapshot.exists()) {
                 completion(nil)
             } else { // otherwise pop from queue and send to handler
-                // get first child
-                var objectToPop: FIRDataSnapshot?
+                // get first child objectToPop
+                var firstChild: FIRDataSnapshot?
                 for snapChild in snapshot.children {
                     if let snapChild = snapChild as? FIRDataSnapshot {
-                        objectToPop = snapChild
+                        firstChild = snapChild
                     }
                     break
                 }
-                if let objectToPop = objectToPop {
-                    // Get key ID
-                    let key = objectToPop.key
-                    
+                if let firstChild = firstChild {
                     // pop from queue & return
-                    database.child(key).removeValue()
+                    database.child(firstChild.key).removeValue()
+                    
+                    var objectToPop: FIRDataSnapshot?
+                    // remove JSONStack generated auto key
+                    for snapChild in firstChild.children {
+                        if let snapChild = snapChild as? FIRDataSnapshot {
+                            objectToPop = snapChild
+                        }
+                        break
+                    }
+                    
                     completion(objectToPop)
                 } else {
                     print("Error, tried to pop item off queue; resulted in nil error")
