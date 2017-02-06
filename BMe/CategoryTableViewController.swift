@@ -17,7 +17,7 @@ class CategoryTableViewController: UIViewController {
     
     var matchupTableViewDataSource: [MatchupTableViewDataSource]?
     var matchupTitle: String?
-
+    var sectionHeaderView: UIView?
 
     @IBOutlet weak var tableView: UITableView!
     
@@ -29,21 +29,11 @@ class CategoryTableViewController: UIViewController {
         
         // Autolayout is not possible because tableView is added into HomeViewController's subview
         let rowHeight = tableView.rowHeight
-        let screenWidth = UIScreen.main.bounds.width
-        
-        // hearder view with height 30
-        //let headerView = UIView(frame: CGRect(x: 0, y: 0, width: screenWidth, height: 30))
-        //headerView.backgroundColor = UIColor.cyan
-        //tableView.tableHeaderView = headerView
-        
-//        let tableViewHeight = rowHeight * CGFloat(tableView.numberOfRows(inSection: 0)) + tableView.sectionHeaderHeight
         let tableViewHeight = rowHeight * CGFloat(tableView.numberOfRows(inSection: 0)) + tableView(tableView, heightForHeaderInSection: 0)
         let tableViewWidth = UIScreen.main.bounds.width
         tableView.frame = CGRect(x: 0, y: 0, width: tableViewWidth, height: tableViewHeight)
         print("tableViewHeight: \(tableViewHeight) in Category Table view controller")
-        //tableView.isUserInteractionEnabled = false
-        //self.tableView.sectionHeaderHeight = UITableViewAutomaticDimension
-        //self.tableView.estimatedSectionHeaderHeight = 25
+        makeSectionHeaderView()
         
     }
     
@@ -60,81 +50,29 @@ class CategoryTableViewController: UIViewController {
             tableView.isScrollEnabled = false
         }
     }
-}
-
-extension CategoryTableViewController: UITableViewDelegate, UITableViewDataSource {
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // Limit the table view number of rows when 
-        if !isFullScreen {
-            guard matchupTableViewDataSource != nil else {
-                return 0
-            }
-            return 5
-        }
-        
-        guard let matchupTableViewDataSource = matchupTableViewDataSource else {
-            return 0
-        }
-        
-        return matchupTableViewDataSource.count
-        
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: CategoryTableViewController.cellIdentifier, for: indexPath) as? CategoryTableViewCell, let matchupTableViewDataSource = matchupTableViewDataSource else {
-            let cell = UITableViewCell()
-            return cell
-        }
-        
-        cell.photoImageView.image = matchupTableViewDataSource[indexPath.row].image
-        cell.photoImageView.backgroundColor = UIColor.red
-        cell.categoryNameLabel.text = matchupTableViewDataSource[indexPath.row].userName
-        
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        guard let matchupTitle = matchupTitle else {
-            return "No title"
-        }
-        return matchupTitle
-    }
-    
-    func makeHeaderView() {
-        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: tableViewSectionHeaderHeight))
-        headerView.backgroundColor = UIColor.blue
-        // make title label
-        
-
-        
-        // make show more button
-    }
-    
-    // http://stackoverflow.com/questions/27860126/viewforheaderinsection-autolayout-pin-width
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let screenWidth = UIScreen.main.bounds.width
-        //let headerLabel = UILabel(frame: CGRect(x: 0, y: 0, width: screenWidth, height: tableViewSectionHeaderHeight))
-        //headerLabel.text = "Label"
-        //headerLabel.backgroundColor = UIColor.green
-       // let headerView = UIView(frame: CGRect(x: 0, y: 0, width: screenWidth, height: tableViewSectionHeaderHeight))
-        //headerView.backgroundColor = UIColor.blue
-        //return headerLabel
-        
+    /** Initialize and configure sectionHeaderView. */
+    func makeSectionHeaderView() {
         guard let matchupTitle = matchupTitle else {
             print("matchupTitle is nil")
-            return nil
+            return
         }
         
-        let headerView = UIView()
-        headerView.backgroundColor = UIColor.blue
+        // Create label to show title
         let headerLabel = UILabel()
         headerLabel.backgroundColor = UIColor.green
-
-        //headerView.translatesAutoresizingMaskIntoConstraints = false
         headerLabel.translatesAutoresizingMaskIntoConstraints = false
-        
         headerLabel.text = matchupTitle
+        
+        // Create header view
+        self.sectionHeaderView = UIView()
+        guard let headerView = sectionHeaderView else {
+            print("sectionHeaderView is nil")
+            return
+        }
+        headerView.backgroundColor = UIColor.blue
+        
+        // Add constraint
         headerView.addSubview(headerLabel)
         headerView.addConstraints([
             NSLayoutConstraint(
@@ -163,18 +101,20 @@ extension CategoryTableViewController: UITableViewDelegate, UITableViewDataSourc
                 attribute: NSLayoutAttribute.height,
                 multiplier: 1.0,
                 constant: 20
-            )])
+            )
+        ])
         
+        // Create show more button
         let showMoreButton = UIButton()
         showMoreButton.backgroundColor = UIColor.green
-        
         showMoreButton.translatesAutoresizingMaskIntoConstraints = false
         showMoreButton.setTitle("show more", for: UIControlState.normal)
         showMoreButton.setTitleColor(UIColor.white, for: .normal)
         showMoreButton.setTitleColor(UIColor.darkGray, for: UIControlState.highlighted)
         showMoreButton.addTarget(self, action: #selector(onShowMoreButton(sender:)), for: UIControlEvents.touchUpInside)
-        headerView.addSubview(showMoreButton)
         
+        // Add constraint
+        headerView.addSubview(showMoreButton)
         headerView.addConstraints([
             NSLayoutConstraint(
                 item: showMoreButton,
@@ -202,8 +142,52 @@ extension CategoryTableViewController: UITableViewDelegate, UITableViewDataSourc
                 attribute: NSLayoutAttribute.top,
                 multiplier: 1.0,
                 constant: 0
-            )])
-        return headerView
+            )
+        ])
+    }
+}
+
+extension CategoryTableViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        // Limit the table view number of rows when table view is in home view controller with smaller size
+        if !isFullScreen {
+            guard matchupTableViewDataSource != nil else {
+                return 0
+            }
+            return 5
+        }
+        
+        // If full screen, show all the items in data source
+        guard let matchupTableViewDataSource = matchupTableViewDataSource else {
+            return 0
+        }
+        return matchupTableViewDataSource.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: CategoryTableViewController.cellIdentifier, for: indexPath) as? CategoryTableViewCell, let matchupTableViewDataSource = matchupTableViewDataSource else {
+            let cell = UITableViewCell()
+            return cell
+        }
+        
+        cell.photoImageView.image = matchupTableViewDataSource[indexPath.row].image
+        cell.categoryNameLabel.text = matchupTableViewDataSource[indexPath.row].userName
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        guard let matchupTitle = matchupTitle else {
+            return "No title"
+        }
+        return matchupTitle
+    }
+    
+    // http://stackoverflow.com/questions/27860126/viewforheaderinsection-autolayout-pin-width
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        return sectionHeaderView
     }
     
     func onShowMoreButton(sender: UIButton) {
@@ -211,6 +195,7 @@ extension CategoryTableViewController: UITableViewDelegate, UITableViewDataSourc
         showFullTableView()
     }
     
+    /** Show full screen table view*/
     func showFullTableView() {
         let storyboard = UIStoryboard(name: HomeViewController.storyboardID, bundle: nil)
         guard let fullCategoryTVC = storyboard.instantiateViewController(withIdentifier: HomeViewController.viewControllerID) as? CategoryTableViewController else {
@@ -220,19 +205,29 @@ extension CategoryTableViewController: UITableViewDelegate, UITableViewDataSourc
         
         fullCategoryTVC.matchupTableViewDataSource = matchupTableViewDataSource
         fullCategoryTVC.isFullScreen = true
-        fullCategoryTVC.view.layoutIfNeeded()
-        guard let fullTableView = fullCategoryTVC.tableView else {
+        fullCategoryTVC.title = matchupTitle
+        fullCategoryTVC.fullScreenTableView()
+        
+        navigationController?.pushViewController(fullCategoryTVC, animated: true)
+    }
+    
+    /** Apply autolayout to table view to make it full screen. Called when full screen table view controller is used. */
+    func fullScreenTableView() {
+        
+        // To initialize tableView outlet in fullCategoryTVC
+        self.view.layoutIfNeeded()
+        guard let fullTableView = self.tableView else {
             print("failed to get full table view from CategoryTableViewController")
             return
         }
         
         fullTableView.translatesAutoresizingMaskIntoConstraints = false
-        fullCategoryTVC.view.addConstraints([
+        self.view.addConstraints([
             NSLayoutConstraint(
                 item: fullTableView,
                 attribute: NSLayoutAttribute.top,
                 relatedBy: NSLayoutRelation.equal,
-                toItem: fullCategoryTVC.view,
+                toItem: self.view,
                 attribute: NSLayoutAttribute.top,
                 multiplier: 1.0,
                 constant: 0
@@ -241,7 +236,7 @@ extension CategoryTableViewController: UITableViewDelegate, UITableViewDataSourc
                 item: fullTableView,
                 attribute: NSLayoutAttribute.leading,
                 relatedBy: NSLayoutRelation.equal,
-                toItem: fullCategoryTVC.view,
+                toItem: self.view,
                 attribute: NSLayoutAttribute.leading,
                 multiplier: 1.0,
                 constant: 0
@@ -250,7 +245,7 @@ extension CategoryTableViewController: UITableViewDelegate, UITableViewDataSourc
                 item: fullTableView,
                 attribute: NSLayoutAttribute.trailing,
                 relatedBy: NSLayoutRelation.equal,
-                toItem: fullCategoryTVC.view,
+                toItem: self.view,
                 attribute: NSLayoutAttribute.trailing,
                 multiplier: 1.0,
                 constant: 0
@@ -259,18 +254,12 @@ extension CategoryTableViewController: UITableViewDelegate, UITableViewDataSourc
                 item: fullTableView,
                 attribute: NSLayoutAttribute.bottom,
                 relatedBy: NSLayoutRelation.equal,
-                toItem: fullCategoryTVC.view,
+                toItem: self.view,
                 attribute: NSLayoutAttribute.bottom,
                 multiplier: 1.0,
                 constant: 0
             ),
         ])
-        
-        fullCategoryTVC.title = matchupTitle
-        
-        //present(fullCategoryTVC, animated: true, completion: nil)
-        navigationController?.pushViewController(fullCategoryTVC, animated: true)
-        
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -286,10 +275,4 @@ extension CategoryTableViewController: UITableViewDelegate, UITableViewDataSourc
         }
         return tableViewSectionHeaderHeight
     }
-    
-    
-}
-
-extension UIButton {
-    
 }
