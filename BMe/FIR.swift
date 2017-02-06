@@ -25,38 +25,66 @@ class FIR: NSObject {
     // User ID
     private(set) var uid = FIRAuth.auth()!.currentUser!.uid
 
-    func databasePath(_ object:object) -> FIRDatabaseReference? {
+    func databasePath(_ object:object) -> FIRDatabaseReference {
         // Return path structure for given object
         // Current structure: ~/<object>/...
-        return FIR.manager.database.child(object.key())
+        return database.child("dev").child(object.key())
     }
     
-    func storagePath(_ object: object) -> FIRStorageReference? {
+    func storagePath(_ object: object) -> FIRStorageReference {
         // Return path structure for given object
         // Current structure: ~/<object>/...
-        return FIR.manager.storage.child(object.key())
+        return storage.child("dev").child(object.key())
     }
     
     // save to storage + associated json object to db
     func put(file data: Data, object: object) {
-        // put file on storage
-        // put file info on database
-        // TODO: complete
+        // Put file on storage
+        // Get unique path using UID as root
+        let path = storagePath(object)
+        let filename = database.childByAutoId().key
+        let fileExtension = object.fileExtension()
+
+        // Construct meta data for file upload
+        let metadata = FIRStorageMetadata()
+        metadata.contentType = object.contentType()
+        metadata.customMetadata = ["uid":uid]
+        
+        // Put to Storage
+        path.child(filename + fileExtension).put(data, metadata: metadata) { (metadata, error) in
+            if let error = error {
+                print("Error adding object to GS bucket: \(error.localizedDescription)")
+                //TODO: stop
+            }
+            else {
+                // Write object info to database
+                let json = ["uid": self.uid,
+                            "object": object.key(),
+                            "timestamp": Date().toString()]
+                self.databasePath(object).child(filename).setValue(json)
+            }
+        }
     }
     
     // get asset by ID and content type from storage
-    func fetch(_ filename: String, type: object, completion:(URL?)->()) {
+    func fetch(_ filename: String, type: object, completion:@escaping (URL)->()) {
         // retrieve file from storage and return link
-        // TODO: complete
+        storagePath(type).child(filename + type.fileExtension()).downloadURL { (url, error) in
+            if let error = error {
+                print("Error fetching object from GS bucket: \(error.localizedDescription)")
+            } else if let url = url {
+                print("url download: \(url.absoluteString)")
+                completion(url)
+            }
+        }
     }
     
     /**
      Get observed single event JSON object by ID
      */
-    func get(objectID: String, object: object, completion:@escaping (FIRDataSnapshot?)->()) {
+    func fetch(json objectID: String, object: object, completion:@escaping (FIRDataSnapshot?)->()) {
         // Get the computer reference structure and fire observation to Firebase
-        if let database = FIR.manager.databasePath(object) {
-            database.child(objectID).queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
+        databasePath(object).child(objectID).queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
                 // Check to see if the reference exists, otherwise return nil
                 if (snapshot.exists()) {
                     completion(snapshot)
@@ -64,7 +92,6 @@ class FIR: NSObject {
                     completion(nil)
                 }
             })
-        }
     }
     
     /**
@@ -72,11 +99,19 @@ class FIR: NSObject {
      */
     enum object {
         // list object types
-        case image
+        case image, post, video
 
         // initialized based on object type
-        init(_ type: String) {
-            self = .image
+        init?(_ type: String) {
+            switch type {
+                case "image":
+                self = .image
+                case "post":
+                self = .post
+                case "video":
+                self = .video
+            default: return nil
+            }
         }
         
         init(object: JSONObject) {
@@ -84,11 +119,36 @@ class FIR: NSObject {
         }
         
         func key() -> String {
-            return "image"
+            switch self {
+                case .image:
+                    return "image"
+                case .post:
+                    return "post"
+                case .video:
+                    return "video"
+            }
         }
         
         func contentType() -> String {
-            return "image/jpeg"
+            switch self{
+                case .image:
+                return "image/jpeg"
+                case .video:
+                return "video/mp4"
+            default:
+                return ""
+            }
+        }
+        
+        func fileExtension() -> String {
+            switch self {
+            case .image:
+                return ".jpeg"
+            case .video:
+                return ".mp4"
+            default:
+                return ""
+            }
         }
     }
 }
@@ -125,7 +185,7 @@ class JSONObject: NSObject {
     // Helper function to retrieve JSON object from database
     // Should be wrapped by subclass with a static FIR.object type
     class func get(ID: String, object: FIR.object, completion:@escaping (FIRDataSnapshot)->()) {
-        FIR.manager.get(objectID: ID, object: object) { (snapshot) in
+        FIR.manager.fetch(json: ID, object: object) { (snapshot) in
             if let snapshot = snapshot {
                 completion(snapshot)
             }
@@ -140,17 +200,20 @@ class Image_new: JSONObject {
             return FIR.object.image
         }
     }
-    // TODO: edit
-    var contentType: ContentType?
-    var downloadURL: URL?
-    var gsURL: URL?
+
     var uid: String?
-    var meta: [String: AnyObject?]?
+    var timestamp: String?
 
     // Initializer
     override init(_ snapshot: FIRDataSnapshot) {
         super.init(snapshot)
-        //TODO: rest of initialization
+        
+        if let uid = json[keys.uid] as? String {
+            self.uid = uid
+        }
+        if let timestamp = json[keys.timestamp] as? String {
+            self.timestamp = timestamp
+        }
     }
     
     // Helper function to retrieve Image JSON object from database
@@ -161,14 +224,15 @@ class Image_new: JSONObject {
         }
     }
     
-    //TODO: complete
-    class func save() {
+    // Helper function to save Image to storage and database
+    class func save(image: Data) {
         // save image 
+        FIR.manager.put(file: image, object: FIR.object.image)
     }
     
     // Keys for dictionary that holds JSON properties
-    // TODO: edit
     struct keys {
         static let uid = "uid"
+        static let timestamp = "timestamp"
     }
 }
