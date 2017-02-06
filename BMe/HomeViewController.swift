@@ -20,14 +20,18 @@ class HomeViewController: UIViewController {
     
     // TODO testing
 
-    @IBOutlet weak var leftImageView: UIImageView!
-    @IBOutlet weak var rightImageView: UIImageView!
     @IBOutlet weak var firstTableViewContainerView: UIView!
     @IBOutlet weak var secondTableViewContainerView: UIView!
     
     @IBOutlet weak var firstTableViewHeightConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var secondTableViewHeightConstraint: NSLayoutConstraint!
+    
+    @IBOutlet weak var matchupContainerView: UIView!
+    
+    let leftColors = [UIColor.red, UIColor.blue, UIColor.yellow, UIColor.cyan, UIColor.orange]
+    let rightColors = [UIColor.orange, UIColor.cyan, UIColor.black, UIColor.blue, UIColor.red]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -72,6 +76,64 @@ class HomeViewController: UIViewController {
         firstTableViewContainerView.addSubview(firstTableView)
         secondTableViewContainerView.addSubview(secondTableView)
         
+        setupMatchupCollectionView()
+    }
+    
+    func setupMatchupCollectionView() {
+        // Configure layout
+        let layout = UICollectionViewFlowLayout()
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        layout.itemSize = CGSize(width: matchupContainerView.frame.width, height: matchupContainerView.frame.width)
+        layout.scrollDirection = UICollectionViewScrollDirection.horizontal
+        layout.minimumInteritemSpacing = 0
+        layout.minimumLineSpacing = 0
+        
+        // Configure collection view
+        let collectionView = UICollectionView(frame: matchupContainerView.frame, collectionViewLayout: layout)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.register(MatchupCollectionViewCell.self, forCellWithReuseIdentifier: "cell")
+        collectionView.isPagingEnabled = true
+        collectionView.backgroundColor = UIColor.green
+        collectionView.allowsSelection = false
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        
+        // Add constraint
+        matchupContainerView.addSubview(collectionView)
+        matchupContainerView.addConstraints([
+            NSLayoutConstraint(
+                item: collectionView,
+                attribute: NSLayoutAttribute.top,
+                relatedBy: NSLayoutRelation.equal,
+                toItem: matchupContainerView,
+                attribute: NSLayoutAttribute.top,
+                multiplier: 1.0,
+                constant: 0),
+            NSLayoutConstraint(
+                item: collectionView,
+                attribute: NSLayoutAttribute.bottom,
+                relatedBy: NSLayoutRelation.equal,
+                toItem: matchupContainerView,
+                attribute: NSLayoutAttribute.bottom,
+                multiplier: 1.0,
+                constant: 0),
+            NSLayoutConstraint(
+                item: collectionView,
+                attribute: NSLayoutAttribute.leading,
+                relatedBy: NSLayoutRelation.equal,
+                toItem: matchupContainerView,
+                attribute: NSLayoutAttribute.leading,
+                multiplier: 1.0,
+                constant: 0),
+            NSLayoutConstraint(
+                item: collectionView,
+                attribute: NSLayoutAttribute.trailing,
+                relatedBy: NSLayoutRelation.equal,
+                toItem: matchupContainerView,
+                attribute: NSLayoutAttribute.trailing,
+                multiplier: 1.0,
+                constant: 0)
+            ])
     }
     
 //    override func viewDidLoad() {
@@ -159,5 +221,35 @@ class HomeViewController: UIViewController {
          MatchupTableViewDataSource(userName: "BBBB", image: UIImage(named: "golden_gate_bridge.jpg")!),
          MatchupTableViewDataSource(userName: "BBBB", image: UIImage(named: "golden_gate_bridge.jpg")!),
          MatchupTableViewDataSource(userName: "BBBB", image: UIImage(named: "golden_gate_bridge.jpg")!)]
+}
 
+extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIGestureRecognizerDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return leftColors.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? MatchupCollectionViewCell else {
+            print("Failed to instantiate matchup collection view cell")
+            return UICollectionViewCell()
+        }
+        
+        // Set cell's delegate to collection view so that cell can tell collection view to scroll
+        // to the next cell when either of images is tapped
+        cell.delegate = collectionView
+        cell.leftImageView?.backgroundColor = leftColors[indexPath.item]
+        cell.rightImageView?.backgroundColor = rightColors[indexPath.item]
+        cell.leftLabel?.text = ""
+        cell.rightLabel?.text = ""
+        
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        // Cell size is the same as container view
+        return CGSize(width: matchupContainerView.frame.width, height: matchupContainerView.frame.height)
+    }
 }

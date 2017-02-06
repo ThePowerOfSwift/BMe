@@ -278,31 +278,9 @@
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7eU-f7-y87">
                                                 <rect key="frame" x="0.0" y="0.0" width="375" height="375"/>
-                                                <subviews>
-                                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="ymJ-IH-bUE">
-                                                        <rect key="frame" x="0.0" y="0.0" width="375" height="375"/>
-                                                        <subviews>
-                                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Z8v-z8-nMy">
-                                                                <rect key="frame" x="0.0" y="0.0" width="187.5" height="375"/>
-                                                                <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                            </imageView>
-                                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="aeQ-ld-F7y">
-                                                                <rect key="frame" x="187.5" y="0.0" width="187.5" height="375"/>
-                                                                <color key="backgroundColor" red="0.1450980392" green="0.68235294120000001" blue="0.45098039220000002" alpha="1" colorSpace="calibratedRGB"/>
-                                                            </imageView>
-                                                        </subviews>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="375" id="mLO-CV-4pu"/>
-                                                        </constraints>
-                                                    </stackView>
-                                                </subviews>
-                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="375" id="0WD-Ew-nC9"/>
-                                                    <constraint firstItem="ymJ-IH-bUE" firstAttribute="top" secondItem="7eU-f7-y87" secondAttribute="top" id="cZ7-E0-YXC"/>
-                                                    <constraint firstItem="ymJ-IH-bUE" firstAttribute="leading" secondItem="7eU-f7-y87" secondAttribute="leading" id="eXt-Ac-ICt"/>
-                                                    <constraint firstAttribute="bottom" secondItem="ymJ-IH-bUE" secondAttribute="bottom" id="grq-et-ECA"/>
-                                                    <constraint firstAttribute="trailing" secondItem="ymJ-IH-bUE" secondAttribute="trailing" id="pik-Tq-P8R"/>
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iMp-TJ-fwS" userLabel="Table View Container 1">
@@ -359,8 +337,7 @@
                     <connections>
                         <outlet property="firstTableViewContainerView" destination="iMp-TJ-fwS" id="6ZY-EU-gF7"/>
                         <outlet property="firstTableViewHeightConstraint" destination="Shd-FU-JZz" id="Wlr-id-sJX"/>
-                        <outlet property="leftImageView" destination="Z8v-z8-nMy" id="Ne0-uN-5d5"/>
-                        <outlet property="rightImageView" destination="aeQ-ld-F7y" id="MGi-1g-7ig"/>
+                        <outlet property="matchupContainerView" destination="7eU-f7-y87" id="5U1-g2-SEj"/>
                         <outlet property="secondTableViewContainerView" destination="XPR-4k-pcU" id="Waa-sd-heE"/>
                         <outlet property="secondTableViewHeightConstraint" destination="XaR-gg-h0J" id="qpg-fD-X3T"/>
                         <segue destination="Lqj-3W-fIK" kind="show" id="fGt-AD-iZr"/>

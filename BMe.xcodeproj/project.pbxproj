@@ -90,6 +90,7 @@
 		BFF9AE991E39BC270012C1F2 /* SignUp.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BFF9AE981E39BC270012C1F2 /* SignUp.storyboard */; };
 		BFF9AE9B1E3D90020012C1F2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BFF9AE9A1E3D90020012C1F2 /* Main.storyboard */; };
 		BFF9AE9D1E3D90540012C1F2 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF9AE9C1E3D90540012C1F2 /* MainViewController.swift */; };
+		E33F5AC71E48F81300806040 /* MatchupCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33F5AC61E48F81300806040 /* MatchupCollectionViewCell.swift */; };
 		E3433EE41E45487400C69650 /* GPUImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3433EE11E45486600C69650 /* GPUImage.framework */; };
 		E3433EE51E45487B00C69650 /* GPUImage.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = E3433EE11E45486600C69650 /* GPUImage.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E35AC4831DE4D00400FCB0D0 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E35AC4821DE4D00400FCB0D0 /* TabBarViewController.swift */; };
@@ -265,6 +266,7 @@
 		BFF9AE981E39BC270012C1F2 /* SignUp.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = SignUp.storyboard; sourceTree = "<group>"; };
 		BFF9AE9A1E3D90020012C1F2 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		BFF9AE9C1E3D90540012C1F2 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		E33F5AC61E48F81300806040 /* MatchupCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MatchupCollectionViewCell.swift; sourceTree = "<group>"; };
 		E3433ED81E45486600C69650 /* GPUImage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = GPUImage.xcodeproj; path = framework/GPUImage.xcodeproj; sourceTree = SOURCE_ROOT; };
 		E35AC4821DE4D00400FCB0D0 /* TabBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		E35AC4861DE4D0F500FCB0D0 /* TabBar.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = TabBar.storyboard; sourceTree = "<group>"; };
@@ -424,6 +426,7 @@
 				7850E80E1E452281001F8BCF /* HomeViewController.swift */,
 				E3F1899F1E45778E00A654AE /* CategoryTableViewController.swift */,
 				E3F189A11E45780700A654AE /* CategoryTableViewCell.swift */,
+				E33F5AC61E48F81300806040 /* MatchupCollectionViewCell.swift */,
 			);
 			name = Sato;
 			sourceTree = "<group>";
@@ -1024,6 +1027,7 @@
 				78469A5E1DE3958100A40D53 /* LoginViewController.swift in Sources */,
 				78BCDF371DF749CC002D399E /* PostButton.swift in Sources */,
 				78C350471DF232AF005E8331 /* UserProfileViewController.swift in Sources */,
+				E33F5AC71E48F81300806040 /* MatchupCollectionViewCell.swift in Sources */,
 				4216315C1E42ACB900E644A5 /* View.swift in Sources */,
 				78469A5C1DE3958100A40D53 /* AppDelegate.swift in Sources */,
 				78CDA09F1DE5307C00ABC5E1 /* FIRManager.swift in Sources */,
