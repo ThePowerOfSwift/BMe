@@ -8,6 +8,10 @@
 
 import UIKit
 
+// TODO: Infinite scroll
+// TODO: pause animation
+// TODO: Fetch real data with FIRManager and display
+
 struct MatchupTableViewDataSource {
     var userName: String
     var image: UIImage
@@ -24,7 +28,6 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var secondTableViewContainerView: UIView!
     
     @IBOutlet weak var firstTableViewHeightConstraint: NSLayoutConstraint!
-    
     @IBOutlet weak var secondTableViewHeightConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var matchupContainerView: UIView!
@@ -251,5 +254,11 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         
         // Cell size is the same as container view
         return CGSize(width: matchupContainerView.frame.width, height: matchupContainerView.frame.height)
+    }
+}
+
+extension HomeViewController: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        <#code#>
     }
 }
