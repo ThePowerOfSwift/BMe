@@ -424,9 +424,9 @@
 			children = (
 				7870B8591E45537100B754D6 /* Browser.storyboard */,
 				7850E80E1E452281001F8BCF /* HomeViewController.swift */,
+				E33F5AC61E48F81300806040 /* MatchupCollectionViewCell.swift */,
 				E3F1899F1E45778E00A654AE /* CategoryTableViewController.swift */,
 				E3F189A11E45780700A654AE /* CategoryTableViewCell.swift */,
-				E33F5AC61E48F81300806040 /* MatchupCollectionViewCell.swift */,
 			);
 			name = Sato;
 			sourceTree = "<group>";

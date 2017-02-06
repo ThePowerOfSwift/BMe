@@ -191,6 +191,10 @@ class MatchupCollectionViewCell: UICollectionViewCell {
             return
         }
         
+        // Change selectedImageView property to notify which image view is selected
+        imageViewSelected(which: ImageViewSelection.Left)
+        print("image view selected id \(selectedImageView)")
+        
         UIView.animate(withDuration: 0.2, delay: 5, options: [], animations: {
             
         }) { (completed: Bool) in
@@ -217,11 +221,15 @@ class MatchupCollectionViewCell: UICollectionViewCell {
             return
         }
         
+        // Change selectedImageView property to notify which image view is selected
+        imageViewSelected(which: ImageViewSelection.Right)
+        print("image view selected id \(selectedImageView)")
+        
         UIView.animate(withDuration: 0.2, delay: 5, options: [], animations: {
-            
-        }) { (completed: Bool) in
             leftLabel.text = "Fuck!"
             rightLabel.text = "Thanks!"
+        }) { (completed: Bool) in
+
             
             guard let indexPath = self.delegate?.indexPath(for: self) else { return }
             guard let delegate = self.delegate else {
@@ -234,6 +242,16 @@ class MatchupCollectionViewCell: UICollectionViewCell {
             if nextIndexPath.item < delegate.numberOfItems(inSection: 0) {
                 delegate.scrollToItem(at: nextIndexPath, at: UICollectionViewScrollPosition.centeredHorizontally, animated: true)
             }
+        }
+    }
+    
+    var selectedImageView: ImageViewSelection = ImageViewSelection.Left
+    /** Change selectedImageView when image is selected. Called from MatchupCollectionViewCell. */
+    internal func imageViewSelected(which: ImageViewSelection) {
+        if which == .Left {
+            selectedImageView = .Left
+        } else {
+            selectedImageView = .Right
         }
     }
 }

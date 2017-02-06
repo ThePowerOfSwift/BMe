@@ -8,13 +8,18 @@
 
 import UIKit
 
-// TODO: Infinite scroll
 // TODO: pause animation
 // TODO: Fetch real data with FIRManager and display
+// TODO: add table view dynamically so that we can have as many table view as categories
 
 struct MatchupTableViewDataSource {
     var userName: String
     var image: UIImage
+}
+
+enum ImageViewSelection {
+    case Left
+    case Right
 }
 
 class HomeViewController: UIViewController {
@@ -146,56 +151,61 @@ class HomeViewController: UIViewController {
     
 //    override func viewDidLoad() {
 //        super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-        
+//
+//        // Do any additional setup after loading the view.
+//        
 //        // Add buffer at top (by setting nav bar clear)
 //        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
 //        navigationController?.navigationBar.shadowImage = UIImage()
 //        navigationController?.navigationBar.isTranslucent = true
 //        navigationController?.view.backgroundColor = UIColor.clear
-        
-        //TODO: testing
+//        
+//        //TODO: testing
 //        loadImages()
-
-//    }
-    
-//    func loadImages() {
-//        // Request matchup
-//        VoteBooth.serve { (matchup) in
-//            print("matchup ID: \(matchup.ID)")
-//            // Get post IDs of matchup
-//            var IDs: [String] = []
-//            for post in matchup.posts {
-//                IDs.append(post.key)
-//            }
 //
-//            FIRManager.shared.fetchPostsWithID(IDs, completion: { (snapshots) in
-//                let postA = Post(snapshots[0])
-//                let postB = Post(snapshots[1])
-//                
-//                // fetch image A
-//                FIRManager.shared.database.child(postA.url!.path).observeSingleEvent(of: .value, with: { (snapshot) in
-//                    let image = Image(snapshot.value as! [String: AnyObject?])
-//                    
-//                    self.imageone.loadImageFromGS(url: image.gsURL!, placeholderImage: nil)
-//
-//                })
-//
-//                // fetch image B
-//                FIRManager.shared.database.child(postB.url!.path).observeSingleEvent(of: .value, with: { (snapshot) in
-//                    let image = Image(snapshot.value as! [String: AnyObject?])
-//                    
-//                    self.imagetwo.loadImageFromGS(url: image.gsURL!, placeholderImage: nil)
-//                    
-//                })
-//
-//                // TODO: test vote
-//                VoteBooth.result(matchID: matchup.ID, winnerID: postB.postID!)
-//            })
-//        }
 //    }
 //    
+    func loadImages(leftImageView: UIImageView?, rightImageView: UIImageView?) {
+        guard let leftImageView = leftImageView, let rightImageView = rightImageView else {
+            print("image view is nil")
+            return
+        }
+        
+        // Request matchup
+        VoteBooth.serve { (matchup) in
+            print("matchup ID: \(matchup.ID)")
+            // Get post IDs of matchup
+            var IDs: [String] = []
+            for post in matchup.posts {
+                IDs.append(post.key)
+            }
+
+            FIRManager.shared.fetchPostsWithID(IDs, completion: { (snapshots) in
+                let postA = Post(snapshots[0])
+                let postB = Post(snapshots[1])
+                
+                // fetch image A
+                FIRManager.shared.database.child(postA.url!.path).observeSingleEvent(of: .value, with: { (snapshot) in
+                    let image = Image(snapshot.value as! [String: AnyObject?])
+                    
+                    leftImageView.loadImageFromGS(url: image.gsURL!, placeholderImage: nil)
+
+                })
+
+                // fetch image B
+                FIRManager.shared.database.child(postB.url!.path).observeSingleEvent(of: .value, with: { (snapshot) in
+                    let image = Image(snapshot.value as! [String: AnyObject?])
+                    
+                    rightImageView.loadImageFromGS(url: image.gsURL!, placeholderImage: nil)
+                    
+                })
+
+                // TODO: test vote
+                VoteBooth.result(matchID: matchup.ID, winnerID: postB.postID!)
+            })
+        }
+    }
+    
     let trendingMatchupTableViewDataSource: [MatchupTableViewDataSource] =
         [MatchupTableViewDataSource(userName: "a1", image: UIImage(named: "chinatown.jpg")!),
          MatchupTableViewDataSource(userName: "a2", image: UIImage(named: "chinatown.jpg")!),
@@ -247,11 +257,14 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         // Set cell's delegate to collection view so that cell can tell collection view to scroll
         // to the next cell when either of images is tapped
         cell.delegate = collectionView
-        cell.leftImageView?.backgroundColor = leftColors[indexPath.item]
-        cell.rightImageView?.backgroundColor = rightColors[indexPath.item]
+//        cell.leftImageView?.backgroundColor = leftColors[indexPath.item]
+//        cell.rightImageView?.backgroundColor = rightColors[indexPath.item]
+        
         cell.leftLabel?.text = ""
         cell.rightLabel?.text = ""
-        
+        cell.leftLabel?.backgroundColor = UIColor.white
+        cell.rightLabel?.backgroundColor = UIColor.white
+        loadImages(leftImageView: cell.leftImageView, rightImageView: cell.rightImageView)
         return cell
     }
     
