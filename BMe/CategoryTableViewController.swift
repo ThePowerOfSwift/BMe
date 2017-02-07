@@ -23,9 +23,13 @@ class CategoryTableViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        navigationController?.navigationBar.barTintColor = Styles.Color.Primary
+        tableView.backgroundColor = Styles.Color.Primary
         
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.allowsSelection = false
         
         // Autolayout is not possible because tableView is added into HomeViewController's subview
         let rowHeight = tableView.rowHeight
@@ -60,9 +64,10 @@ class CategoryTableViewController: UIViewController {
         
         // Create label to show title
         let headerLabel = UILabel()
-        headerLabel.backgroundColor = UIColor.green
+        //headerLabel.backgroundColor = UIColor.green
         headerLabel.translatesAutoresizingMaskIntoConstraints = false
         headerLabel.text = matchupTitle
+        headerLabel.textColor = Styles.Color.Tertiary
         
         // Create header view
         self.sectionHeaderView = UIView()
@@ -70,7 +75,7 @@ class CategoryTableViewController: UIViewController {
             print("sectionHeaderView is nil")
             return
         }
-        headerView.backgroundColor = UIColor.blue
+        headerView.backgroundColor = Styles.Color.Primary
         
         // Add constraint
         headerView.addSubview(headerLabel)
@@ -106,12 +111,13 @@ class CategoryTableViewController: UIViewController {
         
         // Create show more button
         let showMoreButton = UIButton()
-        showMoreButton.backgroundColor = UIColor.green
+        //showMoreButton.backgroundColor = UIColor.green
         showMoreButton.translatesAutoresizingMaskIntoConstraints = false
         showMoreButton.setTitle("show more", for: UIControlState.normal)
-        showMoreButton.setTitleColor(UIColor.white, for: .normal)
+        showMoreButton.setTitleColor(Styles.Color.Tertiary, for: .normal)
         showMoreButton.setTitleColor(UIColor.darkGray, for: UIControlState.highlighted)
         showMoreButton.addTarget(self, action: #selector(onShowMoreButton(sender:)), for: UIControlEvents.touchUpInside)
+
         
         // Add constraint
         headerView.addSubview(showMoreButton)

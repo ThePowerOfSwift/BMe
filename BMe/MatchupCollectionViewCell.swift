@@ -34,7 +34,6 @@ class MatchupCollectionViewCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
     }
     
     func initalSetup() {
@@ -61,8 +60,8 @@ class MatchupCollectionViewCell: UICollectionViewCell {
         rightImageView.addGestureRecognizer(rightTapGesture)
         
         // Color
-        leftImageView.backgroundColor = UIColor.brown
-        rightImageView.backgroundColor = UIColor.cyan
+        leftImageView.backgroundColor = UIColor.lightGray
+        rightImageView.backgroundColor = UIColor.lightGray
         
         // Autolayout
         contentView.addSubview(leftImageView)
@@ -279,6 +278,4 @@ class MatchupCollectionViewCell: UICollectionViewCell {
             collectionViewDelegate.scrollToItem(at: nextIndexPath, at: UICollectionViewScrollPosition.centeredHorizontally, animated: true)
         }
     }
-    
-    
 }

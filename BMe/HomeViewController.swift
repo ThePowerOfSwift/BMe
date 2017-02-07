@@ -8,9 +8,8 @@
 
 import UIKit
 
-// TODO: pause animation
+// TODO: preload array of a pair of posts (maybe fetch 5 posts at a time)
 // TODO: add table view dynamically so that we can have as many table view as categories
-// TODO: preload
 
 struct MatchupTableViewDataSource {
     var userName: String
@@ -38,11 +37,16 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var matchupContainerView: UIView!
     var matchupCollectionView: UICollectionView?
     
-    var leftColors = [UIColor.red, UIColor.blue, UIColor.yellow, UIColor.cyan, UIColor.orange]
-    var rightColors = [UIColor.orange, UIColor.cyan, UIColor.black, UIColor.blue, UIColor.red]
+    @IBOutlet weak var baseScrollView: UIScrollView!
+    //var leftColors = [UIColor.red, UIColor.blue, UIColor.yellow, UIColor.cyan, UIColor.orange]
+    //var rightColors = [UIColor.orange, UIColor.cyan, UIColor.black, UIColor.blue, UIColor.red]
+    
+    /* Number of a pair of post fetched at a time**/
+    var dataFetchCount: Int = 5
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        baseScrollView.backgroundColor = Styles.Color.Primary
         
     }
     
@@ -106,7 +110,7 @@ class HomeViewController: UIViewController {
         matchupCollectionView.translatesAutoresizingMaskIntoConstraints = false
         matchupCollectionView.register(MatchupCollectionViewCell.self, forCellWithReuseIdentifier: "cell")
         matchupCollectionView.isPagingEnabled = true
-        matchupCollectionView.backgroundColor = UIColor.green
+        //matchupCollectionView.backgroundColor = UIColor.green
         matchupCollectionView.allowsSelection = false
         matchupCollectionView.delegate = self
         matchupCollectionView.dataSource = self
@@ -275,7 +279,8 @@ class HomeViewController: UIViewController {
 extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIGestureRecognizerDelegate {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return leftColors.count
+        //return leftColors.count
+        return dataFetchCount
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -324,8 +329,9 @@ extension HomeViewController: UIScrollViewDelegate {
         
         // When the user has scrolled past the threshold, start requesting
         if(scrollView.contentOffset.x > scrollOffsetThreshold) {
-            leftColors = leftColors + leftColors
-            rightColors = rightColors + rightColors
+            //leftColors = leftColors + leftColors
+            //rightColors = rightColors + rightColors
+            dataFetchCount += dataFetchCount
             matchupCollectionView.reloadData()
         }
     }
