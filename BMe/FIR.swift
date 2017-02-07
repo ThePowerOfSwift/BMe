@@ -257,7 +257,7 @@ class Post_new: JSONObject {
     // Initializer
     override init(_ snapshot: FIRDataSnapshot) {
         super.init(snapshot)
-        
+        // TODO: Put else to capture fails and return error
         if let uid = json[keys.uid] as? String {
             UserProfile.get(uid, completion: { (profile) in
                 self.userProfile = profile
@@ -282,6 +282,7 @@ class Post_new: JSONObject {
     }
     
     // Helper function to create posts
+    // TODO: Work together with progress func/bar
     class func create(assetID: String, assetType: FIR.object) {
         // Construct json to save
         let json: [String: AnyObject?] = [keys.uid: FIR.manager.uid as AnyObject,

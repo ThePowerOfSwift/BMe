@@ -398,13 +398,15 @@ class CameraViewController: UIViewController {
             return
         }
         
-        FIRManager.shared.postObject(object: imageData, contentType: .image, meta: ["key" : "value" as Optional<AnyObject>], completion: {
-            print("Upload completed")
-            self.removeAllItems()
-            busy.stopAnimating()
-            busy.removeFromSuperview()
-            self.cameraMode()
-        })
+        let newImgID = Image_new.save(image: imageData)
+        Post_new.create(assetID: newImgID, assetType: .image)
+        print("Upload completed")
+        self.removeAllItems()
+        busy.stopAnimating()
+        busy.removeFromSuperview()
+        self.cameraMode()
+        
+        
     }
     
     internal func swipeGestureRecognizer(state: Bool) {
