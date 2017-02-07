@@ -23,6 +23,9 @@ class MatchupCollectionViewCell: UICollectionViewCell {
     /** To tell if post has already been voted. To prevent vote the same post multiple times.*/
     var isVoted: Bool = false
     
+    /** Stores the current cell's index. Used to calculate the next cell index where collection view scrolls to after being tapped. */
+    var itemIndex: Int?
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         initalSetup()
@@ -188,6 +191,7 @@ class MatchupCollectionViewCell: UICollectionViewCell {
         
     }
     
+    /** Shows label to tell which won, fires uploadMatchupResult on Home view controller and scrolls to the next cell. */
     func leftImageViewTapped(sender: UITapGestureRecognizer) {
         guard let collectionViewDelegate = collectionViewDelegate, let homeViewControllerDelegate = homeViewControllerDelegate else {
             print("delegate is nil")
@@ -226,6 +230,7 @@ class MatchupCollectionViewCell: UICollectionViewCell {
         perform(#selector(scrollTo), with: nil, afterDelay: 0.5)
     }
     
+    /** Shows label to tell which won, fires uploadMatchupResult on Home view controller and scrolls to the next cell. */
     func rightImageViewTapped(sender: UITapGestureRecognizer) {
         guard let collectionViewDelegate = collectionViewDelegate, let homeViewControllerDelegate = homeViewControllerDelegate else {
             print("delegate is nil")
@@ -263,8 +268,6 @@ class MatchupCollectionViewCell: UICollectionViewCell {
         perform(#selector(scrollTo), with: nil, afterDelay: 0.5)
     }
     
-    var itemIndex: Int?
-
     // Can't take argument with any type except id, but id is not available in swift
     // So use property instead
     func scrollTo() {

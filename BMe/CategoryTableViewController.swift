@@ -10,14 +10,19 @@ import UIKit
 
 class CategoryTableViewController: UIViewController {
     
-    static let cellIdentifier = "CategoryTableViewCell"
-    let tableViewSectionHeaderHeight: CGFloat = 50
+    fileprivate static let cellIdentifier = "CategoryTableViewCell"
+    fileprivate static let tableViewSectionHeaderHeight: CGFloat = 50
+    fileprivate static let section = 0
+    fileprivate static let numberOfCellsShownInHomeViewController = 5
     
-    var isFullScreen: Bool = false
-    
-    var matchupTableViewDataSource: [MatchupTableViewDataSource]?
-    var matchupTitle: String?
-    var sectionHeaderView: UIView?
+    /** Determine where the table view used. Table view is used in home view controller with small size and in category table view controller with full screen size. */
+    fileprivate var isFullScreen: Bool = false
+    /** Store contents to show in matchup table view. value assigned in home view controller.*/
+    internal var matchupTableViewDataSource: [MatchupTableViewDataSource]?
+    /** Shows titles like "Trending"*/
+    internal var matchupTitle: String?
+    /** Where title and show more button exist*/
+    fileprivate var sectionHeaderView: UIView?
 
     @IBOutlet weak var tableView: UITableView!
     
@@ -32,11 +37,11 @@ class CategoryTableViewController: UIViewController {
         tableView.allowsSelection = false
         
         // Autolayout is not possible because tableView is added into HomeViewController's subview
-        let rowHeight = tableView.rowHeight
-        let tableViewHeight = rowHeight * CGFloat(tableView.numberOfRows(inSection: 0)) + tableView(tableView, heightForHeaderInSection: 0)
-        let tableViewWidth = UIScreen.main.bounds.width
-        tableView.frame = CGRect(x: 0, y: 0, width: tableViewWidth, height: tableViewHeight)
-        print("tableViewHeight: \(tableViewHeight) in Category Table view controller")
+        let tableViewRowPartHeight = tableView.rowHeight * CGFloat(tableView.numberOfRows(inSection: CategoryTableViewController.section))
+        let tableViewSectionHeaderHeight = tableView(tableView, heightForHeaderInSection: CategoryTableViewController.section)
+        // number of rows * row height + header view height = table view height
+        let tableViewHeight = tableViewRowPartHeight + tableViewSectionHeaderHeight
+        tableView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: tableViewHeight)
         makeSectionHeaderView()
         
     }
@@ -56,7 +61,8 @@ class CategoryTableViewController: UIViewController {
     }
     
     /** Initialize and configure sectionHeaderView. */
-    func makeSectionHeaderView() {
+    private func makeSectionHeaderView() {
+        
         guard let matchupTitle = matchupTitle else {
             print("matchupTitle is nil")
             return
@@ -75,6 +81,7 @@ class CategoryTableViewController: UIViewController {
             print("sectionHeaderView is nil")
             return
         }
+        
         headerView.backgroundColor = Styles.Color.Primary
         
         // Add constraint
@@ -111,13 +118,11 @@ class CategoryTableViewController: UIViewController {
         
         // Create show more button
         let showMoreButton = UIButton()
-        //showMoreButton.backgroundColor = UIColor.green
         showMoreButton.translatesAutoresizingMaskIntoConstraints = false
         showMoreButton.setTitle("show more", for: UIControlState.normal)
         showMoreButton.setTitleColor(Styles.Color.Tertiary, for: .normal)
         showMoreButton.setTitleColor(UIColor.darkGray, for: UIControlState.highlighted)
         showMoreButton.addTarget(self, action: #selector(onShowMoreButton(sender:)), for: UIControlEvents.touchUpInside)
-
         
         // Add constraint
         headerView.addSubview(showMoreButton)
@@ -162,7 +167,7 @@ extension CategoryTableViewController: UITableViewDelegate, UITableViewDataSourc
             guard matchupTableViewDataSource != nil else {
                 return 0
             }
-            return 5
+            return CategoryTableViewController.numberOfCellsShownInHomeViewController
         }
         
         // If full screen, show all the items in data source
@@ -203,7 +208,7 @@ extension CategoryTableViewController: UITableViewDelegate, UITableViewDataSourc
     
     /** Show full screen table view*/
     func showFullTableView() {
-        let storyboard = UIStoryboard(name: HomeViewController.storyboardID, bundle: nil)
+        let storyboard = UIStoryboard(name: Constants.SegueID.Storyboard.Home, bundle: nil)
         guard let fullCategoryTVC = storyboard.instantiateViewController(withIdentifier: HomeViewController.viewControllerID) as? CategoryTableViewController else {
             print("failed to instantiate CategoryTableViewController")
             return
@@ -279,6 +284,6 @@ extension CategoryTableViewController: UITableViewDelegate, UITableViewDataSourc
         if isFullScreen {
             return 0 
         }
-        return tableViewSectionHeaderHeight
+        return CategoryTableViewController.tableViewSectionHeaderHeight
     }
 }

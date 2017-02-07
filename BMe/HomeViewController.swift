@@ -23,7 +23,6 @@ enum WinnerPost {
 
 class HomeViewController: UIViewController {
 
-    static let storyboardID = "Browser"
     static let viewControllerID = "CategoryTableViewController"
     
     // TODO testing
@@ -41,13 +40,19 @@ class HomeViewController: UIViewController {
     //var leftColors = [UIColor.red, UIColor.blue, UIColor.yellow, UIColor.cyan, UIColor.orange]
     //var rightColors = [UIColor.orange, UIColor.cyan, UIColor.black, UIColor.blue, UIColor.red]
     
-    /* Number of a pair of post fetched at a time**/
+    /** Number of a pair of post fetched at a time*/
     var dataFetchCount: Int = 5
+    
+    /** Stores left post in loadImages() when the method has fetched it. Used in uploadMatchupResult() to upload the post that won. */
+    var leftPost: Post?
+    /** Stores right post in loadImages when the method has fetched it. Used in uploadMatchupResult() to upload the post that won. */
+    var rightPost: Post?
+    /** Stores matchup object in loadImages when the medthod has fetched it. Used in uploadMatchupResult() to upload it with the winner post. */
+    var matchup: VoteBooth.Matchup?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         baseScrollView.backgroundColor = Styles.Color.Primary
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -55,7 +60,7 @@ class HomeViewController: UIViewController {
         
         navigationController?.navigationBar.isHidden = true
         
-        let storyboard = UIStoryboard(name: HomeViewController.storyboardID, bundle: nil)
+        let storyboard = UIStoryboard(name: Constants.SegueID.Storyboard.Home, bundle: nil)
         guard let firstTVC = storyboard.instantiateViewController(withIdentifier: HomeViewController.viewControllerID) as? CategoryTableViewController,
             let secondTVC = storyboard.instantiateViewController(withIdentifier: HomeViewController.viewControllerID) as? CategoryTableViewController else {
                 print("Failed to instantiate tvc")
@@ -153,27 +158,7 @@ class HomeViewController: UIViewController {
             ])
     }
     
-//    override func viewDidLoad() {
-//        super.viewDidLoad()
-//
-//        // Do any additional setup after loading the view.
-//        
-//        // Add buffer at top (by setting nav bar clear)
-//        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
-//        navigationController?.navigationBar.shadowImage = UIImage()
-//        navigationController?.navigationBar.isTranslucent = true
-//        navigationController?.view.backgroundColor = UIColor.clear
-//        
-//        //TODO: testing
-//        loadImages()
-//
-//    }
-//    
-    
-    var leftPost: Post?
-    var rightPost: Post?
-    var matchup: VoteBooth.Matchup?
-    
+    /** Load a pair of image and set them to cell's image views*/
     func loadImages(leftImageView: UIImageView?, rightImageView: UIImageView?) {
         guard let leftImageView = leftImageView, let rightImageView = rightImageView else {
             print("image view is nil")
@@ -198,7 +183,7 @@ class HomeViewController: UIViewController {
                     return
                 }
                 
-                // fetch image A
+                // fetch left image
                 FIRManager.shared.database.child(leftPost.url!.path).observeSingleEvent(of: .value, with: { (snapshot) in
                     let image = Image(snapshot.value as! [String: AnyObject?])
                     
@@ -206,16 +191,13 @@ class HomeViewController: UIViewController {
 
                 })
 
-                // fetch image B
+                // fetch right image
                 FIRManager.shared.database.child(rightPost.url!.path).observeSingleEvent(of: .value, with: { (snapshot) in
                     let image = Image(snapshot.value as! [String: AnyObject?])
                     
                     rightImageView.loadImageFromGS(url: image.gsURL!, placeholderImage: nil)
                     
                 })
-
-                // TODO: test vote
-                //VoteBooth.result(matchID: matchup.ID, winnerID: rightPost.postID!)
             })
         }
     }
@@ -279,7 +261,6 @@ class HomeViewController: UIViewController {
 extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIGestureRecognizerDelegate {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        //return leftColors.count
         return dataFetchCount
     }
     
@@ -289,9 +270,6 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             print("Failed to instantiate matchup collection view cell")
             return UICollectionViewCell()
         }
-        
-        //        cell.leftImageView?.backgroundColor = leftColors[indexPath.item]
-        //        cell.rightImageView?.backgroundColor = rightColors[indexPath.item]
         
         // Set cell's delegate to collection view so that cell can tell collection view to scroll
         // to the next cell when either of images is tapped
@@ -329,10 +307,10 @@ extension HomeViewController: UIScrollViewDelegate {
         
         // When the user has scrolled past the threshold, start requesting
         if(scrollView.contentOffset.x > scrollOffsetThreshold) {
-            //leftColors = leftColors + leftColors
-            //rightColors = rightColors + rightColors
+            
             dataFetchCount += dataFetchCount
             matchupCollectionView.reloadData()
+            
         }
     }
 }
