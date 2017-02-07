@@ -219,17 +219,12 @@ class MatchupCollectionViewCell: UICollectionViewCell {
         // upload match up result to server via home view controller
         homeViewControllerDelegate.uploadMatchupResult(winner: WinnerPost.Left)
         
-        UIView.animate(withDuration: 0.2, delay: 5, options: [], animations: {
-            
-        }) { (completed: Bool) in
-            leftLabel.text = "Thanks!"
-            rightLabel.text = "Fuck!"
-            
-            let nextIndexPath = IndexPath(item: indexPath.item + 1, section: 0)
-            if nextIndexPath.item < collectionViewDelegate.numberOfItems(inSection: 0) {
-                collectionViewDelegate.scrollToItem(at: nextIndexPath, at: UICollectionViewScrollPosition.centeredHorizontally, animated: true)
-            }
-        }
+        
+        leftLabel.text = "Win"
+        rightLabel.text = "Lose"
+        
+        self.itemIndex = indexPath.item
+        perform(#selector(scrollTo), with: nil, afterDelay: 0.5)
     }
     
     func rightImageViewTapped(sender: UITapGestureRecognizer) {
@@ -262,17 +257,28 @@ class MatchupCollectionViewCell: UICollectionViewCell {
         // upload match up result to server via home view controller
         homeViewControllerDelegate.uploadMatchupResult(winner: WinnerPost.Right)
         
-        UIView.animate(withDuration: 0.2, delay: 5, options: [], animations: {
-            leftLabel.text = "Fuck!"
-            rightLabel.text = "Thanks!"
-        }) { (completed: Bool) in
+        leftLabel.text = "Lose"
+        rightLabel.text = "Win"
+        
+        self.itemIndex = indexPath.item
+        perform(#selector(scrollTo), with: nil, afterDelay: 0.5)
+    }
+    
+    var itemIndex: Int?
 
-            
-            let nextIndexPath = IndexPath(item: indexPath.item + 1, section: 0)
-            // Check the bound
-            if nextIndexPath.item < collectionViewDelegate.numberOfItems(inSection: 0) {
-                collectionViewDelegate.scrollToItem(at: nextIndexPath, at: UICollectionViewScrollPosition.centeredHorizontally, animated: true)
-            }
+    // Can't take argument with any type except id, but id is not available in swift
+    // So use property instead
+    func scrollTo() {
+        guard let collectionViewDelegate = collectionViewDelegate, let itemIndex = itemIndex else {
+            print("delegate is nil")
+            return
+        }
+        let nextIndexPath = IndexPath(item: itemIndex + 1, section: 0)
+        // Check the bound
+        if nextIndexPath.item < collectionViewDelegate.numberOfItems(inSection: 0) {
+            collectionViewDelegate.scrollToItem(at: nextIndexPath, at: UICollectionViewScrollPosition.centeredHorizontally, animated: true)
         }
     }
+    
+    
 }

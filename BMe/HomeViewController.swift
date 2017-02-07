@@ -9,8 +9,8 @@
 import UIKit
 
 // TODO: pause animation
-// TODO: Fetch real data with FIRManager and display
 // TODO: add table view dynamically so that we can have as many table view as categories
+// TODO: preload
 
 struct MatchupTableViewDataSource {
     var userName: String
