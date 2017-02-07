@@ -10,9 +10,6 @@ import UIKit
 import FirebaseDatabase
 
 class VoteBooth: NSObject {
-
-   
-    
     struct Matchup {
         let ID: String
         let timestamp: String
@@ -42,26 +39,18 @@ class VoteBooth: NSObject {
         VoteBooth.update()
     }
     
-    /** 
+    /**
      Apply matchup rules/logic:
      Takes free images in queue and puts it in matchup queue
      */
     private class func update() {
         // if there are two or more objects in queue, dequeue them and create a matchup
-        JSONStack.count(database: VoteBooth.imageQueue) { (count) in
-            if (count > 1) {
-                JSONStack.popFIFO(database: VoteBooth.imageQueue, completion: { (snapshot) in
-                    if let firstObject = snapshot {
-                        JSONStack.popFIFO(database: VoteBooth.imageQueue, completion: { (snapshot) in
-                            if let secondObject = snapshot {
-                                // Create matchup with two objects popped from queue
-                                VoteBooth.createMatchup(firstObject, secondObject)
-                            }
-                        })
-                    }
-                })
+        JSONStack.popFIFO(2, database: VoteBooth.imageQueue, completion: { (result) in
+            // Create matchup with two objects popped from queue
+            if (result.count == 2) {
+                VoteBooth.createMatchup(result[0], result[1])
             }
-        }
+        })
     }
 
     /**
@@ -108,10 +97,10 @@ class VoteBooth: NSObject {
     /** 
      Creates a matchup between given objects and add it to the database
      */
-    private class func createMatchup(_ first: FIRDataSnapshot, _ second: FIRDataSnapshot) {
+    private class func createMatchup(_ first: [String: AnyObject?], _ second: [String: AnyObject?]) {
         // Create a matchup and insert into matchup bucket
         // ~/matchup/(key)/posts/(first.key)/etc
-        let posts = [first.key: first.value, second.key: second.value]
+        let posts = [first, second]
         let metadata: [String: Any] = [keys.timestamp: Date().toString(),
                                        keys.posts: posts]
 

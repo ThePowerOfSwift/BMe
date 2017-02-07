@@ -20,48 +20,48 @@ class JSONStack: NSObject {
      */
     class func queue(object: [String: AnyObject?], database: FIRDatabaseReference) {
         // Add object to stack with timestamped key as parent (childByAutoID)
-        // Path: ~/queue
-        database.child(keys.object).childByAutoId().updateChildValues(object)
+        queueDatabase(database).childByAutoId().updateChildValues(object)
     }
     
     /**
-     Pop next object from JSON stack FIFO
+     Pop x objects from JSONStack in FIFO order
+     Return resulting array to handler
      */
-    class func popFIFO(database: FIRDatabaseReference, completion:@escaping (FIRDataSnapshot?)->()) {
-        // append "queue" to JSON path
-        let database = database.child(keys.object)
-        database.queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
-            
-            // test if empty (then return nil)
-            if (snapshot.childrenCount < 1) || (!snapshot.exists()) {
-                completion(nil)
-            } else { // otherwise pop from queue and send to handler
-                // get first child objectToPop
-                var firstChild: FIRDataSnapshot?
-                for snapChild in snapshot.children {
-                    if let snapChild = snapChild as? FIRDataSnapshot {
-                        firstChild = snapChild
-                    }
-                    break
+    class func popFIFO(_ count: Int, database: FIRDatabaseReference, completion:@escaping ([[String: AnyObject?]])->()) {
+        let database = queueDatabase(database)
+        // Result holder
+        var result: [[String: AnyObject?]] = []
+        
+        // Sanity check
+        if (count <= 0) {
+            completion(result)
+            return
+        }
+        
+        // Run transaction block to pop objects from stack
+        database.runTransactionBlock({ (currentQueue) -> FIRTransactionResult in
+            // If queue exists (non nil) and has enough objects to pop (>= count)
+            if var queue = currentQueue.value as? [String: AnyObject?],
+                (Int(currentQueue.childrenCount) >= count) {
+                
+                // Get the top object on stack and pop, "count" times
+                for _ in 1...count {
+                    let keyToPop = queue.keys.sorted()[0]
+                    let objectToPop = queue[keyToPop] as? [String: AnyObject?]
+                    result.append(objectToPop!)
+                    queue.removeValue(forKey: keyToPop)
                 }
-                if let firstChild = firstChild {
-                    // pop from queue & return
-                    database.child(firstChild.key).removeValue()
-                    
-                    var objectToPop: FIRDataSnapshot?
-                    // remove JSONStack generated auto key
-                    for snapChild in firstChild.children {
-                        if let snapChild = snapChild as? FIRDataSnapshot {
-                            objectToPop = snapChild
-                        }
-                        break
-                    }
-                    
-                    completion(objectToPop)
-                } else {
-                    print("Error, tried to pop item off queue; resulted in nil error")
-                }
+                                
+                // Commit pop to database
+                currentQueue.value = queue
+                return FIRTransactionResult.success(withValue: currentQueue)
             }
+            return FIRTransactionResult.success(withValue: currentQueue)
+        }, andCompletionBlock: { (error, committed, nil) in
+            if let error = error {
+                print("Error popping object from stack: \(error.localizedDescription)")
+            }
+            completion(result)
         })
     }
     
@@ -69,12 +69,20 @@ class JSONStack: NSObject {
      Count the number of items in queue.  Implemented by counting the number of children under /queue
      */
     class func count(database: FIRDatabaseReference, completion:@escaping (UInt)->()) {
-        database.child(keys.object).observeSingleEvent(of: .value, with: { (snapshot) in
+        queueDatabase(database).observeSingleEvent(of: .value, with: { (snapshot) in
             completion(snapshot.childrenCount)
         })
     }
     
+    /** 
+     Return the prefix "queue" reference with database ref as root
+     */
+    private class func queueDatabase(_ database: FIRDatabaseReference) -> FIRDatabaseReference {
+        // Path: ~/queue
+        return database.child(keys.queue)
+    }
+    
     struct keys {
-        static var object = "queue"
+        static var queue = "queue"
     }
 }
