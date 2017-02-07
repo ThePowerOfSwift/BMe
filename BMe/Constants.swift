@@ -50,7 +50,7 @@ struct Constants {
             static let Login = "Login"
             static let SignUp = "SignUp"
             static let TabBar = "TabBar"
-            static let Browser = "Browser"
+            static let Home = "Home"
             static let PageView = "PageView"
             static let Featured = "Featured"
             static let Account = "Account"

@@ -70,7 +70,7 @@ class TabBarViewController: UIViewController {
     private func setupViewControllers() {
         // Initialize and setup tabbar viewcontrollers
         // Browse view controller
-        browseViewController = UIStoryboard(name: Constants.SegueID.Storyboard.Browser, bundle: nil).instantiateInitialViewController()
+        browseViewController = UIStoryboard(name: Constants.SegueID.Storyboard.Home, bundle: nil).instantiateInitialViewController()
         addChildViewController(browseViewController)
         
         // Camera view controller which will be in camera page view controller
