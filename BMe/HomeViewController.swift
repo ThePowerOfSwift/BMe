@@ -178,7 +178,6 @@ class HomeViewController: UIViewController {
         
         // Request matchup
         VoteBooth.serve { (matchup) in
-            print("matchup ID: \(matchup.ID)")
             self.matchup = matchup
             // Get post IDs of matchup
             var IDs: [String] = []
@@ -235,6 +234,7 @@ class HomeViewController: UIViewController {
         }
         
         VoteBooth.result(matchID: matchup.ID, winnerID: winnerPostID)
+        print("\(winner), post ID: \(winnerPostID), matchup ID: \(matchup.ID) is uploaded.")
     }
     
     let trendingMatchupTableViewDataSource: [MatchupTableViewDataSource] =
@@ -285,6 +285,9 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             return UICollectionViewCell()
         }
         
+        //        cell.leftImageView?.backgroundColor = leftColors[indexPath.item]
+        //        cell.rightImageView?.backgroundColor = rightColors[indexPath.item]
+        
         // Set cell's delegate to collection view so that cell can tell collection view to scroll
         // to the next cell when either of images is tapped
         cell.collectionViewDelegate = collectionView
@@ -292,8 +295,8 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         // HomeViewController.uploadMatchupResult() is called from MatchupCollectionViewCell when image is selected
         cell.homeViewControllerDelegate = self
         
-//        cell.leftImageView?.backgroundColor = leftColors[indexPath.item]
-//        cell.rightImageView?.backgroundColor = rightColors[indexPath.item]
+        // set isVoted false because post has not been voted yet.
+        cell.isVoted = false
         
         cell.leftLabel?.text = ""
         cell.rightLabel?.text = ""

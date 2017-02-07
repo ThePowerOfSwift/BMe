@@ -9,6 +9,7 @@
 import UIKit
 
 class MatchupCollectionViewCell: UICollectionViewCell {
+    
     var leftImageView: UIImageView?
     var rightImageView: UIImageView?
     
@@ -18,6 +19,9 @@ class MatchupCollectionViewCell: UICollectionViewCell {
     /** To scroll colleciton view. */
     var collectionViewDelegate: UICollectionView?
     var homeViewControllerDelegate: HomeViewController?
+    
+    /** To tell if post has already been voted. To prevent vote the same post multiple times.*/
+    var isVoted: Bool = false
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -186,26 +190,40 @@ class MatchupCollectionViewCell: UICollectionViewCell {
     }
     
     func leftImageViewTapped(sender: UITapGestureRecognizer) {
-        print("left image view tapped")
+        guard let collectionViewDelegate = collectionViewDelegate, let homeViewControllerDelegate = homeViewControllerDelegate else {
+            print("delegate is nil")
+            return
+        }
+        guard let indexPath = collectionViewDelegate.indexPath(for: self) else {
+            print("collection view delegate indexPath is nil")
+            return
+        }
+
+        
+        // Prevent multiple voting
+        if isVoted {
+            print("This matchup has already been voted. Voting multiple times on the same matchup is not allowed.")
+            let nextIndexPath = IndexPath(item: indexPath.item + 1, section: 0)
+            if nextIndexPath.item < collectionViewDelegate.numberOfItems(inSection: 0) {
+                collectionViewDelegate.scrollToItem(at: nextIndexPath, at: UICollectionViewScrollPosition.centeredHorizontally, animated: true)
+            }
+            return
+        }
+        isVoted = true
+        
         guard let leftLabel = leftLabel, let rightLabel = rightLabel else {
             print("label is nil")
             return
         }
         
         // upload match up result to server via home view controller
-        homeViewControllerDelegate?.uploadMatchupResult(winner: WinnerPost.Left)
+        homeViewControllerDelegate.uploadMatchupResult(winner: WinnerPost.Left)
         
         UIView.animate(withDuration: 0.2, delay: 5, options: [], animations: {
             
         }) { (completed: Bool) in
             leftLabel.text = "Thanks!"
             rightLabel.text = "Fuck!"
-            
-            guard let indexPath = self.collectionViewDelegate?.indexPath(for: self) else { return }
-            guard let collectionViewDelegate = self.collectionViewDelegate else {
-                print("delegate is nil")
-                return
-            }
             
             let nextIndexPath = IndexPath(item: indexPath.item + 1, section: 0)
             if nextIndexPath.item < collectionViewDelegate.numberOfItems(inSection: 0) {
@@ -215,26 +233,40 @@ class MatchupCollectionViewCell: UICollectionViewCell {
     }
     
     func rightImageViewTapped(sender: UITapGestureRecognizer) {
-        print("right image view tapped")
+        guard let collectionViewDelegate = collectionViewDelegate, let homeViewControllerDelegate = homeViewControllerDelegate else {
+            print("delegate is nil")
+            return
+        }
+        guard let indexPath = collectionViewDelegate.indexPath(for: self) else {
+            print("collection view delegate indexPath is nil")
+            return
+        }
+
+        
+        // Prevent multiple voting
+        if isVoted {
+            print("This matchup has already been voted. Voting multiple times on the same matchup is not allowed.")
+            let nextIndexPath = IndexPath(item: indexPath.item + 1, section: 0)
+            if nextIndexPath.item < collectionViewDelegate.numberOfItems(inSection: 0) {
+                collectionViewDelegate.scrollToItem(at: nextIndexPath, at: UICollectionViewScrollPosition.centeredHorizontally, animated: true)
+            }
+            return
+        }
+        isVoted = true
+        
         guard let leftLabel = leftLabel, let rightLabel = rightLabel else {
             print("label is nil")
             return
         }
         
         // upload match up result to server via home view controller
-        homeViewControllerDelegate?.uploadMatchupResult(winner: WinnerPost.Right)
+        homeViewControllerDelegate.uploadMatchupResult(winner: WinnerPost.Right)
         
         UIView.animate(withDuration: 0.2, delay: 5, options: [], animations: {
             leftLabel.text = "Fuck!"
             rightLabel.text = "Thanks!"
         }) { (completed: Bool) in
 
-            
-            guard let indexPath = self.collectionViewDelegate?.indexPath(for: self) else { return }
-            guard let collectionViewDelegate = self.collectionViewDelegate else {
-                print("collectionViewDelegate is nil")
-                return
-            }
             
             let nextIndexPath = IndexPath(item: indexPath.item + 1, section: 0)
             // Check the bound
