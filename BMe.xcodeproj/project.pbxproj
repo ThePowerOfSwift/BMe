@@ -59,6 +59,7 @@
 		785E87C61DED445000C9FF59 /* Play image- white.png in Resources */ = {isa = PBXBuildFile; fileRef = 785E87C51DED445000C9FF59 /* Play image- white.png */; };
 		7870B85A1E45537100B754D6 /* Browser.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7870B8591E45537100B754D6 /* Browser.storyboard */; };
 		7870B85F1E468DAF00B754D6 /* FIR.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7870B85E1E468DAF00B754D6 /* FIR.swift */; };
+		78B0FDF01E496DCD004F4E4E /* Matchup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78B0FDEF1E496DCD004F4E4E /* Matchup.swift */; };
 		78B56A021DF5E7AE00A13915 /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78B56A011DF5E7AE00A13915 /* UserProfile.swift */; };
 		78B56A061DF5EBFB00A13915 /* error.png in Resources */ = {isa = PBXBuildFile; fileRef = 78B56A051DF5EBFB00A13915 /* error.png */; };
 		78B56A091DF5FD1B00A13915 /* user-white.png in Resources */ = {isa = PBXBuildFile; fileRef = 78B56A071DF5FD1B00A13915 /* user-white.png */; };
@@ -78,7 +79,6 @@
 		78BCDF461DF75D16002D399E /* hook-yellow.png in Resources */ = {isa = PBXBuildFile; fileRef = 78BCDF441DF75D16002D399E /* hook-yellow.png */; };
 		78BCDF471DF75D16002D399E /* hook.png in Resources */ = {isa = PBXBuildFile; fileRef = 78BCDF451DF75D16002D399E /* hook.png */; };
 		78BCDF491DF7643D002D399E /* hook-blue.png in Resources */ = {isa = PBXBuildFile; fileRef = 78BCDF481DF7643D002D399E /* hook-blue.png */; };
-		78BE7F071E400F0B001D8BAA /* VoteBooth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78BE7F061E400F0B001D8BAA /* VoteBooth.swift */; };
 		78C3503F1DF12E17005E8331 /* blank user avatar.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 78C3503E1DF12E17005E8331 /* blank user avatar.jpeg */; };
 		78C350451DF2260A005E8331 /* Account.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 78C350441DF2260A005E8331 /* Account.storyboard */; };
 		78C350471DF232AF005E8331 /* UserProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C350461DF232AF005E8331 /* UserProfileViewController.swift */; };
@@ -231,6 +231,7 @@
 		785E87C51DED445000C9FF59 /* Play image- white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Play image- white.png"; sourceTree = "<group>"; };
 		7870B8591E45537100B754D6 /* Browser.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Browser.storyboard; sourceTree = "<group>"; };
 		7870B85E1E468DAF00B754D6 /* FIR.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FIR.swift; sourceTree = "<group>"; };
+		78B0FDEF1E496DCD004F4E4E /* Matchup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Matchup.swift; sourceTree = "<group>"; };
 		78B56A011DF5E7AE00A13915 /* UserProfile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
 		78B56A051DF5EBFB00A13915 /* error.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = error.png; sourceTree = "<group>"; };
 		78B56A071DF5FD1B00A13915 /* user-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "user-white.png"; sourceTree = "<group>"; };
@@ -250,7 +251,6 @@
 		78BCDF441DF75D16002D399E /* hook-yellow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hook-yellow.png"; sourceTree = "<group>"; };
 		78BCDF451DF75D16002D399E /* hook.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hook.png; sourceTree = "<group>"; };
 		78BCDF481DF7643D002D399E /* hook-blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hook-blue.png"; sourceTree = "<group>"; };
-		78BE7F061E400F0B001D8BAA /* VoteBooth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoteBooth.swift; sourceTree = "<group>"; };
 		78C3503E1DF12E17005E8331 /* blank user avatar.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "blank user avatar.jpeg"; sourceTree = "<group>"; };
 		78C350441DF2260A005E8331 /* Account.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Account.storyboard; sourceTree = "<group>"; };
 		78C350461DF232AF005E8331 /* UserProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileViewController.swift; sourceTree = "<group>"; };
@@ -394,6 +394,7 @@
 		78337D8E1DE3AC7400A1B32C /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				78BCDF2B1DF74421002D399E /* README */,
 				78B56A0B1DF5FE7B00A13915 /* Other */,
 				783008A21DE3B9A000B070D4 /* Extensions.swift */,
 				783008A31DE3B9A000B070D4 /* Constants.swift */,
@@ -424,7 +425,7 @@
 				7850E80E1E452281001F8BCF /* HomeViewController.swift */,
 				78CDA09E1DE5307C00ABC5E1 /* FIRManager.swift */,
 				7870B85E1E468DAF00B754D6 /* FIR.swift */,
-				78BE7F061E400F0B001D8BAA /* VoteBooth.swift */,
+				78B0FDEF1E496DCD004F4E4E /* Matchup.swift */,
 				78D1783A1E48F8AD004B7840 /* JSONStack.swift */,
 			);
 			name = JJ;
@@ -457,7 +458,6 @@
 			children = (
 				7850E80D1E45222F001F8BCF /* archive */,
 				E3433ED81E45486600C69650 /* GPUImage.xcodeproj */,
-				78BCDF2B1DF74421002D399E /* README */,
 				78337D8E1DE3AC7400A1B32C /* Shared */,
 				7821C3BB1DEF24730023B95E /* ViewControllers */,
 				7821C3C01DEF82680023B95E /* Views */,
@@ -724,7 +724,6 @@
 					};
 					78469A6B1DE3958100A40D53 = {
 						CreatedOnToolsVersion = 8.0;
-						DevelopmentTeam = Y4GA6H5JHE;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 78469A571DE3958000A40D53;
 					};
@@ -1003,7 +1002,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				78BE7F071E400F0B001D8BAA /* VoteBooth.swift in Sources */,
 				78BCDF391DF74A15002D399E /* NextButton.swift in Sources */,
 				781E71541DF518A300041855 /* Asset.swift in Sources */,
 				7850E80F1E452281001F8BCF /* HomeViewController.swift in Sources */,
@@ -1045,6 +1043,7 @@
 				7837A2131DF8BB96000CB9CB /* RainCheckButton.swift in Sources */,
 				78B95F8C1DF6B4EA00B6C83E /* BrowserImageTableViewCell.swift in Sources */,
 				E3C357A41DEF484E00AC0832 /* Restaurant.swift in Sources */,
+				78B0FDF01E496DCD004F4E4E /* Matchup.swift in Sources */,
 				78C350491DF28756005E8331 /* UserAccount.swift in Sources */,
 				421631621E43DC2A00E644A5 /* PhotoListFlowLayout.swift in Sources */,
 				78B56A021DF5E7AE00A13915 /* UserProfile.swift in Sources */,
@@ -1235,7 +1234,8 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				DEVELOPMENT_TEAM = Y4GA6H5JHE;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = BMeTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.op.BMeTests;
@@ -1251,7 +1251,8 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				DEVELOPMENT_TEAM = Y4GA6H5JHE;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = BMeTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.op.BMeTests;
