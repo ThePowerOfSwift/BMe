@@ -376,11 +376,6 @@ class CameraViewController: UIViewController {
     @IBAction func onCancel(_ sender: UIButton) {
         cameraMode()
         
-        // set all the cached filtered image to nil
-        for filter in filters {
-            filter.setFilteredImage(image: nil)
-        }
-        
         // If color bubble is shown, hide it in camera mode to switch to filter mode
         // Need to reload collection view because the color collection view setting is different from filter
         if isBubbleCollectionViewShown && isDrawMode || isTextMode {
@@ -403,13 +398,15 @@ class CameraViewController: UIViewController {
             return
         }
         
-        FIRManager.shared.postObject(object: imageData, contentType: .image, meta: ["key" : "value" as Optional<AnyObject>], completion: {
-            print("Upload completed")
-            self.removeAllItems()
-            busy.stopAnimating()
-            busy.removeFromSuperview()
-            self.cameraMode()
-        })
+        let newImgID = Image_new.save(image: imageData)
+        Post_new.create(assetID: newImgID, assetType: .image)
+        print("Upload completed")
+        self.removeAllItems()
+        busy.stopAnimating()
+        busy.removeFromSuperview()
+        self.cameraMode()
+        
+        
     }
     
     internal func swipeGestureRecognizer(state: Bool) {
@@ -567,13 +564,6 @@ class CameraViewController: UIViewController {
                 }
             }
         })
-    }
-    
-    /** Show view controller modally. */
-    private func show(image: UIImage) {
-        stillCamera?.stopCapture()
-        //photoImageView?.image = image
-        changeFilter(newFilterIndex: filterIndex.current)
     }
     
     /** Animates filter name label to specified direction. Sets name. */
@@ -832,8 +822,13 @@ extension CameraViewController {
     /** Removes all the text, drawing, and picure. Called after cancel or upload. */
     internal func removeAllItems() {
         removeTextfieldFromSubbiew()
+        textImageView.image = nil
         drawImageView.image = nil
         photoImageView.image = nil
+        // set all the cached filtered image to nil
+        for filter in filters {
+            filter.setFilteredImage(image: nil)
+        }
     }
 }
 

@@ -67,7 +67,7 @@ class UserProfileViewController: UIViewController, UIImagePickerControllerDelega
         
         // TODO: - NEED TO REFACTOR TVC MODEL
         // Add tableview child vc
-        let tvc = UIStoryboard(name: Constants.SegueID.Storyboard.Browser, bundle: nil).instantiateViewController(withIdentifier: Constants.SegueID.ViewController.BrowserViewController) as! BrowseViewController
+        let tvc = UIStoryboard(name: Constants.SegueID.Storyboard.Home, bundle: nil).instantiateViewController(withIdentifier: Constants.SegueID.ViewController.BrowserViewController) as! BrowseViewController
         // Setup data as rainchecks
         tvc.dataSelector =  #selector(setupRaincheckDB)
         addChildViewController(tvc)
