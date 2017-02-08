@@ -214,8 +214,22 @@ class Matchup: JSONObject {
         })
     }
     
-    
-    class func remove() {
+    class func remove(_ matchID: String) {
+        // TODO: Complete
+        let database = FIR.manager.databasePath(object).child(matchID)
+        
+        database.runTransactionBlock { (currentData) -> FIRTransactionResult in
+            
+            // remove and commit match
+            if let _ = currentData.value as? [String: AnyObject?] {
+                currentData.value = nil
+                return FIRTransactionResult.success(withValue: currentData)
+            }
+            
+            return FIRTransactionResult.success(withValue: currentData)
+        }
+
+        
     }
 
     
