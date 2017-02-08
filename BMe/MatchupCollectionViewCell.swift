@@ -573,8 +573,10 @@ class MatchupCollectionViewCell: UICollectionViewCell {
         //unhides subviews
         leftCheckMark.isHidden = false
         leftView.isHidden = false
-        leftView.backgroundColor = UIColor.red
         rightView.isHidden = false
+        leftView.backgroundColor = UIColor.red
+        rightView.backgroundColor = UIColor.red
+
     }
     
     func prepareForRightSelectionAnimation()
@@ -590,6 +592,8 @@ class MatchupCollectionViewCell: UICollectionViewCell {
         leftView.isHidden = false
         rightView.isHidden = false
         rightView.backgroundColor = UIColor.red
+        leftView.backgroundColor = UIColor.red
+
     }
     
     func resetAnimationState()
