@@ -281,8 +281,10 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         // set isVoted false because post has not been voted yet.
         cell.isVoted = false
         
+        //reset
         cell.leftLabel?.text = ""
         cell.rightLabel?.text = ""
+        cell.resetAnimationState()
         cell.leftLabel?.backgroundColor = UIColor.white
         cell.rightLabel?.backgroundColor = UIColor.white
         loadImages(leftImageView: cell.leftImageView, rightImageView: cell.rightImageView)

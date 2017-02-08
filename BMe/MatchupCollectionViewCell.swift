@@ -16,6 +16,11 @@ class MatchupCollectionViewCell: UICollectionViewCell {
     var leftLabel: UILabel?
     var rightLabel: UILabel?
     
+    var leftCheckMark: UIImageView?
+    var rightCheckMark: UIImageView?
+    var leftView: UIView?
+    var rightView: UIView?
+    
     /** To scroll colleciton view. */
     var collectionViewDelegate: UICollectionView?
     var homeViewControllerDelegate: HomeViewController?
@@ -46,7 +51,7 @@ class MatchupCollectionViewCell: UICollectionViewCell {
         leftImageView = UIImageView()
         rightImageView = UIImageView()
         
-        guard let leftImageView = leftImageView, let rightImageView = rightImageView else {
+        guard let leftImageView = leftImageView, let rightImageView = rightImageView  else {
             print("failed to instantiate image view")
             return
         }
@@ -69,6 +74,7 @@ class MatchupCollectionViewCell: UICollectionViewCell {
         // Autolayout
         contentView.addSubview(leftImageView)
         contentView.addSubview(rightImageView)
+
         leftImageView.translatesAutoresizingMaskIntoConstraints = false
         rightImageView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -133,7 +139,11 @@ class MatchupCollectionViewCell: UICollectionViewCell {
                                multiplier: 1.0,
                                constant: contentView.frame.width/2)
             ])
+        
         addLabelsToImageViews()
+        addCheckMarkAndRectanglesToImageViews()
+        resetAnimationState()
+
     }
     
     func addLabelsToImageViews() {
@@ -191,6 +201,197 @@ class MatchupCollectionViewCell: UICollectionViewCell {
         
     }
     
+    func addCheckMarkAndRectanglesToImageViews() {
+        
+        guard let leftImageView = leftImageView, let rightImageView = rightImageView else {
+            print("image view is nil")
+            return
+        }
+        
+        let image = #imageLiteral(resourceName: "checkmark")
+        leftCheckMark = UIImageView.init(image:image)
+        rightCheckMark = UIImageView.init(image:image)
+        
+        leftView = UIView()
+        rightView = UIView()
+        
+        guard let  leftCheckMark = leftCheckMark,let rightCheckMark = rightCheckMark, let leftView = leftView, let rightView = rightView  else {
+            print("failed to instantiate checkmarks and rectangle views")
+            
+            return
+        }
+        
+        leftCheckMark.contentMode = .scaleAspectFit
+        rightCheckMark.contentMode = .scaleAspectFit
+
+        contentView.addSubview(leftCheckMark)
+        contentView.addSubview(leftView)
+        contentView.addSubview(rightCheckMark)
+        contentView.addSubview(rightView)
+        
+        leftCheckMark.translatesAutoresizingMaskIntoConstraints = false
+        rightCheckMark.translatesAutoresizingMaskIntoConstraints = false
+        leftView.translatesAutoresizingMaskIntoConstraints = false
+        rightView.translatesAutoresizingMaskIntoConstraints = false
+
+        
+        //constraints for left side
+        
+        contentView.addConstraints([
+            NSLayoutConstraint(item: leftView,
+                               attribute: NSLayoutAttribute.top,
+                               relatedBy: NSLayoutRelation.equal,
+                               toItem: leftLabel,
+                               attribute: NSLayoutAttribute.bottom,
+                               multiplier: 1.0,
+                               constant: 25),
+            NSLayoutConstraint(item: leftView,
+                               attribute: NSLayoutAttribute.bottom,
+                               relatedBy: NSLayoutRelation.equal,
+                               toItem: leftImageView,
+                               attribute: NSLayoutAttribute.bottom,
+                               multiplier: 1.0,
+                               constant: 0),
+            NSLayoutConstraint(item: leftView,
+                               attribute: NSLayoutAttribute.width,
+                               relatedBy: NSLayoutRelation.equal,
+                               toItem: nil,
+                               attribute: NSLayoutAttribute.width,
+                               multiplier: 1.0,
+                               constant: 6),
+            NSLayoutConstraint(item: leftView,
+                               attribute: NSLayoutAttribute.centerX,
+                               relatedBy: NSLayoutRelation.equal,
+                               toItem: leftLabel,
+                               attribute: NSLayoutAttribute.centerX,
+                               multiplier: 1.0,
+                               constant: 0),
+            NSLayoutConstraint(item: leftView,
+                               attribute: NSLayoutAttribute.centerX,
+                               relatedBy: NSLayoutRelation.equal,
+                               toItem: leftImageView,
+                               attribute: NSLayoutAttribute.centerX,
+                               multiplier: 1.0,
+                               constant: 0),
+            ])
+        
+        contentView.addConstraints([
+            NSLayoutConstraint(item: leftCheckMark,
+                               attribute: NSLayoutAttribute.bottom,
+                               relatedBy: NSLayoutRelation.equal,
+                               toItem: leftLabel,
+                               attribute: NSLayoutAttribute.top,
+                               multiplier: 1.0,
+                               constant: -10),
+            NSLayoutConstraint(item: leftCheckMark,
+                               attribute: NSLayoutAttribute.width,
+                               relatedBy: NSLayoutRelation.equal,
+                               toItem: nil,
+                               attribute: NSLayoutAttribute.width,
+                               multiplier: 1.0,
+                               constant: 54),
+            NSLayoutConstraint(item: leftCheckMark,
+                               attribute: NSLayoutAttribute.height,
+                               relatedBy: NSLayoutRelation.equal,
+                               toItem: nil,
+                               attribute: NSLayoutAttribute.height,
+                               multiplier: 1.0,
+                               constant: 34),
+            NSLayoutConstraint(item: leftCheckMark,
+                               attribute: NSLayoutAttribute.centerX,
+                               relatedBy: NSLayoutRelation.equal,
+                               toItem: leftLabel,
+                               attribute: NSLayoutAttribute.centerX,
+                               multiplier: 1.0,
+                               constant: 0),
+            NSLayoutConstraint(item: leftCheckMark,
+                               attribute: NSLayoutAttribute.centerX,
+                               relatedBy: NSLayoutRelation.equal,
+                               toItem: leftImageView,
+                               attribute: NSLayoutAttribute.centerX,
+                               multiplier: 1.0,
+                               constant: 0),
+            ])
+
+        //constraints for right side
+        contentView.addConstraints([
+            NSLayoutConstraint(item: rightView,
+                               attribute: NSLayoutAttribute.top,
+                               relatedBy: NSLayoutRelation.equal,
+                               toItem: rightLabel,
+                               attribute: NSLayoutAttribute.bottom,
+                               multiplier: 1.0,
+                               constant: 25),
+            NSLayoutConstraint(item: rightView,
+                               attribute: NSLayoutAttribute.bottom,
+                               relatedBy: NSLayoutRelation.equal,
+                               toItem: rightImageView,
+                               attribute: NSLayoutAttribute.bottom,
+                               multiplier: 1.0,
+                               constant: 0),
+            NSLayoutConstraint(item: rightView,
+                               attribute: NSLayoutAttribute.width,
+                               relatedBy: NSLayoutRelation.equal,
+                               toItem: nil,
+                               attribute: NSLayoutAttribute.width,
+                               multiplier: 1.0,
+                               constant: 6),
+            NSLayoutConstraint(item: rightView,
+                               attribute: NSLayoutAttribute.centerX,
+                               relatedBy: NSLayoutRelation.equal,
+                               toItem: rightLabel,
+                               attribute: NSLayoutAttribute.centerX,
+                               multiplier: 1.0,
+                               constant: 0),
+            NSLayoutConstraint(item: rightView,
+                               attribute: NSLayoutAttribute.centerX,
+                               relatedBy: NSLayoutRelation.equal,
+                               toItem: rightImageView,
+                               attribute: NSLayoutAttribute.centerX,
+                               multiplier: 1.0,
+                               constant: 0),
+            ])
+        
+                contentView.addConstraints([
+                    NSLayoutConstraint(item: rightCheckMark,
+                                       attribute: NSLayoutAttribute.bottom,
+                                       relatedBy: NSLayoutRelation.equal,
+                                       toItem: rightLabel,
+                                       attribute: NSLayoutAttribute.top,
+                                       multiplier: 1.0,
+                                       constant: -10),
+                    NSLayoutConstraint(item: rightCheckMark,
+                                       attribute: NSLayoutAttribute.width,
+                                       relatedBy: NSLayoutRelation.equal,
+                                       toItem: nil,
+                                       attribute: NSLayoutAttribute.width,
+                                       multiplier: 1.0,
+                                       constant: 54),
+                    NSLayoutConstraint(item: rightCheckMark,
+                                       attribute: NSLayoutAttribute.height,
+                                       relatedBy: NSLayoutRelation.equal,
+                                       toItem: nil,
+                                       attribute: NSLayoutAttribute.height,
+                                       multiplier: 1.0,
+                                       constant: 34),
+                    NSLayoutConstraint(item: rightCheckMark,
+                                       attribute: NSLayoutAttribute.centerX,
+                                       relatedBy: NSLayoutRelation.equal,
+                                       toItem: rightLabel,
+                                       attribute: NSLayoutAttribute.centerX,
+                                       multiplier: 1.0,
+                                       constant: 0),
+                    NSLayoutConstraint(item: rightCheckMark,
+                                       attribute: NSLayoutAttribute.centerX,
+                                       relatedBy: NSLayoutRelation.equal,
+                                       toItem: rightImageView,
+                                       attribute: NSLayoutAttribute.centerX,
+                                       multiplier: 1.0,
+                                       constant: 0),
+                    ])
+    }
+
+    
     /** Shows label to tell which won, fires uploadMatchupResult on Home view controller and scrolls to the next cell. */
     func leftImageViewTapped(sender: UITapGestureRecognizer) {
         guard let collectionViewDelegate = collectionViewDelegate, let homeViewControllerDelegate = homeViewControllerDelegate else {
@@ -226,6 +427,15 @@ class MatchupCollectionViewCell: UICollectionViewCell {
         leftLabel.text = "Win"
         rightLabel.text = "Lose"
         
+        //Perform animation before new scroll
+        startLeftAnimationState()
+        UIView.animate(withDuration: 1.0, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5, options: [] , animations: {
+            self.endAnimationState()
+            
+        }, completion: { finished in
+            if (finished){
+            }
+        })
         self.itemIndex = indexPath.item
         perform(#selector(scrollTo), with: nil, afterDelay: 0.5)
     }
@@ -264,6 +474,16 @@ class MatchupCollectionViewCell: UICollectionViewCell {
         leftLabel.text = "Lose"
         rightLabel.text = "Win"
         
+        //Perform animation before new scroll
+        startRightAnimationState()
+        UIView.animate(withDuration: 1.0, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5, options: [] , animations: {
+            self.endAnimationState()
+            
+        }, completion: { finished in
+            if (finished){
+            }
+        })
+        
         self.itemIndex = indexPath.item
         perform(#selector(scrollTo), with: nil, afterDelay: 0.5)
     }
@@ -281,4 +501,112 @@ class MatchupCollectionViewCell: UICollectionViewCell {
             collectionViewDelegate.scrollToItem(at: nextIndexPath, at: UICollectionViewScrollPosition.centeredHorizontally, animated: true)
         }
     }
+    
+    
+    //MARK: Voting Animations
+    
+    func startLeftAnimationState(){
+        prepareForLeftSelectionAnimation()
+        
+        guard let  leftCheckMark = leftCheckMark,let rightCheckMark = rightCheckMark, let leftView = leftView, let rightView = rightView  else {
+            print("failed to instantiate checkmarks and rectangle views")
+            
+            return
+        }
+        
+        leftCheckMark.transform = CGAffineTransform(scaleX: 0.25, y: 0.25)
+        rightCheckMark.transform = CGAffineTransform(scaleX: 0.25, y: 0.25)
+        
+        leftCheckMark.alpha = 0.4
+        rightCheckMark.alpha = 0.4
+        
+        leftView.transform = CGAffineTransform(scaleX: 0.25, y: 0.25)
+        rightView.transform = CGAffineTransform(scaleX: 0.25, y: 0.25)
+    }
+    
+    func startRightAnimationState(){
+        prepareForRightSelectionAnimation()
+        
+        guard let  leftCheckMark = leftCheckMark,let rightCheckMark = rightCheckMark, let leftView = leftView, let rightView = rightView  else {
+            print("failed to instantiate checkmarks and rectangle views")
+            
+            return
+        }
+        
+        leftCheckMark.transform = CGAffineTransform(scaleX: 0.25, y: 0.25)
+        rightCheckMark.transform = CGAffineTransform(scaleX: 0.25, y: 0.25)
+        
+        leftCheckMark.alpha = 0.4
+        rightCheckMark.alpha = 0.4
+        
+        leftView.transform = CGAffineTransform(scaleX: 0.25, y: 0.25)
+        rightView.transform = CGAffineTransform(scaleX: 0.25, y: 0.25)
+    }
+    
+    func endAnimationState (){
+        
+        guard let  leftCheckMark = leftCheckMark,let rightCheckMark = rightCheckMark, let leftView = leftView, let rightView = rightView  else {
+            print("failed to instantiate checkmarks and rectangle views")
+            
+            return
+        }
+        
+        leftCheckMark.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+        rightCheckMark.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+        
+        rightCheckMark.alpha = 1.0
+        leftCheckMark.alpha = 1.0
+        
+        leftView.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+        rightView.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+    }
+    
+    func prepareForLeftSelectionAnimation()
+    {
+        
+        guard let  leftCheckMark = leftCheckMark,let rightCheckMark = rightCheckMark, let leftView = leftView, let rightView = rightView  else {
+            print("failed to instantiate checkmarks and rectangle views")
+            
+            return
+        }
+        
+        //unhides subviews
+        leftCheckMark.isHidden = false
+        leftView.isHidden = false
+        leftView.backgroundColor = UIColor.red
+        rightView.isHidden = false
+    }
+    
+    func prepareForRightSelectionAnimation()
+    {
+        
+        guard let  leftCheckMark = leftCheckMark,let rightCheckMark = rightCheckMark, let leftView = leftView, let rightView = rightView  else {
+            print("failed to instantiate checkmarks and rectangle views")
+            
+            return
+        }
+        //unhides subviews
+        rightCheckMark.isHidden = false
+        leftView.isHidden = false
+        rightView.isHidden = false
+        rightView.backgroundColor = UIColor.red
+    }
+    
+    func resetAnimationState()
+    {
+        guard let  leftCheckMark = leftCheckMark,let rightCheckMark = rightCheckMark, let leftView = leftView, let rightView = rightView  else {
+            print("failed to instantiate checkmarks and rectangle views")
+            
+            return
+        }
+        //hide subviews
+        leftCheckMark.isHidden = true
+        rightCheckMark.isHidden = true
+        leftView.isHidden = true
+        rightView.isHidden = true
+
+    }
+
+    
+    
 }
