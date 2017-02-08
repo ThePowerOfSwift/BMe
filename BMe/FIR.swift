@@ -101,33 +101,18 @@ class FIR: NSObject {
      */
     enum object {
         // list object types
-        case image, post, video
+        case image, post, video, matchup
 
-        // initialized based on object type
-        init?(_ type: String) {
-            switch type {
-                case "image":
-                self = .image
-                case "post":
-                self = .post
-                case "video":
-                self = .video
-            default: return nil
-            }
-        }
-        
-        init(object: JSONObject) {
-            self = .image
-        }
-        
         func key() -> String {
             switch self {
-                case .image:
-                    return "image"
-                case .post:
-                    return "post"
-                case .video:
-                    return "video"
+            case .image:
+                return "image"
+            case .post:
+                return "post"
+            case .video:
+                return "video"
+            case .matchup:
+                return "matchup"
             }
         }
         
