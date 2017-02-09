@@ -2,50 +2,91 @@
 //  Post.swift
 //  BMe
 //
-//  Created by Jonathan Cheng on 12/4/16.
-//  Copyright © 2016 Jonathan Cheng. All rights reserved.
+//  Created by Lu Ao on 2/8/17.
+//  Copyright © 2017 Jonathan Cheng. All rights reserved.
 //
 
 import UIKit
 import FirebaseDatabase
 
-class Post: NSObject {
-    let contentType: ContentType?
-    let timestamp: Date?
-    let uid: String?
-    let url: URL?
-    let postID: String?
+class Post: JSONObject {
+    // Properties
+    override class var object: FIR.object {
+        get {
+            return FIR.object.post
+        }
+    }
+    var userProfile: UserProfile?
+    var timestamp: String?
+    // TODO: add asset type
+    private var assetID: String?
+    private var uid: String?
     
+    func asset(completion: @escaping (Image)->()) {
+        if let assetID = assetID {
+            Image.get(ID: assetID, completion: { (image) in
+                completion(image) //get in hand in completion handler
+            })
+        }
+    }
     
-    struct Key {
-        static let contentType = "contentType"
-        static let url = "url"
+    func assetURL(completion: @escaping (URL) -> ()) {
+        self.asset { (image) in
+                completion(image.storageURL!)
+        }
+    }
+    
+    func userProfile(completion: @escaping (UserProfile)->()) {
+        if let uid = uid {
+            UserProfile.get(uid, completion: { (profile) in
+                completion(profile!)
+            })
+        }
+    }
+    
+    // Initializer
+    override init(_ snapshot: FIRDataSnapshot) {
+        super.init(snapshot)
+        // TODO: Put else to capture fails and return error
+        if let uid = json[keys.uid] as? String {
+            self.uid = uid
+        }
+        if let timestamp = json[keys.timestamp] as? String {
+            self.timestamp = timestamp
+        }
+        if let assetID = json[keys.assetID] as? String {
+            self.assetID = assetID
+        }
+    }
+    
+    // Helper function to retrieve Image JSON object from database
+    class func get(ID: String, completion:@escaping (Post)->()) {
+        super.get(ID: ID, object: object) { (snapshot) in
+            // return initialized object
+            completion(Post(snapshot))
+        }
+    }
+    
+    // Helper function to create posts
+    // TODO: Integrate progress bar
+    class func create(assetID: String, assetType: FIR.object) -> String {
+        // Construct json to save
+        let json: [String: AnyObject?] = [keys.uid: FIR.manager.uid as AnyObject,
+                                          keys.timestamp: Date().toString()  as AnyObject,
+                                          keys.assetID: assetID  as AnyObject,
+                                          keys.assetObject: assetType.key()  as AnyObject]
+        
+        // Save image
+        let filename = FIR.manager.databasePath(object).childByAutoId().key
+        FIR.manager.databasePath(object).child(filename).setValue(json)
+        return filename
+    }
+    
+    // Keys for dictionary that holds JSON properties
+    struct keys {
         static let uid = "uid"
         static let timestamp = "timestamp"
-        static let postID = "postID"
-    }
-    
-    init(_ snapshot: FIRDataSnapshot) {
-        self.postID = snapshot.key
-        let dictionary = snapshot.dictionary
-        
-        if let contentType = dictionary[Key.contentType] as? String {
-            self.contentType = ContentType(string: contentType)
-        } else { contentType = nil }
-        if let urlString = dictionary[Key.url] as? String {
-            url = URL(string: urlString)
-        } else { url = nil }
-        uid = dictionary[Key.uid] as? String
-        if let timeString = dictionary[Key.timestamp] as? String {
-            timestamp = timeString.toDate()
-        } else { timestamp = nil }
-    }
-
-    override var description : String {
-        return "\tpostID: \(self.postID)" +
-        "\n\tuid: \(self.uid)" +
-        "\n\tcontent type: \(self.contentType?.string())" +
-        "\n\turl path: \(self.url?.path)" +
-        "\n\tcreated: \(self.timestamp?.toString())"
+        static let assetID = "assetID"
+        static let assetObject = "assetObject"
     }
 }
