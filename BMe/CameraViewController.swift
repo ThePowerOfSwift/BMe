@@ -216,6 +216,7 @@ class CameraViewController: UIViewController {
         setupBubbleCollectionView()
         setupFilterNameLabel()
         addSubviews()
+        addKeyboardObserver()
     }
     
     /** Set bubble collection view initial state. */
@@ -791,7 +792,7 @@ extension CameraViewController {
         
         if isTextMode {
             isTextMode = false
-            bubbleMode(state: false)
+           // bubbleMode(state: false)
         } else {
             
             // disable the other image view user interaction to enable the current image view
@@ -808,7 +809,7 @@ extension CameraViewController {
             view.bringSubview(toFront: uploadButton)
             textImageView.isHidden = false
             swipeGestureRecognizer(state: false)
-            bubbleMode(state: true)
+            //bubbleMode(state: true)
         }
     }
     
@@ -1084,6 +1085,33 @@ extension CameraViewController: UITextFieldDelegate {
     internal func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
+    }
+    
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        
+        return true
+    }
+    
+    func addKeyboardObserver() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: .UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: .UIKeyboardWillHide, object: nil)
+        
+    }
+    
+    func keyboardWillShow() {
+        print("Keyboard will show")
+        isBubbleCollectionViewShown = true
+        isTextMode = true
+        bubbleCollectionView.reloadData()
+        UIView.animate(withDuration: 0.1) {
+            self.view.bringSubview(toFront: self.bubbleCollectionView)
+            self.bubbleCollectionViewTopConstraint.constant -= 100
+            self.view.layoutIfNeeded()
+        }
+    }
+    
+    func keyboardWillHide() {
+        print("Keyboard will hide")
     }
 }
 
