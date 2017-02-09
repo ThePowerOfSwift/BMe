@@ -50,6 +50,14 @@ enum Button: Int {
     case Font
 }
 
+enum Mode: Int {
+    case Camera = 0
+    case Filter
+    case Draw
+    case Text
+    case Font
+}
+
 /** Takes pictures and edit. */
 class CameraViewController: UIViewController {
     
@@ -99,11 +107,6 @@ class CameraViewController: UIViewController {
     /** Center constraint when filter name is shown at the center. */
     private static let filterNameLabelCenterInsideConstraint: CGFloat = 0
     
-    /** Tells which move you are in now. editMode() turns this variable. */
-    var isEditMode: Bool = false
-    /** Tells which move you are in now. cameraMode() turns this variable. */
-    var isCameraMode: Bool = true
-    
     /** Stores filter button's original bottom constraint for animation. */
     var filterButtonBottomConstraintShowValue: CGFloat?
     /** The bottom constraint of filter button when bubble collection view is shown.*/
@@ -120,16 +123,10 @@ class CameraViewController: UIViewController {
     var bubbleCollectionViewTopConstraintHideValue: CGFloat?
     
     // MARK: Mode
-    /** Tells if filter mode is on. During camera mode, filter mode is always on. */
-    var isFilterMode: Bool = true
-    /** Tells if draw mode is on. The other modes are all turned off.*/
-    var isDrawMode: Bool = false
-    /** Tells if text mode is on. The other modes are all turned off.*/
-    var isTextMode: Bool = false
-    /** Tells if font mode is on. The other modes are all turned off.*/
-    var isFontMode: Bool = false
+
     /** Tells if bubble collection view is shown. */
     var isBubbleCollectionViewShown: Bool = false
+    var currentMode: Mode = Mode.Camera
     
     /** Holds unfiltered image to be filtered in edit mode.*/
     var unfilteredImage: UIImage?
@@ -381,7 +378,7 @@ class CameraViewController: UIViewController {
         
         // If color bubble is shown, hide it in camera mode to switch to filter mode
         // Need to reload collection view because the color collection view setting is different from filter
-        if isBubbleCollectionViewShown && isDrawMode || isTextMode {
+        if isBubbleCollectionViewShown && currentMode == .Draw || currentMode == .Text  {
             filterMode()
             bubbleCollectionView.reloadData()
         }
@@ -476,7 +473,7 @@ class CameraViewController: UIViewController {
         let newFilter = filters[newFilterIndex].filter
         
         // camera -> filter -> outputView
-        if isCameraMode {
+        if currentMode == .Camera {
             
             if let newFilter = newFilter as? GPUImageFilterGroup {
                 stillCamera?.removeAllTargets()
@@ -513,7 +510,7 @@ class CameraViewController: UIViewController {
     fileprivate func changeFilter<FilterType: GPUImageOutput>(newFilter: FilterType) {
     
         // camera -> filter -> outputView
-        if isCameraMode {
+        if currentMode == .Camera {
             
             if let newFilter = newFilter as? GPUImageFilterGroup {
                 stillCamera?.removeAllTargets()
@@ -624,8 +621,7 @@ extension CameraViewController {
     // MARK: Mode Change
     /** Ready to take picrure. */
     internal func cameraMode() {
-        isCameraMode = true
-        isEditMode = false
+        currentMode = .Camera
         cancelButton.isHidden = true
         uploadButton.isHidden = true
         photoImageView.image = nil
@@ -697,7 +693,7 @@ extension CameraViewController {
                 // Move down the filter button
                 self.filterButtonBottomConstraint.constant = self.filterButtonBottomConstraintWithCollectionViewValue
                 
-                if self.isEditMode {
+                if self.currentMode != .Camera {
                     // Move down the edit buttons
                     self.editButtonsBottomConstraint.constant = self.editButtonsBottomConstraintWithCollectionViewValue
                 }
@@ -714,7 +710,7 @@ extension CameraViewController {
                 // Move up the filter button
                 self.filterButtonBottomConstraint.constant = self.filterButtonBottomConstraintShowValue!
                 
-                if self.isEditMode {
+                if self.currentMode != .Camera {
                     // Move up the edit buttons
                     self.editButtonsBottomConstraint.constant = self.editButtonsBottomConstraintShowValue!
                 }
@@ -726,9 +722,6 @@ extension CameraViewController {
     
     /** Turn on filter mode with bubble. isFilterMode is always on unless draw or text mode is on. */
     internal func filterMode() {
-        isDrawMode = false
-        isTextMode = false
-        isFontMode = false
         
         // disable the other image view user interaction to enable the current image view
         textImageView.isUserInteractionEnabled = false
@@ -739,7 +732,7 @@ extension CameraViewController {
         // Turn on swipe gesture recognizer
         swipeGestureRecognizer(state: true)
         
-        if isCameraMode {
+        if self.currentMode == .Camera {
             // if it is cameraMode, then just hide or show bubble collection view
             // filter is never turned off in camera mode
             // show if bubble is hidden, hide if bubble is shown.
