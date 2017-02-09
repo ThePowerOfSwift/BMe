@@ -650,8 +650,7 @@ extension CameraViewController {
     
     /** Shows picture taken to edit. */
     internal func editMode() {
-        isEditMode = true
-        isCameraMode = false
+        currentMode = .Filter
         cancelButton.isHidden = false
         uploadButton.isHidden = false
         photoImageView.isHidden = false
@@ -731,86 +730,64 @@ extension CameraViewController {
         
         // Turn on swipe gesture recognizer
         swipeGestureRecognizer(state: true)
-        
-        if self.currentMode == .Camera {
-            // if it is cameraMode, then just hide or show bubble collection view
-            // filter is never turned off in camera mode
-            // show if bubble is hidden, hide if bubble is shown.
-            bubbleMode(state: !isBubbleCollectionViewShown)
-            if isBubbleCollectionViewShown {
-                delegate?.hideSideTabs()
-            } else {
-                delegate?.showSideTabs()
-            }
-            
-            isFilterMode = true
+        currentMode = .Filter
+        if isBubbleCollectionViewShown {
+            bubbleMode(state: false)
         } else {
-            if isFilterMode {
-                isFilterMode = false
-                bubbleMode(state: false)
-            } else {
-                isFilterMode = true
-                bubbleMode(state: true)
-            }
+            bubbleMode(state: true)
         }
     }
     
     /** Enables drawing mode with bubble. */
     internal func drawMode() {
-        if isDrawMode {
-            isDrawMode = false
+        currentMode = .Draw
+        if isBubbleCollectionViewShown {
             bubbleMode(state: false)
         } else {
-            
-            // disable the other image view user interaction to enable the current image view
-            textImageView.isUserInteractionEnabled = false
-            drawImageView.isUserInteractionEnabled = true
-            photoImageView.isUserInteractionEnabled = false
-            
-            isFilterMode = false
-            isTextMode = false
-            isFontMode = false
-            isDrawMode = true
-            view.bringSubview(toFront: drawImageView)
-            view.bringSubview(toFront: cancelButton)
-            view.bringSubview(toFront: uploadButton)
-            drawImageView.isHidden = false
-            swipeGestureRecognizer(state: false)
             bubbleMode(state: true)
         }
+        
+            
+        // disable the other image view user interaction to enable the current image view
+        textImageView.isUserInteractionEnabled = false
+        drawImageView.isUserInteractionEnabled = true
+        photoImageView.isUserInteractionEnabled = false
+
+        view.bringSubview(toFront: drawImageView)
+        view.bringSubview(toFront: cancelButton)
+        view.bringSubview(toFront: uploadButton)
+        drawImageView.isHidden = false
+        swipeGestureRecognizer(state: false)
+        
     }
     
     /** Enables text mode with bubble. */
     internal func textMode() {
         
-        if isTextMode {
-            //isTextMode = false
-           // bubbleMode(state: false)
+        currentMode = .Text
+        if isBubbleCollectionViewShown {
+            bubbleMode(state: false)
         } else {
-            
-            // disable the other image view user interaction to enable the current image view
-            textImageView.isUserInteractionEnabled = true
-            drawImageView.isUserInteractionEnabled = false
-            photoImageView.isUserInteractionEnabled = false
-            
-            isFilterMode = false
-            isDrawMode = false
-            isFontMode = false
-            isTextMode = true
-            view.bringSubview(toFront: textImageView)
-            view.bringSubview(toFront: cancelButton)
-            view.bringSubview(toFront: uploadButton)
-            textImageView.isHidden = false
-            swipeGestureRecognizer(state: false)
-            //bubbleMode(state: true)
+            bubbleMode(state: true)
         }
+
+        // disable the other image view user interaction to enable the current image view
+        textImageView.isUserInteractionEnabled = true
+        drawImageView.isUserInteractionEnabled = false
+        photoImageView.isUserInteractionEnabled = false
+        
+
+        view.bringSubview(toFront: textImageView)
+        view.bringSubview(toFront: cancelButton)
+        view.bringSubview(toFront: uploadButton)
+        textImageView.isHidden = false
+        swipeGestureRecognizer(state: false)
+        
     }
     
     // TODO: Figure out how font mode works. works with text mode?
     internal func fontMode() {
-        isFilterMode = false
-        isDrawMode = false
-        isFontMode = false
+        currentMode = .Font
     }
     
     /** Removes all the text, drawing, and picure. Called after cancel or upload. */
@@ -835,9 +812,9 @@ extension CameraViewController: UICollectionViewDataSource, UICollectionViewDele
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         var count = 0
-        if isFilterMode {
+        if currentMode == .Filter {
             count = filters.count
-        } else if isDrawMode || isTextMode {
+        } else if currentMode == .Draw || currentMode == .Text {
             count = colors.count
         }
         
@@ -859,7 +836,7 @@ extension CameraViewController: UICollectionViewDataSource, UICollectionViewDele
         cell.nameLabel.text = ""
         cell.contentImageView.image = nil
         
-        if isFilterMode {
+        if currentMode == .Filter {
             let filter = filters[indexPath.item]
             cell.nameLabel.text = filter.name
             cell.nameLabel.textColor = UIColor.black
@@ -867,7 +844,7 @@ extension CameraViewController: UICollectionViewDataSource, UICollectionViewDele
             // Set image
             let image = UIImage(named: filter.imageUrlString)
             cell.contentImageView.image = image
-        } else if isDrawMode || isTextMode {
+        } else if currentMode == .Draw  || currentMode == .Text  {
             let color = colors[indexPath.item]
             cell.contentImageView.backgroundColor = color.uiColor
             //cell.backgroundColor = color.uiColor
@@ -878,7 +855,7 @@ extension CameraViewController: UICollectionViewDataSource, UICollectionViewDele
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if isFilterMode {
+        if currentMode == .Filter {
             
             var direction = UISwipeGestureRecognizerDirection.left
             let oldIndex = filterIndex.current
@@ -891,7 +868,7 @@ extension CameraViewController: UICollectionViewDataSource, UICollectionViewDele
             }
             move(from: oldIndex, to: newIndex, direction: direction)
             
-        } else if isDrawMode || isTextMode {
+        } else if currentMode == .Draw  || currentMode == .Text {
             
             colorIndex.current = indexPath.item
             currentColor = colors[colorIndex.current].uiColor
@@ -1097,18 +1074,14 @@ extension CameraViewController: UITextFieldDelegate {
         drawImageView.isUserInteractionEnabled = false
         photoImageView.isUserInteractionEnabled = false
         
-        isFilterMode = false
-        isDrawMode = false
-        isFontMode = false
-        isTextMode = true
+        currentMode = .Text
         view.bringSubview(toFront: textImageView)
         view.bringSubview(toFront: cancelButton)
         view.bringSubview(toFront: uploadButton)
         textImageView.isHidden = false
         swipeGestureRecognizer(state: false)
         isBubbleCollectionViewShown = true
-        isFilterMode = false
-        isTextMode = true
+
         bubbleCollectionView.reloadData()
         UIView.animate(withDuration: 0.1) {
             self.view.bringSubview(toFront: self.textImageView)
@@ -1131,7 +1104,7 @@ extension CameraViewController {
      Stores the point you have touched to use it as the starting point of a line.
      */
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if isDrawMode {
+        if currentMode == .Draw {
             if let touch = touches.first {
                 lastPoint = touch.location(in: view)
             }
@@ -1142,7 +1115,7 @@ extension CameraViewController {
      Draw a line from a point to another point on an image view. This method is called everytime touchesMoved is called
      */
     private func drawLine(fromPoint: CGPoint, toPoint: CGPoint) {
-        if isDrawMode {
+        if currentMode == .Draw {
             // 1 Start a context with the size of drawingImageView
             //UIGraphicsBeginImageContext(mainImageView!.frame.size)
             UIGraphicsBeginImageContextWithOptions(drawImageView.frame.size, false, imageScale)
@@ -1175,7 +1148,7 @@ extension CameraViewController {
      */
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         // if drawing mode is on
-        if isDrawMode {
+        if currentMode == .Draw {
             if let touch = touches.first {
                 let currentPoint = touch.location(in: view)
                 
