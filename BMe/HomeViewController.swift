@@ -22,11 +22,11 @@ enum WinnerPost {
 }
 
 class HomeViewController: UIViewController {
-
+    
     static let viewControllerID = "CategoryTableViewController"
     
     // TODO testing
-
+    
     @IBOutlet weak var firstTableViewContainerView: UIView!
     @IBOutlet weak var secondTableViewContainerView: UIView!
     
@@ -166,37 +166,18 @@ class HomeViewController: UIViewController {
         }
         
         // Request matchup
-        VoteBooth.serve { (matchup) in
+        Matchup.serve { (matchup) in
+            
             self.matchup = matchup
-            // Get post IDs of matchup
-            var IDs: [String] = []
-            for post in matchup.posts {
-                IDs.append(post.key)
-            }
-
-            FIRManager.shared.fetchPostsWithID(IDs, completion: { (snapshots) in
-                self.leftPost = Post(snapshots[0])
-                self.rightPost = Post(snapshots[1])
-                
-                guard let leftPost = self.leftPost, let rightPost = self.rightPost else {
-                    print("post is nil")
-                    return
-                }
-                
-                // fetch left image
-                FIRManager.shared.database.child(leftPost.url!.path).observeSingleEvent(of: .value, with: { (snapshot) in
-                    let image = Image(snapshot.value as! [String: AnyObject?])
-                    
-                    leftImageView.loadImageFromGS(url: image.gsURL!, placeholderImage: nil)
-
-                })
-
-                // fetch right image
-                FIRManager.shared.database.child(rightPost.url!.path).observeSingleEvent(of: .value, with: { (snapshot) in
-                    let image = Image(snapshot.value as! [String: AnyObject?])
-                    
-                    rightImageView.loadImageFromGS(url: image.gsURL!, placeholderImage: nil)
-                    
+            
+            matchup.posts(completion: { (postA, postB) in
+                postA.assetURL(completion: { (urlA :URL) in
+                    postB.assetURL(completion: {(urlB: URL) in
+                        
+                        leftImageView.loadImageFromGS(url: urlA, placeholderImage: nil)
+                        rightImageView.loadImageFromGS(url: urlB, placeholderImage: nil)
+                        
+                    })
                 })
             })
         }
@@ -204,23 +185,18 @@ class HomeViewController: UIViewController {
     
     /** Uploads matchup result to server. Called from MatchupCollectionViewCell when image view is selected. */
     func uploadMatchupResult(winner: WinnerPost) {
-        guard let leftPost = leftPost, let rightPost = rightPost, let matchup = matchup else {
-            print("leftPost, rightPost or matchup is nil")
+        guard let matchup = self.matchup else {
+            print("matchup is nil in uploadMatchupResult()")
             return
         }
         
-        var winnerPost: Post = leftPost
-        if winner == WinnerPost.Right {
-            winnerPost = rightPost
+        switch winner {
+        case .Left:
+            matchup.vote(Matchup.voteFor.A)
+        case .Right:
+            matchup.vote(Matchup.voteFor.B)
+            
         }
-        
-        guard let winnerPostID = winnerPost.postID else {
-            print("winnerPost.postID is nil")
-            return
-        }
-        
-        VoteBooth.result(matchID: matchup.ID, winnerID: winnerPostID)
-        print("\(winner), post ID: \(winnerPostID), matchup ID: \(matchup.ID) is uploaded.")
     }
     
     let trendingMatchupTableViewDataSource: [MatchupTableViewDataSource] =

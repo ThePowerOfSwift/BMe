@@ -443,7 +443,7 @@ class MatchupCollectionViewCell: UICollectionViewCell {
         }
         
         // upload match up result to server via home view controller
-        homeViewControllerDelegate.uploadMatchupResult(winner: WinnerPost.Left)
+        //homeViewControllerDelegate.uploadMatchupResult(winner: WinnerPost.Left)
         
         
         leftLabel.text = "Win"
@@ -489,7 +489,7 @@ class MatchupCollectionViewCell: UICollectionViewCell {
         }
         
         // upload match up result to server via home view controller
-        homeViewControllerDelegate.uploadMatchupResult(winner: WinnerPost.Right)
+        //homeViewControllerDelegate.uploadMatchupResult(winner: WinnerPost.Right)
         
         leftLabel.text = "Lose"
         rightLabel.text = "Win"
