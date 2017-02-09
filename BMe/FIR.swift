@@ -202,8 +202,9 @@ class Image_new: JSONObject {
             return FIR.object.image
         }
     }
-    var userProfile: UserProfile?
-    var timestamp: String?
+    private(set) var userProfile: UserProfile?
+    private(set) var timestamp: String?
+    private(set) var url: String?
 
     // Initializer
     override init(_ snapshot: FIRDataSnapshot) {
@@ -217,6 +218,10 @@ class Image_new: JSONObject {
         if let timestamp = json[keys.timestamp] as? String {
             self.timestamp = timestamp
         }
+        FIR.manager.fetch(ID, type: Image_new.object) { (url) in
+            self.url = url.absoluteString
+        }
+        
     }
     
     // Helper function to retrieve Image JSON object from database
