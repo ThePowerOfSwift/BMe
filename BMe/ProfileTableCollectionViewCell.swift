@@ -8,15 +8,13 @@
 
 import UIKit
 
-class ProfileTableCollectionViewCell: UICollectionViewCell,    RainCheckButtonDatasource, HeartButtonDatasource
+class ProfileTableCollectionViewCell: UICollectionViewCell
 {
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var postContentView: UIView!
     @IBOutlet weak var postImageView: UIImageView!
     @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var headingLabel: UILabel!
-    @IBOutlet weak var raincheckButton: RainCheckButton!
-    @IBOutlet weak var heartButton: HeartButton!
     
     // Model
     var postID: String!
@@ -53,10 +51,7 @@ class ProfileTableCollectionViewCell: UICollectionViewCell,    RainCheckButtonDa
         // Activity indicator
         activityIndicator.color = UIColor.lightGray
         activityIndicator.frame = postContentView.bounds
-        postContentView.addSubview(activityIndicator)
-        
-        raincheckButton.datasource = self
-        heartButton.datasource = self
+        postContentView.addSubview(activityIndicator)        
     }
     
     func didStartloading() {
@@ -76,8 +71,6 @@ class ProfileTableCollectionViewCell: UICollectionViewCell,    RainCheckButtonDa
         postImageView.contentMode = .scaleAspectFill
         tag = 0
         postID = ""
-        raincheckButton.isSelected = false
-        heartButton.isSelected = false
     }
     
     // MARK: - Raincheck button datasource

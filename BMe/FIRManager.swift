@@ -154,7 +154,7 @@ class FIRManager: NSObject {
                     print("Success: post created for \(contentType.objectKey())")
                     
                     // submit to votebooth
-                    VoteBooth.submitPost(ref.key)
+//                    VoteBooth.submitPost(ref.key)
                     completion?()
                 })
             })

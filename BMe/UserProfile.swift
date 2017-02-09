@@ -9,13 +9,12 @@
 import UIKit
 import FirebaseDatabase
 
+// TODO: change to JSONObject subclass
 class UserProfile: NSObject {
-    let uid: String?
-    let timestamp: Date?
-    let avatarURL: URL?
-    let username: String?
-    let raincheck: [String: AnyObject]?
-    let heart: [String: AnyObject]?
+    var uid: String?
+    var timestamp: Date?
+    var avatarURL: URL?
+    var username: String?
     
     //MARK: - Database keys
     struct Key {
@@ -31,13 +30,11 @@ class UserProfile: NSObject {
     init(_ snapshot: FIRDataSnapshot) {
         self.uid = snapshot.key
 
-        // TODO: can you replace "dictionary" with .value?  and delete dictionary extension
-        let values = snapshot.dictionary
-        self.avatarURL = URL(string: (values[Key.avatarURL] as? String) ?? "") ?? nil
-        self.timestamp = (values[Key.timestamp] as? String)?.toDate() ?? nil
-        self.username = values[Key.username] as? String ?? nil
-        self.raincheck = values[Key.raincheck] as? [String: AnyObject] ?? nil
-        self.heart = values[Key.heart] as? [String: AnyObject] ?? nil
+        if let values = snapshot.value as? [String: AnyObject?] {
+            self.avatarURL = URL(string: (values[Key.avatarURL] as? String) ?? "") ?? nil
+            self.timestamp = (values[Key.timestamp] as? String)?.toDate() ?? nil
+            self.username = values[Key.username] as? String ?? nil
+        }
     }
     
     /**
@@ -68,6 +65,6 @@ class UserProfile: NSObject {
      Returns the path (database reference) to the UserProfile of a given user
      */
     class func firebasePath(_ uid: String) -> FIRDatabaseReference {
-        return FIRManager.shared.database.child(Key.object).child(uid)
+        return FIR.manager.database.child(Key.object).child(uid)
     }
 }
