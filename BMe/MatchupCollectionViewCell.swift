@@ -449,6 +449,9 @@ class MatchupCollectionViewCell: UICollectionViewCell {
         leftLabel.text = "Win"
         rightLabel.text = "Lose"
         
+        //Change the size of the bar before aniamtion
+        changeBarSizesToPercents()
+        
         //Perform animation before new scroll
         startAnimationState(direction: VoteDirection.Left)
         UIView.animate(withDuration: 1.0, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5, options: [] , animations: {
@@ -526,13 +529,7 @@ class MatchupCollectionViewCell: UICollectionViewCell {
             print("counts are nil")
             return
         }
-        
-        //MARK: Test Which is better to change frame size or Constraint size
-        //calculate and change the value of the barlabelbottomspacing constrain
-        //        let newDifference = AnimationViewConstraintConstants.barLabelBottomSpacing.rawValue * (1 + percentage)
-        //        leftBar.frame.size.height = newFrame
-        
-        
+    
         //calculate total and percentages
         let total = leftCount + rightCount
         let leftPercentage = leftCount / total
