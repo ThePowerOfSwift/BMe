@@ -96,6 +96,7 @@
 		E35AC4831DE4D00400FCB0D0 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E35AC4821DE4D00400FCB0D0 /* TabBarViewController.swift */; };
 		E35AC4871DE4D0F500FCB0D0 /* TabBar.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E35AC4861DE4D0F500FCB0D0 /* TabBar.storyboard */; };
 		E35AC4891DE4D75C00FCB0D0 /* BrowseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E35AC4881DE4D75C00FCB0D0 /* BrowseViewController.swift */; };
+		E3AA3CC41E4D100E00C10F2A /* Index.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3AA3CC31E4D100E00C10F2A /* Index.swift */; };
 		E3C357A21DEF451E00AC0832 /* YPManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C357A11DEF451E00AC0832 /* YPManager.swift */; };
 		E3C357A41DEF484E00AC0832 /* Restaurant.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C357A31DEF484E00AC0832 /* Restaurant.swift */; };
 		E3D1D55F1DF11D700021942A /* Styles.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3D1D55E1DF11D700021942A /* Styles.swift */; };
@@ -271,6 +272,7 @@
 		E35AC4821DE4D00400FCB0D0 /* TabBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		E35AC4861DE4D0F500FCB0D0 /* TabBar.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = TabBar.storyboard; sourceTree = "<group>"; };
 		E35AC4881DE4D75C00FCB0D0 /* BrowseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrowseViewController.swift; sourceTree = "<group>"; };
+		E3AA3CC31E4D100E00C10F2A /* Index.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Index.swift; sourceTree = "<group>"; };
 		E3C357A11DEF451E00AC0832 /* YPManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YPManager.swift; sourceTree = "<group>"; };
 		E3C357A31DEF484E00AC0832 /* Restaurant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Restaurant.swift; sourceTree = "<group>"; };
 		E3D1D55E1DF11D700021942A /* Styles.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Styles.swift; sourceTree = "<group>"; };
@@ -418,6 +420,7 @@
 			isa = PBXGroup;
 			children = (
 				E3DC85081E450EDC0017E6A2 /* CameraViewController.swift */,
+				E3AA3CC31E4D100E00C10F2A /* Index.swift */,
 				E3DC85071E450EDC0017E6A2 /* Camera.storyboard */,
 				7870B8591E45537100B754D6 /* Home.storyboard */,
 				7850E80E1E452281001F8BCF /* HomeViewController.swift */,
@@ -1023,6 +1026,7 @@
 				4276E9331E3FFDA40020992D /* ProfileViewController.swift in Sources */,
 				78BCDF3F1DF751E8002D399E /* BusyView.swift in Sources */,
 				78469A5E1DE3958100A40D53 /* LoginViewController.swift in Sources */,
+				E3AA3CC41E4D100E00C10F2A /* Index.swift in Sources */,
 				78BCDF371DF749CC002D399E /* PostButton.swift in Sources */,
 				78C350471DF232AF005E8331 /* UserProfileViewController.swift in Sources */,
 				E33F5AC71E48F81300806040 /* MatchupCollectionViewCell.swift in Sources */,

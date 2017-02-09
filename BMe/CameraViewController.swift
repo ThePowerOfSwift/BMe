@@ -56,6 +56,16 @@ enum Mode: Int {
     case Draw
     case Text
     case Font
+    
+    /** Change mode*/
+    mutating func toggle(mode: Mode) {
+        self = mode
+    }
+    
+    /** Check the current mode*/
+    func isMode(mode: Mode) -> Bool {
+        return self == mode
+    }
 }
 
 struct Constraint {
@@ -353,27 +363,9 @@ class CameraViewController: UIViewController {
         view.addSubview(drawImageView)
     }
     
-//    CGSize size = CGSizeMake(desiredWidth, desiredHeight);
-//    UIGraphicsBeginImageContextWithOptions(size, YES, 0);
-//    [[UIColor whiteColor] setFill];
-//    UIRectFill(CGRectMake(0, 0, size.width, size.height));
-//    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-//    UIGraphicsEndImageContext();
-    
     /** Creates transparent image view */
     fileprivate func createClearImage(size: CGSize) -> UIImage? {
-//        UIGraphicsBeginImageContext(size)
-//        let clear = UIColor.white
-//        clear.setFill()
-//        UIRectFill(CGRect(x: 0, y: 0, width: size.width, height: size.height))
-//        var image: UIImage? = UIImage()
-//        if let contextImage = UIGraphicsGetImageFromCurrentImageContext() {
-//            image = contextImage
-//        } else {
-//            image = nil
-//        }
-//        UIGraphicsEndImageContext()
-//        return image
+
         UIGraphicsBeginImageContext(size)
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
@@ -408,7 +400,7 @@ class CameraViewController: UIViewController {
         
         // If color bubble is shown, hide it in camera mode to switch to filter mode
         // Need to reload collection view because the color collection view setting is different from filter
-        if isBubbleCollectionViewShown && currentMode == .Draw || currentMode == .Text  {
+        if isBubbleCollectionViewShown && currentMode.isMode(mode: .Draw) || currentMode.isMode(mode: .Text) {
             filterMode()
             bubbleCollectionView.reloadData()
         }
@@ -503,7 +495,7 @@ class CameraViewController: UIViewController {
         let newFilter = filters[newFilterIndex].filter
         
         // camera -> filter -> outputView
-        if currentMode == .Camera {
+        if currentMode.isMode(mode: .Camera) {
             
             if let newFilter = newFilter as? GPUImageFilterGroup {
                 stillCamera?.removeAllTargets()
@@ -540,7 +532,7 @@ class CameraViewController: UIViewController {
     fileprivate func changeFilter<FilterType: GPUImageOutput>(newFilter: FilterType) {
     
         // camera -> filter -> outputView
-        if currentMode == .Camera {
+        if currentMode.isMode(mode: .Camera) {
             
             if let newFilter = newFilter as? GPUImageFilterGroup {
                 stillCamera?.removeAllTargets()
@@ -652,7 +644,7 @@ extension CameraViewController {
     // MARK: Mode Change
     /** Ready to take picrure. */
     internal func cameraMode() {
-        currentMode = .Camera
+        currentMode.toggle(mode: .Camera)
         cancelButton.isHidden = true
         uploadButton.isHidden = true
         photoImageView.image = nil
@@ -682,7 +674,7 @@ extension CameraViewController {
     
     /** Shows picture taken to edit. */
     internal func editMode() {
-        currentMode = .Filter
+        currentMode.toggle(mode: .Filter)
         cancelButton.isHidden = false
         uploadButton.isHidden = false
         photoImageView.isHidden = false
@@ -712,7 +704,7 @@ extension CameraViewController {
     internal func bubbleMode(state: Bool) {
         // Filter editing
         if state {
-            isBubbleCollectionViewShown = true
+            isBubbleCollectionViewShown = state
             
             // Show animation
             UIView.animate(withDuration: Animation.BubbleCollectionViewShowDuration, animations: {
@@ -724,15 +716,16 @@ extension CameraViewController {
                 // Move down the filter button
                 self.filterButtonBottomConstraint.constant = Constraint.Button.Filter.Bottom.ShowWithCollectionView
                 
-                if self.currentMode != .Camera {
+                if !self.currentMode.isMode(mode: .Camera) {
                     // Move down the edit buttons
                     self.editButtonsBottomConstraint.constant = Constraint.Button.Edit.Bottom.ShowWithCollectionView
                 }
+                
                 self.view.layoutIfNeeded()
             })
         } else {
             
-            isBubbleCollectionViewShown = false
+            isBubbleCollectionViewShown = state
             // Hide animation
             UIView.animate(withDuration: Animation.BubbleCollectionViewShowDuration, animations: {
                 // Move up fot the height of collection view to hide it under camera
@@ -741,7 +734,7 @@ extension CameraViewController {
                 // Move up the filter button
                 self.filterButtonBottomConstraint.constant = Constraint.Button.Filter.Bottom.Show
                 
-                if self.currentMode != .Camera {
+                if !self.currentMode.isMode(mode: .Camera) {
                     // Move up the edit buttons
                     self.editButtonsBottomConstraint.constant = Constraint.Button.Edit.Bottom.ShowWithCollectionView
                 }
@@ -762,7 +755,7 @@ extension CameraViewController {
         
         // Turn on swipe gesture recognizer
         swipeGestureRecognizer(state: true)
-        currentMode = .Filter
+        currentMode.toggle(mode: .Filter)
         if isBubbleCollectionViewShown {
             bubbleMode(state: false)
         } else {
@@ -772,7 +765,7 @@ extension CameraViewController {
     
     /** Enables drawing mode with bubble. */
     internal func drawMode() {
-        currentMode = .Draw
+        currentMode.toggle(mode: .Draw)
         if isBubbleCollectionViewShown {
             bubbleMode(state: false)
         } else {
@@ -795,8 +788,7 @@ extension CameraViewController {
     
     /** Enables text mode with bubble. */
     internal func textMode() {
-        
-        currentMode = .Text
+        currentMode.toggle(mode: .Text)
         if isBubbleCollectionViewShown {
             bubbleMode(state: false)
         } else {
@@ -819,7 +811,7 @@ extension CameraViewController {
     
     // TODO: Figure out how font mode works. works with text mode?
     internal func fontMode() {
-        currentMode = .Font
+        currentMode.toggle(mode: .Font)
     }
     
     /** Removes all the text, drawing, and picure. Called after cancel or upload. */
@@ -844,9 +836,9 @@ extension CameraViewController: UICollectionViewDataSource, UICollectionViewDele
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         var count = 0
-        if currentMode == .Filter {
+        if currentMode.isMode(mode: .Filter) {
             count = filters.count
-        } else if currentMode == .Draw || currentMode == .Text {
+        } else if currentMode.isMode(mode: .Draw) || currentMode.isMode(mode: .Text) {
             count = colors.count
         }
         
@@ -868,7 +860,7 @@ extension CameraViewController: UICollectionViewDataSource, UICollectionViewDele
         cell.nameLabel.text = ""
         cell.contentImageView.image = nil
         
-        if currentMode == .Filter {
+        if currentMode.isMode(mode: .Filter) {
             let filter = filters[indexPath.item]
             cell.nameLabel.text = filter.name
             cell.nameLabel.textColor = UIColor.black
@@ -876,7 +868,7 @@ extension CameraViewController: UICollectionViewDataSource, UICollectionViewDele
             // Set image
             let image = UIImage(named: filter.imageUrlString)
             cell.contentImageView.image = image
-        } else if currentMode == .Draw  || currentMode == .Text  {
+        } else if currentMode.isMode(mode: .Draw)  || currentMode.isMode(mode: .Text) {
             let color = colors[indexPath.item]
             cell.contentImageView.backgroundColor = color.uiColor
             //cell.backgroundColor = color.uiColor
@@ -887,7 +879,7 @@ extension CameraViewController: UICollectionViewDataSource, UICollectionViewDele
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if currentMode == .Filter {
+        if currentMode.isMode(mode: .Filter) {
             
             var direction = UISwipeGestureRecognizerDirection.left
             let oldIndex = filterIndex.current
@@ -900,7 +892,7 @@ extension CameraViewController: UICollectionViewDataSource, UICollectionViewDele
             }
             move(from: oldIndex, to: newIndex, direction: direction)
             
-        } else if currentMode == .Draw  || currentMode == .Text {
+        } else if currentMode.isMode(mode: .Draw) || currentMode.isMode(mode: .Text) {
             
             colorIndex.current = indexPath.item
             currentColor = colors[colorIndex.current].uiColor
@@ -1106,7 +1098,7 @@ extension CameraViewController: UITextFieldDelegate {
         drawImageView.isUserInteractionEnabled = false
         photoImageView.isUserInteractionEnabled = false
         
-        currentMode = .Text
+        currentMode.toggle(mode: .Text)
         view.bringSubview(toFront: textImageView)
         view.bringSubview(toFront: cancelButton)
         view.bringSubview(toFront: uploadButton)
@@ -1136,7 +1128,7 @@ extension CameraViewController {
      Stores the point you have touched to use it as the starting point of a line.
      */
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if currentMode == .Draw {
+        if currentMode.isMode(mode: .Draw) {
             if let touch = touches.first {
                 lastPoint = touch.location(in: view)
             }
@@ -1147,7 +1139,7 @@ extension CameraViewController {
      Draw a line from a point to another point on an image view. This method is called everytime touchesMoved is called
      */
     private func drawLine(fromPoint: CGPoint, toPoint: CGPoint) {
-        if currentMode == .Draw {
+        if currentMode.isMode(mode: .Draw) {
             // 1 Start a context with the size of drawingImageView
             //UIGraphicsBeginImageContext(mainImageView!.frame.size)
             UIGraphicsBeginImageContextWithOptions(drawImageView.frame.size, false, imageScale)
@@ -1180,7 +1172,7 @@ extension CameraViewController {
      */
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         // if drawing mode is on
-        if currentMode == .Draw {
+        if currentMode.isMode(mode: .Draw) {
             if let touch = touches.first {
                 let currentPoint = touch.location(in: view)
                 
@@ -1192,46 +1184,5 @@ extension CameraViewController {
                 
             }
         }
-    }
-}
-
-/** To keep track of the index of the current filter. If it reaches the end of filter array by incrementing, it goes back to 0. If it reaches 0 by decrementing, it moves to the end. */
-class Index {
-    
-    /** Holds the end index starting 0. */
-    private var count: Int = 0
-    /** Holds the current index. */
-    var current: Int = 0
-    
-    /** init with 0 element. */
-    init() {
-        self.count = 0
-        current = 0
-    }
-    
-    /** init with number of element and set current index to 0. */
-    init(numOfElement: Int) {
-        self.count = numOfElement - 1
-        current = 0
-    }
-    
-    /** Increments current by 1 and return it. If it reaches the end, it goes back to index 0. */
-    internal func increment() -> Int {
-        if current == count {
-            current = 0
-        } else {
-            current = current + 1
-        }
-        return current
-    }
-    
-    /** Decrements current by 1 and return it. If it reaches 0, it moves to the end. */
-    internal func decrement() -> Int {
-        if current == 0 {
-            current = count
-        } else {
-            current = current - 1
-        }
-        return current
     }
 }
