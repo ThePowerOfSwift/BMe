@@ -48,7 +48,7 @@ class HomeViewController: UIViewController {
     /** Stores right post in loadImages when the method has fetched it. Used in uploadMatchupResult() to upload the post that won. */
     var rightPost: Post?
     /** Stores matchup object in loadImages when the medthod has fetched it. Used in uploadMatchupResult() to upload it with the winner post. */
-    var matchup: VoteBooth.Matchup?
+    //var matchup: VoteBooth.Matchup?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -160,12 +160,14 @@ class HomeViewController: UIViewController {
     
     /** Load a pair of image and set them to cell's image views*/
     func loadImages(leftImageView: UIImageView?, rightImageView: UIImageView?) {
+        /*
         guard let leftImageView = leftImageView, let rightImageView = rightImageView else {
             print("image view is nil")
             return
         }
         
         // Request matchup
+        
         VoteBooth.serve { (matchup) in
             self.matchup = matchup
             // Get post IDs of matchup
@@ -200,15 +202,16 @@ class HomeViewController: UIViewController {
                 })
             })
         }
+ */
     }
     
     /** Uploads matchup result to server. Called from MatchupCollectionViewCell when image view is selected. */
     func uploadMatchupResult(winner: WinnerPost) {
+        /*
         guard let leftPost = leftPost, let rightPost = rightPost, let matchup = matchup else {
             print("leftPost, rightPost or matchup is nil")
             return
         }
-        
         var winnerPost: Post = leftPost
         if winner == WinnerPost.Right {
             winnerPost = rightPost
@@ -219,8 +222,9 @@ class HomeViewController: UIViewController {
             return
         }
         
-        VoteBooth.result(matchID: matchup.ID, winnerID: winnerPostID)
+        //VoteBooth.result(matchID: matchup.ID, winnerID: winnerPostID)
         print("\(winner), post ID: \(winnerPostID), matchup ID: \(matchup.ID) is uploaded.")
+        */
     }
     
     let trendingMatchupTableViewDataSource: [MatchupTableViewDataSource] =

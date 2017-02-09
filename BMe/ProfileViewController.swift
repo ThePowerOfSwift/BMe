@@ -164,29 +164,10 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         }
         
         // Upload image as user profile pic
+        // TODO: Complete using UserAccount
         // TODO: - Should move this to User.setAvatarImage()
         if let imageData = UIImageJPEGRepresentation(pickedImage, Constants.ImageCompressionAndResizingRate.compressionRate) {
-            FIRManager.shared.putObjectOnStorage(data: imageData, contentType: .image, completion: { (meta, error) in
-                if let error = error {
-                    print("Error uploading profile image to Storage: \(error.localizedDescription)")
-                }
-                else {
-                    // Delete old profile pic
-                    if let oldAvatarURL = UserAccount.currentUser.avatarURL {
-                        FIRManager.shared.storage.child(oldAvatarURL.path).delete(completion: { (error) in
-                            if let error = error {
-                                print("Error removing old user avatar: aborted profile update: \(error.localizedDescription)")
-                            }
-                        })
-                    }
-                    
-                    // Update user profile and change avatar
-                    if let url = meta?.storageURL {
-                        UserAccount.currentUser.avatarURL = URL(string: url)
-                    }
-                }
-                finish()
-            })
+            finish()
         }
         else { print("Error converting profile image to data- aborted upload") }
     
@@ -233,40 +214,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     
     // TODO: - Change to pull all posts not just rainchecks
     func fetchPosts() {
-        
-        // Observe vales for init loading and for newly added rainchecked posts
-        if let uid = UserAccount.currentUser.uid {
-            _refHandle = UserProfile.firebasePath(uid).child(UserProfile.Key.raincheck).queryOrdered(byChild: UserProfile.Key.timestamp).observe(.childAdded, with: { (snapshot) in
-                print(snapshot.key)
-                let postID = snapshot.key
-                FIRManager.shared.fetchPostsWithID([postID], completion: { (snapshots) in
-                    // data is returned chronologically, we want the reverse
-                    if snapshots.count > 0 {
-                        if let first = snapshots.first {
-                            self.posts.insert(first, at: 0)
-                            self.photosCollectionView.reloadData()
-                        }
-                    }
-                    // stop refresh control if was refreshed
-                })
-            })
-            
-            // Observe vales for real time removed rainchecked posts
-            _refHandleRemove = UserProfile.firebasePath(uid).child(UserProfile.Key.raincheck).queryOrdered(byChild: UserProfile.Key.timestamp).observe(.childRemoved, with: { (snapshot) in
-                // match up the post ID from usermeta with the post ID of
-                let removedPostID = snapshot.key
-                for snap in self.posts {
-                    if snap.key == removedPostID {
-                        if let foundIndex = self.posts.index(of: snap) {
-                            self.posts.remove(at: foundIndex)
-                            break
-                        }
-                    }
-                }
-            })
-            //stop tvc batching feature
-            isFetchingData = true
-        }
     }
 }
 
@@ -282,17 +229,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! ProfileCollectionViewCell
         
         if posts != nil {
-            let post = Post(posts[indexPath.row])
-            if let path = post.url?.path {
-                
-                //  fetch image
-                FIRManager.shared.database.child(path).observeSingleEvent(of: .value, with: { (snapshot) in
-                    let image = Image(snapshot.dictionary)
-                    if let url = image.gsURL {
-                        cell.imageView.loadImageFromGS(url: url, placeholderImage: nil)
-                    }
-                })
-            }
+            //  TODO: fetch image
         }
         return cell
     }

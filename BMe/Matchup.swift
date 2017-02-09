@@ -22,9 +22,9 @@ class Matchup: JSONObject {
     
     
     // first post
-    private(set) var postA: Post_new?
+    private(set) var postA: Post?
     // vs. second post
-    private(set) var postB: Post_new?
+    private(set) var postB: Post?
     // total votes for A
     private(set) var countVoteA: Int?
     // total votes for B
@@ -39,12 +39,12 @@ class Matchup: JSONObject {
         
         // Load properties and instances
         if let postAID = json[keys.postAID] as? String {
-            Post_new.get(ID: postAID, completion: { (post) in
+            Post.get(ID: postAID, completion: { (post) in
                 self.postA = post
             })
         }
         if let postBID = json[keys.postBID] as? String {
-            Post_new.get(ID: postBID, completion: { (post) in
+            Post.get(ID: postBID, completion: { (post) in
                 self.postB = post
             })
         }
