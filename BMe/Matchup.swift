@@ -20,11 +20,10 @@ class Matchup: JSONObject {
         }
     }
     
-    
     // first post
-    private(set) var postA: Post?
+    private var postAID: String?
     // vs. second post
-    private(set) var postB: Post?
+    private var postBID: String?
     // total votes for A
     private(set) var countVoteA: Int?
     // total votes for B
@@ -33,20 +32,33 @@ class Matchup: JSONObject {
     private(set) var didVote : Bool?
     private(set) var timestamp: String?
     
+    /** 
+     Retrieve post objects
+     */
+    //TODO: clean up code
+    func posts(completion:@escaping (Post, Post)->()) {
+        if let postAID = self.postAID, let postBID = self.postBID {
+            Post.get(ID: postAID, completion: { (post) in
+                let postA = post
+                
+                Post.get(ID: postBID, completion: { (postB) in
+                    let postB = postB
+                    completion(postA, postB)
+                })
+            })
+        }
+    }
+    
     // Initializer
     override init(_ snapshot: FIRDataSnapshot) {
         super.init(snapshot)
         
         // Load properties and instances
         if let postAID = json[keys.postAID] as? String {
-            Post.get(ID: postAID, completion: { (post) in
-                self.postA = post
-            })
+            self.postAID = postAID
         }
         if let postBID = json[keys.postBID] as? String {
-            Post.get(ID: postBID, completion: { (post) in
-                self.postB = post
-            })
+            self.postBID = postBID
         }
         if let countVoteA = json[keys.countVoteA] as? String {
             self.countVoteA = Int(countVoteA)

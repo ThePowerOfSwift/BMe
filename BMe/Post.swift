@@ -30,10 +30,10 @@ class Post: JSONObject {
         }
     }
     
-    func assetURL(completion: @escaping (String) -> ()) {
+    func assetURL(completion: @escaping (URL) -> ()) {
         self.asset { (image) in
-            image.url(completion: { (urlString) in
-                completion(urlString)
+            image.url(completion: { (url) in
+                completion(url)
             })
         }
     }

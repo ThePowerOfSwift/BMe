@@ -20,9 +20,9 @@ class Image: JSONObject {
     private(set) var timestamp: String?
     private var uid: String?
     
-    func url(completion: @escaping (_ url: String)->()) {
+    func url(completion: @escaping (URL)->()) {
         FIR.manager.fetch(ID, type: Image.object) { (url) in
-            completion(url.absoluteString)
+            completion(url)
         }
     }
     func userProfile(completion: @escaping (UserProfile)->()) {

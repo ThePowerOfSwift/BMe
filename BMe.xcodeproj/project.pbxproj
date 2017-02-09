@@ -46,7 +46,6 @@
 		78469A661DE3958100A40D53 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 78469A641DE3958100A40D53 /* LaunchScreen.storyboard */; };
 		78469A711DE3958100A40D53 /* BMeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78469A701DE3958100A40D53 /* BMeTests.swift */; };
 		78469A7C1DE3958100A40D53 /* BMeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78469A7B1DE3958100A40D53 /* BMeUITests.swift */; };
-		7850E80F1E452281001F8BCF /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7850E80E1E452281001F8BCF /* HomeViewController.swift */; };
 		7851239C1DF9F66800B70CC4 /* logout.png in Resources */ = {isa = PBXBuildFile; fileRef = 7851239B1DF9F66800B70CC4 /* logout.png */; };
 		785E87C61DED445000C9FF59 /* Play image- white.png in Resources */ = {isa = PBXBuildFile; fileRef = 785E87C51DED445000C9FF59 /* Play image- white.png */; };
 		7870B85A1E45537100B754D6 /* Home.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7870B8591E45537100B754D6 /* Home.storyboard */; };
@@ -86,6 +85,7 @@
 		E3433EE51E45487B00C69650 /* GPUImage.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = E3433EE11E45486600C69650 /* GPUImage.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E35AC4831DE4D00400FCB0D0 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E35AC4821DE4D00400FCB0D0 /* TabBarViewController.swift */; };
 		E35AC4871DE4D0F500FCB0D0 /* TabBar.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E35AC4861DE4D0F500FCB0D0 /* TabBar.storyboard */; };
+		E3B96F5D1E4C2A1200E0BC92 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3B96F5C1E4C2A1200E0BC92 /* HomeViewController.swift */; };
 		E3D1D55F1DF11D700021942A /* Styles.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3D1D55E1DF11D700021942A /* Styles.swift */; };
 		E3DC85061E450EBA0017E6A2 /* alcatraz.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E3DC85051E450EBA0017E6A2 /* alcatraz.jpg */; };
 		E3DC85161E450EDC0017E6A2 /* Camera.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E3DC85071E450EDC0017E6A2 /* Camera.storyboard */; };
@@ -207,7 +207,6 @@
 		78469A771DE3958100A40D53 /* BMeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BMeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		78469A7B1DE3958100A40D53 /* BMeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BMeUITests.swift; sourceTree = "<group>"; };
 		78469A7D1DE3958100A40D53 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		7850E80E1E452281001F8BCF /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		7851239B1DF9F66800B70CC4 /* logout.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logout.png; sourceTree = "<group>"; };
 		785E87C51DED445000C9FF59 /* Play image- white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Play image- white.png"; sourceTree = "<group>"; };
 		7870B8591E45537100B754D6 /* Home.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Home.storyboard; sourceTree = "<group>"; };
@@ -248,6 +247,7 @@
 		E3433ED81E45486600C69650 /* GPUImage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = GPUImage.xcodeproj; path = framework/GPUImage.xcodeproj; sourceTree = SOURCE_ROOT; };
 		E35AC4821DE4D00400FCB0D0 /* TabBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		E35AC4861DE4D0F500FCB0D0 /* TabBar.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = TabBar.storyboard; sourceTree = "<group>"; };
+		E3B96F5C1E4C2A1200E0BC92 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		E3D1D55E1DF11D700021942A /* Styles.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Styles.swift; sourceTree = "<group>"; };
 		E3DC85051E450EBA0017E6A2 /* alcatraz.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = alcatraz.jpg; path = ../alcatraz.jpg; sourceTree = "<group>"; };
 		E3DC85071E450EDC0017E6A2 /* Camera.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Camera.storyboard; sourceTree = "<group>"; };
@@ -388,7 +388,7 @@
 			isa = PBXGroup;
 			children = (
 				7870B8591E45537100B754D6 /* Home.storyboard */,
-				7850E80E1E452281001F8BCF /* HomeViewController.swift */,
+				E3B96F5C1E4C2A1200E0BC92 /* HomeViewController.swift */,
 				E33F5AC61E48F81300806040 /* MatchupCollectionViewCell.swift */,
 				E3F1899F1E45778E00A654AE /* CategoryTableViewController.swift */,
 				E3F189A11E45780700A654AE /* CategoryTableViewCell.swift */,
@@ -960,7 +960,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				78BCDF391DF74A15002D399E /* NextButton.swift in Sources */,
-				7850E80F1E452281001F8BCF /* HomeViewController.swift in Sources */,
 				4216315A1E42991100E644A5 /* ProfileCollectionViewCell.swift in Sources */,
 				E3DC85171E450EDC0017E6A2 /* CameraViewController.swift in Sources */,
 				783008A91DE3B9A000B070D4 /* Extensions.swift in Sources */,
@@ -983,6 +982,7 @@
 				E3DC85241E450EDC0017E6A2 /* BubbleCollectionViewCell.swift in Sources */,
 				E3DC85191E450EDC0017E6A2 /* Color.swift in Sources */,
 				78BCDF341DF74663002D399E /* CrossButton.swift in Sources */,
+				E3B96F5D1E4C2A1200E0BC92 /* HomeViewController.swift in Sources */,
 				E3DC851A1E450EDC0017E6A2 /* Filter.swift in Sources */,
 				E35AC4831DE4D00400FCB0D0 /* TabBarViewController.swift in Sources */,
 				BFDE7F711E4C1D5200AA38A7 /* JSONObject.swift in Sources */,
