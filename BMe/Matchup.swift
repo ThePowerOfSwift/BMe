@@ -20,7 +20,6 @@ class Matchup: JSONObject {
         }
     }
     
-    
     // first post
     private(set) var postA: Post_new?
     // vs. second post
@@ -215,12 +214,10 @@ class Matchup: JSONObject {
     }
     
     class func remove(_ matchID: String) {
-        // TODO: Complete
         let database = FIR.manager.databasePath(object).child(matchID)
         
         database.runTransactionBlock { (currentData) -> FIRTransactionResult in
-            
-            // remove and commit match
+            // remove and commit
             if let _ = currentData.value as? [String: AnyObject?] {
                 currentData.value = nil
                 return FIRTransactionResult.success(withValue: currentData)
