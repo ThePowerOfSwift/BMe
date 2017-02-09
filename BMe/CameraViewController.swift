@@ -58,6 +58,64 @@ enum Mode: Int {
     case Font
 }
 
+struct Constraint {
+    
+    struct FilterNameLabel {
+        
+        struct Outside {
+            /** Left onstraint when filter name label go out of screen. */
+            static let Left: CGFloat = -500
+            /** Right onstraint when filter name label go out of screen. */
+            static let Right: CGFloat = 500
+        }
+        
+        struct Inside {
+            /** Center constraint when filter name is shown at the center. */
+            static let Center: CGFloat = 0
+        }
+    }
+    
+    struct Button {
+        struct Filter {
+            struct Bottom {
+                /** Stores filter button's original bottom constraint for animation. */
+                static var Show: CGFloat = 0
+                /** The bottom constraint of filter button when bubble collection view is shown.*/
+                static let ShowWithCollectionView: CGFloat = 70
+            }
+        }
+        
+        struct Edit {
+            struct Bottom {
+                /** The bottom constraint of edit buttons when they are shown during edit mode.*/
+                static let Show: CGFloat = 0
+                /** The bottom constraint of edit buttons when they are hidden during camera mode.*/
+                static let Hide: CGFloat = -100
+                /** The bottom constraint of filter button when bubble collection view is shown.*/
+                static let ShowWithCollectionView: CGFloat = 70
+            }
+        }
+    }
+    
+    struct BubbleCollectionView {
+        struct Top {
+            /** Top constraint of bubble collection view when it is shown. */
+            static var Show: CGFloat = 0
+            /** Top constraint of bubble collection view when it is hidden. */
+            static var Hide: CGFloat = 0
+        }
+    }
+}
+
+struct Animation {
+    /** Duration when filter is about to show. */
+    static let BubbleCollectionViewShowDuration: Double = 0.3
+    /** Duration when filter name label slides in. */
+    static let FilterNameLabelDuration: Double = 0.08
+    /** Delay when filter name label stops at the center. */
+    static let FilterNameLabelDelay: Double = 0.5
+}
+
 /** Takes pictures and edit. */
 class CameraViewController: UIViewController {
     
@@ -94,36 +152,7 @@ class CameraViewController: UIViewController {
     /** A layer to draw into. Shown only in edit mode. */
     var drawImageView: UIImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
     
-    /** Duration when filter is about to show. */
-    fileprivate static let filterCollectionViewShowAnimationDuration: Double = 0.3
-    /** Duration when filter name label slides in. */
-    private static let filterNameLabelAnimationDuration: Double = 0.08
-    /** Delay when filter name label stops at the center. */
-    private static let filterNameLabelAnimationDelay: Double = 0.5
-    /** Left onstraint when filter name label go out of screen. */
-    private static let filterNameLabelLeftOutsideConstraint: CGFloat = -500
-    /** Right onstraint when filter name label go out of screen. */
-    private static let filterNameLabelRightOutsideConstraint: CGFloat = 500
-    /** Center constraint when filter name is shown at the center. */
-    private static let filterNameLabelCenterInsideConstraint: CGFloat = 0
-    
-    /** Stores filter button's original bottom constraint for animation. */
-    var filterButtonBottomConstraintShowValue: CGFloat?
-    /** The bottom constraint of filter button when bubble collection view is shown.*/
-    var filterButtonBottomConstraintWithCollectionViewValue: CGFloat = 70
-    /** The bottom constraint of edit buttons when they are hidden during camera mode.*/
-    var editButtonsBottomConstraintHideValue: CGFloat = -100
-    /** The bottom constraint of edit buttons when they are shown during edit mode.*/
-    var editButtonsBottomConstraintShowValue: CGFloat?
-    /** The bottom constraint of edit buttons when they are shown and also bubble collection view during edit mode.*/
-    var editButtonsBottomConstraintWithCollectionViewValue: CGFloat = 70
-    /** Top constraint of bubble collection view when it is shown. */
-    var bubbleCollectionViewTopConstraintShowValue: CGFloat?
-    /** Top constraint of bubble collection view when it is hidden. */
-    var bubbleCollectionViewTopConstraintHideValue: CGFloat?
-    
     // MARK: Mode
-
     /** Tells if bubble collection view is shown. */
     var isBubbleCollectionViewShown: Bool = false
     var currentMode: Mode = Mode.Camera
@@ -197,8 +226,7 @@ class CameraViewController: UIViewController {
     
     /** Stores original values in outlets for animation. */
     private func storeOriginalValuesInOutlets() {
-        filterButtonBottomConstraintShowValue = filterButtonBottomConstraint.constant
-        editButtonsBottomConstraintShowValue = editButtonsBottomConstraint.constant
+        Constraint.Button.Filter.Bottom.Show = filterButtonBottomConstraint.constant
     }
     
     /** Called to set the first screen state. */
@@ -223,11 +251,13 @@ class CameraViewController: UIViewController {
         bubbleCollectionView.backgroundColor = UIColor.clear
         // Set the top constraint when collection view is hidden
         let cameraHeight = view.frame.width*4/3
-        bubbleCollectionViewTopConstraintHideValue = cameraHeight - bubbleCollectionView.frame.height
-        bubbleCollectionViewTopConstraint.constant = bubbleCollectionViewTopConstraintHideValue!
+        
+        Constraint.BubbleCollectionView.Top.Hide = cameraHeight - bubbleCollectionView.frame.height
+        bubbleCollectionViewTopConstraint.constant = Constraint.BubbleCollectionView.Top.Hide
         
         // set the top constraint when collection view is shown
-        bubbleCollectionViewTopConstraintShowValue = bubbleCollectionViewTopConstraintHideValue! + CGFloat(bubbleCollectionView.frame.height)
+        Constraint.BubbleCollectionView.Top.Show = Constraint.BubbleCollectionView.Top.Hide + CGFloat(bubbleCollectionView.frame.height)
+
         view.layoutIfNeeded()
         let indexPath = IndexPath(item: 0, section: 0)
         if let cell = bubbleCollectionView.cellForItem(at: indexPath) as? BubbleCollectionViewCell {
@@ -568,13 +598,13 @@ class CameraViewController: UIViewController {
     fileprivate func animateFilterNameLabel(name: String, from direction: UISwipeGestureRecognizerDirection) {
         
         // If swipe animation comes from the left side and goes to the right side
-        var startConstraint: CGFloat = CameraViewController.filterNameLabelLeftOutsideConstraint
-        var endConstraint: CGFloat = CameraViewController.filterNameLabelRightOutsideConstraint
+        var startConstraint: CGFloat = Constraint.FilterNameLabel.Outside.Left
+        var endConstraint: CGFloat = Constraint.FilterNameLabel.Outside.Right
         
         // If swipe animation comes from the right side and goes to the left side
         if direction == UISwipeGestureRecognizerDirection.left {
-            startConstraint = CameraViewController.filterNameLabelRightOutsideConstraint
-            endConstraint = CameraViewController.filterNameLabelLeftOutsideConstraint
+            startConstraint = Constraint.FilterNameLabel.Outside.Right
+            endConstraint = Constraint.FilterNameLabel.Outside.Left
         }
         
         // Set starting position
@@ -582,13 +612,14 @@ class CameraViewController: UIViewController {
         view.layoutIfNeeded()
         
         // Label first moves to the center and wait for delay time.
-        UIView.animate(withDuration: CameraViewController.filterNameLabelAnimationDuration, delay: 0, options: [], animations: {
+        UIView.animate(withDuration: Animation.FilterNameLabelDuration, delay: 0, options: [], animations: {
             self.filterNameLabel.text = name
-            self.filterNameLabelCenterConstraint.constant = CameraViewController.filterNameLabelCenterInsideConstraint
+            self.filterNameLabelCenterConstraint.constant = Constraint.FilterNameLabel.Inside.Center
             self.view.layoutIfNeeded()
         }) { (completed: Bool) in
             // Label moves out of screen
-            UIView.animate(withDuration: CameraViewController.filterNameLabelAnimationDuration, delay: CameraViewController.filterNameLabelAnimationDelay, options: [], animations: {
+            
+            UIView.animate(withDuration: Animation.FilterNameLabelDuration, delay: Animation.FilterNameLabelDelay, options: [], animations: {
                 self.filterNameLabelCenterConstraint.constant = endConstraint
                 self.view.layoutIfNeeded()
             }, completion: { (completed: Bool) in
@@ -640,7 +671,8 @@ extension CameraViewController {
         stillCamera?.startCapture()
         
         UIView.animate(withDuration: 0.2, animations: {
-            self.editButtonsBottomConstraint.constant = self.editButtonsBottomConstraintHideValue
+            
+            self.editButtonsBottomConstraint.constant = Constraint.Button.Edit.Bottom.Hide
             self.view.layoutIfNeeded()
             
         }) { (completed: Bool) in
@@ -666,9 +698,9 @@ extension CameraViewController {
         // Hide tabs
         UIView.animate(withDuration: 0.2, animations: {
             if self.isBubbleCollectionViewShown {
-                self.editButtonsBottomConstraint.constant = self.editButtonsBottomConstraintWithCollectionViewValue
+                self.editButtonsBottomConstraint.constant = Constraint.Button.Edit.Bottom.ShowWithCollectionView
             } else {
-                self.editButtonsBottomConstraint.constant = self.editButtonsBottomConstraintShowValue!
+                self.editButtonsBottomConstraint.constant = Constraint.Button.Edit.Bottom.Show
             }
             self.view.layoutIfNeeded()
         }) { (completed: Bool) in
@@ -683,18 +715,18 @@ extension CameraViewController {
             isBubbleCollectionViewShown = true
             
             // Show animation
-            UIView.animate(withDuration: CameraViewController.filterCollectionViewShowAnimationDuration, animations: {
+            UIView.animate(withDuration: Animation.BubbleCollectionViewShowDuration, animations: {
                 self.bubbleCollectionView.reloadData()
                 
                 // Move down for the height of collection view to show it
-                self.bubbleCollectionViewTopConstraint.constant = self.bubbleCollectionViewTopConstraintShowValue!
+                self.bubbleCollectionViewTopConstraint.constant = Constraint.BubbleCollectionView.Top.Show
                 
                 // Move down the filter button
-                self.filterButtonBottomConstraint.constant = self.filterButtonBottomConstraintWithCollectionViewValue
+                self.filterButtonBottomConstraint.constant = Constraint.Button.Filter.Bottom.ShowWithCollectionView
                 
                 if self.currentMode != .Camera {
                     // Move down the edit buttons
-                    self.editButtonsBottomConstraint.constant = self.editButtonsBottomConstraintWithCollectionViewValue
+                    self.editButtonsBottomConstraint.constant = Constraint.Button.Edit.Bottom.ShowWithCollectionView
                 }
                 self.view.layoutIfNeeded()
             })
@@ -702,16 +734,16 @@ extension CameraViewController {
             
             isBubbleCollectionViewShown = false
             // Hide animation
-            UIView.animate(withDuration: CameraViewController.filterCollectionViewShowAnimationDuration, animations: {
+            UIView.animate(withDuration: Animation.BubbleCollectionViewShowDuration, animations: {
                 // Move up fot the height of collection view to hide it under camera
-                self.bubbleCollectionViewTopConstraint.constant = self.bubbleCollectionViewTopConstraintHideValue!
+                self.bubbleCollectionViewTopConstraint.constant = Constraint.BubbleCollectionView.Top.Hide
                 
                 // Move up the filter button
-                self.filterButtonBottomConstraint.constant = self.filterButtonBottomConstraintShowValue!
+                self.filterButtonBottomConstraint.constant = Constraint.Button.Filter.Bottom.Show
                 
                 if self.currentMode != .Camera {
                     // Move up the edit buttons
-                    self.editButtonsBottomConstraint.constant = self.editButtonsBottomConstraintShowValue!
+                    self.editButtonsBottomConstraint.constant = Constraint.Button.Edit.Bottom.ShowWithCollectionView
                 }
                 
                 self.view.layoutIfNeeded()
