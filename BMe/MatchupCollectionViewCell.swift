@@ -494,6 +494,9 @@ class MatchupCollectionViewCell: UICollectionViewCell {
         leftLabel.text = "Lose"
         rightLabel.text = "Win"
         
+        //Change the size of the bar before aniamtion
+        changeBarSizesToPercents()
+        
         //Perform animation before new scroll
         startAnimationState(direction: VoteDirection.Right)
         UIView.animate(withDuration: 1.0, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5, options: [] , animations: {
@@ -504,6 +507,40 @@ class MatchupCollectionViewCell: UICollectionViewCell {
         
         self.itemIndex = indexPath.item
         perform(#selector(scrollTo), with: nil, afterDelay: 0.5)
+    }
+    
+    func changeBarSizesToPercents() {
+        guard let leftBar = leftBar, let rightBar = rightBar else {
+            print("bar is nil")
+            return
+        }
+        guard let homeViewControllerDelegate = homeViewControllerDelegate else {
+            print("delegate is nil")
+            return
+        }
+        guard let matchup = homeViewControllerDelegate.matchup else {
+            print("matchup is nil")
+            return
+        }
+        guard let leftCount = matchup.countVoteA, let rightCount = matchup.countVoteB  else {
+            print("counts are nil")
+            return
+        }
+        
+        //MARK: Test Which is better to change frame size or Constraint size
+        //calculate and change the value of the barlabelbottomspacing constrain
+        //        let newDifference = AnimationViewConstraintConstants.barLabelBottomSpacing.rawValue * (1 + percentage)
+        //        leftBar.frame.size.height = newFrame
+        
+        
+        //calculate total and percentages
+        let total = leftCount + rightCount
+        let leftPercentage = leftCount / total
+        let rightPercentage = rightCount / total
+        let newLeftFrame = leftBar.frame.size.height * CGFloat(leftPercentage)
+        let newRightFrame = rightBar.frame.size.height * CGFloat(rightPercentage)
+        leftBar.frame.size.height = newLeftFrame
+        rightBar.frame.size.height = newRightFrame
     }
     
     // Can't take argument with any type except id, but id is not available in swift

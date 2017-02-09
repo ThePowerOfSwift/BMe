@@ -48,7 +48,7 @@ class HomeViewController: UIViewController {
     /** Stores right post in loadImages when the method has fetched it. Used in uploadMatchupResult() to upload the post that won. */
     var rightPost: Post?
     /** Stores matchup object in loadImages when the medthod has fetched it. Used in uploadMatchupResult() to upload it with the winner post. */
-    var matchup: VoteBooth.Matchup?
+    var matchup: Matchup?
     
     override func viewDidLoad() {
         super.viewDidLoad()
