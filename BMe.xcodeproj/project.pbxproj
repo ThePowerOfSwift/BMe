@@ -57,10 +57,8 @@
 		7850E80F1E452281001F8BCF /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7850E80E1E452281001F8BCF /* HomeViewController.swift */; };
 		7851239C1DF9F66800B70CC4 /* logout.png in Resources */ = {isa = PBXBuildFile; fileRef = 7851239B1DF9F66800B70CC4 /* logout.png */; };
 		785E87C61DED445000C9FF59 /* Play image- white.png in Resources */ = {isa = PBXBuildFile; fileRef = 785E87C51DED445000C9FF59 /* Play image- white.png */; };
-
-        7870B85A1E45537100B754D6 /* Home.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7870B8591E45537100B754D6 /* Home.storyboard */; };
+		7870B85A1E45537100B754D6 /* Home.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7870B8591E45537100B754D6 /* Home.storyboard */; };
 		7870B85F1E468DAF00B754D6 /* FIR.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7870B85E1E468DAF00B754D6 /* FIR.swift */; };
-
 		78B56A021DF5E7AE00A13915 /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78B56A011DF5E7AE00A13915 /* UserProfile.swift */; };
 		78B56A061DF5EBFB00A13915 /* error.png in Resources */ = {isa = PBXBuildFile; fileRef = 78B56A051DF5EBFB00A13915 /* error.png */; };
 		78B56A091DF5FD1B00A13915 /* user-white.png in Resources */ = {isa = PBXBuildFile; fileRef = 78B56A071DF5FD1B00A13915 /* user-white.png */; };
@@ -233,10 +231,8 @@
 		7850E80E1E452281001F8BCF /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		7851239B1DF9F66800B70CC4 /* logout.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logout.png; sourceTree = "<group>"; };
 		785E87C51DED445000C9FF59 /* Play image- white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Play image- white.png"; sourceTree = "<group>"; };
-
-        7870B8591E45537100B754D6 /* Home.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Home.storyboard; sourceTree = "<group>"; };
+		7870B8591E45537100B754D6 /* Home.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Home.storyboard; sourceTree = "<group>"; };
 		7870B85E1E468DAF00B754D6 /* FIR.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FIR.swift; sourceTree = "<group>"; };
-
 		78B56A011DF5E7AE00A13915 /* UserProfile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
 		78B56A051DF5EBFB00A13915 /* error.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = error.png; sourceTree = "<group>"; };
 		78B56A071DF5FD1B00A13915 /* user-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "user-white.png"; sourceTree = "<group>"; };
@@ -356,12 +352,9 @@
 		7821C3BB1DEF24730023B95E /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-
 				78C350461DF232AF005E8331 /* UserProfileViewController.swift */,
 				781E714F1DF4E52A00041855 /* YelpViewController.swift */,
 				E35AC4821DE4D00400FCB0D0 /* TabBarViewController.swift */,
-				E3DC85081E450EDC0017E6A2 /* CameraViewController.swift */,
-
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -370,7 +363,6 @@
 			isa = PBXGroup;
 			children = (
 				E35AC4861DE4D0F500FCB0D0 /* TabBar.storyboard */,
-				E3DC85071E450EDC0017E6A2 /* Camera.storyboard */,
 			);
 			name = Storyboards;
 			sourceTree = "<group>";
@@ -402,7 +394,6 @@
 		783008AB1DE3B9AF00B070D4 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-
 				E3DC850A1E450EDC0017E6A2 /* Color.swift */,
 				E3DC850B1E450EDC0017E6A2 /* Filter.swift */,
 				E3C357A11DEF451E00AC0832 /* YPManager.swift */,
@@ -426,6 +417,8 @@
 		78337D8F1DE3AC9300A1B32C /* Sato */ = {
 			isa = PBXGroup;
 			children = (
+				E3DC85081E450EDC0017E6A2 /* CameraViewController.swift */,
+				E3DC85071E450EDC0017E6A2 /* Camera.storyboard */,
 				7870B8591E45537100B754D6 /* Home.storyboard */,
 				7850E80E1E452281001F8BCF /* HomeViewController.swift */,
 				E33F5AC61E48F81300806040 /* MatchupCollectionViewCell.swift */,
@@ -438,8 +431,6 @@
 		78337D901DE3ACA700A1B32C /* JJ */ = {
 			isa = PBXGroup;
 			children = (
-
-				7850E80D1E45222F001F8BCF /* archive */,
 				78CDA09E1DE5307C00ABC5E1 /* FIRManager.swift */,
 				7870B85E1E468DAF00B754D6 /* FIR.swift */,
 				78BE7F061E400F0B001D8BAA /* VoteBooth.swift */,
@@ -511,13 +502,10 @@
 			isa = PBXGroup;
 			children = (
 				E3C357A31DEF484E00AC0832 /* Restaurant.swift */,
-				E3C357A11DEF451E00AC0832 /* YPManager.swift */,
 				78C350441DF2260A005E8331 /* Account.storyboard */,
 				781E714B1DF486A900041855 /* Yelp.storyboard */,
 				78B95F8B1DF6B4EA00B6C83E /* BrowserImageTableViewCell.swift */,
 				E35AC4881DE4D75C00FCB0D0 /* BrowseViewController.swift */,
-				781E714F1DF4E52A00041855 /* YelpViewController.swift */,
-				78C350461DF232AF005E8331 /* UserProfileViewController.swift */,
 				7837A21E1DF95A43000CB9CB /* HeartButton.swift */,
 			);
 			name = archive;

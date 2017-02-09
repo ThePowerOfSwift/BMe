@@ -311,6 +311,8 @@ class CameraViewController: UIViewController {
         textImageView.isUserInteractionEnabled = true
         textImageView.backgroundColor = UIColor.clear
         textImageView.isHidden = true
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tappedBackground(_:)))
+        textImageView.addGestureRecognizer(tapGesture)
         view.addSubview(textImageView)
     }
     
