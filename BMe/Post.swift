@@ -32,8 +32,7 @@ class Post: JSONObject {
     
     func assetURL(completion: @escaping (URL) -> ()) {
         self.asset { (image) in
-            image.url(completion: { (url) in
-                completion(url)
+                completion(image.storageURL)
             })
         }
     }
@@ -45,8 +44,6 @@ class Post: JSONObject {
             })
         }
     }
-    
-    
     
     // Initializer
     override init(_ snapshot: FIRDataSnapshot) {
