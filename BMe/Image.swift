@@ -9,17 +9,22 @@
 import UIKit
 import FirebaseDatabase
 
+/**
+ Class that represents an Image
+ */
 class Image: JSONObject {
-    // Properties
+    /** Image object property that identifies it to FIR */
     override class var object: FIR.object {
         get {
             return FIR.object.image
         }
     }
-    private(set) var userProfile: UserProfile?
+
+    /** Timestamp when the Image was created */
     private(set) var timestamp: String?
-    /** URL to image Storage.  Needed to build storage reference (e.g. for sd_image loading)*/
+    /** URL to image Storage.  Needed to build storage reference (e.g. for sd_image loading) */
     private(set) var storageURL: URL?
+    /** Creator's user ID */
     private var uid: String?
     
     /** Retrieve the user profile */
@@ -47,7 +52,7 @@ class Image: JSONObject {
         }
     }
     
-    // Helper function to retrieve Image JSON object from database
+    /** Helper function to retrieve Image JSON object from database */
     class func get(ID: String, completion:@escaping (Image)->()) {
         super.get(ID, object: object) { (snapshot) in
             // return initialized object
@@ -55,13 +60,13 @@ class Image: JSONObject {
         }
     }
     
-    // Helper function to save Image to storage and database
+    /** Helper function to save Image to storage and database */
     class func save(image: Data) -> String {
         // save image & return filename/ID
         return FIR.manager.put(file: image, object: FIR.object.image)
     }
     
-    // Keys for dictionary that holds JSON properties
+    /** Keys to access database JSON properties */
     struct keys {
         static let uid = "uid"
         static let timestamp = "timestamp"

@@ -20,36 +20,33 @@ class Matchup: JSONObject {
         }
     }
     
-    // first post
+    /** First post */
     private var postAID: String?
-    // vs. second post
+    /** vs. second post */
     private var postBID: String?
-    // total votes for A
+    /** total votes for A */
     private(set) var countVoteA: Int?
-    // total votes for B
+    /** total votes for B */
     private(set) var countVoteB: Int?
-    // has user already voted flag
+    /** User has already voted flag */
     private(set) var didVote : Bool?
+    /** Creation timestamp */
     private(set) var timestamp: String?
     
     /** 
      Retrieve post objects
      */
-    //TODO: clean up code
     func posts(completion:@escaping (Post, Post)->()) {
         if let postAID = self.postAID, let postBID = self.postBID {
-            Post.get(ID: postAID, completion: { (post) in
-                let postA = post
-                
+            Post.get(ID: postAID, completion: { (postA) in
                 Post.get(ID: postBID, completion: { (postB) in
-                    let postB = postB
                     completion(postA, postB)
                 })
             })
         }
     }
     
-    // Initializer
+    /** Initializes a match with FIR snapshot */
     override init(_ snapshot: FIRDataSnapshot) {
         super.init(snapshot)
         
@@ -79,7 +76,7 @@ class Matchup: JSONObject {
         }
     }
     
-    // Helper function to retrieve Image JSON object from database
+    /** Retrieve Matchup JSON object from database */
     class func get(ID: String, completion:@escaping (Matchup)->()) {
         super.get(ID, object: object) { (snapshot) in
             // return initialized object
@@ -87,7 +84,7 @@ class Matchup: JSONObject {
         }
     }
     
-    // Helper function to create matchups
+    /** Create a matchup */
     class func create(postAID: String, postBID: String) {
         // Construct json to save
         let json: [String: AnyObject?] = [keys.timestamp: Date().toString()  as AnyObject,
@@ -101,9 +98,7 @@ class Matchup: JSONObject {
         FIR.manager.databasePath(object).childByAutoId().setValue(json)
     }
     
-    /** 
-     Cast a vote for a Post (A or B).  If associated uid (user) can only cast a vote once.
-     */
+    /** Cast a vote for a Post (A or B).  If associated uid (user) can only cast a vote once. */
     func vote(_ forPost: voteFor) {
         FIR.manager.databasePath(Matchup.object).child(self.ID).runTransactionBlock({ (currentData) -> FIRTransactionResult in
             
@@ -148,9 +143,7 @@ class Matchup: JSONObject {
         }
     }
 
-    /**
-     Keys for Matchup database object
-     */
+    /** Keys for Matchup database object */
     struct keys {
         static let timestamp = "timestamp"
         static let postAID = "postAID"
@@ -160,9 +153,7 @@ class Matchup: JSONObject {
         static let voted = "voted"
     }
     
-    /** 
-     Enum type used to cast votes for A or B
-     */
+    /** Enum type used to cast votes for A or B */
     enum voteFor {
         case A, B
         
@@ -178,9 +169,7 @@ class Matchup: JSONObject {
     
     // MARK: Submission methods
     
-    /**
-     Submit a photo for voting
-     */
+    /** Submit a photo for voting */
     class func submitPost(_ postID: String){
         let json = [postID: "" as AnyObject?]
         JSONStack.queue(object: json, database: FIR.manager.databasePath(object))
@@ -226,6 +215,7 @@ class Matchup: JSONObject {
         })
     }
     
+    /** Delete a match given its ID */
     class func remove(_ matchID: String) {
         let database = FIR.manager.databasePath(object).child(matchID)
         

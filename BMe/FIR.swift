@@ -16,6 +16,7 @@ import FirebaseAuth
  Firebase Storage and Database wrapper class
  */
 class FIR: NSObject {
+    /** Singleton accessor */
     static let manager = FIR()
     private override init() {
         super.init()
@@ -24,19 +25,23 @@ class FIR: NSObject {
 //        FIRDatabase.setLoggingEnabled(true)
     }
     
-    // Firebase reference properties
+    /** Storage URL prefix ("gs://") */
     static var storagePrefix = "gs://"
+    /** FIRDatabase reference */
     private let database = FIRDatabase.database().reference()
+    /** FIRStorage reference */
     let storage = FIRStorage.storage().reference(forURL: storagePrefix + FIRApp.defaultApp()!.options.storageBucket)
-    // User ID
+    /** User ID */
     private(set) var uid = FIRAuth.auth()!.currentUser!.uid
 
+    /** Returns the database reference for a given object */
     func databasePath(_ object:object) -> FIRDatabaseReference {
         // Return path structure for given object
         // Current structure: ~/<object>/...
         return database.child("dev").child(object.key())
     }
     
+    /** Returns the storage reference for a given object */
     func storagePath(_ object: object) -> FIRStorageReference {
         // Return path structure for given object
         // Current structure: ~/<object>/...
@@ -90,10 +95,8 @@ class FIR: NSObject {
     /**
      Get observed single event JSON object by ID
      */
-    //TODO change param to objectID (erase json)
-    func fetch(json objectID: String, object: object, completion:@escaping (FIRDataSnapshot?)->()) {
+    func fetch(objectID: String, object: object, completion:@escaping (FIRDataSnapshot?)->()) {
         // Get the computer reference structure and fire observation to Firebase
-        print("\(databasePath(object).child(objectID).description())")
         databasePath(object).child(objectID).queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
                 // Check to see if the reference exists, otherwise return nil
                 if (snapshot.exists()) {
@@ -108,10 +111,11 @@ class FIR: NSObject {
 // MARK:- Extensions
 
 extension FIRStorageMetadata {
+    /**
+     Returns the absolute path on Storage
+     */
     var storageURL: String {
         get {
-            print("storage path: \(self.path)")
-            print("storage description: \(FIR.manager.storage.child(self.path!).description)")
             return FIR.manager.storage.child(self.path!).description
         }
     }

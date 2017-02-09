@@ -82,6 +82,7 @@ class JSONStack: NSObject {
         return database.child(keys.queue)
     }
     
+    /** Keys to access database objects */
     struct keys {
         static var queue = "queue"
     }
