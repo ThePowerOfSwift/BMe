@@ -791,7 +791,7 @@ extension CameraViewController {
     internal func textMode() {
         
         if isTextMode {
-            isTextMode = false
+            //isTextMode = false
            // bubbleMode(state: false)
         } else {
             
@@ -1100,10 +1100,25 @@ extension CameraViewController: UITextFieldDelegate {
     
     func keyboardWillShow() {
         print("Keyboard will show")
+        textImageView.isUserInteractionEnabled = true
+        drawImageView.isUserInteractionEnabled = false
+        photoImageView.isUserInteractionEnabled = false
+        
+        isFilterMode = false
+        isDrawMode = false
+        isFontMode = false
+        isTextMode = true
+        view.bringSubview(toFront: textImageView)
+        view.bringSubview(toFront: cancelButton)
+        view.bringSubview(toFront: uploadButton)
+        textImageView.isHidden = false
+        swipeGestureRecognizer(state: false)
         isBubbleCollectionViewShown = true
+        isFilterMode = false
         isTextMode = true
         bubbleCollectionView.reloadData()
         UIView.animate(withDuration: 0.1) {
+            self.view.bringSubview(toFront: self.textImageView)
             self.view.bringSubview(toFront: self.bubbleCollectionView)
             self.bubbleCollectionViewTopConstraint.constant -= 100
             self.view.layoutIfNeeded()
