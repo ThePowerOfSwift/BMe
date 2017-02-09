@@ -348,7 +348,6 @@
 			children = (
 				783560921E4CF5E500B9FD8D /* FIRObjects.swift */,
 				BFDE7F701E4C1D5200AA38A7 /* JSONObject.swift */,
-				78B56A011DF5E7AE00A13915 /* UserProfile.swift */,
 				BFDE7F6C1E4C1CAE00AA38A7 /* Post.swift */,
 				BFDE7F6E1E4C1D1B00AA38A7 /* Image.swift */,
 				78B0FDEF1E496DCD004F4E4E /* Matchup.swift */,
@@ -526,6 +525,7 @@
 			isa = PBXGroup;
 			children = (
 				78C350481DF28756005E8331 /* UserAccount.swift */,
+				78B56A011DF5E7AE00A13915 /* UserProfile.swift */,
 			);
 			name = User;
 			sourceTree = "<group>";
