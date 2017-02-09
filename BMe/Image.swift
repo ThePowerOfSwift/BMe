@@ -26,7 +26,7 @@ class Image: JSONObject {
     func userProfile(completion: @escaping (UserProfile)->()) {
         if let uid = uid {
             UserProfile.get(uid, completion: { (profile) in
-                completion(profile!)
+                completion(profile)
             })
         }
     }
@@ -49,7 +49,7 @@ class Image: JSONObject {
     
     // Helper function to retrieve Image JSON object from database
     class func get(ID: String, completion:@escaping (Image)->()) {
-        super.get(ID: ID, object: object) { (snapshot) in
+        super.get(ID, object: object) { (snapshot) in
             // return initialized object
             completion(Image(snapshot))
         }

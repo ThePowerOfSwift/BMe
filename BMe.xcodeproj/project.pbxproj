@@ -29,6 +29,7 @@
 		783008A91DE3B9A000B070D4 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783008A21DE3B9A000B070D4 /* Extensions.swift */; };
 		783008AA1DE3B9A000B070D4 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783008A31DE3B9A000B070D4 /* Constants.swift */; };
 		78337D8D1DE3AC6600A1B32C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 78337D8C1DE3AC6600A1B32C /* GoogleService-Info.plist */; };
+		783560931E4CF5E500B9FD8D /* FIRObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783560921E4CF5E500B9FD8D /* FIRObjects.swift */; };
 		7837A20C1DF8B898000CB9CB /* raincheck-black.png in Resources */ = {isa = PBXBuildFile; fileRef = 7837A2061DF8B898000CB9CB /* raincheck-black.png */; };
 		7837A20D1DF8B898000CB9CB /* raincheck-blue.png in Resources */ = {isa = PBXBuildFile; fileRef = 7837A2071DF8B898000CB9CB /* raincheck-blue.png */; };
 		7837A20E1DF8B898000CB9CB /* raincheck-closed.png in Resources */ = {isa = PBXBuildFile; fileRef = 7837A2081DF8B898000CB9CB /* raincheck-closed.png */; };
@@ -184,6 +185,7 @@
 		783008A21DE3B9A000B070D4 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		783008A31DE3B9A000B070D4 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		78337D8C1DE3AC6600A1B32C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		783560921E4CF5E500B9FD8D /* FIRObjects.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FIRObjects.swift; sourceTree = "<group>"; };
 		7837A2061DF8B898000CB9CB /* raincheck-black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "raincheck-black.png"; sourceTree = "<group>"; };
 		7837A2071DF8B898000CB9CB /* raincheck-blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "raincheck-blue.png"; sourceTree = "<group>"; };
 		7837A2081DF8B898000CB9CB /* raincheck-closed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "raincheck-closed.png"; sourceTree = "<group>"; };
@@ -344,7 +346,9 @@
 		7821C3BF1DEF81D10023B95E /* JSON */ = {
 			isa = PBXGroup;
 			children = (
+				783560921E4CF5E500B9FD8D /* FIRObjects.swift */,
 				BFDE7F701E4C1D5200AA38A7 /* JSONObject.swift */,
+				78B56A011DF5E7AE00A13915 /* UserProfile.swift */,
 				BFDE7F6C1E4C1CAE00AA38A7 /* Post.swift */,
 				BFDE7F6E1E4C1D1B00AA38A7 /* Image.swift */,
 				78B0FDEF1E496DCD004F4E4E /* Matchup.swift */,
@@ -522,7 +526,6 @@
 			isa = PBXGroup;
 			children = (
 				78C350481DF28756005E8331 /* UserAccount.swift */,
-				78B56A011DF5E7AE00A13915 /* UserProfile.swift */,
 			);
 			name = User;
 			sourceTree = "<group>";
@@ -992,6 +995,7 @@
 				E3B96F5D1E4C2A1200E0BC92 /* HomeViewController.swift in Sources */,
 				E3DC851A1E450EDC0017E6A2 /* Filter.swift in Sources */,
 				E35AC4831DE4D00400FCB0D0 /* TabBarViewController.swift in Sources */,
+				783560931E4CF5E500B9FD8D /* FIRObjects.swift in Sources */,
 				BFDE7F711E4C1D5200AA38A7 /* JSONObject.swift in Sources */,
 				BFF9AE9D1E3D90540012C1F2 /* MainViewController.swift in Sources */,
 				4216315E1E43C26600E644A5 /* ProfileTableCollectionViewCell.swift in Sources */,

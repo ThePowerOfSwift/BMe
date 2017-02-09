@@ -81,7 +81,7 @@ class Matchup: JSONObject {
     
     // Helper function to retrieve Image JSON object from database
     class func get(ID: String, completion:@escaping (Matchup)->()) {
-        super.get(ID: ID, object: object) { (snapshot) in
+        super.get(ID, object: object) { (snapshot) in
             // return initialized object
             completion(Matchup(snapshot))
         }

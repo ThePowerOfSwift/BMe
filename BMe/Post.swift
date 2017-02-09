@@ -18,7 +18,6 @@ class Post: JSONObject {
     }
     var userProfile: UserProfile?
     var timestamp: String?
-    // TODO: add asset type
     private var assetID: String?
     private var uid: String?
     
@@ -39,7 +38,7 @@ class Post: JSONObject {
     func userProfile(completion: @escaping (UserProfile)->()) {
         if let uid = uid {
             UserProfile.get(uid, completion: { (profile) in
-                completion(profile!)
+                completion(profile)
             })
         }
     }
@@ -61,14 +60,13 @@ class Post: JSONObject {
     
     // Helper function to retrieve Image JSON object from database
     class func get(ID: String, completion:@escaping (Post)->()) {
-        super.get(ID: ID, object: object) { (snapshot) in
+        super.get(ID, object: object) { (snapshot) in
             // return initialized object
             completion(Post(snapshot))
         }
     }
     
     // Helper function to create posts
-    // TODO: Integrate progress bar
     class func create(assetID: String, assetType: FIR.object) -> String {
         // Construct json to save
         let json: [String: AnyObject?] = [keys.uid: FIR.manager.uid as AnyObject,

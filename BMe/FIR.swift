@@ -21,13 +21,13 @@ class FIR: NSObject {
         super.init()
         
         // Set logging to true
-        FIRDatabase.setLoggingEnabled(true)
+//        FIRDatabase.setLoggingEnabled(true)
     }
     
     // Firebase reference properties
     static var storagePrefix = "gs://"
-    private(set) var database = FIRDatabase.database().reference()
-    private(set) var storage = FIRStorage.storage().reference(forURL: storagePrefix + FIRApp.defaultApp()!.options.storageBucket)
+    private let database = FIRDatabase.database().reference()
+    let storage = FIRStorage.storage().reference(forURL: storagePrefix + FIRApp.defaultApp()!.options.storageBucket)
     // User ID
     private(set) var uid = FIRAuth.auth()!.currentUser!.uid
 
@@ -90,8 +90,10 @@ class FIR: NSObject {
     /**
      Get observed single event JSON object by ID
      */
+    //TODO change param to objectID (erase json)
     func fetch(json objectID: String, object: object, completion:@escaping (FIRDataSnapshot?)->()) {
         // Get the computer reference structure and fire observation to Firebase
+        print("\(databasePath(object).child(objectID).description())")
         databasePath(object).child(objectID).queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
                 // Check to see if the reference exists, otherwise return nil
                 if (snapshot.exists()) {
@@ -100,49 +102,6 @@ class FIR: NSObject {
                     completion(nil)
                 }
             })
-    }
-    
-    /**
-     Firebase object types
-     */
-    enum object {
-        // list object types
-        case image, post, video, matchup
-
-        func key() -> String {
-            switch self {
-            case .image:
-                return "image"
-            case .post:
-                return "post"
-            case .video:
-                return "video"
-            case .matchup:
-                return "matchup"
-            }
-        }
-        
-        func contentType() -> String {
-            switch self{
-                case .image:
-                return "image/jpeg"
-                case .video:
-                return "video/mp4"
-            default:
-                return ""
-            }
-        }
-        
-        func fileExtension() -> String {
-            switch self {
-            case .image:
-                return ".jpeg"
-            case .video:
-                return ".mp4"
-            default:
-                return ""
-            }
-        }
     }
 }
 
