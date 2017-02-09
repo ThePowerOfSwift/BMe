@@ -7,7 +7,10 @@
 //
 
 import UIKit
-import Firebase
+import FirebaseDatabase
+import FirebaseStorage
+import FirebaseCore
+import FirebaseAuth
 
 /**
  Firebase Storage and Database wrapper class
@@ -16,6 +19,9 @@ class FIR: NSObject {
     static let manager = FIR()
     private override init() {
         super.init()
+        
+        // Set logging to true
+        FIRDatabase.setLoggingEnabled(true)
     }
     
     // Firebase reference properties

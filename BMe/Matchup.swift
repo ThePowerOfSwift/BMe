@@ -238,10 +238,6 @@ class Matchup: JSONObject {
             
             return FIRTransactionResult.success(withValue: currentData)
         }
-
-        
     }
-
-    
 }
 

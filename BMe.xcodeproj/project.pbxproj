@@ -60,7 +60,6 @@
 		78BCDF311DF7464D002D399E /* cross-white.png in Resources */ = {isa = PBXBuildFile; fileRef = 78BCDF2F1DF7464D002D399E /* cross-white.png */; };
 		78BCDF321DF7464D002D399E /* cross-yellow.png in Resources */ = {isa = PBXBuildFile; fileRef = 78BCDF301DF7464D002D399E /* cross-yellow.png */; };
 		78BCDF341DF74663002D399E /* CrossButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78BCDF331DF74663002D399E /* CrossButton.swift */; };
-		78BCDF371DF749CC002D399E /* PostButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78BCDF361DF749CC002D399E /* PostButton.swift */; };
 		78BCDF391DF74A15002D399E /* NextButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78BCDF381DF74A15002D399E /* NextButton.swift */; };
 		78BCDF3C1DF74ABC002D399E /* nextarrow-yellow.png in Resources */ = {isa = PBXBuildFile; fileRef = 78BCDF3A1DF74ABC002D399E /* nextarrow-yellow.png */; };
 		78BCDF3D1DF74ABC002D399E /* nextarrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 78BCDF3B1DF74ABC002D399E /* nextarrow.png */; };
@@ -222,7 +221,6 @@
 		78BCDF2F1DF7464D002D399E /* cross-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cross-white.png"; sourceTree = "<group>"; };
 		78BCDF301DF7464D002D399E /* cross-yellow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cross-yellow.png"; sourceTree = "<group>"; };
 		78BCDF331DF74663002D399E /* CrossButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CrossButton.swift; sourceTree = "<group>"; };
-		78BCDF361DF749CC002D399E /* PostButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostButton.swift; sourceTree = "<group>"; };
 		78BCDF381DF74A15002D399E /* NextButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NextButton.swift; sourceTree = "<group>"; };
 		78BCDF3A1DF74ABC002D399E /* nextarrow-yellow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nextarrow-yellow.png"; sourceTree = "<group>"; };
 		78BCDF3B1DF74ABC002D399E /* nextarrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nextarrow.png; sourceTree = "<group>"; };
@@ -346,6 +344,10 @@
 		7821C3BF1DEF81D10023B95E /* JSON */ = {
 			isa = PBXGroup;
 			children = (
+				BFDE7F701E4C1D5200AA38A7 /* JSONObject.swift */,
+				BFDE7F6C1E4C1CAE00AA38A7 /* Post.swift */,
+				BFDE7F6E1E4C1D1B00AA38A7 /* Image.swift */,
+				78B0FDEF1E496DCD004F4E4E /* Matchup.swift */,
 			);
 			name = JSON;
 			sourceTree = "<group>";
@@ -368,7 +370,6 @@
 			children = (
 				E3DC850A1E450EDC0017E6A2 /* Color.swift */,
 				E3DC850B1E450EDC0017E6A2 /* Filter.swift */,
-				7821C3BF1DEF81D10023B95E /* JSON */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -401,15 +402,18 @@
 		78337D901DE3ACA700A1B32C /* JJ */ = {
 			isa = PBXGroup;
 			children = (
-				7837A21E1DF95A43000CB9CB /* FIRButton.swift */,
-				7870B85E1E468DAF00B754D6 /* FIR.swift */,
-				BFDE7F701E4C1D5200AA38A7 /* JSONObject.swift */,
-				BFDE7F6E1E4C1D1B00AA38A7 /* Image.swift */,
-				78B0FDEF1E496DCD004F4E4E /* Matchup.swift */,
-				78D1783A1E48F8AD004B7840 /* JSONStack.swift */,
-				BFDE7F6C1E4C1CAE00AA38A7 /* Post.swift */,
 			);
 			name = JJ;
+			sourceTree = "<group>";
+		};
+		783560911E4CF07F00B9FD8D /* FIR */ = {
+			isa = PBXGroup;
+			children = (
+				7870B85E1E468DAF00B754D6 /* FIR.swift */,
+				78D1783A1E48F8AD004B7840 /* JSONStack.swift */,
+				7821C3BF1DEF81D10023B95E /* JSON */,
+			);
+			name = FIR;
 			sourceTree = "<group>";
 		};
 		78469A4F1DE3958000A40D53 = {
@@ -439,6 +443,8 @@
 			children = (
 				E3433ED81E45486600C69650 /* GPUImage.xcodeproj */,
 				78337D8E1DE3AC7400A1B32C /* Shared */,
+				7863842E1E37D8C6005DD454 /* User */,
+				783560911E4CF07F00B9FD8D /* FIR */,
 				7821C3BB1DEF24730023B95E /* ViewControllers */,
 				7821C3C01DEF82680023B95E /* Views */,
 				7821C3BC1DEF249D0023B95E /* Storyboards */,
@@ -537,8 +543,8 @@
 		78BCDF351DF74752002D399E /* Buttons */ = {
 			isa = PBXGroup;
 			children = (
+				7837A21E1DF95A43000CB9CB /* FIRButton.swift */,
 				78BCDF331DF74663002D399E /* CrossButton.swift */,
-				78BCDF361DF749CC002D399E /* PostButton.swift */,
 				78BCDF381DF74A15002D399E /* NextButton.swift */,
 			);
 			name = Buttons;
@@ -547,7 +553,6 @@
 		BFF9AE951E398C6D0012C1F2 /* Louis */ = {
 			isa = PBXGroup;
 			children = (
-				7863842E1E37D8C6005DD454 /* User */,
 				BFF9AE961E39BBE90012C1F2 /* SignUpViewController.swift */,
 				78469A5D1DE3958100A40D53 /* LoginViewController.swift */,
 				BFF9AE9A1E3D90020012C1F2 /* Main.storyboard */,
@@ -681,7 +686,7 @@
 				TargetAttributes = {
 					78469A571DE3958000A40D53 = {
 						CreatedOnToolsVersion = 8.0;
-						DevelopmentTeam = PY8CHQP699;
+						DevelopmentTeam = Y4GA6H5JHE;
 						ProvisioningStyle = Automatic;
 					};
 					78469A6B1DE3958100A40D53 = {
@@ -972,7 +977,6 @@
 				4276E9331E3FFDA40020992D /* ProfileViewController.swift in Sources */,
 				78BCDF3F1DF751E8002D399E /* BusyView.swift in Sources */,
 				78469A5E1DE3958100A40D53 /* LoginViewController.swift in Sources */,
-				78BCDF371DF749CC002D399E /* PostButton.swift in Sources */,
 				E33F5AC71E48F81300806040 /* MatchupCollectionViewCell.swift in Sources */,
 				4216315C1E42ACB900E644A5 /* View.swift in Sources */,
 				78469A5C1DE3958100A40D53 /* AppDelegate.swift in Sources */,
@@ -1151,7 +1155,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = PY8CHQP699;
+				DEVELOPMENT_TEAM = Y4GA6H5JHE;
 				INFOPLIST_FILE = BMe/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.op.BMe;
@@ -1170,7 +1174,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = PY8CHQP699;
+				DEVELOPMENT_TEAM = Y4GA6H5JHE;
 				INFOPLIST_FILE = BMe/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.op.BMe;
