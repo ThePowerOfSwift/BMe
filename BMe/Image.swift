@@ -41,8 +41,9 @@ class Image: JSONObject {
         if let timestamp = json[keys.timestamp] as? String {
             self.timestamp = timestamp
         }
-        if let storageURL = json[keys.storageURL] as? String {
-            self.storageURL = URL(string: storageURL)
+        if let storageURL = json[keys.storageURL] as? String,
+            let url = URL (string: storageURL){
+            self.storageURL = url
         }
     }
     

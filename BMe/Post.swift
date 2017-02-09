@@ -32,8 +32,7 @@ class Post: JSONObject {
     
     func assetURL(completion: @escaping (URL) -> ()) {
         self.asset { (image) in
-                completion(image.storageURL)
-            })
+                completion(image.storageURL!)
         }
     }
     
