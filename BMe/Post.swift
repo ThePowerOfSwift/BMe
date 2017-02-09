@@ -72,7 +72,7 @@ class Post: JSONObject {
     }
     
     // Helper function to create posts
-    // TODO: Work together with progress func/bar
+    // TODO: Integrate progress bar
     class func create(assetID: String, assetType: FIR.object) {
         // Construct json to save
         let json: [String: AnyObject?] = [keys.uid: FIR.manager.uid as AnyObject,

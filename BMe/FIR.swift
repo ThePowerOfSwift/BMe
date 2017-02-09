@@ -37,7 +37,7 @@ class FIR: NSObject {
         return storage.child("dev").child(object.key())
     }
     
-    // save to storage + associated json object to db
+    /** Save to storage and insert object JSON to Database */
     func put(file data: Data, object: object) -> String {
         // Put file on storage
         // Get unique path using UID as root
@@ -54,21 +54,21 @@ class FIR: NSObject {
         path.child(filename + fileExtension).put(data, metadata: metadata) { (metadata, error) in
             if let error = error {
                 print("Error adding object to GS bucket: \(error.localizedDescription)")
-                //TODO: stop
+                //TODO: Retry
             }
             else {
                 // Write object info to database
                 let json = ["uid": self.uid,
                             "object": object.key(),
-                            "timestamp": Date().toString()]
+                            "timestamp": Date().toString(),
+                            "storageURL": metadata?.storageURL]
                 self.databasePath(object).child(filename).setValue(json)
             }
         }
-        
         return filename
     }
     
-    // get asset by ID and content type from storage
+    /** Fetch the asset's download URL */
     func fetch(_ filename: String, type: object, completion:@escaping (URL)->()) {
         // retrieve file from storage and return link
         storagePath(type).child(filename + type.fileExtension()).downloadURL { (url, error) in
@@ -145,6 +145,8 @@ class FIR: NSObject {
 extension FIRStorageMetadata {
     var storageURL: String {
         get {
+            print("storage path: \(self.path)")
+            print("storage description: \(FIR.manager.storage.child(self.path!).description)")
             return FIR.manager.storage.child(self.path!).description
         }
     }

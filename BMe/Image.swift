@@ -18,13 +18,11 @@ class Image: JSONObject {
     }
     private(set) var userProfile: UserProfile?
     private(set) var timestamp: String?
+    /** URL to image Storage.  Needed to build storage reference (e.g. for sd_image loading)*/
+    private(set) var storageURL: URL?
     private var uid: String?
     
-    func url(completion: @escaping (URL)->()) {
-        FIR.manager.fetch(ID, type: Image.object) { (url) in
-            completion(url)
-        }
-    }
+    /** Retrieve the user profile */
     func userProfile(completion: @escaping (UserProfile)->()) {
         if let uid = uid {
             UserProfile.get(uid, completion: { (profile) in
@@ -33,8 +31,7 @@ class Image: JSONObject {
         }
     }
     
-    
-    // Initializer
+    /** Initializer with a FIR snapshot */
     override init(_ snapshot: FIRDataSnapshot) {
         super.init(snapshot)
         
@@ -43,6 +40,9 @@ class Image: JSONObject {
         }
         if let timestamp = json[keys.timestamp] as? String {
             self.timestamp = timestamp
+        }
+        if let storageURL = json[keys.storageURL] as? String {
+            self.storageURL = URL(string: storageURL)
         }
     }
     
@@ -64,5 +64,6 @@ class Image: JSONObject {
     struct keys {
         static let uid = "uid"
         static let timestamp = "timestamp"
+        static let storageURL = "storageURL"
     }
 }
