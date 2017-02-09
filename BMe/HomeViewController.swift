@@ -173,20 +173,10 @@ class HomeViewController: UIViewController {
             matchup.posts(completion: { (postA, postB) in
                 postA.assetURL(completion: { (urlA :URL) in
                     postB.assetURL(completion: {(urlB: URL) in
-//                        guard let urlA = URL(string: urlStringA), let urlB = URL(string: urlStringB) else {
-//                            print("failed to create URL from string")
-//                            return
-//                        }
-//                        print("urlA: \(urlA)")
-//                        print("urlB: \(urlB)")
-//                        
                         
-//                        leftImageView.loadImageFromGS(url: urlA, placeholderImage: nil)
-//                        rightImageView.loadImageFromGS(url: urlB, placeholderImage: nil)
-                        
-                        let urlA = URL(string: "gs://b-me-e21b7.appspot.com/dev/image/-KcM19CYWukvOTuwH00r.jpeg")!
                         leftImageView.loadImageFromGS(url: urlA, placeholderImage: nil)
                         rightImageView.loadImageFromGS(url: urlB, placeholderImage: nil)
+                        
                     })
                 })
             })

@@ -69,7 +69,7 @@ class Post: JSONObject {
     
     // Helper function to create posts
     // TODO: Integrate progress bar
-    class func create(assetID: String, assetType: FIR.object) {
+    class func create(assetID: String, assetType: FIR.object) -> String {
         // Construct json to save
         let json: [String: AnyObject?] = [keys.uid: FIR.manager.uid as AnyObject,
                                           keys.timestamp: Date().toString()  as AnyObject,
@@ -77,7 +77,9 @@ class Post: JSONObject {
                                           keys.assetObject: assetType.key()  as AnyObject]
         
         // Save image
-        FIR.manager.databasePath(object).childByAutoId().setValue(json)
+        let filename = FIR.manager.databasePath(object).childByAutoId().key
+        FIR.manager.databasePath(object).child(filename).setValue(json)
+        return filename
     }
     
     // Keys for dictionary that holds JSON properties

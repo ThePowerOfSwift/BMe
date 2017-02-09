@@ -399,13 +399,14 @@ class CameraViewController: UIViewController {
         }
         
         let newImgID = Image.save(image: imageData)
-        Post.create(assetID: newImgID, assetType: .image)
+        let postID = Post.create(assetID: newImgID, assetType: .image)
         print("Upload completed")
         self.removeAllItems()
         busy.stopAnimating()
         busy.removeFromSuperview()
         self.cameraMode()
         
+        Matchup.submitPost(postID)
         
     }
     
