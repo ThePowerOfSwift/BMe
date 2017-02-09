@@ -8,32 +8,33 @@
 
 import UIKit
 
-@objc protocol HeartButtonDatasource: class {
-    func postID(_ sender: UIButton) -> String
+@objc protocol FIRButtondatasource: class {
 }
-@objc protocol HeartButtonDelegate: class {
-    
+@objc protocol FIRButtonDelegate: class {
 }
-class HeartButton: UIButton {
-    private let deselectedImage = UIImage(named: Constants.Images.heartGray)
-    private let selectedImage = UIImage(named: Constants.Images.hearBlue)
-    private let actionType = "HeartButton"
+
+/** 
+ Wrapper superclass for buttons that effect FIR events (e.g. "Like" button)
+ */
+class FIRButton: UIButton {
+    /** Deselected image */
+    private let deselectedImage = UIImage(named: "")
+    /** Selected image */
+    private let selectedImage = UIImage(named: "")
     
     func performSelection() {
         if let datasource = datasource {
-            FIRManager.shared.heartPost(datasource.postID(self))
         }
     }
     
     func performDeSelection() {
         if let datasource = datasource {
-            FIRManager.shared.removeHeartPost(datasource.postID(self))
         }
     }
     
     // MARK: - template setup
-    weak var datasource: HeartButtonDatasource?
-    weak var delegate: HeartButtonDelegate?
+    weak var datasource: FIRButtondatasource?
+    weak var delegate: FIRButtonDelegate?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -54,11 +55,9 @@ class HeartButton: UIButton {
     func tapped() {
         isSelected = !isSelected
         if isSelected {
-            print("Selecting \(actionType)")
             performSelection()
         }
         else {
-            print("De-selecting \(actionType)")
             performDeSelection()
         }
     }
