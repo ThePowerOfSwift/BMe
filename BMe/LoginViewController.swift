@@ -33,7 +33,7 @@ class LoginViewController: UIViewController {
             
         // Subscribe to notifications for login (and send to root VC)
         // Add notification send user back to login screen after logout
-        NotificationCenter.default.addObserver(self, selector: #selector(presentRootVC), name: NSNotification.Name(rawValue: Constants.NotificationKeys.didSignIn), object: nil)
+        //NotificationCenter.default.addObserver(self, selector: #selector(presentRootVC), name: NSNotification.Name(rawValue: Constants.NotificationKeys.didSignIn), object: nil)
         
         loginLabel.alpha = 0
     }
@@ -42,13 +42,7 @@ class LoginViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
-    override func viewDidAppear(_ animated: Bool) {
-        if UserAccount.currentUser.isSignedIn {
-            UserAccount.currentUser.signedIn()
-        }
-    }
-
+    
 // MARK: - Action methods
     
     @IBAction func didTapLogin(_ sender: AnyObject) {

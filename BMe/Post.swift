@@ -16,6 +16,7 @@ class Post: NSObject {
     let url: URL?
     let postID: String?
     
+    
     struct Key {
         static let contentType = "contentType"
         static let url = "url"
