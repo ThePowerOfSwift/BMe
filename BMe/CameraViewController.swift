@@ -834,6 +834,7 @@ extension CameraViewController {
         textImageView.isHidden = false
         filterNameLabel.isHidden = false
         hashtagTextField.isHidden = false
+        bubbleCollectionView.isHidden = false
     }
     
     func hideEditSubviews() {
@@ -844,6 +845,7 @@ extension CameraViewController {
         textImageView.isHidden = true
         filterNameLabel.isHidden = true
         hashtagTextField.isHidden = true
+        bubbleCollectionView.isHidden = true
     }
     
     /** Sort view's subview. */
@@ -1190,6 +1192,11 @@ extension CameraViewController: UITextFieldDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: .UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: .UIKeyboardWillHide, object: nil)
     }
+    
+    // The order of the call when text button or hash tag text field is tapped
+    // 1. textFieldShouldBeginEditing
+    // 2. keyboardWillShow
+    // 3. toggleTextMode
     
     func keyboardWillShow(notification: NSNotification) {
         if currentMode.isMode(mode: .Text) {
