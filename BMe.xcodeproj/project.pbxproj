@@ -86,6 +86,7 @@
 		E3433EE51E45487B00C69650 /* GPUImage.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = E3433EE11E45486600C69650 /* GPUImage.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E35AC4831DE4D00400FCB0D0 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E35AC4821DE4D00400FCB0D0 /* TabBarViewController.swift */; };
 		E35AC4871DE4D0F500FCB0D0 /* TabBar.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E35AC4861DE4D0F500FCB0D0 /* TabBar.storyboard */; };
+		E3AA3CC41E4D100E00C10F2A /* Index.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3AA3CC31E4D100E00C10F2A /* Index.swift */; };
 		E3B96F5D1E4C2A1200E0BC92 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3B96F5C1E4C2A1200E0BC92 /* HomeViewController.swift */; };
 		E3D1D55F1DF11D700021942A /* Styles.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3D1D55E1DF11D700021942A /* Styles.swift */; };
 		E3DC85061E450EBA0017E6A2 /* alcatraz.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E3DC85051E450EBA0017E6A2 /* alcatraz.jpg */; };
@@ -249,6 +250,7 @@
 		E3433ED81E45486600C69650 /* GPUImage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = GPUImage.xcodeproj; path = framework/GPUImage.xcodeproj; sourceTree = SOURCE_ROOT; };
 		E35AC4821DE4D00400FCB0D0 /* TabBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		E35AC4861DE4D0F500FCB0D0 /* TabBar.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = TabBar.storyboard; sourceTree = "<group>"; };
+		E3AA3CC31E4D100E00C10F2A /* Index.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Index.swift; sourceTree = "<group>"; };
 		E3B96F5C1E4C2A1200E0BC92 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		E3D1D55E1DF11D700021942A /* Styles.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Styles.swift; sourceTree = "<group>"; };
 		E3DC85051E450EBA0017E6A2 /* alcatraz.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = alcatraz.jpg; path = ../alcatraz.jpg; sourceTree = "<group>"; };
@@ -329,7 +331,6 @@
 			isa = PBXGroup;
 			children = (
 				E35AC4821DE4D00400FCB0D0 /* TabBarViewController.swift */,
-				E3DC85081E450EDC0017E6A2 /* CameraViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -338,7 +339,6 @@
 			isa = PBXGroup;
 			children = (
 				E35AC4861DE4D0F500FCB0D0 /* TabBar.storyboard */,
-				E3DC85071E450EDC0017E6A2 /* Camera.storyboard */,
 			);
 			name = Storyboards;
 			sourceTree = "<group>";
@@ -393,6 +393,9 @@
 		78337D8F1DE3AC9300A1B32C /* Sato */ = {
 			isa = PBXGroup;
 			children = (
+				E3DC85081E450EDC0017E6A2 /* CameraViewController.swift */,
+				E3AA3CC31E4D100E00C10F2A /* Index.swift */,
+				E3DC85071E450EDC0017E6A2 /* Camera.storyboard */,
 				7870B8591E45537100B754D6 /* Home.storyboard */,
 				E3B96F5C1E4C2A1200E0BC92 /* HomeViewController.swift */,
 				E33F5AC61E48F81300806040 /* MatchupCollectionViewCell.swift */,
@@ -689,7 +692,7 @@
 				TargetAttributes = {
 					78469A571DE3958000A40D53 = {
 						CreatedOnToolsVersion = 8.0;
-						DevelopmentTeam = QF43K5VRQT;
+						DevelopmentTeam = PY8CHQP699;
 						ProvisioningStyle = Automatic;
 					};
 					78469A6B1DE3958100A40D53 = {
@@ -980,6 +983,7 @@
 				4276E9331E3FFDA40020992D /* ProfileViewController.swift in Sources */,
 				78BCDF3F1DF751E8002D399E /* BusyView.swift in Sources */,
 				78469A5E1DE3958100A40D53 /* LoginViewController.swift in Sources */,
+				E3AA3CC41E4D100E00C10F2A /* Index.swift in Sources */,
 				E33F5AC71E48F81300806040 /* MatchupCollectionViewCell.swift in Sources */,
 				4216315C1E42ACB900E644A5 /* View.swift in Sources */,
 				78469A5C1DE3958100A40D53 /* AppDelegate.swift in Sources */,
@@ -1159,7 +1163,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = QF43K5VRQT;
+				DEVELOPMENT_TEAM = PY8CHQP699;
 				INFOPLIST_FILE = BMe/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.op.BMeeeee;
@@ -1178,7 +1182,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = QF43K5VRQT;
+				DEVELOPMENT_TEAM = PY8CHQP699;
 				INFOPLIST_FILE = BMe/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.op.BMeeeee;

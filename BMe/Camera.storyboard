@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -80,35 +80,43 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="15o-I1-PDv">
-                                <rect key="frame" x="320" y="537" width="35" height="30"/>
-                                <state key="normal" title="Filter"/>
-                                <connections>
-                                    <action selector="onEditButtons:" destination="BYZ-38-t0r" eventType="touchUpInside" id="O8R-2k-6x5"/>
-                                </connections>
-                            </button>
-                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="TvB-E6-ae2">
-                                <rect key="frame" x="20" y="537" width="280" height="30"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="YCO-Sb-6Qb">
+                                <rect key="frame" x="36" y="577" width="303" height="30"/>
                                 <subviews>
                                     <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="x6s-J1-PPL">
-                                        <rect key="frame" x="0.0" y="0.0" width="93.5" height="30"/>
-                                        <state key="normal" title="Font"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="76" height="30"/>
+                                        <state key="normal" title="Font">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
                                         <connections>
                                             <action selector="onEditButtons:" destination="BYZ-38-t0r" eventType="touchUpInside" id="cTi-Ef-ggg"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LGO-17-jQk">
-                                        <rect key="frame" x="93.5" y="0.0" width="93" height="30"/>
-                                        <state key="normal" title="Text"/>
+                                        <rect key="frame" x="76" y="0.0" width="75.5" height="30"/>
+                                        <state key="normal" title="Text">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
                                         <connections>
                                             <action selector="onEditButtons:" destination="BYZ-38-t0r" eventType="touchUpInside" id="zRD-A5-SQm"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sRl-ND-imo">
-                                        <rect key="frame" x="186.5" y="0.0" width="93.5" height="30"/>
-                                        <state key="normal" title="Draw"/>
+                                        <rect key="frame" x="151.5" y="0.0" width="76" height="30"/>
+                                        <state key="normal" title="Draw">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
                                         <connections>
                                             <action selector="onEditButtons:" destination="BYZ-38-t0r" eventType="touchUpInside" id="5Qc-9Y-oLx"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="15o-I1-PDv">
+                                        <rect key="frame" x="227.5" y="0.0" width="75.5" height="30"/>
+                                        <state key="normal" title="Filter">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="onEditButtons:" destination="BYZ-38-t0r" eventType="touchUpInside" id="O8R-2k-6x5"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -139,30 +147,31 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="0.86666666670000003" blue="0.2784313725" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="YCO-Sb-6Qb" secondAttribute="trailing" constant="20" id="1K3-b5-P9F"/>
                             <constraint firstItem="gro-ey-NZx" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="1y0-pz-TZq"/>
-                            <constraint firstItem="TvB-E6-ae2" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="20" id="5qS-Bm-ika"/>
                             <constraint firstItem="oAc-GC-2Do" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="8QP-TB-7Ss"/>
                             <constraint firstItem="j0l-qG-S1z" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="GUD-fd-eWa"/>
                             <constraint firstAttribute="trailing" secondItem="gro-ey-NZx" secondAttribute="trailing" id="LiE-Oi-kX4"/>
                             <constraint firstAttribute="trailing" secondItem="j0l-qG-S1z" secondAttribute="trailing" id="LoZ-yU-vl5"/>
-                            <constraint firstAttribute="bottomMargin" secondItem="TvB-E6-ae2" secondAttribute="bottom" constant="100" id="Lq1-mc-OVR"/>
                             <constraint firstItem="gro-ey-NZx" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" constant="400" id="MvH-EH-Jk9"/>
                             <constraint firstAttribute="bottom" secondItem="oAc-GC-2Do" secondAttribute="bottom" constant="290" id="Tvf-VO-QWk"/>
-                            <constraint firstAttribute="trailing" secondItem="15o-I1-PDv" secondAttribute="trailing" constant="20" id="c3I-X9-obU"/>
                             <constraint firstItem="MhI-Hd-urD" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="dDV-fo-lpD"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="YCO-Sb-6Qb" secondAttribute="bottom" constant="60" id="dOm-xZ-hSg"/>
+                            <constraint firstItem="YCO-Sb-6Qb" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="20" id="mLg-ak-x3p"/>
                             <constraint firstItem="MhI-Hd-urD" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="w6j-jy-Lif"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="15o-I1-PDv" secondAttribute="bottom" constant="100" id="y4G-Go-emX"/>
-                            <constraint firstItem="15o-I1-PDv" firstAttribute="leading" secondItem="TvB-E6-ae2" secondAttribute="trailing" constant="20" id="zaJ-eP-sxg"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="bubbleCollectionView" destination="gro-ey-NZx" id="kyW-Z0-7Kj"/>
                         <outlet property="bubbleCollectionViewTopConstraint" destination="MvH-EH-Jk9" id="y8I-eA-gZ9"/>
                         <outlet property="cancelButton" destination="MhI-Hd-urD" id="h3I-cw-joz"/>
-                        <outlet property="editButtonsBottomConstraint" destination="Lq1-mc-OVR" id="91b-YM-Dl2"/>
-                        <outlet property="filterButtonBottomConstraint" destination="y4G-Go-emX" id="eCV-mI-sKG"/>
+                        <outlet property="drawButton" destination="sRl-ND-imo" id="xk5-Mf-g8n"/>
+                        <outlet property="editButtonBottomConstraint" destination="dOm-xZ-hSg" id="TeE-Vf-xsX"/>
+                        <outlet property="filterButton" destination="15o-I1-PDv" id="QTb-xP-TKH"/>
                         <outlet property="filterNameLabel" destination="oAc-GC-2Do" id="6YR-tL-2qw"/>
                         <outlet property="filterNameLabelCenterConstraint" destination="8QP-TB-7Ss" id="rhL-e4-yNg"/>
+                        <outlet property="fontButton" destination="x6s-J1-PPL" id="uMQ-MP-3pl"/>
+                        <outlet property="textButton" destination="LGO-17-jQk" id="T5p-3l-ksv"/>
                         <outlet property="uploadButton" destination="j0l-qG-S1z" id="nCX-fa-rMr"/>
                     </connections>
                 </viewController>
