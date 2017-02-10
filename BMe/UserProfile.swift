@@ -9,45 +9,96 @@
 import UIKit
 import FirebaseDatabase
 
-// TODO: change to JSONObject subclass
-class UserProfile: NSObject {
-    var uid: String?
-    var timestamp: Date?
-    var avatarURL: URL?
-    var username: String?
+/**
+ Publicly accessible user profile
+ */
+class UserProfile: JSONObject {
     
-    //MARK: - Database keys
-    struct Key {
-        static let object = "userMeta"
-        static let timestamp = "timestamp"
-        static let avatarURL = "avatarURL"
-        static let username = "username"
-        static let raincheck = "raincheck"
-        static let heart = "heart"
+    override class var object: FIR.object {
+        get {
+            return FIR.object.userProfile
+        }
+    }
+
+    /** User's unique ID */
+    var uid: String? {
+        get {
+            // ID is already processed by superclass.
+            // Return it as the user ID
+            return self.ID
+        }
     }
     
+    // Properties
+    /** User's profile photo URL */
+    var avatarURL: URL? {
+        get {
+            return self.avatarURL
+        }
+        set {
+            // The current user can only change their own profile
+            if (self.uid == UserAccount.currentUser.uid), let uid = uid {
+                UserProfile.firebasePath(uid).updateChildValues([keys.avatarURL: newValue?.absoluteString as AnyObject])
+            }
+        }
+    }
+    
+    /** User's display name */
+    var username: String? {
+        get {
+            return self.username
+        }
+        set {
+            // The current user can only change their own profile
+            if (self.uid == UserAccount.currentUser.uid), let uid = uid {
+                UserProfile.firebasePath(uid).updateChildValues([keys.username: newValue as AnyObject])
+            }
+        }
+    }
+    
+    /** Creation timestamp (immutable) */
+    private(set) var timestamp: Date?
+    
     //MARK: - Methods
-    init(_ snapshot: FIRDataSnapshot) {
-        self.uid = snapshot.key
+    
+    /** Initializes UserProfile object with FIRDataSnapshot */
+    override init(_ snapshot: FIRDataSnapshot) {
+        super.init(snapshot)
 
-        if let values = snapshot.value as? [String: AnyObject?] {
-            self.avatarURL = URL(string: (values[Key.avatarURL] as? String) ?? "") ?? nil
-            self.timestamp = (values[Key.timestamp] as? String)?.toDate() ?? nil
-            self.username = values[Key.username] as? String ?? nil
+        if let avatarURL = json[keys.avatarURL] as? String {
+            self.avatarURL = URL(string: avatarURL)
+        }
+        if let username = json[keys.username] as? String {
+            self.username = username
+        }
+        if let timestamp = json[keys.timestamp] as? String {
+            self.timestamp = timestamp.toDate()
         }
     }
     
     /**
-     Gets the UserProfile of a user given it's uid and returns in the completion block
+     Gets the UserProfile for a given UID returns the object in completion block
      */
-    class func get(_ uid: String, completion:@escaping (UserProfile?)->()) {
-        firebasePath(uid).observeSingleEvent(of: .value, with: {(snapshot: FIRDataSnapshot) in
+    class func get(_ UID: String, completion:@escaping (UserProfile)->()) {
+        super.get(UID, object: object) { (snapshot) in
+            // return initialized object
+            completion(UserProfile(snapshot))
+        }
+    }
+    
+    /** 
+     Creates a new user profile
+     */
+    class func create(UID: String, username: String) {
+        // Check that user doesn't exist
+        UserProfile.firebasePath(UID).observe(.value, with: { (snapshot) in
             if snapshot.exists() {
-                let userProfile = UserProfile(snapshot)
-                completion(userProfile)
+                // STOP as user profile already exists
+                print("Error: user already exists")
             } else {
-                print("Error: UserProfile for UID:\(uid) does not exist")
-                completion(nil)
+                let json = [keys.username: username as AnyObject,
+                            keys.timestamp: Date().toString() as AnyObject]
+                UserProfile.firebasePath(UID).setValue(json)
             }
         })
     }
@@ -65,6 +116,13 @@ class UserProfile: NSObject {
      Returns the path (database reference) to the UserProfile of a given user
      */
     class func firebasePath(_ uid: String) -> FIRDatabaseReference {
-        return FIR.manager.database.child(Key.object).child(uid)
+        return FIR.manager.databasePath(object).child(uid)
+    }
+    
+    /** Keys used to locate JSON values */
+    struct keys {
+        static let avatarURL = "avatarURL"
+        static let username = "username"
+        static let timestamp = "timestamp"
     }
 }

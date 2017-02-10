@@ -17,8 +17,7 @@ import FirebaseDatabase
  - an object (type) saved in the dictionary with the key "object" (etc. = "image")
  */
 class JSONObject: NSObject {
-    
-    // JSON Object type
+    /** JSON Object type */
     class var object: FIR.object {
         get {
             assert(false, "Must override this property with FIR.object type")
@@ -27,21 +26,23 @@ class JSONObject: NSObject {
     }
     
     // Instance Properties
-    // Unique identifier for the object
+    /** Unique identifier for the object */
     let ID: String
-    // JSON dictionary that contains object properties
+    /** JSON dictionary that contains object properties */
     let json: [String: AnyObject?]
     
-    // Create object with snapshot
+    /** Create object with snapshot */
     init(_ snapshot: FIRDataSnapshot) {
         ID = snapshot.key
         json = snapshot.value as! [String: AnyObject?]
     }
     
-    // Helper function to retrieve JSON object from database
-    // Should be wrapped by subclass with a static FIR.object type
-    class func get(ID: String, object: FIR.object, completion:@escaping (FIRDataSnapshot)->()) {
-        FIR.manager.fetch(json: ID, object: object) { (snapshot) in
+    /** 
+     Helper function to retrieve JSON object from database
+     Should be wrapped by subclass with a static FIR.object type
+     */
+    class func get(_ ID: String, object: FIR.object, completion:@escaping (FIRDataSnapshot)->()) {
+        FIR.manager.fetch(objectID: ID, object: object) { (snapshot) in
             if let snapshot = snapshot {
                 completion(snapshot)
             }

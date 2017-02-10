@@ -16,9 +16,9 @@ struct Styles {
         static let Tertiary = UIColor(red: RGB.Tertiary.R, green: RGB.Tertiary.G, blue: RGB.Tertiary.B, alpha: 1.0)
         struct RGB {
             struct Primary { // blue 76A4A4
-                static let R: CGFloat = 118.0 / 255.0
-                static let G: CGFloat = 164 / 255.0
-                static let B: CGFloat = 164 / 255.0
+                static let R: CGFloat = 34.0 / 255.0
+                static let G: CGFloat = 116 / 255.0
+                static let B: CGFloat = 219 / 255.0
             }
             struct Secondary { // gray 605860
                 static let R: CGFloat = 96 / 255.0

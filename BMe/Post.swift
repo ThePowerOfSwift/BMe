@@ -9,45 +9,53 @@
 import UIKit
 import FirebaseDatabase
 
+/** 
+ Class that represents a post made by a user.  A post can contain several elements, such as an image etc.
+ */
 class Post: JSONObject {
-    // Properties
+    /** JSON Object type that identifies Post on Firebase */
     override class var object: FIR.object {
         get {
             return FIR.object.post
         }
     }
-    var userProfile: UserProfile?
-    var timestamp: String?
-    // TODO: add asset type
+
+    /** Timestamp when post was created */
+    private(set)var timestamp: String?
+    /** ID to track the post's asset */
     private var assetID: String?
+    /** Creators user ID */
     private var uid: String?
     
+    /** Returns the post's asset */
     func asset(completion: @escaping (Image)->()) {
         if let assetID = assetID {
             Image.get(ID: assetID, completion: { (image) in
-                completion(image) //get in hand in completion handler
+                completion(image)
             })
         }
     }
     
+    /** Returns the URL to the post's asset */
+    // TODO: change to assetStorageURL
     func assetURL(completion: @escaping (URL) -> ()) {
         self.asset { (image) in
                 completion(image.storageURL!)
         }
     }
     
+    /** Returns the creator's UserProfile */
     func userProfile(completion: @escaping (UserProfile)->()) {
         if let uid = uid {
             UserProfile.get(uid, completion: { (profile) in
-                completion(profile!)
+                completion(profile)
             })
         }
     }
     
-    // Initializer
+    /** Initializes Post object using FIR snapshot */
     override init(_ snapshot: FIRDataSnapshot) {
         super.init(snapshot)
-        // TODO: Put else to capture fails and return error
         if let uid = json[keys.uid] as? String {
             self.uid = uid
         }
@@ -59,16 +67,15 @@ class Post: JSONObject {
         }
     }
     
-    // Helper function to retrieve Image JSON object from database
+    /** Gets the Post for a given ID */
     class func get(ID: String, completion:@escaping (Post)->()) {
-        super.get(ID: ID, object: object) { (snapshot) in
+        super.get(ID, object: object) { (snapshot) in
             // return initialized object
             completion(Post(snapshot))
         }
     }
     
-    // Helper function to create posts
-    // TODO: Integrate progress bar
+    /** Creates a new post */
     class func create(assetID: String, assetType: FIR.object) -> String {
         // Construct json to save
         let json: [String: AnyObject?] = [keys.uid: FIR.manager.uid as AnyObject,
@@ -82,7 +89,7 @@ class Post: JSONObject {
         return filename
     }
     
-    // Keys for dictionary that holds JSON properties
+    /** Database keys */
     struct keys {
         static let uid = "uid"
         static let timestamp = "timestamp"
