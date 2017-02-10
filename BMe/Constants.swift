@@ -70,7 +70,7 @@ struct Constants {
     }
     
     struct TabBar {
-        static let selectedIndex: Int = 1 // Set default vc to camera
+        static let selectedIndex: Int = 0 // Set default vc to camera
         static let selectedTabSize: CGFloat = 70
         static let unselectedTabSize: CGFloat = 50
         static let titleTextFadeAwayAnimationDuration: TimeInterval = 0.5

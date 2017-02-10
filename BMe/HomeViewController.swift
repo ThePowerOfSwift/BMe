@@ -258,7 +258,8 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         cell.isVoted = false
         
         //reset
-        cell.leftLabel?.text = ""
+//        cell.leftLabel?.text = ""
+        cell.leftLabel?.text = "Win"
         cell.rightLabel?.text = ""
         cell.resetAnimationState()
         cell.leftLabel?.backgroundColor = UIColor.white

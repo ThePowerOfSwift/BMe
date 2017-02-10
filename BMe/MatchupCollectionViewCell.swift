@@ -8,12 +8,18 @@
 
 import UIKit
 
-enum AnimationViewConstraintConstants: CGFloat {
-    case barLabelBottomSpacing = 25
-    case barWidth = 6
-    case checkMarkLabelSpacing = -10
-    case checkMarkImageWidth = 54
-    case checkMarkImageHeight = 40
+
+struct AnimationViewConstraintConstants {
+    static let barWidth: CGFloat = 6
+    static let checkMarkLabelSpacing: CGFloat = 10
+    static let checkMarkImageWidth: CGFloat = 54
+    static let checkMarkImageHeight: CGFloat = 40
+    static let winLabelHeight: CGFloat = 20.5
+    static var barLabelSpacing: CGFloat = 25
+    
+    static var leftBarCalculatedHeight: CGFloat = 0
+    static var rightBarCalculatedHeight: CGFloat = 0
+
 }
 
 enum VoteDirection {
@@ -154,65 +160,12 @@ class MatchupCollectionViewCell: UICollectionViewCell {
             ])
         
         addLabelsToImageViews()
-        addCheckMarkAndRectanglesToImageViews()
-        resetAnimationState()
+        print(leftLabel?.frame)
         
     }
     
     func addLabelsToImageViews() {
-        guard let leftImageView = leftImageView, let rightImageView = rightImageView else {
-            print("image view is nil")
-            return
-        }
-        leftLabel = UILabel()
-        rightLabel = UILabel()
-        
-        guard let leftLabel = leftLabel, let rightLabel = rightLabel else {
-            print("label is nil")
-            return
-        }
-        
-        leftImageView.addSubview(leftLabel)
-        rightImageView.addSubview(rightLabel)
-        
-        leftLabel.translatesAutoresizingMaskIntoConstraints = false
-        rightLabel.translatesAutoresizingMaskIntoConstraints = false
-        
-        leftImageView.addConstraints([
-            NSLayoutConstraint(item: leftLabel,
-                               attribute: NSLayoutAttribute.centerX,
-                               relatedBy: NSLayoutRelation.equal,
-                               toItem: leftImageView,
-                               attribute: NSLayoutAttribute.centerX,
-                               multiplier: 1.0,
-                               constant: 0),
-            NSLayoutConstraint(item: leftLabel,
-                               attribute: NSLayoutAttribute.centerY,
-                               relatedBy: NSLayoutRelation.equal,
-                               toItem: leftImageView,
-                               attribute: NSLayoutAttribute.centerY,
-                               multiplier: 1.0,
-                               constant: 0)
-            ])
-        
-        rightImageView.addConstraints([
-            NSLayoutConstraint(item: rightLabel,
-                               attribute: NSLayoutAttribute.centerX,
-                               relatedBy: NSLayoutRelation.equal,
-                               toItem: rightImageView,
-                               attribute: NSLayoutAttribute.centerX,
-                               multiplier: 1.0,
-                               constant: 0),
-            NSLayoutConstraint(item: rightLabel,
-                               attribute: NSLayoutAttribute.centerY,
-                               relatedBy: NSLayoutRelation.equal,
-                               toItem: rightImageView,
-                               attribute: NSLayoutAttribute.centerY,
-                               multiplier: 1.0,
-                               constant: 0)
-            ])
-        
-    }
+           }
     
     func addCheckMarkAndRectanglesToImageViews() {
         
@@ -255,13 +208,6 @@ class MatchupCollectionViewCell: UICollectionViewCell {
         
         contentView.addConstraints([
             NSLayoutConstraint(item: leftBar,
-                               attribute: NSLayoutAttribute.top,
-                               relatedBy: NSLayoutRelation.equal,
-                               toItem: leftLabel,
-                               attribute: NSLayoutAttribute.bottom,
-                               multiplier: 1.0,
-                               constant: AnimationViewConstraintConstants.barLabelBottomSpacing.rawValue),
-            NSLayoutConstraint(item: leftBar,
                                attribute: NSLayoutAttribute.bottom,
                                relatedBy: NSLayoutRelation.equal,
                                toItem: leftImageView,
@@ -274,7 +220,14 @@ class MatchupCollectionViewCell: UICollectionViewCell {
                                toItem: nil,
                                attribute: NSLayoutAttribute.width,
                                multiplier: 1.0,
-                               constant: AnimationViewConstraintConstants.barWidth.rawValue),
+                               constant: AnimationViewConstraintConstants.barWidth),
+            NSLayoutConstraint(item: leftBar,
+                               attribute: NSLayoutAttribute.height,
+                               relatedBy: NSLayoutRelation.equal,
+                               toItem: nil,
+                               attribute: NSLayoutAttribute.height,
+                               multiplier: 1.0,
+                               constant: AnimationViewConstraintConstants.leftBarCalculatedHeight),
             NSLayoutConstraint(item: leftBar,
                                attribute: NSLayoutAttribute.centerX,
                                relatedBy: NSLayoutRelation.equal,
@@ -290,60 +243,8 @@ class MatchupCollectionViewCell: UICollectionViewCell {
                                multiplier: 1.0,
                                constant: 0),
             ])
-        
-        //constrain bar off label and off imageview bottom
-        //give checkmark a constant width, height
-        //constraint checkmark off label and centerX
-        
+       
         contentView.addConstraints([
-            NSLayoutConstraint(item: leftCheckMark,
-                               attribute: NSLayoutAttribute.bottom,
-                               relatedBy: NSLayoutRelation.equal,
-                               toItem: leftLabel,
-                               attribute: NSLayoutAttribute.top,
-                               multiplier: 1.0,
-                               constant: AnimationViewConstraintConstants.checkMarkLabelSpacing.rawValue),
-            NSLayoutConstraint(item: leftCheckMark,
-                               attribute: NSLayoutAttribute.width,
-                               relatedBy: NSLayoutRelation.equal,
-                               toItem: nil,
-                               attribute: NSLayoutAttribute.width,
-                               multiplier: 1.0,
-                               constant: AnimationViewConstraintConstants.checkMarkImageWidth.rawValue),
-            NSLayoutConstraint(item: leftCheckMark,
-                               attribute: NSLayoutAttribute.height,
-                               relatedBy: NSLayoutRelation.equal,
-                               toItem: nil,
-                               attribute: NSLayoutAttribute.height,
-                               multiplier: 1.0,
-                               constant: AnimationViewConstraintConstants.checkMarkImageHeight.rawValue),
-            NSLayoutConstraint(item: leftCheckMark,
-                               attribute: NSLayoutAttribute.centerX,
-                               relatedBy: NSLayoutRelation.equal,
-                               toItem: leftLabel,
-                               attribute: NSLayoutAttribute.centerX,
-                               multiplier: 1.0,
-                               constant: 0),
-            NSLayoutConstraint(item: leftCheckMark,
-                               attribute: NSLayoutAttribute.centerX,
-                               relatedBy: NSLayoutRelation.equal,
-                               toItem: leftImageView,
-                               attribute: NSLayoutAttribute.centerX,
-                               multiplier: 1.0,
-                               constant: 0),
-            ])
-        
-        //constraints for right side
-        //same as left
-        
-        contentView.addConstraints([
-            NSLayoutConstraint(item: rightBar,
-                               attribute: NSLayoutAttribute.top,
-                               relatedBy: NSLayoutRelation.equal,
-                               toItem: rightLabel,
-                               attribute: NSLayoutAttribute.bottom,
-                               multiplier: 1.0,
-                               constant: AnimationViewConstraintConstants.barLabelBottomSpacing.rawValue),
             NSLayoutConstraint(item: rightBar,
                                attribute: NSLayoutAttribute.bottom,
                                relatedBy: NSLayoutRelation.equal,
@@ -357,11 +258,18 @@ class MatchupCollectionViewCell: UICollectionViewCell {
                                toItem: nil,
                                attribute: NSLayoutAttribute.width,
                                multiplier: 1.0,
-                               constant: AnimationViewConstraintConstants.barWidth.rawValue),
+                               constant: AnimationViewConstraintConstants.barWidth),
+            NSLayoutConstraint(item: rightBar,
+                               attribute: NSLayoutAttribute.height,
+                               relatedBy: NSLayoutRelation.equal,
+                               toItem: nil,
+                               attribute: NSLayoutAttribute.height,
+                               multiplier: 1.0,
+                               constant: AnimationViewConstraintConstants.rightBarCalculatedHeight),
             NSLayoutConstraint(item: rightBar,
                                attribute: NSLayoutAttribute.centerX,
                                relatedBy: NSLayoutRelation.equal,
-                               toItem: rightLabel,
+                               toItem: leftLabel,
                                attribute: NSLayoutAttribute.centerX,
                                multiplier: 1.0,
                                constant: 0),
@@ -374,6 +282,57 @@ class MatchupCollectionViewCell: UICollectionViewCell {
                                constant: 0),
             ])
         
+          //layout of other two elements off bar using autolayout
+        
+
+        leftLabel = UILabel()
+        rightLabel = UILabel()
+        
+        guard let leftLabel = leftLabel, let rightLabel = rightLabel else {
+            print("label is nil")
+            return
+        }
+        
+        leftImageView.addSubview(leftLabel)
+        rightImageView.addSubview(rightLabel)
+        
+        leftLabel.translatesAutoresizingMaskIntoConstraints = false
+        rightLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        leftImageView.addConstraints([
+            NSLayoutConstraint(item: leftLabel,
+                               attribute: NSLayoutAttribute.centerX,
+                               relatedBy: NSLayoutRelation.equal,
+                               toItem: leftImageView,
+                               attribute: NSLayoutAttribute.centerX,
+                               multiplier: 1.0,
+                               constant: 0),
+            NSLayoutConstraint(item: leftLabel,
+                               attribute: NSLayoutAttribute.bottom,
+                               relatedBy: NSLayoutRelation.equal,
+                               toItem: leftBar,
+                               attribute: NSLayoutAttribute.top,
+                               multiplier: 1.0,
+                               constant: AnimationViewConstraintConstants.barLabelSpacing),
+                      ])
+        
+        rightImageView.addConstraints([
+            NSLayoutConstraint(item: rightLabel,
+                               attribute: NSLayoutAttribute.centerX,
+                               relatedBy: NSLayoutRelation.equal,
+                               toItem: rightImageView,
+                               attribute: NSLayoutAttribute.centerX,
+                               multiplier: 1.0,
+                               constant: 0),
+            NSLayoutConstraint(item: rightLabel,
+                               attribute: NSLayoutAttribute.bottom,
+                               relatedBy: NSLayoutRelation.equal,
+                               toItem: rightBar,
+                               attribute: NSLayoutAttribute.top,
+                               multiplier: 1.0,
+                               constant: AnimationViewConstraintConstants.barLabelSpacing),
+            ])
+        
         contentView.addConstraints([
             NSLayoutConstraint(item: rightCheckMark,
                                attribute: NSLayoutAttribute.bottom,
@@ -381,21 +340,21 @@ class MatchupCollectionViewCell: UICollectionViewCell {
                                toItem: rightLabel,
                                attribute: NSLayoutAttribute.top,
                                multiplier: 1.0,
-                               constant: AnimationViewConstraintConstants.checkMarkLabelSpacing.rawValue),
+                               constant: -AnimationViewConstraintConstants.checkMarkLabelSpacing),
             NSLayoutConstraint(item: rightCheckMark,
                                attribute: NSLayoutAttribute.width,
                                relatedBy: NSLayoutRelation.equal,
                                toItem: nil,
                                attribute: NSLayoutAttribute.width,
                                multiplier: 1.0,
-                               constant: AnimationViewConstraintConstants.checkMarkImageWidth.rawValue),
+                               constant: AnimationViewConstraintConstants.checkMarkImageWidth),
             NSLayoutConstraint(item: rightCheckMark,
                                attribute: NSLayoutAttribute.height,
                                relatedBy: NSLayoutRelation.equal,
                                toItem: nil,
                                attribute: NSLayoutAttribute.height,
                                multiplier: 1.0,
-                               constant: AnimationViewConstraintConstants.checkMarkImageHeight.rawValue),
+                               constant: AnimationViewConstraintConstants.checkMarkImageHeight),
             NSLayoutConstraint(item: rightCheckMark,
                                attribute: NSLayoutAttribute.centerX,
                                relatedBy: NSLayoutRelation.equal,
@@ -407,6 +366,45 @@ class MatchupCollectionViewCell: UICollectionViewCell {
                                attribute: NSLayoutAttribute.centerX,
                                relatedBy: NSLayoutRelation.equal,
                                toItem: rightImageView,
+                               attribute: NSLayoutAttribute.centerX,
+                               multiplier: 1.0,
+                               constant: 0),
+            ])
+        
+
+        contentView.addConstraints([
+            NSLayoutConstraint(item: leftCheckMark,
+                               attribute: NSLayoutAttribute.bottom,
+                               relatedBy: NSLayoutRelation.equal,
+                               toItem: leftLabel,
+                               attribute: NSLayoutAttribute.top,
+                               multiplier: 1.0,
+                               constant: AnimationViewConstraintConstants.checkMarkLabelSpacing),
+            NSLayoutConstraint(item: leftCheckMark,
+                               attribute: NSLayoutAttribute.width,
+                               relatedBy: NSLayoutRelation.equal,
+                               toItem: nil,
+                               attribute: NSLayoutAttribute.width,
+                               multiplier: 1.0,
+                               constant: AnimationViewConstraintConstants.checkMarkImageWidth),
+            NSLayoutConstraint(item: leftCheckMark,
+                               attribute: NSLayoutAttribute.height,
+                               relatedBy: NSLayoutRelation.equal,
+                               toItem: nil,
+                               attribute: NSLayoutAttribute.height,
+                               multiplier: 1.0,
+                               constant: AnimationViewConstraintConstants.checkMarkImageHeight),
+            NSLayoutConstraint(item: leftCheckMark,
+                               attribute: NSLayoutAttribute.centerX,
+                               relatedBy: NSLayoutRelation.equal,
+                               toItem: leftLabel,
+                               attribute: NSLayoutAttribute.centerX,
+                               multiplier: 1.0,
+                               constant: 0),
+            NSLayoutConstraint(item: leftCheckMark,
+                               attribute: NSLayoutAttribute.centerX,
+                               relatedBy: NSLayoutRelation.equal,
+                               toItem: leftImageView,
                                attribute: NSLayoutAttribute.centerX,
                                multiplier: 1.0,
                                constant: 0),
@@ -512,33 +510,58 @@ class MatchupCollectionViewCell: UICollectionViewCell {
         perform(#selector(scrollTo), with: nil, afterDelay: 0.5)
     }
     
-    func changeBarSizesToPercents() {
-        guard let leftBar = leftBar, let rightBar = rightBar else {
-            print("bar is nil")
-            return
-        }
+    func createVotingAnimationSubviews() {
+        //calculate percentages
+        
+        //        guard let leftBar = leftBar, let rightBar = rightBar else {
+        //            print("bar is nil")
+        //            return
+        //        }
         guard let homeViewControllerDelegate = homeViewControllerDelegate else {
             print("delegate is nil")
             return
         }
-        guard let matchup = homeViewControllerDelegate.matchup else {
-            print("matchup is nil")
-            return
-        }
-        guard let leftCount = matchup.countVoteA, let rightCount = matchup.countVoteB  else {
-            print("counts are nil")
-            return
-        }
-    
+        //        guard let matchup = homeViewControllerDelegate.matchup else {
+        //            print("matchup is nil")
+        //            return
+        //        }
+        //        guard let leftCount = matchup.countVoteA, let rightCount = matchup.countVoteB  else {
+        //            print("counts are nil")
+        //            return
+        //        }
+        
+        let leftCount: Double = 30
+        let rightCount: Double = 70
+        
+        let defaultSpacing = 25
+        let sizeMultiplierConstant = 2.0
+        
         //calculate total and percentages
         let total = leftCount + rightCount
-        let leftPercentage = leftCount / total
-        let rightPercentage = rightCount / total
-        let newLeftFrame = leftBar.frame.size.height * CGFloat(leftPercentage)
-        let newRightFrame = rightBar.frame.size.height * CGFloat(rightPercentage)
-        leftBar.frame.size.height = newLeftFrame
-        rightBar.frame.size.height = newRightFrame
+        let leftPercentage: Double = (leftCount / total) * 2
+        let rightPercentage: Double = (rightCount / total) * 2
+        
+        
+        //calculates totalheight of bar (contentviewheight - B)
+        
+        let cellHeight = contentView.frame.size.height
+        let controlHeight = AnimationViewConstraintConstants.checkMarkImageHeight + AnimationViewConstraintConstants.winLabelHeight + AnimationViewConstraintConstants.checkMarkLabelSpacing
+        let barHeight = cellHeight - controlHeight - AnimationViewConstraintConstants.barLabelSpacing
+        
+        AnimationViewConstraintConstants.leftBarCalculatedHeight = barHeight * CGFloat(leftPercentage)
+           AnimationViewConstraintConstants.rightBarCalculatedHeight = barHeight * CGFloat(rightPercentage)
+        
+        //lays bar out with fixed height using autolyout
+        //layout of other two elements off bar using autolayout
+        
+        //hide elements to prepareforanimatin
+        
+        addCheckMarkAndRectanglesToImageViews()
+        self.contentView.layoutIfNeeded()
+        resetAnimationState()
+
     }
+
     
     // Can't take argument with any type except id, but id is not available in swift
     // So use property instead
