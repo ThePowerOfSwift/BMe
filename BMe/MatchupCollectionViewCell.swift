@@ -329,7 +329,7 @@ class MatchupCollectionViewCell: UICollectionViewCell {
                                toItem: rightLabel,
                                attribute: NSLayoutAttribute.top,
                                multiplier: 1.0,
-                               constant: -AnimationViewConstraintConstants.checkMarkLabelSpacing),
+                               constant: AnimationViewConstraintConstants.checkMarkLabelSpacing),
             NSLayoutConstraint(item: rightCheckMark,
                                attribute: NSLayoutAttribute.width,
                                relatedBy: NSLayoutRelation.equal,
@@ -509,6 +509,8 @@ class MatchupCollectionViewCell: UICollectionViewCell {
         //            return
         //        }
         
+        //MARK: Once database is ready. swap out the leftCount/RightCount variables.  Also note int must be converted to Double for calculation
+        
         let leftCount: Double = 30
         let rightCount: Double = 70
         
@@ -517,18 +519,19 @@ class MatchupCollectionViewCell: UICollectionViewCell {
         
         //calculate total and percentages
         let total = leftCount + rightCount
-        let leftPercentage: Double = (leftCount / total) * 2
-        let rightPercentage: Double = (rightCount / total) * 2
+        let leftPercentage: Double = (leftCount / total)
+        let rightPercentage: Double = (rightCount / total)
         
         
         //calculates totalheight of bar (contentviewheight - B)
+        //note checkmarklabelspacing and barlabelspacing must inverted based on constraint setup
         
         let cellHeight = contentView.frame.size.height
-        let controlHeight = AnimationViewConstraintConstants.checkMarkImageHeight + AnimationViewConstraintConstants.winLabelHeight + AnimationViewConstraintConstants.checkMarkLabelSpacing
-        let barHeight = cellHeight - controlHeight - AnimationViewConstraintConstants.barLabelSpacing
+        let controlHeight = AnimationViewConstraintConstants.checkMarkImageHeight + AnimationViewConstraintConstants.winLabelHeight + -(AnimationViewConstraintConstants.checkMarkLabelSpacing)
+        let barHeight = cellHeight - controlHeight - -(AnimationViewConstraintConstants.barLabelSpacing)
         
         AnimationViewConstraintConstants.leftBarCalculatedHeight = barHeight * CGFloat(leftPercentage)
-           AnimationViewConstraintConstants.rightBarCalculatedHeight = barHeight * CGFloat(rightPercentage)
+        AnimationViewConstraintConstants.rightBarCalculatedHeight = barHeight * CGFloat(rightPercentage)
         
         //lays bar out with fixed height using autolyout
         //layout of other two elements off bar using autolayout
