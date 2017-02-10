@@ -9,23 +9,12 @@
 import UIKit
 import GPUImage
 
-// TODO: - Fix filter
-// TODO: - Implement font feature
-// TODO: - Tap text button, Select color, and start editing. but not start editing right away
-// TODO: - Fix autolayout
-// TODO: - Set button icons
+
 
 // MARK: - Protocols
 /**
  CameraViewDelegate protocol defines methods to show and hide things in delegate object.
  In this case, the delegate object is TabBarViewController.
- 
- The reason why this class needs to have tab bar view controller as a delegate is
- to control tab bar behaviour. For example, your need to hide tab bar when you're in
- photo edit mode. You can get the reference to tab bar view controller from here by
- going up parent view controller, but there is page view controller between them and
- going through page view controller need more work to get the reference to tab bar view controller.
- Using delegate is simpler way.
  */
 protocol CameraViewControllerDelegate {
     /** Show tab bar when camera mode is on. Called by camera view controller. */
@@ -52,6 +41,7 @@ enum Button: Int {
 
 enum Mode: Int {
     case Camera = 0
+    case Edit
     case Filter
     case Draw
     case Text
@@ -98,7 +88,7 @@ struct Constraint {
         struct Edit {
             struct Bottom {
                 /** The bottom constraint of edit buttons when they are shown during edit mode.*/
-                static let Show: CGFloat = 0
+                static var Show: CGFloat = 0
                 /** The bottom constraint of edit buttons when they are hidden during camera mode.*/
                 static let Hide: CGFloat = -100
                 /** The bottom constraint of filter button when bubble collection view is shown.*/
@@ -111,8 +101,11 @@ struct Constraint {
         struct Top {
             /** Top constraint of bubble collection view when it is shown. */
             static var Show: CGFloat = 0
+            /** Top constraint of bubble collection view when it is shown on top of keyboard. */
+            static var ShowWithKeyboard: CGFloat = 0
             /** Top constraint of bubble collection view when it is hidden. */
             static var Hide: CGFloat = 0
+            
         }
     }
 }
@@ -201,16 +194,15 @@ class CameraViewController: UIViewController {
     var lastPoint = CGPoint.zero
     // TODO: Move these to Constants.swift
     var lineWidth: CGFloat = 7.0
-    var isDrawingAdded = false
     
     // MARK: - Delegate
     var delegate: CameraViewControllerDelegate?
     
     // MARK: Constraint
-    @IBOutlet weak var filterButtonBottomConstraint: NSLayoutConstraint!
-    @IBOutlet weak var editButtonsBottomConstraint: NSLayoutConstraint!
+    
     @IBOutlet weak var bubbleCollectionViewTopConstraint: NSLayoutConstraint!
     
+    @IBOutlet weak var editButtonBottomConstraint: NSLayoutConstraint!
     // MARK: filter name animation
     @IBOutlet weak var filterNameLabelCenterConstraint: NSLayoutConstraint!
     @IBOutlet weak var filterNameLabel: UILabel!
@@ -229,14 +221,15 @@ class CameraViewController: UIViewController {
         super.viewDidLoad()
         initialScreenSetup()
         storeOriginalValuesInOutlets()
-        cameraMode()
+        toggleCameraMode()
     }
     
     // MARK: Inital Setup
     
     /** Stores original values in outlets for animation. */
     private func storeOriginalValuesInOutlets() {
-        Constraint.Button.Filter.Bottom.Show = filterButtonBottomConstraint.constant
+        Constraint.Button.Filter.Bottom.Show = editButtonBottomConstraint.constant
+        Constraint.Button.Edit.Bottom.Show = editButtonBottomConstraint.constant
     }
     
     /** Called to set the first screen state. */
@@ -262,11 +255,12 @@ class CameraViewController: UIViewController {
         // Set the top constraint when collection view is hidden
         let cameraHeight = view.frame.width*4/3
         
-        Constraint.BubbleCollectionView.Top.Hide = cameraHeight - bubbleCollectionView.frame.height
+        // Multiply by two so that it shows on top of keyboard
+        Constraint.BubbleCollectionView.Top.Hide = cameraHeight - bubbleCollectionView.frame.height * 2
         bubbleCollectionViewTopConstraint.constant = Constraint.BubbleCollectionView.Top.Hide
         
         // set the top constraint when collection view is shown
-        Constraint.BubbleCollectionView.Top.Show = Constraint.BubbleCollectionView.Top.Hide + CGFloat(bubbleCollectionView.frame.height)
+        Constraint.BubbleCollectionView.Top.Show = Constraint.BubbleCollectionView.Top.Hide + CGFloat(bubbleCollectionView.frame.height * 2)
 
         view.layoutIfNeeded()
         let indexPath = IndexPath(item: 0, section: 0)
@@ -365,7 +359,6 @@ class CameraViewController: UIViewController {
     
     /** Creates transparent image view */
     fileprivate func createClearImage(size: CGSize) -> UIImage? {
-
         UIGraphicsBeginImageContext(size)
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
@@ -375,14 +368,14 @@ class CameraViewController: UIViewController {
     @IBAction func onEditButtons(_ sender: UIButton) {
         switch sender.tag {
         case Button.Filter.rawValue:
-            filterMode()
+            toggleFilterMode()
 
         case Button.Draw.rawValue:
-            drawMode()
+            toggleDrawMode()
             
         case Button.Text.rawValue:
             addNewTextfield()
-            textMode()
+            toggleTextMode()
             
             print("On text button")
 
@@ -396,15 +389,14 @@ class CameraViewController: UIViewController {
     }
     
     @IBAction func onCancel(_ sender: UIButton) {
-        cameraMode()
+        toggleCameraMode()
         
         // If color bubble is shown, hide it in camera mode to switch to filter mode
         // Need to reload collection view because the color collection view setting is different from filter
         if isBubbleCollectionViewShown && currentMode.isMode(mode: .Draw) || currentMode.isMode(mode: .Text) {
-            filterMode()
+            toggleFilterMode()
             bubbleCollectionView.reloadData()
         }
-        
         removeAllItems()
     }
     
@@ -425,11 +417,11 @@ class CameraViewController: UIViewController {
             self.removeAllItems()
             busy.stopAnimating()
             busy.removeFromSuperview()
-            self.cameraMode()
+            self.toggleCameraMode()
         })
     }
     
-    internal func swipeGestureRecognizer(state: Bool) {
+    internal func toggleSwipeGestureRecognizer(state: Bool) {
         if state {
             swipeRightRecognizer?.isEnabled = true
             swipeLeftRecognizer?.isEnabled = true
@@ -569,7 +561,7 @@ class CameraViewController: UIViewController {
                 // Save the original image to unfilteredPhoto
                 // Show the filtered photo in photo image view
                 self.unfilteredImage = image
-                self.editMode()
+                self.toggleEditMode()
                 self.changeFilter(newFilterIndex: self.filterIndex.current)
                 self.stillCamera?.stopCapture()
                 
@@ -643,16 +635,10 @@ class CameraViewController: UIViewController {
 extension CameraViewController {
     // MARK: Mode Change
     /** Ready to take picrure. */
-    internal func cameraMode() {
+    internal func toggleCameraMode() {
+        removeAllItems()
         currentMode.toggle(mode: .Camera)
-        cancelButton.isHidden = true
-        uploadButton.isHidden = true
-        photoImageView.image = nil
-        photoImageView.isHidden = true
-        textImageView.image = nil
-        textImageView.isHidden = true
-        drawImageView.image = nil
-        drawImageView.isHidden = true
+        hideEditSubviews()
         
         if isBubbleCollectionViewShown {
             delegate?.showCenterTab()
@@ -664,7 +650,7 @@ extension CameraViewController {
         
         UIView.animate(withDuration: 0.2, animations: {
             
-            self.editButtonsBottomConstraint.constant = Constraint.Button.Edit.Bottom.Hide
+            self.editButtonBottomConstraint.constant = Constraint.Button.Edit.Bottom.Hide
             self.view.layoutIfNeeded()
             
         }) { (completed: Bool) in
@@ -672,147 +658,191 @@ extension CameraViewController {
         // Show tabs
     }
     
+
+    
     /** Shows picture taken to edit. */
-    internal func editMode() {
-        currentMode.toggle(mode: .Filter)
-        cancelButton.isHidden = false
-        uploadButton.isHidden = false
-        photoImageView.isHidden = false
-        delegate?.hideAllTabs()
+    internal func toggleEditMode() {
+        currentMode.toggle(mode: .Edit)
         
-        view.bringSubview(toFront: photoImageView)
-        view.bringSubview(toFront: cancelButton)
-        view.bringSubview(toFront: uploadButton)
-        view.bringSubview(toFront: filterNameLabel)
+        showEditSubviews()
+        
+        delegate?.hideAllTabs()
         stillCamera?.stopCapture()
         
         // Show cancel button and upload button
         // Hide tabs
         UIView.animate(withDuration: 0.2, animations: {
             if self.isBubbleCollectionViewShown {
-                self.editButtonsBottomConstraint.constant = Constraint.Button.Edit.Bottom.ShowWithCollectionView
+                self.editButtonBottomConstraint.constant = Constraint.Button.Edit.Bottom.ShowWithCollectionView
             } else {
-                self.editButtonsBottomConstraint.constant = Constraint.Button.Edit.Bottom.Show
+                self.editButtonBottomConstraint.constant = Constraint.Button.Edit.Bottom.Show
             }
             self.view.layoutIfNeeded()
         }) { (completed: Bool) in
             
         }
+        currentMode.toggle(mode: .Filter)
     }
     
     /** Shows collection view bubble. */
-    internal func bubbleMode(state: Bool) {
+    internal func toggleBubbleCollectionView() {
         // Filter editing
-        if state {
-            isBubbleCollectionViewShown = state
+        
+        if !isBubbleCollectionViewShown {
+            isBubbleCollectionViewShown = !isBubbleCollectionViewShown
             
             // Show animation
             UIView.animate(withDuration: Animation.BubbleCollectionViewShowDuration, animations: {
-                self.bubbleCollectionView.reloadData()
-                
                 // Move down for the height of collection view to show it
                 self.bubbleCollectionViewTopConstraint.constant = Constraint.BubbleCollectionView.Top.Show
                 
                 // Move down the filter button
-                self.filterButtonBottomConstraint.constant = Constraint.Button.Filter.Bottom.ShowWithCollectionView
+                self.editButtonBottomConstraint.constant = Constraint.Button.Filter.Bottom.ShowWithCollectionView
                 
                 if !self.currentMode.isMode(mode: .Camera) {
                     // Move down the edit buttons
-                    self.editButtonsBottomConstraint.constant = Constraint.Button.Edit.Bottom.ShowWithCollectionView
+                    self.editButtonBottomConstraint.constant = Constraint.Button.Edit.Bottom.ShowWithCollectionView
                 }
                 
                 self.view.layoutIfNeeded()
             })
         } else {
             
-            isBubbleCollectionViewShown = state
+            isBubbleCollectionViewShown = !isBubbleCollectionViewShown
             // Hide animation
             UIView.animate(withDuration: Animation.BubbleCollectionViewShowDuration, animations: {
                 // Move up fot the height of collection view to hide it under camera
                 self.bubbleCollectionViewTopConstraint.constant = Constraint.BubbleCollectionView.Top.Hide
                 
                 // Move up the filter button
-                self.filterButtonBottomConstraint.constant = Constraint.Button.Filter.Bottom.Show
+                self.editButtonBottomConstraint.constant = Constraint.Button.Filter.Bottom.Show
                 
                 if !self.currentMode.isMode(mode: .Camera) {
                     // Move up the edit buttons
-                    self.editButtonsBottomConstraint.constant = Constraint.Button.Edit.Bottom.ShowWithCollectionView
+                    self.editButtonBottomConstraint.constant = Constraint.Button.Edit.Bottom.ShowWithCollectionView
                 }
                 
                 self.view.layoutIfNeeded()
             })
         }
+
     }
     
     /** Turn on filter mode with bubble. isFilterMode is always on unless draw or text mode is on. */
-    internal func filterMode() {
-        
-        // disable the other image view user interaction to enable the current image view
-        textImageView.isUserInteractionEnabled = false
-        drawImageView.isUserInteractionEnabled = false
-        photoImageView.isUserInteractionEnabled = true
-        view.bringSubview(toFront: filterNameLabel)
-        
-        // Turn on swipe gesture recognizer
-        swipeGestureRecognizer(state: true)
-        currentMode.toggle(mode: .Filter)
-        if isBubbleCollectionViewShown {
-            bubbleMode(state: false)
+    internal func toggleFilterMode() {
+        if currentMode.isMode(mode: .Filter) {
+            toggleBubbleCollectionView()
         } else {
-            bubbleMode(state: true)
+            currentMode.toggle(mode: .Filter)
+            bubbleCollectionView.reloadData()
         }
+        
+        toggleUserInteraction(mode: currentMode)
+        sortSubviews(mode: currentMode)
+        toggleSwipeGestureRecognizer(state: true)
+        currentMode.toggle(mode: .Filter)
     }
     
     /** Enables drawing mode with bubble. */
-    internal func drawMode() {
-        currentMode.toggle(mode: .Draw)
-        if isBubbleCollectionViewShown {
-            bubbleMode(state: false)
+    internal func toggleDrawMode() {
+        if currentMode.isMode(mode: .Draw) {
+            toggleBubbleCollectionView()
         } else {
-            bubbleMode(state: true)
+            currentMode.toggle(mode: .Draw)
+            bubbleCollectionView.reloadData()
         }
         
-            
-        // disable the other image view user interaction to enable the current image view
-        textImageView.isUserInteractionEnabled = false
-        drawImageView.isUserInteractionEnabled = true
-        photoImageView.isUserInteractionEnabled = false
-
-        view.bringSubview(toFront: drawImageView)
-        view.bringSubview(toFront: cancelButton)
-        view.bringSubview(toFront: uploadButton)
-        drawImageView.isHidden = false
-        swipeGestureRecognizer(state: false)
-        
+        currentMode.toggle(mode: .Draw)
+        toggleUserInteraction(mode: currentMode)
+        sortSubviews(mode: currentMode)
+        toggleSwipeGestureRecognizer(state: false)
     }
     
     /** Enables text mode with bubble. */
-    internal func textMode() {
-        currentMode.toggle(mode: .Text)
-        if isBubbleCollectionViewShown {
-            bubbleMode(state: false)
+    internal func toggleTextMode() {
+        if currentMode.isMode(mode: .Text) {
+            //toggleBubbleCollectionView()
         } else {
-            bubbleMode(state: true)
+            currentMode.toggle(mode: .Text)
+            bubbleCollectionView.reloadData()
         }
-
-        // disable the other image view user interaction to enable the current image view
-        textImageView.isUserInteractionEnabled = true
-        drawImageView.isUserInteractionEnabled = false
-        photoImageView.isUserInteractionEnabled = false
         
-
-        view.bringSubview(toFront: textImageView)
-        view.bringSubview(toFront: cancelButton)
-        view.bringSubview(toFront: uploadButton)
-        textImageView.isHidden = false
-        swipeGestureRecognizer(state: false)
-        
+        toggleUserInteraction(mode: currentMode)
+        sortSubviews(mode: currentMode)
+        toggleSwipeGestureRecognizer(state: false)
     }
     
     // TODO: Figure out how font mode works. works with text mode?
     internal func fontMode() {
         currentMode.toggle(mode: .Font)
     }
+    
+    func showEditSubviews() {
+        cancelButton.isHidden = false
+        uploadButton.isHidden = false
+        photoImageView.isHidden = false
+        drawImageView.isHidden = false
+        textImageView.isHidden = false
+    }
+    
+    func hideEditSubviews() {
+        cancelButton.isHidden = true
+        uploadButton.isHidden = true
+        photoImageView.isHidden = true
+        drawImageView.isHidden = true
+        textImageView.isHidden = true
+    }
+    
+    /** Sort view's subview. */
+    func sortSubviews(mode: Mode) {
+        switch mode {
+        case .Edit:
+            view.bringSubview(toFront: photoImageView)
+            view.bringSubview(toFront: cancelButton)
+            view.bringSubview(toFront: uploadButton)
+            view.bringSubview(toFront: filterNameLabel)
+        case .Filter:
+            view.bringSubview(toFront: photoImageView)
+            view.bringSubview(toFront: cancelButton)
+            view.bringSubview(toFront: uploadButton)
+            view.bringSubview(toFront: filterNameLabel)
+        case .Draw:
+            view.bringSubview(toFront: drawImageView)
+            view.bringSubview(toFront: cancelButton)
+            view.bringSubview(toFront: uploadButton)
+        case .Text:
+            view.bringSubview(toFront: textImageView)
+            view.bringSubview(toFront: bubbleCollectionView)
+            view.bringSubview(toFront: cancelButton)
+            view.bringSubview(toFront: uploadButton)
+        default:
+            print("in default in sortSubviews")
+        }
+    }
+    
+    /** Hides views not needed. */
+    func toggleUserInteraction(mode: Mode) {
+        switch mode {
+        case .Filter:
+            textImageView.isUserInteractionEnabled = false
+            drawImageView.isUserInteractionEnabled = false
+            photoImageView.isUserInteractionEnabled = true
+            
+        case .Draw:
+            textImageView.isUserInteractionEnabled = false
+            drawImageView.isUserInteractionEnabled = true
+            photoImageView.isUserInteractionEnabled = false
+
+        case .Text:
+            textImageView.isUserInteractionEnabled = true
+            drawImageView.isUserInteractionEnabled = false
+            photoImageView.isUserInteractionEnabled = false
+        default:
+            print("In default in toggleUserInteraction")
+        }
+    }
+    
+
     
     /** Removes all the text, drawing, and picure. Called after cancel or upload. */
     internal func removeAllItems() {
@@ -1082,41 +1112,49 @@ extension CameraViewController: UITextFieldDelegate {
     }
     
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        
         return true
     }
     
     func addKeyboardObserver() {
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: .UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: .UIKeyboardWillHide, object: nil)
         
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: .UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: .UIKeyboardWillHide, object: nil)
     }
     
-    func keyboardWillShow() {
+    
+    func keyboardWillShow(notification: NSNotification) {
         print("Keyboard will show")
-        textImageView.isUserInteractionEnabled = true
-        drawImageView.isUserInteractionEnabled = false
-        photoImageView.isUserInteractionEnabled = false
+        let info  = notification.userInfo!
+        guard let keyboardFrame = info[UIKeyboardFrameEndUserInfoKey] as? CGRect else {
+            print("Can't convert info[UIKeyboardFrameEndUserInfoKey] to CGRect")
+            return
+        }
         
-        currentMode.toggle(mode: .Text)
-        view.bringSubview(toFront: textImageView)
-        view.bringSubview(toFront: cancelButton)
-        view.bringSubview(toFront: uploadButton)
-        textImageView.isHidden = false
-        swipeGestureRecognizer(state: false)
+//        Constraint.BubbleCollectionView.Top.ShowWithKeyboard = UIScreen.main.bounds.height - keyboardFrame.height - bubbleCollectionView.frame.height
+        Constraint.BubbleCollectionView.Top.ShowWithKeyboard = UIScreen.main.bounds.height - keyboardFrame.height - bubbleCollectionView.frame.height
+        print("keyboard frame: \(keyboardFrame)")
+        print("Constraint.BubbleCollectionView.Top.ShowWithKeyboard: \(Constraint.BubbleCollectionView.Top.ShowWithKeyboard)")
+        toggleTextMode()
         isBubbleCollectionViewShown = true
-
         bubbleCollectionView.reloadData()
+        
         UIView.animate(withDuration: 0.1) {
             self.view.bringSubview(toFront: self.textImageView)
             self.view.bringSubview(toFront: self.bubbleCollectionView)
-            self.bubbleCollectionViewTopConstraint.constant -= 100
+            self.bubbleCollectionViewTopConstraint.constant = Constraint.BubbleCollectionView.Top.ShowWithKeyboard
+            print("self.bubbleCollectionViewTopConstraint.constant: \(self.bubbleCollectionViewTopConstraint.constant)")
             self.view.layoutIfNeeded()
         }
     }
     
-    func keyboardWillHide() {
+    func keyboardWillHide(notification: NSNotification) {
         print("Keyboard will hide")
+        UIView.animate(withDuration: 0.1) {
+            self.view.bringSubview(toFront: self.textImageView)
+            self.view.bringSubview(toFront: self.bubbleCollectionView)
+            self.bubbleCollectionViewTopConstraint.constant = Constraint.BubbleCollectionView.Top.Show
+            self.view.layoutIfNeeded()
+        }
     }
 }
 
