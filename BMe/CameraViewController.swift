@@ -46,6 +46,7 @@ enum Mode: Int {
     case Draw
     case Text
     case Font
+    case Hashtag
     
     /** Change mode*/
     mutating func toggle(mode: Mode) {
@@ -217,6 +218,7 @@ class CameraViewController: UIViewController {
     @IBOutlet weak var textButton: UIButton!
     @IBOutlet weak var drawButton: UIButton!
     @IBOutlet weak var filterButton: UIButton!
+    @IBOutlet weak var hashtagTextField: UITextField!
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -246,6 +248,9 @@ class CameraViewController: UIViewController {
         // Initialize index object
         filterIndex = Index(numOfElement: filters.count)
         colorIndex = Index(numOfElement: colors.count)
+        
+        hashtagTextField.delegate = self
+        
         // Setup the UI
         setupBubbleCollectionView()
         setupFilterNameLabel()
@@ -437,15 +442,36 @@ class CameraViewController: UIViewController {
         self.toggleCameraMode()
         
     }
+    @IBAction func onHashtagField(_ sender: UITextField) {
+        currentMode.toggle(mode: .Hashtag)
+    }
     
-    internal func toggleSwipeGestureRecognizer(state: Bool) {
-        if state {
-            swipeRightRecognizer?.isEnabled = true
-            swipeLeftRecognizer?.isEnabled = true
-        } else {
-            swipeRightRecognizer?.isEnabled = false
-            swipeLeftRecognizer?.isEnabled = false
+    internal func toggleSwipeGestureRecognizer(mode: Mode) {
+        guard let swipeLeftRecognizer = swipeLeftRecognizer, let swipeRightRecognizer = swipeRightRecognizer else {
+            print("swipe recognizer is nil")
+            return
         }
+        
+        var isEnabled = false
+        switch mode {
+        case .Camera:
+            isEnabled = false
+        case .Edit:
+            isEnabled = true
+        case .Filter:
+            isEnabled = true
+        case .Draw:
+            isEnabled = false
+        case .Text:
+            isEnabled = false
+        case .Font:
+            isEnabled = false
+        case .Hashtag:
+            print("Something is wrong. toggleSwipeGestureRecognizer is fired under Hashtag mode.")
+        }
+        
+        swipeRightRecognizer.isEnabled = isEnabled
+        swipeLeftRecognizer.isEnabled = isEnabled
     }
     
     /** Called when swiping right. Calls animate filter passing the filter name and swipe direction. */
@@ -656,7 +682,7 @@ extension CameraViewController {
         removeAllItems()
         currentMode.toggle(mode: .Camera)
         hideEditSubviews()
-        
+        toggleSwipeGestureRecognizer(mode: .Camera)
         toggleBubbleCollectionView()
         delegate?.showAllTabs()
         
@@ -675,7 +701,7 @@ extension CameraViewController {
     /** Shows picture taken to edit. */
     internal func toggleEditMode() {
         currentMode.toggle(mode: .Edit)
-        
+        toggleSwipeGestureRecognizer(mode: .Edit)
         showEditSubviews()
         
         delegate?.hideAllTabs()
@@ -714,7 +740,7 @@ extension CameraViewController {
 
         toggleUserInteraction(mode: currentMode)
         sortSubviews(mode: currentMode)
-        toggleSwipeGestureRecognizer(state: true)
+        toggleSwipeGestureRecognizer(mode: .Filter)
         currentMode.toggle(mode: .Filter)
         print("isBubbleCollectionViewShown: \(isBubbleCollectionViewShown)")
     }
@@ -737,7 +763,7 @@ extension CameraViewController {
         currentMode.toggle(mode: .Draw)
         toggleUserInteraction(mode: currentMode)
         sortSubviews(mode: currentMode)
-        toggleSwipeGestureRecognizer(state: false)
+        toggleSwipeGestureRecognizer(mode: .Draw)
         print("isBubbleCollectionViewShown: \(isBubbleCollectionViewShown)")
 
     }
@@ -748,7 +774,7 @@ extension CameraViewController {
         currentMode.toggle(mode: .Text)
         toggleUserInteraction(mode: currentMode)
         sortSubviews(mode: currentMode)
-        toggleSwipeGestureRecognizer(state: false)
+        toggleSwipeGestureRecognizer(mode: .Text)
     }
     
     // TODO: Figure out how font mode works. works with text mode?
@@ -806,6 +832,9 @@ extension CameraViewController {
         photoImageView.isHidden = false
         drawImageView.isHidden = false
         textImageView.isHidden = false
+        filterNameLabel.isHidden = false
+        hashtagTextField.isHidden = false
+        bubbleCollectionView.isHidden = false
     }
     
     func hideEditSubviews() {
@@ -814,6 +843,9 @@ extension CameraViewController {
         photoImageView.isHidden = true
         drawImageView.isHidden = true
         textImageView.isHidden = true
+        filterNameLabel.isHidden = true
+        hashtagTextField.isHidden = true
+        bubbleCollectionView.isHidden = true
     }
     
     /** Sort view's subview. */
@@ -823,6 +855,7 @@ extension CameraViewController {
             view.bringSubview(toFront: photoImageView)
             view.bringSubview(toFront: cancelButton)
             view.bringSubview(toFront: uploadButton)
+            view.bringSubview(toFront: hashtagTextField)
             view.bringSubview(toFront: filterNameLabel)
         case .Filter:
             view.bringSubview(toFront: photoImageView)
@@ -830,6 +863,7 @@ extension CameraViewController {
             view.bringSubview(toFront: drawImageView)
             view.bringSubview(toFront: cancelButton)
             view.bringSubview(toFront: uploadButton)
+            view.bringSubview(toFront: hashtagTextField)
             view.bringSubview(toFront: filterNameLabel)
         case .Draw:
             view.bringSubview(toFront: photoImageView)
@@ -837,11 +871,13 @@ extension CameraViewController {
             view.bringSubview(toFront: drawImageView)
             view.bringSubview(toFront: cancelButton)
             view.bringSubview(toFront: uploadButton)
+            view.bringSubview(toFront: hashtagTextField)
         case .Text:
             view.bringSubview(toFront: textImageView)
             view.bringSubview(toFront: bubbleCollectionView)
             view.bringSubview(toFront: cancelButton)
             view.bringSubview(toFront: uploadButton)
+            view.bringSubview(toFront: hashtagTextField)
         default:
             print("in default in sortSubviews")
         }
@@ -868,8 +904,6 @@ extension CameraViewController {
             print("In default in toggleUserInteraction")
         }
     }
-    
-
     
     /** Removes all the text, drawing, and picure. Called after cancel or upload. */
     internal func removeAllItems() {
@@ -1134,6 +1168,15 @@ extension CameraViewController: UITextFieldDelegate {
     }
     
     // MARK: Delegate methods
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        if textField == hashtagTextField {
+            currentMode.toggle(mode: .Hashtag)
+        } else if textField == currentTextField {
+            currentMode.toggle(mode: .Text)
+        }
+        return true
+    }
+    
     /** On change resize the view */
     @objc private func textFieldDidChange(_ sender: UITextField) {
         sender.sizeToFit()
@@ -1143,50 +1186,53 @@ extension CameraViewController: UITextFieldDelegate {
         textField.resignFirstResponder()
         return true
     }
-    
-    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        return true
-    }
-    
+
     func addKeyboardObserver() {
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: .UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: .UIKeyboardWillHide, object: nil)
     }
     
+    // The order of the call when text button or hash tag text field is tapped
+    // 1. textFieldShouldBeginEditing
+    // 2. keyboardWillShow
+    // 3. toggleTextMode
     
     func keyboardWillShow(notification: NSNotification) {
-        print("Keyboard will show")
-        let info  = notification.userInfo!
-        guard let keyboardFrame = info[UIKeyboardFrameEndUserInfoKey] as? CGRect else {
-            print("Can't convert info[UIKeyboardFrameEndUserInfoKey] to CGRect")
-            return
-        }
-        
-//        Constraint.BubbleCollectionView.Top.ShowWithKeyboard = UIScreen.main.bounds.height - keyboardFrame.height - bubbleCollectionView.frame.height
-        Constraint.BubbleCollectionView.Top.ShowWithKeyboard = UIScreen.main.bounds.height - keyboardFrame.height - bubbleCollectionView.frame.height
-        print("keyboard frame: \(keyboardFrame)")
-        print("Constraint.BubbleCollectionView.Top.ShowWithKeyboard: \(Constraint.BubbleCollectionView.Top.ShowWithKeyboard)")
-        toggleTextMode()
-        isBubbleCollectionViewShown = false
-        bubbleCollectionView.reloadData()
-        toggleBubbleCollectionView()
-        UIView.animate(withDuration: 0.1) {
-            self.view.bringSubview(toFront: self.textImageView)
-            self.view.bringSubview(toFront: self.bubbleCollectionView)
-            self.bubbleCollectionViewTopConstraint.constant = Constraint.BubbleCollectionView.Top.ShowWithKeyboard
-            print("self.bubbleCollectionViewTopConstraint.constant: \(self.bubbleCollectionViewTopConstraint.constant)")
-            self.view.layoutIfNeeded()
+        if currentMode.isMode(mode: .Text) {
+            print("Keyboard will show")
+            let info  = notification.userInfo!
+            guard let keyboardFrame = info[UIKeyboardFrameEndUserInfoKey] as? CGRect else {
+                print("Can't convert info[UIKeyboardFrameEndUserInfoKey] to CGRect")
+                return
+            }
+            
+            Constraint.BubbleCollectionView.Top.ShowWithKeyboard = UIScreen.main.bounds.height - keyboardFrame.height - bubbleCollectionView.frame.height
+            print("keyboard frame: \(keyboardFrame)")
+            print("Constraint.BubbleCollectionView.Top.ShowWithKeyboard: \(Constraint.BubbleCollectionView.Top.ShowWithKeyboard)")
+            toggleTextMode()
+            isBubbleCollectionViewShown = false
+            bubbleCollectionView.reloadData()
+            toggleBubbleCollectionView()
+            UIView.animate(withDuration: 0.1) {
+                self.view.bringSubview(toFront: self.textImageView)
+                self.view.bringSubview(toFront: self.bubbleCollectionView)
+                self.bubbleCollectionViewTopConstraint.constant = Constraint.BubbleCollectionView.Top.ShowWithKeyboard
+                print("self.bubbleCollectionViewTopConstraint.constant: \(self.bubbleCollectionViewTopConstraint.constant)")
+                self.view.layoutIfNeeded()
+            }
         }
     }
     
     func keyboardWillHide(notification: NSNotification) {
         print("Keyboard will hide")
-        UIView.animate(withDuration: 0.1) {
-            self.view.bringSubview(toFront: self.textImageView)
-            self.view.bringSubview(toFront: self.bubbleCollectionView)
-            self.bubbleCollectionViewTopConstraint.constant = Constraint.BubbleCollectionView.Top.Show
-            self.view.layoutIfNeeded()
+        if currentMode.isMode(mode: .Text) {
+            UIView.animate(withDuration: 0.1) {
+                self.view.bringSubview(toFront: self.textImageView)
+                self.view.bringSubview(toFront: self.bubbleCollectionView)
+                self.bubbleCollectionViewTopConstraint.constant = Constraint.BubbleCollectionView.Top.Show
+                self.view.layoutIfNeeded()
+            }
         }
     }
 }
