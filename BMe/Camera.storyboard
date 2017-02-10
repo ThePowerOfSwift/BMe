@@ -144,6 +144,15 @@
                                     <action selector="onUpload:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Slq-0F-2hs"/>
                                 </connections>
                             </button>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ykQ-MK-jZv">
+                                <rect key="frame" x="88" y="39.5" width="199" height="21"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <action selector="onHashtagField:" destination="BYZ-38-t0r" eventType="touchDown" id="JFS-F7-43C"/>
+                                </connections>
+                            </textField>
                         </subviews>
                         <color key="backgroundColor" red="1" green="0.86666666670000003" blue="0.2784313725" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
@@ -152,12 +161,16 @@
                             <constraint firstItem="oAc-GC-2Do" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="8QP-TB-7Ss"/>
                             <constraint firstItem="j0l-qG-S1z" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="GUD-fd-eWa"/>
                             <constraint firstAttribute="trailing" secondItem="gro-ey-NZx" secondAttribute="trailing" id="LiE-Oi-kX4"/>
+                            <constraint firstItem="ykQ-MK-jZv" firstAttribute="centerY" secondItem="MhI-Hd-urD" secondAttribute="centerY" id="LiU-UY-hn6"/>
                             <constraint firstAttribute="trailing" secondItem="j0l-qG-S1z" secondAttribute="trailing" id="LoZ-yU-vl5"/>
                             <constraint firstItem="gro-ey-NZx" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" constant="400" id="MvH-EH-Jk9"/>
+                            <constraint firstItem="j0l-qG-S1z" firstAttribute="centerY" secondItem="MhI-Hd-urD" secondAttribute="centerY" id="N3V-v8-kwJ"/>
                             <constraint firstAttribute="bottom" secondItem="oAc-GC-2Do" secondAttribute="bottom" constant="290" id="Tvf-VO-QWk"/>
                             <constraint firstItem="MhI-Hd-urD" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="dDV-fo-lpD"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="YCO-Sb-6Qb" secondAttribute="bottom" constant="60" id="dOm-xZ-hSg"/>
+                            <constraint firstItem="j0l-qG-S1z" firstAttribute="leading" secondItem="ykQ-MK-jZv" secondAttribute="trailing" constant="8" id="je4-hw-TP8"/>
                             <constraint firstItem="YCO-Sb-6Qb" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="20" id="mLg-ak-x3p"/>
+                            <constraint firstItem="ykQ-MK-jZv" firstAttribute="leading" secondItem="MhI-Hd-urD" secondAttribute="trailing" constant="8" id="skj-uU-24K"/>
                             <constraint firstItem="MhI-Hd-urD" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="w6j-jy-Lif"/>
                         </constraints>
                     </view>
@@ -171,13 +184,14 @@
                         <outlet property="filterNameLabel" destination="oAc-GC-2Do" id="6YR-tL-2qw"/>
                         <outlet property="filterNameLabelCenterConstraint" destination="8QP-TB-7Ss" id="rhL-e4-yNg"/>
                         <outlet property="fontButton" destination="x6s-J1-PPL" id="uMQ-MP-3pl"/>
+                        <outlet property="hashtagTextField" destination="ykQ-MK-jZv" id="Fep-6S-SjU"/>
                         <outlet property="textButton" destination="LGO-17-jQk" id="T5p-3l-ksv"/>
                         <outlet property="uploadButton" destination="j0l-qG-S1z" id="nCX-fa-rMr"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="136.80000000000001" y="137.18140929535232"/>
+            <point key="canvasLocation" x="-268" y="166.8665667166417"/>
         </scene>
     </scenes>
 </document>
