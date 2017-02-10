@@ -19,8 +19,8 @@ struct AnimationViewConstraintConstants {
     
     static var leftBarCalculatedHeight: CGFloat = 0
     static var rightBarCalculatedHeight: CGFloat = 0
-
-
+    
+    
 }
 
 enum VoteDirection {
@@ -165,7 +165,7 @@ class MatchupCollectionViewCell: UICollectionViewCell {
         
     }
     
-
+    
     
     func addAndConstrainSubviews() {
         
@@ -236,7 +236,7 @@ class MatchupCollectionViewCell: UICollectionViewCell {
                                multiplier: 1.0,
                                constant: 0),
             ])
-       
+        
         contentView.addConstraints([
             NSLayoutConstraint(item: rightBar,
                                attribute: NSLayoutAttribute.bottom,
@@ -268,9 +268,9 @@ class MatchupCollectionViewCell: UICollectionViewCell {
                                constant: 0),
             ])
         
-          //layout of other two elements off bar using autolayout
+        //layout of other two elements off bar using autolayout
         
-
+        
         leftLabel = UILabel()
         rightLabel = UILabel()
         
@@ -281,7 +281,7 @@ class MatchupCollectionViewCell: UICollectionViewCell {
         
         leftLabel.text = leftLabelText
         rightLabel.text = rightLabelText
-
+        
         leftImageView.addSubview(leftLabel)
         rightImageView.addSubview(rightLabel)
         
@@ -303,7 +303,7 @@ class MatchupCollectionViewCell: UICollectionViewCell {
                                attribute: NSLayoutAttribute.top,
                                multiplier: 1.0,
                                constant: AnimationViewConstraintConstants.barLabelSpacing),
-                      ])
+            ])
         
         contentView.addConstraints([
             NSLayoutConstraint(item: rightLabel,
@@ -360,7 +360,7 @@ class MatchupCollectionViewCell: UICollectionViewCell {
                                constant: 0),
             ])
         
-
+        
         contentView.addConstraints([
             NSLayoutConstraint(item: leftCheckMark,
                                attribute: NSLayoutAttribute.bottom,
@@ -514,16 +514,13 @@ class MatchupCollectionViewCell: UICollectionViewCell {
         let leftCount: Double = 30
         let rightCount: Double = 70
         
-        let defaultSpacing = 25
-        let sizeMultiplierConstant = 2.0
-        
         //calculate total and percentages
         let total = leftCount + rightCount
         let leftPercentage: Double = (leftCount / total)
         let rightPercentage: Double = (rightCount / total)
         
         
-        //calculates totalheight of bar (contentviewheight - B)
+        //calculates totalheight of bar (contentviewheight - B(height of checkmark and label))
         //note checkmarklabelspacing and barlabelspacing must inverted based on constraint setup
         
         let cellHeight = contentView.frame.size.height
@@ -536,14 +533,14 @@ class MatchupCollectionViewCell: UICollectionViewCell {
         //lays bar out with fixed height using autolyout
         //layout of other two elements off bar using autolayout
         
-        //hide elements to prepareforanimatin
+        //hide elements to prepareforanimation
         
         addAndConstrainSubviews()
         self.contentView.layoutIfNeeded()
         resetAnimationState()
-
+        
     }
-
+    
     
     // Can't take argument with any type except id, but id is not available in swift
     // So use property instead
@@ -578,7 +575,7 @@ class MatchupCollectionViewCell: UICollectionViewCell {
         
         leftBar.transform = CGAffineTransform(scaleX: 0.25, y: 0.25)
         rightBar.transform = CGAffineTransform(scaleX: 0.25, y: 0.25)
-
+        
         if direction == VoteDirection.Left {
             
             prepareForSelectionAnimation(direction: VoteDirection.Left)
@@ -586,7 +583,7 @@ class MatchupCollectionViewCell: UICollectionViewCell {
         }else {
             prepareForSelectionAnimation(direction: VoteDirection.Right)
         }
-       
+        
     }
     
     
