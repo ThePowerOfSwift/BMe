@@ -9,7 +9,7 @@
 import UIKit
 import GPUImage
 
-
+// TODO: Change text color when editing by selecting bubbles
 
 // MARK: - Protocols
 /**
@@ -174,6 +174,8 @@ class CameraViewController: UIViewController {
     fileprivate var lastRotation: CGFloat = 0
     /** To store original center position for panned gesture */
     fileprivate var originalCenter: CGPoint?
+    
+    var currentTextField: UITextField?
     
     /** Computed property that has all the text fields added in textImageView */
     fileprivate var textFields: [UITextField] {
@@ -658,8 +660,6 @@ extension CameraViewController {
         // Show tabs
     }
     
-
-    
     /** Shows picture taken to edit. */
     internal func toggleEditMode() {
         currentMode.toggle(mode: .Edit)
@@ -681,7 +681,67 @@ extension CameraViewController {
         }) { (completed: Bool) in
             
         }
+        toggleFilterMode()
+    }
+    
+    /** Turn on filter mode with bubble. isFilterMode is always on unless draw or text mode is on. */
+    internal func toggleFilterMode() {
+        
+        if currentMode.isMode(mode: .Filter) {
+            toggleBubbleCollectionView()
+        } else {
+            // Switched to another mode
+            currentMode.toggle(mode: .Filter)
+            if !isBubbleCollectionViewShown {
+                bubbleCollectionView.reloadData()
+                toggleBubbleCollectionView()
+            } else {
+                bubbleCollectionView.reloadData()
+            }
+        }
+
+        toggleUserInteraction(mode: currentMode)
+        sortSubviews(mode: currentMode)
+        toggleSwipeGestureRecognizer(state: true)
         currentMode.toggle(mode: .Filter)
+        print("isBubbleCollectionViewShown: \(isBubbleCollectionViewShown)")
+    }
+    
+    /** Enables drawing mode with bubble. */
+    internal func toggleDrawMode() {
+        if currentMode.isMode(mode: .Draw) {
+            toggleBubbleCollectionView()
+        } else {
+            // Switched to another mode
+            currentMode.toggle(mode: .Draw)
+            if !isBubbleCollectionViewShown {
+                bubbleCollectionView.reloadData()
+                toggleBubbleCollectionView()
+            } else {
+                bubbleCollectionView.reloadData()
+            }
+        }
+        
+        currentMode.toggle(mode: .Draw)
+        toggleUserInteraction(mode: currentMode)
+        sortSubviews(mode: currentMode)
+        toggleSwipeGestureRecognizer(state: false)
+        print("isBubbleCollectionViewShown: \(isBubbleCollectionViewShown)")
+
+    }
+    
+    /** Enables text mode with bubble. */
+    internal func toggleTextMode() {
+        // animation is implemented in keyboardWillShow and hide
+        currentMode.toggle(mode: .Text)
+        toggleUserInteraction(mode: currentMode)
+        sortSubviews(mode: currentMode)
+        toggleSwipeGestureRecognizer(state: false)
+    }
+    
+    // TODO: Figure out how font mode works. works with text mode?
+    internal func fontMode() {
+        currentMode.toggle(mode: .Font)
     }
     
     /** Shows collection view bubble. */
@@ -725,56 +785,7 @@ extension CameraViewController {
                 self.view.layoutIfNeeded()
             })
         }
-
-    }
-    
-    /** Turn on filter mode with bubble. isFilterMode is always on unless draw or text mode is on. */
-    internal func toggleFilterMode() {
-        if currentMode.isMode(mode: .Filter) {
-            toggleBubbleCollectionView()
-        } else {
-            currentMode.toggle(mode: .Filter)
-            bubbleCollectionView.reloadData()
-        }
         
-        toggleUserInteraction(mode: currentMode)
-        sortSubviews(mode: currentMode)
-        toggleSwipeGestureRecognizer(state: true)
-        currentMode.toggle(mode: .Filter)
-    }
-    
-    /** Enables drawing mode with bubble. */
-    internal func toggleDrawMode() {
-        if currentMode.isMode(mode: .Draw) {
-            toggleBubbleCollectionView()
-        } else {
-            currentMode.toggle(mode: .Draw)
-            bubbleCollectionView.reloadData()
-        }
-        
-        currentMode.toggle(mode: .Draw)
-        toggleUserInteraction(mode: currentMode)
-        sortSubviews(mode: currentMode)
-        toggleSwipeGestureRecognizer(state: false)
-    }
-    
-    /** Enables text mode with bubble. */
-    internal func toggleTextMode() {
-        if currentMode.isMode(mode: .Text) {
-            //toggleBubbleCollectionView()
-        } else {
-            currentMode.toggle(mode: .Text)
-            bubbleCollectionView.reloadData()
-        }
-        
-        toggleUserInteraction(mode: currentMode)
-        sortSubviews(mode: currentMode)
-        toggleSwipeGestureRecognizer(state: false)
-    }
-    
-    // TODO: Figure out how font mode works. works with text mode?
-    internal func fontMode() {
-        currentMode.toggle(mode: .Font)
     }
     
     func showEditSubviews() {
@@ -803,10 +814,14 @@ extension CameraViewController {
             view.bringSubview(toFront: filterNameLabel)
         case .Filter:
             view.bringSubview(toFront: photoImageView)
+            view.bringSubview(toFront: textImageView)
+            view.bringSubview(toFront: drawImageView)
             view.bringSubview(toFront: cancelButton)
             view.bringSubview(toFront: uploadButton)
             view.bringSubview(toFront: filterNameLabel)
         case .Draw:
+            view.bringSubview(toFront: photoImageView)
+            view.bringSubview(toFront: textImageView)
             view.bringSubview(toFront: drawImageView)
             view.bringSubview(toFront: cancelButton)
             view.bringSubview(toFront: uploadButton)
@@ -926,6 +941,11 @@ extension CameraViewController: UICollectionViewDataSource, UICollectionViewDele
             
             colorIndex.current = indexPath.item
             currentColor = colors[colorIndex.current].uiColor
+            if isEditing {
+                if let currentTextField = currentTextField {
+                    currentTextField.textColor = currentColor
+                }
+            }
             print(currentColor)
             if let cell = collectionView.cellForItem(at: indexPath) as? BubbleCollectionViewCell {
                 
@@ -984,6 +1004,7 @@ extension CameraViewController: UITextFieldDelegate {
     fileprivate func addNewTextfield() {
         // Create new textfield
         let textField = UITextField()
+        self.currentTextField = textField
         textField.delegate = self
        
         textField.autocorrectionType = .no
@@ -1135,9 +1156,9 @@ extension CameraViewController: UITextFieldDelegate {
         print("keyboard frame: \(keyboardFrame)")
         print("Constraint.BubbleCollectionView.Top.ShowWithKeyboard: \(Constraint.BubbleCollectionView.Top.ShowWithKeyboard)")
         toggleTextMode()
-        isBubbleCollectionViewShown = true
+        isBubbleCollectionViewShown = false
         bubbleCollectionView.reloadData()
-        
+        toggleBubbleCollectionView()
         UIView.animate(withDuration: 0.1) {
             self.view.bringSubview(toFront: self.textImageView)
             self.view.bringSubview(toFront: self.bubbleCollectionView)
