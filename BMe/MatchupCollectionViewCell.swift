@@ -11,14 +11,15 @@ import UIKit
 
 struct AnimationViewConstraintConstants {
     static let barWidth: CGFloat = 6
-    static let checkMarkLabelSpacing: CGFloat = 10
+    static let checkMarkLabelSpacing: CGFloat = -10
     static let checkMarkImageWidth: CGFloat = 54
     static let checkMarkImageHeight: CGFloat = 40
     static let winLabelHeight: CGFloat = 20.5
-    static var barLabelSpacing: CGFloat = 25
+    static var barLabelSpacing: CGFloat = -25
     
     static var leftBarCalculatedHeight: CGFloat = 0
     static var rightBarCalculatedHeight: CGFloat = 0
+
 
 }
 
@@ -39,6 +40,9 @@ class MatchupCollectionViewCell: UICollectionViewCell {
     var rightCheckMark: UIImageView?
     var leftBar: UIView?
     var rightBar: UIView?
+    
+    var leftLabelText = ""
+    var rightLabelText = ""
     
     /** To scroll colleciton view. */
     var collectionViewDelegate: UICollectionView?
@@ -159,15 +163,11 @@ class MatchupCollectionViewCell: UICollectionViewCell {
                                constant: contentView.frame.width/2)
             ])
         
-        addLabelsToImageViews()
-        print(leftLabel?.frame)
-        
     }
     
-    func addLabelsToImageViews() {
-           }
+
     
-    func addCheckMarkAndRectanglesToImageViews() {
+    func addAndConstrainSubviews() {
         
         guard let leftImageView = leftImageView, let rightImageView = rightImageView else {
             print("image view is nil")
@@ -231,13 +231,6 @@ class MatchupCollectionViewCell: UICollectionViewCell {
             NSLayoutConstraint(item: leftBar,
                                attribute: NSLayoutAttribute.centerX,
                                relatedBy: NSLayoutRelation.equal,
-                               toItem: leftLabel,
-                               attribute: NSLayoutAttribute.centerX,
-                               multiplier: 1.0,
-                               constant: 0),
-            NSLayoutConstraint(item: leftBar,
-                               attribute: NSLayoutAttribute.centerX,
-                               relatedBy: NSLayoutRelation.equal,
                                toItem: leftImageView,
                                attribute: NSLayoutAttribute.centerX,
                                multiplier: 1.0,
@@ -269,13 +262,6 @@ class MatchupCollectionViewCell: UICollectionViewCell {
             NSLayoutConstraint(item: rightBar,
                                attribute: NSLayoutAttribute.centerX,
                                relatedBy: NSLayoutRelation.equal,
-                               toItem: leftLabel,
-                               attribute: NSLayoutAttribute.centerX,
-                               multiplier: 1.0,
-                               constant: 0),
-            NSLayoutConstraint(item: rightBar,
-                               attribute: NSLayoutAttribute.centerX,
-                               relatedBy: NSLayoutRelation.equal,
                                toItem: rightImageView,
                                attribute: NSLayoutAttribute.centerX,
                                multiplier: 1.0,
@@ -293,13 +279,16 @@ class MatchupCollectionViewCell: UICollectionViewCell {
             return
         }
         
+        leftLabel.text = leftLabelText
+        rightLabel.text = rightLabelText
+
         leftImageView.addSubview(leftLabel)
         rightImageView.addSubview(rightLabel)
         
         leftLabel.translatesAutoresizingMaskIntoConstraints = false
         rightLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        leftImageView.addConstraints([
+        contentView.addConstraints([
             NSLayoutConstraint(item: leftLabel,
                                attribute: NSLayoutAttribute.centerX,
                                relatedBy: NSLayoutRelation.equal,
@@ -316,7 +305,7 @@ class MatchupCollectionViewCell: UICollectionViewCell {
                                constant: AnimationViewConstraintConstants.barLabelSpacing),
                       ])
         
-        rightImageView.addConstraints([
+        contentView.addConstraints([
             NSLayoutConstraint(item: rightLabel,
                                attribute: NSLayoutAttribute.centerX,
                                relatedBy: NSLayoutRelation.equal,
@@ -435,20 +424,15 @@ class MatchupCollectionViewCell: UICollectionViewCell {
         }
         isVoted = true
         
-        guard let leftLabel = leftLabel, let rightLabel = rightLabel else {
-            print("label is nil")
-            return
-        }
-        
         // upload match up result to server via home view controller
         //homeViewControllerDelegate.uploadMatchupResult(winner: WinnerPost.Left)
         
         
-        leftLabel.text = "Win"
-        rightLabel.text = "Lose"
+        leftLabelText = "Win"
+        rightLabelText = "Lose"
         
         //Change the size of the bar before aniamtion
-        changeBarSizesToPercents()
+        createVotingAnimationSubviews()
         
         //Perform animation before new scroll
         startAnimationState(direction: VoteDirection.Left)
@@ -484,19 +468,14 @@ class MatchupCollectionViewCell: UICollectionViewCell {
         }
         isVoted = true
         
-        guard let leftLabel = leftLabel, let rightLabel = rightLabel else {
-            print("label is nil")
-            return
-        }
-        
         // upload match up result to server via home view controller
         //homeViewControllerDelegate.uploadMatchupResult(winner: WinnerPost.Right)
         
-        leftLabel.text = "Lose"
-        rightLabel.text = "Win"
+        leftLabelText = "Win"
+        rightLabelText = "Lose"
         
         //Change the size of the bar before aniamtion
-        changeBarSizesToPercents()
+        createVotingAnimationSubviews()
         
         //Perform animation before new scroll
         startAnimationState(direction: VoteDirection.Right)
@@ -556,7 +535,7 @@ class MatchupCollectionViewCell: UICollectionViewCell {
         
         //hide elements to prepareforanimatin
         
-        addCheckMarkAndRectanglesToImageViews()
+        addAndConstrainSubviews()
         self.contentView.layoutIfNeeded()
         resetAnimationState()
 
