@@ -405,10 +405,6 @@
 		78337D901DE3ACA700A1B32C /* JJ */ = {
 			isa = PBXGroup;
 			children = (
-				BFF9AE961E39BBE90012C1F2 /* SignUpViewController.swift */,
-				78469A5D1DE3958100A40D53 /* LoginViewController.swift */,
-				BFF9AE9A1E3D90020012C1F2 /* Main.storyboard */,
-				BFF9AE9C1E3D90540012C1F2 /* MainViewController.swift */,
 			);
 			name = JJ;
 			sourceTree = "<group>";
@@ -560,6 +556,10 @@
 		BFF9AE951E398C6D0012C1F2 /* Louis */ = {
 			isa = PBXGroup;
 			children = (
+				BFF9AE961E39BBE90012C1F2 /* SignUpViewController.swift */,
+				78469A5D1DE3958100A40D53 /* LoginViewController.swift */,
+				BFF9AE9A1E3D90020012C1F2 /* Main.storyboard */,
+				BFF9AE9C1E3D90540012C1F2 /* MainViewController.swift */,
 			);
 			name = Louis;
 			sourceTree = "<group>";
