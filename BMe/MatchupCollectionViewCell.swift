@@ -424,9 +424,8 @@ class MatchupCollectionViewCell: UICollectionViewCell {
         }
         isVoted = true
         
-        // upload match up result to server via home view controller
-        //homeViewControllerDelegate.uploadMatchupResult(winner: WinnerPost.Left)
-        
+        //cast vote
+        homeViewControllerDelegate.uploadMatchupResult(winner: WinnerPost.Left)
         
         leftLabelText = "Win"
         rightLabelText = "Lose"
@@ -468,8 +467,9 @@ class MatchupCollectionViewCell: UICollectionViewCell {
         }
         isVoted = true
         
-        // upload match up result to server via home view controller
-        //homeViewControllerDelegate.uploadMatchupResult(winner: WinnerPost.Right)
+        //cast vote
+        homeViewControllerDelegate.uploadMatchupResult(winner: WinnerPost.Right)
+
         
         leftLabelText = "Win"
         rightLabelText = "Lose"
@@ -492,32 +492,33 @@ class MatchupCollectionViewCell: UICollectionViewCell {
     func createVotingAnimationSubviews() {
         //calculate percentages
         
-        //        guard let leftBar = leftBar, let rightBar = rightBar else {
-        //            print("bar is nil")
-        //            return
-        //        }
+        guard let leftBar = leftBar, let rightBar = rightBar else {
+            print("bar is nil")
+            return
+        }
         guard let homeViewControllerDelegate = homeViewControllerDelegate else {
             print("delegate is nil")
             return
         }
-        //        guard let matchup = homeViewControllerDelegate.matchup else {
-        //            print("matchup is nil")
-        //            return
-        //        }
-        //        guard let leftCount = matchup.countVoteA, let rightCount = matchup.countVoteB  else {
-        //            print("counts are nil")
-        //            return
-        //        }
+        guard let matchup = homeViewControllerDelegate.matchup else {
+            print("matchup is nil")
+            return
+        }
+        guard let leftCount = matchup.countVoteA, let rightCount = matchup.countVoteB  else {
+            print("counts are nil")
+            return
+        }
         
-        //MARK: Once database is ready. swap out the leftCount/RightCount variables.  Also note int must be converted to Double for calculation
+        //convert int to double
+        //come up with cleaner way to do this in next iteration
         
-        let leftCount: Double = 30
-        let rightCount: Double = 70
+        let leftCountConverted: Double = Double(leftCount)
+        let rightCountConverted: Double = Double(rightCount)
         
         //calculate total and percentages
-        let total = leftCount + rightCount
-        let leftPercentage: Double = (leftCount / total)
-        let rightPercentage: Double = (rightCount / total)
+        let total = leftCountConverted + rightCountConverted
+        let leftPercentage: Double = (leftCountConverted / total)
+        let rightPercentage: Double = (rightCountConverted / total)
         
         
         //calculates totalheight of bar (contentviewheight - B(height of checkmark and label))
