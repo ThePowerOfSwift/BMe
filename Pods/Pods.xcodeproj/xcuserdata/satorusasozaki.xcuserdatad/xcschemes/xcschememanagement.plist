@@ -19,16 +19,6 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Pods-BMeTests.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
-		<key>Pods-BMeUITests.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
 		<key>SDWebImage.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -38,16 +28,6 @@
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
 		<key>107A9565F9DF88517DFD3E28C05B2B96</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>60FD6076A92CE4A9764A48ED747336A5</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>6E5DC7419BB08ADEA977634F83FB113B</key>
 		<dict>
 			<key>primary</key>
 			<true/>

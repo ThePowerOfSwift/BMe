@@ -12,14 +12,4 @@ target 'BMe' do
   pod 'Firebase/Storage'
   pod 'FirebaseUI/Storage'
 
-  target 'BMeTests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
-
-  target 'BMeUITests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
-
 end
