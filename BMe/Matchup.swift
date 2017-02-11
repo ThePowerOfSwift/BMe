@@ -87,12 +87,12 @@ class Matchup: JSONObject {
     /** Create a matchup */
     class func create(postAID: String, postBID: String) {
         // Construct json to save
-        let json: [String: AnyObject?] = [keys.timestamp: Date().toString()  as AnyObject,
-                                          keys.postAID: postAID as AnyObject,
-                                          keys.postBID: postBID as AnyObject,
-                                          keys.countVoteA: 0 as AnyObject,
-                                          keys.countVoteB: 0 as AnyObject,
-                                          keys.voted: [:] as AnyObject]
+        let json: [String: AnyObject] = [keys.timestamp: Date().toString()  as AnyObject,
+                                         keys.postAID: postAID as AnyObject,
+                                         keys.postBID: postBID as AnyObject,
+                                         keys.countVoteA: 0 as AnyObject,
+                                         keys.countVoteB: 0 as AnyObject,
+                                         keys.voted: [:] as AnyObject]
         
         // Write json to DB
         FIR.manager.databasePath(object).childByAutoId().setValue(json)
@@ -171,7 +171,7 @@ class Matchup: JSONObject {
     
     /** Submit a photo for voting */
     class func submitPost(_ postID: String){
-        let json = [postID: "" as AnyObject?]
+        let json: [String: AnyObject] = [postID: "" as AnyObject]
         JSONStack.queue(object: json, database: FIR.manager.databasePath(object))
         
         // Apply matchup logic
