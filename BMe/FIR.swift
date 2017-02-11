@@ -127,10 +127,9 @@ extension UIImageView {
      */
     func loadImageFromGS(url: URL, placeholderImage placeholder: UIImage?) {
         let storagePath: FIRStorageReference = FIR.manager.storage.child(url.path)
-        //        self.sd_setImage(with: storagePath)
+        self.sd_setImage(with: storagePath, placeholderImage: placeholder)
         
-        
-        if let task = self.sd_setImage(with: storagePath, placeholderImage: placeholder) {
+//        if let task = self.sd_setImage(with: storagePath, placeholderImage: placeholder) {
             // Setup progress indicator
             //            let busyIndicator = UIActivityIndicatorView(frame: self.bounds)
             //            self.addSubview(busyIndicator)
@@ -152,7 +151,7 @@ extension UIImageView {
             //                }
             //                busyIndicator.removeFromSuperview()
             //            })
-        }
+//        }
     }
 }
 

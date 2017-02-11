@@ -23,13 +23,13 @@ class FIRButton: UIButton {
     private let selectedImage = UIImage(named: "")
     
     func performSelection() {
-        if let datasource = datasource {
-        }
+//        if let datasource = datasource {
+//        }
     }
     
     func performDeSelection() {
-        if let datasource = datasource {
-        }
+//        if let datasource = datasource {
+//        }
     }
     
     // MARK: - template setup

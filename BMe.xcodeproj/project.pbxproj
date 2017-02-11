@@ -55,7 +55,6 @@
 		78B56A061DF5EBFB00A13915 /* error.png in Resources */ = {isa = PBXBuildFile; fileRef = 78B56A051DF5EBFB00A13915 /* error.png */; };
 		78B56A091DF5FD1B00A13915 /* user-white.png in Resources */ = {isa = PBXBuildFile; fileRef = 78B56A071DF5FD1B00A13915 /* user-white.png */; };
 		78B56A0A1DF5FD1B00A13915 /* user-yellow.png in Resources */ = {isa = PBXBuildFile; fileRef = 78B56A081DF5FD1B00A13915 /* user-yellow.png */; };
-		78BCDF2C1DF74421002D399E /* README in Resources */ = {isa = PBXBuildFile; fileRef = 78BCDF2B1DF74421002D399E /* README */; };
 		78BCDF311DF7464D002D399E /* cross-white.png in Resources */ = {isa = PBXBuildFile; fileRef = 78BCDF2F1DF7464D002D399E /* cross-white.png */; };
 		78BCDF321DF7464D002D399E /* cross-yellow.png in Resources */ = {isa = PBXBuildFile; fileRef = 78BCDF301DF7464D002D399E /* cross-yellow.png */; };
 		78BCDF341DF74663002D399E /* CrossButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78BCDF331DF74663002D399E /* CrossButton.swift */; };
@@ -188,7 +187,6 @@
 		78B56A051DF5EBFB00A13915 /* error.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = error.png; sourceTree = "<group>"; };
 		78B56A071DF5FD1B00A13915 /* user-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "user-white.png"; sourceTree = "<group>"; };
 		78B56A081DF5FD1B00A13915 /* user-yellow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "user-yellow.png"; sourceTree = "<group>"; };
-		78BCDF2B1DF74421002D399E /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
 		78BCDF2F1DF7464D002D399E /* cross-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cross-white.png"; sourceTree = "<group>"; };
 		78BCDF301DF7464D002D399E /* cross-yellow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cross-yellow.png"; sourceTree = "<group>"; };
 		78BCDF331DF74663002D399E /* CrossButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CrossButton.swift; sourceTree = "<group>"; };
@@ -328,7 +326,6 @@
 		78337D8E1DE3AC7400A1B32C /* Shared */ = {
 			isa = PBXGroup;
 			children = (
-				78BCDF2B1DF74421002D399E /* README */,
 				78B56A0B1DF5FE7B00A13915 /* Other */,
 				783008A21DE3B9A000B070D4 /* Extensions.swift */,
 				783008A31DE3B9A000B070D4 /* Constants.swift */,
@@ -574,7 +571,7 @@
 				TargetAttributes = {
 					78469A571DE3958000A40D53 = {
 						CreatedOnToolsVersion = 8.0;
-						DevelopmentTeam = PY8CHQP699;
+						DevelopmentTeam = Y4GA6H5JHE;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -676,7 +673,6 @@
 				78BCDF321DF7464D002D399E /* cross-yellow.png in Resources */,
 				78BCDF3D1DF74ABC002D399E /* nextarrow.png in Resources */,
 				E3DC85061E450EBA0017E6A2 /* alcatraz.jpg in Resources */,
-				78BCDF2C1DF74421002D399E /* README in Resources */,
 				7837A21B1DF959F2000CB9CB /* heart-blue.png in Resources */,
 				781E713E1DF401A100041855 /* sound-wave.png in Resources */,
 				781E715D1DF53D1E00041855 /* home-white.png in Resources */,
@@ -894,7 +890,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = PY8CHQP699;
+				DEVELOPMENT_TEAM = Y4GA6H5JHE;
 				INFOPLIST_FILE = BMe/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.op.BMe;
@@ -913,7 +909,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = PY8CHQP699;
+				DEVELOPMENT_TEAM = Y4GA6H5JHE;
 				INFOPLIST_FILE = BMe/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.op.BMe;
