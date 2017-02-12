@@ -98,23 +98,23 @@ class MainViewController: UIViewController, UIScrollViewDelegate {
         // It is UIImageView now, can be replaced by .xib, if need, but not yet be tested suceessfully
         let imgOne = UIImageView(frame: CGRect(x: 0, y: 0,width: aboutPageViewWidth, height: aboutPageViewHeight))
         imgOne.contentMode = .scaleAspectFit
-        imgOne.image = #imageLiteral(resourceName: "hook-black.png")
+        imgOne.image = nil
         
         let imgTwo = UIImageView(frame: CGRect(x: aboutPageViewWidth, y: 0,width: aboutPageViewWidth, height: aboutPageViewHeight))
         imgTwo.contentMode = .scaleAspectFit
-        imgTwo.image = #imageLiteral(resourceName: "home")
+        imgTwo.image = nil
         
         let imgThree = UIImageView(frame: CGRect(x: aboutPageViewWidth * 2, y: 0,width: aboutPageViewWidth, height: aboutPageViewHeight))
         imgThree.contentMode = .scaleAspectFit
-        imgThree.image = #imageLiteral(resourceName: "hook-blue.png")
+        imgThree.image = nil
         
         let imgFour = UIImageView(frame: CGRect(x: aboutPageViewWidth * 3, y: 0,width: aboutPageViewWidth, height: aboutPageViewHeight))
         imgFour.contentMode = .scaleAspectFit
-        imgFour.image = #imageLiteral(resourceName: "hook-black.png")
+        imgFour.image = nil
         
         let imgFive = UIImageView(frame: CGRect(x: aboutPageViewWidth * 4, y: 0,width: aboutPageViewWidth, height: aboutPageViewHeight))
         imgFive.contentMode = .scaleAspectFit
-        imgFive.image = #imageLiteral(resourceName: "hook-yellow.png")
+        imgFive.image = nil
         
         let testView = BusyView(frame: CGRect(x: aboutPageViewWidth * 5, y: 0,width: aboutPageViewWidth, height: aboutPageViewHeight))
         
