@@ -159,9 +159,14 @@ class HomeViewController: UIViewController {
     }
     
     /** Load a pair of image and set them to cell's image views*/
-    func loadImages(leftImageView: UIImageView?, rightImageView: UIImageView?) {
+    func loadImages(leftImageView: UIImageView?, rightImageView: UIImageView?, hashtagLabel: UILabel?) {
         guard let leftImageView = leftImageView, let rightImageView = rightImageView else {
             print("image view is nil")
+            return
+        }
+        
+        guard let hashtagLabel = hashtagLabel else {
+            print("hashtag label is nil")
             return
         }
         
@@ -169,7 +174,8 @@ class HomeViewController: UIViewController {
         Matchup.serve { (matchup) in
             
             self.matchup = matchup
-            print("matchup.ID: \(matchup.ID)")
+            print("matchup: \(matchup.ID) \(matchup.json)")
+            hashtagLabel.text = matchup.hashtag            
             
             matchup.posts(completion: { (postA, postB) in
                 postA.assetURL(completion: { (urlA :URL) in
@@ -250,6 +256,8 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             return UICollectionViewCell()
         }
         
+        cell.prepareForReuse()
+        
         // Set cell's delegate to collection view so that cell can tell collection view to scroll
         // to the next cell when either of images is tapped
         cell.collectionViewDelegate = collectionView
@@ -269,15 +277,8 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         cell.leftResultLabel?.isHidden = true
         cell.rightResultLabel?.isHidden = true
         
-        if let matchup = matchup {
-            let hashtag = matchup.hashtag
-            if let hashtag = hashtag {
-                cell.titleLabel?.text = hashtag
-            }
-        } else {
-            print("matchup is nil in cellforitemat")
-        }
-        loadImages(leftImageView: cell.leftImageView, rightImageView: cell.rightImageView)
+        loadImages(leftImageView: cell.leftImageView, rightImageView: cell.rightImageView, hashtagLabel: cell.titleLabel)
+        
         return cell
     }
     

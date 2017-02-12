@@ -343,7 +343,7 @@ class MatchupCollectionViewCell: UICollectionViewCell {
         leftResultLabel.isHidden = false
         rightResultLabel.isHidden = false
         leftResultLabel.text = String(homeViewControllerDelegate.matchup!.countVoteA!)
-        rightResultLabel.text = String(homeViewControllerDelegate.matchup!.countVoteB!)
+        rightResultLabel.text = String(homeViewControllerDelegate.matchup!.countVoteB!+1)
         
         //cast vote
         homeViewControllerDelegate.uploadMatchupResult(winner: WinnerPost.Left)
@@ -393,7 +393,7 @@ class MatchupCollectionViewCell: UICollectionViewCell {
         
         leftResultLabel.isHidden = false
         rightResultLabel.isHidden = false
-        leftResultLabel.text = String(homeViewControllerDelegate.matchup!.countVoteA!)
+        leftResultLabel.text = String(homeViewControllerDelegate.matchup!.countVoteA!+1)
         rightResultLabel.text = String(homeViewControllerDelegate.matchup!.countVoteB!)
         
         //cast vote
@@ -418,12 +418,14 @@ class MatchupCollectionViewCell: UICollectionViewCell {
     }
     
     override func prepareForReuse() {
+        print("prepareForReuse()")
         leftImageView?.image = nil
         rightImageView?.image = nil
         leftResultLabel?.text = ""
         rightResultLabel?.text = ""
         leftResultLabel?.isHidden = true
         rightResultLabel?.isHidden = true
+        titleLabel?.text = ""
     }
     
     

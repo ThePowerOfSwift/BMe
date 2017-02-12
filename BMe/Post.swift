@@ -26,7 +26,7 @@ class Post: JSONObject {
     private var assetID: String?
     /** Creators user ID */
     private var uid: String?
-    private var hashtag: String?
+    private(set) var hashtag: String?
     
     /** Returns the post's asset */
     func asset(completion: @escaping (Image)->()) {
