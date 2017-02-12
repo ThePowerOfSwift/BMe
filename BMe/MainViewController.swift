@@ -12,11 +12,15 @@ class MainViewController: UIViewController, UIScrollViewDelegate {
 
     @IBOutlet weak var aboutPageView: UIScrollView!
     @IBOutlet weak var pagingControl: UIPageControl!
+    @IBOutlet weak var loginButton: UIButton!
+    @IBOutlet weak var signupButton: UIButton!
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpScrollView()
+        setupButtons()
+        
         // Add notification send user back to login screen after logout
         NotificationCenter.default.addObserver(self, selector: #selector(presentRootVC), name: NSNotification.Name(rawValue: Constants.NotificationKeys.didSignIn), object: nil)
     }
@@ -32,10 +36,12 @@ class MainViewController: UIViewController, UIScrollViewDelegate {
     }
     
     @IBAction func didTapLogin(_ sender: Any) {
+        loginButton.isEnabled = false
         self.present(self.getRootVCForLogin(), animated: false, completion: nil)
     }
 
     @IBAction func didTapSignUp(_ sender: Any) {
+        signupButton.isEnabled = false
         self.present(getRootVCForSignUp(), animated: false, completion: nil)
     }
     
@@ -125,6 +131,18 @@ class MainViewController: UIViewController, UIScrollViewDelegate {
         self.aboutPageView.delegate = self
         self.pagingControl.currentPage = 0
         self.pagingControl.numberOfPages = 6
+        
+    }
+    
+    func setupButtons() -> Void{
+        loginButton.isEnabled = true
+        loginButton.layer.cornerRadius = 5
+        loginButton.layer.borderWidth = 1
+        loginButton.layer.borderColor = UIColor.blue.cgColor
+        signupButton.isEnabled = true
+        signupButton.layer.cornerRadius = 5
+        signupButton.layer.borderWidth = 1
+        signupButton.layer.borderColor = UIColor.blue.cgColor
         
     }
     

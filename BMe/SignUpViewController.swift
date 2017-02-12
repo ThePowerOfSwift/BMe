@@ -18,14 +18,21 @@ class SignUpViewController: UIViewController {
     
     var username: String?
     var email: String?
+    var state: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         toEnterUsernameState()
-        NotificationCenter.default.addObserver(self, selector: #selector(presentRootVC), name: NSNotification.Name(rawValue: Constants.NotificationKeys.didSignIn), object: nil)
-        // Do any additional setup after loading the view.
+        userNameTextField.becomeFirstResponder()
+        //NotificationCenter.default.addObserver(self, selector: #selector(presentRootVC), name: NSNotification.Name(rawValue: Constants.NotificationKeys.didSignIn), object: nil)
     }
-
+    deinit{
+        NotificationCenter.default.removeObserver(self)
+        userNameTextField.resignFirstResponder()
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        userNameTextField.resignFirstResponder()
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -42,6 +49,9 @@ class SignUpViewController: UIViewController {
             toEnterUsernameState()
         }
     }
+    
+    
+    
     
     /**
     Pressing button will either continue filling out email address or submit everything
@@ -69,6 +79,7 @@ class SignUpViewController: UIViewController {
             // Sign up with credentials
             UserAccount.createUser(withUsername: username, email: email, password: password) { (user: FIRUser?, error: Error?) in
                 // Present error alert
+                print("test")
                 self.presentErrorAlert(error: error)
             }
         }
@@ -132,9 +143,11 @@ class SignUpViewController: UIViewController {
         self.passWordTextField.isHidden = false
         self.passWordTextField.placeholder = "password"
         self.userNameTextField.placeholder = "email"
+        self.userNameTextField.becomeFirstResponder()
         self.onContinueButton.setTitle("Submit", for: .normal)
         self.descriptionLabel.text = "Please enter email address and password for login."
     }
+    
     /**
     To increase readability
     */
@@ -171,12 +184,15 @@ class SignUpViewController: UIViewController {
     */
     func presentEmptyFieldErrorAlert() -> Void {
         // Present error alert
-        let prompt = UIAlertController.init(title: "Error", message: "Please fill out all fields sucka!!", preferredStyle: .alert)
+        let prompt = UIAlertController.init(title: "Error", message: "Please fill out all fields.", preferredStyle: .alert)
         let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel, handler: nil)
         prompt.addAction(okAction)
         present(prompt, animated: true, completion: nil)
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    
+    }
     
 
 }

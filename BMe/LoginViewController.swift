@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 
-class LoginViewController: UIViewController {
+class LoginViewController: UIViewController,UITextFieldDelegate {
 
 // MARK: - Outlets methods
 
@@ -20,6 +20,8 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var logoImageViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var logoImageViewWidthConstraint: NSLayoutConstraint!
     @IBOutlet weak var loginLabel: UILabel!
+
+    
     
 // MARK: - Lifecycle methods
     
@@ -30,14 +32,25 @@ class LoginViewController: UIViewController {
         logoImageViewWidthConstraint.constant = Styles.Logo.size.width
         logoImageViewHeightConstraint.constant = Styles.Logo.size.height
         logoImageView.image = UIImage(named: Constants.Images.hookBlack)
-            
+        usernameTextField.returnKeyType = .next
+        passwordTextField.returnKeyType = .go
+        usernameTextField.becomeFirstResponder()
+        passwordTextField.delegate = self
+        usernameTextField.delegate = self
+        loginButton.isEnabled = true
+        
         // Subscribe to notifications for login (and send to root VC)
         // Add notification send user back to login screen after logout
-        //NotificationCenter.default.addObserver(self, selector: #selector(presentRootVC), name: NSNotification.Name(rawValue: Constants.NotificationKeys.didSignIn), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(presentRootVC), name: NSNotification.Name(rawValue: Constants.NotificationKeys.didSignIn), object: nil)
         
         loginLabel.alpha = 0
     }
-
+    deinit{
+        NotificationCenter.default.removeObserver(self)
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        usernameTextField.resignFirstResponder()
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -46,18 +59,38 @@ class LoginViewController: UIViewController {
 // MARK: - Action methods
     
     @IBAction func didTapLogin(_ sender: AnyObject) {
-        
+        loginButton.isEnabled = false
         // check login inputs
         guard let email = usernameTextField.text,
             let password = passwordTextField.text
             else { return }
-        
+        loginButton.isEnabled = false
         // Sign In with credentials.
         UserAccount.currentUser.signIn(withEmail: email, password: password) { (user: FIRUser?, error: Error?) in
             // Present error alert
             self.presentErrorAlert(error: error)
         }
         
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField == passwordTextField{
+            guard let email = textField.text,
+                let password = textField.text
+                else { return true }
+            
+            // Sign In with credentials.
+            UserAccount.currentUser.signIn(withEmail: email, password: password) { (user: FIRUser?, error: Error?) in
+                // Present error alert
+                self.presentErrorAlert(error: error)
+            }
+            
+        }
+        else{
+            textField.resignFirstResponder()
+            passwordTextField.becomeFirstResponder()
+        }
+        return true
     }
     
     
