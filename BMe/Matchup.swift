@@ -57,12 +57,10 @@ class Matchup: JSONObject {
         if let postBID = json[keys.postBID] as? String {
             self.postBID = postBID
         }
-        if let countVoteA = json[keys.countVoteA] as? String {
-            self.countVoteA = Int(countVoteA)
-        }
-        if let countVoteB = json[keys.countVoteB] as? String {
-            self.countVoteB = Int(countVoteB)
-        }
+        
+        self.countVoteA = json[keys.countVoteA] as? Int ?? 0
+        self.countVoteB = json[keys.countVoteB] as? Int ?? 0
+        
         // Compute if the user has voted for this matchup before or not
         let voted = json[keys.voted] as? [String: Bool] ?? [:]
         if let _ = voted[FIR.manager.uid] {
