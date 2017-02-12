@@ -342,8 +342,14 @@ class MatchupCollectionViewCell: UICollectionViewCell {
         
         leftResultLabel.isHidden = false
         rightResultLabel.isHidden = false
-        leftResultLabel.text = String(homeViewControllerDelegate.matchup!.countVoteA!)
-        rightResultLabel.text = String(homeViewControllerDelegate.matchup!.countVoteB!+1)
+        
+        let leftCount: Double = Double(homeViewControllerDelegate.matchup!.countVoteA!)
+        let rightCount: Double = Double(homeViewControllerDelegate.matchup!.countVoteB!+1)
+        let totalCount = leftCount + rightCount
+        let leftPercentage: Double = leftCount / totalCount
+        let rightPercentage: Double = rightCount / totalCount
+        leftResultLabel.text = String(format: "%.0f", leftPercentage*100) + "%"
+        rightResultLabel.text = String(format: "%.0f", rightPercentage*100) + "%"
         
         //cast vote
         homeViewControllerDelegate.uploadMatchupResult(winner: WinnerPost.Left)
@@ -393,8 +399,14 @@ class MatchupCollectionViewCell: UICollectionViewCell {
         
         leftResultLabel.isHidden = false
         rightResultLabel.isHidden = false
-        leftResultLabel.text = String(homeViewControllerDelegate.matchup!.countVoteA!+1)
-        rightResultLabel.text = String(homeViewControllerDelegate.matchup!.countVoteB!)
+        
+        let leftCount: Double = Double(homeViewControllerDelegate.matchup!.countVoteA!)
+        let rightCount: Double = Double(homeViewControllerDelegate.matchup!.countVoteB!+1)
+        let totalCount = leftCount + rightCount
+        let leftPercentage: Double = leftCount / totalCount
+        let rightPercentage: Double = rightCount / totalCount
+        leftResultLabel.text = String(format: "%.2f", leftPercentage*100) + "%"
+        rightResultLabel.text = String(format: "%.2f", rightPercentage*100) + "%"
         
         //cast vote
         homeViewControllerDelegate.uploadMatchupResult(winner: WinnerPost.Right)

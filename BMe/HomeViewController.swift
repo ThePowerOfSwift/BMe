@@ -159,7 +159,7 @@ class HomeViewController: UIViewController {
     }
     
     /** Load a pair of image and set them to cell's image views*/
-    func loadImages(leftImageView: UIImageView?, rightImageView: UIImageView?, hashtagLabel: UILabel?) {
+    func loadImages(leftImageView: UIImageView?, rightImageView: UIImageView?, hashtagLabel: UILabel?, completion: @escaping (Matchup) -> ()) {
         guard let leftImageView = leftImageView, let rightImageView = rightImageView else {
             print("image view is nil")
             return
@@ -183,7 +183,7 @@ class HomeViewController: UIViewController {
                         
                         leftImageView.loadImageFromGS(url: urlA, placeholderImage: nil)
                         rightImageView.loadImageFromGS(url: urlB, placeholderImage: nil)
-                        
+                        completion(matchup)
                     })
                 })
             })
@@ -255,9 +255,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             print("Failed to instantiate matchup collection view cell")
             return UICollectionViewCell()
         }
-        
-        cell.prepareForReuse()
-        
+                
         // Set cell's delegate to collection view so that cell can tell collection view to scroll
         // to the next cell when either of images is tapped
         cell.collectionViewDelegate = collectionView
@@ -269,15 +267,17 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         cell.isVoted = false
         
         //reset
-//        cell.leftLabel?.text = ""
-//        cell.rightLabel?.text = ""
+        cell.leftLabel?.text = ""
+        cell.rightLabel?.text = ""
 //        cell.resetAnimationState()
 //        cell.leftLabel?.backgroundColor = UIColor.white
 //        cell.rightLabel?.backgroundColor = UIColor.white
         cell.leftResultLabel?.isHidden = true
         cell.rightResultLabel?.isHidden = true
         
-        loadImages(leftImageView: cell.leftImageView, rightImageView: cell.rightImageView, hashtagLabel: cell.titleLabel)
+        loadImages(leftImageView: cell.leftImageView, rightImageView: cell.rightImageView, hashtagLabel: cell.titleLabel, completion: { (matchup) in
+                //cell.leftResultLabel?.text = String(matchup.countVoteA!)
+        })
         
         return cell
     }
@@ -290,20 +290,20 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
 }
 
 extension HomeViewController: UIScrollViewDelegate {
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        guard let matchupCollectionView = matchupCollectionView else {
-            print("matchup collection view is nil")
-            return
-        }
-        let scrollViewContentWidth = matchupCollectionView.contentSize.width
-        let scrollOffsetThreshold = scrollViewContentWidth - matchupCollectionView.bounds.size.width - 1000
-        
-        // When the user has scrolled past the threshold, start requesting
-        if(scrollView.contentOffset.x > scrollOffsetThreshold) {
-            
-            dataFetchCount += dataFetchCount
-            matchupCollectionView.reloadData()
-            
-        }
-    }
+//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+//        guard let matchupCollectionView = matchupCollectionView else {
+//            print("matchup collection view is nil")
+//            return
+//        }
+//        let scrollViewContentWidth = matchupCollectionView.contentSize.width
+//        let scrollOffsetThreshold = scrollViewContentWidth - matchupCollectionView.bounds.size.width - 1000
+//        
+//        // When the user has scrolled past the threshold, start requesting
+//        if(scrollView.contentOffset.x > scrollOffsetThreshold) {
+//            
+//            dataFetchCount += dataFetchCount
+//            matchupCollectionView.reloadData()
+//            
+//        }
+//    }
 }
