@@ -32,6 +32,8 @@ class Matchup: JSONObject {
     private(set) var didVote : Bool?
     /** Creation timestamp */
     private(set) var timestamp: String?
+    /** Hashtag*/
+    private var hashtag: String?
     
     /** 
      Retrieve post objects
@@ -56,6 +58,9 @@ class Matchup: JSONObject {
         }
         if let postBID = json[keys.postBID] as? String {
             self.postBID = postBID
+        }
+        if let hashtag = json[keys.hashtag] as? String{
+            self.hashtag = hashtag
         }
         
         self.countVoteA = json[keys.countVoteA] as? Int ?? 0
@@ -83,14 +88,15 @@ class Matchup: JSONObject {
     }
     
     /** Create a matchup */
-    class func create(postAID: String, postBID: String) {
+    class func create(postAID: String, postBID: String, hashtag: String) {
         // Construct json to save
         let json: [String: AnyObject] = [keys.timestamp: Date().toString()  as AnyObject,
                                          keys.postAID: postAID as AnyObject,
                                          keys.postBID: postBID as AnyObject,
                                          keys.countVoteA: 0 as AnyObject,
                                          keys.countVoteB: 0 as AnyObject,
-                                         keys.voted: [:] as AnyObject]
+                                         keys.voted: [:] as AnyObject,
+                                         keys.hashtag : hashtag as AnyObject]
         
         // Write json to DB
         FIR.manager.databasePath(object).childByAutoId().setValue(json)
@@ -149,6 +155,7 @@ class Matchup: JSONObject {
         static let countVoteA = "countVoteA"
         static let countVoteB = "countVoteB"
         static let voted = "voted"
+        static let hashtag = "hashtag"
     }
     
     /** Enum type used to cast votes for A or B */
@@ -185,7 +192,7 @@ class Matchup: JSONObject {
         JSONStack.popFIFO(2, database: FIR.manager.databasePath(object), completion: { (result) in
             // Create matchup with two objects popped from queue
             if (result.count == 2) {
-                Matchup.create(postAID: result[0].keys.first!, postBID: result[1].keys.first!)
+                Matchup.create(postAID: result[0].keys.first!, postBID: result[1].keys.first!,hashtag: "TestHashTag")
             }
         })
     }

@@ -29,6 +29,7 @@ class MainViewController: UIViewController, UIScrollViewDelegate {
         if UserAccount.currentUser.isSignedIn {
             UserAccount.currentUser.signedIn()
         }
+        setupButtons()
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

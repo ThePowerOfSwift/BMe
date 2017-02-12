@@ -26,6 +26,7 @@ class Post: JSONObject {
     private var assetID: String?
     /** Creators user ID */
     private var uid: String?
+    private var hashtag: String?
     
     /** Returns the post's asset */
     func asset(completion: @escaping (Image)->()) {
@@ -65,6 +66,9 @@ class Post: JSONObject {
         if let assetID = json[keys.assetID] as? String {
             self.assetID = assetID
         }
+        if let hashtag = json[keys.hashtag] as? String{
+            self.hashtag = hashtag
+        }
     }
     
     /** Gets the Post for a given ID */
@@ -76,12 +80,13 @@ class Post: JSONObject {
     }
     
     /** Creates a new post */
-    class func create(assetID: String, assetType: FIR.object) -> String {
+    class func create(assetID: String, assetType: FIR.object, hashtag: String) -> String {
         // Construct json to save
         let json: [String: AnyObject?] = [keys.uid: FIR.manager.uid as AnyObject,
                                           keys.timestamp: Date().toString()  as AnyObject,
                                           keys.assetID: assetID  as AnyObject,
-                                          keys.assetObject: assetType.key()  as AnyObject]
+                                          keys.assetObject: assetType.key()  as AnyObject,
+                                          keys.hashtag: hashtag as AnyObject]
         
         // Save image
         let filename = FIR.manager.databasePath(object).childByAutoId().key
@@ -95,5 +100,6 @@ class Post: JSONObject {
         static let timestamp = "timestamp"
         static let assetID = "assetID"
         static let assetObject = "assetObject"
+        static let hashtag = "hashtag"
     }
 }

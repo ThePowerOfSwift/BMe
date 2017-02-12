@@ -433,7 +433,8 @@ class CameraViewController: UIViewController {
         }
         
         let newImgID = Image.save(image: imageData)
-        let postID = Post.create(assetID: newImgID, assetType: .image)
+        let postID = Post.create(assetID: newImgID, assetType: .image, hashtag: hashtagTextField.text!)
+        
         Matchup.submitPost(postID)
         print("Upload completed")
         self.removeAllItems()
