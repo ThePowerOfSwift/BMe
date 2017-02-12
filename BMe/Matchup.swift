@@ -111,10 +111,10 @@ class Matchup: JSONObject {
                 var voted = matchup[keys.voted] as? [String: Bool] ?? [:]
                 
                 // User already voted
-                if let _ = voted[uid] {
-                    print("Matchup: You already voted!")
-                    return FIRTransactionResult.success(withValue: currentData)
-                }
+//                if let _ = voted[uid] {
+//                    print("Matchup: You already voted!")
+//                    return FIRTransactionResult.success(withValue: currentData)
+//                }
 
                 // Cast a vote for the user
                     voteCount += 1
