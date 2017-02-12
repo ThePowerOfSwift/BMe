@@ -847,6 +847,9 @@ extension CameraViewController {
         filterNameLabel.isHidden = true
         hashtagTextField.isHidden = true
         bubbleCollectionView.isHidden = true
+        
+        // Hide the keyboard if it's active
+        hashtagTextField.resignFirstResponder()
     }
     
     /** Sort view's subview. */
