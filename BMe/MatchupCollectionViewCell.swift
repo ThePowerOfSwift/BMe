@@ -469,7 +469,6 @@ class MatchupCollectionViewCell: UICollectionViewCell {
         
         //cast vote
         homeViewControllerDelegate.uploadMatchupResult(winner: WinnerPost.Right)
-
         
         leftLabelText = "Win"
         rightLabelText = "Lose"
@@ -492,10 +491,6 @@ class MatchupCollectionViewCell: UICollectionViewCell {
     func createVotingAnimationSubviews() {
         //calculate percentages
         
-        guard let leftBar = leftBar, let rightBar = rightBar else {
-            print("bar is nil")
-            return
-        }
         guard let homeViewControllerDelegate = homeViewControllerDelegate else {
             print("delegate is nil")
             return
@@ -519,7 +514,6 @@ class MatchupCollectionViewCell: UICollectionViewCell {
         let total = leftCountConverted + rightCountConverted
         let leftPercentage: Double = (leftCountConverted / total)
         let rightPercentage: Double = (rightCountConverted / total)
-        
         
         //calculates totalheight of bar (contentviewheight - B(height of checkmark and label))
         //note checkmarklabelspacing and barlabelspacing must inverted based on constraint setup
