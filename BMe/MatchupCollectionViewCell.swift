@@ -434,17 +434,17 @@ class MatchupCollectionViewCell: UICollectionViewCell {
         rightLabelText = "Lose"
         
         //Change the size of the bar before aniamtion
-        createVotingAnimationSubviews()
+//        createVotingAnimationSubviews()
         
         //Perform animation before new scroll
-        startAnimationState(direction: VoteDirection.Left)
-        UIView.animate(withDuration: 1.0, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5, options: [] , animations: {
-            self.endAnimationState()
-            
-        }, completion: { finished in
-        })
-        self.itemIndex = indexPath.item
-        perform(#selector(scrollTo), with: nil, afterDelay: 0.5)
+//        startAnimationState(direction: VoteDirection.Left)
+//        UIView.animate(withDuration: 1.0, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5, options: [] , animations: {
+//            self.endAnimationState()
+//            
+//        }, completion: { finished in
+//        })
+//        self.itemIndex = indexPath.item
+//        perform(#selector(scrollTo), with: nil, afterDelay: 0.5)
     }
     
     /** Shows label to tell which won, fires uploadMatchupResult on Home view controller and scrolls to the next cell. */
@@ -477,15 +477,15 @@ class MatchupCollectionViewCell: UICollectionViewCell {
         rightLabelText = "Lose"
         
         //Change the size of the bar before aniamtion
-        createVotingAnimationSubviews()
+        //createVotingAnimationSubviews()
         
-        //Perform animation before new scroll
-        startAnimationState(direction: VoteDirection.Right)
-        UIView.animate(withDuration: 1.0, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5, options: [] , animations: {
-            self.endAnimationState()
-            
-        }, completion: { finished in
-        })
+//        Perform animation before new scroll
+//        startAnimationState(direction: VoteDirection.Right)
+//        UIView.animate(withDuration: 1.0, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5, options: [] , animations: {
+//            self.endAnimationState()
+//            
+//        }, completion: { finished in
+//        })
         
         self.itemIndex = indexPath.item
         perform(#selector(scrollTo), with: nil, afterDelay: 0.5)
