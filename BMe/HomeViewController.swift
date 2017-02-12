@@ -169,6 +169,7 @@ class HomeViewController: UIViewController {
         Matchup.serve { (matchup) in
             
             self.matchup = matchup
+            print("matchup.ID: \(matchup.ID)")
             
             matchup.posts(completion: { (postA, postB) in
                 postA.assetURL(completion: { (urlA :URL) in
@@ -189,13 +190,15 @@ class HomeViewController: UIViewController {
             print("matchup is nil in uploadMatchupResult()")
             return
         }
-        
         switch winner {
         case .Left:
             matchup.vote(Matchup.voteFor.A)
+            print("matchup.ID: \(matchup.ID), vote A: \(matchup.countVoteA!) is voted.")
+
         case .Right:
             matchup.vote(Matchup.voteFor.B)
-            
+            print("matchup.ID: \(matchup.ID), vote B: \(matchup.countVoteB!) is voted.")
+
         }
     }
     
