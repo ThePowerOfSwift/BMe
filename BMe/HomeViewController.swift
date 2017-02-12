@@ -261,14 +261,18 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         cell.isVoted = false
         
         //reset
-        cell.leftLabel?.text = ""
-        cell.rightLabel?.text = ""
-        cell.resetAnimationState()
-        cell.leftLabel?.backgroundColor = UIColor.white
-        cell.rightLabel?.backgroundColor = UIColor.white
+//        cell.leftLabel?.text = ""
+//        cell.rightLabel?.text = ""
+//        cell.resetAnimationState()
+//        cell.leftLabel?.backgroundColor = UIColor.white
+//        cell.rightLabel?.backgroundColor = UIColor.white
+        cell.leftResultLabel?.isHidden = true
+        cell.rightResultLabel?.isHidden = true
         loadImages(leftImageView: cell.leftImageView, rightImageView: cell.rightImageView)
         return cell
     }
+    
+    
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
