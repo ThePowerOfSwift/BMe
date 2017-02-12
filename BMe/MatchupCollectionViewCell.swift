@@ -84,10 +84,7 @@ class MatchupCollectionViewCell: UICollectionViewCell {
         
         leftImageView.contentMode = UIViewContentMode.scaleAspectFit
         rightImageView.contentMode = UIViewContentMode.scaleAspectFit
-        
-        leftImageView.contentMode = UIViewContentMode.center
-        rightImageView.contentMode = UIViewContentMode.center
-        
+                
         // Initialization code
         let leftTapGesture = UITapGestureRecognizer(target: self, action: #selector(leftImageViewTapped(sender:)))
         let rightTapGesture = UITapGestureRecognizer(target: self, action: #selector(rightImageViewTapped(sender:)))
