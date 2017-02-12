@@ -43,7 +43,7 @@ class SignUpViewController: UIViewController {
     */
     @IBAction func onBack(_ sender: Any) {
         if infoEnterState() == "username"{
-            self.dismiss(animated: true, completion: nil)
+            self.dismiss(animated: false, completion: nil)
         }
         else{
             toEnterUsernameState()

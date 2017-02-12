@@ -24,11 +24,14 @@ class MainViewController: UIViewController, UIScrollViewDelegate {
         // Add notification send user back to login screen after logout
         NotificationCenter.default.addObserver(self, selector: #selector(presentRootVC), name: NSNotification.Name(rawValue: Constants.NotificationKeys.didSignIn), object: nil)
     }
-    
+    deinit{
+        NotificationCenter.default.removeObserver(self)
+    }
     override func viewDidAppear(_ animated: Bool) {
         if UserAccount.currentUser.isSignedIn {
             UserAccount.currentUser.signedIn()
         }
+        setupButtons()
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -98,23 +101,23 @@ class MainViewController: UIViewController, UIScrollViewDelegate {
         // It is UIImageView now, can be replaced by .xib, if need, but not yet be tested suceessfully
         let imgOne = UIImageView(frame: CGRect(x: 0, y: 0,width: aboutPageViewWidth, height: aboutPageViewHeight))
         imgOne.contentMode = .scaleAspectFit
-        imgOne.image = nil
+        imgOne.image = #imageLiteral(resourceName: "hook-blue.png")
         
         let imgTwo = UIImageView(frame: CGRect(x: aboutPageViewWidth, y: 0,width: aboutPageViewWidth, height: aboutPageViewHeight))
         imgTwo.contentMode = .scaleAspectFit
-        imgTwo.image = nil
+        imgTwo.image = #imageLiteral(resourceName: "hook-black.png")
         
         let imgThree = UIImageView(frame: CGRect(x: aboutPageViewWidth * 2, y: 0,width: aboutPageViewWidth, height: aboutPageViewHeight))
         imgThree.contentMode = .scaleAspectFit
-        imgThree.image = nil
+        imgThree.image = #imageLiteral(resourceName: "hook-yellow.png")
         
         let imgFour = UIImageView(frame: CGRect(x: aboutPageViewWidth * 3, y: 0,width: aboutPageViewWidth, height: aboutPageViewHeight))
         imgFour.contentMode = .scaleAspectFit
-        imgFour.image = nil
+        imgFour.image = #imageLiteral(resourceName: "home-yellow.png")
         
         let imgFive = UIImageView(frame: CGRect(x: aboutPageViewWidth * 4, y: 0,width: aboutPageViewWidth, height: aboutPageViewHeight))
         imgFive.contentMode = .scaleAspectFit
-        imgFive.image = nil
+        imgFive.image = #imageLiteral(resourceName: "heart-yellow.png")
         
         let testView = BusyView(frame: CGRect(x: aboutPageViewWidth * 5, y: 0,width: aboutPageViewWidth, height: aboutPageViewHeight))
         

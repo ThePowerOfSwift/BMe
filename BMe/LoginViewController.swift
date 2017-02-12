@@ -75,16 +75,15 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == passwordTextField{
-            guard let email = textField.text,
-                let password = textField.text
-                else { return true }
-            
-            // Sign In with credentials.
-            UserAccount.currentUser.signIn(withEmail: email, password: password) { (user: FIRUser?, error: Error?) in
-                // Present error alert
-                self.presentErrorAlert(error: error)
+            if let email = usernameTextField.text,
+                let password = passwordTextField.text{
+                // Sign In with credentials.
+                UserAccount.currentUser.signIn(withEmail: email, password: password) { (user: FIRUser?, error: Error?) in
+                    // Present error alert
+                    self.presentErrorAlert(error: error)
+                }
             }
-            
+            return true
         }
         else{
             textField.resignFirstResponder()
