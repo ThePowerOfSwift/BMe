@@ -313,10 +313,6 @@ class MatchupCollectionViewCell: UICollectionViewCell {
         titleLabel.textAlignment = .center
     }
     
-    
-    
-    
-    
     /** Shows label to tell which won, fires uploadMatchupResult on Home view controller and scrolls to the next cell. */
     func leftImageViewTapped(sender: UITapGestureRecognizer) {
         guard let collectionViewDelegate = collectionViewDelegate, let homeViewControllerDelegate = homeViewControllerDelegate else {

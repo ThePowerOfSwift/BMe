@@ -33,7 +33,7 @@ class Matchup: JSONObject {
     /** Creation timestamp */
     private(set) var timestamp: String?
     /** Hashtag*/
-    private var hashtag: String?
+    internal var hashtag: String?
     
     /** 
      Retrieve post objects

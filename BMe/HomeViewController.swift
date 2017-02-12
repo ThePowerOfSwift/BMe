@@ -268,11 +268,18 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
 //        cell.rightLabel?.backgroundColor = UIColor.white
         cell.leftResultLabel?.isHidden = true
         cell.rightResultLabel?.isHidden = true
+        
+        if let matchup = matchup {
+            let hashtag = matchup.hashtag
+            if let hashtag = hashtag {
+                cell.titleLabel?.text = hashtag
+            }
+        } else {
+            print("matchup is nil in cellforitemat")
+        }
         loadImages(leftImageView: cell.leftImageView, rightImageView: cell.rightImageView)
         return cell
     }
-    
-    
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         

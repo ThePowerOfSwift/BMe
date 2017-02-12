@@ -441,8 +441,8 @@ class CameraViewController: UIViewController {
         busy.stopAnimating()
         busy.removeFromSuperview()
         self.toggleCameraMode()
-        
     }
+    
     @IBAction func onHashtagField(_ sender: UITextField) {
         currentMode.toggle(mode: .Hashtag)
     }
