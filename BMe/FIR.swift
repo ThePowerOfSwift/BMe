@@ -127,31 +127,29 @@ extension UIImageView {
      */
     func loadImageFromGS(url: URL, placeholderImage placeholder: UIImage?) {
         let storagePath: FIRStorageReference = FIR.manager.storage.child(url.path)
-        self.sd_setImage(with: storagePath, placeholderImage: placeholder)
-        
-//        if let task = self.sd_setImage(with: storagePath, placeholderImage: placeholder) {
-            // Setup progress indicator
-            //            let busyIndicator = UIActivityIndicatorView(frame: self.bounds)
-            //            self.addSubview(busyIndicator)
-            //            busyIndicator.startAnimating()
-            //
-            //            task.observe(.progress, handler: { (snapshot: FIRStorageTaskSnapshot) in
-            //                if let progress = snapshot.progress {
-            //                    let completed: CGFloat = CGFloat(progress.completedUnitCount) / CGFloat(progress.totalUnitCount)
-            ////                    self.alpha = completed
-            //                }
-            //            })
-            //            task.observe(.success, handler: { (snapshot: FIRStorageTaskSnapshot) in
-            ////                self.alpha = 1
-            //                busyIndicator.removeFromSuperview()
-            //            })
-            //            task.observe(.failure, handler: { (snapshot: FIRStorageTaskSnapshot) in
-            //                if let error = snapshot.error {
-            //                    print("Error loading image from GS \(error.localizedDescription)")
-            //                }
-            //                busyIndicator.removeFromSuperview()
-            //            })
-//        }
+
+        // Initiate image download with "task" progress indicator if not already cached
+        if let task = self.sd_setImage(with: storagePath, placeholderImage: placeholder) {
+            // Setup progress observers
+            task.observe(.progress, handler: { (snapshot: FIRStorageTaskSnapshot) in
+                let percentComplete = 100.0 * Double(snapshot.progress!.completedUnitCount) / Double(snapshot.progress!.totalUnitCount)
+                print("Image \(percentComplete)% completed loading")
+            })
+            
+            task.observe(.success, handler: { (snapshot: FIRStorageTaskSnapshot) in
+                print("Image download observed completion")
+            })
+            
+            task.observe(.failure, handler: { (snapshot: FIRStorageTaskSnapshot) in
+                print("Image download observed failure")
+                if let error = snapshot.error {
+                    print("Error loading image from GS \(error.localizedDescription)")
+                }
+                
+            })
+        } else {
+            // Image is cached
+        }
     }
 }
 
