@@ -62,10 +62,9 @@ class FIR: NSObject {
         metadata.customMetadata = ["uid":uid]
         
         // Put to Storage
-        path.child(filename + fileExtension).put(data, metadata: metadata) { (metadata, error) in
+        let task = path.child(filename + fileExtension).put(data, metadata: metadata) { (metadata, error) in
             if let error = error {
                 print("Error adding object to GS bucket: \(error.localizedDescription)")
-                //TODO: Retry
             }
             else {
                 // Write object info to database
@@ -76,6 +75,24 @@ class FIR: NSObject {
                 self.databasePath(object).child(filename).setValue(json)
             }
         }
+        
+        task.observe(.progress, handler: { (snapshot: FIRStorageTaskSnapshot) in
+            let percentComplete = 100.0 * Double(snapshot.progress!.completedUnitCount) / Double(snapshot.progress!.totalUnitCount)
+            print("Upload \(percentComplete)% completed loading")
+        })
+        
+        task.observe(.success, handler: { (snapshot: FIRStorageTaskSnapshot) in
+            print("Upload completed")
+        })
+        
+        task.observe(.failure, handler: { (snapshot: FIRStorageTaskSnapshot) in
+            print("Upload  failure")
+            if let error = snapshot.error {
+                print("Error uploading to GS: \(error.localizedDescription)")
+            }
+            
+        })
+
         return filename
     }
     
@@ -143,7 +160,7 @@ extension UIImageView {
             task.observe(.failure, handler: { (snapshot: FIRStorageTaskSnapshot) in
                 print("Image download observed failure")
                 if let error = snapshot.error {
-                    print("Error loading image from GS \(error.localizedDescription)")
+                    print("Error loading image from GS: \(error.localizedDescription)")
                 }
                 
             })
