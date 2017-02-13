@@ -20,12 +20,6 @@ class MainViewController: UIViewController, UIScrollViewDelegate {
         super.viewDidLoad()
         setUpScrollView()
         setupButtons()
-        
-        // Add notification send user back to login screen after logout
-        NotificationCenter.default.addObserver(self, selector: #selector(presentRootVC), name: NSNotification.Name(rawValue: Constants.NotificationKeys.didSignIn), object: nil)
-    }
-    deinit{
-        NotificationCenter.default.removeObserver(self)
     }
     override func viewDidAppear(_ animated: Bool) {
         if UserAccount.currentUser.isSignedIn {
@@ -40,12 +34,11 @@ class MainViewController: UIViewController, UIScrollViewDelegate {
     
     @IBAction func didTapLogin(_ sender: Any) {
         loginButton.isEnabled = false
-        self.present(self.getRootVCForLogin(), animated: false, completion: nil)
+        //self.present(self.getRootVCForLogin(), animated: false, completion: nil)
     }
 
     @IBAction func didTapSignUp(_ sender: Any) {
         signupButton.isEnabled = false
-        self.present(getRootVCForSignUp(), animated: false, completion: nil)
     }
     
     func presentRootVC() {
@@ -75,7 +68,10 @@ class MainViewController: UIViewController, UIScrollViewDelegate {
     func getRootVCForSignUp() -> UIViewController {
         // Completion code upon successful login
         let storyboard = UIStoryboard.init(name: Constants.OnSignUp.StoryboardID, bundle: nil)
-        let rootVC = storyboard.instantiateViewController(withIdentifier: Constants.OnSignUp.RootViewController)
+        let rootVC = storyboard.instantiateViewController(withIdentifier: Constants.OnSignUp.RootViewController) as! UINavigationController
+        let backItem = UIBarButtonItem()
+        backItem.title = "Back"
+        rootVC.navigationItem.backBarButtonItem = backItem
         return rootVC
     }
     
@@ -147,6 +143,18 @@ class MainViewController: UIViewController, UIScrollViewDelegate {
         signupButton.layer.borderWidth = 1
         signupButton.layer.borderColor = UIColor.blue.cgColor
         
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "ToLogin"{
+            self.navigationController?.navigationBar.tintColor = .yellow
+            //navigationItem.backBarButtonItem = backItem
+        }
+        else{
+            self.navigationController?.navigationBar.tintColor = .blue
+            let vc = segue.destination as! SignUpViewController
+            vc.state = "username"
+        }
     }
     
 
