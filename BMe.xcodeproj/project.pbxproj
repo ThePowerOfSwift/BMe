@@ -273,18 +273,19 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		7821C3BB1DEF24730023B95E /* ViewControllers */ = {
+		7821C3BB1DEF24730023B95E /* Tab Bar */ = {
 			isa = PBXGroup;
 			children = (
+				783DE0BD1E526C5500C61EB7 /* Images */,
+				E35AC4861DE4D0F500FCB0D0 /* TabBar.storyboard */,
 				E35AC4821DE4D00400FCB0D0 /* TabBarViewController.swift */,
 			);
-			name = ViewControllers;
+			name = "Tab Bar";
 			sourceTree = "<group>";
 		};
 		7821C3BC1DEF249D0023B95E /* Storyboards */ = {
 			isa = PBXGroup;
 			children = (
-				E35AC4861DE4D0F500FCB0D0 /* TabBar.storyboard */,
 			);
 			name = Storyboards;
 			sourceTree = "<group>";
@@ -361,6 +362,19 @@
 			name = FIR;
 			sourceTree = "<group>";
 		};
+		783DE0BD1E526C5500C61EB7 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				781E715B1DF53D1E00041855 /* home-white.png */,
+				781E715C1DF53D1E00041855 /* home-yellow.png */,
+				781E71571DF5330E00041855 /* circle-white.png */,
+				781E71581DF5330E00041855 /* circle-yellow.png */,
+				78B56A071DF5FD1B00A13915 /* user-white.png */,
+				78B56A081DF5FD1B00A13915 /* user-yellow.png */,
+			);
+			name = Images;
+			sourceTree = "<group>";
+		};
 		78469A4F1DE3958000A40D53 = {
 			isa = PBXGroup;
 			children = (
@@ -385,8 +399,8 @@
 				78337D8E1DE3AC7400A1B32C /* Shared */,
 				7863842E1E37D8C6005DD454 /* User */,
 				783560911E4CF07F00B9FD8D /* FIR */,
+				7821C3BB1DEF24730023B95E /* Tab Bar */,
 				E37CA7D31E5269C9000ED7B3 /* Home */,
-				7821C3BB1DEF24730023B95E /* ViewControllers */,
 				7821C3C01DEF82680023B95E /* Views */,
 				7821C3BC1DEF249D0023B95E /* Storyboards */,
 				783008AB1DE3B9AF00B070D4 /* Models */,
@@ -414,19 +428,13 @@
 				78BCDF441DF75D16002D399E /* hook-yellow.png */,
 				78BCDF451DF75D16002D399E /* hook.png */,
 				78BCDF481DF7643D002D399E /* hook-blue.png */,
-				781E715B1DF53D1E00041855 /* home-white.png */,
-				781E715C1DF53D1E00041855 /* home-yellow.png */,
 				785E87C51DED445000C9FF59 /* Play image- white.png */,
 				78C3503E1DF12E17005E8331 /* blank user avatar.jpeg */,
 				781E713D1DF401A100041855 /* sound-wave.png */,
 				781E713F1DF4036E00041855 /* sound-wave-yellow.png */,
 				781E71411DF407F600041855 /* location-yellow.png */,
 				781E71421DF407F600041855 /* location.png */,
-				781E71571DF5330E00041855 /* circle-white.png */,
-				781E71581DF5330E00041855 /* circle-yellow.png */,
 				78B56A051DF5EBFB00A13915 /* error.png */,
-				78B56A071DF5FD1B00A13915 /* user-white.png */,
-				78B56A081DF5FD1B00A13915 /* user-yellow.png */,
 				78BCDF3A1DF74ABC002D399E /* nextarrow-yellow.png */,
 				78BCDF3B1DF74ABC002D399E /* nextarrow.png */,
 				7837A2061DF8B898000CB9CB /* raincheck-black.png */,
