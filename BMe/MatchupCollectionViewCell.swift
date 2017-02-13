@@ -291,17 +291,7 @@ class MatchupCollectionViewCell: UICollectionViewCell {
     
     /** Shows label to tell which won, fires uploadMatchupResult on Home view controller and scrolls to the next cell. */
     func leftImageViewTapped(sender: UITapGestureRecognizer) {
-        guard let didVote = matchup?.didVote else {
-            print("didVote or matchup is nil")
-            return
-        }
         
-        print("didVote: \(didVote)")
-//        if !didVote {
-//            showResult(which: .Left)
-//            perform(#selector(scrollTo), with: nil, afterDelay: 0.5)
-//        }
-
         showResult(which: .Left)
         perform(#selector(scrollTo), with: nil, afterDelay: 0.5)
         
@@ -338,18 +328,10 @@ class MatchupCollectionViewCell: UICollectionViewCell {
     
     /** Shows label to tell which won, fires uploadMatchupResult on Home view controller and scrolls to the next cell. */
     func rightImageViewTapped(sender: UITapGestureRecognizer) {
-        guard let didVote = matchup?.didVote else {
-            print("didVote or matchup is nil")
-            return
-        }
-        print("didVote: \(didVote)")
-//        if !didVote {
-//            showResult(which: .Right)
-//            perform(#selector(scrollTo), with: nil, afterDelay: 0.5)
-//        }
 
         showResult(which: .Right)
         perform(#selector(scrollTo), with: nil, afterDelay: 0.5)
+
         //Change the size of the bar before aniamtion
         //createVotingAnimationSubviews()
         
@@ -360,7 +342,6 @@ class MatchupCollectionViewCell: UICollectionViewCell {
 //            
 //        }, completion: { finished in
 //        })
-        
     }
     
     private func showResult(which: VoteDirection) {
@@ -375,13 +356,13 @@ class MatchupCollectionViewCell: UICollectionViewCell {
         var rightCount: Double = 0
         if which == .Left {
             matchup.vote(Matchup.voteFor.A)
-            print("matchup ID: \(matchup.ID), left is voted.")
+            print("matchup ID: \(matchup.ID), hashtag: \(matchup.hashtag!), left is voted.")
             print("Before, A: \(matchup.countVoteA!), B: \(matchup.countVoteB!).")
             leftCount = Double(matchup.countVoteA!+1)
             rightCount = Double(matchup.countVoteB!)
         } else {
             matchup.vote(Matchup.voteFor.B)
-            print("matchup ID: \(matchup.ID), right is voted.")
+            print("matchup ID: \(matchup.ID), hashtag: \(matchup.hashtag!), right is voted.")
             print("Before, A: \(matchup.countVoteA!), B: \(matchup.countVoteB!).")
             leftCount = Double(matchup.countVoteA!)
             rightCount = Double(matchup.countVoteB!+1)
