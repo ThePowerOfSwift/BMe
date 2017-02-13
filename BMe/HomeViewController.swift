@@ -158,53 +158,28 @@ class HomeViewController: UIViewController {
             ])
     }
     
-    /** Load a pair of image and set them to cell's image views*/
-    func loadImages(leftImageView: UIImageView?, rightImageView: UIImageView?, hashtagLabel: UILabel?, completion: @escaping (Matchup) -> ()) {
-        guard let leftImageView = leftImageView, let rightImageView = rightImageView else {
-            print("image view is nil")
-            return
-        }
+    func setupCell(cell: MatchupCollectionViewCell) {
         
-        guard let hashtagLabel = hashtagLabel else {
-            print("hashtag label is nil")
-            return
-        }
+        // Set cell's delegate to collection view so that cell can tell collection view to scroll
+        // to the next cell when either of images is tapped
+        cell.collectionViewDelegate = matchupCollectionView!
         
         // Request matchup
         Matchup.serve { (matchup) in
             
-            self.matchup = matchup
-            print("matchup: \(matchup.ID) \(matchup.json)")
-            hashtagLabel.text = matchup.hashtag            
+            cell.matchup = matchup
+            cell.hashtagLabel.text = matchup.hashtag
+            print("matchup ID: \(matchup.ID) is being served.")
             
             matchup.posts(completion: { (postA, postB) in
                 postA.assetURL(completion: { (urlA :URL) in
                     postB.assetURL(completion: {(urlB: URL) in
                         
-                        leftImageView.loadImageFromGS(url: urlA, placeholderImage: nil)
-                        rightImageView.loadImageFromGS(url: urlB, placeholderImage: nil)
-                        completion(matchup)
+                        cell.leftImageView.loadImageFromGS(url: urlA, placeholderImage: nil)
+                        cell.rightImageView.loadImageFromGS(url: urlB, placeholderImage: nil)
                     })
                 })
             })
-        }
-    }
-    
-    /** Uploads matchup result to server. Called from MatchupCollectionViewCell when image view is selected. */
-    func uploadMatchupResult(winner: WinnerPost) {
-        guard let matchup = self.matchup else {
-            print("matchup is nil in uploadMatchupResult()")
-            return
-        }
-        switch winner {
-        case .Left:
-            matchup.vote(Matchup.voteFor.A)
-            print("matchup.ID: \(matchup.ID), vote A: \(matchup.countVoteA!) is voted.")
-
-        case .Right:
-            matchup.vote(Matchup.voteFor.B)
-            print("matchup.ID: \(matchup.ID), vote B: \(matchup.countVoteB!) is voted.")
-
         }
     }
     
@@ -256,28 +231,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             return UICollectionViewCell()
         }
                 
-        // Set cell's delegate to collection view so that cell can tell collection view to scroll
-        // to the next cell when either of images is tapped
-        cell.collectionViewDelegate = collectionView
-        
-        // HomeViewController.uploadMatchupResult() is called from MatchupCollectionViewCell when image is selected
-        cell.homeViewControllerDelegate = self
-        
-        // set isVoted false because post has not been voted yet.
-        cell.isVoted = false
-        
-        //reset
-        cell.leftLabel?.text = ""
-        cell.rightLabel?.text = ""
-//        cell.resetAnimationState()
-//        cell.leftLabel?.backgroundColor = UIColor.white
-//        cell.rightLabel?.backgroundColor = UIColor.white
-        cell.leftResultLabel?.isHidden = true
-        cell.rightResultLabel?.isHidden = true
-        
-        loadImages(leftImageView: cell.leftImageView, rightImageView: cell.rightImageView, hashtagLabel: cell.titleLabel, completion: { (matchup) in
-                //cell.leftResultLabel?.text = String(matchup.countVoteA!)
-        })
+        setupCell(cell: cell)
         
         return cell
     }

@@ -30,8 +30,8 @@ enum VoteDirection {
 
 class MatchupCollectionViewCell: UICollectionViewCell {
     
-    var leftImageView: UIImageView?
-    var rightImageView: UIImageView?
+    var leftImageView: UIImageView = UIImageView()
+    var rightImageView: UIImageView = UIImageView()
     
     var leftLabel: UILabel?
     var rightLabel: UILabel?
@@ -46,13 +46,19 @@ class MatchupCollectionViewCell: UICollectionViewCell {
     
     /** To scroll colleciton view. */
     var collectionViewDelegate: UICollectionView?
-    var homeViewControllerDelegate: HomeViewController?
     
     /** To tell if post has already been voted. To prevent vote the same post multiple times.*/
     var isVoted: Bool = false
     
     /** Stores the current cell's index. Used to calculate the next cell index where collection view scrolls to after being tapped. */
     var itemIndex: Int?
+    
+    var leftResultLabel: UILabel = UILabel()
+    var rightResultLabel: UILabel = UILabel()
+    
+    var hashtagLabel: UILabel = UILabel()
+    
+    var matchup: Matchup?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -69,15 +75,6 @@ class MatchupCollectionViewCell: UICollectionViewCell {
     
     func initalSetup() {
         self.isUserInteractionEnabled = true
-        
-        // Init
-        leftImageView = UIImageView()
-        rightImageView = UIImageView()
-        
-        guard let leftImageView = leftImageView, let rightImageView = rightImageView  else {
-            print("failed to instantiate image view")
-            return
-        }
         
         leftImageView.isUserInteractionEnabled = true
         rightImageView.isUserInteractionEnabled = true
@@ -166,25 +163,10 @@ class MatchupCollectionViewCell: UICollectionViewCell {
                                constant: contentView.frame.width/2)
             ])
         addResultLabelToImageViews()
-        addTitleLabelToContentView()
+        addhashtagLabelToContentView()
     }
     
-    var leftResultLabel: UILabel?
-    var rightResultLabel: UILabel?
-    
     func addResultLabelToImageViews() {
-        leftResultLabel = UILabel()
-        rightResultLabel = UILabel()
-        
-        guard let leftImageView = leftImageView, let rightImageView = rightImageView else {
-            print("image view is nil")
-            return
-        }
-        
-        guard let leftResultLabel = leftResultLabel, let rightResultLabel = rightResultLabel else {
-            print("result label is nil")
-            return
-        }
         
         leftImageView.addSubview(leftResultLabel)
         rightImageView.addSubview(rightResultLabel)
@@ -268,32 +250,26 @@ class MatchupCollectionViewCell: UICollectionViewCell {
         rightResultLabel.isHidden = true
     }
     
-    var titleLabel: UILabel?
-    
-    func addTitleLabelToContentView() {
-        titleLabel = UILabel()
-        guard let titleLabel = titleLabel else {
-            print("title label is nil")
-            return
-        }
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(titleLabel)
+    func addhashtagLabelToContentView() {
+
+        hashtagLabel.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(hashtagLabel)
         contentView.addConstraints([
-            NSLayoutConstraint(item: titleLabel,
+            NSLayoutConstraint(item: hashtagLabel,
                                attribute: NSLayoutAttribute.centerX,
                                relatedBy: NSLayoutRelation.equal,
                                toItem: contentView,
                                attribute: NSLayoutAttribute.centerX,
                                multiplier: 1.0,
                                constant: 0),
-            NSLayoutConstraint(item: titleLabel,
+            NSLayoutConstraint(item: hashtagLabel,
                                attribute: NSLayoutAttribute.top,
                                relatedBy: NSLayoutRelation.equal,
                                toItem: contentView,
                                attribute: NSLayoutAttribute.top,
                                multiplier: 1.0,
                                constant: 10),
-            NSLayoutConstraint(item: titleLabel,
+            NSLayoutConstraint(item: hashtagLabel,
                                attribute: NSLayoutAttribute.height,
                                relatedBy: NSLayoutRelation.equal,
                                toItem: nil,
@@ -301,7 +277,7 @@ class MatchupCollectionViewCell: UICollectionViewCell {
                                multiplier: 1.0,
                                constant: 50),
             
-            NSLayoutConstraint(item: titleLabel,
+            NSLayoutConstraint(item: hashtagLabel,
                                attribute: NSLayoutAttribute.width,
                                relatedBy: NSLayoutRelation.equal,
                                toItem: nil,
@@ -309,50 +285,40 @@ class MatchupCollectionViewCell: UICollectionViewCell {
                                multiplier: 1.0,
                                constant: 100)
             ])
-        titleLabel.backgroundColor = UIColor.white
-        titleLabel.textAlignment = .center
+        hashtagLabel.backgroundColor = UIColor.white
+        hashtagLabel.textAlignment = .center
     }
     
     /** Shows label to tell which won, fires uploadMatchupResult on Home view controller and scrolls to the next cell. */
     func leftImageViewTapped(sender: UITapGestureRecognizer) {
-        guard let collectionViewDelegate = collectionViewDelegate, let homeViewControllerDelegate = homeViewControllerDelegate else {
-            print("delegate is nil")
-            return
-        }
-        guard let indexPath = collectionViewDelegate.indexPath(for: self) else {
-            print("collection view delegate indexPath is nil")
+        guard let didVote = matchup?.didVote else {
+            print("didVote or matchup is nil")
             return
         }
         
-        guard let leftResultLabel = leftResultLabel, let rightResultLabel = rightResultLabel else {
-            print("result label is nil in image view tapped")
-            return
-        }
+        print("didVote: \(didVote)")
+//        if !didVote {
+//            showResult(which: .Left)
+//            perform(#selector(scrollTo), with: nil, afterDelay: 0.5)
+//        }
+
+        showResult(which: .Left)
+        perform(#selector(scrollTo), with: nil, afterDelay: 0.5)
         
-        // Prevent multiple voting
-        if isVoted {
-            print("This matchup has already been voted. Voting multiple times on the same matchup is not allowed.")
-            let nextIndexPath = IndexPath(item: indexPath.item + 1, section: 0)
-            if nextIndexPath.item < collectionViewDelegate.numberOfItems(inSection: 0) {
-                collectionViewDelegate.scrollToItem(at: nextIndexPath, at: UICollectionViewScrollPosition.centeredHorizontally, animated: true)
-            }
-            return
-        }
-        isVoted = true
+//        leftResultLabel.isHidden = false
+//        rightResultLabel.isHidden = false
+//        
+//        let leftCount: Double = Double(homeViewControllerDelegate.matchup!.countVoteA!)
+//        let rightCount: Double = Double(homeViewControllerDelegate.matchup!.countVoteB!+1)
+//        let totalCount = leftCount + rightCount
+//        let leftPercentage: Double = leftCount / totalCount
+//        let rightPercentage: Double = rightCount / totalCount
+//        leftResultLabel.text = String(format: "%.0f", leftPercentage*100) + "%"
+//        rightResultLabel.text = String(format: "%.0f", rightPercentage*100) + "%"
+//        
+//        //cast vote
+//        homeViewControllerDelegate.uploadMatchupResult(winner: WinnerPost.Left)
         
-        leftResultLabel.isHidden = false
-        rightResultLabel.isHidden = false
-        
-        let leftCount: Double = Double(homeViewControllerDelegate.matchup!.countVoteA!)
-        let rightCount: Double = Double(homeViewControllerDelegate.matchup!.countVoteB!+1)
-        let totalCount = leftCount + rightCount
-        let leftPercentage: Double = leftCount / totalCount
-        let rightPercentage: Double = rightCount / totalCount
-        leftResultLabel.text = String(format: "%.0f", leftPercentage*100) + "%"
-        rightResultLabel.text = String(format: "%.0f", rightPercentage*100) + "%"
-        
-        //cast vote
-        homeViewControllerDelegate.uploadMatchupResult(winner: WinnerPost.Left)
         
         //leftLabelText = "Win"
         //rightLabelText = "Lose"
@@ -367,53 +333,23 @@ class MatchupCollectionViewCell: UICollectionViewCell {
 //            
 //        }, completion: { finished in
 //        })
-        self.itemIndex = indexPath.item
-        perform(#selector(scrollTo), with: nil, afterDelay: 0.5)
+
     }
     
     /** Shows label to tell which won, fires uploadMatchupResult on Home view controller and scrolls to the next cell. */
     func rightImageViewTapped(sender: UITapGestureRecognizer) {
-        guard let collectionViewDelegate = collectionViewDelegate, let homeViewControllerDelegate = homeViewControllerDelegate else {
-            print("delegate is nil")
+        guard let didVote = matchup?.didVote else {
+            print("didVote or matchup is nil")
             return
         }
-        guard let indexPath = collectionViewDelegate.indexPath(for: self) else {
-            print("collection view delegate indexPath is nil")
-            return
-        }
-        guard let leftResultLabel = leftResultLabel, let rightResultLabel = rightResultLabel else {
-            print("result label is nil in image view tapped")
-            return
-        }
-        
-        // Prevent multiple voting
-        if isVoted {
-            print("This matchup has already been voted. Voting multiple times on the same matchup is not allowed.")
-            let nextIndexPath = IndexPath(item: indexPath.item + 1, section: 0)
-            if nextIndexPath.item < collectionViewDelegate.numberOfItems(inSection: 0) {
-                collectionViewDelegate.scrollToItem(at: nextIndexPath, at: UICollectionViewScrollPosition.centeredHorizontally, animated: true)
-            }
-            return
-        }
-        isVoted = true
-        
-        leftResultLabel.isHidden = false
-        rightResultLabel.isHidden = false
-        
-        let leftCount: Double = Double(homeViewControllerDelegate.matchup!.countVoteA!)
-        let rightCount: Double = Double(homeViewControllerDelegate.matchup!.countVoteB!+1)
-        let totalCount = leftCount + rightCount
-        let leftPercentage: Double = leftCount / totalCount
-        let rightPercentage: Double = rightCount / totalCount
-        leftResultLabel.text = String(format: "%.2f", leftPercentage*100) + "%"
-        rightResultLabel.text = String(format: "%.2f", rightPercentage*100) + "%"
-        
-        //cast vote
-        homeViewControllerDelegate.uploadMatchupResult(winner: WinnerPost.Right)
-        
-        leftLabelText = "Win"
-        rightLabelText = "Lose"
-        
+        print("didVote: \(didVote)")
+//        if !didVote {
+//            showResult(which: .Right)
+//            perform(#selector(scrollTo), with: nil, afterDelay: 0.5)
+//        }
+
+        showResult(which: .Right)
+        perform(#selector(scrollTo), with: nil, afterDelay: 0.5)
         //Change the size of the bar before aniamtion
         //createVotingAnimationSubviews()
         
@@ -425,28 +361,70 @@ class MatchupCollectionViewCell: UICollectionViewCell {
 //        }, completion: { finished in
 //        })
         
-        self.itemIndex = indexPath.item
-        perform(#selector(scrollTo), with: nil, afterDelay: 0.5)
+    }
+    
+    private func showResult(which: VoteDirection) {
+        guard let matchup = matchup else {
+            print("matchup is nil")
+            return
+        }
+        leftResultLabel.isHidden = false
+        rightResultLabel.isHidden = false
+        
+        var leftCount: Double = 0
+        var rightCount: Double = 0
+        if which == .Left {
+            matchup.vote(Matchup.voteFor.A)
+            print("matchup ID: \(matchup.ID), left is voted.")
+            print("Before, A: \(matchup.countVoteA!), B: \(matchup.countVoteB!).")
+            leftCount = Double(matchup.countVoteA!+1)
+            rightCount = Double(matchup.countVoteB!)
+        } else {
+            matchup.vote(Matchup.voteFor.B)
+            print("matchup ID: \(matchup.ID), right is voted.")
+            print("Before, A: \(matchup.countVoteA!), B: \(matchup.countVoteB!).")
+            leftCount = Double(matchup.countVoteA!)
+            rightCount = Double(matchup.countVoteB!+1)
+        }
+        print("After, A: \(leftCount), B: \(rightCount).")
+        
+        let totalCount = leftCount + rightCount
+        let leftPercentage: Double = leftCount / totalCount
+        let rightPercentage: Double = rightCount / totalCount
+        leftResultLabel.text = String(format: "%.0f", leftPercentage*100) + "%"
+        rightResultLabel.text = String(format: "%.0f", rightPercentage*100) + "%"
+    }
+    
+    // Can't take argument with any type except id, but id is not available in swift
+    // So use property instead
+    internal func scrollTo() {
+        guard let collectionViewDelegate = collectionViewDelegate else {
+            print("delegate is nil")
+            return
+        }
+        guard let currentIndexPath = collectionViewDelegate.indexPath(for: self) else {
+            print("currentIndexPath is nil")
+            return
+        }
+        
+        let nextIndexPath = IndexPath(item: currentIndexPath.item + 1, section: 0)
+        // Check the bound
+        if nextIndexPath.item < collectionViewDelegate.numberOfItems(inSection: 0) {
+            collectionViewDelegate.scrollToItem(at: nextIndexPath, at: UICollectionViewScrollPosition.centeredHorizontally, animated: true)
+        }
     }
     
     override func prepareForReuse() {
-        print("prepareForReuse()")
-        leftImageView?.image = nil
-        rightImageView?.image = nil
-        leftResultLabel?.text = ""
-        rightResultLabel?.text = ""
-        leftResultLabel?.isHidden = true
-        rightResultLabel?.isHidden = true
-        titleLabel?.text = ""
+        leftImageView.image = nil
+        rightImageView.image = nil
+        leftResultLabel.text = ""
+        rightResultLabel.text = ""
+        leftResultLabel.isHidden = true
+        rightResultLabel.isHidden = true
+        hashtagLabel.text = ""
     }
     
-    
     func addAndConstrainSubviews() {
-        
-        guard let leftImageView = leftImageView, let rightImageView = rightImageView else {
-            print("image view is nil")
-            return
-        }
         
         let image = #imageLiteral(resourceName: "checkmark")
         leftCheckMark = UIImageView.init(image:image)
@@ -678,66 +656,50 @@ class MatchupCollectionViewCell: UICollectionViewCell {
     func createVotingAnimationSubviews() {
         //calculate percentages
         
-        guard let homeViewControllerDelegate = homeViewControllerDelegate else {
-            print("delegate is nil")
-            return
-        }
-        guard let matchup = homeViewControllerDelegate.matchup else {
-            print("matchup is nil")
-            return
-        }
-        guard let leftCount = matchup.countVoteA, let rightCount = matchup.countVoteB  else {
-            print("counts are nil")
-            return
-        }
-        
-        //convert int to double
-        //come up with cleaner way to do this in next iteration
-        
-        let leftCountConverted: Double = Double(leftCount)
-        let rightCountConverted: Double = Double(rightCount)
-        
-        //calculate total and percentages
-        let total = leftCountConverted + rightCountConverted
-        let leftPercentage: Double = (leftCountConverted / total)
-        let rightPercentage: Double = (rightCountConverted / total)
-        
-        //calculates totalheight of bar (contentviewheight - B(height of checkmark and label))
-        //note checkmarklabelspacing and barlabelspacing must inverted based on constraint setup
-        
-        let cellHeight = contentView.frame.size.height
-        let controlHeight = AnimationViewConstraintConstants.checkMarkImageHeight + AnimationViewConstraintConstants.winLabelHeight + -(AnimationViewConstraintConstants.checkMarkLabelSpacing)
-        let barHeight = cellHeight - controlHeight - -(AnimationViewConstraintConstants.barLabelSpacing)
-        
-        AnimationViewConstraintConstants.leftBarCalculatedHeight = barHeight * CGFloat(leftPercentage)
-        AnimationViewConstraintConstants.rightBarCalculatedHeight = barHeight * CGFloat(rightPercentage)
-        
-        //lays bar out with fixed height using autolyout
-        //layout of other two elements off bar using autolayout
-        
-        //hide elements to prepareforanimation
-        
-        addAndConstrainSubviews()
-        self.contentView.layoutIfNeeded()
-        resetAnimationState()
+//        guard let homeViewControllerDelegate = homeViewControllerDelegate else {
+//            print("delegate is nil")
+//            return
+//        }
+//        guard let matchup = homeViewControllerDelegate.matchup else {
+//            print("matchup is nil")
+//            return
+//        }
+//        guard let leftCount = matchup.countVoteA, let rightCount = matchup.countVoteB  else {
+//            print("counts are nil")
+//            return
+//        }
+//        
+//        //convert int to double
+//        //come up with cleaner way to do this in next iteration
+//        
+//        let leftCountConverted: Double = Double(leftCount)
+//        let rightCountConverted: Double = Double(rightCount)
+//        
+//        //calculate total and percentages
+//        let total = leftCountConverted + rightCountConverted
+//        let leftPercentage: Double = (leftCountConverted / total)
+//        let rightPercentage: Double = (rightCountConverted / total)
+//        
+//        //calculates totalheight of bar (contentviewheight - B(height of checkmark and label))
+//        //note checkmarklabelspacing and barlabelspacing must inverted based on constraint setup
+//        
+//        let cellHeight = contentView.frame.size.height
+//        let controlHeight = AnimationViewConstraintConstants.checkMarkImageHeight + AnimationViewConstraintConstants.winLabelHeight + -(AnimationViewConstraintConstants.checkMarkLabelSpacing)
+//        let barHeight = cellHeight - controlHeight - -(AnimationViewConstraintConstants.barLabelSpacing)
+//        
+//        AnimationViewConstraintConstants.leftBarCalculatedHeight = barHeight * CGFloat(leftPercentage)
+//        AnimationViewConstraintConstants.rightBarCalculatedHeight = barHeight * CGFloat(rightPercentage)
+//        
+//        //lays bar out with fixed height using autolyout
+//        //layout of other two elements off bar using autolayout
+//        
+//        //hide elements to prepareforanimation
+//        
+//        addAndConstrainSubviews()
+//        self.contentView.layoutIfNeeded()
+//        resetAnimationState()
         
     }
-    
-    
-    // Can't take argument with any type except id, but id is not available in swift
-    // So use property instead
-    func scrollTo() {
-        guard let collectionViewDelegate = collectionViewDelegate, let itemIndex = itemIndex else {
-            print("delegate is nil")
-            return
-        }
-        let nextIndexPath = IndexPath(item: itemIndex + 1, section: 0)
-        // Check the bound
-        if nextIndexPath.item < collectionViewDelegate.numberOfItems(inSection: 0) {
-            collectionViewDelegate.scrollToItem(at: nextIndexPath, at: UICollectionViewScrollPosition.centeredHorizontally, animated: true)
-        }
-    }
-    
     
     //MARK: Voting Animations
     
