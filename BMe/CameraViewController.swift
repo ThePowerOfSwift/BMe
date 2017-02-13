@@ -435,12 +435,22 @@ class CameraViewController: UIViewController {
         let newImgID = Image.save(image: imageData)
         let postID = Post.create(assetID: newImgID, assetType: .image, hashtag: hashtagTextField.text!)
         
+        UIImageWriteToSavedPhotosAlbum(resultImage, self, #selector(CameraViewController.image(_:didFinishSavingWithError:contextInfo:)), nil)
+
         Matchup.submitPost(postID)
         print("Upload completed")
         self.removeAllItems()
         busy.stopAnimating()
         busy.removeFromSuperview()
         self.toggleCameraMode()
+    }
+    
+    func image(_ image: UIImage, didFinishSavingWithError error: NSError?, contextInfo: UnsafeRawPointer)  {
+        let alertController = UIAlertController(title: "Saved to camera roll", message: nil, preferredStyle: UIAlertControllerStyle.alert)
+        let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil)
+        alertController.addAction(okAction)
+        present(alertController, animated: true, completion: nil)
+        
     }
     
     @IBAction func onHashtagField(_ sender: UITextField) {
