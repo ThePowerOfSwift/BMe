@@ -69,6 +69,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
         UserAccount.currentUser.signIn(withEmail: email, password: password) { (user: FIRUser?, error: Error?) in
             // Present error alert
             self.presentErrorAlert(error: error)
+            
         }
         
     }
@@ -91,12 +92,6 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
         }
         return true
     }
-    
-    
-    @IBAction func onBack(_ sender: Any) {
-        self.dismiss(animated: false, completion: nil)
-    }
-    
     
     // MARK: -  Methods
     let intervals: TimeInterval = 0.5

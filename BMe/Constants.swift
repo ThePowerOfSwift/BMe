@@ -26,7 +26,7 @@ struct Constants {
     }
     struct OnLogout {
         static let StoryboardID = SegueID.Storyboard.Main
-        static let RootViewController = SegueID.ViewController.MainViewController
+        static let RootViewController = SegueID.ViewController.MainNavViewController
     }
     struct ToLogin {
         static let StoryboardID = SegueID.Storyboard.Main
@@ -57,6 +57,7 @@ struct Constants {
         }
         struct ViewController {
             static let MainViewController = "MainViewController"
+            static let MainNavViewController = "MainNavViewController"
             static let CameraViewController = "CameraViewController"
             static let YelpViewController = "YelpViewController"
             static let VideoComposerViewController = "VideoComposerViewController"

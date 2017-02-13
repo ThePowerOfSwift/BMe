@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 
-class SignUpViewController: UIViewController {
+class SignUpViewController: UIViewController,UITextFieldDelegate {
     
     @IBOutlet weak var userNameTextField: UITextField!
     @IBOutlet weak var passWordTextField: UITextField!
@@ -18,54 +18,76 @@ class SignUpViewController: UIViewController {
     
     var username: String?
     var email: String?
+    var password: String?
     var state: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        toEnterUsernameState()
-        userNameTextField.becomeFirstResponder()
-        //NotificationCenter.default.addObserver(self, selector: #selector(presentRootVC), name: NSNotification.Name(rawValue: Constants.NotificationKeys.didSignIn), object: nil)
+        userNameTextField.delegate = self
+        passWordTextField.delegate = self
+        if state == "username"{
+            toEnterUsernameState()
+        }
+        else{
+            toEnterEmail()
+        }
     }
-    deinit{
-        NotificationCenter.default.removeObserver(self)
-        userNameTextField.resignFirstResponder()
+    override func viewWillAppear(_ animated: Bool) {
+        userNameTextField.becomeFirstResponder()
     }
     override func viewWillDisappear(_ animated: Bool) {
         userNameTextField.resignFirstResponder()
     }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-    /**
-     Pressing back will either go back to login page(cancel) or re-enter username
-    */
-    @IBAction func onBack(_ sender: Any) {
-        if infoEnterState() == "username"{
-            self.dismiss(animated: false, completion: nil)
-        }
-        else{
-            toEnterUsernameState()
-        }
-    }
-    
-    
-    
-    
-    /**
-    Pressing button will either continue filling out email address or submit everything
-    */
-    @IBAction func onContinue(_ sender: Any) {
-        if infoEnterState() == "username"{
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if state == "username"{
             //TODO: Check against username format once there is one
             if userNameTextField.text == ""{
                 presentEmptyFieldErrorAlert()
             }
             else{
-                toEnterEmail()
+                performSegue(withIdentifier: "FillEmail", sender: nil)
             }
-            
+            return true
+        }
+        else{
+            if textField == userNameTextField{
+                userNameTextField.resignFirstResponder()
+                passWordTextField.becomeFirstResponder()
+            }
+            else{
+                if let email = userNameTextField.text, let password = passWordTextField.text, let username = self.username{
+                    UserAccount.createUser(withUsername: username, email: email, password: password) { (user: FIRUser?, error: Error?) in
+                        // Present error alert
+                        self.presentErrorAlert(error: error)
+                        if user != nil{
+                            self.presentRootVC()
+                        }
+                    }
+                }
+                else {
+                    presentEmptyFieldErrorAlert()
+                    
+                }
+            }
+        }
+        return true
+    }
+    
+    /**
+    Pressing button will either continue filling out email address or submit everything
+    */
+    @IBAction func onContinue(_ sender: Any) {
+        if state == "username"{
+            //TODO: Check against username format once there is one
+            if userNameTextField.text == ""{
+                presentEmptyFieldErrorAlert()
+            }
         }
         else{
             guard let email = userNameTextField.text,
@@ -81,12 +103,15 @@ class SignUpViewController: UIViewController {
                 // Present error alert
                 print("test")
                 self.presentErrorAlert(error: error)
+                if user != nil{
+                    self.presentRootVC()
+                }
             }
         }
     }
     
     @IBAction func onEditing(_ sender: Any) {
-        if infoEnterState() == "username"{
+        if state == "username"{
             self.username = self.userNameTextField.text! //Save previous
         }
         else{
@@ -133,31 +158,20 @@ class SignUpViewController: UIViewController {
      - Username textfield placeholder should be "email"
      - Title on the button should be "Submit"
      */
-    func toEnterEmail() -> Void{
+    func toEnterEmail() -> Void{//-> UIViewController{
         if let email = self.email{
             userNameTextField.text = email
         }
         else{
             userNameTextField.text = ""
         }
-        self.passWordTextField.isHidden = false
-        self.passWordTextField.placeholder = "password"
-        self.userNameTextField.placeholder = "email"
-        self.userNameTextField.becomeFirstResponder()
-        self.onContinueButton.setTitle("Submit", for: .normal)
-        self.descriptionLabel.text = "Please enter email address and password for login."
-    }
-    
-    /**
-    To increase readability
-    */
-    func infoEnterState() -> String{
-        if self.onContinueButton.title(for: .normal) == "Continue"{
-            return "username"
-        }
-        else{
-            return "email"
-        }
+        passWordTextField.isHidden = false
+        passWordTextField.placeholder = "password"
+        userNameTextField.placeholder = "email"
+        userNameTextField.becomeFirstResponder()
+        onContinueButton.setTitle("Submit", for: .normal)
+        descriptionLabel.text = "Please enter email address and password for login."
+        //return rootVC
     }
     
     /**
@@ -191,7 +205,9 @@ class SignUpViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    
+        let vc = segue.destination as! SignUpViewController
+        vc.state = "email"
+        vc.username = self.userNameTextField.text
     }
     
 
