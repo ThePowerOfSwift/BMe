@@ -145,6 +145,7 @@ class SignUpViewController: UIViewController,UITextFieldDelegate {
         else{
             userNameTextField.text = ""
         }
+        userNameTextField.returnKeyType = .next
         self.onContinueButton.setTitle("Continue", for: .normal)
         self.passWordTextField.isHidden = true
         self.userNameTextField.placeholder = "username"
@@ -165,8 +166,11 @@ class SignUpViewController: UIViewController,UITextFieldDelegate {
         else{
             userNameTextField.text = ""
         }
+        
+        passWordTextField.returnKeyType = .send
         passWordTextField.isHidden = false
         passWordTextField.placeholder = "password"
+        userNameTextField.returnKeyType = .next
         userNameTextField.placeholder = "email"
         userNameTextField.becomeFirstResponder()
         onContinueButton.setTitle("Submit", for: .normal)
@@ -212,3 +216,4 @@ class SignUpViewController: UIViewController,UITextFieldDelegate {
     
 
 }
+
