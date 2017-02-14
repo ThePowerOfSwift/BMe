@@ -1047,7 +1047,7 @@ extension CameraViewController: UITextFieldDelegate {
             let textColor = textField.textColor
             let fontSize = textField.font?.pointSize
             let textFont = UIFont(name: "Helvetica", size: fontSize!)!
-            let textFontAttributes = [NSFontAttributeName: textFont, NSForegroundColorAttributeName: textColor]
+            let textFontAttributes = [NSFontAttributeName: textFont, NSForegroundColorAttributeName: textColor] as [String : Any]
             
             // Draw text in rect
             let rect = CGRect(origin: textLabelPointInImage, size: textImageView.frame.size)
