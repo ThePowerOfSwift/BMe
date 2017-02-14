@@ -348,6 +348,7 @@
 		78337D901DE3ACA700A1B32C /* JJ */ = {
 			isa = PBXGroup;
 			children = (
+				E37CA7D31E5269C9000ED7B3 /* Home */,
 			);
 			name = JJ;
 			sourceTree = "<group>";
@@ -400,7 +401,6 @@
 				7863842E1E37D8C6005DD454 /* User */,
 				783560911E4CF07F00B9FD8D /* FIR */,
 				7821C3BB1DEF24730023B95E /* Tab Bar */,
-				E37CA7D31E5269C9000ED7B3 /* Home */,
 				7821C3C01DEF82680023B95E /* Views */,
 				7821C3BC1DEF249D0023B95E /* Storyboards */,
 				783008AB1DE3B9AF00B070D4 /* Models */,

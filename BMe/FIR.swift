@@ -86,11 +86,10 @@ class FIR: NSObject {
         })
         
         task.observe(.failure, handler: { (snapshot: FIRStorageTaskSnapshot) in
-            print("Upload  failure")
+            print("Upload failure")
             if let error = snapshot.error {
                 print("Error uploading to GS: \(error.localizedDescription)")
             }
-            
         })
 
         return filename
