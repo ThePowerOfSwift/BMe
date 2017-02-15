@@ -163,6 +163,7 @@ class HomeViewController: UIViewController {
         // Set cell's delegate to collection view so that cell can tell collection view to scroll
         // to the next cell when either of images is tapped
         cell.collectionViewDelegate = matchupCollectionView!
+        cell.bar.reset()
         
         // Request matchup
         Matchup.serve { (matchup) in
