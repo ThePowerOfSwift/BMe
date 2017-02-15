@@ -35,48 +35,15 @@ class MainViewController: UIViewController, UIScrollViewDelegate {
     
     @IBAction func didTapLogin(_ sender: Any) {
         loginButton.isEnabled = false
+        self.performSegue(withIdentifier: "ToLogin", sender: nil)
         //self.present(self.getRootVCForLogin(), animated: false, completion: nil)
     }
 
     @IBAction func didTapSignUp(_ sender: Any) {
         signupButton.isEnabled = false
-    }
-    
-    func presentRootVC() {
-        self.present(self.getRootVCForUserLoggedIn(), animated: false, completion: nil)
-    }
-    
-    /*
-     Get ViewController for existed signedIn
-    **/
-    func getRootVCForUserLoggedIn() -> UIViewController {
-        let storyboard = UIStoryboard.init(name: Constants.OnLogin.StoryboardID, bundle: nil)
-        let rootVC = storyboard.instantiateViewController(withIdentifier: Constants.OnLogin.RootViewController)
-        return rootVC
-    }
-    
-    func getRootVCForLogin() -> UIViewController {
-        // Completion code upon successful login
-        let storyboard = UIStoryboard.init(name: Constants.ToLogin.StoryboardID, bundle: nil)
-        let rootVC = storyboard.instantiateViewController(withIdentifier: Constants.ToLogin.RootViewController)
-        return rootVC
+        self.performSegue(withIdentifier: "ToSignUP", sender: nil)
     }
 
-    /**
-     Get the SignUpViewController
-     - Returns: UIViewController
-     */
-    func getRootVCForSignUp() -> UIViewController {
-        // Completion code upon successful login
-        let storyboard = UIStoryboard.init(name: Constants.OnSignUp.StoryboardID, bundle: nil)
-        let rootVC = storyboard.instantiateViewController(withIdentifier: Constants.OnSignUp.RootViewController) as! UINavigationController
-        let backItem = UIBarButtonItem()
-        backItem.title = "Back"
-        rootVC.navigationItem.backBarButtonItem = backItem
-        return rootVC
-    }
-    
-    
     //ScrollView Delegate, to calculate which page is showing, can be use if needed
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView){
         // Test the offset and calculate the current page after scrolling ends
@@ -149,7 +116,6 @@ class MainViewController: UIViewController, UIScrollViewDelegate {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "ToLogin"{
             self.navigationController?.navigationBar.tintColor = .yellow
-            //navigationItem.backBarButtonItem = backItem
         }
         else{
             self.navigationController?.navigationBar.tintColor = .blue

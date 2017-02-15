@@ -23,8 +23,11 @@ class SignUpViewController: UIViewController,UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        userNameTextField.becomeFirstResponder()
         userNameTextField.delegate = self
         passWordTextField.delegate = self
+        setupButtons()
         if state == "username"{
             toEnterUsernameState()
         }
@@ -32,12 +35,14 @@ class SignUpViewController: UIViewController,UITextFieldDelegate {
             toEnterEmail()
         }
     }
+    /*
     override func viewWillAppear(_ animated: Bool) {
         userNameTextField.becomeFirstResponder()
-    }
+    }*/
+    /*
     override func viewWillDisappear(_ animated: Bool) {
         userNameTextField.resignFirstResponder()
-    }
+    }*/
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -51,6 +56,7 @@ class SignUpViewController: UIViewController,UITextFieldDelegate {
                 presentEmptyFieldErrorAlert()
             }
             else{
+                userNameTextField.resignFirstResponder()
                 performSegue(withIdentifier: "FillEmail", sender: nil)
             }
             return true
@@ -97,7 +103,8 @@ class SignUpViewController: UIViewController,UITextFieldDelegate {
                     presentEmptyFieldErrorAlert()
                     return
             }
-            
+            onContinueButton.isEnabled = true
+            onContinueButton.setTitle("Signing Up...", for: .normal)
             // Sign up with credentials
             UserAccount.createUser(withUsername: username, email: email, password: password) { (user: FIRUser?, error: Error?) in
                 // Present error alert
@@ -212,6 +219,13 @@ class SignUpViewController: UIViewController,UITextFieldDelegate {
         let vc = segue.destination as! SignUpViewController
         vc.state = "email"
         vc.username = self.userNameTextField.text
+    }
+    
+    func setupButtons() -> Void{
+        onContinueButton.isEnabled = true
+        onContinueButton.layer.cornerRadius = 5
+        onContinueButton.layer.borderWidth = 1
+        onContinueButton.layer.borderColor = UIColor.blue.cgColor
     }
     
 

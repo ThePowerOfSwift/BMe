@@ -28,22 +28,12 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        view.backgroundColor = Styles.Color.Primary
-        logoImageViewWidthConstraint.constant = Styles.Logo.size.width
-        logoImageViewHeightConstraint.constant = Styles.Logo.size.height
-        logoImageView.image = UIImage(named: Constants.Images.hookBlack)
-        usernameTextField.returnKeyType = .next
-        passwordTextField.returnKeyType = .go
-        usernameTextField.becomeFirstResponder()
-        passwordTextField.delegate = self
-        usernameTextField.delegate = self
-        loginButton.isEnabled = true
-        
+        setupButtons()
+        setupBackground()
+        setupTextfields()
         // Subscribe to notifications for login (and send to root VC)
         // Add notification send user back to login screen after logout
         NotificationCenter.default.addObserver(self, selector: #selector(presentRootVC), name: NSNotification.Name(rawValue: Constants.NotificationKeys.didSignIn), object: nil)
-        
-        loginLabel.alpha = 0
     }
     deinit{
         NotificationCenter.default.removeObserver(self)
@@ -64,7 +54,6 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
         guard let email = usernameTextField.text,
             let password = passwordTextField.text
             else { return }
-        loginButton.isEnabled = false
         // Sign In with credentials.
         UserAccount.currentUser.signIn(withEmail: email, password: password) { (user: FIRUser?, error: Error?) in
             // Present error alert
@@ -79,9 +68,11 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
             if let email = usernameTextField.text,
                 let password = passwordTextField.text{
                 // Sign In with credentials.
+                passwordTextField.resignFirstResponder()
                 UserAccount.currentUser.signIn(withEmail: email, password: password) { (user: FIRUser?, error: Error?) in
                     // Present error alert
                     self.presentErrorAlert(error: error)
+                    self.usernameTextField.becomeFirstResponder()
                 }
             }
             return true
@@ -141,6 +132,29 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
             
             present(prompt, animated: true, completion: nil)
         }
+    }
+    
+    func setupButtons() -> Void{
+        loginButton.isEnabled = true
+        loginButton.layer.cornerRadius = 5
+        loginButton.layer.borderWidth = 1
+        loginButton.layer.borderColor = UIColor.yellow.cgColor
+    }
+    
+    func setupTextfields() -> Void{
+        usernameTextField.returnKeyType = .next
+        passwordTextField.returnKeyType = .go
+        usernameTextField.becomeFirstResponder()
+        passwordTextField.delegate = self
+        usernameTextField.delegate = self
+    }
+    
+    func setupBackground() -> Void{
+        view.backgroundColor = Styles.Color.Primary
+        logoImageViewWidthConstraint.constant = Styles.Logo.size.width
+        logoImageViewHeightConstraint.constant = Styles.Logo.size.height
+        logoImageView.image = UIImage(named: Constants.Images.hookBlack)
+        loginLabel.alpha = 0
     }
 }
 

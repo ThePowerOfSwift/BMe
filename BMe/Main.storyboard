@@ -28,14 +28,12 @@
                                 <state key="normal" title="Login"/>
                                 <connections>
                                     <action selector="didTapLogin:" destination="86H-4g-x8P" eventType="touchUpInside" id="bOx-DS-cVd"/>
-                                    <segue destination="nri-dc-DZW" kind="show" identifier="ToLogin" id="T2o-gY-sIh"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9eE-Z9-IBS">
                                 <state key="normal" title="Signup"/>
                                 <connections>
                                     <action selector="didTapSignUp:" destination="86H-4g-x8P" eventType="touchUpInside" id="b69-TV-e0G"/>
-                                    <segue destination="St8-tR-tTa" kind="show" identifier="ToSignUP" id="bHh-Gn-fpn"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -61,6 +59,8 @@
                         <outlet property="loginButton" destination="cO8-QL-h99" id="IWL-am-L8I"/>
                         <outlet property="pagingControl" destination="MMl-It-VXH" id="fb9-xG-An8"/>
                         <outlet property="signupButton" destination="9eE-Z9-IBS" id="6gK-Cb-26q"/>
+                        <segue destination="nri-dc-DZW" kind="show" identifier="ToLogin" id="MhC-8u-TnN"/>
+                        <segue destination="St8-tR-tTa" kind="show" identifier="ToSignUP" id="Zkt-cs-xeM"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="toC-Dl-FUs" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -111,10 +111,10 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailingMargin" secondItem="UBM-G0-VLQ" secondAttribute="trailing" constant="50" id="9XE-b4-qll"/>
+                            <constraint firstItem="1rk-ev-3LD" firstAttribute="top" secondItem="sAn-NK-3W6" secondAttribute="bottom" constant="70" id="AED-r9-rYQ"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Jmg-lc-Weh" secondAttribute="trailing" constant="50" id="BRp-eO-SdX"/>
                             <constraint firstItem="ehI-F0-GSr" firstAttribute="top" secondItem="99i-kf-Kbe" secondAttribute="bottom" constant="135" id="KcD-eQ-x8s"/>
                             <constraint firstItem="Jmg-lc-Weh" firstAttribute="top" secondItem="99i-kf-Kbe" secondAttribute="bottom" constant="27" id="P3o-KU-5T2"/>
-                            <constraint firstItem="sAn-NK-3W6" firstAttribute="top" secondItem="UBM-G0-VLQ" secondAttribute="bottom" constant="32" id="ZEJ-7r-3p8"/>
                             <constraint firstItem="sAn-NK-3W6" firstAttribute="trailing" secondItem="UBM-G0-VLQ" secondAttribute="trailing" id="cBq-ES-Cy3"/>
                             <constraint firstItem="Jmg-lc-Weh" firstAttribute="leading" secondItem="aLJ-SX-oDS" secondAttribute="leadingMargin" constant="50" id="ff6-ef-GiL"/>
                             <constraint firstItem="sAn-NK-3W6" firstAttribute="leading" secondItem="UBM-G0-VLQ" secondAttribute="leading" id="jP7-Jf-qf1"/>
@@ -180,12 +180,12 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="i5i-Hb-ZhK" firstAttribute="top" secondItem="pfr-nS-VV0" secondAttribute="bottom" constant="70" id="6oz-0F-kod"/>
                             <constraint firstItem="pfr-nS-VV0" firstAttribute="trailing" secondItem="6Mg-0q-nL4" secondAttribute="trailing" id="B9C-EM-xJ7"/>
                             <constraint firstItem="6Mg-0q-nL4" firstAttribute="top" secondItem="hW5-d3-tR8" secondAttribute="bottom" constant="30" id="CeK-ou-gcb"/>
                             <constraint firstItem="hW5-d3-tR8" firstAttribute="top" secondItem="FML-hg-FLe" secondAttribute="bottom" constant="275" id="I0e-Nh-JI1"/>
                             <constraint firstItem="hW5-d3-tR8" firstAttribute="top" secondItem="knu-dQ-W3I" secondAttribute="bottom" constant="60" id="JZa-9U-NDy"/>
                             <constraint firstItem="pfr-nS-VV0" firstAttribute="leading" secondItem="6Mg-0q-nL4" secondAttribute="leading" id="Tuh-6n-b94"/>
-                            <constraint firstItem="pfr-nS-VV0" firstAttribute="top" secondItem="6Mg-0q-nL4" secondAttribute="bottom" constant="20" id="Veu-m0-Tpn"/>
                             <constraint firstItem="6Mg-0q-nL4" firstAttribute="leading" secondItem="hW5-d3-tR8" secondAttribute="leading" id="a5E-WC-c5N"/>
                             <constraint firstItem="CTR-rS-GIp" firstAttribute="centerX" secondItem="knu-dQ-W3I" secondAttribute="centerX" id="o3L-dd-L6O"/>
                             <constraint firstItem="hW5-d3-tR8" firstAttribute="leading" secondItem="U0P-F4-dRT" secondAttribute="leading" constant="50" id="rzT-D2-YYW"/>
@@ -276,11 +276,11 @@
                             <constraint firstItem="pKS-dG-W45" firstAttribute="top" secondItem="R30-ik-PF0" secondAttribute="bottom" constant="27" id="NBF-Wn-PXG"/>
                             <constraint firstItem="pKS-dG-W45" firstAttribute="leading" secondItem="8Yv-ob-qAt" secondAttribute="leadingMargin" constant="50" id="Qb6-jO-bo4"/>
                             <constraint firstItem="VGo-sZ-ZuT" firstAttribute="leading" secondItem="8Yv-ob-qAt" secondAttribute="leadingMargin" constant="50" id="TdX-b1-abU"/>
-                            <constraint firstItem="agZ-fg-iBf" firstAttribute="top" secondItem="VGo-sZ-ZuT" secondAttribute="bottom" constant="32" id="WjS-Rs-KFK"/>
                             <constraint firstItem="ea9-sh-rh9" firstAttribute="top" secondItem="R30-ik-PF0" secondAttribute="bottom" constant="135" id="aEx-ZU-7lp"/>
                             <constraint firstAttribute="trailingMargin" secondItem="pKS-dG-W45" secondAttribute="trailing" constant="50" id="baM-rS-NKG"/>
                             <constraint firstItem="VGo-sZ-ZuT" firstAttribute="top" secondItem="ea9-sh-rh9" secondAttribute="bottom" constant="30" id="fn1-by-PqQ"/>
                             <constraint firstItem="ea9-sh-rh9" firstAttribute="leading" secondItem="8Yv-ob-qAt" secondAttribute="leadingMargin" constant="50" id="jeX-vJ-3MM"/>
+                            <constraint firstItem="B8X-9u-KRF" firstAttribute="top" secondItem="agZ-fg-iBf" secondAttribute="bottom" constant="70" id="nlP-Fc-jZT"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="voz-Ns-egO"/>
