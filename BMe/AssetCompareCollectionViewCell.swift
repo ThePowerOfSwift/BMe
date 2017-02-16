@@ -8,15 +8,23 @@
 
 import UIKit
 
+@objc protocol AssetCompareCollectionViewCellDelegate {
+    @objc optional func didSelect(_ sender: AssetCompareCollectionViewCell)
+}
+
+/** 
+ Custom CollectionView cell that dispalys two images to be compared.  After the user taps on an image, it sends the result to server and informs the delegate of action.
+ */
 class AssetCompareCollectionViewCell: UICollectionViewCell {
     
+    // Outlets
     @IBOutlet weak var imageStackView: UIStackView!
     @IBOutlet weak var imageViewLeading: UIImageView!
     @IBOutlet weak var imageViewTrailing: UIImageView!
     @IBOutlet weak var matchupTitleLabel: UILabel!
     
     /** 
-     Model.  OnSet load images from model
+     Model.  OnSet load model contents into cell
      */
     var matchup: Matchup? {
         didSet {
@@ -24,7 +32,11 @@ class AssetCompareCollectionViewCell: UICollectionViewCell {
         }
     }
     
+    /** Delegate */
+    var delegate: AssetCompareCollectionViewCellDelegate?
+    
     // MARK: Lifecycle
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
@@ -39,11 +51,16 @@ class AssetCompareCollectionViewCell: UICollectionViewCell {
     }
     
     /** 
-     Common intialization
+     Common intialization called after init
      */
     func setup() {        
         // Load nib
         let view = Bundle.main.loadNibNamed(keys.nibName, owner: self, options: nil)?.first as! UIView
+        
+        // Clear design contents
+        imageViewLeading.image = nil
+        imageViewTrailing.image = nil
+        matchupTitleLabel.text = ""
         
         // Resize to fill container
         view.frame = self.bounds
@@ -87,6 +104,7 @@ class AssetCompareCollectionViewCell: UICollectionViewCell {
     func didTapLeadingImage(_ sender: UITapGestureRecognizer) {
         if let matchup = matchup {
             matchup.vote(.A)
+            didTap()
         }
     }
     
@@ -96,9 +114,22 @@ class AssetCompareCollectionViewCell: UICollectionViewCell {
     func didTapTrailingImage(_ sender: UITapGestureRecognizer) {
         if let matchup = matchup {
             matchup.vote(.B)
+            didTap()
         }
     }
     
+    /** 
+     Cell was tapped.  Inform delegate
+     */
+    func didTap() {
+        if let delegate = delegate  {
+            if let didSelect = delegate.didSelect?(self) {
+                didSelect
+            }
+        }
+    }
+    
+    /** */
     struct keys {
         static var nibName = "AssetCompareCollectionViewCell"
     }

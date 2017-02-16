@@ -1,5 +1,5 @@
 //
-//  CompareCollectionViewController.swift
+//  MatchupCollectionViewController.swift
 //  BMe
 //
 //  Created by Jonathan Cheng on 2/14/17.
@@ -8,12 +8,14 @@
 
 import UIKit
 
-// TODO: let the cell be dynamically set at init
 private let reuseIdentifier = AssetCompareCollectionViewCell.keys.nibName
 
-class BannerCollectionViewController: UICollectionViewController {
+/** 
+ Displays Matchups using a banner style rotating carousel
+ */
+class MatchupCollectionViewController: UICollectionViewController, AssetCompareCollectionViewCellDelegate {
     
-    // Model
+    /** Model */
     var matchups: [Matchup]!
     
     // MARK: Lifecycle methdos
@@ -63,41 +65,34 @@ class BannerCollectionViewController: UICollectionViewController {
     
         let matchup = matchups[indexPath.row]
         
-        // Configure the cell
+        // Configure the cell model etc.
         cell.matchup = matchup
+        cell.delegate = self
         
         return cell
     }
     
-    // MARK: UICollectionViewDelegate
-    /*
-    All delegate touches are intercepted by the custom cell
+    // MARK: CollectionView paging methods
+
+    /** Scroll to the next item */
+    func advanceItem(_ sender: UICollectionViewCell) {
+        // Assumes there is only one section
+        if let currentIdx = collectionView?.indexPath(for: sender) {
+            let count = collectionView(collectionView!, numberOfItemsInSection: currentIdx.section) - 1
+            
+            if (currentIdx.row < count) {
+                let nextIdx = IndexPath(row: currentIdx.row + 1, section: currentIdx.section)
+                self.collectionView?.scrollToItem(at: nextIdx, at: .left, animated: true)
+            }
+        }
+    }
     
-    override func collectionView(_ collectionView: UICollectionView, shouldHighlightItemAt indexPath: IndexPath) -> Bool {
-        return true
-    }
- 
-    override func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        return true
-    }
+    // MARK: AssetCompareCollectionViewCellDelegate
     
-    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    }
+    /** 
+     Delegate method.  Upon proc advances the collectionview to the next item.
      */
-    
-    /*
-    // Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
-    override func collectionView(_ collectionView: UICollectionView, shouldShowMenuForItemAt indexPath: IndexPath) -> Bool {
-        return false
+    func didSelect(_ sender: AssetCompareCollectionViewCell) {
+        advanceItem(sender)
     }
-
-    override func collectionView(_ collectionView: UICollectionView, canPerformAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
-        return false
-    }
-
-    override func collectionView(_ collectionView: UICollectionView, performAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) {
-    
-    }
-    */
-
 }
