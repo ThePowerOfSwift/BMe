@@ -218,7 +218,7 @@ class MatchupCollectionViewCell: UICollectionViewCell {
         perform(#selector(scrollTo), with: nil, afterDelay: 0.5)
 
         if tapCount == 0 {
-            bar.animateBar(leftPercentage)
+            bar.animateBar(rightPercentage)
             bar.showValue()
         }
         
