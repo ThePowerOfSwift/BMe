@@ -47,8 +47,10 @@ class MatchupCollectionViewCell: UICollectionViewCell {
     
     var leftPercentage = 0
     var rightPercentage = 0
-
     
+    var lastCellFlag = false
+    var tapCount = 0
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         initalSetup()
@@ -201,8 +203,12 @@ class MatchupCollectionViewCell: UICollectionViewCell {
         showResult(which: .Left)
         perform(#selector(scrollTo), with: nil, afterDelay: 0.5)
 
-        bar.animateBar(leftPercentage)
-        bar.showValue()
+        if tapCount == 0 {
+            bar.animateBar(leftPercentage)
+            bar.showValue()
+        }
+        
+        tapCount += 1
     }
     
     /** Shows label to tell which won, fires uploadMatchupResult on Home view controller and scrolls to the next cell. */
@@ -211,8 +217,12 @@ class MatchupCollectionViewCell: UICollectionViewCell {
         showResult(which: .Right)
         perform(#selector(scrollTo), with: nil, afterDelay: 0.5)
 
-        bar.animateBar(rightPercentage)
-        bar.showValue()
+        if tapCount == 0 {
+            bar.animateBar(leftPercentage)
+            bar.showValue()
+        }
+        
+        tapCount += 1
     }
     
     private func showResult(which: VoteDirection) {
@@ -275,6 +285,9 @@ class MatchupCollectionViewCell: UICollectionViewCell {
         leftImageView.image = nil
         rightImageView.image = nil
         hashtagLabel.text = ""
+        bar.reset()
+        tapCount = 0
+
     }
     
 }

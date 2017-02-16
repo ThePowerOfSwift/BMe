@@ -127,7 +127,14 @@ class BarView: UIView {
                                                   constant: BarConstraintConstants.barCalculatedHeight)
             heightConstraint.isActive = true
         }else {
-            return
+            heightConstraint = NSLayoutConstraint(item: self,
+                                                  attribute: NSLayoutAttribute.height,
+                                                  relatedBy: NSLayoutRelation.equal,
+                                                  toItem: nil,
+                                                  attribute: NSLayoutAttribute.height,
+                                                  multiplier: 1.0,
+                                                  constant: BarConstraintConstants.barCalculatedHeight)
+
         }
         
         UIView.animate(withDuration: 1.0, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5, options: [] , animations: {
@@ -141,6 +148,7 @@ class BarView: UIView {
         self.isHidden = true
         self.resultLabel.isHidden = true
         self.transform = CGAffineTransform(scaleX: 0.25, y: 0.25)
+        heightConstraint = nil
     }
     
     func addLabelToParent() {

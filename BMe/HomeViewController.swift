@@ -163,7 +163,6 @@ class HomeViewController: UIViewController {
         // Set cell's delegate to collection view so that cell can tell collection view to scroll
         // to the next cell when either of images is tapped
         cell.collectionViewDelegate = matchupCollectionView!
-        cell.bar.reset()
         
         // Request matchup
         Matchup.serve { (matchup) in
@@ -230,6 +229,11 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? MatchupCollectionViewCell else {
             print("Failed to instantiate matchup collection view cell")
             return UICollectionViewCell()
+        }
+        
+        //last cell prevent animation on multiple taps
+        if indexPath.row == dataFetchCount - 1{
+            cell.lastCellFlag = true
         }
                 
         setupCell(cell: cell)
