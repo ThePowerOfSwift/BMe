@@ -91,6 +91,14 @@ class Post: JSONObject {
         // Save image
         let filename = FIR.manager.databasePath(object).childByAutoId().key
         FIR.manager.databasePath(object).child(filename).setValue(json)
+        
+        UserPost.addPostToUser(PostID:filename, uID: FIR.manager.uid ,completion: {
+            /*
+            UserPost.getUserPost(UID: FIR.manager.uid, completion: { (UserPost) in
+                print("hehe",UserPost.array)
+            })*/
+        })
+    
         return filename
     }
     

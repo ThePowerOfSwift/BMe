@@ -79,6 +79,7 @@
 		78D1783B1E48F8AD004B7840 /* JSONStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D1783A1E48F8AD004B7840 /* JSONStack.swift */; };
 		78F511361DF6D0860074050F /* WhiteRevealOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F511351DF6D0860074050F /* WhiteRevealOverlayView.swift */; };
 		78F511381DF6D09E0074050F /* WhiteRevealOverlayView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 78F511371DF6D09E0074050F /* WhiteRevealOverlayView.xib */; };
+		BF4130181E55670800F08B91 /* UsePost.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4130171E55670800F08B91 /* UsePost.swift */; };
 		BFDE7F6D1E4C1CAE00AA38A7 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDE7F6C1E4C1CAE00AA38A7 /* Post.swift */; };
 		BFDE7F6F1E4C1D1B00AA38A7 /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDE7F6E1E4C1D1B00AA38A7 /* Image.swift */; };
 		BFDE7F711E4C1D5200AA38A7 /* JSONObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDE7F701E4C1D5200AA38A7 /* JSONObject.swift */; };
@@ -219,6 +220,7 @@
 		78F511351DF6D0860074050F /* WhiteRevealOverlayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WhiteRevealOverlayView.swift; sourceTree = "<group>"; };
 		78F511371DF6D09E0074050F /* WhiteRevealOverlayView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WhiteRevealOverlayView.xib; sourceTree = "<group>"; };
 		86BFB4E3203608C3B4F447D0 /* Pods-BMeTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BMeTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BMeTests/Pods-BMeTests.debug.xcconfig"; sourceTree = "<group>"; };
+		BF4130171E55670800F08B91 /* UsePost.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UsePost.swift; sourceTree = "<group>"; };
 		BFDE7F6C1E4C1CAE00AA38A7 /* Post.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		BFDE7F6E1E4C1D1B00AA38A7 /* Image.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
 		BFDE7F701E4C1D5200AA38A7 /* JSONObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONObject.swift; sourceTree = "<group>"; };
@@ -339,6 +341,7 @@
 				BFDE7F6C1E4C1CAE00AA38A7 /* Post.swift */,
 				BFDE7F6E1E4C1D1B00AA38A7 /* Image.swift */,
 				78B0FDEF1E496DCD004F4E4E /* Matchup.swift */,
+				BF4130171E55670800F08B91 /* UsePost.swift */,
 			);
 			name = JSON;
 			sourceTree = "<group>";
@@ -815,6 +818,7 @@
 				4216315C1E42ACB900E644A5 /* View.swift in Sources */,
 				78469A5C1DE3958100A40D53 /* AppDelegate.swift in Sources */,
 				BFDE7F6F1E4C1D1B00AA38A7 /* Image.swift in Sources */,
+				BF4130181E55670800F08B91 /* UsePost.swift in Sources */,
 				783008AA1DE3B9A000B070D4 /* Constants.swift in Sources */,
 				E3F189A01E45778E00A654AE /* CategoryTableViewController.swift in Sources */,
 				7830089A1DE3B0B500B070D4 /* MeasurementHelper.swift in Sources */,

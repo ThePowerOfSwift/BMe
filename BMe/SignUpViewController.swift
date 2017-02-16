@@ -23,26 +23,16 @@ class SignUpViewController: UIViewController,UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        userNameTextField.becomeFirstResponder()
-        userNameTextField.delegate = self
-        passWordTextField.delegate = self
-        setupButtons()
-        if state == "username"{
-            toEnterUsernameState()
-        }
-        else{
-            toEnterEmail()
-        }
+        setupView()
     }
-    /*
+    
     override func viewWillAppear(_ animated: Bool) {
         userNameTextField.becomeFirstResponder()
-    }*/
-    /*
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
         userNameTextField.resignFirstResponder()
-    }*/
+    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -71,9 +61,6 @@ class SignUpViewController: UIViewController,UITextFieldDelegate {
                     UserAccount.createUser(withUsername: username, email: email, password: password) { (user: FIRUser?, error: Error?) in
                         // Present error alert
                         self.presentErrorAlert(error: error)
-                        if user != nil{
-                            self.presentRootVC()
-                        }
                     }
                 }
                 else {
@@ -103,16 +90,12 @@ class SignUpViewController: UIViewController,UITextFieldDelegate {
                     presentEmptyFieldErrorAlert()
                     return
             }
-            onContinueButton.isEnabled = true
+            onContinueButton.isEnabled = false
             onContinueButton.setTitle("Signing Up...", for: .normal)
             // Sign up with credentials
             UserAccount.createUser(withUsername: username, email: email, password: password) { (user: FIRUser?, error: Error?) in
                 // Present error alert
-                print("test")
                 self.presentErrorAlert(error: error)
-                if user != nil{
-                    self.presentRootVC()
-                }
             }
         }
     }
@@ -125,19 +108,6 @@ class SignUpViewController: UIViewController,UITextFieldDelegate {
             self.email = self.userNameTextField.text!
         }
     }
-    
-    func presentRootVC() {
-        self.present(self.getRootVCAfterLogin(), animated: false, completion: nil)
-    }
-    
-    func getRootVCAfterLogin() -> UIViewController {
-        // Completion code upon successful login
-        let storyboard = UIStoryboard.init(name: Constants.OnLogin.StoryboardID, bundle: nil)
-        let rootVC = storyboard.instantiateViewController(withIdentifier: Constants.OnLogin.RootViewController)
-        return rootVC
-    }
-    
-    
     
     /**
      Change appearence for textfield and button when entering username
@@ -152,6 +122,7 @@ class SignUpViewController: UIViewController,UITextFieldDelegate {
         else{
             userNameTextField.text = ""
         }
+        userNameTextField.becomeFirstResponder()
         userNameTextField.returnKeyType = .next
         self.onContinueButton.setTitle("Continue", for: .normal)
         self.passWordTextField.isHidden = true
@@ -173,11 +144,12 @@ class SignUpViewController: UIViewController,UITextFieldDelegate {
         else{
             userNameTextField.text = ""
         }
-        
         passWordTextField.returnKeyType = .send
         passWordTextField.isHidden = false
         passWordTextField.placeholder = "password"
+        userNameTextField.becomeFirstResponder()
         userNameTextField.returnKeyType = .next
+        userNameTextField.keyboardType = .emailAddress
         userNameTextField.placeholder = "email"
         userNameTextField.becomeFirstResponder()
         onContinueButton.setTitle("Submit", for: .normal)
@@ -195,14 +167,22 @@ class SignUpViewController: UIViewController,UITextFieldDelegate {
         // Present error alert
         if let error = error {
             let prompt = UIAlertController.init(title: "Error", message: "\(error.localizedDescription)", preferredStyle: .alert)
-            let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel, handler: nil)
+            let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel, handler: { (UIAlertAction) in
+                self.userNameTextField.becomeFirstResponder()
+                })
+        
             prompt.addAction(okAction)
             
-            present(prompt, animated: true, completion: nil)
+            present(prompt, animated: true, completion: {
+                //self.userNameTextField.becomeFirstResponder()
+                self.onContinueButton.setTitle("Submit", for: .normal)
+                self.onContinueButton.isEnabled = true
+                self.passWordTextField.text = ""
+            })
         }
-        else{
-            self.dismiss(animated: true, completion: nil) // Send user back to login page and automatically login after sign up
-        }
+//        else{
+//            self.dismiss(animated: true, completion: nil) // Send user back to login page and automatically login after sign up
+//        }
     }
     /**
      Present empty fields alert
@@ -212,7 +192,12 @@ class SignUpViewController: UIViewController,UITextFieldDelegate {
         let prompt = UIAlertController.init(title: "Error", message: "Please fill out all fields.", preferredStyle: .alert)
         let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel, handler: nil)
         prompt.addAction(okAction)
-        present(prompt, animated: true, completion: nil)
+        present(prompt, animated: true, completion: {
+            self.userNameTextField.becomeFirstResponder()
+            self.onContinueButton.setTitle("Submit", for: .normal)
+            self.onContinueButton.isEnabled = true
+            self.passWordTextField.text = ""
+        })
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -227,7 +212,27 @@ class SignUpViewController: UIViewController,UITextFieldDelegate {
         onContinueButton.layer.borderWidth = 1
         onContinueButton.layer.borderColor = UIColor.blue.cgColor
     }
-    
+    func setupDismissKeyboard() -> Void{
+        let tapper = UITapGestureRecognizer(target: self, action:#selector(dismissKeyBoard))
+        tapper.cancelsTouchesInView = false
+        view.addGestureRecognizer(tapper)
+    }
+    func dismissKeyBoard() -> Void{
+        userNameTextField.resignFirstResponder()
+        passWordTextField.resignFirstResponder()
+    }
+    func setupView() -> Void{
+        setupButtons()
+        setupDismissKeyboard()
+        userNameTextField.delegate = self
+        passWordTextField.delegate = self
+        if state == "username"{
+            toEnterUsernameState()
+        }
+        else{
+            toEnterEmail()
+        }
+    }
 
 }
 

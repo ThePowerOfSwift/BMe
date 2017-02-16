@@ -28,12 +28,8 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        setupButtons()
-        setupBackground()
-        setupTextfields()
-        // Subscribe to notifications for login (and send to root VC)
-        // Add notification send user back to login screen after logout
-        NotificationCenter.default.addObserver(self, selector: #selector(presentRootVC), name: NSNotification.Name(rawValue: Constants.NotificationKeys.didSignIn), object: nil)
+        // Setup the view attribute
+        setupView()
     }
     deinit{
         NotificationCenter.default.removeObserver(self)
@@ -54,12 +50,9 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
         guard let email = usernameTextField.text,
             let password = passwordTextField.text
             else { return }
-        // Sign In with credentials.
-        UserAccount.currentUser.signIn(withEmail: email, password: password) { (user: FIRUser?, error: Error?) in
-            // Present error alert
-            self.presentErrorAlert(error: error)
-            
-        }
+        // Sign In with credentials and animation
+        passwordTextField.resignFirstResponder()
+        animateSignIn(email: email, password: password)
         
     }
     
@@ -69,11 +62,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
                 let password = passwordTextField.text{
                 // Sign In with credentials.
                 passwordTextField.resignFirstResponder()
-                UserAccount.currentUser.signIn(withEmail: email, password: password) { (user: FIRUser?, error: Error?) in
-                    // Present error alert
-                    self.presentErrorAlert(error: error)
-                    self.usernameTextField.becomeFirstResponder()
-                }
+                animateSignIn(email: email, password: password)
             }
             return true
         }
@@ -86,7 +75,9 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
     
     // MARK: -  Methods
     let intervals: TimeInterval = 0.5
-    func animateSignIn() {
+    func animateSignIn(email: String, password: String) {
+        loginButton.isEnabled = false
+        loginButton.setTitle("Logging In...", for: .normal)
         UIView.animate(withDuration: intervals, animations: {
             // disappear logo
             self.logoImageView.alpha = 0
@@ -99,15 +90,19 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
                 UIView.animate(withDuration: self.intervals, animations: {
                     self.logoImageView.alpha = 0
                     self.loginLabel.alpha = 0
+                }, completion: { (success) in
+                    UIView.animate(withDuration: self.intervals, animations: {
+                        UserAccount.currentUser.signIn(withEmail: email, password: password) { (user: FIRUser?, error: Error?) in
+                            // Present error alert
+                            self.logoImageView.alpha = 1
+                            self.loginLabel.alpha = 0
+                            self.presentErrorAlert(error: error)
+                        }
+                    })
                 })
                 // Present root vc after login success
-                self.present(self.getRootVCAfterLogin(), animated: false, completion: nil)
             })
         })
-    }
-    
-    func presentRootVC() {
-        animateSignIn()
     }
 
     func getRootVCAfterLogin() -> UIViewController {
@@ -129,9 +124,21 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
             let prompt = UIAlertController.init(title: "Error", message: "\(error.localizedDescription)", preferredStyle: .alert)
             let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel, handler: nil)
             prompt.addAction(okAction)
-            
-            present(prompt, animated: true, completion: nil)
+            present(prompt, animated: true, completion: {
+                self.usernameTextField.becomeFirstResponder()
+                self.passwordTextField.text = ""
+                self.loginButton.setTitle("Login", for: .normal)
+            })
         }
+    }
+    /**
+    Setup View attribute/appearence
+     */
+    func setupView() -> Void{
+        setupButtons()
+        setupBackground()
+        setupTextfields()
+        setupDismissKeyboard()
     }
     
     func setupButtons() -> Void{
@@ -156,5 +163,17 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
         logoImageView.image = UIImage(named: Constants.Images.hookBlack)
         loginLabel.alpha = 0
     }
+    
+    func setupDismissKeyboard() -> Void{
+        let tapper = UITapGestureRecognizer(target: self, action:#selector(dismissKeyBoard))
+        tapper.cancelsTouchesInView = false
+        view.addGestureRecognizer(tapper)
+    }
+    func dismissKeyBoard() -> Void{
+        usernameTextField.resignFirstResponder()
+        passwordTextField.resignFirstResponder()
+    }
+    
+    
 }
 
