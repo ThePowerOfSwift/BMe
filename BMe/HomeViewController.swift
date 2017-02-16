@@ -34,7 +34,7 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var secondTableViewHeightConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var matchupContainerView: UIView!
-    var matchupCollectionView: UICollectionView?
+    var matchupCVC: UICollectionViewController?
     
     @IBOutlet weak var baseScrollView: UIScrollView!
     //var leftColors = [UIColor.red, UIColor.blue, UIColor.yellow, UIColor.cyan, UIColor.orange]
@@ -52,7 +52,6 @@ class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        baseScrollView.backgroundColor = Styles.Color.Primary
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -85,7 +84,6 @@ class HomeViewController: UIViewController {
         firstTableViewHeightConstraint.constant = firstTVC.tableView.frame.height
         secondTableViewHeightConstraint.constant = secondTVC.tableView.frame.height
         view.layoutIfNeeded()
-        print("firstTVC.tableView.frame.height: \(firstTVC.tableView.frame.height) in Home view controller")
         
         guard let firstTableView = firstTVC.tableView, let secondTableView = secondTVC.tableView else {
             print("Failed to instantiate tableView")
@@ -99,88 +97,22 @@ class HomeViewController: UIViewController {
     
     func setupMatchupCollectionView() {
         // Configure layout
+        let maxWidth = matchupContainerView.frame.width
+        let maxHeight = matchupContainerView.frame.width
         let layout = UICollectionViewFlowLayout()
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        layout.itemSize = CGSize(width: matchupContainerView.frame.width, height: matchupContainerView.frame.width)
         layout.scrollDirection = UICollectionViewScrollDirection.horizontal
-        layout.minimumInteritemSpacing = 0
-        layout.minimumLineSpacing = 0
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        // Sizing
+        layout.minimumInteritemSpacing = 5
+        layout.minimumLineSpacing = 5
+        layout.itemSize = CGSize(width: maxWidth - (layout.minimumInteritemSpacing / 2), height: maxHeight)
         
-        // Configure collection view
-        matchupCollectionView = UICollectionView(frame: matchupContainerView.frame, collectionViewLayout: layout)
-        guard let matchupCollectionView = matchupCollectionView else {
-            print("failed to instantiate matchupCollectionView")
-            return
-        }
-        matchupCollectionView.translatesAutoresizingMaskIntoConstraints = false
-        matchupCollectionView.register(MatchupCollectionViewCell.self, forCellWithReuseIdentifier: "cell")
-        matchupCollectionView.isPagingEnabled = true
-        //matchupCollectionView.backgroundColor = UIColor.green
-        matchupCollectionView.allowsSelection = false
-        matchupCollectionView.delegate = self
-        matchupCollectionView.dataSource = self
-        
-        // Add constraint
-        matchupContainerView.addSubview(matchupCollectionView)
-        matchupContainerView.addConstraints([
-            NSLayoutConstraint(
-                item: matchupCollectionView,
-                attribute: NSLayoutAttribute.top,
-                relatedBy: NSLayoutRelation.equal,
-                toItem: matchupContainerView,
-                attribute: NSLayoutAttribute.top,
-                multiplier: 1.0,
-                constant: 0),
-            NSLayoutConstraint(
-                item: matchupCollectionView,
-                attribute: NSLayoutAttribute.bottom,
-                relatedBy: NSLayoutRelation.equal,
-                toItem: matchupContainerView,
-                attribute: NSLayoutAttribute.bottom,
-                multiplier: 1.0,
-                constant: 0),
-            NSLayoutConstraint(
-                item: matchupCollectionView,
-                attribute: NSLayoutAttribute.leading,
-                relatedBy: NSLayoutRelation.equal,
-                toItem: matchupContainerView,
-                attribute: NSLayoutAttribute.leading,
-                multiplier: 1.0,
-                constant: 0),
-            NSLayoutConstraint(
-                item: matchupCollectionView,
-                attribute: NSLayoutAttribute.trailing,
-                relatedBy: NSLayoutRelation.equal,
-                toItem: matchupContainerView,
-                attribute: NSLayoutAttribute.trailing,
-                multiplier: 1.0,
-                constant: 0)
-            ])
-    }
-    
-    func setupCell(cell: MatchupCollectionViewCell) {
-        
-        // Set cell's delegate to collection view so that cell can tell collection view to scroll
-        // to the next cell when either of images is tapped
-        cell.collectionViewDelegate = matchupCollectionView!
-        
-        // Request matchup
-        Matchup.serve { (matchup) in
-            
-            cell.matchup = matchup
-            cell.hashtagLabel.text = matchup.hashtag
-            print("matchup ID: \(matchup.ID) is being served.")
-            
-            matchup.posts(completion: { (postA, postB) in
-                postA.assetURL(completion: { (urlA :URL) in
-                    postB.assetURL(completion: {(urlB: URL) in
-                        
-                        cell.leftImageView.loadImageFromGS(url: urlA, placeholderImage: nil)
-                        cell.rightImageView.loadImageFromGS(url: urlB, placeholderImage: nil)
-                    })
-                })
-            })
-        }
+        // Configure collection view and add as child VC
+        matchupCVC = BannerCollectionViewController(collectionViewLayout: layout)
+        self.addChildViewController(matchupCVC!)
+        matchupContainerView.addSubview(matchupCVC!.view)
+        matchupCVC!.view.frame = matchupContainerView.frame
+        matchupCVC!.didMove(toParentViewController: self)
     }
     
     let trendingMatchupTableViewDataSource: [MatchupTableViewDataSource] =
@@ -218,51 +150,4 @@ class HomeViewController: UIViewController {
          MatchupTableViewDataSource(userName: "BBBB", image: UIImage(named: "golden_gate_bridge.jpg")!)]
 }
 
-extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIGestureRecognizerDelegate {
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return dataFetchCount
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? MatchupCollectionViewCell else {
-            print("Failed to instantiate matchup collection view cell")
-            return UICollectionViewCell()
-        }
-        
-        //last cell prevent animation on multiple taps
-        if indexPath.row == dataFetchCount - 1{
-            cell.lastCellFlag = true
-        }
-                
-        setupCell(cell: cell)
-        
-        return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
-        // Cell size is the same as container view
-        return CGSize(width: matchupContainerView.frame.width, height: matchupContainerView.frame.height)
-    }
-}
 
-extension HomeViewController: UIScrollViewDelegate {
-//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-//        guard let matchupCollectionView = matchupCollectionView else {
-//            print("matchup collection view is nil")
-//            return
-//        }
-//        let scrollViewContentWidth = matchupCollectionView.contentSize.width
-//        let scrollOffsetThreshold = scrollViewContentWidth - matchupCollectionView.bounds.size.width - 1000
-//        
-//        // When the user has scrolled past the threshold, start requesting
-//        if(scrollView.contentOffset.x > scrollOffsetThreshold) {
-//            
-//            dataFetchCount += dataFetchCount
-//            matchupCollectionView.reloadData()
-//            
-//        }
-//    }
-}

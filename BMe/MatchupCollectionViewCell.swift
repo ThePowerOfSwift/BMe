@@ -48,7 +48,6 @@ class MatchupCollectionViewCell: UICollectionViewCell {
     var leftPercentage = 0
     var rightPercentage = 0
     
-    var lastCellFlag = false
     var tapCount = 0
 
     override init(frame: CGRect) {

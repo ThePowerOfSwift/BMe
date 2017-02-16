@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AssetCompareCollectionViewCell" customModule="BMe" customModuleProvider="target">
+            <connections>
+                <outlet property="imageStackView" destination="eoN-PF-8Mk" id="lY3-0t-SG6"/>
+                <outlet property="imageViewLeading" destination="Kf3-8i-BCe" id="V7V-N2-wCo"/>
+                <outlet property="imageViewTrailing" destination="o6m-1O-VIJ" id="7FU-n1-gbr"/>
+                <outlet property="matchupTitleLabel" destination="7Bm-v7-doX" id="SFq-Mj-Lww"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="sog-JO-LbM">
+            <rect key="frame" x="0.0" y="0.0" width="512" height="498"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="512" height="498"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="sFB-ca-6On">
+                        <rect key="frame" x="0.0" y="0.0" width="512" height="498"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Bm-v7-doX">
+                                <rect key="frame" x="0.0" y="0.0" width="512" height="25"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="25" id="uge-rQ-P7j"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="eoN-PF-8Mk">
+                                <rect key="frame" x="0.0" y="26" width="512" height="472"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="chinatown.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="Kf3-8i-BCe">
+                                        <rect key="frame" x="0.0" y="0.0" width="255.5" height="472"/>
+                                    </imageView>
+                                    <imageView clipsSubviews="YES" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="golden_gate_bridge.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="o6m-1O-VIJ">
+                                        <rect key="frame" x="256.5" y="0.0" width="255.5" height="472"/>
+                                    </imageView>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="7Bm-v7-doX" firstAttribute="top" secondItem="sFB-ca-6On" secondAttribute="top" constant="3" id="0rN-Z0-P1k"/>
+                            <constraint firstItem="7Bm-v7-doX" firstAttribute="leading" secondItem="sFB-ca-6On" secondAttribute="leading" constant="3" id="qk5-Ao-fFu"/>
+                            <constraint firstAttribute="trailing" secondItem="7Bm-v7-doX" secondAttribute="trailing" constant="3" id="qrD-fB-J3x"/>
+                        </constraints>
+                    </stackView>
+                </subviews>
+            </view>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="sFB-ca-6On" secondAttribute="bottom" id="DYE-Ma-gzV"/>
+                <constraint firstItem="sFB-ca-6On" firstAttribute="top" secondItem="sog-JO-LbM" secondAttribute="top" id="GwW-SE-vIW"/>
+                <constraint firstItem="sFB-ca-6On" firstAttribute="leading" secondItem="sog-JO-LbM" secondAttribute="leading" id="P6y-gM-bvJ"/>
+                <constraint firstAttribute="trailing" secondItem="sFB-ca-6On" secondAttribute="trailing" id="i4T-U1-6Oc"/>
+            </constraints>
+            <size key="customSize" width="512" height="498"/>
+            <point key="canvasLocation" x="-86" y="-121"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="chinatown.jpg" width="1024" height="716"/>
+        <image name="golden_gate_bridge.jpg" width="3264" height="2448"/>
+    </resources>
+</document>
