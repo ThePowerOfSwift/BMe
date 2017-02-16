@@ -78,7 +78,7 @@ class TabBarViewController: UIViewController {
         addChildViewController(cameraViewController)
         
         // Account view controller
-      accountViewController = UIStoryboard(name: "malcolm", bundle: nil).instantiateInitialViewController()
+      accountViewController = UIStoryboard(name: "profile", bundle: nil).instantiateInitialViewController()
       addChildViewController(accountViewController)
         
         // Init with view controllers

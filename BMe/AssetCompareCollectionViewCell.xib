@@ -28,32 +28,27 @@
                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="sFB-ca-6On">
                         <rect key="frame" x="0.0" y="0.0" width="512" height="498"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Bm-v7-doX">
-                                <rect key="frame" x="0.0" y="0.0" width="512" height="25"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Matchup Title Hastag" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Bm-v7-doX">
+                                <rect key="frame" x="0.0" y="0.0" width="512" height="40"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="25" id="uge-rQ-P7j"/>
+                                    <constraint firstAttribute="height" constant="40" id="uge-rQ-P7j"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="eoN-PF-8Mk">
-                                <rect key="frame" x="0.0" y="26" width="512" height="472"/>
+                                <rect key="frame" x="0.0" y="41" width="512" height="457"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="chinatown.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="Kf3-8i-BCe">
-                                        <rect key="frame" x="0.0" y="0.0" width="255.5" height="472"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="255.5" height="457"/>
                                     </imageView>
                                     <imageView clipsSubviews="YES" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="golden_gate_bridge.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="o6m-1O-VIJ">
-                                        <rect key="frame" x="256.5" y="0.0" width="255.5" height="472"/>
+                                        <rect key="frame" x="256.5" y="0.0" width="255.5" height="457"/>
                                     </imageView>
                                 </subviews>
                             </stackView>
                         </subviews>
-                        <constraints>
-                            <constraint firstItem="7Bm-v7-doX" firstAttribute="top" secondItem="sFB-ca-6On" secondAttribute="top" constant="3" id="0rN-Z0-P1k"/>
-                            <constraint firstItem="7Bm-v7-doX" firstAttribute="leading" secondItem="sFB-ca-6On" secondAttribute="leading" constant="3" id="qk5-Ao-fFu"/>
-                            <constraint firstAttribute="trailing" secondItem="7Bm-v7-doX" secondAttribute="trailing" constant="3" id="qrD-fB-J3x"/>
-                        </constraints>
                     </stackView>
                 </subviews>
             </view>

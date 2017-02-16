@@ -103,12 +103,12 @@ class HomeViewController: UIViewController {
         layout.scrollDirection = UICollectionViewScrollDirection.horizontal
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         // Sizing
-        layout.minimumInteritemSpacing = 5
-        layout.minimumLineSpacing = 5
-        layout.itemSize = CGSize(width: maxWidth - (layout.minimumInteritemSpacing / 2), height: maxHeight)
+        layout.minimumInteritemSpacing = 0
+        layout.minimumLineSpacing = 0
+        layout.itemSize = CGSize(width: maxWidth, height: maxHeight)
         
         // Configure collection view and add as child VC
-        matchupCVC = BannerCollectionViewController(collectionViewLayout: layout)
+        matchupCVC = MatchupCollectionViewController(collectionViewLayout: layout)
         self.addChildViewController(matchupCVC!)
         matchupContainerView.addSubview(matchupCVC!.view)
         matchupCVC!.view.frame = matchupContainerView.frame
