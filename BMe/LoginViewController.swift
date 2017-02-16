@@ -28,12 +28,8 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        setupButtons()
-        setupBackground()
-        setupTextfields()
-        setupDismissKeyboard()
-        // Subscribe to notifications for login (and send to root VC)
-        // Add notification send user back to login screen after logout
+        // Setup the view attribute
+        setupView()
     }
     deinit{
         NotificationCenter.default.removeObserver(self)
@@ -54,12 +50,9 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
         guard let email = usernameTextField.text,
             let password = passwordTextField.text
             else { return }
-        // Sign In with credentials.
-        UserAccount.currentUser.signIn(withEmail: email, password: password) { (user: FIRUser?, error: Error?) in
-            // Present error alert
-            self.presentErrorAlert(error: error)
-            
-        }
+        // Sign In with credentials and animation
+        passwordTextField.resignFirstResponder()
+        animateSignIn(email: email, password: password)
         
     }
     
@@ -83,6 +76,8 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
     // MARK: -  Methods
     let intervals: TimeInterval = 0.5
     func animateSignIn(email: String, password: String) {
+        loginButton.isEnabled = false
+        loginButton.setTitle("Logging In...", for: .normal)
         UIView.animate(withDuration: intervals, animations: {
             // disappear logo
             self.logoImageView.alpha = 0
@@ -131,8 +126,19 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
             prompt.addAction(okAction)
             present(prompt, animated: true, completion: {
                 self.usernameTextField.becomeFirstResponder()
+                self.passwordTextField.text = ""
+                self.loginButton.setTitle("Login", for: .normal)
             })
         }
+    }
+    /**
+    Setup View attribute/appearence
+     */
+    func setupView() -> Void{
+        setupButtons()
+        setupBackground()
+        setupTextfields()
+        setupDismissKeyboard()
     }
     
     func setupButtons() -> Void{
@@ -167,5 +173,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
         usernameTextField.resignFirstResponder()
         passwordTextField.resignFirstResponder()
     }
+    
+    
 }
 
