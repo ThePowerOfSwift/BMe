@@ -29,6 +29,7 @@ class Post: JSONObject {
     private(set) var hashtag: String?
     
     /** Returns the post's asset */
+    // TODO: Add error checking if no assetID
     func asset(completion: @escaping (Image)->()) {
         if let assetID = assetID {
             Image.get(ID: assetID, completion: { (image) in
@@ -38,8 +39,7 @@ class Post: JSONObject {
     }
     
     /** Returns the URL to the post's asset */
-    // TODO: change to assetStorageURL
-    func assetURL(completion: @escaping (URL) -> ()) {
+    func assetStorageURL(completion: @escaping (URL) -> ()) {
         self.asset { (image) in
                 completion(image.storageURL!)
         }

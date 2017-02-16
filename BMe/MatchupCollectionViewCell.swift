@@ -17,7 +17,7 @@ import UIKit
  */
 class MatchupCollectionViewCell: UICollectionViewCell {
     
-    // Outlets
+    // MARK: Properties
     @IBOutlet weak var imageStackView: UIStackView!
     @IBOutlet weak var imageViewLeading: UIImageView!
     @IBOutlet weak var imageViewTrailing: UIImageView!
@@ -56,26 +56,23 @@ class MatchupCollectionViewCell: UICollectionViewCell {
     private func setup() {
         // Load nib
         let view = Bundle.main.loadNibNamed(keys.nibName, owner: self, options: nil)?.first as! UIView
+        // Resize to fill container
+        view.frame = self.bounds
+        view.autoresizingMask = .flexibleHeight
+        view.autoresizingMask = .flexibleWidth
+        // Add nib view to self
+        self.contentView.addSubview(view)
         
         // Clear design contents
         imageViewLeading.image = nil
         imageViewTrailing.image = nil
         matchupTitleLabel.text = ""
         
-        // Resize to fill container
-        view.frame = self.bounds
-        view.autoresizingMask = .flexibleHeight
-        view.autoresizingMask = .flexibleWidth
-
-        // Add nib view to self
-        self.contentView.addSubview(view)
-
         // Add tap gestures to image views
         let leadingTap = UITapGestureRecognizer(target: self, action: #selector(didTapLeadingImage(_:)))
         let trailingTap = UITapGestureRecognizer(target: self, action: #selector(didTapTrailingImage(_:)))
         imageViewLeading.addGestureRecognizer(leadingTap)
         imageViewTrailing.addGestureRecognizer(trailingTap)
-        
     }
     
     /** 
@@ -88,10 +85,10 @@ class MatchupCollectionViewCell: UICollectionViewCell {
             
             // Get the posts from this match and load the images
             matchup.posts(completion: { (postA, postB) in
-                postA.assetURL(completion: { (url) in
+                postA.assetStorageURL(completion: { (url) in
                     self.imageViewLeading.loadImageFromGS(url: url, placeholderImage: nil)
                 })
-                postB.assetURL(completion: { (url) in
+                postB.assetStorageURL(completion: { (url) in
                     self.imageViewTrailing.loadImageFromGS(url: url, placeholderImage: nil)
                 })
             })

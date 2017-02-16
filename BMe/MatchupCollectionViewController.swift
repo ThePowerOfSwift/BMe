@@ -15,6 +15,8 @@ private let reuseIdentifier = MatchupCollectionViewCell.keys.nibName
  */
 class MatchupCollectionViewController: UICollectionViewController, MatchupCollectionViewCellDelegate {
     
+    // MARK: Properties
+
     /** Model */
     var matchups: [Matchup]!
     
