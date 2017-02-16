@@ -23,7 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 
         // Add notification send user back to login screen after logout
         NotificationCenter.default.addObserver(self, selector: #selector(presentLoginViewController), name: NSNotification.Name(rawValue: Constants.NotificationKeys.didSignOut), object: nil)
-
+        NotificationCenter.default.addObserver(self, selector: #selector(presentHomeViewController), name: NSNotification.Name(rawValue: Constants.NotificationKeys.didSignIn), object: nil)
         // Override point for customization after application launch.
         // Sets background to a blank/empty image
         UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
@@ -67,6 +67,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }) { (success: Bool) in
             //completion code
         }
+    }
+    func presentHomeViewController(){
+        let storyboard = UIStoryboard.init(name: Constants.OnLogin.StoryboardID, bundle: nil)
+        let rootVC = storyboard.instantiateViewController(withIdentifier: Constants.OnLogin.RootViewController)
+        UIView.transition(with: window!, duration: 0.5, options: UIViewAnimationOptions.transitionFlipFromBottom, animations: {
+            self.window?.rootViewController = rootVC
+        }) { (success: Bool) in
+            //completion code
+        }
+        
     }
 
     class func urlForNewDocumentFile(named: String) -> URL {

@@ -33,16 +33,28 @@ class MainViewController: UIViewController, UIScrollViewDelegate {
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func didTapLogin(_ sender: Any) {
+    @IBAction func didTapLogin(_ sender: UIButton, forEvent event: UIEvent) {
+        loginButton.isSelected = false
+        guard let touch = event.allTouches?.first else { return }
+        let point = touch.location(in: sender)
         loginButton.isEnabled = false
-        self.performSegue(withIdentifier: "ToLogin", sender: nil)
-        //self.present(self.getRootVCForLogin(), animated: false, completion: nil)
+        if point.y > sender.bounds.minY && point.y < sender.bounds.maxY{
+            self.performSegue(withIdentifier: "ToLogin", sender: nil)
+        }
     }
-
-    @IBAction func didTapSignUp(_ sender: Any) {
-        signupButton.isEnabled = false
-        self.performSegue(withIdentifier: "ToSignUP", sender: nil)
+    
+    @IBAction func didTapSignUp(_ sender: UIButton, forEvent event: UIEvent) {
+        signupButton.isSelected = false
+        guard let touch = event.allTouches?.first else { return }
+        let point = touch.location(in: sender)
+        
+        if point.y > sender.bounds.minY && point.y < sender.bounds.maxY{
+            self.performSegue(withIdentifier: "ToSignUP", sender: nil)
+        }
+        
     }
+    
+    
 
     //ScrollView Delegate, to calculate which page is showing, can be use if needed
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView){
@@ -106,10 +118,12 @@ class MainViewController: UIViewController, UIScrollViewDelegate {
         loginButton.layer.cornerRadius = 5
         loginButton.layer.borderWidth = 1
         loginButton.layer.borderColor = UIColor.blue.cgColor
+        loginButton.clipsToBounds = true
         signupButton.isEnabled = true
         signupButton.layer.cornerRadius = 5
         signupButton.layer.borderWidth = 1
         signupButton.layer.borderColor = UIColor.blue.cgColor
+        signupButton.clipsToBounds = true
         
     }
     

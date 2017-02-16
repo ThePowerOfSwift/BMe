@@ -20,17 +20,9 @@ struct Constants {
 //        static let RootViewController = SegueID.ViewController.CameraViewController
         
     }
-    struct OnSignUp {
-        static let StoryboardID = SegueID.Storyboard.Main
-        static let RootViewController = SegueID.ViewController.SignUpViewController
-    }
     struct OnLogout {
         static let StoryboardID = SegueID.Storyboard.Main
         static let RootViewController = SegueID.ViewController.MainNavViewController
-    }
-    struct ToLogin {
-        static let StoryboardID = SegueID.Storyboard.Main
-        static let RootViewController = SegueID.ViewController.LoginViewController
     }
     struct NotificationKeys {
         static let didSignIn = "onSignInCompleted"

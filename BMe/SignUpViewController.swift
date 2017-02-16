@@ -23,8 +23,7 @@ class SignUpViewController: UIViewController,UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        userNameTextField.becomeFirstResponder()
+        setupDismissKeyboard()
         userNameTextField.delegate = self
         passWordTextField.delegate = self
         setupButtons()
@@ -152,6 +151,7 @@ class SignUpViewController: UIViewController,UITextFieldDelegate {
         else{
             userNameTextField.text = ""
         }
+        userNameTextField.becomeFirstResponder()
         userNameTextField.returnKeyType = .next
         self.onContinueButton.setTitle("Continue", for: .normal)
         self.passWordTextField.isHidden = true
@@ -173,10 +173,10 @@ class SignUpViewController: UIViewController,UITextFieldDelegate {
         else{
             userNameTextField.text = ""
         }
-        
         passWordTextField.returnKeyType = .send
         passWordTextField.isHidden = false
         passWordTextField.placeholder = "password"
+        userNameTextField.becomeFirstResponder()
         userNameTextField.returnKeyType = .next
         userNameTextField.placeholder = "email"
         userNameTextField.becomeFirstResponder()
@@ -226,6 +226,15 @@ class SignUpViewController: UIViewController,UITextFieldDelegate {
         onContinueButton.layer.cornerRadius = 5
         onContinueButton.layer.borderWidth = 1
         onContinueButton.layer.borderColor = UIColor.blue.cgColor
+    }
+    func setupDismissKeyboard() -> Void{
+        let tapper = UITapGestureRecognizer(target: self, action:#selector(dismissKeyBoard))
+        tapper.cancelsTouchesInView = false
+        view.addGestureRecognizer(tapper)
+    }
+    func dismissKeyBoard() -> Void{
+        userNameTextField.resignFirstResponder()
+        passWordTextField.resignFirstResponder()
     }
     
 
