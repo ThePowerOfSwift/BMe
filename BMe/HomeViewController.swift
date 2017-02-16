@@ -2,152 +2,102 @@
 //  HomeViewController.swift
 //  BMe
 //
-//  Created by Jonathan Cheng on 1/29/17.
+//  Created by Jonathan Cheng on 2/15/17.
 //  Copyright © 2017 Jonathan Cheng. All rights reserved.
 //
 
 import UIKit
 
-// TODO: preload array of a pair of posts (maybe fetch 5 posts at a time)
-// TODO: add table view dynamically so that we can have as many table view as categories
 
-struct MatchupTableViewDataSource {
-    var userName: String
-    var image: UIImage
-}
+class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
-enum WinnerPost {
-    case Left
-    case Right
-}
+    @IBOutlet weak var tableView: UITableView!
+    
+    // Properties
+    /** Model */
+    private var cellHeights: [CGFloat] {
+        get {
+            return [tableView.frame.width
+            ]
+        }
+    }
 
-class HomeViewController: UIViewController {
-    
-    static let viewControllerID = "CategoryTableViewController"
-    
-    // TODO testing
-    
-    @IBOutlet weak var firstTableViewContainerView: UIView!
-    @IBOutlet weak var secondTableViewContainerView: UIView!
-    
-    @IBOutlet weak var firstTableViewHeightConstraint: NSLayoutConstraint!
-    @IBOutlet weak var secondTableViewHeightConstraint: NSLayoutConstraint!
-    
-    @IBOutlet weak var matchupContainerView: UIView!
-    var matchupCVC: UICollectionViewController?
-    
-    @IBOutlet weak var baseScrollView: UIScrollView!
-    //var leftColors = [UIColor.red, UIColor.blue, UIColor.yellow, UIColor.cyan, UIColor.orange]
-    //var rightColors = [UIColor.orange, UIColor.cyan, UIColor.black, UIColor.blue, UIColor.red]
-    
-    /** Number of a pair of post fetched at a time*/
-    var dataFetchCount: Int = 5
-    
-    /** Stores left post in loadImages() when the method has fetched it. Used in uploadMatchupResult() to upload the post that won. */
-    var leftPost: Post?
-    /** Stores right post in loadImages when the method has fetched it. Used in uploadMatchupResult() to upload the post that won. */
-    var rightPost: Post?
-    /** Stores matchup object in loadImages when the medthod has fetched it. Used in uploadMatchupResult() to upload it with the winner post. */
-    var matchup: Matchup?
+    // MARK: Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        // Configure top (Nav Bar and TVC behaviour)
+        title = "Discover"
+        // Add padding so top of TVC not covered by nav bar title
+        automaticallyAdjustsScrollViewInsets = true
+        // Hide nav bar on swipe
+        navigationController?.hidesBarsOnSwipe = true
+        
+        // Setup plain style TV
+        tableViewSetup()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    func tableViewSetup() {
         
-        navigationController?.navigationBar.isHidden = true
+        tableView.dataSource = self
+        tableView.delegate = self
         
-        let storyboard = UIStoryboard(name: Constants.SegueID.Storyboard.Home, bundle: nil)
-        guard let firstTVC = storyboard.instantiateViewController(withIdentifier: HomeViewController.viewControllerID) as? CategoryTableViewController,
-            let secondTVC = storyboard.instantiateViewController(withIdentifier: HomeViewController.viewControllerID) as? CategoryTableViewController else {
-                print("Failed to instantiate tvc")
-                return
+        // Formatting
+        tableView.backgroundColor = UIColor.white
+        
+        // Row height
+        tableView.estimatedRowHeight = tableView.frame.width
+    }
+    
+    // MARK: TableView Datasource
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return cellHeights.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = UITableViewCell()
+
+        switch indexPath.row {
+        case 0:
+            let maxWidth = tableView.frame.width
+            let maxHeight = cellHeights[0]
+            let layout = UICollectionViewFlowLayout()
+            layout.scrollDirection = UICollectionViewScrollDirection.horizontal
+            layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+            // Sizing
+            layout.minimumInteritemSpacing = 0
+            layout.minimumLineSpacing = 0
+            layout.itemSize = CGSize(width: maxWidth, height: maxHeight)
+            
+            // Configure collection view and add as child VC
+            let matchupCVC = MatchupCollectionViewController(collectionViewLayout: layout)
+            addChildViewController(matchupCVC)
+            cell.contentView.addSubview(matchupCVC.view)
+            matchupCVC.view.frame = cell.contentView.frame
+            matchupCVC.didMove(toParentViewController: self)
+
+            
+        default:
+            break
         }
-        self.addChildViewController(firstTVC)
-        self.addChildViewController(secondTVC)
         
-        // Assign data source
-        firstTVC.matchupTableViewDataSource = trendingMatchupTableViewDataSource
-        firstTVC.matchupTitle = "Trending"
-        secondTVC.matchupTableViewDataSource = discoverMatchupTableViewDataSource
-        secondTVC.matchupTitle = "Discover"
-        
-        // CategoryTableViewController's viewDidLoad is called here
-        firstTVC.view.layoutIfNeeded()
-        secondTVC.view.layoutIfNeeded()
-        
-        // After CategoryTableViewController's viewDidLoad is called,
-        // you can get tableView's frame that has been configured there
-        // to set the container size of tableView
-        firstTableViewHeightConstraint.constant = firstTVC.tableView.frame.height
-        secondTableViewHeightConstraint.constant = secondTVC.tableView.frame.height
-        view.layoutIfNeeded()
-        
-        guard let firstTableView = firstTVC.tableView, let secondTableView = secondTVC.tableView else {
-            print("Failed to instantiate tableView")
-            return
-        }
-        firstTableViewContainerView.addSubview(firstTableView)
-        secondTableViewContainerView.addSubview(secondTableView)
-        
-        setupMatchupCollectionView()
+        return cell
     }
+
+    // MARK: TableView Delegate
     
-    func setupMatchupCollectionView() {
-        // Configure layout
-        let maxWidth = matchupContainerView.frame.width
-        let maxHeight = matchupContainerView.frame.width
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = UICollectionViewScrollDirection.horizontal
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        // Sizing
-        layout.minimumInteritemSpacing = 0
-        layout.minimumLineSpacing = 0
-        layout.itemSize = CGSize(width: maxWidth, height: maxHeight)
-        
-        // Configure collection view and add as child VC
-        matchupCVC = MatchupCollectionViewController(collectionViewLayout: layout)
-        self.addChildViewController(matchupCVC!)
-        matchupContainerView.addSubview(matchupCVC!.view)
-        matchupCVC!.view.frame = matchupContainerView.frame
-        matchupCVC!.didMove(toParentViewController: self)
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return cellHeights[indexPath.row]
     }
-    
-    let trendingMatchupTableViewDataSource: [MatchupTableViewDataSource] =
-        [MatchupTableViewDataSource(userName: "a1", image: UIImage(named: "chinatown.jpg")!),
-         MatchupTableViewDataSource(userName: "a2", image: UIImage(named: "chinatown.jpg")!),
-         MatchupTableViewDataSource(userName: "3", image: UIImage(named: "chinatown.jpg")!),
-         MatchupTableViewDataSource(userName: "4", image: UIImage(named: "chinatown.jpg")!),
-         MatchupTableViewDataSource(userName: "AAAA", image: UIImage(named: "chinatown.jpg")!),
-         MatchupTableViewDataSource(userName: "AAAA", image: UIImage(named: "chinatown.jpg")!),
-         MatchupTableViewDataSource(userName: "AAAA", image: UIImage(named: "chinatown.jpg")!),
-         MatchupTableViewDataSource(userName: "AAAA", image: UIImage(named: "chinatown.jpg")!),
-         MatchupTableViewDataSource(userName: "AAAA", image: UIImage(named: "chinatown.jpg")!),
-         MatchupTableViewDataSource(userName: "AAAA", image: UIImage(named: "chinatown.jpg")!),
-         MatchupTableViewDataSource(userName: "AAAA", image: UIImage(named: "chinatown.jpg")!),
-         MatchupTableViewDataSource(userName: "AAAA", image: UIImage(named: "chinatown.jpg")!),
-         MatchupTableViewDataSource(userName: "AAAA", image: UIImage(named: "chinatown.jpg")!),
-         MatchupTableViewDataSource(userName: "AAAA", image: UIImage(named: "chinatown.jpg")!),
-         MatchupTableViewDataSource(userName: "AAAA", image: UIImage(named: "chinatown.jpg")!)]
-    
-    let discoverMatchupTableViewDataSource: [MatchupTableViewDataSource] =
-        [MatchupTableViewDataSource(userName: "BBBB", image: UIImage(named: "golden_gate_bridge.jpg")!),
-         MatchupTableViewDataSource(userName: "BBBB", image: UIImage(named: "golden_gate_bridge.jpg")!),
-         MatchupTableViewDataSource(userName: "BBBB", image: UIImage(named: "golden_gate_bridge.jpg")!),
-         MatchupTableViewDataSource(userName: "BBBB", image: UIImage(named: "golden_gate_bridge.jpg")!),
-         MatchupTableViewDataSource(userName: "BBBB", image: UIImage(named: "golden_gate_bridge.jpg")!),
-         MatchupTableViewDataSource(userName: "BBBB", image: UIImage(named: "golden_gate_bridge.jpg")!),
-         MatchupTableViewDataSource(userName: "BBBB", image: UIImage(named: "golden_gate_bridge.jpg")!),
-         MatchupTableViewDataSource(userName: "BBBB", image: UIImage(named: "golden_gate_bridge.jpg")!),
-         MatchupTableViewDataSource(userName: "BBBB", image: UIImage(named: "golden_gate_bridge.jpg")!),
-         MatchupTableViewDataSource(userName: "BBBB", image: UIImage(named: "golden_gate_bridge.jpg")!),
-         MatchupTableViewDataSource(userName: "BBBB", image: UIImage(named: "golden_gate_bridge.jpg")!),
-         MatchupTableViewDataSource(userName: "BBBB", image: UIImage(named: "golden_gate_bridge.jpg")!),
-         MatchupTableViewDataSource(userName: "BBBB", image: UIImage(named: "golden_gate_bridge.jpg")!),
-         MatchupTableViewDataSource(userName: "BBBB", image: UIImage(named: "golden_gate_bridge.jpg")!),
-         MatchupTableViewDataSource(userName: "BBBB", image: UIImage(named: "golden_gate_bridge.jpg")!)]
 }
-
-

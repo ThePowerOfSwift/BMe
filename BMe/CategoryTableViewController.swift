@@ -209,7 +209,7 @@ extension CategoryTableViewController: UITableViewDelegate, UITableViewDataSourc
     /** Show full screen table view*/
     func showFullTableView() {
         let storyboard = UIStoryboard(name: Constants.SegueID.Storyboard.Home, bundle: nil)
-        guard let fullCategoryTVC = storyboard.instantiateViewController(withIdentifier: HomeViewController.viewControllerID) as? CategoryTableViewController else {
+        guard let fullCategoryTVC = storyboard.instantiateViewController(withIdentifier: HomeViewController_old.viewControllerID) as? CategoryTableViewController else {
             print("failed to instantiate CategoryTableViewController")
             return
         }

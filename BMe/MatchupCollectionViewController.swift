@@ -8,12 +8,12 @@
 
 import UIKit
 
-private let reuseIdentifier = AssetCompareCollectionViewCell.keys.nibName
+private let reuseIdentifier = MatchupCollectionViewCell.keys.nibName
 
 /** 
  Displays Matchups using a banner style rotating carousel
  */
-class MatchupCollectionViewController: UICollectionViewController, AssetCompareCollectionViewCellDelegate {
+class MatchupCollectionViewController: UICollectionViewController, MatchupCollectionViewCellDelegate {
     
     /** Model */
     var matchups: [Matchup]!
@@ -24,7 +24,7 @@ class MatchupCollectionViewController: UICollectionViewController, AssetCompareC
         super.viewDidLoad()
 
         // Register cell classes
-        self.collectionView!.register(AssetCompareCollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+        self.collectionView!.register(MatchupCollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         
         // Do any additional setup after loading the view.
         // Make it paging
@@ -61,7 +61,7 @@ class MatchupCollectionViewController: UICollectionViewController, AssetCompareC
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! AssetCompareCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! MatchupCollectionViewCell
     
         let matchup = matchups[indexPath.row]
         
@@ -87,12 +87,12 @@ class MatchupCollectionViewController: UICollectionViewController, AssetCompareC
         }
     }
     
-    // MARK: AssetCompareCollectionViewCellDelegate
+    // MARK: MatchupCollectionViewCellDelegate
     
     /** 
      Delegate method.  Upon proc advances the collectionview to the next item.
      */
-    func didSelect(_ sender: AssetCompareCollectionViewCell) {
+    func didSelect(_ sender: MatchupCollectionViewCell) {
         advanceItem(sender)
     }
 }
