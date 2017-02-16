@@ -13,7 +13,10 @@ import FirebaseDatabase
  Matchup posts against each other!
  */
 class Matchup: JSONObject {
-    // Properties
+
+    // MARK: Properties
+    
+    /** JSON object type */
     override class var object: FIR.object {
         get {
             return FIR.object.matchup
@@ -34,18 +37,8 @@ class Matchup: JSONObject {
     private(set) var timestamp: String?
     /** Hashtag*/
     private(set) var hashtag: String?
-    /** 
-     Retrieve post objects
-     */
-    func posts(completion:@escaping (Post, Post)->()) {
-        if let postAID = self.postAID, let postBID = self.postBID {
-            Post.get(ID: postAID, completion: { (postA) in
-                Post.get(ID: postBID, completion: { (postB) in
-                    completion(postA, postB)
-                })
-            })
-        }
-    }
+    
+    // MARK: Lifecycle
     
     /** Initializes a match with FIR snapshot */
     override init(_ snapshot: FIRDataSnapshot) {
@@ -75,6 +68,20 @@ class Matchup: JSONObject {
         
         if let timestamp = json[keys.timestamp] as? String {
             self.timestamp = timestamp
+        }
+    }
+    
+    // MARK: Instance methods
+    /**
+     Retrieve post objects
+     */
+    func posts(completion:@escaping (Post, Post)->()) {
+        if let postAID = self.postAID, let postBID = self.postBID {
+            Post.get(ID: postAID, completion: { (postA) in
+                Post.get(ID: postBID, completion: { (postB) in
+                    completion(postA, postB)
+                })
+            })
         }
     }
     
@@ -113,12 +120,14 @@ class Matchup: JSONObject {
                 var voteCount = matchup[forPost.key()] as? Int ?? 0
                 var voted = matchup[keys.voted] as? [String: Bool] ?? [:]
                 
-                // User already voted
-//                if let _ = voted[uid] {
-//                    print("Matchup: You already voted!")
-//                    return FIRTransactionResult.success(withValue: currentData)
-//                }
-
+                // User already voted, don't count this vote
+                /*
+                if let _ = voted[uid] {
+                    print("Matchup: You already voted!")
+                    return FIRTransactionResult.success(withValue: currentData)
+                }
+*/
+                
                 // Cast a vote for the user
                     voteCount += 1
                     voted[uid] = true
@@ -146,6 +155,8 @@ class Matchup: JSONObject {
         }
     }
 
+    // MARK: Types
+    
     /** Keys for Matchup database object */
     struct keys {
         static let timestamp = "timestamp"
@@ -171,7 +182,7 @@ class Matchup: JSONObject {
         }
     }
     
-    // MARK: Submission methods
+    // MARK: Class methods for submission
     
     /** Submit a photo for voting */
     class func submitPost(_ postID: String){
@@ -200,14 +211,13 @@ class Matchup: JSONObject {
      Apply service rules/logic:
      Returns assets for vote-off.
      */
-    class func serve(completion:@escaping (Matchup)->()) {
+    class func serveRandom(completion:@escaping (Matchup)->()) {
         // TODO: can we move "FIR.manager.databasePath(object)" as superclass (JSONObject) computed property
         let database = FIR.manager.databasePath(object)
         
         database.queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
             // randomize the returned matchup
             let random = Int(arc4random_uniform(UInt32(snapshot.childrenCount)))
-            print("random: \(random)")
             
             if let matchups = snapshot.value as? [String: AnyObject?] {
                 // Return the matchup indexed at randomized number
@@ -219,6 +229,24 @@ class Matchup: JSONObject {
         })
     }
     
+    /** 
+     Return an array of the daily matchups
+     */
+    class func dailyMatchups(completion:@escaping ([Matchup])->()) {
+        let database = FIR.manager.databasePath(object)
+
+        database.queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
+            var arrayOfMatchups: [Matchup] = []
+            
+            for child in snapshot.children {
+                if let child = child as? FIRDataSnapshot {
+                    arrayOfMatchups.append(Matchup(child))
+                }
+            }
+            
+            completion(arrayOfMatchups)
+        })
+    }
     /** Delete a match given its ID */
     class func remove(_ matchID: String) {
         let database = FIR.manager.databasePath(object).child(matchID)
