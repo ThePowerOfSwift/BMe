@@ -202,10 +202,8 @@ class MatchupCollectionViewCell: UICollectionViewCell {
         showResult(which: .Left)
         perform(#selector(scrollTo), with: nil, afterDelay: 0.5)
 
-        if tapCount == 0 {
-            bar.animateBar(leftPercentage)
-            bar.showValue()
-        }
+        bar.animateBar(leftPercentage)
+        bar.showValue()
         
         tapCount += 1
     }
@@ -216,10 +214,9 @@ class MatchupCollectionViewCell: UICollectionViewCell {
         showResult(which: .Right)
         perform(#selector(scrollTo), with: nil, afterDelay: 0.5)
 
-        if tapCount == 0 {
-            bar.animateBar(rightPercentage)
-            bar.showValue()
-        }
+        bar.animateBar(rightPercentage)
+        bar.showValue()
+        
         
         tapCount += 1
     }

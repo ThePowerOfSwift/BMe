@@ -32,6 +32,10 @@ class AssetCompareCollectionViewCell: UICollectionViewCell {
         }
     }
     
+    /** BarView */
+    var bar: BarView!
+
+    
     /** Delegate */
     var delegate: AssetCompareCollectionViewCellDelegate?
     
@@ -76,6 +80,9 @@ class AssetCompareCollectionViewCell: UICollectionViewCell {
         imageViewLeading.addGestureRecognizer(leadingTap)
         imageViewTrailing.addGestureRecognizer(trailingTap)
         
+        //add BarView
+        bar = BarView(parentView: self)
+        
     }
     
     /** 
@@ -105,6 +112,8 @@ class AssetCompareCollectionViewCell: UICollectionViewCell {
         if let matchup = matchup {
             matchup.vote(.A)
             didTap()
+            bar.animateBar(40)
+            bar.showValue()
         }
     }
     
