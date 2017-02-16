@@ -11,8 +11,6 @@ import AVFoundation
 
 struct Constants {
     struct OnLogin {
-        
-
         static let StoryboardID = SegueID.Storyboard.TabBar
         static let RootViewController = SegueID.ViewController.TabBarViewController
 

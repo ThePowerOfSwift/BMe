@@ -86,11 +86,9 @@
 		BFF9AE971E39BBE90012C1F2 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF9AE961E39BBE90012C1F2 /* SignUpViewController.swift */; };
 		BFF9AE9B1E3D90020012C1F2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BFF9AE9A1E3D90020012C1F2 /* Main.storyboard */; };
 		BFF9AE9D1E3D90540012C1F2 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF9AE9C1E3D90540012C1F2 /* MainViewController.swift */; };
-		E33F5AC71E48F81300806040 /* MatchupCollectionViewCell_old.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33F5AC61E48F81300806040 /* MatchupCollectionViewCell_old.swift */; };
 		E35AC4831DE4D00400FCB0D0 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E35AC4821DE4D00400FCB0D0 /* TabBarViewController.swift */; };
 		E35AC4871DE4D0F500FCB0D0 /* TabBar.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E35AC4861DE4D0F500FCB0D0 /* TabBar.storyboard */; };
 		E3AA3CC41E4D100E00C10F2A /* Index.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3AA3CC31E4D100E00C10F2A /* Index.swift */; };
-		E3B96F5D1E4C2A1200E0BC92 /* HomeViewController_old.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3B96F5C1E4C2A1200E0BC92 /* HomeViewController_old.swift */; };
 		E3D1D55F1DF11D700021942A /* Styles.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3D1D55E1DF11D700021942A /* Styles.swift */; };
 		E3DC85061E450EBA0017E6A2 /* alcatraz.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E3DC85051E450EBA0017E6A2 /* alcatraz.jpg */; };
 		E3DC85161E450EDC0017E6A2 /* Camera.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E3DC85071E450EDC0017E6A2 /* Camera.storyboard */; };
@@ -107,8 +105,6 @@
 		E3DC85221E450EDC0017E6A2 /* montgomery.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E3DC85131E450EDC0017E6A2 /* montgomery.jpg */; };
 		E3DC85231E450EDC0017E6A2 /* transamerica.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E3DC85141E450EDC0017E6A2 /* transamerica.jpg */; };
 		E3DC85241E450EDC0017E6A2 /* BubbleCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3DC85151E450EDC0017E6A2 /* BubbleCollectionViewCell.swift */; };
-		E3F189A01E45778E00A654AE /* CategoryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F1899F1E45778E00A654AE /* CategoryTableViewController.swift */; };
-		E3F189A21E45780700A654AE /* CategoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F189A11E45780700A654AE /* CategoryTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -227,11 +223,9 @@
 		BFF9AE961E39BBE90012C1F2 /* SignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		BFF9AE9A1E3D90020012C1F2 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		BFF9AE9C1E3D90540012C1F2 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
-		E33F5AC61E48F81300806040 /* MatchupCollectionViewCell_old.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MatchupCollectionViewCell_old.swift; sourceTree = "<group>"; };
 		E35AC4821DE4D00400FCB0D0 /* TabBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		E35AC4861DE4D0F500FCB0D0 /* TabBar.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = TabBar.storyboard; sourceTree = "<group>"; };
 		E3AA3CC31E4D100E00C10F2A /* Index.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Index.swift; sourceTree = "<group>"; };
-		E3B96F5C1E4C2A1200E0BC92 /* HomeViewController_old.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController_old.swift; sourceTree = "<group>"; };
 		E3D1D55E1DF11D700021942A /* Styles.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Styles.swift; sourceTree = "<group>"; };
 		E3DC85051E450EBA0017E6A2 /* alcatraz.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = alcatraz.jpg; path = ../alcatraz.jpg; sourceTree = "<group>"; };
 		E3DC85071E450EDC0017E6A2 /* Camera.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Camera.storyboard; sourceTree = "<group>"; };
@@ -248,8 +242,6 @@
 		E3DC85131E450EDC0017E6A2 /* montgomery.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = montgomery.jpg; path = ../montgomery.jpg; sourceTree = "<group>"; };
 		E3DC85141E450EDC0017E6A2 /* transamerica.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = transamerica.jpg; path = ../transamerica.jpg; sourceTree = "<group>"; };
 		E3DC85151E450EDC0017E6A2 /* BubbleCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BubbleCollectionViewCell.swift; sourceTree = "<group>"; };
-		E3F1899F1E45778E00A654AE /* CategoryTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryTableViewController.swift; sourceTree = "<group>"; };
-		E3F189A11E45780700A654AE /* CategoryTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryTableViewCell.swift; sourceTree = "<group>"; };
 		E7764343275603CBAE9394EC /* Pods-BMeUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BMeUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-BMeUITests/Pods-BMeUITests.release.xcconfig"; sourceTree = "<group>"; };
 		EF9B8E045282684264E31D83 /* Pods-BMe.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BMe.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BMe/Pods-BMe.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -383,6 +375,7 @@
 		78337D8F1DE3AC9300A1B32C /* Sato */ = {
 			isa = PBXGroup;
 			children = (
+				E3AA3CC31E4D100E00C10F2A /* Index.swift */,
 				E3DC85081E450EDC0017E6A2 /* CameraViewController.swift */,
 				E3DC85071E450EDC0017E6A2 /* Camera.storyboard */,
 			);
@@ -392,7 +385,6 @@
 		78337D901DE3ACA700A1B32C /* JJ */ = {
 			isa = PBXGroup;
 			children = (
-				E37CA7D31E5269C9000ED7B3 /* Home */,
 				7870B8591E45537100B754D6 /* Home.storyboard */,
 				781C3C931E55664C00F53B14 /* HomeViewController.swift */,
 				781C3C951E56256E00F53B14 /* CollageCollection */,
@@ -572,18 +564,6 @@
 				E3DC85051E450EBA0017E6A2 /* alcatraz.jpg */,
 			);
 			name = FIlterIcons;
-			sourceTree = "<group>";
-		};
-		E37CA7D31E5269C9000ED7B3 /* Home */ = {
-			isa = PBXGroup;
-			children = (
-				E3AA3CC31E4D100E00C10F2A /* Index.swift */,
-				E33F5AC61E48F81300806040 /* MatchupCollectionViewCell_old.swift */,
-				E3B96F5C1E4C2A1200E0BC92 /* HomeViewController_old.swift */,
-				E3F1899F1E45778E00A654AE /* CategoryTableViewController.swift */,
-				E3F189A11E45780700A654AE /* CategoryTableViewCell.swift */,
-			);
-			name = Home;
 			sourceTree = "<group>";
 		};
 		FC4986E74E30DCE926CC8007 /* Pods */ = {
@@ -814,13 +794,11 @@
 				783DE0C71E533EB600C61EB7 /* MatchupCollectionViewController.swift in Sources */,
 				78469A5E1DE3958100A40D53 /* LoginViewController.swift in Sources */,
 				E3AA3CC41E4D100E00C10F2A /* Index.swift in Sources */,
-				E33F5AC71E48F81300806040 /* MatchupCollectionViewCell_old.swift in Sources */,
 				4216315C1E42ACB900E644A5 /* View.swift in Sources */,
 				78469A5C1DE3958100A40D53 /* AppDelegate.swift in Sources */,
 				BFDE7F6F1E4C1D1B00AA38A7 /* Image.swift in Sources */,
 				BF4130181E55670800F08B91 /* UsePost.swift in Sources */,
 				783008AA1DE3B9A000B070D4 /* Constants.swift in Sources */,
-				E3F189A01E45778E00A654AE /* CategoryTableViewController.swift in Sources */,
 				7830089A1DE3B0B500B070D4 /* MeasurementHelper.swift in Sources */,
 				426A4AF11E54EBAE001262DD /* BarView.swift in Sources */,
 				781C3C981E562D5E00F53B14 /* CollageCollectionViewCell.swift in Sources */,
@@ -829,7 +807,6 @@
 				E3DC85241E450EDC0017E6A2 /* BubbleCollectionViewCell.swift in Sources */,
 				E3DC85191E450EDC0017E6A2 /* Color.swift in Sources */,
 				78BCDF341DF74663002D399E /* CrossButton.swift in Sources */,
-				E3B96F5D1E4C2A1200E0BC92 /* HomeViewController_old.swift in Sources */,
 				E3DC851A1E450EDC0017E6A2 /* Filter.swift in Sources */,
 				E35AC4831DE4D00400FCB0D0 /* TabBarViewController.swift in Sources */,
 				783560931E4CF5E500B9FD8D /* FIRObjects.swift in Sources */,
@@ -839,7 +816,6 @@
 				78D1783B1E48F8AD004B7840 /* JSONStack.swift in Sources */,
 				78F511361DF6D0860074050F /* WhiteRevealOverlayView.swift in Sources */,
 				7837A21F1DF95A43000CB9CB /* FIRButton.swift in Sources */,
-				E3F189A21E45780700A654AE /* CategoryTableViewCell.swift in Sources */,
 				78B0FDF01E496DCD004F4E4E /* Matchup.swift in Sources */,
 				78C350491DF28756005E8331 /* UserAccount.swift in Sources */,
 				421631621E43DC2A00E644A5 /* PhotoListFlowLayout.swift in Sources */,
