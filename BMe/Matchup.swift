@@ -28,9 +28,9 @@ class Matchup: JSONObject {
     /** vs. second post */
     private var postBID: String?
     /** total votes for A */
-    private(set) var countVoteA: Int?
+    private(set) var countVoteA: Int = 0
     /** total votes for B */
-    private(set) var countVoteB: Int?
+    private(set) var countVoteB: Int = 0
     /** User has already voted flag */
     private(set) var didVote : Bool?
     /** Creation timestamp */
