@@ -118,17 +118,29 @@ class FIR: NSObject {
     func fetch(objectID: String, object: object, completion:@escaping (FIRDataSnapshot?)->()) {
         // Get the computer reference structure and fire observation to Firebase
         databasePath(object).child(objectID).queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
-                // Check to see if the reference exists, otherwise return nil
-                if (snapshot.exists()) {
-                    completion(snapshot)
-                } else {
-                    completion(nil)
-                }
-            })
+            // Check to see if the reference exists, otherwise return nil
+            if (snapshot.exists()) {
+                completion(snapshot)
+            } else {
+                completion(nil)
+            }
+        })
+    }
+    
+    /** Indicates if user is a moderator */
+    func isModerator(_ completion: @escaping (Bool)->()) {
+        database.child("dev").child("moderator").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
+            if let moderators = snapshot.value as? [String: Bool] {
+                completion(moderators[self.uid]!)
+            } else {
+                print("Error: cannot access moderators list")
+            }
+            
+        })
     }
 }
 
-// MARK:- Extensions
+// MARK: Extensions
 
 extension FIRStorageMetadata {
     /**
