@@ -7,8 +7,10 @@
 //
 
 import UIKit
+import FirebaseDatabase
 
 private let reuseIdentifier = CollageCollectionViewCell.keys.nibName
+private let fetchBatchSize = 10
 
 class CollageCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
 
@@ -16,6 +18,11 @@ class CollageCollectionViewController: UICollectionViewController, UICollectionV
     
     /** Model */
     var posts:[Post]! = []
+    
+    // FIR
+    fileprivate var _refHandle: FIRDatabaseHandle?
+    private var database = FIR.manager.databasePath(.post)
+    private var isFetchingData = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,14 +34,7 @@ class CollageCollectionViewController: UICollectionViewController, UICollectionV
         // Color background to white (default is black)
         self.collectionView?.backgroundColor = UIColor.white
 
-        // Load model
-        // TODO: change model
-        // TODO: verify order of posts
-        FIR.manager.databasePath(.post).queryOrderedByKey().observe(.childAdded, with: { (snapshot) in
-            let post = Post(snapshot)
-            self.posts.append(post)
-            self.collectionView?.reloadData()
-        })
+        setupDatasource()
     }
 
     override func didReceiveMemoryWarning() {
@@ -92,7 +92,6 @@ class CollageCollectionViewController: UICollectionViewController, UICollectionV
         return itemSize
     }
     
-    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return spacing
     }
@@ -100,4 +99,59 @@ class CollageCollectionViewController: UICollectionViewController, UICollectionV
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return spacing
     }
+    
+    // MARK: FIR Methods
+    
+    func setupDatasource() {
+        // Setup datasource
+        if let _refHandle = _refHandle {
+            database.removeObserver(withHandle: _refHandle)
+        }
+        self.posts.removeAll()
+        self.collectionView?.reloadData()
+        
+        // Reverse load posts from most recent onwards
+        _refHandle = database.queryLimited(toLast: UInt(fetchBatchSize)).observe(.childAdded, with: { (snapshot) in
+            self.posts.insert(Post(snapshot), at: 0)
+            self.collectionView?.insertItems(at: [IndexPath(row: 0, section: 0)])
+        })
+    }
+    
+    // Deregister for notifications
+    deinit {
+        database.removeObserver(withHandle: _refHandle!)
+    }
+    
+    // Performs a fetch to get more data
+    func fetchMoreDatasource() {
+        if !isFetchingData {
+            isFetchingData = true
+            
+            // Get the "next batch" of posts
+            // Request with upper limit on the last loaded post with a lower limit bound by batch size
+            let lastPost = posts[posts.count - 1]
+            let lastTimestamp = lastPost.timestamp
+            database.queryEnding(atValue: lastTimestamp).queryLimited(toLast: UInt(fetchBatchSize)).observeSingleEvent(of: .value, with:
+                { (snapshot) in
+                    
+                    // returns posts oldest to youngest, inclusive, so remove last child
+                    // and reverse to revert to youngest to oldest order (or reverse and remove first child)
+                    var ignoreFirst = true
+                    for child in snapshot.children.reversed() {
+                        if ignoreFirst { //ignore reference post and add the rest
+                            ignoreFirst = false
+                        }
+                        else {
+                            let post = Post(child as! FIRDataSnapshot)
+                            // append data
+                            self.posts.append(post)
+                            // load into tv
+                            self.collectionView?.insertItems(at: [IndexPath(row: self.posts.count - 1, section: 0)])                                
+                        }
+                    }
+                    self.isFetchingData = false
+            })
+        }
+    }
+
 }

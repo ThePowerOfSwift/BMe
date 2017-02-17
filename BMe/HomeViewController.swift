@@ -13,6 +13,8 @@ private struct HomeViewCellContent {
     var height: CGFloat
 }
 
+private let navBarTitle = "Discover"
+
 class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     @IBOutlet weak var tableView: UITableView!
@@ -33,7 +35,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         super.viewDidLoad()
 
         // Configure top (Nav Bar and TVC behaviour)
-        title = "Discover"
+        title = navBarTitle
         // Add padding so top of TVC not covered by nav bar title
         automaticallyAdjustsScrollViewInsets = true
         // Hide nav bar on swipe
@@ -58,6 +60,8 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         
         // Row height
         tableView.estimatedRowHeight = tableView.frame.width
+//        tableView.rowHeight = UITableViewAutomaticDimension
+        
     }
     
     // MARK: TableView Datasource

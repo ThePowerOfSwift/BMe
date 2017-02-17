@@ -61,9 +61,12 @@ class Image: JSONObject {
     }
     
     /** Helper function to save Image to storage and database */
-    class func save(image: Data) -> String {
+    class func save(image: Data, completion: @escaping (String)->()) {
         // save image & return filename/ID
-        return FIR.manager.put(file: image, object: FIR.object.image)
+        FIR.manager.put(file: image, object: FIR.object.image, completion: {
+            (filename) in
+            completion(filename)
+        })
     }
     
     /** Keys to access database JSON properties */

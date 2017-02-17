@@ -48,8 +48,11 @@ class FIR: NSObject {
         return storage.child("dev").child(object.key())
     }
     
-    /** Save to storage and insert object JSON to Database */
-    func put(file data: Data, object: object) -> String {
+    /** 
+     Save to storage and insert object JSON to Database
+     Returns the filename to completion handler
+     */
+    func put(file data: Data, object: object, completion: @escaping (String)->()) {
         // Put file on storage
         // Get unique path using UID as root
         let path = storagePath(object)
@@ -73,6 +76,9 @@ class FIR: NSObject {
                             "timestamp": Date().toString(),
                             "storageURL": metadata?.storageURL]
                 self.databasePath(object).child(filename).setValue(json)
+                
+                // Send to handler
+                completion(filename)
             }
         }
         
@@ -91,8 +97,6 @@ class FIR: NSObject {
                 print("Error uploading to GS: \(error.localizedDescription)")
             }
         })
-
-        return filename
     }
     
     /** Fetch the asset's download URL */

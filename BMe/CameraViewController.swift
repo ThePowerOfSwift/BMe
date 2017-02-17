@@ -421,36 +421,30 @@ class CameraViewController: UIViewController {
     }
     
     @IBAction func onUpload(_ sender: UIButton) {
-        let busy = BusyView()
-        busy.view.center = self.view.center
-        self.view.addSubview(busy)
-        busy.startAnimating()
-
         // render here
         guard let resultImage = render(), let imageData = UIImagePNGRepresentation(resultImage) else {
             print("failed to render.")
             return
         }
         
-        let newImgID = Image.save(image: imageData)
-        let postID = Post.create(assetID: newImgID, assetType: .image, hashtag: hashtagTextField.text!)
-        
+        // Save to camera roll
         UIImageWriteToSavedPhotosAlbum(resultImage, self, #selector(CameraViewController.image(_:didFinishSavingWithError:contextInfo:)), nil)
-
-        Matchup.submitPost(postID)
-        print("Upload completed")
-        self.removeAllItems()
-        busy.stopAnimating()
-        busy.removeFromSuperview()
+        
+        // Save the image to FIR
+        Image.save(image: imageData, completion: {
+            (filename) in
+            // Create a new post with the image
+            let postID = Post.create(assetID: filename, assetType: .image, hashtag: self.hashtagTextField.text!)
+            // Submit the new post for matchup
+            Matchup.submitPost(postID)
+        })
+        
         self.toggleCameraMode()
     }
     
+    // On Save to camera roll completion
     func image(_ image: UIImage, didFinishSavingWithError error: NSError?, contextInfo: UnsafeRawPointer)  {
-        let alertController = UIAlertController(title: "Saved to camera roll", message: nil, preferredStyle: UIAlertControllerStyle.alert)
-        let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil)
-        alertController.addAction(okAction)
-        present(alertController, animated: true, completion: nil)
-        
+        // Do nothing
     }
     
     @IBAction func onHashtagField(_ sender: UITextField) {

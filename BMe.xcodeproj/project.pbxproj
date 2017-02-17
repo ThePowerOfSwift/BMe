@@ -291,6 +291,17 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		7813AA9B1E569C4E00288F8C /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				7870B8591E45537100B754D6 /* Home.storyboard */,
+				781C3C931E55664C00F53B14 /* HomeViewController.swift */,
+				781C3C951E56256E00F53B14 /* CollageCollection */,
+				781C3C921E55537800F53B14 /* MatchupCollection */,
+			);
+			name = Home;
+			sourceTree = "<group>";
+		};
 		781C3C921E55537800F53B14 /* MatchupCollection */ = {
 			isa = PBXGroup;
 			children = (
@@ -388,10 +399,7 @@
 		78337D901DE3ACA700A1B32C /* JJ */ = {
 			isa = PBXGroup;
 			children = (
-				7870B8591E45537100B754D6 /* Home.storyboard */,
-				781C3C931E55664C00F53B14 /* HomeViewController.swift */,
-				781C3C951E56256E00F53B14 /* CollageCollection */,
-				781C3C921E55537800F53B14 /* MatchupCollection */,
+				7813AA9B1E569C4E00288F8C /* Home */,
 			);
 			name = JJ;
 			sourceTree = "<group>";
