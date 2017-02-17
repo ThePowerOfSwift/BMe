@@ -9,8 +9,8 @@
 import UIKit
 import FirebaseDatabase
 
-private let reuseIdentifier = CollageCollectionViewCell.keys.nibName
-private let fetchBatchSize = 10
+private let reuseIdentifier = PostCollectionViewCell.keys.nibName
+private let cellClass = PostCollectionViewCell.self
 
 class CollageCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
 
@@ -23,12 +23,13 @@ class CollageCollectionViewController: UICollectionViewController, UICollectionV
     fileprivate var _refHandle: FIRDatabaseHandle?
     private var database = FIR.manager.databasePath(.post)
     private var isFetchingData = false
-    
+    private let fetchBatchSize = 10
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Register cell classes
-        self.collectionView!.register(CollageCollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+        self.collectionView!.register(cellClass, forCellWithReuseIdentifier: reuseIdentifier)
 
         // Do any additional setup after loading the view.
         // Color background to white (default is black)
@@ -57,7 +58,7 @@ class CollageCollectionViewController: UICollectionViewController, UICollectionV
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! CollageCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! PostCollectionViewCell
     
         // Configure the cell
         cell.post = posts[indexPath.row]
@@ -122,6 +123,7 @@ class CollageCollectionViewController: UICollectionViewController, UICollectionV
         database.removeObserver(withHandle: _refHandle!)
     }
     
+    /* not tested
     // Performs a fetch to get more data
     func fetchMoreDatasource() {
         if !isFetchingData {
@@ -130,8 +132,7 @@ class CollageCollectionViewController: UICollectionViewController, UICollectionV
             // Get the "next batch" of posts
             // Request with upper limit on the last loaded post with a lower limit bound by batch size
             let lastPost = posts[posts.count - 1]
-            let lastTimestamp = lastPost.timestamp
-            database.queryEnding(atValue: lastTimestamp).queryLimited(toLast: UInt(fetchBatchSize)).observeSingleEvent(of: .value, with:
+            database.queryEnding(atValue: lastPost.ID).queryLimited(toLast: UInt(fetchBatchSize)).observeSingleEvent(of: .value, with:
                 { (snapshot) in
                     
                     // returns posts oldest to youngest, inclusive, so remove last child
@@ -153,5 +154,5 @@ class CollageCollectionViewController: UICollectionViewController, UICollectionV
             })
         }
     }
-
+ */
 }

@@ -50,6 +50,8 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         // Dispose of any resources that can be recreated.
     }
     
+    // MARK: Methods
+    
     func tableViewSetup() {
         
         tableView.dataSource = self

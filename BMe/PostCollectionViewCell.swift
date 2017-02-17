@@ -1,5 +1,5 @@
 //
-//  CollageCollectionViewCell.swift
+//  PostCollectionViewCell.swift
 //  BMe
 //
 //  Created by Jonathan Cheng on 2/16/17.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CollageCollectionViewCell: UICollectionViewCell {
+class PostCollectionViewCell: UICollectionViewCell {
 
     // MARK: Properties
     @IBOutlet weak var imageView: UIImageView!
@@ -65,7 +65,7 @@ class CollageCollectionViewCell: UICollectionViewCell {
     
     /** */
     struct keys {
-        static var nibName = "CollageCollectionViewCell"
+        static var nibName = "PostCollectionViewCell"
     }
 
 }

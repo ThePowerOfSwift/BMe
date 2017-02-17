@@ -9,8 +9,9 @@
 import UIKit
 
 private let reuseIdentifier = MatchupCollectionViewCell.keys.nibName
+private let cellClass = MatchupCollectionViewCell.self
 
-/** 
+/**
  Displays Matchups using a banner style rotating carousel
  */
 class MatchupCollectionViewController: UICollectionViewController, MatchupCollectionViewCellDelegate {
@@ -26,7 +27,7 @@ class MatchupCollectionViewController: UICollectionViewController, MatchupCollec
         super.viewDidLoad()
 
         // Register cell classes
-        self.collectionView!.register(MatchupCollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+        self.collectionView!.register(cellClass, forCellWithReuseIdentifier: reuseIdentifier)
         
         // Do any additional setup after loading the view.
         // Make it paging

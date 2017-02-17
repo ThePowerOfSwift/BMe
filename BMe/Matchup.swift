@@ -194,15 +194,23 @@ class Matchup: JSONObject {
     
     // MARK: Class methods for submission
     
-    /** Submit a photo for voting */
+    // TODO: Change to queuePost
+    /** 
+     Submit a photo for voting.
+     Queues with JSON object [keys.queueKey: postID]
+     */
     class func submitPost(_ postID: String) {
-        let json: [String: AnyObject] = [keys.queueKey: postID]
-        
+        let json: [String: AnyObject] = [keys.queueKey: postID as AnyObject]
         JSONStack.queue(object: json, database: FIR.manager.databasePath(object))
         
         // Apply matchup logic
 //        Disable for moderator
 //        updateQueue()
+    }
+    
+    /** Returns the reference/path to the items queued for matchup */
+    class func queue() -> FIRDatabaseReference {
+        return JSONStack.queueDatabase(FIR.manager.databasePath(object))
     }
     
     // TODO: Deprecate?

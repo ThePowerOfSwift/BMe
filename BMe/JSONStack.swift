@@ -75,9 +75,10 @@ class JSONStack: NSObject {
     }
     
     /** 
-     Return the prefix "queue" reference with database ref as root
+     Return the FIR Reference for a queue.
+     Typically by prefix-ing "queue" reference with database ref as root
      */
-    private class func queueDatabase(_ database: FIRDatabaseReference) -> FIRDatabaseReference {
+    class func queueDatabase(_ database: FIRDatabaseReference) -> FIRDatabaseReference {
         // Path: ~/queue
         return database.child(keys.queue)
     }

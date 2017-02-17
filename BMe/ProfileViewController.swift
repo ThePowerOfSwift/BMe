@@ -70,7 +70,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
 
         // Matchup button
         FIR.manager.isModerator { (authorized) in
-            print("moderator \(authorized)")
             if authorized {
                 
             } else {
