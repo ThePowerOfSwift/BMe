@@ -27,8 +27,13 @@ class ModeratorViewController: UIViewController, UITableViewDataSource, UITableV
     private var database = Matchup.queue()
     private var isFetchingData = false
     private let fetchBatchSize = 10
-    private(set) var lastFetchedKey: String = ""
+    private var lastFetchedKey: String = ""
 
+    // Create Matchup
+    @IBOutlet weak var createMatchupButton: UIButton!
+    @IBOutlet weak var createButtonTrailingConstraint: NSLayoutConstraint!
+    @IBOutlet weak var createMatchupButtonBottomConstraint: NSLayoutConstraint!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -39,6 +44,8 @@ class ModeratorViewController: UIViewController, UITableViewDataSource, UITableV
         automaticallyAdjustsScrollViewInsets = true
         // Hide nav bar on swipe
         navigationController?.hidesBarsOnSwipe = true
+        
+        createMatchupButton.isHidden = true
         
         // Setup plain style TV
         tableViewSetup()
@@ -65,6 +72,9 @@ class ModeratorViewController: UIViewController, UITableViewDataSource, UITableV
         tableView.estimatedRowHeight = tableView.frame.width
         //        tableView.rowHeight = UITableViewAutomaticDimension
         
+        // Selection
+        tableView.allowsSelection = true
+        tableView.allowsMultipleSelection = true
     }
 
     @IBAction func didTapCloseButton(_ sender: UIBarButtonItem) {
@@ -104,7 +114,22 @@ class ModeratorViewController: UIViewController, UITableViewDataSource, UITableV
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return ""
-        
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if tableView.indexPathsForSelectedRows?.count == 2 {
+            showCreateMatchupButton()
+        } else {
+            hideCreateMatchupButton()
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        if tableView.indexPathsForSelectedRows?.count == 2 {
+            showCreateMatchupButton()
+        } else {
+            hideCreateMatchupButton()
+        }
     }
     
     // MARK: FIR Methods
@@ -145,8 +170,7 @@ class ModeratorViewController: UIViewController, UITableViewDataSource, UITableV
             
             // Get the "next batch" of posts
             // Request with upper limit on the last loaded post with a lower limit bound by batch size
-            let lastPost = posts[posts.count - 1]
-            database.queryEnding(atValue: lastPost.ID).queryLimited(toLast: UInt(fetchBatchSize)).observeSingleEvent(of: .value, with:
+            database.queryEnding(atValue: lastFetchedKey).queryLimited(toLast: UInt(fetchBatchSize)).observeSingleEvent(of: .value, with:
                 { (snapshot) in
                     
                     // returns posts oldest to youngest, inclusive, so remove last child
@@ -167,5 +191,37 @@ class ModeratorViewController: UIViewController, UITableViewDataSource, UITableV
                     self.isFetchingData = false
             })
         }
+    }
+    
+    // MARK: Create Matchup
+    
+    @IBAction func didTapCreateMatchup(_ sender: UIButton, forEvent event: UIEvent) {
+        let indexPaths = tableView.indexPathsForSelectedRows
+        
+        if var indexPaths = indexPaths, indexPaths.count == 2 {
+            let postAID = posts[indexPaths.popLast()!.row].ID
+            let postBID = posts[indexPaths.popLast()!.row].ID
+            
+            print(postAID)
+            print(postBID)
+            
+            Matchup.create(postAID: postAID , postBID: postBID, hashtag: "test")
+
+        } else {
+            let alert = UIAlertController(title: "oops", message: "Select two posts to create matchup", preferredStyle: .alert)
+            let OKAction = UIAlertAction(title: "OK", style: .default) { action in
+            }
+            alert.addAction(OKAction)
+            
+            self.present(alert, animated: true) {}
+        }
+    }
+    
+    func showCreateMatchupButton() {
+        createMatchupButton.isHidden = false
+    }
+    
+    func hideCreateMatchupButton() {
+        createMatchupButton.isHidden = true
     }
 }

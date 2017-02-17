@@ -26,13 +26,22 @@
                                 <rect key="frame" x="16" y="0.0" width="343" height="667"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4qD-Uq-zsq">
+                                <rect key="frame" x="324" y="632" width="46" height="30"/>
+                                <state key="normal" title="Create"/>
+                                <connections>
+                                    <action selector="didTapCreateMatchup:forEvent:" destination="tZy-87-a2X" eventType="touchUpInside" id="Yqa-ll-hHP"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="iCd-HG-wNa" firstAttribute="top" secondItem="JeV-vd-Cc3" secondAttribute="topMargin" id="E44-wj-Hwp"/>
                             <constraint firstItem="iCd-HG-wNa" firstAttribute="leading" secondItem="JeV-vd-Cc3" secondAttribute="leadingMargin" id="Ldn-ki-tEt"/>
+                            <constraint firstAttribute="trailing" secondItem="4qD-Uq-zsq" secondAttribute="trailing" constant="5" id="buW-61-d9r"/>
                             <constraint firstAttribute="trailingMargin" secondItem="iCd-HG-wNa" secondAttribute="trailing" id="dHq-cS-gMt"/>
                             <constraint firstItem="kH0-Tz-3LY" firstAttribute="top" secondItem="iCd-HG-wNa" secondAttribute="bottom" id="k9v-yA-R4b"/>
+                            <constraint firstItem="kH0-Tz-3LY" firstAttribute="top" secondItem="4qD-Uq-zsq" secondAttribute="bottom" constant="5" id="yzo-5r-rYz"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="pBD-ty-xoa">
@@ -48,6 +57,9 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="createButtonTrailingConstraint" destination="buW-61-d9r" id="gUG-Aq-0qY"/>
+                        <outlet property="createMatchupButton" destination="4qD-Uq-zsq" id="sXE-Jd-HIp"/>
+                        <outlet property="createMatchupButtonBottomConstraint" destination="yzo-5r-rYz" id="Uob-Xy-GZZ"/>
                         <outlet property="tableView" destination="iCd-HG-wNa" id="dRI-4G-tgA"/>
                     </connections>
                 </viewController>

@@ -201,7 +201,7 @@ class Matchup: JSONObject {
      */
     class func submitPost(_ postID: String) {
         let json: [String: AnyObject] = [keys.queueKey: postID as AnyObject]
-        JSONStack.queue(object: json, database: FIR.manager.databasePath(object))
+        JSONStack.queue(json: json, object: object)
         
         // Apply matchup logic
 //        Disable for moderator
@@ -210,7 +210,7 @@ class Matchup: JSONObject {
     
     /** Returns the reference/path to the items queued for matchup */
     class func queue() -> FIRDatabaseReference {
-        return JSONStack.queueDatabase(FIR.manager.databasePath(object))
+        return JSONStack.queueDatabase(object)
     }
     
     // TODO: Deprecate?

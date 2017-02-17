@@ -28,7 +28,7 @@ class FIR: NSObject {
     /** Storage URL prefix ("gs://") */
     static var storagePrefix = "gs://"
     /** FIRDatabase reference */
-    private let database = FIRDatabase.database().reference()
+    let database = FIRDatabase.database().reference()
     /** FIRStorage reference */
     let storage = FIRStorage.storage().reference(forURL: storagePrefix + FIRApp.defaultApp()!.options.storageBucket)
     /** User ID */
@@ -38,14 +38,14 @@ class FIR: NSObject {
     func databasePath(_ object:object) -> FIRDatabaseReference {
         // Return path structure for given object
         // Current structure: ~/<object>/...
-        return database.child("dev").child(object.key())
+        return database.child(object.key())
     }
     
     /** Returns the storage reference for a given object */
     func storagePath(_ object: object) -> FIRStorageReference {
         // Return path structure for given object
         // Current structure: ~/<object>/...
-        return storage.child("dev").child(object.key())
+        return storage.child(object.key())
     }
     
     /** 
@@ -62,7 +62,7 @@ class FIR: NSObject {
         // Construct meta data for file upload
         let metadata = FIRStorageMetadata()
         metadata.contentType = object.contentType()
-        metadata.customMetadata = ["uid":uid]
+        metadata.customMetadata = ["uid": uid]
         
         // Put to Storage
         let task = path.child(filename + fileExtension).put(data, metadata: metadata) { (metadata, error) in
@@ -127,15 +127,15 @@ class FIR: NSObject {
         })
     }
     
+    private let moderatorKey = "moderator"
     /** Indicates if user is a moderator */
     func isModerator(_ completion: @escaping (Bool)->()) {
-        database.child("dev").child("moderator").queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
+        database.child(moderatorKey).queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
             if let moderators = snapshot.value as? [String: Bool] {
                 completion(moderators[self.uid]!)
             } else {
                 print("Error: cannot access moderators list")
             }
-            
         })
     }
 }

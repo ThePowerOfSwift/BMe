@@ -18,17 +18,17 @@ class JSONStack: NSObject {
     /**
      Queue object onto JSON stack
      */
-    class func queue(object: [String: AnyObject?], database: FIRDatabaseReference) {
+    class func queue(json: [String: AnyObject?], object: FIR.object) {
         // Add object to stack with timestamped key as parent (childByAutoID)
-        queueDatabase(database).childByAutoId().updateChildValues(object)
+        queueDatabase(object).childByAutoId().setValue(json)
     }
     
     /**
      Pop x objects from JSONStack in FIFO order
      Return resulting array to handler
      */
-    class func popFIFO(_ count: Int, database: FIRDatabaseReference, completion:@escaping ([[String: AnyObject?]])->()) {
-        let database = queueDatabase(database)
+    class func popFIFO(_ count: Int, object: FIR.object, completion:@escaping ([[String: AnyObject?]])->()) {
+        let database = queueDatabase(object)
         // Result holder
         var result: [[String: AnyObject?]] = []
         
@@ -68,8 +68,8 @@ class JSONStack: NSObject {
     /**
      Count the number of items in queue.  Implemented by counting the number of children under /queue
      */
-    class func count(database: FIRDatabaseReference, completion:@escaping (UInt)->()) {
-        queueDatabase(database).observeSingleEvent(of: .value, with: { (snapshot) in
+    class func count(object: FIR.object, completion:@escaping (UInt)->()) {
+        queueDatabase(object).observeSingleEvent(of: .value, with: { (snapshot) in
             completion(snapshot.childrenCount)
         })
     }
@@ -78,13 +78,13 @@ class JSONStack: NSObject {
      Return the FIR Reference for a queue.
      Typically by prefix-ing "queue" reference with database ref as root
      */
-    class func queueDatabase(_ database: FIRDatabaseReference) -> FIRDatabaseReference {
+    class func queueDatabase(_ object: FIR.object) -> FIRDatabaseReference {
         // Path: ~/queue
-        return database.child(keys.queue)
+        return FIR.manager.database.child(keys.key).child(object.key())
     }
     
-    /** Keys to access database objects */
+    /** Keys to access JSONStack database objects */
     struct keys {
-        static var queue = "queue"
+        static var key = "queue"
     }
 }
