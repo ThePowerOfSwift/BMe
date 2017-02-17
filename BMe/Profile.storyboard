@@ -199,9 +199,6 @@
                             </view>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1UM-ye-IGB">
                                 <rect key="frame" x="0.0" y="286" width="375" height="381"/>
-                                <connections>
-                                    <segue destination="NHC-3V-nqT" kind="embed" id="pog-65-oAr"/>
-                                </connections>
                             </containerView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="rPT-GT-slZ">
                                 <rect key="frame" x="0.0" y="286" width="375" height="381"/>
@@ -297,23 +294,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5jQ-Hx-K4h" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-130.40000000000001" y="94.902548725637189"/>
-        </scene>
-        <!--View Controller-->
-        <scene sceneID="9i6-Hf-tmH">
-            <objects>
-                <viewController id="NHC-3V-nqT" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="1y7-iI-FW1"/>
-                        <viewControllerLayoutGuide type="bottom" id="FAD-rc-AmJ"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="cW3-Of-IFP">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="381"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="8aa-p6-Ttu" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
         </scene>
     </scenes>
     <resources>

@@ -13,10 +13,6 @@ struct Constants {
     struct OnLogin {
         static let StoryboardID = SegueID.Storyboard.TabBar
         static let RootViewController = SegueID.ViewController.TabBarViewController
-
-//        static let StoryboardID = "Home"
-//        static let RootViewController = "BrowseNavigationController"
-        
     }
     struct OnLogout {
         static let StoryboardID = SegueID.Storyboard.Main
@@ -34,29 +30,16 @@ struct Constants {
     struct SegueID {
         struct Storyboard {
             static let Camera = "Camera"
-            static let Yelp = "Yelp"
-            static let VideoComposer = "VideoComposer"
             static let Main = "Main"
             static let Login = "Login"
             static let SignUp = "SignUp"
             static let TabBar = "TabBar"
             static let Home = "Home"
-            static let PageView = "PageView"
-            static let Featured = "Featured"
-            static let Account = "Account"
         }
         struct ViewController {
-            static let MainViewController = "MainViewController"
-            static let MainNavViewController = "MainNavViewController"
+            static let MainNavViewController = "MainNavController"
             static let CameraViewController = "CameraViewController"
-            static let YelpViewController = "YelpViewController"
-            static let VideoComposerViewController = "VideoComposerViewController"
-            static let LoginViewController = "LoginViewController"
-            static let SignUpViewController = "SignUpNavViewController"//"SignUpViewController"
             static let TabBarViewController = "TabBarViewController"
-            static let BrowserViewController = "BrowseViewController"
-            static let PageViewController = "PageViewController"
-            static let FeaturedViewController = "FeaturedNavigationController"
         }
     }
     
@@ -71,12 +54,6 @@ struct Constants {
         static let titleTextMinAlpha: CGFloat = 0.2
         
         static let tabbarAnimationDuration: TimeInterval = 0.1
-    }
-    
-    struct PageTitles {
-        static let cameraPageTitles: [String] = ["camera", "compose"]
-        static let browsePageTitles: [String] = ["browse", "featured"]
-        static let fontSize: CGFloat = 20
     }
     
     struct Images {
@@ -134,82 +111,3 @@ struct Constants {
     
 }
 
-enum ContentType {
-    case image, video, audio, template, userMeta, post, restaurantMeta
-    func string() -> String {
-        switch self {
-        case .image:
-            return "image/jpeg"
-        case .video:
-            return "video/mov"
-        case .audio:
-            return "audio/m4a"
-        case .template:
-            return "template/videocomposition"
-        case .userMeta:
-            return ObjectKey.userMeta
-        case .post:
-            return ObjectKey.post
-        case .restaurantMeta:
-            return ObjectKey.restaurantMeta
-        }
-    }
-    func fileExtension() -> String {
-        switch self {
-        case .image:
-            return ".jpeg"
-        case .video:
-            return ".mov"
-        case .audio:
-            return ".m4a"
-        case .template:
-            return ".videocomposition"
-        case .userMeta:
-            return ObjectKey.userMeta
-        case .post:
-            return ObjectKey.post
-        case .restaurantMeta:
-            return ObjectKey.restaurantMeta
-        }
-    }
-    func objectKey() -> String {
-        switch self {
-        case .image:
-            return ObjectKey.image
-        case .video:
-            return ObjectKey.video
-        case .audio:
-            return ObjectKey.audio
-        case .template:
-            return ObjectKey.template
-        case .userMeta:
-            return ObjectKey.userMeta
-        case .post:
-            return ObjectKey.post
-        case .restaurantMeta:
-            return ObjectKey.restaurantMeta
-        }
-    }
-    init?(string: String) {
-        switch string {
-        case ContentType.image.string(): self = .image
-        case ContentType.video.string(): self = .video
-        case ContentType.audio.string(): self = .audio
-        case ContentType.template.string(): self = .template
-        case ContentType.userMeta.string(): self = .userMeta
-        case ContentType.post.string(): self = .post
-        case ContentType.restaurantMeta.string(): self = .restaurantMeta
-        default: return nil
-        }
-    }
-}
-
-private struct ObjectKey {
-    static let video = "video"
-    static let template = "template"
-    static let audio = "audio"
-    static let image = "image"
-    static let post = "post"
-    static let userMeta = "userMeta"
-    static let restaurantMeta = "restaurantMeta"
-}
