@@ -35,6 +35,8 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     @IBOutlet weak var listButton: UIButton!
     @IBOutlet weak var tagButton: UIButton!
     
+    @IBOutlet weak var matchupButton: UIButton!
+    
     fileprivate var _refHandle: FIRDatabaseHandle?
     fileprivate var _refHandleRemove: FIRDatabaseHandle?
     var isFetchingData = false
@@ -66,6 +68,16 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         view.backgroundColor = Styles.Color.Primary
         gridButton.tintColor = MiddleMenuButton.on
 
+        // Matchup button
+        FIR.manager.isModerator { (authorized) in
+            print("moderator \(authorized)")
+            if authorized {
+                
+            } else {
+                
+            }
+        }
+        
     }
 
     //MARK: - User info methods
@@ -214,6 +226,18 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     
     // TODO: - Change to pull all posts not just rainchecks
     func fetchPosts() {
+    }
+    
+    @IBAction func onMatchupButtonTapped(_ sender: Any) {
+        presentModeratorController()
+    }
+    
+    func presentModeratorController() {
+        if let vc = UIStoryboard(name: Constants.SegueID.Storyboard.Moderator, bundle: nil).instantiateInitialViewController() {
+            self.present(vc, animated: true) {
+                //completion code here
+            }
+        }
     }
 }
 

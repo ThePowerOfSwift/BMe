@@ -35,6 +35,7 @@ struct Constants {
             static let SignUp = "SignUp"
             static let TabBar = "TabBar"
             static let Home = "Home"
+            static let Moderator = "Moderator"
         }
         struct ViewController {
             static let MainNavViewController = "MainNavController"

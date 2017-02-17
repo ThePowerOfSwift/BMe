@@ -110,6 +110,16 @@
                                             <action selector="tappedSignoutButton:" destination="cT0-Eh-3BH" eventType="touchUpInside" id="VbQ-wP-Ryr"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3N8-Mx-BX9">
+                                        <rect key="frame" x="269" y="161" width="87" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" title="Matchup">
+                                            <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="onMatchupButtonTapped:" destination="cT0-Eh-3BH" eventType="touchUpInside" id="D1u-bd-6um"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="1fN-VF-XvU" firstAttribute="top" secondItem="1zI-d9-mex" secondAttribute="bottom" constant="-3" id="0ha-CB-oN3"/>
@@ -267,6 +277,7 @@
                         <outlet property="gridButton" destination="5mg-Pw-Oac" id="407-uF-mYj"/>
                         <outlet property="headerProfileView" destination="2If-Wn-upO" id="rCa-8V-JK5"/>
                         <outlet property="listButton" destination="x3g-xa-RDc" id="x9c-sX-NO2"/>
+                        <outlet property="matchupButton" destination="3N8-Mx-BX9" id="P1x-Fj-dGd"/>
                         <outlet property="photosCollectionView" destination="rPT-GT-slZ" id="f5C-6t-Gi7"/>
                         <outlet property="postLabel" destination="2Ls-Wu-CdN" id="YsL-yt-Z4F"/>
                         <outlet property="tagButton" destination="DeA-Wd-xcR" id="Fpw-9w-ESp"/>

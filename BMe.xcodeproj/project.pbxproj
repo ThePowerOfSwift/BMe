@@ -77,6 +77,8 @@
 		78C3503F1DF12E17005E8331 /* blank user avatar.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 78C3503E1DF12E17005E8331 /* blank user avatar.jpeg */; };
 		78C350491DF28756005E8331 /* UserAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C350481DF28756005E8331 /* UserAccount.swift */; };
 		78D1783B1E48F8AD004B7840 /* JSONStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D1783A1E48F8AD004B7840 /* JSONStack.swift */; };
+		78EF09B71E575D84005DD603 /* ModeratorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EF09B61E575D84005DD603 /* ModeratorViewController.swift */; };
+		78EF09BC1E575D99005DD603 /* Moderator.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 78EF09BB1E575D99005DD603 /* Moderator.storyboard */; };
 		78F511361DF6D0860074050F /* WhiteRevealOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F511351DF6D0860074050F /* WhiteRevealOverlayView.swift */; };
 		78F511381DF6D09E0074050F /* WhiteRevealOverlayView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 78F511371DF6D09E0074050F /* WhiteRevealOverlayView.xib */; };
 		BF4130181E55670800F08B91 /* UsePost.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4130171E55670800F08B91 /* UsePost.swift */; };
@@ -213,6 +215,8 @@
 		78C3503E1DF12E17005E8331 /* blank user avatar.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "blank user avatar.jpeg"; sourceTree = "<group>"; };
 		78C350481DF28756005E8331 /* UserAccount.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserAccount.swift; sourceTree = "<group>"; };
 		78D1783A1E48F8AD004B7840 /* JSONStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONStack.swift; sourceTree = "<group>"; };
+		78EF09B61E575D84005DD603 /* ModeratorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModeratorViewController.swift; sourceTree = "<group>"; };
+		78EF09BB1E575D99005DD603 /* Moderator.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Moderator.storyboard; sourceTree = "<group>"; };
 		78F511351DF6D0860074050F /* WhiteRevealOverlayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WhiteRevealOverlayView.swift; sourceTree = "<group>"; };
 		78F511371DF6D09E0074050F /* WhiteRevealOverlayView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WhiteRevealOverlayView.xib; sourceTree = "<group>"; };
 		86BFB4E3203608C3B4F447D0 /* Pods-BMeTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BMeTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BMeTests/Pods-BMeTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -405,6 +409,8 @@
 			isa = PBXGroup;
 			children = (
 				7813AA9B1E569C4E00288F8C /* Home */,
+				78EF09B61E575D84005DD603 /* ModeratorViewController.swift */,
+				78EF09BB1E575D99005DD603 /* Moderator.storyboard */,
 			);
 			name = JJ;
 			sourceTree = "<group>";
@@ -717,6 +723,7 @@
 				E3DC85211E450EDC0017E6A2 /* lookup.png in Resources */,
 				E3DC851B1E450EDC0017E6A2 /* golden_gate_bridge.jpg in Resources */,
 				E3DC85161E450EDC0017E6A2 /* Camera.storyboard in Resources */,
+				78EF09BC1E575D99005DD603 /* Moderator.storyboard in Resources */,
 				78B56A061DF5EBFB00A13915 /* error.png in Resources */,
 				781E715E1DF53D1E00041855 /* home-yellow.png in Resources */,
 				78BCDF3C1DF74ABC002D399E /* nextarrow-yellow.png in Resources */,
@@ -803,6 +810,7 @@
 				E3D1D55F1DF11D700021942A /* Styles.swift in Sources */,
 				781C3C941E55664C00F53B14 /* HomeViewController.swift in Sources */,
 				421631601E43DC1A00E644A5 /* PhotoGridFlowLayout.swift in Sources */,
+				78EF09B71E575D84005DD603 /* ModeratorViewController.swift in Sources */,
 				BFF9AE971E39BBE90012C1F2 /* SignUpViewController.swift in Sources */,
 				4276E9331E3FFDA40020992D /* ProfileViewController.swift in Sources */,
 				783DE0C51E533D4D00C61EB7 /* MatchupCollectionViewCell.swift in Sources */,
