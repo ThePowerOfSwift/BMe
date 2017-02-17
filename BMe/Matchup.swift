@@ -175,6 +175,7 @@ class Matchup: JSONObject {
         static let countVoteB = "countVoteB"
         static let voted = "voted"
         static let hashtag = "hashtag"
+        static let queueKey = "key"
     }
     
     /** Enum type used to cast votes for A or B */
@@ -194,28 +195,31 @@ class Matchup: JSONObject {
     // MARK: Class methods for submission
     
     /** Submit a photo for voting */
-    class func submitPost(_ postID: String){
-        let json: [String: AnyObject] = [postID: "" as AnyObject]
+    class func submitPost(_ postID: String) {
+        let json: [String: AnyObject] = [keys.queueKey: postID]
+        
         JSONStack.queue(object: json, database: FIR.manager.databasePath(object))
         
         // Apply matchup logic
-        updateQueue()
+//        Disable for moderator
+//        updateQueue()
     }
     
+    // TODO: Deprecate?
     /**
      Apply matchup rules/logic:
      Takes free images in queue and puts it in matchup queue
      */
-    private class func updateQueue() {
-        // if there are two or more objects in queue, dequeue them and create a matchup
-        JSONStack.popFIFO(2, database: FIR.manager.databasePath(object), completion: { (result) in
-            // Create matchup with two objects popped from queue
-            // TODO: replace filler hashtag
-            if (result.count == 2) {
-                Matchup.create(postAID: result[0].keys.first!, postBID: result[1].keys.first!, hashtag: "TestHashTag")
-            }
-        })
-    }
+//    private class func updateQueue() {
+//        // if there are two or more objects in queue, dequeue them and create a matchup
+//        JSONStack.popFIFO(2, database: FIR.manager.databasePath(object), completion: { (result) in
+//            // Create matchup with two objects popped from queue
+//            // TODO: replace filler hashtag
+//            if (result.count == 2) {
+//                Matchup.create(postAID: result[0].keys.first!, postBID: result[1].keys.first!, hashtag: "TestHashTag")
+//            }
+//        })
+//    }
     
     /**
      Apply service rules/logic:
@@ -253,10 +257,10 @@ class Matchup: JSONObject {
                     arrayOfMatchups.append(Matchup(child))
                 }
             }
-            
             completion(arrayOfMatchups)
         })
     }
+    
     /** Delete a match given its ID */
     class func remove(_ matchID: String) {
         let database = FIR.manager.databasePath(object).child(matchID)
