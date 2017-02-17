@@ -41,11 +41,12 @@ class JSONObject: NSObject {
      Helper function to retrieve JSON object from database
      Should be wrapped by subclass with a static FIR.object type
      */
-    // TODO: Add error catching, what if object does not exist?
     class func get(_ ID: String, object: FIR.object, completion:@escaping (FIRDataSnapshot)->()) {
         FIR.manager.fetch(objectID: ID, object: object) { (snapshot) in
             if let snapshot = snapshot {
                 completion(snapshot)
+            } else {
+                print("Error: fetch snapshot of FIR \(object.contentType()) ID: \(ID) returned nil")
             }
         }
     }

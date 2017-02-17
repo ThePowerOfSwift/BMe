@@ -66,19 +66,39 @@ class CollageCollectionViewController: UICollectionViewController, UICollectionV
     }
 
     // MARK: UICollectionViewDelegateFlowLayout
+    private let spacing: CGFloat = 0.00
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let row = indexPath.row
         
+        let row = indexPath.row
         let viewSize = collectionView.frame.size
+        var itemSize: CGSize
         
         switch row {
         case 0:
-            return viewSize
+            var width: CGFloat = 2 * (viewSize.width / 3)
+            width -= spacing
+            let height: CGFloat = width
+            
+            itemSize = CGSize(width: width, height: height)
         
         default:
-            let width = viewSize.width / 2
-            let height = viewSize.height  / 2
-            return CGSize(width: width, height: height)
+            var width: CGFloat = viewSize.width / 3
+            width -= spacing
+            let height: CGFloat = width
+            
+            itemSize = CGSize(width: width, height: height)
         }
+        print("itemSize: \(itemSize)")
+        return itemSize
+    }
+    
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return spacing
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return spacing
     }
 }

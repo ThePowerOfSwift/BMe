@@ -84,6 +84,7 @@ class MatchupCollectionViewCell: UICollectionViewCell {
             self.matchupTitleLabel.text = matchup.hashtag
             
             // Get the posts from this match and load the images
+            // TODO: check images are loading for correct cell
             matchup.posts(completion: { (postA, postB) in
                 postA.assetStorageURL(completion: { (url) in
                     self.imageViewLeading.loadImageFromGS(url: url, placeholderImage: nil)

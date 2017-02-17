@@ -73,10 +73,6 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         let maxHeight = cellHeights[indexPath.row]
         let layout = UICollectionViewFlowLayout()
 
-        print("row \(indexPath.row)")
-        print("width\(maxWidth)")
-        print("height\(maxHeight)")
-        
         switch indexPath.row {
         // Matchups
         case 0:
@@ -98,10 +94,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         case 1:
             layout.scrollDirection = UICollectionViewScrollDirection.horizontal
             layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-            // Sizing
-            layout.minimumInteritemSpacing = 0
-            layout.minimumLineSpacing = 0
-            // CollageCVC implements FlowLayoutDelegate itemSize()
+            // Sizing: CollageCVC implements FlowLayoutDelegate
             
             // Configure collection veiw and add as child VC
             let collageCVC = CollageCollectionViewController(collectionViewLayout: layout)

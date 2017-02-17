@@ -43,18 +43,31 @@ class CollageCollectionViewCell: UICollectionViewCell {
         let view = Bundle.main.loadNibNamed(keys.nibName, owner: self, options: nil)?.first as! UIView
         // Resize to fill container
         view.frame = self.bounds
-        view.autoresizingMask = .flexibleHeight
-        view.autoresizingMask = .flexibleWidth
+        view.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         // Add nib view to self
         self.contentView.addSubview(view)
+        
+        // Testing
+        // Random background color
+        let r: Float = Float(arc4random()) / Float(UInt32.max)
+        let g: Float = Float(arc4random()) / Float(UInt32.max)
+        let b: Float = Float(arc4random()) / Float(UInt32.max)
+        self.backgroundColor = UIColor(colorLiteralRed: r, green: g, blue: b, alpha: 1.00)
     }
     
     private func didSetPost() {
         if let post = post {
             post.assetStorageURL(completion: { (url) in
-                self.imageView.loadImageFromGS(url: url, placeholderImage: nil)
+                // Check that image loading is still needed
+                if (post.ID == self.post?.ID) {
+                    self.imageView.loadImageFromGS(url: url, placeholderImage: nil)
+                }
             })
         }
+    }
+    
+    override func prepareForReuse() {
+        self.imageView.image = nil
     }
     
     /** */

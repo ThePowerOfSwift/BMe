@@ -29,12 +29,13 @@ class Post: JSONObject {
     private(set) var hashtag: String?
     
     /** Returns the post's asset */
-    // TODO: Add error checking if no assetID
     func asset(completion: @escaping (Image)->()) {
         if let assetID = assetID {
             Image.get(ID: assetID, completion: { (image) in
                 completion(image)
             })
+        } else {
+            print("Error: there is no assetID for this post ID: \(ID)")
         }
     }
     
