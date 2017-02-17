@@ -8,6 +8,10 @@
 
 import UIKit
 
+private struct HomeViewCellContent {
+    var title: String
+    var height: CGFloat
+}
 
 class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
@@ -15,10 +19,10 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     // Properties
     /** Model */
-    private var cellHeights: [CGFloat] {
+    private var contents: [HomeViewCellContent] {
         get {
-            return [tableView.frame.width,
-                    tableView.frame.width
+            return [HomeViewCellContent(title: "Matchups", height: tableView.frame.width),
+                    HomeViewCellContent(title: "New", height: tableView.frame.width)
             ]
         }
     }
@@ -59,23 +63,25 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
     // MARK: TableView Datasource
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return contents.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return cellHeights.count
+        return 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell()
         
+        let cell = UITableViewCell()
         let maxWidth = tableView.frame.width
-        let maxHeight = cellHeights[indexPath.row]
-        let layout = UICollectionViewFlowLayout()
+        let maxHeight = maxWidth
 
-        switch indexPath.row {
-        // Matchups
-        case 0:
+        var vc = UIViewController()
+        
+        // Configure the layouts and view controllers
+        switch indexPath.section {
+        case 0: // Matchups
+            let layout = UICollectionViewFlowLayout()
             layout.scrollDirection = UICollectionViewScrollDirection.horizontal
             layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
             // Sizing
@@ -83,36 +89,38 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
             layout.minimumLineSpacing = 0
             layout.itemSize = CGSize(width: maxWidth, height: maxHeight)
             
-            // Configure collection view and add as child VC
-            let matchupCVC = MatchupCollectionViewController(collectionViewLayout: layout)
-            addChildViewController(matchupCVC)
-            cell.contentView.addSubview(matchupCVC.view)
-            matchupCVC.view.frame = cell.contentView.bounds
-            matchupCVC.didMove(toParentViewController: self)
-        
-        // New
-        case 1:
+            vc = MatchupCollectionViewController(collectionViewLayout: layout)
+            
+        case 1: // New
+            let layout = UICollectionViewFlowLayout()
             layout.scrollDirection = UICollectionViewScrollDirection.horizontal
             layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
             // Sizing: CollageCVC implements FlowLayoutDelegate
             
-            // Configure collection veiw and add as child VC
-            let collageCVC = CollageCollectionViewController(collectionViewLayout: layout)
-            addChildViewController(collageCVC)
-            cell.contentView.addSubview(collageCVC.view)
-            collageCVC.view.frame = cell.contentView.bounds
-            collageCVC.didMove(toParentViewController: self)
+            vc = CollageCollectionViewController(collectionViewLayout: layout)
             
         default:
             break
         }
         
+        addChildViewController(vc)
+        cell.contentView.addSubview(vc.view)
+        vc.view.frame = cell.contentView.bounds
+        vc.didMove(toParentViewController: self)
+
         return cell
     }
 
     // MARK: TableView Delegate
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return cellHeights[indexPath.row]
+        let content = contents[indexPath.section]
+        return content.height
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        let content = contents[section]
+        return content.title
+
     }
 }

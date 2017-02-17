@@ -45,14 +45,7 @@ class CollageCollectionViewCell: UICollectionViewCell {
         view.frame = self.bounds
         view.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         // Add nib view to self
-        self.contentView.addSubview(view)
-        
-        // Testing
-        // Random background color
-        let r: Float = Float(arc4random()) / Float(UInt32.max)
-        let g: Float = Float(arc4random()) / Float(UInt32.max)
-        let b: Float = Float(arc4random()) / Float(UInt32.max)
-        self.backgroundColor = UIColor(colorLiteralRed: r, green: g, blue: b, alpha: 1.00)
+        self.contentView.addSubview(view)        
     }
     
     private func didSetPost() {
