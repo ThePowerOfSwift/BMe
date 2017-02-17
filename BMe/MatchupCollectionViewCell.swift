@@ -79,7 +79,7 @@ class MatchupCollectionViewCell: UICollectionViewCell {
       Populate cell with matchup
      */
     private func didSetMatchup() {
-        if let matchup = matchup {
+        if let matchup = matchup, let didVote = matchup.didVote {
             // Set the title
             self.matchupTitleLabel.text = matchup.hashtag
             
@@ -93,6 +93,10 @@ class MatchupCollectionViewCell: UICollectionViewCell {
                     self.imageViewTrailing.loadImageFromGS(url: url, placeholderImage: nil)
                 })
             })
+            
+            if didVote {
+                showResults()
+            }
         }
     }
 
@@ -120,16 +124,45 @@ class MatchupCollectionViewCell: UICollectionViewCell {
      Cell was tapped.  Inform delegate
      */
     private func didTap() {
-        let imageViewAlpha: CGFloat = 0.50
-        imageViewLeading.alpha = imageViewAlpha
-        imageViewTrailing.alpha = imageViewAlpha
-        imageViewLeading.isUserInteractionEnabled = false
-        imageViewTrailing.isUserInteractionEnabled = false
+        showResults()
         
+        perform(#selector(didSelect), with: nil, afterDelay: 1.0)
+    }
+    
+    /** 
+     User made a selection
+     */
+    func didSelect() {
         if let delegate = delegate  {
             if let didSelect = delegate.didSelect?(self) {
                 didSelect
             }
+        }
+    }
+    
+    /** 
+     Show voting results
+     */
+    private func showResults() {
+        if let matchup = matchup {
+            // Configure imageviews to be "disabled"
+            let imageViewAlpha: CGFloat = 0.50
+            imageViewLeading.alpha = imageViewAlpha
+            imageViewTrailing.alpha = imageViewAlpha
+            imageViewLeading.isUserInteractionEnabled = false
+            imageViewTrailing.isUserInteractionEnabled = false
+            
+            //Layover results with bar
+            let leadBarView = BarView(parentView: imageViewLeading)
+            let trailBarView = BarView(parentView: imageViewTrailing)
+            // Tabulate % votes
+            let totalCount = matchup.countVoteA + matchup.countVoteB
+            let leadPct = totalCount > 0 ? Double(matchup.countVoteA) / Double(totalCount) : 0
+            let trailPct = totalCount > 0 ? Double(matchup.countVoteB) / Double(totalCount) : 0
+            leadBarView.animateBar(Int(floor(leadPct * 100)))
+            leadBarView.showValue()
+            trailBarView.animateBar(Int(floor(trailPct * 100)))
+            trailBarView.showValue()
         }
     }
     
@@ -146,6 +179,14 @@ class MatchupCollectionViewCell: UICollectionViewCell {
         
         imageViewLeading.image = nil
         imageViewTrailing.image = nil
+        
+        // Remove all derived subviews
+        for view in imageViewLeading.subviews {
+            view.removeFromSuperview()
+        }
+        for view in imageViewTrailing.subviews {
+            view.removeFromSuperview()
+        }
         
         matchupTitleLabel.text = ""
     }

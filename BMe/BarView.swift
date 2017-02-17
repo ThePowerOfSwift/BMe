@@ -163,7 +163,7 @@ class BarView: UIView {
         UIView.animate(withDuration: 1.0, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5, options: [] , animations: {
             self.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
         }, completion: { (success) in
-            self.reset()
+//            self.reset()
         })
     }
     

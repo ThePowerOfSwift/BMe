@@ -19,7 +19,7 @@ class Matchup: JSONObject {
     /** JSON object type */
     override class var object: FIR.object {
         get {
-            return FIR.object.matchup
+            return .matchup
         }
     }
     
@@ -110,6 +110,16 @@ class Matchup: JSONObject {
     
     /** Cast a vote for a Post (A or B).  If associated uid (user) can only cast a vote once. */
     func vote(_ forPost: voteFor) {
+        // Update instance properties for immediate feedback to user
+        // This matchup is updated posthumously in the completion handler below
+        if (forPost == .A) {
+            self.countVoteA += 1
+        } else {
+            self.countVoteB += 1
+        }
+        self.didVote = true
+
+        // Attempt to update database
         FIR.manager.databasePath(Matchup.object).child(self.ID).runTransactionBlock({ (currentData) -> FIRTransactionResult in
             
             // Check matchup exists and fetch data edit
@@ -121,12 +131,11 @@ class Matchup: JSONObject {
                 var voted = matchup[keys.voted] as? [String: Bool] ?? [:]
                 
                 // User already voted, don't count this vote
-                /*
                 if let _ = voted[uid] {
-                    print("Matchup: You already voted!")
+                    print("Error: User already voted for match \(self.ID)!")
                     return FIRTransactionResult.success(withValue: currentData)
                 }
-*/
+
                 
                 // Cast a vote for the user
                     voteCount += 1

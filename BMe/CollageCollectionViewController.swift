@@ -89,7 +89,6 @@ class CollageCollectionViewController: UICollectionViewController, UICollectionV
             
             itemSize = CGSize(width: width, height: height)
         }
-        print("itemSize: \(itemSize)")
         return itemSize
     }
     
