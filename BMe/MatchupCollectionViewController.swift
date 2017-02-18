@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FirebaseDatabase
 
 private let reuseIdentifier = MatchupCollectionViewCell.keys.nibName
 private let cellClass = MatchupCollectionViewCell.self
@@ -19,7 +20,14 @@ class MatchupCollectionViewController: UICollectionViewController, MatchupCollec
     // MARK: Properties
 
     /** Model */
-    var matchups: [Matchup]!
+    var matchups: [Matchup] = []
+    
+    // FIR
+    fileprivate var _refHandle: FIRDatabaseHandle?
+    private var database = Matchup.database()
+    private var isFetchingData = false
+    private let fetchBatchSize = 10
+
     
     // MARK: Lifecycle methdos
 
@@ -35,11 +43,7 @@ class MatchupCollectionViewController: UICollectionViewController, MatchupCollec
         // Color background to white (default is black)
         self.collectionView?.backgroundColor = UIColor.white
         
-        // Load model
-        Matchup.dailyMatchups { (matchups) in
-            self.matchups = matchups
-            self.collectionView?.reloadData()
-        }
+        setupDatasource()
     }
     
     override func didReceiveMemoryWarning() {
@@ -55,12 +59,7 @@ class MatchupCollectionViewController: UICollectionViewController, MatchupCollec
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // Return count of matchups only after it's loaded
-        if let matchups = matchups {
-            return matchups.count
-        }
-        else {
-            return 0
-        }
+        return matchups.count
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -97,5 +96,22 @@ class MatchupCollectionViewController: UICollectionViewController, MatchupCollec
      */
     func didSelect(_ sender: MatchupCollectionViewCell) {
         advanceItem(sender)
+    }
+    
+    // MARK: FIR
+    
+    func setupDatasource() {
+        if let _refHandle = _refHandle {
+            database.removeObserver(withHandle: _refHandle)
+        }
+        self.matchups.removeAll()
+        self.collectionView?.reloadData()
+        
+        // Reverse load posts from most recent onwards
+        _refHandle = database.queryLimited(toLast: UInt(fetchBatchSize)).observe(.childAdded, with: { (snapshot) in
+
+            self.matchups.insert(Matchup(snapshot), at: 0)
+            self.collectionView?.insertItems(at: [IndexPath(row: 0, section: 0)])
+        })
     }
 }

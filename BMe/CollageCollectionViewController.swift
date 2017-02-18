@@ -17,7 +17,7 @@ class CollageCollectionViewController: UICollectionViewController, UICollectionV
     // MARK: Properties
     
     /** Model */
-    var posts:[Post]! = []
+    var posts:[Post] = []
     
     // FIR
     fileprivate var _refHandle: FIRDatabaseHandle?
@@ -50,11 +50,7 @@ class CollageCollectionViewController: UICollectionViewController, UICollectionV
     }
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if let posts = posts {
-            return posts.count
-        } else {
-            return 0
-        }
+        return posts.count
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

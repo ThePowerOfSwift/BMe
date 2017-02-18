@@ -238,19 +238,8 @@ class Matchup: JSONObject {
     /** 
      Return an array of the daily matchups
      */
-    class func dailyMatchups(completion:@escaping ([Matchup])->()) {
-        let database = FIR.manager.databasePath(object)
-
-        database.queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
-            var arrayOfMatchups: [Matchup] = []
-            
-            for child in snapshot.children {
-                if let child = child as? FIRDataSnapshot {
-                    arrayOfMatchups.append(Matchup(child))
-                }
-            }
-            completion(arrayOfMatchups)
-        })
+    class func database() -> FIRDatabaseReference {
+        return FIR.manager.databasePath(object)
     }
     
     /** Delete a match given its ID */
