@@ -56,7 +56,6 @@ class MatchupCollectionViewController: UICollectionViewController, MatchupCollec
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // Return count of matchups only after it's loaded
         if let matchups = matchups {
-            print("#matchups: \(matchups.count)")
             return matchups.count
         }
         else {

@@ -163,8 +163,10 @@ class ModeratorViewController: UIViewController, UITableViewDataSource, UITableV
         database.removeObserver(withHandle: _refHandle!)
     }
     
+    // TODO: Implement
     // Performs a fetch to get more data
-    func fetchMoreDatasource() {
+   /* 
+     func fetchMoreDatasource() {
         if !isFetchingData {
             isFetchingData = true
             
@@ -192,26 +194,45 @@ class ModeratorViewController: UIViewController, UITableViewDataSource, UITableV
             })
         }
     }
+     */
     
     // MARK: Create Matchup
     
+    /** 
+     Create a matchup with the two selected posts
+     */
     @IBAction func didTapCreateMatchup(_ sender: UIButton, forEvent event: UIEvent) {
         let indexPaths = tableView.indexPathsForSelectedRows
         
+        // Take two posts to create matchup
         if var indexPaths = indexPaths, indexPaths.count == 2 {
             let postAID = posts[indexPaths.popLast()!.row].ID
             let postBID = posts[indexPaths.popLast()!.row].ID
             
-            print(postAID)
-            print(postBID)
+            // Prompt for the caption
+            let prompt = UIAlertController(title: "", message: "Caption for this matchup:", preferredStyle: .alert)
+            prompt.addTextField(configurationHandler: { (textField) in })
+            prompt.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+                let textField = prompt.textFields![0]
+                Matchup.create(postAID: postAID , postBID: postBID, hashtag: textField.text!)
+                
+                // Reset view
+                self.hideCreateMatchupButton()
+                // & deselect cells
+                for indexpath in self.tableView.indexPathsForSelectedRows! {
+                    self.tableView.deselectRow(at: indexpath, animated: false)
+                }
+            }))
+            prompt.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action) in }))
             
-            Matchup.create(postAID: postAID , postBID: postBID, hashtag: "test")
+            self.present(prompt, animated: true) {}
 
         } else {
+        // Otherwise do nothing and display alert
             let alert = UIAlertController(title: "oops", message: "Select two posts to create matchup", preferredStyle: .alert)
-            let OKAction = UIAlertAction(title: "OK", style: .default) { action in
+            let okAction = UIAlertAction(title: "OK", style: .default) { action in
             }
-            alert.addAction(OKAction)
+            alert.addAction(okAction)
             
             self.present(alert, animated: true) {}
         }
@@ -224,4 +245,5 @@ class ModeratorViewController: UIViewController, UITableViewDataSource, UITableV
     func hideCreateMatchupButton() {
         createMatchupButton.isHidden = true
     }
+    
 }

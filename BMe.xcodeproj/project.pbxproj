@@ -551,8 +551,8 @@
 		78EF09BD1E575F41005DD603 /* Moderator */ = {
 			isa = PBXGroup;
 			children = (
-				78EF09B61E575D84005DD603 /* ModeratorViewController.swift */,
 				78EF09BB1E575D99005DD603 /* Moderator.storyboard */,
+				78EF09B61E575D84005DD603 /* ModeratorViewController.swift */,
 				78EF09BE1E576FE1005DD603 /* PostTableViewCell.swift */,
 				78EF09BF1E576FE1005DD603 /* PostTableViewCell.xib */,
 			);

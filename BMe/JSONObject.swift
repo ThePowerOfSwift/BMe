@@ -46,7 +46,7 @@ class JSONObject: NSObject {
             if let snapshot = snapshot {
                 completion(snapshot)
             } else {
-                print("Error: fetch snapshot of FIR \(object.contentType()) ID: \(ID) returned nil")
+                print("Error: fetch snapshot of FIR \(object.key()) ID: \(ID) returned nil")
             }
         }
     }

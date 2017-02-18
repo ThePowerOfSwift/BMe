@@ -134,7 +134,8 @@ class FIR: NSObject {
             if let moderators = snapshot.value as? [String: Bool] {
                 completion(moderators[self.uid]!)
             } else {
-                print("Error: cannot access moderators list")
+                print("Cannot access moderators list")
+                completion(false)
             }
         })
     }

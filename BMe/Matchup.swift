@@ -213,22 +213,6 @@ class Matchup: JSONObject {
         return JSONStack.queueDatabase(object)
     }
     
-    // TODO: Deprecate?
-    /**
-     Apply matchup rules/logic:
-     Takes free images in queue and puts it in matchup queue
-     */
-//    private class func updateQueue() {
-//        // if there are two or more objects in queue, dequeue them and create a matchup
-//        JSONStack.popFIFO(2, database: FIR.manager.databasePath(object), completion: { (result) in
-//            // Create matchup with two objects popped from queue
-//            // TODO: replace filler hashtag
-//            if (result.count == 2) {
-//                Matchup.create(postAID: result[0].keys.first!, postBID: result[1].keys.first!, hashtag: "TestHashTag")
-//            }
-//        })
-//    }
-    
     /**
      Apply service rules/logic:
      Returns assets for vote-off.

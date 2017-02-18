@@ -27,8 +27,8 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </tableView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4qD-Uq-zsq">
-                                <rect key="frame" x="324" y="632" width="46" height="30"/>
-                                <state key="normal" title="Create"/>
+                                <rect key="frame" x="309" y="632" width="61" height="30"/>
+                                <state key="normal" title="Matchup"/>
                                 <connections>
                                     <action selector="didTapCreateMatchup:forEvent:" destination="tZy-87-a2X" eventType="touchUpInside" id="Yqa-ll-hHP"/>
                                 </connections>

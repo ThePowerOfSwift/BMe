@@ -70,11 +70,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
 
         // Matchup button
         FIR.manager.isModerator { (authorized) in
-            if authorized {
-                
-            } else {
-                
-            }
+            self.matchupButton.isHidden = !authorized
         }
         
     }
