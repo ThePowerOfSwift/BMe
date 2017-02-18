@@ -60,6 +60,7 @@
                         <outlet property="createButtonTrailingConstraint" destination="buW-61-d9r" id="gUG-Aq-0qY"/>
                         <outlet property="createMatchupButton" destination="4qD-Uq-zsq" id="sXE-Jd-HIp"/>
                         <outlet property="createMatchupButtonBottomConstraint" destination="yzo-5r-rYz" id="Uob-Xy-GZZ"/>
+                        <outlet property="matchupQueueBarButton" destination="0OM-7h-b2w" id="UFr-kK-aY6"/>
                         <outlet property="tableView" destination="iCd-HG-wNa" id="dRI-4G-tgA"/>
                     </connections>
                 </viewController>

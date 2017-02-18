@@ -34,6 +34,8 @@ class ModeratorViewController: UIViewController, UITableViewDataSource, UITableV
     @IBOutlet weak var createButtonTrailingConstraint: NSLayoutConstraint!
     @IBOutlet weak var createMatchupButtonBottomConstraint: NSLayoutConstraint!
     
+    @IBOutlet weak var matchupQueueBarButton: UIBarButtonItem!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -46,6 +48,9 @@ class ModeratorViewController: UIViewController, UITableViewDataSource, UITableV
         navigationController?.hidesBarsOnSwipe = true
         
         createMatchupButton.isHidden = true
+        
+        // TODO: Implement
+        matchupQueueBarButton.isEnabled = false
         
         // Setup plain style TV
         tableViewSetup()
