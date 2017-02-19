@@ -18,7 +18,7 @@
 		781C3C941E55664C00F53B14 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781C3C931E55664C00F53B14 /* HomeViewController.swift */; };
 		781C3C981E562D5E00F53B14 /* PostCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781C3C961E562D5E00F53B14 /* PostCollectionViewCell.swift */; };
 		781C3C991E562D5E00F53B14 /* PostCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 781C3C971E562D5E00F53B14 /* PostCollectionViewCell.xib */; };
-		781C3C9F1E5632FE00F53B14 /* CollageCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781C3C9E1E5632FE00F53B14 /* CollageCollectionViewController.swift */; };
+		781C3C9F1E5632FE00F53B14 /* PostCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781C3C9E1E5632FE00F53B14 /* PostCollectionViewController.swift */; };
 		781E713E1DF401A100041855 /* sound-wave.png in Resources */ = {isa = PBXBuildFile; fileRef = 781E713D1DF401A100041855 /* sound-wave.png */; };
 		781E71401DF4036E00041855 /* sound-wave-yellow.png in Resources */ = {isa = PBXBuildFile; fileRef = 781E713F1DF4036E00041855 /* sound-wave-yellow.png */; };
 		781E71431DF407F600041855 /* location-yellow.png in Resources */ = {isa = PBXBuildFile; fileRef = 781E71411DF407F600041855 /* location-yellow.png */; };
@@ -156,7 +156,7 @@
 		781C3C931E55664C00F53B14 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		781C3C961E562D5E00F53B14 /* PostCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostCollectionViewCell.swift; sourceTree = "<group>"; };
 		781C3C971E562D5E00F53B14 /* PostCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PostCollectionViewCell.xib; sourceTree = "<group>"; };
-		781C3C9E1E5632FE00F53B14 /* CollageCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollageCollectionViewController.swift; sourceTree = "<group>"; };
+		781C3C9E1E5632FE00F53B14 /* PostCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostCollectionViewController.swift; sourceTree = "<group>"; };
 		781E713D1DF401A100041855 /* sound-wave.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sound-wave.png"; sourceTree = "<group>"; };
 		781E713F1DF4036E00041855 /* sound-wave-yellow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sound-wave-yellow.png"; sourceTree = "<group>"; };
 		781E71411DF407F600041855 /* location-yellow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "location-yellow.png"; sourceTree = "<group>"; };
@@ -302,7 +302,7 @@
 			children = (
 				7870B8591E45537100B754D6 /* Home.storyboard */,
 				781C3C931E55664C00F53B14 /* HomeViewController.swift */,
-				781C3C951E56256E00F53B14 /* CollageCollection */,
+				781C3C951E56256E00F53B14 /* PostCollection */,
 				781C3C921E55537800F53B14 /* MatchupCollection */,
 			);
 			name = Home;
@@ -325,14 +325,14 @@
 			name = MatchupCollection;
 			sourceTree = "<group>";
 		};
-		781C3C951E56256E00F53B14 /* CollageCollection */ = {
+		781C3C951E56256E00F53B14 /* PostCollection */ = {
 			isa = PBXGroup;
 			children = (
-				781C3C9E1E5632FE00F53B14 /* CollageCollectionViewController.swift */,
+				781C3C9E1E5632FE00F53B14 /* PostCollectionViewController.swift */,
 				781C3C961E562D5E00F53B14 /* PostCollectionViewCell.swift */,
 				781C3C971E562D5E00F53B14 /* PostCollectionViewCell.xib */,
 			);
-			name = CollageCollection;
+			name = PostCollection;
 			sourceTree = "<group>";
 		};
 		7821C3BB1DEF24730023B95E /* Tab Bar */ = {
@@ -824,7 +824,7 @@
 				78BCDF3F1DF751E8002D399E /* BusyView.swift in Sources */,
 				783DE0C71E533EB600C61EB7 /* MatchupCollectionViewController.swift in Sources */,
 				78469A5E1DE3958100A40D53 /* LoginViewController.swift in Sources */,
-				781C3C9F1E5632FE00F53B14 /* CollageCollectionViewController.swift in Sources */,
+				781C3C9F1E5632FE00F53B14 /* PostCollectionViewController.swift in Sources */,
 				E3AA3CC41E4D100E00C10F2A /* Index.swift in Sources */,
 				78469A5C1DE3958100A40D53 /* AppDelegate.swift in Sources */,
 				BFDE7F6F1E4C1D1B00AA38A7 /* Image.swift in Sources */,

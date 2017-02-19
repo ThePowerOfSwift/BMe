@@ -12,7 +12,7 @@ import FirebaseDatabase
 private let reuseIdentifier = PostCollectionViewCell.keys.nibName
 private let cellClass = PostCollectionViewCell.self
 
-class CollageCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
+class PostCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
 
     // MARK: Properties
     
@@ -61,8 +61,9 @@ class CollageCollectionViewController: UICollectionViewController, UICollectionV
         
         return cell
     }
-
+    
     // MARK: UICollectionViewDelegateFlowLayout
+    // TODO: still testing
     private let spacing: CGFloat = 0.00
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -119,7 +120,6 @@ class CollageCollectionViewController: UICollectionViewController, UICollectionV
         database.removeObserver(withHandle: _refHandle!)
     }
     
-    /* not tested
     // Performs a fetch to get more data
     func fetchMoreDatasource() {
         if !isFetchingData {
@@ -150,5 +150,13 @@ class CollageCollectionViewController: UICollectionViewController, UICollectionV
             })
         }
     }
- */
+    
+    // MARK: UIScrollViewDelegate
+    
+    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+//        super.scrollViewDidScroll(scrollView)
+        
+        
+        
+    }
 }

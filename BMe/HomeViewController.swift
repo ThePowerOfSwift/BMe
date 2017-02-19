@@ -103,7 +103,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
             layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
             // Sizing: CollageCVC implements FlowLayoutDelegate
             
-            vc = CollageCollectionViewController(collectionViewLayout: layout)
+            vc = PostCollectionViewController(collectionViewLayout: layout)
             
         default:
             break

@@ -109,7 +109,6 @@ class MatchupCollectionViewController: UICollectionViewController, MatchupCollec
         
         // Reverse load posts from most recent onwards
         _refHandle = database.queryLimited(toLast: UInt(fetchBatchSize)).observe(.childAdded, with: { (snapshot) in
-
             self.matchups.insert(Matchup(snapshot), at: 0)
             self.collectionView?.insertItems(at: [IndexPath(row: 0, section: 0)])
         })
