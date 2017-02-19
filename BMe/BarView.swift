@@ -7,7 +7,9 @@
 //
 //  BarView creates an animating bar on a particular parentview.  The bar animates by starting with a transform of 1/4 of the size to full size using a UIView spring animation.
 //  BarView also adds a resultLabel on top of the bar.  This shows the percentage and can be triggered by calling showBar
-//  BarView is reset after the completion of the animation avoid constraint issues
+//  BarView is reset after the completion of the animation to avoid constraint issues
+//  BarView includes autolayout code to encapsulate logic and make it faster and easier to setup
+
 
 import UIKit
 
@@ -28,7 +30,7 @@ class BarView: UIView {
         }
     }
     var percentage: Double?
-    var resultLabel = UILabel()
+    var resultLabel: UILabel?
     var heightConstraint:NSLayoutConstraint?
     
     override init(frame: CGRect) {
@@ -172,13 +174,19 @@ class BarView: UIView {
         self.isHidden = true
         self.transform = CGAffineTransform(scaleX: 0.25, y: 0.25)
         heightConstraint = nil
-        self.resultLabel.removeFromSuperview()
-
+        
+        //remove label from superview, release label from memory
+        if let res = resultLabel{
+            res.removeFromSuperview()
+            resultLabel = nil
+        }
     }
     
     func addLabelToParent() {
         //adds resultLabel above BarView
-        guard let parentView = parentView else {
+        resultLabel = UILabel()
+        
+        guard let parentView = parentView, let resultLabel = resultLabel else {
             print("parentview is nil")
             return
         }
@@ -210,7 +218,7 @@ class BarView: UIView {
     
     func showValue() {
         //shows resultLabels value
-        guard let percentage = percentage else {
+        guard let percentage = percentage, let resultLabel = resultLabel else {
             print("parentview is nil")
             return
         }
