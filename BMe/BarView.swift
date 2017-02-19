@@ -170,9 +170,10 @@ class BarView: UIView {
     //resets bar to prepare for another animation
     func reset() {
         self.isHidden = true
-        self.resultLabel.isHidden = true
         self.transform = CGAffineTransform(scaleX: 0.25, y: 0.25)
         heightConstraint = nil
+        self.resultLabel.removeFromSuperview()
+
     }
     
     func addLabelToParent() {
