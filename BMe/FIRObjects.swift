@@ -12,7 +12,7 @@ extension FIR {
      */
     enum object {
         // list object types
-        case image, post, video, matchup, userProfile, userPost
+        case image, post, video, matchup, userProfile, userPost, like
         
         func key() -> String {
             switch self {
@@ -28,6 +28,8 @@ extension FIR {
                 return "userProfile"
             case .userPost:
                 return "userPost"
+            case .like:
+                return "like"
             }
         }
         

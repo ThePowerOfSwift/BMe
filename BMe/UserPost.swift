@@ -47,8 +47,12 @@ class UserPost: JSONObject {
     
     //Get an array of Post from server
     
-    
-    //Update
+    /**
+    Update post information towars a user
+     
+     - Parameter    PostID: String 
+     - Parameter    uID: String
+    */
     class func addPostToUser(PostID: String, uID: String, completion: (_ postRef: String) -> ()) {
         let orderId = FIR.manager.databasePath(object).childByAutoId().key
         let json : [String: AnyObject?] = [keys.type: "original" as AnyObject,
