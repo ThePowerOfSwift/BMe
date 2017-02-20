@@ -16,6 +16,7 @@
 		4276E9331E3FFDA40020992D /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4276E9321E3FFDA40020992D /* ProfileViewController.swift */; };
 		4276E9351E3FFDCA0020992D /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4276E9341E3FFDCA0020992D /* Profile.storyboard */; };
 		42ABE9141E5A672000310E0A /* CircularProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42ABE9131E5A672000310E0A /* CircularProgress.swift */; };
+		42ABE9191E5A75FD00310E0A /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42ABE9181E5A75FD00310E0A /* ProgressBar.swift */; };
 		781C3C941E55664C00F53B14 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781C3C931E55664C00F53B14 /* HomeViewController.swift */; };
 		781C3C981E562D5E00F53B14 /* PostCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781C3C961E562D5E00F53B14 /* PostCollectionViewCell.swift */; };
 		781C3C991E562D5E00F53B14 /* PostCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 781C3C971E562D5E00F53B14 /* PostCollectionViewCell.xib */; };
@@ -154,6 +155,7 @@
 		4276E9321E3FFDA40020992D /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		4276E9341E3FFDCA0020992D /* Profile.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Profile.storyboard; sourceTree = "<group>"; };
 		42ABE9131E5A672000310E0A /* CircularProgress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircularProgress.swift; sourceTree = "<group>"; };
+		42ABE9181E5A75FD00310E0A /* ProgressBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressBar.swift; sourceTree = "<group>"; };
 		500EAC6FA5C71681BCC723C6 /* Pods-BMeTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BMeTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-BMeTests/Pods-BMeTests.release.xcconfig"; sourceTree = "<group>"; };
 		781C3C931E55664C00F53B14 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		781C3C961E562D5E00F53B14 /* PostCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -287,6 +289,7 @@
 			children = (
 				426A4AF01E54EBAE001262DD /* BarView.swift */,
 				42ABE9131E5A672000310E0A /* CircularProgress.swift */,
+				42ABE9181E5A75FD00310E0A /* ProgressBar.swift */,
 			);
 			name = Malcolm;
 			sourceTree = "<group>";
@@ -847,6 +850,7 @@
 				783560931E4CF5E500B9FD8D /* FIRObjects.swift in Sources */,
 				BFDE7F711E4C1D5200AA38A7 /* JSONObject.swift in Sources */,
 				BFF9AE9D1E3D90540012C1F2 /* MainViewController.swift in Sources */,
+				42ABE9191E5A75FD00310E0A /* ProgressBar.swift in Sources */,
 				4216315E1E43C26600E644A5 /* ProfileTableCollectionViewCell.swift in Sources */,
 				78D1783B1E48F8AD004B7840 /* JSONStack.swift in Sources */,
 				78EF09C01E576FE1005DD603 /* PostTableViewCell.swift in Sources */,
