@@ -127,6 +127,7 @@ class UserAccount: NSObject {
             let notificationName = Notification.Name(rawValue: Constants.NotificationKeys.didSignIn)
             NotificationCenter.default.post(name: notificationName, object: nil, userInfo: nil)
         } else {
+            
             print("Could not complete login;- no user currently signed in")
         }
     }

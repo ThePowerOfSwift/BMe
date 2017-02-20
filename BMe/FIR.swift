@@ -132,7 +132,11 @@ class FIR: NSObject {
     func isModerator(_ completion: @escaping (Bool)->()) {
         database.child(moderatorKey).queryOrderedByKey().observeSingleEvent(of: .value, with: { (snapshot) in
             if let moderators = snapshot.value as? [String: Bool] {
-                completion(moderators[self.uid]!)
+                if let flag = moderators[self.uid] {
+                    completion(flag)
+                } else {
+                    completion(false)
+                }
             } else {
                 print("Cannot access moderators list")
                 completion(false)
