@@ -15,6 +15,11 @@
 		426A4AF11E54EBAE001262DD /* BarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426A4AF01E54EBAE001262DD /* BarView.swift */; };
 		4276E9331E3FFDA40020992D /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4276E9321E3FFDA40020992D /* ProfileViewController.swift */; };
 		4276E9351E3FFDCA0020992D /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4276E9341E3FFDCA0020992D /* Profile.storyboard */; };
+		781315EC1E5A6C180057DA36 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781315EB1E5A6C180057DA36 /* CameraViewController.swift */; };
+		781315F11E5BB97D0057DA36 /* ImageEffectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781315F01E5BB97D0057DA36 /* ImageEffectViewController.swift */; };
+		781315F31E5BB9F90057DA36 /* DrawImageEffectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781315F21E5BB9F90057DA36 /* DrawImageEffectViewController.swift */; };
+		781315F51E5BBBD90057DA36 /* SatoCameraDatasource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781315F41E5BBBD90057DA36 /* SatoCameraDatasource.swift */; };
+		781315F81E5BBC1E0057DA36 /* Camera.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 781315F71E5BBC1E0057DA36 /* Camera.storyboard */; };
 		781C3C941E55664C00F53B14 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781C3C931E55664C00F53B14 /* HomeViewController.swift */; };
 		781C3C981E562D5E00F53B14 /* PostCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781C3C961E562D5E00F53B14 /* PostCollectionViewCell.swift */; };
 		781C3C991E562D5E00F53B14 /* PostCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 781C3C971E562D5E00F53B14 /* PostCollectionViewCell.xib */; };
@@ -95,8 +100,8 @@
 		E3AA3CC41E4D100E00C10F2A /* Index.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3AA3CC31E4D100E00C10F2A /* Index.swift */; };
 		E3D1D55F1DF11D700021942A /* Styles.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3D1D55E1DF11D700021942A /* Styles.swift */; };
 		E3DC85061E450EBA0017E6A2 /* alcatraz.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E3DC85051E450EBA0017E6A2 /* alcatraz.jpg */; };
-		E3DC85161E450EDC0017E6A2 /* Camera.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E3DC85071E450EDC0017E6A2 /* Camera.storyboard */; };
-		E3DC85171E450EDC0017E6A2 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3DC85081E450EDC0017E6A2 /* CameraViewController.swift */; };
+		E3DC85161E450EDC0017E6A2 /* Camera_old.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E3DC85071E450EDC0017E6A2 /* Camera_old.storyboard */; };
+		E3DC85171E450EDC0017E6A2 /* CameraViewController_old.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3DC85081E450EDC0017E6A2 /* CameraViewController_old.swift */; };
 		E3DC85181E450EDC0017E6A2 /* chinatown.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E3DC85091E450EDC0017E6A2 /* chinatown.jpg */; };
 		E3DC85191E450EDC0017E6A2 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3DC850A1E450EDC0017E6A2 /* Color.swift */; };
 		E3DC851A1E450EDC0017E6A2 /* Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3DC850B1E450EDC0017E6A2 /* Filter.swift */; };
@@ -153,6 +158,11 @@
 		4276E9321E3FFDA40020992D /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		4276E9341E3FFDCA0020992D /* Profile.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Profile.storyboard; sourceTree = "<group>"; };
 		500EAC6FA5C71681BCC723C6 /* Pods-BMeTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BMeTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-BMeTests/Pods-BMeTests.release.xcconfig"; sourceTree = "<group>"; };
+		781315EB1E5A6C180057DA36 /* CameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
+		781315F01E5BB97D0057DA36 /* ImageEffectViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageEffectViewController.swift; sourceTree = "<group>"; };
+		781315F21E5BB9F90057DA36 /* DrawImageEffectViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawImageEffectViewController.swift; sourceTree = "<group>"; };
+		781315F41E5BBBD90057DA36 /* SatoCameraDatasource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SatoCameraDatasource.swift; sourceTree = "<group>"; };
+		781315F71E5BBC1E0057DA36 /* Camera.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Camera.storyboard; sourceTree = "<group>"; };
 		781C3C931E55664C00F53B14 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		781C3C961E562D5E00F53B14 /* PostCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostCollectionViewCell.swift; sourceTree = "<group>"; };
 		781C3C971E562D5E00F53B14 /* PostCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PostCollectionViewCell.xib; sourceTree = "<group>"; };
@@ -236,8 +246,8 @@
 		E3AA3CC31E4D100E00C10F2A /* Index.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Index.swift; sourceTree = "<group>"; };
 		E3D1D55E1DF11D700021942A /* Styles.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Styles.swift; sourceTree = "<group>"; };
 		E3DC85051E450EBA0017E6A2 /* alcatraz.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = alcatraz.jpg; path = ../alcatraz.jpg; sourceTree = "<group>"; };
-		E3DC85071E450EDC0017E6A2 /* Camera.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Camera.storyboard; sourceTree = "<group>"; };
-		E3DC85081E450EDC0017E6A2 /* CameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
+		E3DC85071E450EDC0017E6A2 /* Camera_old.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Camera_old.storyboard; sourceTree = "<group>"; };
+		E3DC85081E450EDC0017E6A2 /* CameraViewController_old.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraViewController_old.swift; sourceTree = "<group>"; };
 		E3DC85091E450EDC0017E6A2 /* chinatown.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = chinatown.jpg; path = ../chinatown.jpg; sourceTree = "<group>"; };
 		E3DC850A1E450EDC0017E6A2 /* Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Color.swift; path = ../Color.swift; sourceTree = "<group>"; };
 		E3DC850B1E450EDC0017E6A2 /* Filter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Filter.swift; path = ../Filter.swift; sourceTree = "<group>"; };
@@ -295,6 +305,18 @@
 				40191E5B9CEF388CFBDD07FC /* Pods_BMe.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		781315F61E5BBBFE0057DA36 /* Camera */ = {
+			isa = PBXGroup;
+			children = (
+				781315F41E5BBBD90057DA36 /* SatoCameraDatasource.swift */,
+				781315F71E5BBC1E0057DA36 /* Camera.storyboard */,
+				781315EB1E5A6C180057DA36 /* CameraViewController.swift */,
+				781315F01E5BB97D0057DA36 /* ImageEffectViewController.swift */,
+				781315F21E5BB9F90057DA36 /* DrawImageEffectViewController.swift */,
+			);
+			name = Camera;
 			sourceTree = "<group>";
 		};
 		7813AA9B1E569C4E00288F8C /* Home */ = {
@@ -396,8 +418,8 @@
 			isa = PBXGroup;
 			children = (
 				E3AA3CC31E4D100E00C10F2A /* Index.swift */,
-				E3DC85081E450EDC0017E6A2 /* CameraViewController.swift */,
-				E3DC85071E450EDC0017E6A2 /* Camera.storyboard */,
+				E3DC85081E450EDC0017E6A2 /* CameraViewController_old.swift */,
+				E3DC85071E450EDC0017E6A2 /* Camera_old.storyboard */,
 			);
 			name = Sato;
 			sourceTree = "<group>";
@@ -405,6 +427,7 @@
 		78337D901DE3ACA700A1B32C /* JJ */ = {
 			isa = PBXGroup;
 			children = (
+				781315F61E5BBBFE0057DA36 /* Camera */,
 				78EF09BD1E575F41005DD603 /* Moderator */,
 				7813AA9B1E569C4E00288F8C /* Home */,
 			);
@@ -717,6 +740,7 @@
 				7837A20F1DF8B898000CB9CB /* raincheck-gray.png in Resources */,
 				78BCDF431DF752F9002D399E /* hook-black.png in Resources */,
 				78469A661DE3958100A40D53 /* LaunchScreen.storyboard in Resources */,
+				781315F81E5BBC1E0057DA36 /* Camera.storyboard in Resources */,
 				7837A21D1DF959F2000CB9CB /* heart.png in Resources */,
 				E3DC851D1E450EDC0017E6A2 /* lookup_amatorka.png in Resources */,
 				78337D8D1DE3AC6600A1B32C /* GoogleService-Info.plist in Resources */,
@@ -729,7 +753,7 @@
 				E35AC4871DE4D0F500FCB0D0 /* TabBar.storyboard in Resources */,
 				E3DC85211E450EDC0017E6A2 /* lookup.png in Resources */,
 				E3DC851B1E450EDC0017E6A2 /* golden_gate_bridge.jpg in Resources */,
-				E3DC85161E450EDC0017E6A2 /* Camera.storyboard in Resources */,
+				E3DC85161E450EDC0017E6A2 /* Camera_old.storyboard in Resources */,
 				78EF09BC1E575D99005DD603 /* Moderator.storyboard in Resources */,
 				78B56A061DF5EBFB00A13915 /* error.png in Resources */,
 				781E715E1DF53D1E00041855 /* home-yellow.png in Resources */,
@@ -812,9 +836,10 @@
 			files = (
 				78BCDF391DF74A15002D399E /* NextButton.swift in Sources */,
 				4216315A1E42991100E644A5 /* ProfileCollectionViewCell.swift in Sources */,
-				E3DC85171E450EDC0017E6A2 /* CameraViewController.swift in Sources */,
+				E3DC85171E450EDC0017E6A2 /* CameraViewController_old.swift in Sources */,
 				783008A91DE3B9A000B070D4 /* Extensions.swift in Sources */,
 				E3D1D55F1DF11D700021942A /* Styles.swift in Sources */,
+				781315F11E5BB97D0057DA36 /* ImageEffectViewController.swift in Sources */,
 				781C3C941E55664C00F53B14 /* HomeViewController.swift in Sources */,
 				421631601E43DC1A00E644A5 /* PhotoGridFlowLayout.swift in Sources */,
 				78EF09B71E575D84005DD603 /* ModeratorViewController.swift in Sources */,
@@ -829,6 +854,7 @@
 				78469A5C1DE3958100A40D53 /* AppDelegate.swift in Sources */,
 				BFDE7F6F1E4C1D1B00AA38A7 /* Image.swift in Sources */,
 				BF4130181E55670800F08B91 /* UsePost.swift in Sources */,
+				781315EC1E5A6C180057DA36 /* CameraViewController.swift in Sources */,
 				783008AA1DE3B9A000B070D4 /* Constants.swift in Sources */,
 				7830089A1DE3B0B500B070D4 /* MeasurementHelper.swift in Sources */,
 				426A4AF11E54EBAE001262DD /* BarView.swift in Sources */,
@@ -838,12 +864,14 @@
 				E3DC85241E450EDC0017E6A2 /* BubbleCollectionViewCell.swift in Sources */,
 				E3DC85191E450EDC0017E6A2 /* Color.swift in Sources */,
 				78BCDF341DF74663002D399E /* CrossButton.swift in Sources */,
+				781315F51E5BBBD90057DA36 /* SatoCameraDatasource.swift in Sources */,
 				E3DC851A1E450EDC0017E6A2 /* Filter.swift in Sources */,
 				E35AC4831DE4D00400FCB0D0 /* TabBarViewController.swift in Sources */,
 				783560931E4CF5E500B9FD8D /* FIRObjects.swift in Sources */,
 				BFDE7F711E4C1D5200AA38A7 /* JSONObject.swift in Sources */,
 				BFF9AE9D1E3D90540012C1F2 /* MainViewController.swift in Sources */,
 				4216315E1E43C26600E644A5 /* ProfileTableCollectionViewCell.swift in Sources */,
+				781315F31E5BB9F90057DA36 /* DrawImageEffectViewController.swift in Sources */,
 				78D1783B1E48F8AD004B7840 /* JSONStack.swift in Sources */,
 				78EF09C01E576FE1005DD603 /* PostTableViewCell.swift in Sources */,
 				78F511361DF6D0860074050F /* WhiteRevealOverlayView.swift in Sources */,

@@ -26,7 +26,7 @@ class TabBarViewController: UIViewController {
     /** Child view controller of browse page view controller */
     private var browseViewController: UIViewController!
     /** Child view controller of camera page view controller. */
-    private var cameraViewController: CameraViewController!
+    private var cameraViewController: CameraViewController_old!
     /** Child view controller of camera page view controller. */
     private var createViewController: UINavigationController!
     private var accountViewController: UIViewController!
@@ -73,7 +73,7 @@ class TabBarViewController: UIViewController {
         addChildViewController(browseViewController)
         
         // Camera view controller which will be in camera page view controller
-        cameraViewController = UIStoryboard(name: Constants.SegueID.Storyboard.Camera, bundle: nil).instantiateInitialViewController() as? CameraViewController
+        cameraViewController = UIStoryboard(name: Constants.SegueID.Storyboard.Camera, bundle: nil).instantiateInitialViewController() as? CameraViewController_old
         cameraViewController.delegate = self
         addChildViewController(cameraViewController)
         
@@ -211,7 +211,7 @@ class TabBarViewController: UIViewController {
 
 /** These methods are called by camera view controller to set the tab bar and title label state
  corresponding to the camera state.*/
-extension TabBarViewController: CameraViewControllerDelegate {
+extension TabBarViewController: CameraViewControllerDelegate_old {
     /** Show tab bar when camera mode is on. Called by camera view controller. */
     func showAllTabs() {
         UIView.animate(withDuration: Constants.TabBar.tabbarShowAnimationDuration, animations: {
