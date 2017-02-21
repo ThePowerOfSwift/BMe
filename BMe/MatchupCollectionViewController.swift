@@ -9,7 +9,6 @@
 import UIKit
 import FirebaseDatabase
 
-private let reuseIdentifier = MatchupCollectionViewCell.keys.nibName
 private let cellClass = MatchupCollectionViewCell.self
 
 /**
@@ -35,7 +34,7 @@ class MatchupCollectionViewController: UICollectionViewController, MatchupCollec
         super.viewDidLoad()
 
         // Register cell classes
-        self.collectionView!.register(cellClass, forCellWithReuseIdentifier: reuseIdentifier)
+        self.collectionView!.register(cellClass, forCellWithReuseIdentifier: cellClass.name)
         
         // Do any additional setup after loading the view.
         // Make it paging
@@ -63,7 +62,7 @@ class MatchupCollectionViewController: UICollectionViewController, MatchupCollec
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! MatchupCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellClass.name, for: indexPath) as! MatchupCollectionViewCell
     
         let matchup = matchups[indexPath.row]
         

@@ -9,6 +9,6 @@
 import UIKit
 
 protocol SatoCameraDatasource {
-    var sampleBufferView: UIView? { get set }
-    var outputView: UIView? { get set }
+    var sampleBufferView: UIView! { get set }
+    var outputView: UIView!{ get set }
 }

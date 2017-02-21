@@ -9,7 +9,6 @@
 import UIKit
 import FirebaseDatabase
 
-private let reuseIdentifier = PostCollectionViewCell.keys.nibName
 private let cellClass = PostCollectionViewCell.self
 
 class PostCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
@@ -29,7 +28,7 @@ class PostCollectionViewController: UICollectionViewController, UICollectionView
         super.viewDidLoad()
 
         // Register cell classes
-        self.collectionView!.register(cellClass, forCellWithReuseIdentifier: reuseIdentifier)
+        self.collectionView!.register(cellClass, forCellWithReuseIdentifier: cellClass.name)
 
         // Do any additional setup after loading the view.
         // Color background to white (default is black)
@@ -54,7 +53,7 @@ class PostCollectionViewController: UICollectionViewController, UICollectionView
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! PostCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellClass.name, for: indexPath) as! PostCollectionViewCell
     
         // Configure the cell
         cell.post = posts[indexPath.row]

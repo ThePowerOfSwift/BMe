@@ -20,12 +20,54 @@
                     <view key="view" contentMode="scaleToFill" id="wkO-nL-iAc">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0Hg-tR-4Rs">
+                                <rect key="frame" x="0.0" y="269" width="375" height="128"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                <connections>
+                                    <segue destination="amI-82-GT7" kind="embed" id="b9w-87-RT9"/>
+                                </connections>
+                            </containerView>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MWL-Oi-NMW">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pTx-8A-oMA">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="baq-Af-xjh" firstAttribute="top" secondItem="pTx-8A-oMA" secondAttribute="bottom" id="4Ip-Aj-ygF"/>
+                            <constraint firstAttribute="trailing" secondItem="pTx-8A-oMA" secondAttribute="trailing" id="f74-U7-HM9"/>
+                            <constraint firstItem="pTx-8A-oMA" firstAttribute="leading" secondItem="wkO-nL-iAc" secondAttribute="leading" id="fBH-0P-9LL"/>
+                            <constraint firstItem="pTx-8A-oMA" firstAttribute="top" secondItem="wkO-nL-iAc" secondAttribute="top" id="lND-Fc-lp3"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="effectMenuViewContainer" destination="0Hg-tR-4Rs" id="msb-rd-ttH"/>
+                        <outlet property="outputView" destination="pTx-8A-oMA" id="D0d-JG-Zjg"/>
+                        <outlet property="sampleBufferView" destination="MWL-Oi-NMW" id="HBS-U0-qFD"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rj6-Y3-fcH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2385" y="678"/>
+            <point key="canvasLocation" x="-2386.4000000000001" y="677.81109445277366"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="0wq-1s-CB8">
+            <objects>
+                <viewController id="amI-82-GT7" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="EXK-P3-4NB">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="128"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xct-xb-UpY" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
         </scene>
     </scenes>
 </document>

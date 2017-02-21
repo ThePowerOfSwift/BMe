@@ -8,14 +8,20 @@
 
 import UIKit
 
+/*protocol CameraViewControllerDatasource {
+    
+}*/
 
 class CameraViewController: UIViewController, SatoCameraDatasource {
     
+    /** Model */
+    let satoCamera = SatoCamera()
+
     // MARK: SatoCamerDatasource
-    // Sample buffer that shows live capture
-    var sampleBufferView: UIView?
-    // Image view that holds the captured image
-    var outputView: UIView?
+    /** Sample buffer that shows live capture */
+    @IBOutlet var sampleBufferView: UIView!
+    /** Image view that holds the captured image */
+    @IBOutlet var outputView: UIView!
     
     // MARK: ImageEffects
     var drawEffect = DrawImageEffectViewController()
@@ -29,7 +35,7 @@ class CameraViewController: UIViewController, SatoCameraDatasource {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        
+        setupSatoCamera()
         setupImageEffectTools()
     }
 
@@ -38,11 +44,11 @@ class CameraViewController: UIViewController, SatoCameraDatasource {
         // Dispose of any resources that can be recreated.
     }
     
+    func setupSatoCamera() {
+        satoCamera.datasource = self
+    }
+    
     func setupImageEffectTools() {
         // Draw Image Effect
-        addChildViewController(drawEffect)
-        drawEffect.view.frame = view.bounds
-        view.addSubview(drawEffect.view)
-        drawEffect.didMove(toParentViewController: self)
     }
 }

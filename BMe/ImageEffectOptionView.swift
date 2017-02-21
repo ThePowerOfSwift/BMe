@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ImageEffectViewController: UIViewController {
-    var buttonView: UIButton!
-    var menuView: UIView?
+protocol ImageEffectMenuView {
+    var menuView: UIView? { get }
+    var buttonView: UIButton { get }
 }

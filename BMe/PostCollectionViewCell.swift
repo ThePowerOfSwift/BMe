@@ -10,6 +10,8 @@ import UIKit
 
 class PostCollectionViewCell: UICollectionViewCell {
 
+    static let name = "PostCollectionViewCell"
+    
     // MARK: Properties
     @IBOutlet weak var imageView: UIImageView!
     
@@ -40,7 +42,7 @@ class PostCollectionViewCell: UICollectionViewCell {
      */
     private func setup() {
         // Load nib
-        let view = Bundle.main.loadNibNamed(keys.nibName, owner: self, options: nil)?.first as! UIView
+        let view = Bundle.main.loadNibNamed(PostCollectionViewCell.name, owner: self, options: nil)?.first as! UIView
         // Resize to fill container
         view.frame = self.bounds
         view.autoresizingMask = [.flexibleHeight, .flexibleWidth]
@@ -57,15 +59,10 @@ class PostCollectionViewCell: UICollectionViewCell {
                 }
             })
         }
+        // TODO clear post in else
     }
     
     override func prepareForReuse() {
         self.imageView.image = nil
     }
-    
-    /** */
-    struct keys {
-        static var nibName = "PostCollectionViewCell"
-    }
-
 }

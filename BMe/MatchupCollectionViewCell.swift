@@ -17,6 +17,8 @@ import UIKit
  */
 class MatchupCollectionViewCell: UICollectionViewCell {
     
+    static let name = "MatchupCollectionViewCell"
+    
     // MARK: Properties
     @IBOutlet weak var imageStackView: UIStackView!
     @IBOutlet weak var imageViewLeading: UIImageView!
@@ -55,7 +57,7 @@ class MatchupCollectionViewCell: UICollectionViewCell {
      */
     private func setup() {
         // Load nib
-        let view = Bundle.main.loadNibNamed(keys.nibName, owner: self, options: nil)?.first as! UIView
+        let view = Bundle.main.loadNibNamed(MatchupCollectionViewCell.name, owner: self, options: nil)?.first as! UIView
         // Resize to fill container
         view.frame = self.bounds
         view.autoresizingMask = .flexibleHeight
@@ -84,9 +86,10 @@ class MatchupCollectionViewCell: UICollectionViewCell {
             self.matchupTitleLabel.text = matchup.hashtag
             
             // Get the posts from this match and load the images
-            // TODO: check images are loading for correct cell
             matchup.posts(completion: { (postA, postB) in
                 postA.assetStorageURL(completion: { (url) in
+                    // TODO: check images are loading for correct cell
+                    // if (matchup.ID == self.matchup?.ID)
                     self.imageViewLeading.loadImageFromGS(url: url, placeholderImage: nil)
                 })
                 postB.assetStorageURL(completion: { (url) in
@@ -98,6 +101,7 @@ class MatchupCollectionViewCell: UICollectionViewCell {
                 showResults()
             }
         }
+        // TODO clear in else
     }
 
     /** 
@@ -191,8 +195,4 @@ class MatchupCollectionViewCell: UICollectionViewCell {
         matchupTitleLabel.text = ""
     }
     
-    /** */
-    struct keys {
-        static var nibName = "MatchupCollectionViewCell"
-    }
 }
