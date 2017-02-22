@@ -106,7 +106,8 @@ class BubbleMenuCollectionViewCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         bubbleContent = nil
-        self.alpha = 1
+
+        didDeselect()
         
         // Backgrounds and selection
         self.contentView.backgroundColor = UIColor.clear

@@ -37,7 +37,7 @@ class CameraViewController: UIViewController, SatoCameraDatasource, BubbleMenuCo
         }
     }
     /** All the effects to be loaded */
-    var effects: [UIView] = [DrawImageEffectView(), DrawImageEffectView()]
+    var effects: [AnyObject] = [DrawImageEffectView(), FilterImageEffect()]
     
     // MARK: Camera Controls & Tools
     // Tools
@@ -61,6 +61,7 @@ class CameraViewController: UIViewController, SatoCameraDatasource, BubbleMenuCo
         
         // Finalize setup
         view.bringSubview(toFront: controlView)
+        // Must manually select first effect
         selectFirstEffect()
     }
 
@@ -69,33 +70,7 @@ class CameraViewController: UIViewController, SatoCameraDatasource, BubbleMenuCo
         // Dispose of any resources that can be recreated.
     }
     
-    // MARK: Selection
-    
-    func selectFirstEffect() {
-        let indexPath = IndexPath(row: 0, section: 0)
-        // Show selection
-        effectToolBubbleCVC.collectionView?.selectItem(at: indexPath, animated: true, scrollPosition: .left)
-        // Trigger selection action
-        effectToolBubbleCVC.delegate?.bubbleMenuCollectionViewController(effectToolBubbleCVC, didSelectItemAt: indexPath)
-    }
-    
-    func didSelectEffect() {
-        // Remove last effect from control view
-        if lastSelectedEffect >= 0 {
-            view.insertSubview(effects[lastSelectedEffect], belowSubview: controlView)
-        }
-        // Bring selected effect view to back of control view
-        controlView.insertSubview(effects[selectedEffect], at: 0)
-        
-        loadToolOptions()
-    }
-    
-    func loadToolOptions() {
-        effectOptionBubbleCVC.collectionView?.reloadData()
-    }
-    
     // MARK: Setups
-    
     
     func setupSatoCamera() {
         satoCamera.datasource = self
@@ -104,9 +79,11 @@ class CameraViewController: UIViewController, SatoCameraDatasource, BubbleMenuCo
     func setupEffects() {
         // Add each effect
         for effect in effects {
-            effect.frame = view.bounds
-            effect.autoresizingMask = [.flexibleHeight, .flexibleWidth]
-            view.addSubview(effect)
+            if let effect = effect as? UIView {
+                effect.frame = view.bounds
+                effect.autoresizingMask = [.flexibleHeight, .flexibleWidth]
+                view.addSubview(effect)
+            }
         }
     }
     
@@ -159,6 +136,33 @@ class CameraViewController: UIViewController, SatoCameraDatasource, BubbleMenuCo
         effectOptionBubbleCVC.view.frame = effectOptionView.bounds
         effectOptionBubbleCVC.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         effectOptionBubbleCVC.didMove(toParentViewController: self)
+    }
+    
+    // MARK: Selection
+    
+    func selectFirstEffect() {
+        let indexPath = IndexPath(row: 0, section: 0)
+        // Show selection
+        effectToolBubbleCVC.collectionView?.selectItem(at: indexPath, animated: true, scrollPosition: .left)
+        // Trigger selection action
+        effectToolBubbleCVC.delegate?.bubbleMenuCollectionViewController(effectToolBubbleCVC, didSelectItemAt: indexPath)
+    }
+    
+    func didSelectEffect() {
+        // Remove last effect from control view
+        if lastSelectedEffect >= 0, let effect = effects[lastSelectedEffect] as? UIView {
+            view.insertSubview(effect, belowSubview: controlView)
+        }
+        // Bring selected effect view to back of control view
+        if let effect = effects[selectedEffect] as? UIView {
+            controlView.insertSubview(effect, at: 0)
+        }
+        
+        loadToolOptions()
+    }
+     
+    func loadToolOptions() {
+        effectOptionBubbleCVC.collectionView?.reloadData()
     }
     
     // MARK: BubbleMenuCollectionViewControllerDatasource

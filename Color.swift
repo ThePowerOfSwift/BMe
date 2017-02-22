@@ -24,10 +24,10 @@ class Color: NSObject {
         return [Color(name: "Red", uiColor: UIColor.red, cgColor: UIColor.red.cgColor),
                 Color(name: "Blue", uiColor: UIColor.blue, cgColor: UIColor.blue.cgColor),
                 Color(name: "Green", uiColor: UIColor.green, cgColor: UIColor.green.cgColor),
-                Color(name: "Brown", uiColor: UIColor.brown, cgColor: UIColor.brown.cgColor),
+                Color(name: "Black", uiColor: UIColor.black, cgColor: UIColor.black.cgColor),
                 Color(name: "Cyan", uiColor: UIColor.cyan, cgColor: UIColor.cyan.cgColor),
                 Color(name: "Magenta", uiColor: UIColor.magenta, cgColor: UIColor.magenta.cgColor),
-                Color(name: "Purple", uiColor: UIColor.orange, cgColor: UIColor.orange.cgColor),
+                Color(name: "Orange", uiColor: UIColor.orange, cgColor: UIColor.orange.cgColor),
                 Color(name: "Yellow", uiColor: UIColor.yellow, cgColor: UIColor.yellow.cgColor)]
     }
 }
