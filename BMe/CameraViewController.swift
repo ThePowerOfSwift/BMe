@@ -37,7 +37,7 @@ class CameraViewController: UIViewController, SatoCameraDatasource, BubbleMenuCo
         }
     }
     /** All the effects to be loaded */
-    var effects: [AnyObject] = [DrawImageEffectView(), FilterImageEffect()]
+    var effects: [AnyObject] = [FilterImageEffect(),DrawImageEffectView()]
     
     // MARK: Camera Controls & Tools
     // Tools
@@ -149,6 +149,7 @@ class CameraViewController: UIViewController, SatoCameraDatasource, BubbleMenuCo
     }
     
     func didSelectEffect() {
+        // Move selected effect view to fore
         // Remove last effect from control view
         if lastSelectedEffect >= 0, let effect = effects[lastSelectedEffect] as? UIView {
             view.insertSubview(effect, belowSubview: controlView)
@@ -177,14 +178,14 @@ class CameraViewController: UIViewController, SatoCameraDatasource, BubbleMenuCo
             var iconBubbleContents: [BubbleMenuCollectionViewCellContent] = []
             for effect in effects {
                 if let effect = effect as? CameraViewBubbleMenu {
-                    iconBubbleContents.append(effect.iconBubbleContent)
+                    iconBubbleContents.append(effect.iconContent)
                 }
             }
             return iconBubbleContents
         } else if (bubbleMenuCollectionViewController == effectOptionBubbleCVC) {
             // Return the options for the selected effect
             if let effect = effects[selectedEffect] as? CameraViewBubbleMenu {
-                return effect.bubbleMenuContent
+                return effect.menuContent
             }
         }
         print("Error: BubbleMenu CVC not recognized; cannot provide menu content")
@@ -207,7 +208,7 @@ class CameraViewController: UIViewController, SatoCameraDatasource, BubbleMenuCo
         // Selection made on tool options menu
         else if (bubbleMenuCollectionViewController == effectOptionBubbleCVC) {
             if let effect = effects[selectedEffect] as? CameraViewBubbleMenu {
-                effect.bubbleMenu(bubbleMenuCollectionViewController, didSelectItemAt: indexPath)
+                effect.menu(bubbleMenuCollectionViewController, didSelectItemAt: indexPath)
             }
         }
     }
@@ -215,9 +216,10 @@ class CameraViewController: UIViewController, SatoCameraDatasource, BubbleMenuCo
 
 protocol CameraViewBubbleMenu {
     /** Contents of the bubble menu */
-    var bubbleMenuContent: [BubbleMenuCollectionViewCellContent] { get }
+    var menuContent: [BubbleMenuCollectionViewCellContent] { get }
     /** The icon image of the datasource */
-    var iconBubbleContent: BubbleMenuCollectionViewCellContent { get }
+    var iconContent: BubbleMenuCollectionViewCellContent { get }
     
-    func bubbleMenu(_ sender: BubbleMenuCollectionViewController, didSelectItemAt indexPath: IndexPath)
+    func menu(_ sender: BubbleMenuCollectionViewController, didSelectItemAt indexPath: IndexPath)
+    func didSelect(_ sender: BubbleMenuCollectionViewController)
 }

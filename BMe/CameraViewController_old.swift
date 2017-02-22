@@ -1089,7 +1089,7 @@ extension CameraViewController_old: UITextFieldDelegate {
         textField.addGestureRecognizer(rotate)
         
         // Default appearance
-        textField.attributedPlaceholder = NSAttributedString(string: "T", attributes: [NSForegroundColorAttributeName: currentColor])
+        textField.attributedPlaceholder = NSAttributedString(string: ":)", attributes: [NSForegroundColorAttributeName: currentColor])
         textField.sizeToFit()
         
         // Add textField to cameraControlView
@@ -1101,7 +1101,6 @@ extension CameraViewController_old: UITextFieldDelegate {
     }
     
     // MARK: Gestures
-    // http://stackoverflow.com/questions/13669457/ios-scaling-uitextview-with-pinching
     @objc private func pinchedTextField(_ sender: UIPinchGestureRecognizer) {
         if let textField = sender.view as? UITextField {
             if sender.state == .began {

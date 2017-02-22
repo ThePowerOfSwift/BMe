@@ -10,8 +10,8 @@ import UIKit
 
 class FilterImageEffect: NSObject, CameraViewBubbleMenu {
 
-    var bubbleMenuContent: [BubbleMenuCollectionViewCellContent] = []
-    var iconBubbleContent = BubbleMenuCollectionViewCellContent(image: UIImage(named: "golden_gate_bridge.jpg")!, label: "Filter")
+    var menuContent: [BubbleMenuCollectionViewCellContent] = []
+    var iconContent = BubbleMenuCollectionViewCellContent(image: UIImage(named: "golden_gate_bridge.jpg")!, label: "Filter")
     var delegate: FilterImageEffectDelegate?
     
     override init() {
@@ -23,14 +23,18 @@ class FilterImageEffect: NSObject, CameraViewBubbleMenu {
     func setupBubbleMenuContent() {
         for filter in Filter.list() {
             let bubble = BubbleMenuCollectionViewCellContent(image: UIImage(named:filter.imageUrlString)!, label: filter.name)
-            bubbleMenuContent.append(bubble)
+            menuContent.append(bubble)
         }
     }
     
     // MARK: CameraViewBubbleMenu
     
-    func bubbleMenu(_ sender: BubbleMenuCollectionViewController, didSelectItemAt indexPath: IndexPath) {
+    func menu(_ sender: BubbleMenuCollectionViewController, didSelectItemAt indexPath: IndexPath) {
         delegate?.didSelectFilter(self, indexPath: indexPath)
+    }
+    
+    func didSelect(_ sender: BubbleMenuCollectionViewController) {
+        
     }
 
 }

@@ -14,8 +14,8 @@ class DrawImageEffectView: UIView, CameraViewBubbleMenu {
     var drawView = DrawView()
     
     // MARK: CameraViewBubbleMenu
-    var bubbleMenuContent: [BubbleMenuCollectionViewCellContent] = []
-    var iconBubbleContent = BubbleMenuCollectionViewCellContent(image: UIImage(named: "chinatown.jpg")!, label: "Draw")
+    var menuContent: [BubbleMenuCollectionViewCellContent] = []
+    var iconContent = BubbleMenuCollectionViewCellContent(image: UIImage(named: "chinatown.jpg")!, label: "Draw")
 
     // MARK: Lifecycle
     
@@ -62,13 +62,16 @@ class DrawImageEffectView: UIView, CameraViewBubbleMenu {
             UIGraphicsEndImageContext()
             
             let bubble = BubbleMenuCollectionViewCellContent(image: colorImage, label: color.name)
-            bubbleMenuContent.append(bubble)
+            menuContent.append(bubble)
         }
     }
     
     // MARK: CameraViewBubbleMenu
     
-    func bubbleMenu(_ sender: BubbleMenuCollectionViewController, didSelectItemAt indexPath: IndexPath) {
+    func menu(_ sender: BubbleMenuCollectionViewController, didSelectItemAt indexPath: IndexPath) {
         drawView.currentColor = Color.list()[indexPath.row].uiColor
+    }
+    
+    func didSelect(_ sender: BubbleMenuCollectionViewController) {
     }
 }

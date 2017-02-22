@@ -16,6 +16,7 @@
 		4276E9331E3FFDA40020992D /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4276E9321E3FFDA40020992D /* ProfileViewController.swift */; };
 		4276E9351E3FFDCA0020992D /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4276E9341E3FFDCA0020992D /* Profile.storyboard */; };
 		78120EB01E5E18A20080806E /* FilterImageEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78120EAF1E5E18A20080806E /* FilterImageEffect.swift */; };
+		78120EB21E5E1BB10080806E /* TextImageEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78120EB11E5E1BB10080806E /* TextImageEffectView.swift */; };
 		781315EC1E5A6C180057DA36 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781315EB1E5A6C180057DA36 /* CameraViewController.swift */; };
 		781315F31E5BB9F90057DA36 /* DrawImageEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781315F21E5BB9F90057DA36 /* DrawImageEffectView.swift */; };
 		781315F51E5BBBD90057DA36 /* SatoCameraDatasource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781315F41E5BBBD90057DA36 /* SatoCameraDatasource.swift */; };
@@ -164,6 +165,7 @@
 		4276E9341E3FFDCA0020992D /* Profile.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Profile.storyboard; sourceTree = "<group>"; };
 		500EAC6FA5C71681BCC723C6 /* Pods-BMeTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BMeTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-BMeTests/Pods-BMeTests.release.xcconfig"; sourceTree = "<group>"; };
 		78120EAF1E5E18A20080806E /* FilterImageEffect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterImageEffect.swift; sourceTree = "<group>"; };
+		78120EB11E5E1BB10080806E /* TextImageEffectView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextImageEffectView.swift; sourceTree = "<group>"; };
 		781315EB1E5A6C180057DA36 /* CameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		781315F21E5BB9F90057DA36 /* DrawImageEffectView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawImageEffectView.swift; sourceTree = "<group>"; };
 		781315F41E5BBBD90057DA36 /* SatoCameraDatasource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SatoCameraDatasource.swift; sourceTree = "<group>"; };
@@ -603,8 +605,8 @@
 			isa = PBXGroup;
 			children = (
 				E3DC850A1E450EDC0017E6A2 /* Color.swift */,
-				78120EAB1E5E18220080806E /* Filter */,
 				78E7FBDE1E5D2DF50021E1E1 /* Text */,
+				78120EAB1E5E18220080806E /* Filter */,
 				78E7FBDD1E5D2DEC0021E1E1 /* Draw */,
 			);
 			name = Effects;
@@ -622,6 +624,7 @@
 		78E7FBDE1E5D2DF50021E1E1 /* Text */ = {
 			isa = PBXGroup;
 			children = (
+				78120EB11E5E1BB10080806E /* TextImageEffectView.swift */,
 			);
 			name = Text;
 			sourceTree = "<group>";
@@ -722,6 +725,7 @@
 					78469A571DE3958000A40D53 = {
 						CreatedOnToolsVersion = 8.0;
 						DevelopmentTeam = Y4GA6H5JHE;
+						LastSwiftMigration = 0820;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -904,6 +908,7 @@
 				BFF9AE971E39BBE90012C1F2 /* SignUpViewController.swift in Sources */,
 				4276E9331E3FFDA40020992D /* ProfileViewController.swift in Sources */,
 				783DE0C51E533D4D00C61EB7 /* MatchupCollectionViewCell.swift in Sources */,
+				78120EB21E5E1BB10080806E /* TextImageEffectView.swift in Sources */,
 				78BCDF3F1DF751E8002D399E /* BusyView.swift in Sources */,
 				783DE0C71E533EB600C61EB7 /* MatchupCollectionViewController.swift in Sources */,
 				78469A5E1DE3958100A40D53 /* LoginViewController.swift in Sources */,
@@ -1057,13 +1062,13 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = Y4GA6H5JHE;
 				INFOPLIST_FILE = BMe/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.op.BMe;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
@@ -1076,13 +1081,13 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = Y4GA6H5JHE;
 				INFOPLIST_FILE = BMe/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.op.BMe;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
