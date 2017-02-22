@@ -12,17 +12,18 @@ import UIKit
     
 }*/
 
-class CameraViewController: UIViewController, SatoCameraDatasource, BubbleMenuCollectionViewControllerDatasource, BubbleMenuCollectionViewControllerDelegate {
+class CameraViewController: UIViewController, SatoCameraOutput, BubbleMenuCollectionViewControllerDatasource, BubbleMenuCollectionViewControllerDelegate {
     
     /** Model */
-    let satoCamera = SatoCamera()
+    var satoCamera: SatoCamera!
 
     // MARK: Master views
     // Must always be behind all other views
-    @IBOutlet var sampleBufferView: UIView!
+    var sampleBufferView: UIView?
     // Must always be on top of sampleBuffer
-    @IBOutlet var outputView: UIView!
-    /** 
+    var outputImageView: UIImageView?
+
+    /**
      View that holds all control views and the active effect tool; always floating.
      When an effect is active, it is moved to be the bottom backing view of controlView (under control containers)
      */
@@ -73,7 +74,9 @@ class CameraViewController: UIViewController, SatoCameraDatasource, BubbleMenuCo
     // MARK: Setups
     
     func setupSatoCamera() {
-        satoCamera.datasource = self
+        sampleBufferView = UIView(frame: view.bounds)
+        outputImageView = UIImageView(frame: view.bounds)
+        satoCamera = SatoCamera(frame: view.bounds, cameraOutput: self)
     }
     
     func setupEffects() {

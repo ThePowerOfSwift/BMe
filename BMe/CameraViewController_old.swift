@@ -132,7 +132,7 @@ class CameraViewController_old: UIViewController {
     /** final destination of camera input. */
     var outputView: GPUImageView?
     /** Stores filter object.*/
-    let filters: [Filter] = Filter.list()
+    let filters: [Filter_old] = Filter_old.list()
     var testfilter = GPUImageFilter()
     /** Stores color object. */
     var colors: [Color] = Color.list()

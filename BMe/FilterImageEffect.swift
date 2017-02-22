@@ -21,7 +21,7 @@ class FilterImageEffect: NSObject, CameraViewBubbleMenu {
     }
     
     func setupBubbleMenuContent() {
-        for filter in Filter.list() {
+        for filter in Filter_old.list() {
             let bubble = BubbleMenuCollectionViewCellContent(image: UIImage(named:filter.imageUrlString)!, label: filter.name)
             menuContent.append(bubble)
         }

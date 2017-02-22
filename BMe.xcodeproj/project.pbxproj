@@ -19,7 +19,6 @@
 		78120EB21E5E1BB10080806E /* TextImageEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78120EB11E5E1BB10080806E /* TextImageEffectView.swift */; };
 		781315EC1E5A6C180057DA36 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781315EB1E5A6C180057DA36 /* CameraViewController.swift */; };
 		781315F31E5BB9F90057DA36 /* DrawImageEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781315F21E5BB9F90057DA36 /* DrawImageEffectView.swift */; };
-		781315F51E5BBBD90057DA36 /* SatoCameraDatasource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781315F41E5BBBD90057DA36 /* SatoCameraDatasource.swift */; };
 		781315F81E5BBC1E0057DA36 /* Camera.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 781315F71E5BBC1E0057DA36 /* Camera.storyboard */; };
 		781315FB1E5BC0CD0057DA36 /* SatoCamera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781315FA1E5BC0CD0057DA36 /* SatoCamera.swift */; };
 		7813161D1E5BFDCD0057DA36 /* DrawView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7813161C1E5BFDCD0057DA36 /* DrawView.swift */; };
@@ -168,7 +167,6 @@
 		78120EB11E5E1BB10080806E /* TextImageEffectView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextImageEffectView.swift; sourceTree = "<group>"; };
 		781315EB1E5A6C180057DA36 /* CameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		781315F21E5BB9F90057DA36 /* DrawImageEffectView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawImageEffectView.swift; sourceTree = "<group>"; };
-		781315F41E5BBBD90057DA36 /* SatoCameraDatasource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SatoCameraDatasource.swift; sourceTree = "<group>"; };
 		781315F71E5BBC1E0057DA36 /* Camera.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Camera.storyboard; sourceTree = "<group>"; };
 		781315FA1E5BC0CD0057DA36 /* SatoCamera.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SatoCamera.swift; sourceTree = "<group>"; };
 		7813161C1E5BFDCD0057DA36 /* DrawView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawView.swift; sourceTree = "<group>"; };
@@ -332,7 +330,6 @@
 			isa = PBXGroup;
 			children = (
 				781315F91E5BBFA90057DA36 /* archive */,
-				781315F41E5BBBD90057DA36 /* SatoCameraDatasource.swift */,
 				781315FA1E5BC0CD0057DA36 /* SatoCamera.swift */,
 				781315F71E5BBC1E0057DA36 /* Camera.storyboard */,
 				781315EB1E5A6C180057DA36 /* CameraViewController.swift */,
@@ -724,7 +721,7 @@
 				TargetAttributes = {
 					78469A571DE3958000A40D53 = {
 						CreatedOnToolsVersion = 8.0;
-						DevelopmentTeam = Y4GA6H5JHE;
+						DevelopmentTeam = PY8CHQP699;
 						LastSwiftMigration = 0820;
 						ProvisioningStyle = Automatic;
 					};
@@ -927,7 +924,6 @@
 				E3DC85241E450EDC0017E6A2 /* BubbleCollectionViewCell.swift in Sources */,
 				E3DC85191E450EDC0017E6A2 /* Color.swift in Sources */,
 				78BCDF341DF74663002D399E /* CrossButton.swift in Sources */,
-				781315F51E5BBBD90057DA36 /* SatoCameraDatasource.swift in Sources */,
 				E3DC851A1E450EDC0017E6A2 /* Filter.swift in Sources */,
 				E35AC4831DE4D00400FCB0D0 /* TabBarViewController.swift in Sources */,
 				783560931E4CF5E500B9FD8D /* FIRObjects.swift in Sources */,
@@ -1064,7 +1060,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = Y4GA6H5JHE;
+				DEVELOPMENT_TEAM = PY8CHQP699;
 				INFOPLIST_FILE = BMe/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.op.BMe;
@@ -1083,7 +1079,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = Y4GA6H5JHE;
+				DEVELOPMENT_TEAM = PY8CHQP699;
 				INFOPLIST_FILE = BMe/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.op.BMe;
