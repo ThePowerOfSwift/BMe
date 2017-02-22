@@ -16,8 +16,7 @@
 		4276E9331E3FFDA40020992D /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4276E9321E3FFDA40020992D /* ProfileViewController.swift */; };
 		4276E9351E3FFDCA0020992D /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4276E9341E3FFDCA0020992D /* Profile.storyboard */; };
 		781315EC1E5A6C180057DA36 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781315EB1E5A6C180057DA36 /* CameraViewController.swift */; };
-		781315F11E5BB97D0057DA36 /* ImageEffectOptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781315F01E5BB97D0057DA36 /* ImageEffectOptionView.swift */; };
-		781315F31E5BB9F90057DA36 /* DrawImageEffectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781315F21E5BB9F90057DA36 /* DrawImageEffectViewController.swift */; };
+		781315F31E5BB9F90057DA36 /* DrawImageEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781315F21E5BB9F90057DA36 /* DrawImageEffectView.swift */; };
 		781315F51E5BBBD90057DA36 /* SatoCameraDatasource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781315F41E5BBBD90057DA36 /* SatoCameraDatasource.swift */; };
 		781315F81E5BBC1E0057DA36 /* Camera.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 781315F71E5BBC1E0057DA36 /* Camera.storyboard */; };
 		781315FB1E5BC0CD0057DA36 /* SatoCamera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781315FA1E5BC0CD0057DA36 /* SatoCamera.swift */; };
@@ -164,8 +163,7 @@
 		4276E9341E3FFDCA0020992D /* Profile.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Profile.storyboard; sourceTree = "<group>"; };
 		500EAC6FA5C71681BCC723C6 /* Pods-BMeTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BMeTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-BMeTests/Pods-BMeTests.release.xcconfig"; sourceTree = "<group>"; };
 		781315EB1E5A6C180057DA36 /* CameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
-		781315F01E5BB97D0057DA36 /* ImageEffectOptionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageEffectOptionView.swift; sourceTree = "<group>"; };
-		781315F21E5BB9F90057DA36 /* DrawImageEffectViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawImageEffectViewController.swift; sourceTree = "<group>"; };
+		781315F21E5BB9F90057DA36 /* DrawImageEffectView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawImageEffectView.swift; sourceTree = "<group>"; };
 		781315F41E5BBBD90057DA36 /* SatoCameraDatasource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SatoCameraDatasource.swift; sourceTree = "<group>"; };
 		781315F71E5BBC1E0057DA36 /* Camera.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Camera.storyboard; sourceTree = "<group>"; };
 		781315FA1E5BC0CD0057DA36 /* SatoCamera.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SatoCamera.swift; sourceTree = "<group>"; };
@@ -325,9 +323,6 @@
 				781315FA1E5BC0CD0057DA36 /* SatoCamera.swift */,
 				781315F71E5BBC1E0057DA36 /* Camera.storyboard */,
 				781315EB1E5A6C180057DA36 /* CameraViewController.swift */,
-				781315F01E5BB97D0057DA36 /* ImageEffectOptionView.swift */,
-				781315F21E5BB9F90057DA36 /* DrawImageEffectViewController.swift */,
-				7813161C1E5BFDCD0057DA36 /* DrawView.swift */,
 				78E7FBDC1E5CFD970021E1E1 /* Effects */,
 				781316241E5C1C890057DA36 /* BubbleMenuCollection */,
 			);
@@ -430,7 +425,6 @@
 		783008AB1DE3B9AF00B070D4 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				E3DC850A1E450EDC0017E6A2 /* Color.swift */,
 				E3DC850B1E450EDC0017E6A2 /* Filter.swift */,
 			);
 			name = Models;
@@ -606,8 +600,27 @@
 		78E7FBDC1E5CFD970021E1E1 /* Effects */ = {
 			isa = PBXGroup;
 			children = (
+				E3DC850A1E450EDC0017E6A2 /* Color.swift */,
+				78E7FBDE1E5D2DF50021E1E1 /* Text */,
+				78E7FBDD1E5D2DEC0021E1E1 /* Draw */,
 			);
 			name = Effects;
+			sourceTree = "<group>";
+		};
+		78E7FBDD1E5D2DEC0021E1E1 /* Draw */ = {
+			isa = PBXGroup;
+			children = (
+				781315F21E5BB9F90057DA36 /* DrawImageEffectView.swift */,
+				7813161C1E5BFDCD0057DA36 /* DrawView.swift */,
+			);
+			name = Draw;
+			sourceTree = "<group>";
+		};
+		78E7FBDE1E5D2DF50021E1E1 /* Text */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Text;
 			sourceTree = "<group>";
 		};
 		78EF09BD1E575F41005DD603 /* Moderator */ = {
@@ -880,7 +893,6 @@
 				E3DC85171E450EDC0017E6A2 /* CameraViewController_old.swift in Sources */,
 				783008A91DE3B9A000B070D4 /* Extensions.swift in Sources */,
 				E3D1D55F1DF11D700021942A /* Styles.swift in Sources */,
-				781315F11E5BB97D0057DA36 /* ImageEffectOptionView.swift in Sources */,
 				781C3C941E55664C00F53B14 /* HomeViewController.swift in Sources */,
 				781315FB1E5BC0CD0057DA36 /* SatoCamera.swift in Sources */,
 				781316201E5C08980057DA36 /* BubbleMenuCollectionViewController.swift in Sources */,
@@ -915,7 +927,7 @@
 				BFDE7F711E4C1D5200AA38A7 /* JSONObject.swift in Sources */,
 				BFF9AE9D1E3D90540012C1F2 /* MainViewController.swift in Sources */,
 				4216315E1E43C26600E644A5 /* ProfileTableCollectionViewCell.swift in Sources */,
-				781315F31E5BB9F90057DA36 /* DrawImageEffectViewController.swift in Sources */,
+				781315F31E5BB9F90057DA36 /* DrawImageEffectView.swift in Sources */,
 				78D1783B1E48F8AD004B7840 /* JSONStack.swift in Sources */,
 				78EF09C01E576FE1005DD603 /* PostTableViewCell.swift in Sources */,
 				78F511361DF6D0860074050F /* WhiteRevealOverlayView.swift in Sources */,

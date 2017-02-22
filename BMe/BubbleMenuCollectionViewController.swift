@@ -59,36 +59,16 @@ class BubbleMenuCollectionViewController: UICollectionViewController, UICollecti
         return cell
     }
     
-    
-    // MARK: UICollectionViewDelegateFlowLayout
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 77, height: 77)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-    }
-    
-    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 0
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 0
-    }
+    // MARK: UICollectionViewDelegate
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         delegate?.bubbleMenuCollectionViewController(self, didSelectItemAt: indexPath)
     }
 }
 
-// MARK: Datasource
-
 protocol BubbleMenuCollectionViewControllerDatasource {
     func bubbles(_ sender: BubbleMenuCollectionViewController) -> [BubbleMenuCollectionViewCellContent]
 }
-
-// MARK: Delegate
 
 protocol BubbleMenuCollectionViewControllerDelegate {
     func bubbleMenuCollectionViewController(_ bubbleMenuCollectionViewController: BubbleMenuCollectionViewController, didSelectItemAt indexPath: IndexPath)

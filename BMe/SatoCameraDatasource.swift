@@ -9,6 +9,8 @@
 import UIKit
 
 protocol SatoCameraDatasource {
+    /** Sample buffer that shows live capture from camera */
     var sampleBufferView: UIView! { get set }
+    /** View that holds the captured image */
     var outputView: UIView!{ get set }
 }
