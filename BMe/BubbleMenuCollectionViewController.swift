@@ -44,7 +44,7 @@ class BubbleMenuCollectionViewController: UICollectionViewController, UICollecti
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if let datasource = datasource {
-            return datasource.bubbles(self).count
+            return datasource.bubbleMenuContent(for: self).count
         }
         return 0
     }
@@ -52,7 +52,7 @@ class BubbleMenuCollectionViewController: UICollectionViewController, UICollecti
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellType.name, for: indexPath) as! BubbleMenuCollectionViewCell
     
-        if let bubble = datasource?.bubbles(self)[indexPath.row] {
+        if let bubble = datasource?.bubbleMenuContent(for: self)[indexPath.row] {
             // Configure the cell
             cell.bubbleContent = bubble
         }
@@ -67,7 +67,8 @@ class BubbleMenuCollectionViewController: UICollectionViewController, UICollecti
 }
 
 protocol BubbleMenuCollectionViewControllerDatasource {
-    func bubbles(_ sender: BubbleMenuCollectionViewController) -> [BubbleMenuCollectionViewCellContent]
+    func bubbleMenuContent(for sender: BubbleMenuCollectionViewController) -> [BubbleMenuCollectionViewCellContent]
+
 }
 
 protocol BubbleMenuCollectionViewControllerDelegate {

@@ -81,7 +81,7 @@ class CameraViewController: UIViewController, SatoCameraDatasource, BubbleMenuCo
     
     // MARK: BubbleMenuCollectionViewControllerDatasource
     
-    func bubbles(_ sender: BubbleMenuCollectionViewController) -> [BubbleMenuCollectionViewCellContent] {
+    func bubbleMenuContent(for sender: BubbleMenuCollectionViewController) -> [BubbleMenuCollectionViewCellContent] {
         return drawEffect.bubbleMenuContent
     }
     
