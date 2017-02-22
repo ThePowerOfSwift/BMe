@@ -35,8 +35,10 @@ class CameraViewController: UIViewController, SatoCameraDatasource {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        effectMenuViewContainer.backgroundColor = UIColor.clear
+        
         setupSatoCamera()
-        setupImageEffectTools()
+        setupDrawEffectTool()
     }
 
     override func didReceiveMemoryWarning() {
@@ -48,7 +50,18 @@ class CameraViewController: UIViewController, SatoCameraDatasource {
         satoCamera.datasource = self
     }
     
-    func setupImageEffectTools() {
-        // Draw Image Effect
+    func setupDrawEffectTool() {
+        addChildViewController(drawEffect)
+        drawEffect.view.frame = view.bounds
+        drawEffect.view.autoresizingMask = [.flexibleHeight, .flexibleWidth]
+        view.addSubview(drawEffect.view)
+        drawEffect.didMove(toParentViewController: self)
+        
+        if let menu = drawEffect.menuView {
+            menu.frame = effectMenuViewContainer.bounds
+            menu.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+            effectMenuViewContainer.addSubview(menu)
+            view.bringSubview(toFront: effectMenuViewContainer)
+        }
     }
 }

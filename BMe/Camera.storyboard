@@ -12,7 +12,7 @@
         <!--Camera View Controller-->
         <scene sceneID="ItQ-wz-qCZ">
             <objects>
-                <viewController id="KW6-Bc-DhJ" customClass="CameraViewController" customModule="BMe" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CameraViewController" id="KW6-Bc-DhJ" customClass="CameraViewController" customModule="BMe" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="DZY-Vk-aar"/>
                         <viewControllerLayoutGuide type="bottom" id="baq-Af-xjh"/>
@@ -21,13 +21,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0Hg-tR-4Rs">
-                                <rect key="frame" x="0.0" y="269" width="375" height="128"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                <connections>
-                                    <segue destination="amI-82-GT7" kind="embed" id="b9w-87-RT9"/>
-                                </connections>
-                            </containerView>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MWL-Oi-NMW">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -35,6 +28,13 @@
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pTx-8A-oMA">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vlY-ax-210">
+                                        <rect key="frame" x="67" y="450" width="240" height="128"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </view>
+                                </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
@@ -47,7 +47,7 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="effectMenuViewContainer" destination="0Hg-tR-4Rs" id="msb-rd-ttH"/>
+                        <outlet property="effectMenuViewContainer" destination="vlY-ax-210" id="hZA-tO-TtK"/>
                         <outlet property="outputView" destination="pTx-8A-oMA" id="D0d-JG-Zjg"/>
                         <outlet property="sampleBufferView" destination="MWL-Oi-NMW" id="HBS-U0-qFD"/>
                     </connections>
@@ -55,19 +55,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rj6-Y3-fcH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-2386.4000000000001" y="677.81109445277366"/>
-        </scene>
-        <!--View Controller-->
-        <scene sceneID="0wq-1s-CB8">
-            <objects>
-                <viewController id="amI-82-GT7" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="EXK-P3-4NB">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="128"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="xct-xb-UpY" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
         </scene>
     </scenes>
 </document>

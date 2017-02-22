@@ -11,8 +11,11 @@ import AVFoundation
 
 struct Constants {
     struct OnLogin {
-        static let StoryboardID = SegueID.Storyboard.TabBar
-        static let RootViewController = SegueID.ViewController.TabBarViewController
+        static let StoryboardID = "Camera"
+        static let RootViewController = "CameraViewController"
+        
+//        static let StoryboardID = SegueID.Storyboard.TabBar
+//        static let RootViewController = SegueID.ViewController.TabBarViewController
     }
     struct OnLogout {
         static let StoryboardID = SegueID.Storyboard.Main

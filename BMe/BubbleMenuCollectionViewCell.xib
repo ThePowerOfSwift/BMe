@@ -10,7 +10,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="BubbleMenuCollectionViewCell" customModule="effects" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="BubbleMenuCollectionViewCell" customModule="BMe" customModuleProvider="target">
             <connections>
                 <outlet property="imageLabel" destination="NGH-tc-HG2" id="cB0-Ra-Due"/>
                 <outlet property="imageView" destination="R1u-Wg-NO8" id="2Dc-g8-3EO"/>
@@ -24,7 +24,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="77" height="77"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="R1u-Wg-NO8">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="R1u-Wg-NO8">
                         <rect key="frame" x="18" y="13" width="40" height="40"/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="R1u-Wg-NO8" secondAttribute="height" multiplier="1:1" id="NCM-Uw-Y1B"/>
