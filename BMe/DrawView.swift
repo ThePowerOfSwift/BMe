@@ -21,7 +21,7 @@ class DrawView: UIView {
     /** The drawn line's width setting */
     var lineWidth: CGFloat = 7.0
     /** The drawn line's color setting */
-    var currentColor: UIColor = UIColor.white
+    var currentColor: UIColor = UIColor.black
     
     // MARK: Lifecycle
     

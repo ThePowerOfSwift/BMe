@@ -21,31 +21,51 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MWL-Oi-NMW">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pTx-8A-oMA">
+                            <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MWL-Oi-NMW">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vlY-ax-210">
-                                <rect key="frame" x="67" y="269" width="240" height="128"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pTx-8A-oMA">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6v3-5B-uh9">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vlY-ax-210">
+                                        <rect key="frame" x="0.0" y="450" width="375" height="98"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </view>
+                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iU0-LW-1qw">
+                                        <rect key="frame" x="204" y="556" width="163" height="78"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </view>
+                                </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="baq-Af-xjh" firstAttribute="top" secondItem="pTx-8A-oMA" secondAttribute="bottom" id="4Ip-Aj-ygF"/>
+                            <constraint firstAttribute="trailing" secondItem="MWL-Oi-NMW" secondAttribute="trailing" id="5fX-0I-dxV"/>
+                            <constraint firstAttribute="trailing" secondItem="6v3-5B-uh9" secondAttribute="trailing" id="8ft-BR-v3E"/>
+                            <constraint firstItem="6v3-5B-uh9" firstAttribute="top" secondItem="wkO-nL-iAc" secondAttribute="top" id="Bo3-Vr-iH0"/>
+                            <constraint firstItem="MWL-Oi-NMW" firstAttribute="leading" secondItem="wkO-nL-iAc" secondAttribute="leading" id="Pfy-yG-WWO"/>
+                            <constraint firstItem="6v3-5B-uh9" firstAttribute="leading" secondItem="wkO-nL-iAc" secondAttribute="leading" id="Y61-Hx-fnh"/>
                             <constraint firstAttribute="trailing" secondItem="pTx-8A-oMA" secondAttribute="trailing" id="f74-U7-HM9"/>
                             <constraint firstItem="pTx-8A-oMA" firstAttribute="leading" secondItem="wkO-nL-iAc" secondAttribute="leading" id="fBH-0P-9LL"/>
+                            <constraint firstItem="baq-Af-xjh" firstAttribute="top" secondItem="6v3-5B-uh9" secondAttribute="bottom" id="fbQ-nj-mNX"/>
+                            <constraint firstItem="baq-Af-xjh" firstAttribute="top" secondItem="MWL-Oi-NMW" secondAttribute="bottom" id="fuL-HK-1PS"/>
                             <constraint firstItem="pTx-8A-oMA" firstAttribute="top" secondItem="wkO-nL-iAc" secondAttribute="top" id="lND-Fc-lp3"/>
+                            <constraint firstItem="MWL-Oi-NMW" firstAttribute="top" secondItem="wkO-nL-iAc" secondAttribute="top" id="ohr-DE-qIT"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="effectBubbleMenuView" destination="vlY-ax-210" id="s4G-Gd-C1H"/>
+                        <outlet property="controlView" destination="6v3-5B-uh9" id="XlP-YX-N0d"/>
+                        <outlet property="effectOptionView" destination="vlY-ax-210" id="FA9-hl-S0D"/>
+                        <outlet property="effectToolView" destination="iU0-LW-1qw" id="77J-x6-wqZ"/>
                         <outlet property="outputView" destination="pTx-8A-oMA" id="D0d-JG-Zjg"/>
                         <outlet property="sampleBufferView" destination="MWL-Oi-NMW" id="HBS-U0-qFD"/>
                     </connections>

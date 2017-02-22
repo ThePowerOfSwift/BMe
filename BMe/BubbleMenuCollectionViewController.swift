@@ -67,7 +67,7 @@ class BubbleMenuCollectionViewController: UICollectionViewController, UICollecti
 }
 
 protocol BubbleMenuCollectionViewControllerDatasource {
-    func bubbleMenuContent(for sender: BubbleMenuCollectionViewController) -> [BubbleMenuCollectionViewCellContent]
+    func bubbleMenuContent(for bubbleMenuCollectionViewController: BubbleMenuCollectionViewController) -> [BubbleMenuCollectionViewCellContent]
 
 }
 

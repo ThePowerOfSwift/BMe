@@ -15,18 +15,21 @@ class DrawImageEffectView: UIView, CameraViewBubbleMenu {
     
     // MARK: CameraViewBubbleMenu
     var bubbleMenuContent: [BubbleMenuCollectionViewCellContent] = []
-    var buttonView = UIButton()
+    var iconBubbleContent = BubbleMenuCollectionViewCellContent(image: UIImage(named: "chinatown.jpg")!, label: "Draw")
 
     // MARK: Lifecycle
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupDrawView()
-        setupBubbleMenuContent()
+        setup()
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+        setup()
+    }
+    
+    func setup() {
         setupDrawView()
         setupBubbleMenuContent()
     }

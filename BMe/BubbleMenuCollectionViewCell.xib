@@ -46,7 +46,7 @@
                 <constraint firstItem="NGH-tc-HG2" firstAttribute="centerX" secondItem="R1u-Wg-NO8" secondAttribute="centerX" id="Pgm-9f-SGa"/>
             </constraints>
             <size key="customSize" width="74" height="76"/>
-            <point key="canvasLocation" x="-118" y="232"/>
+            <point key="canvasLocation" x="-5084" y="73"/>
         </collectionViewCell>
     </objects>
 </document>
