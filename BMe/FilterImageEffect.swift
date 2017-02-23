@@ -21,7 +21,7 @@ class FilterImageEffect: NSObject, CameraViewBubbleMenu {
     }
     
     func setupBubbleMenuContent() {
-        for filter in Filter_old.list() {
+        for filter in Filter.list() {
             let bubble = BubbleMenuCollectionViewCellContent(image: UIImage(named:filter.imageUrlString)!, label: filter.name)
             menuContent.append(bubble)
         }
@@ -30,7 +30,8 @@ class FilterImageEffect: NSObject, CameraViewBubbleMenu {
     // MARK: CameraViewBubbleMenu
     
     func menu(_ sender: BubbleMenuCollectionViewController, didSelectItemAt indexPath: IndexPath) {
-        delegate?.didSelectFilter(self, indexPath: indexPath)
+        let filter = Filter.list()[indexPath.row].filter
+        delegate?.didSelectFilter(self, filter: filter)
     }
     
     func didSelect(_ sender: BubbleMenuCollectionViewController) {
@@ -40,5 +41,5 @@ class FilterImageEffect: NSObject, CameraViewBubbleMenu {
 }
 
 protocol FilterImageEffectDelegate {
-    func didSelectFilter(_ sender: FilterImageEffect, indexPath: IndexPath)
+    func didSelectFilter(_ sender: FilterImageEffect, filter: CIFilter?)
 }
