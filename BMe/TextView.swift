@@ -27,7 +27,7 @@ class TextView: UIView, UITextFieldDelegate {
     private var originalCenter: CGPoint?
     
     // Trackers
-    var currentTextField: UITextField?
+    private var currentTextField: UITextField?
     var currentColor: UIColor = defaultColor
     
     // CGContext
@@ -73,13 +73,13 @@ class TextView: UIView, UITextFieldDelegate {
         addKeyboardObserver()
         
         // TODO: testing
-        addNewTextfield()
+        addTextfield()
     }
     
     // MARK: TextField editing
     
     /** Add a text field to the screen and begin editing */
-    private func addNewTextfield() {
+    func addTextfield() {
         // Create new textfield
         let textField = UITextField()
         self.currentTextField = textField
