@@ -79,11 +79,14 @@ class SatoCamera: NSObject {
     /** Store filter name. Changed by a client through change(filterName:). */
     private var filterName: String = "CISepiaTone"
     
-    //fileprivate var filters: [Filter] = Filter.list()
-    //fileprivate var filterIndex: Int = 0
+    /** Holds the current filter. */
     var currentFilter: Filter = Filter.list()[0]
     
-    init(frame: CGRect, cameraOutput: SatoCameraOutput) {
+    convenience init(frame: CGRect) {
+        self.init(frame: frame, cameraOutput: nil)
+    }
+    
+    init(frame: CGRect, cameraOutput: SatoCameraOutput?) {
         self.frame = frame
         self.cameraOutput = cameraOutput
         super.init()
@@ -119,10 +122,10 @@ class SatoCamera: NSObject {
         ciContext = CIContext(eaglContext: eaglContext)
         
         // Add video preview to delegate's view
-        assert(cameraOutput.sampleBufferView != nil,
+        assert(cameraOutput?.sampleBufferView != nil,
                "sampleBufferView in dataSource hasn't been initialized. Make sure to initialize sampleBufferView in dataSource before using it in SatoCamera.")
         
-        cameraOutput.sampleBufferView?.addSubview(videoPreview)
+        cameraOutput?.sampleBufferView?.addSubview(videoPreview)
         initialStart()
     }
     
