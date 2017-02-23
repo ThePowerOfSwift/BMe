@@ -218,6 +218,16 @@ class SatoCamera: NSObject {
     /** Resumes camera. */
     internal func start() {
         cameraOutput?.sampleBufferView?.isHidden = false
+        
+        // remove image from output view
+        if let cameraOutput = cameraOutput {
+            if let outputImageView = cameraOutput.outputImageView {
+                for subview in outputImageView.subviews {
+                    subview.removeFromSuperview()
+                }
+            }
+        }
+        
         reset()
         captureSession?.startRunning()
     }
@@ -316,7 +326,6 @@ extension SatoCamera: FilterImageEffectDelegate {
         
         self.currentFilter = filter
         
-        
         // if camera is not running
         if !captureSession.isRunning {
             
@@ -328,7 +337,15 @@ extension SatoCamera: FilterImageEffectDelegate {
                     return
                 }
                 
-                cameraOutput?.outputImageView = gifImageView
+                if let cameraOutput = cameraOutput {
+                    if let outputImageView = cameraOutput.outputImageView {
+                        for subview in outputImageView.subviews {
+                            subview.removeFromSuperview()
+                        }
+                    }
+                }
+
+                cameraOutput?.outputImageView?.addSubview(gifImageView)
                 
             } else {
                 // set outputImageView with filtered image.
@@ -342,9 +359,19 @@ extension SatoCamera: FilterImageEffectDelegate {
                     return
                 }
                 
-                let filteredUIImage = UIImage(ciImage: filteredImage)
-                let filteredUIImageView = UIImageView(image: filteredUIImage)
-                cameraOutput?.outputImageView = filteredUIImageView
+                let rotatedFilteredUIImage = fixOrientation(ciImage: filteredImage)
+
+                if let cameraOutput = cameraOutput {
+                    if let outputImageView = cameraOutput.outputImageView {
+                        for subview in outputImageView.subviews {
+                            subview.removeFromSuperview()
+                        }
+                    }
+                }
+                
+                let filteredUIImageView = UIImageView(image: rotatedFilteredUIImage)
+                filteredUIImageView.frame = frame
+                cameraOutput?.outputImageView?.addSubview(filteredUIImageView)
             }
         }
     }
@@ -463,6 +490,9 @@ extension SatoCamera: AVCaptureVideoDataOutputSampleBufferDelegate, AVCapturePho
                 return
             }
             
+            // Save sourceImage to class property for post filter editing
+            unfilteredCIImage = sourceImage
+            
             guard let filteredImage = currentFilter.generateFilteredCIImage(sourceImage: sourceImage) else {
                 print("filtered image is nil")
                 return
@@ -482,10 +512,8 @@ extension SatoCamera: AVCaptureVideoDataOutputSampleBufferDelegate, AVCapturePho
             filteredImageView.frame = frame
             
             // client setup
-            cameraOutput?.outputImageView = filteredImageView
-            //let vc = cameraOutput as? ViewController
-            //vc?.presentImageView()
-            
+            cameraOutput?.outputImageView?.addSubview(filteredImageView)
+
             stop()
         }
     }

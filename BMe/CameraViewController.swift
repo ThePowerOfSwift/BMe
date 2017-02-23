@@ -111,7 +111,7 @@ class CameraViewController: UIViewController, SatoCameraOutput, BubbleMenuCollec
             outputImageView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
             outputImageContainerView.addSubview(outputImageView)
         }
-
+        //view.bringSubview(toFront: outputImageContainerView)
         satoCamera = SatoCamera(frame: view.bounds)
         satoCamera.cameraOutput = self
     }
