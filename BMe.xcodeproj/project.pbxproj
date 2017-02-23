@@ -326,16 +326,23 @@
 			children = (
 				78120EAF1E5E18A20080806E /* FilterImageEffect.swift */,
 				E3DC850B1E450EDC0017E6A2 /* Filter.swift */,
-				78120EC01E5E6DF00080806E /* Filter_old.swift */,
 			);
 			name = Filter;
+			sourceTree = "<group>";
+		};
+		78120EC61E5E7A200080806E /* Camera */ = {
+			isa = PBXGroup;
+			children = (
+				781315FA1E5BC0CD0057DA36 /* SatoCamera.swift */,
+			);
+			name = Camera;
 			sourceTree = "<group>";
 		};
 		781315F61E5BBBFE0057DA36 /* Camera */ = {
 			isa = PBXGroup;
 			children = (
 				781315F91E5BBFA90057DA36 /* archive */,
-				781315FA1E5BC0CD0057DA36 /* SatoCamera.swift */,
+				78120EC61E5E7A200080806E /* Camera */,
 				781315F71E5BBC1E0057DA36 /* Camera.storyboard */,
 				781315EB1E5A6C180057DA36 /* CameraViewController.swift */,
 				78E7FBDC1E5CFD970021E1E1 /* Effects */,
@@ -347,6 +354,7 @@
 		781315F91E5BBFA90057DA36 /* archive */ = {
 			isa = PBXGroup;
 			children = (
+				78120EC01E5E6DF00080806E /* Filter_old.swift */,
 				E3DC85151E450EDC0017E6A2 /* BubbleCollectionViewCell.swift */,
 				E3DC85071E450EDC0017E6A2 /* Camera_old.storyboard */,
 				E3DC85081E450EDC0017E6A2 /* CameraViewController_old.swift */,
@@ -727,7 +735,7 @@
 				TargetAttributes = {
 					78469A571DE3958000A40D53 = {
 						CreatedOnToolsVersion = 8.0;
-						DevelopmentTeam = PY8CHQP699;
+						DevelopmentTeam = Y4GA6H5JHE;
 						LastSwiftMigration = 0820;
 						ProvisioningStyle = Automatic;
 					};
@@ -1068,7 +1076,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = PY8CHQP699;
+				DEVELOPMENT_TEAM = Y4GA6H5JHE;
 				INFOPLIST_FILE = BMe/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.op.BMe;
@@ -1087,7 +1095,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = PY8CHQP699;
+				DEVELOPMENT_TEAM = Y4GA6H5JHE;
 				INFOPLIST_FILE = BMe/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.op.BMe;

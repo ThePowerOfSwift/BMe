@@ -35,16 +35,12 @@ class CameraViewController: UIViewController, SatoCameraOutput, BubbleMenuCollec
     // MARK: Image Effects
     /** Tracks which effect tool is currently selected in effects: [UIView] */
     var lastSelectedEffect = -1
-    var selectedEffect = -1 {
-        didSet {
-            didSelectEffect()
-        }
-    }
-    /** All the effects to be loaded */
-    var effects: [AnyObject] = [AnyObject]()
+    var selectedEffect = -1
     
-    var filterImageEffect: FilterImageEffect = FilterImageEffect()
-    var drawImageEffectView: DrawImageEffectView = DrawImageEffectView()
+    /** All the effects to be loaded */
+    var effects: [AnyObject] = [FilterImageEffect(),
+                                DrawImageEffectView(),
+                                TextImageEffectView()]
     
     // MARK: Camera Controls & Tools
     // Tools
@@ -93,20 +89,22 @@ class CameraViewController: UIViewController, SatoCameraOutput, BubbleMenuCollec
             outputImageView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
             outputImageContainerView.addSubview(outputImageView)
         }
-        
+
         satoCamera = SatoCamera(frame: view.bounds, cameraOutput: self)
+//        satoCamera = SatoCamera(frame: view.bounds)
+//        satoCamera.cameraOutput = self
     }
     
     func setupEffects() {
         // Add each effect
-        effects.append(filterImageEffect)
-        effects.append(drawImageEffectView)
-        filterImageEffect.delegate = satoCamera
         for effect in effects {
             if let effect = effect as? UIView {
                 effect.frame = view.bounds
                 effect.autoresizingMask = [.flexibleHeight, .flexibleWidth]
                 view.addSubview(effect)
+            }
+            if let effect = effect as? FilterImageEffect {
+                effect.delegate = satoCamera
             }
         }
     }
@@ -172,7 +170,14 @@ class CameraViewController: UIViewController, SatoCameraOutput, BubbleMenuCollec
         effectToolBubbleCVC.delegate?.bubbleMenuCollectionViewController(effectToolBubbleCVC, didSelectItemAt: indexPath)
     }
     
-    func didSelectEffect() {
+    func didSelectEffect(at indexPath: IndexPath) {
+        
+        // If it's the same selection, do nothing
+        if selectedEffect != indexPath.row {
+            lastSelectedEffect = selectedEffect
+            selectedEffect = indexPath.row
+        }
+        
         // Move selected effect view to fore
         // Remove last effect from control view
         if lastSelectedEffect >= 0, let effect = effects[lastSelectedEffect] as? UIView {
@@ -181,6 +186,11 @@ class CameraViewController: UIViewController, SatoCameraOutput, BubbleMenuCollec
         // Bring selected effect view to back of control view
         if let effect = effects[selectedEffect] as? UIView {
             controlView.insertSubview(effect, at: 0)
+        }
+        
+        // Tell tool it's been selected
+        if let effect = effects[selectedEffect] as? CameraViewBubbleMenu {
+            effect.didSelect(effect)
         }
         
         loadToolOptions()
@@ -223,13 +233,9 @@ class CameraViewController: UIViewController, SatoCameraOutput, BubbleMenuCollec
         // Check which collection view recieved the selection
         // Selection made on tools menu
         if (bubbleMenuCollectionViewController == effectToolBubbleCVC) {
-            // If it's the same selection, do nothing
-            if selectedEffect != indexPath.row {
-                lastSelectedEffect = selectedEffect
-                selectedEffect = indexPath.row
-            }
+            didSelectEffect(at: indexPath)
         }
-        // Selection made on tool options menu
+        // Selection made on options menu
         else if (bubbleMenuCollectionViewController == effectOptionBubbleCVC) {
             if let effect = effects[selectedEffect] as? CameraViewBubbleMenu {
                 effect.menu(bubbleMenuCollectionViewController, didSelectItemAt: indexPath)
@@ -245,5 +251,5 @@ protocol CameraViewBubbleMenu {
     var iconContent: BubbleMenuCollectionViewCellContent { get }
     
     func menu(_ sender: BubbleMenuCollectionViewController, didSelectItemAt indexPath: IndexPath)
-    func didSelect(_ sender: BubbleMenuCollectionViewController)
+    func didSelect(_ sender: CameraViewBubbleMenu)
 }

@@ -34,7 +34,7 @@ class FilterImageEffect: NSObject, CameraViewBubbleMenu {
         delegate?.didSelectFilter(self, filter: filter)
     }
     
-    func didSelect(_ sender: BubbleMenuCollectionViewController) {
+    func didSelect(_ sender: CameraViewBubbleMenu) {
         
     }
 
