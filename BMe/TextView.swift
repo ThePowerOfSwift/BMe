@@ -118,7 +118,12 @@ class TextView: UIView, UITextFieldDelegate {
         textField.center = imageView.center
         textField.keyboardType = UIKeyboardType.default
         imageView.addSubview(textField)
-        textField.becomeFirstResponder()
+        
+        perform(#selector(foobar(_:)), with: nil, afterDelay: 0.05)
+    }
+    
+    func foobar(_: UITextField) {
+        currentTextField?.becomeFirstResponder()
     }
     
     // MARK: Gesture responders
