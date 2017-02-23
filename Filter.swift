@@ -28,16 +28,16 @@ class Filter: NSObject {
 
     class func list() -> [Filter] {
         // Double size for testing
-        return [Filter(name: "Nothing", filter: nil, imageUrlString: "montgomery.jpg"),
+        return [Filter(name: "Plain", filter: nil, imageUrlString: "montgomery.jpg"),
                 Filter(name: "Sepia", filter: CIFilter(name: "CISepiaTone"), imageUrlString: "alcatraz.jpg"),
                 Filter(name: "False", filter: CIFilter(name: "CIFalseColor"), imageUrlString: "chinatown.jpg"),
-                Filter(name: "Nothing", filter: nil, imageUrlString: "montgomery.jpg"),
+                Filter(name: "Plain", filter: nil, imageUrlString: "montgomery.jpg"),
                 Filter(name: "Sepia", filter: CIFilter(name: "CISepiaTone"), imageUrlString: "alcatraz.jpg"),
                 Filter(name: "False", filter: CIFilter(name: "CIFalseColor"), imageUrlString: "chinatown.jpg"),
-                Filter(name: "Nothing", filter: nil, imageUrlString: "montgomery.jpg"),
+                Filter(name: "Plain", filter: nil, imageUrlString: "montgomery.jpg"),
                 Filter(name: "Sepia", filter: CIFilter(name: "CISepiaTone"), imageUrlString: "alcatraz.jpg"),
                 Filter(name: "False", filter: CIFilter(name: "CIFalseColor"), imageUrlString: "chinatown.jpg"),
-                Filter(name: "Nothing", filter: nil, imageUrlString: "montgomery.jpg"),
+                Filter(name: "Plain", filter: nil, imageUrlString: "montgomery.jpg"),
                 Filter(name: "Sepia", filter: CIFilter(name: "CISepiaTone"), imageUrlString: "alcatraz.jpg"),
                 Filter(name: "False", filter: CIFilter(name: "CIFalseColor"), imageUrlString: "chinatown.jpg")
         ]
