@@ -67,6 +67,8 @@ class CameraViewController: UIViewController, SatoCameraOutput, BubbleMenuCollec
         view.bringSubview(toFront: controlView)
         // Must manually select first effect
         selectFirstEffect()
+        
+        satoCamera.start()
     }
 
     override func didReceiveMemoryWarning() {
