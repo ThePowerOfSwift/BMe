@@ -41,7 +41,10 @@ class CameraViewController: UIViewController, SatoCameraOutput, BubbleMenuCollec
         }
     }
     /** All the effects to be loaded */
-    var effects: [AnyObject] = [FilterImageEffect(),DrawImageEffectView()]
+    var effects: [AnyObject] = [AnyObject]()
+    
+    var filterImageEffect: FilterImageEffect = FilterImageEffect()
+    var drawImageEffectView: DrawImageEffectView = DrawImageEffectView()
     
     // MARK: Camera Controls & Tools
     // Tools
@@ -57,7 +60,7 @@ class CameraViewController: UIViewController, SatoCameraOutput, BubbleMenuCollec
     // MARK: Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Do any additional setup after loading the view.
         setupSatoCamera()
         setupControlView()
@@ -96,6 +99,9 @@ class CameraViewController: UIViewController, SatoCameraOutput, BubbleMenuCollec
     
     func setupEffects() {
         // Add each effect
+        effects.append(filterImageEffect)
+        effects.append(drawImageEffectView)
+        filterImageEffect.delegate = satoCamera
         for effect in effects {
             if let effect = effect as? UIView {
                 effect.frame = view.bounds

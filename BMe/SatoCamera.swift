@@ -79,8 +79,9 @@ class SatoCamera: NSObject {
     /** Store filter name. Changed by a client through change(filterName:). */
     private var filterName: String = "CISepiaTone"
     
-    fileprivate var filters: [Filter] = Filter.list()
-    fileprivate var filterIndex: Int = 0
+    //fileprivate var filters: [Filter] = Filter.list()
+    //fileprivate var filterIndex: Int = 0
+    var currentFilter: Filter = Filter.list()[0]
     
     init(frame: CGRect, cameraOutput: SatoCameraOutput) {
         self.frame = frame
@@ -274,7 +275,7 @@ class SatoCamera: NSObject {
 
 extension SatoCamera: FilterImageEffectDelegate {
     
-    func didSelectFilter(_ sender: FilterImageEffect, indexPath: IndexPath) {
+    func didSelectFilter(_ sender: FilterImageEffect, filter: Filter?) {
         // set filtered output image to outputImageView
         guard let captureSession = captureSession else {
             print("capture session is nil in \(#function)")
@@ -283,7 +284,14 @@ extension SatoCamera: FilterImageEffectDelegate {
         
         // if camera is running, just change the filter name
         //self.filterName = filterName
-        self.filterIndex = indexPath.item
+        //self.filterIndex = indexPath.item
+    
+        guard let filter = filter else {
+            print("filter is nil in \(#function)")
+            return
+        }
+        
+        self.currentFilter = filter
         
         
         // if camera is not running
@@ -291,7 +299,7 @@ extension SatoCamera: FilterImageEffectDelegate {
             
             if isGif {
                 // TODO: add gif behaviour
-                let filteredUIImages = UIImage.generateFilteredUIImages(sourceCIImages: unfilteredCIImages, with: frame, filterIndex: filterIndex)
+                let filteredUIImages = UIImage.generateFilteredUIImages(sourceCIImages: unfilteredCIImages, with: frame, filter: currentFilter)
                 
                 guard let gifImageView = UIImageView.generateGifImageView(with: filteredUIImages, frame: frame, duration: SatoCamera.imageViewAnimationDuration) else {
                     print("failed to produce gif image")
@@ -307,7 +315,7 @@ extension SatoCamera: FilterImageEffectDelegate {
                     return
                 }
                 
-                guard let filteredImage = filters[filterIndex].generateFilteredCIImage(sourceImage: unfilteredCIImage) else {
+                guard let filteredImage = currentFilter.generateFilteredCIImage(sourceImage: unfilteredCIImage) else {
                     print("filtered image is nil")
                     return
                 }
@@ -339,7 +347,7 @@ extension SatoCamera: AVCaptureVideoDataOutputSampleBufferDelegate, AVCapturePho
 //            print("filtered image is nil")
 //            return
 //        }
-        guard let filteredImage = filters[filterIndex].generateFilteredCIImage(sourceImage: sourceImage) else {
+        guard let filteredImage = currentFilter.generateFilteredCIImage(sourceImage: sourceImage) else {
             print("filtered image is nil")
             return
         }
@@ -433,7 +441,7 @@ extension SatoCamera: AVCaptureVideoDataOutputSampleBufferDelegate, AVCapturePho
                 return
             }
             
-            guard let filteredImage = filters[filterIndex].generateFilteredCIImage(sourceImage: sourceImage) else {
+            guard let filteredImage = currentFilter.generateFilteredCIImage(sourceImage: sourceImage) else {
                 print("filtered image is nil")
                 return
             }
@@ -469,7 +477,7 @@ extension SatoCamera: AVCaptureVideoDataOutputSampleBufferDelegate, AVCapturePho
         
         for ciImage in ciImages {
             
-            guard let filteredCIImage = filters[filterIndex].generateFilteredCIImage(sourceImage: ciImage) else {
+            guard let filteredCIImage = currentFilter.generateFilteredCIImage(sourceImage: ciImage) else {
                 print("filtered image is nil")
                 return nil
             }
@@ -518,12 +526,12 @@ extension SatoCamera: AVCaptureVideoDataOutputSampleBufferDelegate, AVCapturePho
 /** The methods that handle only CIImage are in this extension. */
 extension CIImage {
     // Apply filter to array of CIImage
-    class func applyFilter(to images: [CIImage], filterIndex: Int) -> [CIImage] {
+    class func applyFilter(to images: [CIImage], filter: Filter) -> [CIImage] {
         var newImages = [CIImage]()
-        let filters = Filter.list()
+
         for image in images {
             
-            guard let newImage = filters[filterIndex].generateFilteredCIImage(sourceImage: image) else {
+            guard let newImage = filter.generateFilteredCIImage(sourceImage: image) else {
                 print("filtered image is nil")
                 break
             }
@@ -584,9 +592,9 @@ extension UIImage {
     }
     
     /** Generates array of UIImage from array of CIImage. Applies filter and resizes to specific frame. */
-    class func generateFilteredUIImages(sourceCIImages: [CIImage], with frame: CGRect, filterIndex: Int) -> [UIImage] {
+    class func generateFilteredUIImages(sourceCIImages: [CIImage], with frame: CGRect, filter: Filter) -> [UIImage] {
         
-        let filteredCIImages = CIImage.applyFilter(to: sourceCIImages, filterIndex: filterIndex)
+        let filteredCIImages = CIImage.applyFilter(to: sourceCIImages, filter: filter)
         let filteredUIImages = UIImage.convertToUIImages(from: filteredCIImages)
         
         guard let resizedFilteredUIImages = UIImage.resizeImages(filteredUIImages, frame: frame) else {
