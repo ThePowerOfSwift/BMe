@@ -264,15 +264,22 @@ class SatoCamera: NSObject {
             return
         }
         
-        // let filteredUIImages = UIImage.generateFilteredUIImages(sourceCIImages: unfilteredCIImages, with: frame, filterName: filterName)
-        
         guard let gifImageView = UIImageView.generateGifImageView(with: orientUIImages, frame: frame, duration: SatoCamera.imageViewAnimationDuration) else {
             print("failed to produce gif image")
             return
         }
         
-        //let vc = cameraOutput as? ViewController
-        //vc?.presentImage(imageView: gifImageView)
+        if let cameraOutput = cameraOutput {
+            if let outputImageView = cameraOutput.outputImageView {
+                outputImageView.isHidden = false
+                for subview in outputImageView.subviews {
+                    subview.removeFromSuperview()
+                }
+            }
+        }
+        
+        cameraOutput?.outputImageView?.addSubview(gifImageView)
+        gifImageView.startAnimating()
         
         gifImageView.saveGifToDisk(completion: { (url: URL?, error: Error?) in
             if error != nil {
@@ -330,7 +337,11 @@ extension SatoCamera: FilterImageEffectDelegate {
         if !captureSession.isRunning {
             
             if isGif {
-                let filteredUIImages = UIImage.generateFilteredUIImages(sourceCIImages: unfilteredCIImages, with: frame, filter: currentFilter)
+                
+                guard let filteredUIImages = fixOrientationAndApplyFilter(ciImages: unfilteredCIImages) else {
+                    print("filtered uiimages is nil in \(#function)")
+                    return
+                }
                 
                 guard let gifImageView = UIImageView.generateGifImageView(with: filteredUIImages, frame: frame, duration: SatoCamera.imageViewAnimationDuration) else {
                     print("failed to produce gif image")
@@ -346,6 +357,7 @@ extension SatoCamera: FilterImageEffectDelegate {
                 }
 
                 cameraOutput?.outputImageView?.addSubview(gifImageView)
+                gifImageView.startAnimating()
                 
             } else {
                 // set outputImageView with filtered image.

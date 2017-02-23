@@ -28,8 +28,16 @@ class CameraViewController: UIViewController, SatoCameraOutput, BubbleMenuCollec
         satoCamera.capturePhoto()
     }
     
-    func record(_ sender: UIControlEvents) {
-        print("record")
+    func record(_ sender: UILongPressGestureRecognizer) {
+        //print("record")
+        
+        if sender.state == UIGestureRecognizerState.began {
+            print("begin")
+            satoCamera.startRecordingGif()
+        } else if sender.state == UIGestureRecognizerState.ended {
+            print("end")
+            satoCamera.stopRecordingGif()
+        }
 
     }
     
