@@ -17,11 +17,14 @@ class CameraViewController: UIViewController, SatoCameraOutput, BubbleMenuCollec
     /** Model */
     var satoCamera: SatoCamera!
 
-    // MARK: Master views
+    @IBOutlet var sampleBufferContainerView: UIView!
+    @IBOutlet var outputImageContainerView: UIView!
+    
+    // MARK: SatoCameraOutput
     // Must always be behind all other views
-    var sampleBufferView: UIView?
+    var sampleBufferView: UIView? = UIView()
     // Must always be on top of sampleBuffer
-    var outputImageView: UIImageView?
+    var outputImageView: UIImageView? = UIImageView()
 
     /**
      View that holds all control views and the active effect tool; always floating.
@@ -74,8 +77,18 @@ class CameraViewController: UIViewController, SatoCameraOutput, BubbleMenuCollec
     // MARK: Setups
     
     func setupSatoCamera() {
-        sampleBufferView = UIView(frame: view.bounds)
-        outputImageView = UIImageView(frame: view.bounds)
+        if let sampleBufferView = sampleBufferView {
+            sampleBufferView.frame = sampleBufferContainerView.bounds
+            sampleBufferView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+            sampleBufferContainerView.addSubview(sampleBufferView)
+        }
+
+        if let outputImageView = outputImageView {
+            outputImageView.frame = outputImageContainerView.bounds
+            outputImageView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+            outputImageContainerView.addSubview(outputImageView)
+        }
+        
         satoCamera = SatoCamera(frame: view.bounds, cameraOutput: self)
     }
     
