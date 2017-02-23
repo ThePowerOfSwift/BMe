@@ -14,6 +14,25 @@ import UIKit
 
 class CameraViewController: UIViewController, SatoCameraOutput, BubbleMenuCollectionViewControllerDatasource, BubbleMenuCollectionViewControllerDelegate {
     
+    // MARK: Testing
+    @IBOutlet var snapButton: UIButton!
+    
+    func setupSnapButton() {
+        snapButton.addTarget(self, action: #selector(snap(_:)), for: UIControlEvents.touchUpInside)
+        let longpress = UILongPressGestureRecognizer(target: self, action: #selector(record(_:)))
+        snapButton.addGestureRecognizer(longpress)
+    }
+    
+    func snap(_ sender: UIControlEvents) {
+        print("snap")
+    }
+    
+    func record(_ sender: UIControlEvents) {
+        print("record")
+    }
+    
+    //***********
+    
     /** Model */
     var satoCamera: SatoCamera!
 
@@ -61,6 +80,7 @@ class CameraViewController: UIViewController, SatoCameraOutput, BubbleMenuCollec
         setupSatoCamera()
         setupControlView()
         setupEffects()
+        setupSnapButton()
         
         // Finalize setup
         view.bringSubview(toFront: controlView)

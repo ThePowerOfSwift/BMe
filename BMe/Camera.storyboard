@@ -38,10 +38,15 @@
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </view>
                                     <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iU0-LW-1qw">
-                                        <rect key="frame" x="204" y="556" width="163" height="78"/>
+                                        <rect key="frame" x="240" y="556" width="127" height="78"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </view>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4pJ-iu-cBa">
+                                        <rect key="frame" x="170" y="595" width="35" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" title="Snap"/>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
@@ -68,6 +73,7 @@
                         <outlet property="effectToolView" destination="iU0-LW-1qw" id="77J-x6-wqZ"/>
                         <outlet property="outputImageContainerView" destination="pTx-8A-oMA" id="ohA-O7-rYx"/>
                         <outlet property="sampleBufferContainerView" destination="MWL-Oi-NMW" id="wQI-ga-qKX"/>
+                        <outlet property="snapButton" destination="4pJ-iu-cBa" id="f6V-9r-VL7"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rj6-Y3-fcH" userLabel="First Responder" sceneMemberID="firstResponder"/>
