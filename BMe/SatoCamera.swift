@@ -301,7 +301,6 @@ extension SatoCamera: FilterImageEffectDelegate {
         if !captureSession.isRunning {
             
             if isGif {
-                // TODO: add gif behaviour
                 let filteredUIImages = UIImage.generateFilteredUIImages(sourceCIImages: unfilteredCIImages, with: frame, filter: currentFilter)
                 
                 guard let gifImageView = UIImageView.generateGifImageView(with: filteredUIImages, frame: frame, duration: SatoCamera.imageViewAnimationDuration) else {
@@ -309,7 +308,7 @@ extension SatoCamera: FilterImageEffectDelegate {
                     return
                 }
                 
-                // do something with gifImageView
+                cameraOutput?.outputImageView = gifImageView
                 
             } else {
                 // set outputImageView with filtered image.
