@@ -74,7 +74,28 @@ class SatoCamera: NSObject {
     /** Frame of preview view in a client. Should be set when being initialized. */
     fileprivate var frame: CGRect
     
-    fileprivate var cameraOutput: SatoCameraOutput?
+    /** Can be set after initialization. videoPreview will be added subview to sampleBufferOutput in dataSource. */
+    var cameraOutput: SatoCameraOutput? {
+        didSet {
+            
+            guard let videoPreview = videoPreview, let cameraOutput = cameraOutput else {
+                print("video preview or camera output is nil")
+                return
+            }
+            
+            guard let sampleBufferOutput = cameraOutput.sampleBufferView else {
+                print("sample buffer view is nil")
+                return
+            }
+            
+            for subview in sampleBufferOutput.subviews {
+                subview.removeFromSuperview()
+            }
+            
+            sampleBufferOutput.addSubview(videoPreview)
+            print("video preview is set to sample buffer output as a subview")
+        }
+    }
     
     /** Store filter name. Changed by a client through change(filterName:). */
     private var filterName: String = "CISepiaTone"
@@ -88,9 +109,12 @@ class SatoCamera: NSObject {
     
     init(frame: CGRect, cameraOutput: SatoCameraOutput?) {
         self.frame = frame
+        //http://stackoverflow.com/questions/29619846/in-swift-didset-doesn-t-fire-when-invoked-from-init
+        // didSet in cameraOutput is not called here before super.init() is called
         self.cameraOutput = cameraOutput
+
         super.init()
-        
+
         // EAGLContext object manages an OpenGL ES rendering context
         eaglContext = EAGLContext(api: EAGLRenderingAPI.openGLES2)
         guard let eaglContext = eaglContext else {
@@ -120,10 +144,6 @@ class SatoCamera: NSObject {
         videoPreviewViewBounds?.size.height = CGFloat(videoPreview.drawableHeight)
         
         ciContext = CIContext(eaglContext: eaglContext)
-        
-        // Add video preview to delegate's view
-        assert(cameraOutput?.sampleBufferView != nil,
-               "sampleBufferView in dataSource hasn't been initialized. Make sure to initialize sampleBufferView in dataSource before using it in SatoCamera.")
         
         cameraOutput?.sampleBufferView?.addSubview(videoPreview)
         initialStart()
