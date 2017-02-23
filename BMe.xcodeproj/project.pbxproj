@@ -18,6 +18,7 @@
 		78120EB01E5E18A20080806E /* FilterImageEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78120EAF1E5E18A20080806E /* FilterImageEffect.swift */; };
 		78120EB21E5E1BB10080806E /* TextImageEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78120EB11E5E1BB10080806E /* TextImageEffectView.swift */; };
 		78120EBC1E5E69B80080806E /* TextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78120EBB1E5E69B80080806E /* TextView.swift */; };
+		78120EC11E5E6DF00080806E /* Filter_old.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78120EC01E5E6DF00080806E /* Filter_old.swift */; };
 		781315EC1E5A6C180057DA36 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781315EB1E5A6C180057DA36 /* CameraViewController.swift */; };
 		781315F31E5BB9F90057DA36 /* DrawImageEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781315F21E5BB9F90057DA36 /* DrawImageEffectView.swift */; };
 		781315F81E5BBC1E0057DA36 /* Camera.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 781315F71E5BBC1E0057DA36 /* Camera.storyboard */; };
@@ -167,6 +168,7 @@
 		78120EAF1E5E18A20080806E /* FilterImageEffect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterImageEffect.swift; sourceTree = "<group>"; };
 		78120EB11E5E1BB10080806E /* TextImageEffectView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextImageEffectView.swift; sourceTree = "<group>"; };
 		78120EBB1E5E69B80080806E /* TextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextView.swift; sourceTree = "<group>"; };
+		78120EC01E5E6DF00080806E /* Filter_old.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Filter_old.swift; sourceTree = "<group>"; };
 		781315EB1E5A6C180057DA36 /* CameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		781315F21E5BB9F90057DA36 /* DrawImageEffectView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawImageEffectView.swift; sourceTree = "<group>"; };
 		781315F71E5BBC1E0057DA36 /* Camera.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Camera.storyboard; sourceTree = "<group>"; };
@@ -322,8 +324,9 @@
 		78120EAB1E5E18220080806E /* Filter */ = {
 			isa = PBXGroup;
 			children = (
-				E3DC850B1E450EDC0017E6A2 /* Filter.swift */,
 				78120EAF1E5E18A20080806E /* FilterImageEffect.swift */,
+				E3DC850B1E450EDC0017E6A2 /* Filter.swift */,
+				78120EC01E5E6DF00080806E /* Filter_old.swift */,
 			);
 			name = Filter;
 			sourceTree = "<group>";
@@ -933,6 +936,7 @@
 				781316231E5C09070057DA36 /* BubbleMenuCollectionViewCell.swift in Sources */,
 				BFDE7F711E4C1D5200AA38A7 /* JSONObject.swift in Sources */,
 				BFF9AE9D1E3D90540012C1F2 /* MainViewController.swift in Sources */,
+				78120EC11E5E6DF00080806E /* Filter_old.swift in Sources */,
 				4216315E1E43C26600E644A5 /* ProfileTableCollectionViewCell.swift in Sources */,
 				781315F31E5BB9F90057DA36 /* DrawImageEffectView.swift in Sources */,
 				78D1783B1E48F8AD004B7840 /* JSONStack.swift in Sources */,
