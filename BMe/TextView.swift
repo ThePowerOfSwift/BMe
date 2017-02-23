@@ -68,10 +68,6 @@ class TextView: UIView, UITextFieldDelegate {
         imageView.frame = bounds
         imageView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         addSubview(imageView)
-        
-        // Observe keyboard appearance
-        addKeyboardObserver()
-        
     }
     
     // MARK: TextField editing
@@ -119,11 +115,9 @@ class TextView: UIView, UITextFieldDelegate {
         textField.keyboardType = UIKeyboardType.default
         imageView.addSubview(textField)
         
-        perform(#selector(foobar(_:)), with: nil, afterDelay: 0.05)
-    }
-    
-    func foobar(_: UITextField) {
-        currentTextField?.becomeFirstResponder()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.025) {
+            self.currentTextField?.becomeFirstResponder()
+        }
     }
     
     // MARK: Gesture responders
@@ -240,47 +234,4 @@ class TextView: UIView, UITextFieldDelegate {
         textField.resignFirstResponder()
         return true
     }
-    
-    func addKeyboardObserver() {
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: .UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: .UIKeyboardWillHide, object: nil)
-    }
-    
-    func keyboardWillShow(notification: NSNotification) {
-        print("Keyboard will show")
-        /*
-        let info  = notification.userInfo!
-        guard let keyboardFrame = info[UIKeyboardFrameEndUserInfoKey] as? CGRect else {
-            print("Error: Can't convert info[UIKeyboardFrameEndUserInfoKey] to CGRect")
-            return
-        }
-        
-        Constraint.BubbleCollectionView.Top.ShowWithKeyboard = UIScreen.main.bounds.height - keyboardFrame.height - bubbleCollectionView.frame.height
-        isBubbleCollectionViewShown = false
-        bubbleCollectionView.reloadData()
-        toggleBubbleCollectionView()
-        UIView.animate(withDuration: 0.1) {
-            self.view.bringSubview(toFront: self.imageView)
-            self.view.bringSubview(toFront: self.bubbleCollectionView)
-            self.bubbleCollectionViewTopConstraint.constant = Constraint.BubbleCollectionView.Top.ShowWithKeyboard
-            print("self.bubbleCollectionViewTopConstraint.constant: \(self.bubbleCollectionViewTopConstraint.constant)")
-            self.view.layoutIfNeeded()
-        }
-        */
-    }
-    
-    func keyboardWillHide(notification: NSNotification) {
-        print("Keyboard will hide")
-        /*
-        if currentMode.isMode(mode: .Text) {
-            UIView.animate(withDuration: 0.1) {
-                self.view.bringSubview(toFront: self.imageView)
-                self.view.bringSubview(toFront: self.bubbleCollectionView)
-                self.bubbleCollectionViewTopConstraint.constant = Constraint.BubbleCollectionView.Top.Show
-                self.view.layoutIfNeeded()
-            }
-        }
- */
-    }
-
 }

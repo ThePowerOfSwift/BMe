@@ -91,6 +91,8 @@ class CameraViewController: UIViewController, SatoCameraOutput, BubbleMenuCollec
         setupControlView()
         setupEffects()
         setupSnapButton()
+        // Observe keyboard appearance
+        addKeyboardObserver()
         
         // Finalize setup
         view.bringSubview(toFront: controlView)
@@ -103,6 +105,10 @@ class CameraViewController: UIViewController, SatoCameraOutput, BubbleMenuCollec
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    deinit {
+        removeKeyboardObserver()
     }
     
     // MARK: Setups
@@ -271,6 +277,56 @@ class CameraViewController: UIViewController, SatoCameraOutput, BubbleMenuCollec
             }
         }
     }
+    
+    // MARK: Keyboard
+    
+    func addKeyboardObserver() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: .UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: .UIKeyboardWillHide, object: nil)
+    }
+    
+    func removeKeyboardObserver() {
+        NotificationCenter.default.removeObserver(self, name: .UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.removeObserver(self, name: .UIKeyboardWillHide, object: nil)
+    }
+    
+    func keyboardWillShow(notification: NSNotification) {
+        print("Keyboard will show")
+        /*
+         let info  = notification.userInfo!
+         guard let keyboardFrame = info[UIKeyboardFrameEndUserInfoKey] as? CGRect else {
+         print("Error: Can't convert info[UIKeyboardFrameEndUserInfoKey] to CGRect")
+         return
+         }
+         
+         Constraint.BubbleCollectionView.Top.ShowWithKeyboard = UIScreen.main.bounds.height - keyboardFrame.height - bubbleCollectionView.frame.height
+         isBubbleCollectionViewShown = false
+         bubbleCollectionView.reloadData()
+         toggleBubbleCollectionView()
+         UIView.animate(withDuration: 0.1) {
+         self.view.bringSubview(toFront: self.imageView)
+         self.view.bringSubview(toFront: self.bubbleCollectionView)
+         self.bubbleCollectionViewTopConstraint.constant = Constraint.BubbleCollectionView.Top.ShowWithKeyboard
+         print("self.bubbleCollectionViewTopConstraint.constant: \(self.bubbleCollectionViewTopConstraint.constant)")
+         self.view.layoutIfNeeded()
+         }
+         */
+    }
+    
+    func keyboardWillHide(notification: NSNotification) {
+        print("Keyboard will hide")
+        /*
+         if currentMode.isMode(mode: .Text) {
+         UIView.animate(withDuration: 0.1) {
+         self.view.bringSubview(toFront: self.imageView)
+         self.view.bringSubview(toFront: self.bubbleCollectionView)
+         self.bubbleCollectionViewTopConstraint.constant = Constraint.BubbleCollectionView.Top.Show
+         self.view.layoutIfNeeded()
+         }
+         }
+         */
+    }
+
 }
 
 protocol CameraViewBubbleMenu {
