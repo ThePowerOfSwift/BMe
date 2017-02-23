@@ -44,6 +44,7 @@ class SatoCamera: NSObject {
     
     /** view where CIImage created from sample buffer in didOutputSampleBuffer() is shown. Updated real time. */
     fileprivate var videoPreview: GLKView?
+    fileprivate var videoDevice: AVCaptureDevice?
     /** needed for real time image processing. instantiated with EAGLContext. */
     fileprivate var ciContext: CIContext?
     fileprivate var eaglContext: EAGLContext?
@@ -94,6 +95,7 @@ class SatoCamera: NSObject {
             
             sampleBufferOutput.addSubview(videoPreview)
             print("video preview is set to sample buffer output as a subview")
+            
         }
     }
     
@@ -158,11 +160,24 @@ class SatoCamera: NSObject {
             return
         }
         
+        self.videoDevice = videoDevice
+        
         // If the video device support high preset, set the preset to capture session
         let preset = AVCaptureSessionPresetHigh
         if videoDevice.supportsAVCaptureSessionPreset(preset) {
             captureSession = AVCaptureSession()
             captureSession?.sessionPreset = preset
+        }
+        
+        // make class property video device
+        if videoDevice.isFocusModeSupported(AVCaptureFocusMode.locked) {
+            do {
+                try videoDevice.lockForConfiguration()
+                videoDevice.focusMode = AVCaptureFocusMode.locked
+                videoDevice.unlockForConfiguration()
+            } catch {
+                print("error in try catch")
+            }
         }
         
         guard let captureSession = captureSession else {
@@ -213,6 +228,52 @@ class SatoCamera: NSObject {
         
         //let videoConnection = videoDataOutput.connection(withMediaType: AVMediaTypeVideo)
         //videoConnection?.videoOrientation = AVCaptureVideoOrientation.portrait
+        
+    }
+    
+    /** Focus on where it's tapped. */
+    internal func tapToFocus(touch: UITouch) {
+        let touchPoint = touch.location(in: videoPreview)
+        
+        print("tap to focus: (x: \(String(format: "%.0f", touchPoint.x)), y: \(String(format: "%.0f", touchPoint.y))) in \(self)")
+        let adjustedPoint = CGPoint(x: frame.width - touchPoint.y, y: touchPoint.x)
+        print("adjusted point: (x: \(String(format: "%.0f", adjustedPoint.x)) y: \(String(format: "%.0f", adjustedPoint.y)))")
+        guard let videoDevice = videoDevice else {
+            print("video device is nil")
+            return
+        }
+        
+        let adjustedPoint100 = CGPoint(x: adjustedPoint.x / frame.width, y: adjustedPoint.y / frame.height)
+        
+        //let layer = AVCaptureVideoPreviewLayer(session: captureSession)
+        //let layerPoint = layer?.captureDevicePointOfInterest(for: touchPoint)
+        //print("layerPoint: (x: \(String(format: "%.0f", layerPoint!.x)), y: \(String(format: "%.0f", layerPoint!.y))")
+        
+        
+        if videoDevice.isFocusPointOfInterestSupported && videoDevice.isFocusModeSupported(AVCaptureFocusMode.autoFocus) {
+            do {
+                try videoDevice.lockForConfiguration()
+                // https://developer.apple.com/reference/avfoundation/avcapturedevice/1385853-focuspointofinterest
+                //videoDevice.focusPointOfInterest = CGPoint(x: 1, y: 1)
+                videoDevice.focusPointOfInterest = adjustedPoint100
+                // autoFocus perform auto focus operation now
+                videoDevice.focusMode = AVCaptureFocusMode.autoFocus
+                videoDevice.unlockForConfiguration()
+                print("configure success")
+            } catch let error as NSError {
+                print(error.localizedDescription)
+            }
+        }
+        
+        // feedback rect view
+        let feedbackView = UIView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: 50, height: 50)))
+        feedbackView.center = adjustedPoint
+        feedbackView.layer.borderColor = UIColor.white.cgColor
+        feedbackView.layer.borderWidth = 5.0
+        feedbackView.backgroundColor = UIColor.clear
+        cameraOutput?.sampleBufferView?.addSubview(feedbackView)
+        
+        
     }
     
     /** Resumes camera. */
@@ -601,6 +662,12 @@ extension CIImage {
             newImages.append(newImage)
         }
         return newImages
+    }
+}
+
+extension GLKView {
+    open override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        print("touch began")
     }
 }
 

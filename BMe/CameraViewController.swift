@@ -130,6 +130,14 @@ class CameraViewController: UIViewController, SatoCameraOutput, BubbleMenuCollec
         satoCamera.cameraOutput = self
     }
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        let tap = touches.first!
+        let point = tap.location(in: self.view)
+        
+        print("tapped point: (x: \(String(format: "%.0f", point.x)), y: \(String(format: "%.0f", point.y))) in \(self)")
+        satoCamera.tapToFocus(touch: touches.first!)
+    }
+    
     func setupEffects() {
         // Add each effect
         for effect in effects {
