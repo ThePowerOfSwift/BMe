@@ -25,10 +25,12 @@ class CameraViewController: UIViewController, SatoCameraOutput, BubbleMenuCollec
     
     func snap(_ sender: UIControlEvents) {
         print("snap")
+        satoCamera.capturePhoto()
     }
     
     func record(_ sender: UIControlEvents) {
         print("record")
+
     }
     
     //***********
