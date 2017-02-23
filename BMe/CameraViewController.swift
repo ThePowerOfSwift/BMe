@@ -35,11 +35,8 @@ class CameraViewController: UIViewController, SatoCameraOutput, BubbleMenuCollec
     // MARK: Image Effects
     /** Tracks which effect tool is currently selected in effects: [UIView] */
     var lastSelectedEffect = -1
-    var selectedEffect = -1 {
-        didSet {
-            didSelectEffect()
-        }
-    }
+    var selectedEffect = -1
+    
     /** All the effects to be loaded */
     var effects: [AnyObject] = [FilterImageEffect(),
                                 DrawImageEffectView(),
@@ -92,8 +89,10 @@ class CameraViewController: UIViewController, SatoCameraOutput, BubbleMenuCollec
             outputImageView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
             outputImageContainerView.addSubview(outputImageView)
         }
-        
+
         satoCamera = SatoCamera(frame: view.bounds, cameraOutput: self)
+//        satoCamera = SatoCamera(frame: view.bounds)
+//        satoCamera.cameraOutput = self
     }
     
     func setupEffects() {
@@ -171,7 +170,14 @@ class CameraViewController: UIViewController, SatoCameraOutput, BubbleMenuCollec
         effectToolBubbleCVC.delegate?.bubbleMenuCollectionViewController(effectToolBubbleCVC, didSelectItemAt: indexPath)
     }
     
-    func didSelectEffect() {
+    func didSelectEffect(at indexPath: IndexPath) {
+        
+        // If it's the same selection, do nothing
+        if selectedEffect != indexPath.row {
+            lastSelectedEffect = selectedEffect
+            selectedEffect = indexPath.row
+        }
+        
         // Move selected effect view to fore
         // Remove last effect from control view
         if lastSelectedEffect >= 0, let effect = effects[lastSelectedEffect] as? UIView {
@@ -227,13 +233,9 @@ class CameraViewController: UIViewController, SatoCameraOutput, BubbleMenuCollec
         // Check which collection view recieved the selection
         // Selection made on tools menu
         if (bubbleMenuCollectionViewController == effectToolBubbleCVC) {
-            // If it's the same selection, do nothing
-            if selectedEffect != indexPath.row {
-                lastSelectedEffect = selectedEffect
-                selectedEffect = indexPath.row
-            }
+            didSelectEffect(at: indexPath)
         }
-        // Selection made on tool options menu
+        // Selection made on options menu
         else if (bubbleMenuCollectionViewController == effectOptionBubbleCVC) {
             if let effect = effects[selectedEffect] as? CameraViewBubbleMenu {
                 effect.menu(bubbleMenuCollectionViewController, didSelectItemAt: indexPath)
