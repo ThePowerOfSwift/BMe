@@ -124,6 +124,9 @@ class BubbleMenuCollectionViewCell: UICollectionViewCell {
     private func didSelect() {
         UIView.animate(withDuration: animationTime/2) {
             self.imageView.alpha = 0.25
+            self.imageView.layer.borderColor = UIColor.white.cgColor
+            self.imageView.layer.borderWidth = 2.0
+            
             self.imageLabel.font = self.imageLabelSelectedFont
         }
     }
@@ -131,6 +134,8 @@ class BubbleMenuCollectionViewCell: UICollectionViewCell {
     private func didDeselect() {
         UIView.animate(withDuration: animationTime) {
             self.imageView.alpha = 1.0
+            self.imageView.layer.borderWidth = 0.0
+
             self.imageLabel.font = self.imageLabelDefaultFont
         }
     }

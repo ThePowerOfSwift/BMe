@@ -90,9 +90,8 @@ class CameraViewController: UIViewController, SatoCameraOutput, BubbleMenuCollec
             outputImageContainerView.addSubview(outputImageView)
         }
 
-        satoCamera = SatoCamera(frame: view.bounds, cameraOutput: self)
-//        satoCamera = SatoCamera(frame: view.bounds)
-//        satoCamera.cameraOutput = self
+        satoCamera = SatoCamera(frame: view.bounds)
+        satoCamera.cameraOutput = self
     }
     
     func setupEffects() {
