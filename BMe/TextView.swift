@@ -72,8 +72,6 @@ class TextView: UIView, UITextFieldDelegate {
         // Observe keyboard appearance
         addKeyboardObserver()
         
-        // TODO: testing
-        addTextfield()
     }
     
     // MARK: TextField editing

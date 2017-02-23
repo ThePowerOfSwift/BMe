@@ -41,10 +41,9 @@ class CameraViewController: UIViewController, SatoCameraOutput, BubbleMenuCollec
         }
     }
     /** All the effects to be loaded */
-    var effects: [AnyObject] = [AnyObject]()
-    
-    var filterImageEffect: FilterImageEffect = FilterImageEffect()
-    var drawImageEffectView: DrawImageEffectView = DrawImageEffectView()
+    var effects: [AnyObject] = [FilterImageEffect(),
+                                DrawImageEffectView(),
+                                TextImageEffectView()]
     
     // MARK: Camera Controls & Tools
     // Tools
@@ -99,14 +98,14 @@ class CameraViewController: UIViewController, SatoCameraOutput, BubbleMenuCollec
     
     func setupEffects() {
         // Add each effect
-        effects.append(filterImageEffect)
-        effects.append(drawImageEffectView)
-        filterImageEffect.delegate = satoCamera
         for effect in effects {
             if let effect = effect as? UIView {
                 effect.frame = view.bounds
                 effect.autoresizingMask = [.flexibleHeight, .flexibleWidth]
                 view.addSubview(effect)
+            }
+            if let effect = effect as? FilterImageEffect {
+                effect.delegate = satoCamera
             }
         }
     }
@@ -183,6 +182,11 @@ class CameraViewController: UIViewController, SatoCameraOutput, BubbleMenuCollec
             controlView.insertSubview(effect, at: 0)
         }
         
+        // Tell tool it's been selected
+        if let effect = effects[selectedEffect] as? CameraViewBubbleMenu {
+            effect.didSelect(effect)
+        }
+        
         loadToolOptions()
     }
      
@@ -245,5 +249,5 @@ protocol CameraViewBubbleMenu {
     var iconContent: BubbleMenuCollectionViewCellContent { get }
     
     func menu(_ sender: BubbleMenuCollectionViewController, didSelectItemAt indexPath: IndexPath)
-    func didSelect(_ sender: BubbleMenuCollectionViewController)
+    func didSelect(_ sender: CameraViewBubbleMenu)
 }
