@@ -225,7 +225,7 @@ class CameraViewController: UIViewController, SatoCameraOutput, BubbleMenuCollec
         
         // Tell tool it's been selected
         if let effect = effects[selectedEffect] as? CameraViewBubbleMenu {
-            effect.didSelect(effect)
+            effect.didSelect?(effect)
         }
         
         loadToolOptions()
@@ -291,50 +291,23 @@ class CameraViewController: UIViewController, SatoCameraOutput, BubbleMenuCollec
     }
     
     func keyboardWillShow(notification: NSNotification) {
-        print("Keyboard will show")
-        /*
-         let info  = notification.userInfo!
-         guard let keyboardFrame = info[UIKeyboardFrameEndUserInfoKey] as? CGRect else {
-         print("Error: Can't convert info[UIKeyboardFrameEndUserInfoKey] to CGRect")
-         return
-         }
-         
-         Constraint.BubbleCollectionView.Top.ShowWithKeyboard = UIScreen.main.bounds.height - keyboardFrame.height - bubbleCollectionView.frame.height
-         isBubbleCollectionViewShown = false
-         bubbleCollectionView.reloadData()
-         toggleBubbleCollectionView()
-         UIView.animate(withDuration: 0.1) {
-         self.view.bringSubview(toFront: self.imageView)
-         self.view.bringSubview(toFront: self.bubbleCollectionView)
-         self.bubbleCollectionViewTopConstraint.constant = Constraint.BubbleCollectionView.Top.ShowWithKeyboard
-         print("self.bubbleCollectionViewTopConstraint.constant: \(self.bubbleCollectionViewTopConstraint.constant)")
-         self.view.layoutIfNeeded()
-         }
-         */
+//        guard let keyboardFrame = notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? CGRect else {
+//            print("Error: Cannot retrieve Keyboard frame")
+//            return
+//        }
     }
     
     func keyboardWillHide(notification: NSNotification) {
-        print("Keyboard will hide")
-        /*
-         if currentMode.isMode(mode: .Text) {
-         UIView.animate(withDuration: 0.1) {
-         self.view.bringSubview(toFront: self.imageView)
-         self.view.bringSubview(toFront: self.bubbleCollectionView)
-         self.bubbleCollectionViewTopConstraint.constant = Constraint.BubbleCollectionView.Top.Show
-         self.view.layoutIfNeeded()
-         }
-         }
-         */
-    }
 
+    }
 }
 
-protocol CameraViewBubbleMenu {
+@objc protocol CameraViewBubbleMenu {
     /** Contents of the bubble menu */
     var menuContent: [BubbleMenuCollectionViewCellContent] { get }
     /** The icon image of the datasource */
     var iconContent: BubbleMenuCollectionViewCellContent { get }
     
     func menu(_ sender: BubbleMenuCollectionViewController, didSelectItemAt indexPath: IndexPath)
-    func didSelect(_ sender: CameraViewBubbleMenu)
+    @objc optional func didSelect(_ sender: CameraViewBubbleMenu)
 }

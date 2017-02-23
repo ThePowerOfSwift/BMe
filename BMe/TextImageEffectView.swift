@@ -69,7 +69,7 @@ class TextImageEffectView: UIView, CameraViewBubbleMenu {
     // MARK: CameraViewBubbleMenu
     
     func menu(_ sender: BubbleMenuCollectionViewController, didSelectItemAt indexPath: IndexPath) {
-        textView.currentColor = Color.list()[indexPath.row].uiColor
+        textView.color = Color.list()[indexPath.row].uiColor
     }
     
     func didSelect(_ sender: CameraViewBubbleMenu) {

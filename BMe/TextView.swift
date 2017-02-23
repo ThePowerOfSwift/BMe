@@ -10,32 +10,37 @@ import UIKit
 
 private let defaultText = ":)"
 private let defaultFont = UIFont(name: "Helvetica", size: 50)
-private let defaultColor = UIColor.black
+private let defaultColor = UIColor.white
+/** CGContext; Quality; 0.0 is screen resolution */
+private let imageScale: CGFloat = 0.00
 
 class TextView: UIView, UITextFieldDelegate {
 
+    // Model
     /** The view that holds and draws the line */
     private var imageView = UIImageView()
     
     // Text editing properties
     /** To store current font size for pinch gesture scaling */
     private var currentFontSize: CGFloat = 0
-    /** the last rotation is the relative rotation value when rotation stopped last time,
+    /** The last rotation is the relative rotation value when rotation stopped last time,
      which indicates the current rotation */
     private var lastRotation: CGFloat = 0
     /** To store original center position for panned gesture */
     private var originalCenter: CGPoint?
     
-    // Trackers
-    private var currentTextField: UITextField?
-    var currentColor: UIColor = defaultColor
+    // Instance properties
+    /** The current textField */
+    var textField: UITextField?
+    /** The current color */
+    var color: UIColor = defaultColor {
+        didSet {
+            textField?.textColor = color
+        }
+    }
     
-    // CGContext
-    /** Quality; 0.0 is screen resolution */
-    private var imageScale: CGFloat = 0.00
-    
-    /** Returns all the text fields generated to be drawn */
-    private var textFields: [UITextField] {
+    /** Returns all the text fields */
+    var textFields: [UITextField] {
         get {
             var textFields: [UITextField] = []
             for view in imageView.subviews {
@@ -46,7 +51,7 @@ class TextView: UIView, UITextFieldDelegate {
             return textFields
         }
     }
-
+    
     // MARK: Lifecycle
     
     override init(frame: CGRect) {
@@ -75,48 +80,51 @@ class TextView: UIView, UITextFieldDelegate {
     /** Add a text field to the screen and begin editing */
     func addTextfield() {
         // Create new textfield
-        let textField = UITextField()
-        self.currentTextField = textField
-        textField.delegate = self
-        // Set textfield behaviour
-        textField.autocorrectionType = .no
-        textField.autocapitalizationType = .sentences
-        textField.spellCheckingType = .no
-        textField.keyboardType = UIKeyboardType.asciiCapable
-        textField.returnKeyType = .done
-        textField.textColor = currentColor
-        textField.font = defaultFont
+        let newTextField = UITextField()
+        self.textField = newTextField
+        newTextField.delegate = self
+        // Set newTextField behaviour
+        newTextField.autocorrectionType = .no
+        newTextField.autocapitalizationType = .sentences
+        newTextField.spellCheckingType = .no
+        newTextField.keyboardType = UIKeyboardType.asciiCapable
+        newTextField.returnKeyType = .done
+        newTextField.textColor = color
+        newTextField.font = defaultFont
         
         // Lay gestures into created text field
         // Change
-        textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: UIControlEvents.editingChanged)
+        newTextField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: UIControlEvents.editingChanged)
         // Double tap (to delete)
         let tap = UITapGestureRecognizer(target: self, action: #selector(doubleTappedTextField(_:)))
         tap.numberOfTapsRequired = 2
-        textField.addGestureRecognizer(tap)
+        newTextField.addGestureRecognizer(tap)
         // Pan (to move)
         let pan = UIPanGestureRecognizer(target: self, action: #selector(pannedTextField(_:)))
-        textField.addGestureRecognizer(pan)
+        newTextField.addGestureRecognizer(pan)
         
         // Pinch (to scale)
         let pinch = UIPinchGestureRecognizer(target: self, action: #selector(pinchedTextField(_:)))
-        textField.addGestureRecognizer(pinch)
+        newTextField.addGestureRecognizer(pinch)
         
         // Rotation (to rotate)
         let rotate = UIRotationGestureRecognizer(target: self, action: #selector(rotatedTextField(_:)))
-        textField.addGestureRecognizer(rotate)
+        newTextField.addGestureRecognizer(rotate)
         
         // Default appearance
-        textField.attributedPlaceholder = NSAttributedString(string: defaultText, attributes: [NSForegroundColorAttributeName: currentColor])
-        textField.sizeToFit()
+        newTextField.attributedPlaceholder = NSAttributedString(string: defaultText, attributes: [NSForegroundColorAttributeName: color])
+        newTextField.sizeToFit()
         
         // Add textField to view
-        textField.center = imageView.center
-        textField.keyboardType = UIKeyboardType.default
-        imageView.addSubview(textField)
+        newTextField.center = imageView.center
         
+        // Configure keyboard
+        newTextField.keyboardType = UIKeyboardType.default
+        
+        // Add textfield to heirarchy
+        imageView.addSubview(newTextField)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.025) {
-            self.currentTextField?.becomeFirstResponder()
+            self.textField?.becomeFirstResponder()
         }
     }
     
@@ -187,15 +195,15 @@ class TextView: UIView, UITextFieldDelegate {
         imageView.endEditing(true)
     }
     
-    private func removeTextfieldFromSubbiew() {
+    // MARK: Instance methods
+    
+    func removeAllTextfields() {
         for view in imageView.subviews {
             if let textField = view as? UITextField {
                 textField.removeFromSuperview()
             }
         }
     }
-    
-    // MARK: Instance methods
     
     /** Render texts field into text image view. */
     func render() {
@@ -222,6 +230,9 @@ class TextView: UIView, UITextFieldDelegate {
     
     /** Allow text fields to be edited */
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        // Set the current textfield
+        self.textField = textField
+
         return true
     }
     

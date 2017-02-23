@@ -70,8 +70,5 @@ class DrawImageEffectView: UIView, CameraViewBubbleMenu {
     
     func menu(_ sender: BubbleMenuCollectionViewController, didSelectItemAt indexPath: IndexPath) {
         drawView.currentColor = Color.list()[indexPath.row].uiColor
-    }
-    
-    func didSelect(_ sender: CameraViewBubbleMenu) {
-    }
+    }    
 }

@@ -8,12 +8,6 @@
 
 import UIKit
 
-/** Model for BubbleMenuCollectionViewCell */
-struct BubbleMenuCollectionViewCellContent {
-    var image: UIImage
-    var label: String
-}
-
 class BubbleMenuCollectionViewCell: UICollectionViewCell {
     static let name = "BubbleMenuCollectionViewCell"
     
@@ -143,4 +137,17 @@ class BubbleMenuCollectionViewCell: UICollectionViewCell {
     // Performed on highlight
     private func didHighlight() {
     }
+}
+
+/** Model for BubbleMenuCollectionViewCell */
+class BubbleMenuCollectionViewCellContent: NSObject {
+    var image: UIImage!
+    var label: String!
+    
+    init(image: UIImage, label: String) {
+        super.init()
+        self.image = image
+        self.label = label
+    }
+    
 }
