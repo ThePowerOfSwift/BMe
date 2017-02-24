@@ -39,9 +39,7 @@ class CameraViewController: UIViewController, SatoCameraOutput, BubbleMenuCollec
             satoCamera.stopRecordingGif()
         }
     }
-    
-    // MARK: Camera actions tesing
-    
+        
     @IBOutlet weak var cancelButton: UIButton!
     @IBAction func tappedCancel(_ sender: Any) {
         cancel()
