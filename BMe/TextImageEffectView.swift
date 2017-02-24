@@ -16,6 +16,7 @@ class TextImageEffectView: UIView, CameraViewBubbleMenu {
     // MARK: CameraViewBubbleMenu
     var menuContent: [BubbleMenuCollectionViewCellContent] = []
     var iconContent = BubbleMenuCollectionViewCellContent(image: UIImage(named: "montgomery.jpg")!, label: "Text")
+    var showsMenuContentOnKeyboard: Bool = true
     
     // MARK: Lifecycle
     
@@ -69,11 +70,10 @@ class TextImageEffectView: UIView, CameraViewBubbleMenu {
     // MARK: CameraViewBubbleMenu
     
     func menu(_ sender: BubbleMenuCollectionViewController, didSelectItemAt indexPath: IndexPath) {
-        textView.currentColor = Color.list()[indexPath.row].uiColor
+        textView.color = Color.list()[indexPath.row].uiColor
     }
     
     func didSelect(_ sender: CameraViewBubbleMenu) {
         textView.addTextfield()
     }
-
 }

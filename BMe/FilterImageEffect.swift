@@ -33,11 +33,6 @@ class FilterImageEffect: NSObject, CameraViewBubbleMenu {
         let filter = Filter.list()[indexPath.row]
         delegate?.didSelectFilter(self, filter: filter)
     }
-    
-    func didSelect(_ sender: CameraViewBubbleMenu) {
-        
-    }
-
 }
 
 protocol FilterImageEffectDelegate {

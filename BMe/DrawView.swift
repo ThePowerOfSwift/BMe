@@ -8,6 +8,9 @@
 
 import UIKit
 
+/** CGContext; Quality; 0.0 is screen resolution */
+private let imageScale: CGFloat = 0.00
+
 /** Draws a line to view following user touches */
 class DrawView: UIView {
 
@@ -15,8 +18,6 @@ class DrawView: UIView {
     private var imageView = UIImageView()
     /** Tracks the user's last touch point; used to draw lines between touch points */
     private var lastPoint = CGPoint.zero
-    /** Quality; 0.0 is screen resolution */
-    private var imageScale: CGFloat = 0.00
     
     /** The drawn line's width setting */
     var lineWidth: CGFloat = 7.0
