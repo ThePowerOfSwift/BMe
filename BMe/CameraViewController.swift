@@ -266,7 +266,7 @@ class CameraViewController: UIViewController, SatoCameraOutput, BubbleMenuCollec
     }
     
     func toggleSelfie() {
-        satoCamera.toggleFrontCamera()
+        satoCamera.toggleCamera()
     }
     
     func toggleFlash() {
