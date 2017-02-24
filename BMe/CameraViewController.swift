@@ -62,6 +62,12 @@ class CameraViewController: UIViewController, SatoCameraOutput, BubbleMenuCollec
         toggleFlash()
     }
     
+<<<<<<< HEAD
+
+    
+    
+    // MARK: ***********
+=======
     func cancel() {
         satoCamera.reset()
     }
@@ -79,6 +85,7 @@ class CameraViewController: UIViewController, SatoCameraOutput, BubbleMenuCollec
     }
     
     //***********
+>>>>>>> 08a2b176d872703d2ec40cd330d24629c208ee52
     
     /** Model */
     var satoCamera: SatoCamera!
@@ -164,6 +171,7 @@ class CameraViewController: UIViewController, SatoCameraOutput, BubbleMenuCollec
             sampleBufferView.frame = sampleBufferContainerView.bounds
             sampleBufferView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
             sampleBufferContainerView.addSubview(sampleBufferView)
+
         }
 
         if let outputImageView = outputImageView {
@@ -174,14 +182,6 @@ class CameraViewController: UIViewController, SatoCameraOutput, BubbleMenuCollec
         //view.bringSubview(toFront: outputImageContainerView)
         satoCamera = SatoCamera(frame: view.bounds)
         satoCamera.cameraOutput = self
-    }
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        let tap = touches.first!
-        let point = tap.location(in: self.view)
-        
-        print("tapped point: (x: \(String(format: "%.0f", point.x)), y: \(String(format: "%.0f", point.y))) in \(self)")
-        satoCamera.tapToFocusAndExposure(touch: touches.first!)
     }
     
     func setupEffects() {
@@ -247,6 +247,39 @@ class CameraViewController: UIViewController, SatoCameraOutput, BubbleMenuCollec
         effectOptionBubbleCVC.view.frame = effectOptionView.bounds
         effectOptionBubbleCVC.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         effectOptionBubbleCVC.didMove(toParentViewController: self)
+    }
+    
+    // MARK: Camera controls
+    
+//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+//        satoCamera.tapToFocusAndExposure(touch: touches.first!)
+//    }
+    
+//    func tappedControlView(_ sender: UITapGestureRecognizer){
+//        let touches = sender.value(forKey: "touches") as! [UITouch]
+//        satoCamera.tapToFocusAndExposure(touch: touches.first!)
+//    }
+    
+    func cancel() {
+        satoCamera.reset()
+        
+        for effect in effects {
+            if let effect = effect as? CameraViewBubbleMenu {
+                effect.reset()
+            }
+        }
+    }
+    
+    func save() {
+        satoCamera.reset()
+    }
+    
+    func toggleSelfie() {
+        
+    }
+    
+    func toggleFlash() {
+        flashButton.titleLabel?.text = satoCamera.toggleFlash()
     }
     
     // MARK: Selection
@@ -398,8 +431,13 @@ class CameraViewController: UIViewController, SatoCameraOutput, BubbleMenuCollec
     var menuContent: [BubbleMenuCollectionViewCellContent] { get }
     /** The icon image of the datasource */
     var iconContent: BubbleMenuCollectionViewCellContent { get }
+    /** Flag on whether to show menu content when keyboard appears onscreen */
     @objc optional var showsMenuContentOnKeyboard: Bool { get }
     
+    /** Resets to receiver's state */
+    func reset()
+    /** Called to tell the reciever that an option item was selected */
     func menu(_ sender: BubbleMenuCollectionViewController, didSelectItemAt indexPath: IndexPath)
+    /** Called to tell the reciever it was selected */
     @objc optional func didSelect(_ sender: CameraViewBubbleMenu)
 }
