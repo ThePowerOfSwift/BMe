@@ -62,10 +62,30 @@ class CameraViewController: UIViewController, SatoCameraOutput, BubbleMenuCollec
         toggleFlash()
     }
     
+<<<<<<< HEAD
 
     
     
     // MARK: ***********
+=======
+    func cancel() {
+        satoCamera.reset()
+    }
+    
+    func save() {
+        
+    }
+    
+    func toggleSelfie() {
+        
+    }
+    
+    func toggleFlash() {
+        satoCamera.toggleFlash()
+    }
+    
+    //***********
+>>>>>>> 08a2b176d872703d2ec40cd330d24629c208ee52
     
     /** Model */
     var satoCamera: SatoCamera!
@@ -241,13 +261,7 @@ class CameraViewController: UIViewController, SatoCameraOutput, BubbleMenuCollec
 //    }
     
     func cancel() {
-        satoCamera.reset()
-        
-        for effect in effects {
-            if let effect = effect as? CameraViewBubbleMenu {
-                effect.reset()
-            }
-        }
+        satoCamera.reset()        
     }
     
     func save() {
