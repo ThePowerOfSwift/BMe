@@ -76,6 +76,11 @@ class SatoCamera: NSObject {
     /** Frame of preview view in a client. Should be set when being initialized. */
     fileprivate var frame: CGRect
     
+    /** Indicates current flash state. Default is off. (off, on, auto) */
+    internal var flashState: AVCaptureFlashMode = AVCaptureFlashMode.off
+    /** Indicates current torch state. Default is off. (off, on, auto) */
+    internal var torchState: AVCaptureTorchMode = AVCaptureTorchMode.off
+    
     /** Can be set after initialization. videoPreview will be added subview to sampleBufferOutput in dataSource. */
     var cameraOutput: SatoCameraOutput? {
         didSet {
@@ -293,6 +298,7 @@ class SatoCamera: NSObject {
             do {
                 try videoDevice.lockForConfiguration()
                 photoSettings.flashMode = AVCaptureFlashMode.auto
+                flashState = AVCaptureFlashMode.auto
                 videoDevice.unlockForConfiguration()
             } catch {
                 
@@ -310,6 +316,7 @@ class SatoCamera: NSObject {
             do {
                 try videoDevice.lockForConfiguration()
                 photoSettings.flashMode = AVCaptureFlashMode.on
+                flashState = AVCaptureFlashMode.on
                 videoDevice.unlockForConfiguration()
             } catch {
                 
@@ -327,6 +334,7 @@ class SatoCamera: NSObject {
             do {
                 try videoDevice.lockForConfiguration()
                 photoSettings.flashMode = AVCaptureFlashMode.off
+                flashState = AVCaptureFlashMode.off
                 videoDevice.unlockForConfiguration()
             } catch {
                 
@@ -344,6 +352,7 @@ class SatoCamera: NSObject {
             do {
                 try videoDevice.lockForConfiguration()
                 videoDevice.torchMode = AVCaptureTorchMode.auto
+                torchState = AVCaptureTorchMode.auto
                 videoDevice.unlockForConfiguration()
             } catch {
                 
@@ -361,6 +370,7 @@ class SatoCamera: NSObject {
             do {
                 try videoDevice.lockForConfiguration()
                 videoDevice.torchMode = AVCaptureTorchMode.on
+                torchState = AVCaptureTorchMode.on
                 videoDevice.unlockForConfiguration()
             } catch {
                 
@@ -378,6 +388,7 @@ class SatoCamera: NSObject {
             do {
                 try videoDevice.lockForConfiguration()
                 videoDevice.torchMode = AVCaptureTorchMode.off
+                torchState = AVCaptureTorchMode.off
                 videoDevice.unlockForConfiguration()
             } catch {
                 
