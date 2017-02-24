@@ -86,6 +86,8 @@ class SatoCamera: NSObject {
     fileprivate var flashOptionIndex: Index = Index(numOfElement: 3)
     fileprivate var torchOptionIndex: Index = Index(numOfElement: 3)
     
+    fileprivate var resultImageView: UIImageView?
+    
     /** Can be set after initialization. videoPreview will be added subview to sampleBufferOutput in dataSource. */
     var cameraOutput: SatoCameraOutput? {
         didSet {
@@ -477,6 +479,58 @@ class SatoCamera: NSObject {
         start()
     }
     
+    /** Saves output image to camera roll. */
+    internal func save(completion: ((Bool) -> ())?) {
+        if isGif {
+            guard let resultImageView = resultImageView else {
+                print("result image view for gif is nil")
+                return
+            }
+            resultImageView.saveGifToDisk(completion: { (url: URL?, error: Error?) in
+                if error != nil {
+                    print("\(error?.localizedDescription)")
+                } else if let url = url {
+                    
+                    // check authorization status
+                    PHPhotoLibrary.requestAuthorization
+                        { (status) -> Void in
+                            switch (status)
+                            {
+                            case .authorized:
+                                // Permission Granted
+                                print("Photo library usage authorized")
+                            case .denied:
+                                // Permission Denied
+                                print("User denied")
+                            default:
+                                print("Restricted")
+                            }
+                    }
+                    
+                    // save data to the url
+                    PHPhotoLibrary.shared().performChanges({
+                        PHAssetChangeRequest.creationRequestForAssetFromImage(atFileURL: url)
+                    }, completionHandler: { (saved: Bool, error: Error?) in
+                        if saved {
+                            completion?(true)
+                        } else {
+                            completion?(false)
+                        }
+                    })
+                }
+            })
+
+        } else {
+            guard let resultImage = resultImageView?.image else {
+                print("result image is nil")
+                return
+            }
+            
+            UIImageWriteToSavedPhotosAlbum(resultImage, nil, nil, nil)
+            completion?(true)
+        }
+    }
+    
     /** Store CIImage captured in didOutputSampleBuffer into array */
     fileprivate func store(image: CIImage, to images: inout [CIImage]) {
         images.append(image)
@@ -537,38 +591,39 @@ class SatoCamera: NSObject {
             }
         }
         
+        resultImageView = gifImageView
         cameraOutput?.outputImageView?.addSubview(gifImageView)
         gifImageView.startAnimating()
         
-        gifImageView.saveGifToDisk(completion: { (url: URL?, error: Error?) in
-            if error != nil {
-                print("\(error?.localizedDescription)")
-            } else if let url = url {
-                
-                // check authorization status
-                PHPhotoLibrary.requestAuthorization
-                    { (status) -> Void in
-                        switch (status)
-                        {
-                        case .authorized:
-                            // Permission Granted
-                            print("Photo library usage authorized")
-                        case .denied:
-                            // Permission Denied
-                            print("User denied")
-                        default:
-                            print("Restricted")
-                        }
-                }
-                
-                // save data to the url
-                PHPhotoLibrary.shared().performChanges({
-                    PHAssetChangeRequest.creationRequestForAssetFromImage(atFileURL: url)
-                }, completionHandler: { (saved: Bool, error: Error?) in
-                    
-                })
-            }
-        })
+//        gifImageView.saveGifToDisk(completion: { (url: URL?, error: Error?) in
+//            if error != nil {
+//                print("\(error?.localizedDescription)")
+//            } else if let url = url {
+//                
+//                // check authorization status
+//                PHPhotoLibrary.requestAuthorization
+//                    { (status) -> Void in
+//                        switch (status)
+//                        {
+//                        case .authorized:
+//                            // Permission Granted
+//                            print("Photo library usage authorized")
+//                        case .denied:
+//                            // Permission Denied
+//                            print("User denied")
+//                        default:
+//                            print("Restricted")
+//                        }
+//                }
+//                
+//                // save data to the url
+//                PHPhotoLibrary.shared().performChanges({
+//                    PHAssetChangeRequest.creationRequestForAssetFromImage(atFileURL: url)
+//                }, completionHandler: { (saved: Bool, error: Error?) in
+//                    
+//                })
+//            }
+//        })
     }
 }
 
@@ -778,12 +833,12 @@ extension SatoCamera: AVCaptureVideoDataOutputSampleBufferDelegate, AVCapturePho
             }
             
             // Save to camera roll
-            //UIImageWriteToSavedPhotosAlbum(filteredUIImage, nil, nil, nil)
-            UIImageWriteToSavedPhotosAlbum(rotatedUIImage, nil, nil, nil)
+//            UIImageWriteToSavedPhotosAlbum(rotatedUIImage, nil, nil, nil)
             
             let filteredImageView = UIImageView(image: rotatedUIImage)
             filteredImageView.frame = frame
             
+            resultImageView = filteredImageView
             // client setup
             cameraOutput?.outputImageView?.addSubview(filteredImageView)
 
