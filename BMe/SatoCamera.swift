@@ -45,6 +45,7 @@ class SatoCamera: NSObject {
     /** view where CIImage created from sample buffer in didOutputSampleBuffer() is shown. Updated real time. */
     fileprivate var videoPreview: GLKView?
     fileprivate var videoDevice: AVCaptureDevice?
+    fileprivate var videoDeviceInput: AVCaptureDeviceInput?
     /** needed for real time image processing. instantiated with EAGLContext. */
     fileprivate var ciContext: CIContext?
     fileprivate var eaglContext: EAGLContext?
@@ -85,6 +86,8 @@ class SatoCamera: NSObject {
     
     fileprivate var flashOptionIndex: Index = Index(numOfElement: 3)
     fileprivate var torchOptionIndex: Index = Index(numOfElement: 3)
+    
+    fileprivate var resultImageView: UIImageView?
     
     /** Can be set after initialization. videoPreview will be added subview to sampleBufferOutput in dataSource. */
     var cameraOutput: SatoCameraOutput? {
@@ -180,17 +183,6 @@ class SatoCamera: NSObject {
             captureSession?.sessionPreset = preset
         }
         
-        // make class property video device
-//        if videoDevice.isFocusModeSupported(AVCaptureFocusMode.autoFocus) {
-//            do {
-//                try videoDevice.lockForConfiguration()
-//                videoDevice.focusMode = AVCaptureFocusMode.autoFocus
-//                videoDevice.unlockForConfiguration()
-//            } catch {
-//                print("error in try catch")
-//            }
-//        }
-        
         guard let captureSession = captureSession else {
             print("capture session is nil")
             return
@@ -222,7 +214,7 @@ class SatoCamera: NSObject {
         
         // Configure input object with device
         do {
-            let videoDeviceInput = try AVCaptureDeviceInput(device: videoDevice)
+            videoDeviceInput = try AVCaptureDeviceInput(device: videoDevice)
             // Add it to session
             captureSession.addInput(videoDeviceInput)
         } catch {
@@ -320,134 +312,6 @@ class SatoCamera: NSObject {
         return returnText
     }
     
-//    internal func toggleTorch() {
-//        let mode = torchOptions[torchOptionIndex.increment()]
-//        guard let videoDevice = videoDevice else {
-//            print("video device is nil")
-//            return
-//        }
-//
-//        if videoDevice.hasTorch && videoDevice.isTorchAvailable {
-//            do {
-//                try videoDevice.lockForConfiguration()
-//                videoDevice.torchMode = mode
-//                torchState = mode
-//                videoDevice.unlockForConfiguration()
-//            } catch {
-//                
-//            }
-//        }
-//    }
-    
-    
-//    func turnOnAutoFlash() {
-//        guard let videoDevice = videoDevice, let photoSettings = photoSettings else {
-//            print("video device or photo settings is nil")
-//            return
-//        }
-//        
-//        if videoDevice.hasFlash && videoDevice.isFlashAvailable {
-//            do {
-//                try videoDevice.lockForConfiguration()
-//                photoSettings.flashMode = AVCaptureFlashMode.auto
-//                flashState = AVCaptureFlashMode.auto
-//                videoDevice.unlockForConfiguration()
-//            } catch {
-//                
-//            }
-//        }
-//    }
-//    
-//    func turnOnFlash() {
-//        guard let videoDevice = videoDevice, let photoSettings = photoSettings else {
-//            print("video device or photo settings is nil")
-//            return
-//        }
-//        
-//        if videoDevice.hasFlash && videoDevice.isFlashAvailable {
-//            do {
-//                try videoDevice.lockForConfiguration()
-//                photoSettings.flashMode = AVCaptureFlashMode.on
-//                flashState = AVCaptureFlashMode.on
-//                videoDevice.unlockForConfiguration()
-//            } catch {
-//                
-//            }
-//        }
-//    }
-//    
-//    func turnOffFlash() {
-//        guard let videoDevice = videoDevice, let photoSettings = photoSettings else {
-//            print("video device or photo settings is nil")
-//            return
-//        }
-//
-//        if videoDevice.hasFlash && videoDevice.isFlashAvailable {
-//            do {
-//                try videoDevice.lockForConfiguration()
-//                photoSettings.flashMode = AVCaptureFlashMode.off
-//                flashState = AVCaptureFlashMode.off
-//                videoDevice.unlockForConfiguration()
-//            } catch {
-//                
-//            }
-//        }
-//    }
-//    
-//    func turnOnAutoTorch() {
-//        guard let videoDevice = videoDevice else {
-//            print("video device is nil")
-//            return
-//        }
-//        
-//        if videoDevice.hasTorch && videoDevice.isTorchAvailable {
-//            do {
-//                try videoDevice.lockForConfiguration()
-//                videoDevice.torchMode = AVCaptureTorchMode.auto
-//                torchState = AVCaptureTorchMode.auto
-//                videoDevice.unlockForConfiguration()
-//            } catch {
-//                
-//            }
-//        }
-//    }
-//    
-//    func turnOnTorch() {
-//        guard let videoDevice = videoDevice else {
-//            print("video device is nil")
-//            return
-//        }
-//        
-//        if videoDevice.hasTorch && videoDevice.isTorchAvailable {
-//            do {
-//                try videoDevice.lockForConfiguration()
-//                videoDevice.torchMode = AVCaptureTorchMode.on
-//                torchState = AVCaptureTorchMode.on
-//                videoDevice.unlockForConfiguration()
-//            } catch {
-//                
-//            }
-//        }
-//    }
-//    
-//    func turnOffTorch() {
-//        guard let videoDevice = videoDevice else {
-//            print("video device is nil")
-//            return
-//        }
-//        
-//        if videoDevice.hasTorch && videoDevice.isTorchAvailable {
-//            do {
-//                try videoDevice.lockForConfiguration()
-//                videoDevice.torchMode = AVCaptureTorchMode.off
-//                torchState = AVCaptureTorchMode.off
-//                videoDevice.unlockForConfiguration()
-//            } catch {
-//                
-//            }
-//        }
-//    }
-    
     /** Resumes camera. */
     internal func start() {
         captureSession?.startRunning()
@@ -475,6 +339,114 @@ class SatoCamera: NSObject {
             }
         }
         start()
+    }
+    
+    /** Saves output image to camera roll. */
+    internal func save(completion: ((Bool) -> ())?) {
+        if isGif {
+            guard let resultImageView = resultImageView else {
+                print("result image view for gif is nil")
+                return
+            }
+            resultImageView.saveGifToDisk(completion: { (url: URL?, error: Error?) in
+                if error != nil {
+                    print("\(error?.localizedDescription)")
+                } else if let url = url {
+                    
+                    // check authorization status
+                    PHPhotoLibrary.requestAuthorization
+                        { (status) -> Void in
+                            switch (status)
+                            {
+                            case .authorized:
+                                // Permission Granted
+                                print("Photo library usage authorized")
+                            case .denied:
+                                // Permission Denied
+                                print("User denied")
+                            default:
+                                print("Restricted")
+                            }
+                    }
+                    
+                    // save data to the url
+                    PHPhotoLibrary.shared().performChanges({
+                        PHAssetChangeRequest.creationRequestForAssetFromImage(atFileURL: url)
+                    }, completionHandler: { (saved: Bool, error: Error?) in
+                        if saved {
+                            completion?(true)
+                        } else {
+                            completion?(false)
+                        }
+                    })
+                }
+            })
+
+        } else {
+            guard let resultImage = resultImageView?.image else {
+                print("result image is nil")
+                return
+            }
+            
+            UIImageWriteToSavedPhotosAlbum(resultImage, nil, nil, nil)
+            completion?(true)
+        }
+    }
+    
+    internal func toggleFrontCamera() {
+        let frontCamera = AVCaptureDevice.defaultDevice(withDeviceType: AVCaptureDeviceType.builtInWideAngleCamera, mediaType: AVMediaTypeVideo, position: AVCaptureDevicePosition.front)
+        
+        guard let captureSession = captureSession else {
+            print("capture session is nil in \(#function)")
+            return
+        }
+        
+        captureSession.beginConfiguration()
+        captureSession.removeInput(videoDeviceInput)
+        videoDevice = frontCamera
+
+        // Configure input object with device
+        do {
+            videoDeviceInput = try AVCaptureDeviceInput(device: videoDevice)
+            // Add it to session
+            if let videoDeviceInput = videoDeviceInput {
+                captureSession.addInput(videoDeviceInput)
+            } else {
+                print("videoDeviceInput is nil")
+            }
+            
+        } catch {
+            print("Failed to instantiate input object")
+        }
+        captureSession.commitConfiguration()
+    }
+    
+    internal func toggleBackCamera() {
+        let backCamera = AVCaptureDevice.defaultDevice(withDeviceType: AVCaptureDeviceType.builtInWideAngleCamera, mediaType: AVMediaTypeVideo, position: AVCaptureDevicePosition.back)
+        
+        guard let captureSession = captureSession else {
+            print("capture session is nil in \(#function)")
+            return
+        }
+        
+        captureSession.beginConfiguration()
+        captureSession.removeInput(videoDeviceInput)
+        videoDevice = backCamera
+        
+        // Configure input object with device
+        do {
+            videoDeviceInput = try AVCaptureDeviceInput(device: videoDevice)
+            // Add it to session
+            if let videoDeviceInput = videoDeviceInput {
+                captureSession.addInput(videoDeviceInput)
+            } else {
+                print("videoDeviceInput is nil")
+            }
+            
+        } catch {
+            print("Failed to instantiate input object")
+        }
+        captureSession.commitConfiguration()
     }
     
     /** Store CIImage captured in didOutputSampleBuffer into array */
@@ -537,38 +509,9 @@ class SatoCamera: NSObject {
             }
         }
         
+        resultImageView = gifImageView
         cameraOutput?.outputImageView?.addSubview(gifImageView)
         gifImageView.startAnimating()
-        
-        gifImageView.saveGifToDisk(completion: { (url: URL?, error: Error?) in
-            if error != nil {
-                print("\(error?.localizedDescription)")
-            } else if let url = url {
-                
-                // check authorization status
-                PHPhotoLibrary.requestAuthorization
-                    { (status) -> Void in
-                        switch (status)
-                        {
-                        case .authorized:
-                            // Permission Granted
-                            print("Photo library usage authorized")
-                        case .denied:
-                            // Permission Denied
-                            print("User denied")
-                        default:
-                            print("Restricted")
-                        }
-                }
-                
-                // save data to the url
-                PHPhotoLibrary.shared().performChanges({
-                    PHAssetChangeRequest.creationRequestForAssetFromImage(atFileURL: url)
-                }, completionHandler: { (saved: Bool, error: Error?) in
-                    
-                })
-            }
-        })
     }
 }
 
@@ -777,13 +720,10 @@ extension SatoCamera: AVCaptureVideoDataOutputSampleBufferDelegate, AVCapturePho
                 return
             }
             
-            // Save to camera roll
-            //UIImageWriteToSavedPhotosAlbum(filteredUIImage, nil, nil, nil)
-            UIImageWriteToSavedPhotosAlbum(rotatedUIImage, nil, nil, nil)
-            
             let filteredImageView = UIImageView(image: rotatedUIImage)
             filteredImageView.frame = frame
             
+            resultImageView = filteredImageView
             // client setup
             cameraOutput?.outputImageView?.addSubview(filteredImageView)
 

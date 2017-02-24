@@ -60,8 +60,6 @@ class CameraViewController: UIViewController, SatoCameraOutput, BubbleMenuCollec
         toggleFlash()
     }
 
-    //***********
-    
     /** Model */
     var satoCamera: SatoCamera!
 
@@ -157,6 +155,7 @@ class CameraViewController: UIViewController, SatoCameraOutput, BubbleMenuCollec
         //view.bringSubview(toFront: outputImageContainerView)
         satoCamera = SatoCamera(frame: view.bounds)
         satoCamera.cameraOutput = self
+        satoCamera.toggleFrontCamera()
     }
     
     func setupEffects() {
@@ -246,6 +245,14 @@ class CameraViewController: UIViewController, SatoCameraOutput, BubbleMenuCollec
     }
     
     func save() {
+        satoCamera.save { (saved: Bool) in
+            if saved {
+                print("output saved")
+            } else {
+                print("output not saved")
+            }
+        }
+        satoCamera.reset()
         cancel()
     }
     
