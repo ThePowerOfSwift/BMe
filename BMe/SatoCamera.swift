@@ -170,15 +170,15 @@ class SatoCamera: NSObject {
         }
         
         // make class property video device
-        if videoDevice.isFocusModeSupported(AVCaptureFocusMode.locked) {
-            do {
-                try videoDevice.lockForConfiguration()
-                videoDevice.focusMode = AVCaptureFocusMode.locked
-                videoDevice.unlockForConfiguration()
-            } catch {
-                print("error in try catch")
-            }
-        }
+//        if videoDevice.isFocusModeSupported(AVCaptureFocusMode.autoFocus) {
+//            do {
+//                try videoDevice.lockForConfiguration()
+//                videoDevice.focusMode = AVCaptureFocusMode.autoFocus
+//                videoDevice.unlockForConfiguration()
+//            } catch {
+//                print("error in try catch")
+//            }
+//        }
         
         guard let captureSession = captureSession else {
             print("capture session is nil")
@@ -233,33 +233,35 @@ class SatoCamera: NSObject {
     
     /** Focus on where it's tapped. */
     internal func tapToFocus(touch: UITouch) {
+        
         let touchPoint = touch.location(in: videoPreview)
         
         print("tap to focus: (x: \(String(format: "%.0f", touchPoint.x)), y: \(String(format: "%.0f", touchPoint.y))) in \(self)")
-        let adjustedPoint = CGPoint(x: frame.width - touchPoint.y, y: touchPoint.x)
-        print("adjusted point: (x: \(String(format: "%.0f", adjustedPoint.x)) y: \(String(format: "%.0f", adjustedPoint.y)))")
+        let adjustedCoordinatePoint = CGPoint(x: frame.width - touchPoint.y, y: touchPoint.x)
+        print("adjusted point: (x: \(String(format: "%.0f", adjustedCoordinatePoint.x)) y: \(String(format: "%.0f", adjustedCoordinatePoint.y)))")
+        
         guard let videoDevice = videoDevice else {
             print("video device is nil")
             return
         }
         
-        let adjustedPoint100 = CGPoint(x: adjustedPoint.x / frame.width, y: adjustedPoint.y / frame.height)
+        let adjustedPoint = CGPoint(x: adjustedCoordinatePoint.x / frame.width, y: adjustedCoordinatePoint.y / frame.height)
         
-        //let layer = AVCaptureVideoPreviewLayer(session: captureSession)
-        //let layerPoint = layer?.captureDevicePointOfInterest(for: touchPoint)
-        //print("layerPoint: (x: \(String(format: "%.0f", layerPoint!.x)), y: \(String(format: "%.0f", layerPoint!.y))")
-        
-        
-        if videoDevice.isFocusPointOfInterestSupported && videoDevice.isFocusModeSupported(AVCaptureFocusMode.autoFocus) {
+        if videoDevice.isFocusPointOfInterestSupported && videoDevice.isFocusModeSupported(AVCaptureFocusMode.autoFocus) && videoDevice.isExposureModeSupported(AVCaptureExposureMode.autoExpose) {
             do {
+                // lock device to change
                 try videoDevice.lockForConfiguration()
                 // https://developer.apple.com/reference/avfoundation/avcapturedevice/1385853-focuspointofinterest
-                //videoDevice.focusPointOfInterest = CGPoint(x: 1, y: 1)
-                videoDevice.focusPointOfInterest = adjustedPoint100
-                // autoFocus perform auto focus operation now
+                
+                // set point
+                videoDevice.focusPointOfInterest = adjustedPoint
+                videoDevice.exposurePointOfInterest = adjustedPoint
+                
+                // execute operation now
                 videoDevice.focusMode = AVCaptureFocusMode.autoFocus
+                videoDevice.exposureMode = AVCaptureExposureMode.continuousAutoExposure
+                
                 videoDevice.unlockForConfiguration()
-                print("configure success")
             } catch let error as NSError {
                 print(error.localizedDescription)
             }
@@ -269,11 +271,14 @@ class SatoCamera: NSObject {
         let feedbackView = UIView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: 50, height: 50)))
         feedbackView.center = adjustedPoint
         feedbackView.layer.borderColor = UIColor.white.cgColor
-        feedbackView.layer.borderWidth = 5.0
+        feedbackView.layer.borderWidth = 2.0
         feedbackView.backgroundColor = UIColor.clear
         cameraOutput?.sampleBufferView?.addSubview(feedbackView)
-        
-        
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1), execute: {
+            // Put your code which should be executed with a delay here
+            feedbackView.removeFromSuperview()
+        })
     }
     
     /** Resumes camera. */
@@ -288,7 +293,6 @@ class SatoCamera: NSObject {
                 }
             }
         }
-        
         reset()
         captureSession?.startRunning()
     }
