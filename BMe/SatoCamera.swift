@@ -81,6 +81,12 @@ class SatoCamera: NSObject {
     /** Indicates current torch state. Default is off. (off, on, auto) */
     internal var torchState: AVCaptureTorchMode = AVCaptureTorchMode.off
     
+    fileprivate var flashOptions: [AVCaptureFlashMode] = [AVCaptureFlashMode.off, AVCaptureFlashMode.on, AVCaptureFlashMode.auto]
+    fileprivate var torchOptions: [AVCaptureTorchMode] = [AVCaptureTorchMode.off, AVCaptureTorchMode.on, AVCaptureTorchMode.auto]
+    
+    fileprivate var flashOptionIndex: Index = Index(numOfElement: 3)
+    fileprivate var torchOptionIndex: Index = Index(numOfElement: 3)
+    
     /** Can be set after initialization. videoPreview will be added subview to sampleBufferOutput in dataSource. */
     var cameraOutput: SatoCameraOutput? {
         didSet {
@@ -288,113 +294,165 @@ class SatoCamera: NSObject {
         })
     }
     
-    func turnOnAutoFlash() {
-        guard let videoDevice = videoDevice, let photoSettings = photoSettings else {
-            print("video device or photo settings is nil")
-            return
-        }
+    internal func toggleFlash() {
+        let flashMode = flashOptions[flashOptionIndex.increment()]
+        let torchMode = torchOptions[torchOptionIndex.increment()]
         
-        if videoDevice.hasFlash && videoDevice.isFlashAvailable {
-            do {
-                try videoDevice.lockForConfiguration()
-                photoSettings.flashMode = AVCaptureFlashMode.auto
-                flashState = AVCaptureFlashMode.auto
-                videoDevice.unlockForConfiguration()
-            } catch {
-                
-            }
-        }
-    }
-    
-    func turnOnFlash() {
-        guard let videoDevice = videoDevice, let photoSettings = photoSettings else {
-            print("video device or photo settings is nil")
-            return
-        }
-        
-        if videoDevice.hasFlash && videoDevice.isFlashAvailable {
-            do {
-                try videoDevice.lockForConfiguration()
-                photoSettings.flashMode = AVCaptureFlashMode.on
-                flashState = AVCaptureFlashMode.on
-                videoDevice.unlockForConfiguration()
-            } catch {
-                
-            }
-        }
-    }
-    
-    func turnOffFlash() {
         guard let videoDevice = videoDevice, let photoSettings = photoSettings else {
             print("video device or photo settings is nil")
             return
         }
 
-        if videoDevice.hasFlash && videoDevice.isFlashAvailable {
+        if videoDevice.hasFlash && videoDevice.isFlashAvailable && videoDevice.hasTorch && videoDevice.isTorchAvailable {
             do {
                 try videoDevice.lockForConfiguration()
-                photoSettings.flashMode = AVCaptureFlashMode.off
-                flashState = AVCaptureFlashMode.off
+                photoSettings.flashMode = flashMode
+                flashState = flashMode
+                //videoDevice.torchMode = torchMode
+                torchState = torchMode
                 videoDevice.unlockForConfiguration()
             } catch {
                 
             }
+        }
+        
+        switch flashState {
+        case AVCaptureFlashMode.off:
+            print("flash is off")
+        case AVCaptureFlashMode.on:
+            print("flash is on")
+        case AVCaptureFlashMode.auto:
+            print("flash is auto")
         }
     }
     
-    func turnOnAutoTorch() {
-        guard let videoDevice = videoDevice else {
-            print("video device is nil")
-            return
-        }
-        
-        if videoDevice.hasTorch && videoDevice.isTorchAvailable {
-            do {
-                try videoDevice.lockForConfiguration()
-                videoDevice.torchMode = AVCaptureTorchMode.auto
-                torchState = AVCaptureTorchMode.auto
-                videoDevice.unlockForConfiguration()
-            } catch {
-                
-            }
-        }
-    }
+//    internal func toggleTorch() {
+//        let mode = torchOptions[torchOptionIndex.increment()]
+//        guard let videoDevice = videoDevice else {
+//            print("video device is nil")
+//            return
+//        }
+//
+//        if videoDevice.hasTorch && videoDevice.isTorchAvailable {
+//            do {
+//                try videoDevice.lockForConfiguration()
+//                videoDevice.torchMode = mode
+//                torchState = mode
+//                videoDevice.unlockForConfiguration()
+//            } catch {
+//                
+//            }
+//        }
+//    }
     
-    func turnOnTorch() {
-        guard let videoDevice = videoDevice else {
-            print("video device is nil")
-            return
-        }
-        
-        if videoDevice.hasTorch && videoDevice.isTorchAvailable {
-            do {
-                try videoDevice.lockForConfiguration()
-                videoDevice.torchMode = AVCaptureTorchMode.on
-                torchState = AVCaptureTorchMode.on
-                videoDevice.unlockForConfiguration()
-            } catch {
-                
-            }
-        }
-    }
     
-    func turnOffTorch() {
-        guard let videoDevice = videoDevice else {
-            print("video device is nil")
-            return
-        }
-        
-        if videoDevice.hasTorch && videoDevice.isTorchAvailable {
-            do {
-                try videoDevice.lockForConfiguration()
-                videoDevice.torchMode = AVCaptureTorchMode.off
-                torchState = AVCaptureTorchMode.off
-                videoDevice.unlockForConfiguration()
-            } catch {
-                
-            }
-        }
-    }
+//    func turnOnAutoFlash() {
+//        guard let videoDevice = videoDevice, let photoSettings = photoSettings else {
+//            print("video device or photo settings is nil")
+//            return
+//        }
+//        
+//        if videoDevice.hasFlash && videoDevice.isFlashAvailable {
+//            do {
+//                try videoDevice.lockForConfiguration()
+//                photoSettings.flashMode = AVCaptureFlashMode.auto
+//                flashState = AVCaptureFlashMode.auto
+//                videoDevice.unlockForConfiguration()
+//            } catch {
+//                
+//            }
+//        }
+//    }
+//    
+//    func turnOnFlash() {
+//        guard let videoDevice = videoDevice, let photoSettings = photoSettings else {
+//            print("video device or photo settings is nil")
+//            return
+//        }
+//        
+//        if videoDevice.hasFlash && videoDevice.isFlashAvailable {
+//            do {
+//                try videoDevice.lockForConfiguration()
+//                photoSettings.flashMode = AVCaptureFlashMode.on
+//                flashState = AVCaptureFlashMode.on
+//                videoDevice.unlockForConfiguration()
+//            } catch {
+//                
+//            }
+//        }
+//    }
+//    
+//    func turnOffFlash() {
+//        guard let videoDevice = videoDevice, let photoSettings = photoSettings else {
+//            print("video device or photo settings is nil")
+//            return
+//        }
+//
+//        if videoDevice.hasFlash && videoDevice.isFlashAvailable {
+//            do {
+//                try videoDevice.lockForConfiguration()
+//                photoSettings.flashMode = AVCaptureFlashMode.off
+//                flashState = AVCaptureFlashMode.off
+//                videoDevice.unlockForConfiguration()
+//            } catch {
+//                
+//            }
+//        }
+//    }
+//    
+//    func turnOnAutoTorch() {
+//        guard let videoDevice = videoDevice else {
+//            print("video device is nil")
+//            return
+//        }
+//        
+//        if videoDevice.hasTorch && videoDevice.isTorchAvailable {
+//            do {
+//                try videoDevice.lockForConfiguration()
+//                videoDevice.torchMode = AVCaptureTorchMode.auto
+//                torchState = AVCaptureTorchMode.auto
+//                videoDevice.unlockForConfiguration()
+//            } catch {
+//                
+//            }
+//        }
+//    }
+//    
+//    func turnOnTorch() {
+//        guard let videoDevice = videoDevice else {
+//            print("video device is nil")
+//            return
+//        }
+//        
+//        if videoDevice.hasTorch && videoDevice.isTorchAvailable {
+//            do {
+//                try videoDevice.lockForConfiguration()
+//                videoDevice.torchMode = AVCaptureTorchMode.on
+//                torchState = AVCaptureTorchMode.on
+//                videoDevice.unlockForConfiguration()
+//            } catch {
+//                
+//            }
+//        }
+//    }
+//    
+//    func turnOffTorch() {
+//        guard let videoDevice = videoDevice else {
+//            print("video device is nil")
+//            return
+//        }
+//        
+//        if videoDevice.hasTorch && videoDevice.isTorchAvailable {
+//            do {
+//                try videoDevice.lockForConfiguration()
+//                videoDevice.torchMode = AVCaptureTorchMode.off
+//                torchState = AVCaptureTorchMode.off
+//                videoDevice.unlockForConfiguration()
+//            } catch {
+//                
+//            }
+//        }
+//    }
     
     /** Resumes camera. */
     internal func start() {
@@ -418,7 +476,7 @@ class SatoCamera: NSObject {
     }
     
     /** Set to the initial state. */
-    private func reset() {
+    internal func reset() {
         unfilteredCIImages.removeAll()
         unfilteredCIImage = nil
         isGif = false
@@ -431,11 +489,38 @@ class SatoCamera: NSObject {
     }
     
     internal func startRecordingGif() {
+
+        // set torch
+        if let videoDevice = videoDevice {
+            if videoDevice.hasTorch && videoDevice.isTorchAvailable {
+                do {
+                    try videoDevice.lockForConfiguration()
+                    videoDevice.torchMode = torchState
+                    videoDevice.unlockForConfiguration()
+                } catch {
+                    
+                }
+            }
+        }
         isRecording = true
         isGif = true
     }
     
     internal func stopRecordingGif() {
+        
+        // Set torch
+        if let videoDevice = videoDevice {
+            if videoDevice.hasTorch && videoDevice.isTorchAvailable {
+                do {
+                    try videoDevice.lockForConfiguration()
+                    videoDevice.torchMode = AVCaptureTorchMode.off
+                    videoDevice.unlockForConfiguration()
+                } catch {
+                    
+                }
+            }
+        }
+        
         isRecording = false
         stop()
         
@@ -797,12 +882,6 @@ extension CIImage {
             newImages.append(newImage)
         }
         return newImages
-    }
-}
-
-extension GLKView {
-    open override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        print("touch began")
     }
 }
 
