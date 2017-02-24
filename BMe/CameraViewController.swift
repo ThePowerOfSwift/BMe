@@ -157,6 +157,7 @@ class CameraViewController: UIViewController, SatoCameraOutput, BubbleMenuCollec
         //view.bringSubview(toFront: outputImageContainerView)
         satoCamera = SatoCamera(frame: view.bounds)
         satoCamera.cameraOutput = self
+        satoCamera.toggleFrontCamera()
     }
     
     func setupEffects() {
