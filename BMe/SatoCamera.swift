@@ -495,6 +495,30 @@ class SatoCamera: NSObject {
             return
         }
         
+//        guard let resizedUIImages = resizeWithCGImage(uiImages: orientUIImages) else {
+//            print("resized uiimages is nil")
+//            return
+//        }
+//        
+//        for image in resizedUIImages {
+//            print("image.size: \(image.size)")
+//        }
+//        
+        
+//        let testImage = orientUIImages[0]
+//        
+//        let resizedImage = resizeWithCGImage(uiImage: testImage)
+//        print("resiezd image size: \(resizedImage?.size)")
+//        
+//        let testImage1 = orientUIImages[1]
+//        let resizedImage1 = testImage1.resize(width: frame.width, height: frame.height, scale: 0)
+//        print("resized image 1 size: \(resizedImage1?.size)")
+        
+//        guard let gifImageView = UIImageView.generateGifImageView(with: orientUIImages, frame: frame, duration: SatoCamera.imageViewAnimationDuration) else {
+//            print("failed to produce gif image")
+//            return
+//        }
+        
         guard let gifImageView = UIImageView.generateGifImageView(with: orientUIImages, frame: frame, duration: SatoCamera.imageViewAnimationDuration) else {
             print("failed to produce gif image")
             return
@@ -512,6 +536,97 @@ class SatoCamera: NSObject {
         resultImageView = gifImageView
         cameraOutput?.outputImageView?.addSubview(gifImageView)
         gifImageView.startAnimating()
+    }
+    
+    func resizeCIImage(_ ciImage: CIImage) -> CIImage? {
+        let filter = CIFilter(name: "CILanczosScaleTransform")!
+        
+        //let rectFrame = CGRect(x: 0, y: 0, width: frame.width, height: frame.height)
+        //let vectorFrame = CIVector(cgRect: frame)
+        //CIVector(
+        //filter.setValue(vectorFrame, forKey: kCIInputExtentKey)
+        filter.setValue(ciImage, forKey: kCIInputImageKey)
+        filter.setValue(0.1, forKey: kCIInputScaleKey)
+        filter.setValue(1.0, forKey: kCIInputAspectRatioKey)
+        
+        guard let outputImage = filter.value(forKey: kCIOutputImageKey) as? CIImage else {
+            print("output image is nil in \(#function)")
+            return nil
+        }
+        
+        let context = CIContext(options: [kCIContextUseSoftwareRenderer: false])
+        
+        guard let scaledCGImage = context.createCGImage(outputImage, from: outputImage.extent) else {
+            print("scaled CGImage is nil in \(#function)")
+            return nil
+        }
+        
+        let scaledCIImage = CIImage(cgImage: scaledCGImage)
+        return scaledCIImage
+    }
+    
+    func mach_task_self() -> task_t {
+        return mach_task_self_
+    }
+    // http://stackoverflow.com/questions/40991912/how-to-get-memory-usage-of-my-application-and-system-in-swift-by-programatically
+    // https://forums.developer.apple.com/thread/64665
+    func getMegabytesUsed() -> Float? {
+        var info = mach_task_basic_info()
+        var count = mach_msg_type_number_t(MemoryLayout.size(ofValue: info) / MemoryLayout<integer_t>.size)
+        let kerr = withUnsafeMutablePointer(to: &info) { infoPtr in
+            return infoPtr.withMemoryRebound(to: integer_t.self, capacity: Int(count)) { (machPtr: UnsafeMutablePointer<integer_t>) in
+                return task_info(
+                    mach_task_self(),
+                    task_flavor_t(MACH_TASK_BASIC_INFO),
+                    machPtr,
+                    &count
+                )
+            }
+        }
+        guard kerr == KERN_SUCCESS else {
+            return nil
+        }  
+        return Float(info.resident_size) / (1024 * 1024)   
+    }
+    
+    func resizeWithCGImage(uiImages: [UIImage]) -> [UIImage]? {
+        var newImages = [UIImage]()
+        for image in uiImages {
+            if let newImage = resizeWithCGImage(uiImage: image) {
+                newImages.append(newImage)
+            } else {
+                print("resizeWithCGImage(uiImage:) returned nil")
+            }
+        }
+        return newImages
+    }
+    
+    func resizeWithCGImage(uiImage: UIImage) -> UIImage? {
+        if let cgImage = uiImage.cgImage {
+            let width: Int = Int(frame.width) / 2
+            let height: Int = Int(frame.height) / 2
+            let bitsPerComponent = cgImage.bitsPerComponent
+            let bytesPerRow = cgImage.bytesPerRow
+            let colorSpace = cgImage.colorSpace
+            let bitmapInfo = cgImage.bitmapInfo
+            
+            let context = CGContext(data: nil, width: width, height: height, bitsPerComponent: bitsPerComponent, bytesPerRow: bytesPerRow, space: colorSpace!, bitmapInfo: bitmapInfo.rawValue)
+            
+            
+//            context!.interpolationQuality = CGInterpolationQuality.high
+            context!.interpolationQuality = CGInterpolationQuality.low
+
+            
+            //CGContextDrawImage(context, CGRect(origin: CGPoint.zero, size: CGSize(width: CGFloat(width), height: CGFloat(height))), cgImage)
+            
+            context?.draw(cgImage, in: CGRect(origin: CGPoint.zero, size: CGSize(width: CGFloat(width), height: CGFloat(height))))
+            
+            let scaledImage = context!.makeImage().flatMap { UIImage(cgImage: $0) }
+            
+            return scaledImage
+        }
+        print("cgimage from uiimage is nil")
+        return nil
     }
 }
 
@@ -618,7 +733,25 @@ extension SatoCamera: AVCaptureVideoDataOutputSampleBufferDelegate, AVCapturePho
         didOutputSampleBufferMethodCallCount += 1
         if isRecording && didOutputSampleBufferMethodCallCount % SatoCamera.frameCaptureFrequency == 0 {
             // For post filter editing. Storing two images causes lag to preview screen.
-            store(image: sourceImage, to: &unfilteredCIImages)
+            
+//            let sourceUIImage = UIImage(ciImage: sourceImage)
+//            let resizedUIImage = resizeWithCGImage(uiImage: sourceUIImage)
+//            //print("resized CIImage size: \(resize)")
+//            if let resizedCIImage = resizedUIImage?.ciImage {
+//                print("resizedCIImage: \(resizedCIImage)")
+//                store(image: resizedCIImage, to: &unfilteredCIImages)
+//            } else {
+//                print("resized CIImage is nil")
+//            }
+            
+            if let resizedCIImage = resizeCIImage(sourceImage) {
+                store(image: resizedCIImage, to: &unfilteredCIImages)
+                print("resized ciimage: \(resizedCIImage) in \(#function)")
+            } else {
+                print("resized ciimage is nil")
+            }
+            
+//            store(image: sourceImage, to: &unfilteredCIImages)
         }
         
         let sourceAspect = sourceExtent.width / sourceExtent.height
@@ -666,10 +799,8 @@ extension SatoCamera: AVCaptureVideoDataOutputSampleBufferDelegate, AVCapturePho
          */
         // http://stackoverflow.com/questions/26082262/exc-bad-access-with-glteximage2d-in-glkviewcontroller
         // http://qiita.com/shu223/items/2ef1e8901e96c65fd155
-        videoPreview?.display()
         
-        // error fixed. Had to use the main queue
-        // http://dev.classmethod.jp/smartphone/iphone/swiftiphone-camera-filter/
+        videoPreview?.display()
     }
     
     /** Captures an image. Fires didFinishProcessingPhotoSampleBuffer to get image. */
@@ -812,7 +943,7 @@ extension UIImage {
      For exmple if you pass self.view with scale 0.7, the actual size will be self.view * 0.7.*/
     func resize(width: CGFloat, height: CGFloat, scale: CGFloat) -> UIImage? {
         let rect = CGRect(x: 0, y: 0, width: size.width, height: size.height)
-        UIGraphicsBeginImageContextWithOptions(size, false, scale)
+        UIGraphicsBeginImageContextWithOptions(size, false, 0)
         self.draw(in: rect)
         let newImage = UIGraphicsGetImageFromCurrentImageContext()
         return newImage
