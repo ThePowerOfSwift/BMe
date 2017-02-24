@@ -59,11 +59,11 @@ class CameraViewController: UIViewController, SatoCameraOutput, BubbleMenuCollec
     
     @IBOutlet weak var flashButton: UIButton!
     @IBAction func tappedFlash(_ sender: Any) {
-        satoCamera.toggleFlash()
+        toggleFlash()
     }
     
     func cancel() {
-        
+        satoCamera.reset()
     }
     
     func save() {
@@ -72,6 +72,10 @@ class CameraViewController: UIViewController, SatoCameraOutput, BubbleMenuCollec
     
     func toggleSelfie() {
         
+    }
+    
+    func toggleFlash() {
+        satoCamera.toggleFlash()
     }
     
     //***********
