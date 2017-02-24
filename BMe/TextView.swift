@@ -135,6 +135,14 @@ class TextView: UIView, UITextFieldDelegate {
         return NSAttributedString(string: defaultText, attributes: [NSForegroundColorAttributeName: color])
     }
     
+    private func removeAllTextfields() {
+        for view in imageView.subviews {
+            if let textField = view as? UITextField {
+                textField.removeFromSuperview()
+            }
+        }
+    }
+    
     // MARK: Gesture responders
     
     /** On pinch, resize the textfield and it's contents */
@@ -204,12 +212,10 @@ class TextView: UIView, UITextFieldDelegate {
     
     // MARK: Instance methods
     
-    func removeAllTextfields() {
-        for view in imageView.subviews {
-            if let textField = view as? UITextField {
-                textField.removeFromSuperview()
-            }
-        }
+    func reset() {
+        imageView.removeFromSuperview()
+        imageView = UIImageView()
+        setup()
     }
     
     /** Render texts field into text image view. */

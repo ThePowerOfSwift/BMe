@@ -76,4 +76,8 @@ class TextImageEffectView: UIView, CameraViewBubbleMenu {
     func didSelect(_ sender: CameraViewBubbleMenu) {
         textView.addTextfield()
     }
+    
+    func reset() {
+        textView.reset()
+    }
 }

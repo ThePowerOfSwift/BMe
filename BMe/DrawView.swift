@@ -36,13 +36,18 @@ class DrawView: UIView {
         setup()
     }
     
-    func setup() {
+    private func setup() {
         // Setup image view where draw actions are drawn
         imageView.frame = bounds
         imageView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         addSubview(imageView)
     }
 
+    func reset() {
+        imageView.removeFromSuperview()
+        imageView = UIImageView()
+        setup()
+    }
     
     // MARK: Draw methods
     
