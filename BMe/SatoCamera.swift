@@ -288,13 +288,13 @@ class SatoCamera: NSObject {
         })
     }
     
-    internal func toggleFlash() {
+    internal func toggleFlash() -> String {
         let flashMode = flashOptions[flashOptionIndex.increment()]
         let torchMode = torchOptions[torchOptionIndex.increment()]
         
         guard let videoDevice = videoDevice else {
             print("video device or photo settings is nil")
-            return
+            return "Error happened in \(#function): video device or photo settings is nil"
         }
 
         if videoDevice.hasFlash && videoDevice.isFlashAvailable && videoDevice.hasTorch && videoDevice.isTorchAvailable {
@@ -307,15 +307,17 @@ class SatoCamera: NSObject {
                 
             }
         }
-        
+        var returnText = ""
         switch flashState {
         case AVCaptureFlashMode.off:
-            print("flash is off")
+            returnText = "Off"
         case AVCaptureFlashMode.on:
-            print("flash is on")
+            returnText = "On"
         case AVCaptureFlashMode.auto:
-            print("flash is auto")
+            returnText = "Auto"
         }
+        
+        return returnText
     }
     
 //    internal func toggleTorch() {
