@@ -495,15 +495,15 @@ class SatoCamera: NSObject {
             return
         }
         
-        guard let resizedUIImages = resizeWithCGImage(uiImages: orientUIImages) else {
-            print("resized uiimages is nil")
-            return
-        }
-        
-        for image in resizedUIImages {
-            print("image.size: \(image.size)")
-        }
-        
+//        guard let resizedUIImages = resizeWithCGImage(uiImages: orientUIImages) else {
+//            print("resized uiimages is nil")
+//            return
+//        }
+//        
+//        for image in resizedUIImages {
+//            print("image.size: \(image.size)")
+//        }
+//        
         
 //        let testImage = orientUIImages[0]
 //        
@@ -519,7 +519,7 @@ class SatoCamera: NSObject {
 //            return
 //        }
         
-        guard let gifImageView = UIImageView.generateGifImageView(with: resizedUIImages, frame: frame, duration: SatoCamera.imageViewAnimationDuration) else {
+        guard let gifImageView = UIImageView.generateGifImageView(with: orientUIImages, frame: frame, duration: SatoCamera.imageViewAnimationDuration) else {
             print("failed to produce gif image")
             return
         }
@@ -538,14 +538,33 @@ class SatoCamera: NSObject {
         gifImageView.startAnimating()
     }
     
-//    func resizeWithCIImage(ciImage: CIImage) -> CIImage? {
-//        
-//    }
+    func resizeWithCIImage(ciImage: CIImage) -> CIImage? {
+        let filter = CIFilter(name: "CILanczosScaleTransform")!
+        filter.setValue(ciImage, forKey: kCIInputImageKey)
+        filter.setValue(0.1, forKey: kCIInputScaleKey)
+        filter.setValue(1.0, forKey: kCIInputAspectRatioKey)
+        
+        guard let outputImage = filter.value(forKey: kCIOutputImageKey) as? CIImage else {
+            print("output image is nil in \(#function)")
+            return nil
+        }
+        
+        let context = CIContext(options: [kCIContextUseSoftwareRenderer: false])
+        
+        guard let scaledCGImage = context.createCGImage(outputImage, from: outputImage.extent) else {
+            print("scaled CGImage is nil in \(#function)")
+            return nil
+        }
+        
+        let scaledCIImage = CIImage(cgImage: scaledCGImage)
+        return scaledCIImage
+    }
     
     func mach_task_self() -> task_t {
         return mach_task_self_
     }
-    
+    // http://stackoverflow.com/questions/40991912/how-to-get-memory-usage-of-my-application-and-system-in-swift-by-programatically
+    // https://forums.developer.apple.com/thread/64665
     func getMegabytesUsed() -> Float? {
         var info = mach_task_basic_info()
         var count = mach_msg_type_number_t(MemoryLayout.size(ofValue: info) / MemoryLayout<integer_t>.size)
@@ -709,7 +728,25 @@ extension SatoCamera: AVCaptureVideoDataOutputSampleBufferDelegate, AVCapturePho
         didOutputSampleBufferMethodCallCount += 1
         if isRecording && didOutputSampleBufferMethodCallCount % SatoCamera.frameCaptureFrequency == 0 {
             // For post filter editing. Storing two images causes lag to preview screen.
-            store(image: sourceImage, to: &unfilteredCIImages)
+            
+//            let sourceUIImage = UIImage(ciImage: sourceImage)
+//            let resizedUIImage = resizeWithCGImage(uiImage: sourceUIImage)
+//            //print("resized CIImage size: \(resize)")
+//            if let resizedCIImage = resizedUIImage?.ciImage {
+//                print("resizedCIImage: \(resizedCIImage)")
+//                store(image: resizedCIImage, to: &unfilteredCIImages)
+//            } else {
+//                print("resized CIImage is nil")
+//            }
+            
+            if let resizedCIImage = resizeWithCIImage(ciImage: sourceImage) {
+                store(image: resizedCIImage, to: &unfilteredCIImages)
+                print("resized ciimage: \(resizedCIImage) in \(#function)")
+            } else {
+                print("resized ciimage is nil")
+            }
+            
+//            store(image: sourceImage, to: &unfilteredCIImages)
         }
         
         let sourceAspect = sourceExtent.width / sourceExtent.height
