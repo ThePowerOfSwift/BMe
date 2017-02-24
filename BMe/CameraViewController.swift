@@ -15,6 +15,11 @@ import UIKit
 class CameraViewController: UIViewController, SatoCameraOutput, BubbleMenuCollectionViewControllerDatasource, BubbleMenuCollectionViewControllerDelegate {
     
     // MARK: Snap Testing
+    
+    func setupTest() {
+        print("setup")
+    }
+    
     @IBOutlet var snapButton: UIButton!
     
     func setupSnapButton() {
@@ -24,7 +29,6 @@ class CameraViewController: UIViewController, SatoCameraOutput, BubbleMenuCollec
     }
     
     func snap(_ sender: UIControlEvents) {
-        print("snap")
         satoCamera.capturePhoto()
     }
     
@@ -39,7 +43,11 @@ class CameraViewController: UIViewController, SatoCameraOutput, BubbleMenuCollec
             satoCamera.stopRecordingGif()
         }
     }
-        
+    
+    //    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    //        satoCamera.tapToFocusAndExposure(touch: touches.first!)
+    //    }
+    
     @IBOutlet weak var cancelButton: UIButton!
     @IBAction func tappedCancel(_ sender: Any) {
         cancel()
@@ -74,9 +82,11 @@ class CameraViewController: UIViewController, SatoCameraOutput, BubbleMenuCollec
 
     /**
      View that holds all control views and the active effect tool; always floating.
-     When an effect is active, it is moved to be the bottom backing view of controlView (under control containers)
+     When an effect is active, the effect is moved to be above flashView (under control containers)
      */
     @IBOutlet var controlView: UIView!
+    /** View that sits on the back of controlView to trap flash touches */
+    @IBOutlet weak var flashView: UIView!
 
     // MARK: Image Effects
     /** Tracks which effect tool is currently selected in effects: [UIView] */
@@ -109,6 +119,7 @@ class CameraViewController: UIViewController, SatoCameraOutput, BubbleMenuCollec
         setupControlView()
         setupEffects()
         setupSnapButton()
+        setupTest()
         
         // Finalize setup
         view.bringSubview(toFront: controlView)
@@ -155,7 +166,6 @@ class CameraViewController: UIViewController, SatoCameraOutput, BubbleMenuCollec
         //view.bringSubview(toFront: outputImageContainerView)
         satoCamera = SatoCamera(frame: view.bounds)
         satoCamera.cameraOutput = self
-        satoCamera.toggleFrontCamera()
     }
     
     func setupEffects() {
@@ -180,6 +190,10 @@ class CameraViewController: UIViewController, SatoCameraOutput, BubbleMenuCollec
         effectToolView.backgroundColor = UIColor.clear
         effectOptionView.backgroundColor = UIColor.clear
         
+        // Setup flashView to trap touches
+        let tap = UITapGestureRecognizer(target: self, action: #selector(tappedFlashView(_:)))
+        flashView.addGestureRecognizer(tap)
+
         // Setup collection views for menu and options
         setupEffectToolBubbles()
         setupEffectOptionBubbles()
@@ -225,15 +239,11 @@ class CameraViewController: UIViewController, SatoCameraOutput, BubbleMenuCollec
     
     // MARK: Camera controls
     
-//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        satoCamera.tapToFocusAndExposure(touch: touches.first!)
-//    }
-    
-//    func tappedControlView(_ sender: UITapGestureRecognizer){
-//        let touches = sender.value(forKey: "touches") as! [UITouch]
-//        satoCamera.tapToFocusAndExposure(touch: touches.first!)
-//    }
-    
+    func tappedFlashView(_ sender: UITapGestureRecognizer) {
+        let touches = sender.value(forKey: "touches") as! [UITouch]
+        satoCamera.tapToFocusAndExposure(touch: touches.first!)
+    }
+
     func cancel() {
         satoCamera.reset()
         
@@ -252,12 +262,11 @@ class CameraViewController: UIViewController, SatoCameraOutput, BubbleMenuCollec
                 print("output not saved")
             }
         }
-        satoCamera.reset()
         cancel()
     }
     
     func toggleSelfie() {
-        
+        satoCamera.toggleFrontCamera()
     }
     
     func toggleFlash() {
@@ -267,6 +276,7 @@ class CameraViewController: UIViewController, SatoCameraOutput, BubbleMenuCollec
     
     // MARK: Selection
     
+    /** Select the first tool.  Usually used during setup */
     func selectFirstEffect() {
         let indexPath = IndexPath(row: 0, section: 0)
         // Show selection
@@ -275,6 +285,7 @@ class CameraViewController: UIViewController, SatoCameraOutput, BubbleMenuCollec
         effectToolBubbleCVC.delegate?.bubbleMenuCollectionViewController(effectToolBubbleCVC, didSelectItemAt: indexPath)
     }
     
+    /** Activates a selected effect and moves other effects to background */
     func didSelectEffect(at indexPath: IndexPath) {
         
         // If it's the same selection, do nothing
@@ -290,7 +301,7 @@ class CameraViewController: UIViewController, SatoCameraOutput, BubbleMenuCollec
         }
         // Bring selected effect view to back of control view
         if let effect = effects[selectedEffect] as? UIView {
-            controlView.insertSubview(effect, at: 0)
+            controlView.insertSubview(effect, at: 1)
         }
         
         // Tell tool it's been selected

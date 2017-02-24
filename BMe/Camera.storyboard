@@ -32,6 +32,11 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6v3-5B-uh9">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <subviews>
+                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vkP-xK-PRp">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vlY-ax-210">
                                         <rect key="frame" x="0.0" y="471" width="375" height="77"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -113,6 +118,7 @@
                         <outlet property="effectOptionViewBottomConstraint" destination="lpA-hO-yen" id="Cgj-gd-ijx"/>
                         <outlet property="effectToolView" destination="iU0-LW-1qw" id="77J-x6-wqZ"/>
                         <outlet property="flashButton" destination="DB6-0Y-2aN" id="z0Z-bg-Fdz"/>
+                        <outlet property="flashView" destination="vkP-xK-PRp" id="vU4-1y-MUv"/>
                         <outlet property="outputImageContainerView" destination="pTx-8A-oMA" id="ohA-O7-rYx"/>
                         <outlet property="sampleBufferContainerView" destination="MWL-Oi-NMW" id="wQI-ga-qKX"/>
                         <outlet property="saveButton" destination="N54-oQ-fkW" id="oOD-yS-6ve"/>
