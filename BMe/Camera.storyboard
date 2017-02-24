@@ -74,7 +74,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DB6-0Y-2aN">
-                                        <rect key="frame" x="8" y="530" width="46" height="48"/>
+                                        <rect key="frame" x="83" y="586" width="46" height="48"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <state key="normal" title="Flash"/>
                                         <connections>
