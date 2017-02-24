@@ -51,6 +51,7 @@ class SatoCamera: NSObject {
     fileprivate var videoPreviewViewBounds: CGRect?
     fileprivate var captureSession: AVCaptureSession?
     fileprivate var photoOutput: AVCapturePhotoOutput?
+    fileprivate var photoSettings: AVCapturePhotoSettings?
     
     fileprivate static let resizingImageScale: CGFloat = 0.3
     fileprivate static let imageViewAnimationDuration = 2.0
@@ -226,14 +227,15 @@ class SatoCamera: NSObject {
         captureSession.commitConfiguration()
         captureSession.startRunning()
         
+        configureInitialPhotoSettings()
         //let videoConnection = videoDataOutput.connection(withMediaType: AVMediaTypeVideo)
         //videoConnection?.videoOrientation = AVCaptureVideoOrientation.portrait
         
     }
     
     /** Focus on where it's tapped. */
-    internal func tapToFocus(touch: UITouch) {
-        
+    internal func tapToFocusAndExposure(touch: UITouch) {
+        // http://stackoverflow.com/questions/15838443/iphone-camera-show-focus-rectangle
         let touchPoint = touch.location(in: videoPreview)
         
         print("tap to focus: (x: \(String(format: "%.0f", touchPoint.x)), y: \(String(format: "%.0f", touchPoint.y))) in \(self)")
@@ -269,7 +271,7 @@ class SatoCamera: NSObject {
         
         // feedback rect view
         let feedbackView = UIView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: 50, height: 50)))
-        feedbackView.center = adjustedPoint
+        feedbackView.center = adjustedCoordinatePoint
         feedbackView.layer.borderColor = UIColor.white.cgColor
         feedbackView.layer.borderWidth = 2.0
         feedbackView.backgroundColor = UIColor.clear
@@ -279,6 +281,108 @@ class SatoCamera: NSObject {
             // Put your code which should be executed with a delay here
             feedbackView.removeFromSuperview()
         })
+    }
+    
+    func turnOnAutoFlash() {
+        guard let videoDevice = videoDevice, let photoSettings = photoSettings else {
+            print("video device or photo settings is nil")
+            return
+        }
+        
+        if videoDevice.hasFlash && videoDevice.isFlashAvailable {
+            do {
+                try videoDevice.lockForConfiguration()
+                photoSettings.flashMode = AVCaptureFlashMode.auto
+                videoDevice.unlockForConfiguration()
+            } catch {
+                
+            }
+        }
+    }
+    
+    func turnOnFlash() {
+        guard let videoDevice = videoDevice, let photoSettings = photoSettings else {
+            print("video device or photo settings is nil")
+            return
+        }
+        
+        if videoDevice.hasFlash && videoDevice.isFlashAvailable {
+            do {
+                try videoDevice.lockForConfiguration()
+                photoSettings.flashMode = AVCaptureFlashMode.on
+                videoDevice.unlockForConfiguration()
+            } catch {
+                
+            }
+        }
+    }
+    
+    func turnOffFlash() {
+        guard let videoDevice = videoDevice, let photoSettings = photoSettings else {
+            print("video device or photo settings is nil")
+            return
+        }
+
+        if videoDevice.hasFlash && videoDevice.isFlashAvailable {
+            do {
+                try videoDevice.lockForConfiguration()
+                photoSettings.flashMode = AVCaptureFlashMode.off
+                videoDevice.unlockForConfiguration()
+            } catch {
+                
+            }
+        }
+    }
+    
+    func turnOnAutoTorch() {
+        guard let videoDevice = videoDevice else {
+            print("video device is nil")
+            return
+        }
+        
+        if videoDevice.hasTorch && videoDevice.isTorchAvailable {
+            do {
+                try videoDevice.lockForConfiguration()
+                videoDevice.torchMode = AVCaptureTorchMode.auto
+                videoDevice.unlockForConfiguration()
+            } catch {
+                
+            }
+        }
+    }
+    
+    func turnOnTorch() {
+        guard let videoDevice = videoDevice else {
+            print("video device is nil")
+            return
+        }
+        
+        if videoDevice.hasTorch && videoDevice.isTorchAvailable {
+            do {
+                try videoDevice.lockForConfiguration()
+                videoDevice.torchMode = AVCaptureTorchMode.on
+                videoDevice.unlockForConfiguration()
+            } catch {
+                
+            }
+        }
+    }
+    
+    func turnOffTorch() {
+        guard let videoDevice = videoDevice else {
+            print("video device is nil")
+            return
+        }
+        
+        if videoDevice.hasTorch && videoDevice.isTorchAvailable {
+            do {
+                try videoDevice.lockForConfiguration()
+                videoDevice.torchMode = AVCaptureTorchMode.off
+                videoDevice.unlockForConfiguration()
+            } catch {
+                
+            }
+        }
     }
     
     /** Resumes camera. */
@@ -535,24 +639,40 @@ extension SatoCamera: AVCaptureVideoDataOutputSampleBufferDelegate, AVCapturePho
         // http://dev.classmethod.jp/smartphone/iphone/swiftiphone-camera-filter/
     }
     
-    /** Captures an image. Fires didFinishProcessingPhotoSampleBuffer to get image. */
-    internal func capturePhoto() {
+    fileprivate func configureInitialPhotoSettings() {
+        photoSettings = AVCapturePhotoSettings()
         
-        // TODO: Research
-        let settings = AVCapturePhotoSettings()
-        let previewPixelType = settings.availablePreviewPhotoPixelFormatTypes.first!
+        guard let photoSettings = photoSettings else {
+            print("photo settings is nil")
+            return
+        }
+        
+        let previewPixelType = photoSettings.availablePreviewPhotoPixelFormatTypes.first!
         let previewFormat = [kCVPixelBufferPixelFormatTypeKey as String: previewPixelType,
                              kCVPixelBufferWidthKey as String: 160,
                              kCVPixelBufferHeightKey as String: 160]
         
-        settings.previewPhotoFormat = previewFormat
+        photoSettings.previewPhotoFormat = previewFormat
+    }
+    
+    /** Captures an image. Fires didFinishProcessingPhotoSampleBuffer to get image. */
+    internal func capturePhoto() {
         
-        guard let photoOutput = photoOutput else {
-            print("photo output is nil")
+        // TODO: Research
+//        settings = AVCapturePhotoSettings()
+//        let previewPixelType = settings.availablePreviewPhotoPixelFormatTypes.first!
+//        let previewFormat = [kCVPixelBufferPixelFormatTypeKey as String: previewPixelType,
+//                             kCVPixelBufferWidthKey as String: 160,
+//                             kCVPixelBufferHeightKey as String: 160]
+//        
+//        settings.previewPhotoFormat = previewFormat
+        
+        guard let photoOutput = photoOutput, let photoSettings = photoSettings else {
+            print("photo output or photo setting is nil")
             return
         }
         
-        photoOutput.capturePhoto(with: settings, delegate: self)
+        photoOutput.capturePhoto(with: photoSettings, delegate: self)
     }
     
     /** get video frame and convert it to image. */
