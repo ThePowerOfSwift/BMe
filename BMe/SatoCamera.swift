@@ -519,7 +519,17 @@ class SatoCamera: NSObject {
 //            return
 //        }
         
-        guard let gifImageView = UIImageView.generateGifImageView(with: orientUIImages, frame: frame, duration: SatoCamera.imageViewAnimationDuration) else {
+//        guard let resizedUIImages = UIImage.resizeImages(orientUIImages, frame: frame) else {
+//            print("resized UIImages is nil")
+//            return
+//        }
+
+        guard let resizedUIImages = resizeWithCGImage(uiImages: orientUIImages) else {
+            print("resized UIImages is nil")
+            return
+        }
+        
+        guard let gifImageView = UIImageView.generateGifImageView(with: resizedUIImages, frame: frame, duration: SatoCamera.imageViewAnimationDuration) else {
             print("failed to produce gif image")
             return
         }
@@ -539,14 +549,14 @@ class SatoCamera: NSObject {
     }
     
     func resizeCIImage(_ ciImage: CIImage) -> CIImage? {
-        let filter = CIFilter(name: "CILanczosScaleTransform")!
+        let scale = frame.width / ciImage.extent.width
         
+        let filter = CIFilter(name: "CILanczosScaleTransform")!
         //let rectFrame = CGRect(x: 0, y: 0, width: frame.width, height: frame.height)
         //let vectorFrame = CIVector(cgRect: frame)
-        //CIVector(
-        //filter.setValue(vectorFrame, forKey: kCIInputExtentKey)
+        //filter.setValue(vectorFrame, forKey: kCIInputExtentKey) // CILanczosScaleTransform doesn't accept vector frame
         filter.setValue(ciImage, forKey: kCIInputImageKey)
-        filter.setValue(0.1, forKey: kCIInputScaleKey)
+        filter.setValue(scale, forKey: kCIInputScaleKey)
         filter.setValue(1.0, forKey: kCIInputAspectRatioKey)
         
         guard let outputImage = filter.value(forKey: kCIOutputImageKey) as? CIImage else {
@@ -604,7 +614,7 @@ class SatoCamera: NSObject {
     func resizeWithCGImage(uiImage: UIImage) -> UIImage? {
         if let cgImage = uiImage.cgImage {
             let width: Int = Int(frame.width) / 2
-            let height: Int = Int(frame.height) / 2
+            let height: Int = Int(frame.height) / 2 
             let bitsPerComponent = cgImage.bitsPerComponent
             let bytesPerRow = cgImage.bytesPerRow
             let colorSpace = cgImage.colorSpace
@@ -622,7 +632,7 @@ class SatoCamera: NSObject {
             context?.draw(cgImage, in: CGRect(origin: CGPoint.zero, size: CGSize(width: CGFloat(width), height: CGFloat(height))))
             
             let scaledImage = context!.makeImage().flatMap { UIImage(cgImage: $0) }
-            
+            print("UIImage is resized: \(scaledImage?.size) in \(#function)")
             return scaledImage
         }
         print("cgimage from uiimage is nil")
