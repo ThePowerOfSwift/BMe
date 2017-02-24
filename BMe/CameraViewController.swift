@@ -254,6 +254,7 @@ class CameraViewController: UIViewController, SatoCameraOutput, BubbleMenuCollec
             }
         }
         satoCamera.reset()
+        cancel()
     }
     
     func toggleSelfie() {
@@ -261,7 +262,8 @@ class CameraViewController: UIViewController, SatoCameraOutput, BubbleMenuCollec
     }
     
     func toggleFlash() {
-        flashButton.titleLabel?.text = satoCamera.toggleFlash()
+        let state = satoCamera.toggleFlash()
+        flashButton.setTitle(state, for: .normal)
     }
     
     // MARK: Selection
