@@ -61,31 +61,8 @@ class CameraViewController: UIViewController, SatoCameraOutput, BubbleMenuCollec
     @IBAction func tappedFlash(_ sender: Any) {
         toggleFlash()
     }
-    
-<<<<<<< HEAD
 
-    
-    
-    // MARK: ***********
-=======
-    func cancel() {
-        satoCamera.reset()
-    }
-    
-    func save() {
-        
-    }
-    
-    func toggleSelfie() {
-        
-    }
-    
-    func toggleFlash() {
-        satoCamera.toggleFlash()
-    }
-    
     //***********
->>>>>>> 08a2b176d872703d2ec40cd330d24629c208ee52
     
     /** Model */
     var satoCamera: SatoCamera!
@@ -271,7 +248,7 @@ class CameraViewController: UIViewController, SatoCameraOutput, BubbleMenuCollec
     }
     
     func save() {
-        satoCamera.reset()
+        cancel()
     }
     
     func toggleSelfie() {
@@ -279,7 +256,8 @@ class CameraViewController: UIViewController, SatoCameraOutput, BubbleMenuCollec
     }
     
     func toggleFlash() {
-        flashButton.titleLabel?.text = satoCamera.toggleFlash()
+        let state = satoCamera.toggleFlash()
+        flashButton.setTitle(state, for: .normal)
     }
     
     // MARK: Selection
