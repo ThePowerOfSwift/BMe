@@ -36,6 +36,7 @@ class TextView: UIView, UITextFieldDelegate {
     var color: UIColor = defaultColor {
         didSet {
             textField?.textColor = color
+            textField?.attributedPlaceholder = attributedPlaceholder()
         }
     }
     
@@ -112,7 +113,7 @@ class TextView: UIView, UITextFieldDelegate {
         newTextField.addGestureRecognizer(rotate)
         
         // Default appearance
-        newTextField.attributedPlaceholder = NSAttributedString(string: defaultText, attributes: [NSForegroundColorAttributeName: color])
+        newTextField.attributedPlaceholder = attributedPlaceholder()
         newTextField.sizeToFit()
         
         // Add textField to view
@@ -123,9 +124,15 @@ class TextView: UIView, UITextFieldDelegate {
         
         // Add textfield to heirarchy
         imageView.addSubview(newTextField)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.025) {
+        
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.025) {
             self.textField?.becomeFirstResponder()
-        }
+
+//        }
+    }
+    
+    func attributedPlaceholder() -> NSAttributedString? {
+        return NSAttributedString(string: defaultText, attributes: [NSForegroundColorAttributeName: color])
     }
     
     // MARK: Gesture responders
@@ -236,13 +243,14 @@ class TextView: UIView, UITextFieldDelegate {
         return true
     }
     
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+
+        return true
+    }
+    
     /** On TextField change, resize the TextField */
     func textFieldDidChange(_ sender: UITextField) {
         sender.sizeToFit()
-    }
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
     }
 }

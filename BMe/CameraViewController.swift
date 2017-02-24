@@ -77,6 +77,7 @@ class CameraViewController: UIViewController, SatoCameraOutput, BubbleMenuCollec
     @IBOutlet var effectToolView: UIView!
     /** Container view for effect options */
     @IBOutlet var effectOptionView: UIView!
+    @IBOutlet weak var effectOptionViewBottomConstraint: NSLayoutConstraint!
     /** Collection view for effect tool selection */
     var effectToolBubbleCVC: BubbleMenuCollectionViewController!
     /** Collection view for effect option selection */
@@ -91,8 +92,6 @@ class CameraViewController: UIViewController, SatoCameraOutput, BubbleMenuCollec
         setupControlView()
         setupEffects()
         setupSnapButton()
-        // Observe keyboard appearance
-        addKeyboardObserver()
         
         // Finalize setup
         view.bringSubview(toFront: controlView)
@@ -101,6 +100,17 @@ class CameraViewController: UIViewController, SatoCameraOutput, BubbleMenuCollec
         
         satoCamera.start()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setupKeyboardObserver()
+
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        removeKeyboardObserver()
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -108,7 +118,6 @@ class CameraViewController: UIViewController, SatoCameraOutput, BubbleMenuCollec
     }
     
     deinit {
-        removeKeyboardObserver()
     }
     
     // MARK: Setups
@@ -277,10 +286,10 @@ class CameraViewController: UIViewController, SatoCameraOutput, BubbleMenuCollec
             }
         }
     }
-    
+        
     // MARK: Keyboard
     
-    func addKeyboardObserver() {
+    func setupKeyboardObserver() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: .UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: .UIKeyboardWillHide, object: nil)
     }
@@ -290,15 +299,52 @@ class CameraViewController: UIViewController, SatoCameraOutput, BubbleMenuCollec
         NotificationCenter.default.removeObserver(self, name: .UIKeyboardWillHide, object: nil)
     }
     
+    // TODO: temp var
+    var lastconstant: CGFloat = 0
+    /** Keyboard appearance notification.  Pushes content (option menu) up to keyboard top floating */
     func keyboardWillShow(notification: NSNotification) {
-//        guard let keyboardFrame = notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? CGRect else {
-//            print("Error: Cannot retrieve Keyboard frame")
-//            return
-//        }
+        
+        // See if menu should be pushed with keyboard
+        if let showMenu = (effects[selectedEffect] as? CameraViewBubbleMenu)?.showsMenuContentOnKeyboard, showMenu {
+            // Get keyboard animation information
+            guard let keyboardFrame = notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? CGRect else {
+                print("Error: Cannot retrieve Keyboard frame from keyboard notification")
+                return
+            }
+            guard let animationTime = notification.userInfo?[UIKeyboardAnimationDurationUserInfoKey] as? Double else {
+                print("Error: Cannot retrienve animation duration from keyboard notification")
+                return
+            }
+            
+            // Save the original position
+            lastconstant = effectOptionViewBottomConstraint.constant
+            // Enforce the new position above keyboard
+            effectOptionViewBottomConstraint.constant = keyboardFrame.height
+            // Animate the constraint changes
+            UIView.animate(withDuration: animationTime, animations: { 
+                self.view.layoutIfNeeded()
+            })
+        }
     }
     
+    /** Keyboard appearance notification.  Pushes content (option menu) back to original position when no keyboard is shown */
     func keyboardWillHide(notification: NSNotification) {
-
+        
+        // See if menu should be pushed with keyboard
+        if let showMenu = (effects[selectedEffect] as? CameraViewBubbleMenu)?.showsMenuContentOnKeyboard, showMenu {
+            // Get keyboard animation information
+            guard let animationTime = notification.userInfo?[UIKeyboardAnimationDurationUserInfoKey] as? Double else {
+                print("Error: Cannot retrienve animation duration from keyboard notification")
+                return
+            }
+            
+            // Return to original position
+            effectOptionViewBottomConstraint.constant = lastconstant
+            // Animate the constraint changes
+            UIView.animate(withDuration: animationTime, animations: {
+                self.view.layoutIfNeeded()
+            })
+        }
     }
 }
 
@@ -307,6 +353,7 @@ class CameraViewController: UIViewController, SatoCameraOutput, BubbleMenuCollec
     var menuContent: [BubbleMenuCollectionViewCellContent] { get }
     /** The icon image of the datasource */
     var iconContent: BubbleMenuCollectionViewCellContent { get }
+    @objc optional var showsMenuContentOnKeyboard: Bool { get }
     
     func menu(_ sender: BubbleMenuCollectionViewController, didSelectItemAt indexPath: IndexPath)
     @objc optional func didSelect(_ sender: CameraViewBubbleMenu)
