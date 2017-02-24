@@ -14,7 +14,7 @@ import UIKit
 
 class CameraViewController: UIViewController, SatoCameraOutput, BubbleMenuCollectionViewControllerDatasource, BubbleMenuCollectionViewControllerDelegate {
     
-    // MARK: Testing
+    // MARK: Snap Testing
     @IBOutlet var snapButton: UIButton!
     
     func setupSnapButton() {
@@ -38,8 +38,46 @@ class CameraViewController: UIViewController, SatoCameraOutput, BubbleMenuCollec
             print("end")
             satoCamera.stopRecordingGif()
         }
-
     }
+    
+    // MARK: Camera actions tesing
+    
+    @IBOutlet weak var cancelButton: UIButton!
+    @IBAction func tappedCancel(_ sender: Any) {
+        cancel()
+    }
+    
+    @IBOutlet weak var saveButton: UIButton!
+    @IBAction func tappedSave(_ sender: Any) {
+        save()
+    }
+    
+    @IBOutlet weak var selfieButton: UIButton!
+    @IBAction func tappedSelfie(_ sender: Any) {
+        toggleSelfie()
+    }
+    
+    @IBOutlet weak var flashButton: UIButton!
+    @IBAction func tappedFlash(_ sender: Any) {
+        toggleFlash()
+    }
+    
+    func cancel() {
+        
+    }
+    
+    func save() {
+        
+    }
+    
+    func toggleSelfie() {
+        
+    }
+    
+    func toggleFlash() {
+        
+    }
+    
     
     //***********
     
