@@ -538,8 +538,13 @@ class SatoCamera: NSObject {
         gifImageView.startAnimating()
     }
     
-    func resizeWithCIImage(ciImage: CIImage) -> CIImage? {
+    func resizeCIImage(_ ciImage: CIImage) -> CIImage? {
         let filter = CIFilter(name: "CILanczosScaleTransform")!
+        
+        //let rectFrame = CGRect(x: 0, y: 0, width: frame.width, height: frame.height)
+        //let vectorFrame = CIVector(cgRect: frame)
+        //CIVector(
+        //filter.setValue(vectorFrame, forKey: kCIInputExtentKey)
         filter.setValue(ciImage, forKey: kCIInputImageKey)
         filter.setValue(0.1, forKey: kCIInputScaleKey)
         filter.setValue(1.0, forKey: kCIInputAspectRatioKey)
@@ -739,7 +744,7 @@ extension SatoCamera: AVCaptureVideoDataOutputSampleBufferDelegate, AVCapturePho
 //                print("resized CIImage is nil")
 //            }
             
-            if let resizedCIImage = resizeWithCIImage(ciImage: sourceImage) {
+            if let resizedCIImage = resizeCIImage(sourceImage) {
                 store(image: resizedCIImage, to: &unfilteredCIImages)
                 print("resized ciimage: \(resizedCIImage) in \(#function)")
             } else {
@@ -794,14 +799,8 @@ extension SatoCamera: AVCaptureVideoDataOutputSampleBufferDelegate, AVCapturePho
          */
         // http://stackoverflow.com/questions/26082262/exc-bad-access-with-glteximage2d-in-glkviewcontroller
         // http://qiita.com/shu223/items/2ef1e8901e96c65fd155
+        
         videoPreview?.display()
-        
-        // error fixed. Had to use the main queue
-        // http://dev.classmethod.jp/smartphone/iphone/swiftiphone-camera-filter/
-        
-        // get memory usage
-        let memoryUsage = getMegabytesUsed()
-        print("memory usage: \(memoryUsage!) MB")
     }
     
     /** Captures an image. Fires didFinishProcessingPhotoSampleBuffer to get image. */
