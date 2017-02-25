@@ -91,7 +91,7 @@ class Like: JSONObject {
                 
                 likedList?[uid] = isliked
                 likeInfo[keys.count] = likeCount as AnyObject
-                likeInfo[keys.users] = likedList?[uid] as AnyObject?
+                likeInfo[keys.users] = likedList as AnyObject
                 // Commit
                 currentData.value = likeInfo
                 return FIRTransactionResult.success(withValue: currentData)
@@ -110,11 +110,7 @@ class Like: JSONObject {
         }) { (error, committed, snapshot) in
             if let error = error {
                 print("Error updating matchup vote: \(error.localizedDescription)")
-            } else if let snapshot = snapshot, committed {
-                // Update object properties
-                let likeInfo = Like(snapshot)
-                //self.didLike = likeInfo.didLike
-            }
+            } 
         }
     }
     
