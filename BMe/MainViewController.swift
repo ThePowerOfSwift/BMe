@@ -22,6 +22,10 @@ class MainViewController: UIViewController, UIScrollViewDelegate {
         setupButtons()
     }
     override func viewDidAppear(_ animated: Bool) {
+        // Broadcast signin notification (AppDelegate should pick up and present Root VC)
+        let notificationName = Notification.Name(rawValue: Constants.NotificationKeys.didSignIn)
+        NotificationCenter.default.post(name: notificationName, object: nil, userInfo: nil)
+
         if UserAccount.currentUser.isSignedIn {
             UserAccount.currentUser.signedIn()
         }

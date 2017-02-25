@@ -19,7 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         
         // Connect Firebase when your app starts up
-        FIRApp.configure()
+//        FIRApp.configure()
                 
         // Add notification send user back to login screen after logout
         NotificationCenter.default.addObserver(self, selector: #selector(presentLoginViewController), name: NSNotification.Name(rawValue: Constants.NotificationKeys.didSignOut), object: nil)
