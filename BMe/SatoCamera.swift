@@ -17,8 +17,11 @@ import Photos
 
 // TODO: check camera device is available
 
-// TODO: Reduce CIImage size when storing to array
-// TODO: Clean up applying filter and fixing orientation part
+/** Indicate camera state. */
+enum CameraState {
+    case Back
+    case Front
+}
 
 protocol SatoCameraOutput {
     // set outputImageView with filtered image in
@@ -88,6 +91,9 @@ class SatoCamera: NSObject {
     fileprivate var torchOptionIndex: Index = Index(numOfElement: 3)
     
     fileprivate var resultImageView: UIImageView?
+    
+    /** Indicates the current camera state. */
+    var cameraState: CameraState = .Back
     
     /** Can be set after initialization. videoPreview will be added subview to sampleBufferOutput in dataSource. */
     var cameraOutput: SatoCameraOutput? {
@@ -342,16 +348,26 @@ class SatoCamera: NSObject {
     }
     
     /** Saves output image to camera roll. */
-    internal func save(completion: ((Bool) -> ())?) {
+    internal func save(drawImage: UIImage?, textImage: UIImage?, completion: ((Bool) -> ())?) {
         if isGif {
-            guard let resultImageView = resultImageView else {
-                print("result image view for gif is nil")
+            // render gif
+            guard let renderedGifImageView = renderGif(drawImage: drawImage, textImage: textImage) else {
+                print("rendered gif image view is nil")
                 return
             }
-            resultImageView.saveGifToDisk(completion: { (url: URL?, error: Error?) in
+            
+            renderedGifImageView.saveGifToDisk(completion: { (url: URL?, error: Error?) in
                 if error != nil {
                     print("\(error?.localizedDescription)")
                 } else if let url = url {
+    
+                    if let gifData = NSData(contentsOf: url) {
+                        let gifSize = Double(gifData.length)
+                        print("size of gif in KB: ", gifSize / 1024.0)
+                    } else {
+                        print("gif data is nil")
+                    }
+
                     
                     // check authorization status
                     PHPhotoLibrary.requestAuthorization
@@ -383,19 +399,94 @@ class SatoCamera: NSObject {
             })
 
         } else {
-            guard let resultImage = resultImageView?.image else {
-                print("result image is nil")
+            // render image
+            guard let renderedImage = renderStillImage(drawImage: drawImage, textImage: textImage) else {
+                print("rendered image is nil in \(#function)")
                 return
             }
             
-            UIImageWriteToSavedPhotosAlbum(resultImage, nil, nil, nil)
+            UIImageWriteToSavedPhotosAlbum(renderedImage, nil, nil, nil)
             completion?(true)
         }
     }
     
-    internal func toggleFrontCamera() {
-        let frontCamera = AVCaptureDevice.defaultDevice(withDeviceType: AVCaptureDeviceType.builtInWideAngleCamera, mediaType: AVMediaTypeVideo, position: AVCaptureDevicePosition.front)
+    // textImageView should render text fields into it
+    /** Renders drawings and texts into image. Needs to be saved to disk by save(completion:)*/
+    internal func renderGif(drawImage: UIImage?, textImage: UIImage?) -> UIImageView? {
         
+            guard let resultImageView = resultImageView else {
+                print("result imag view is nil")
+                return nil
+            }
+            
+            guard let animationImages = resultImageView.animationImages else {
+                print("animation image is nil")
+                return nil
+            }
+            
+            var renderedAnimationImages = [UIImage]()
+            
+            // render draw and text into each animation image
+            for animationImage in animationImages {
+                UIGraphicsBeginImageContext(frame.size)
+                // render here
+                animationImage.draw(in: frame)
+                drawImage?.draw(in: frame)
+                textImage?.draw(in: frame)
+                if let renderedAnimationImage = UIGraphicsGetImageFromCurrentImageContext() {
+                    renderedAnimationImages.append(renderedAnimationImage)
+                } else {
+                    print("rendered animation image is nil")
+                }
+                UIGraphicsEndImageContext()
+            }
+            // generate .gif file from array of rendered image
+        
+        guard let renderedGifImageView = UIImageView.generateGifImageView(with: renderedAnimationImages, frame: frame, duration: SatoCamera.imageViewAnimationDuration) else {
+            print("rendered gif image view is nil in \(#function)")
+            return nil
+        }
+        return renderedGifImageView
+    }
+    
+    /** Renders drawings and texts into image. Needs to be saved to disk by save(). */
+    internal func renderStillImage(drawImage: UIImage?, textImage: UIImage?) -> UIImage? {
+        let resultImage: UIImage?
+        UIGraphicsBeginImageContext(frame.size)
+        resultImageView?.image?.draw(in: frame)
+        drawImage?.draw(in: frame)
+        textImage?.draw(in: frame)
+        if let renderedImage = UIGraphicsGetImageFromCurrentImageContext() {
+            resultImage = renderedImage
+        } else {
+            resultImage = nil
+        }
+        UIGraphicsEndImageContext()
+        return resultImage
+    }
+    
+//    /** Render drawings and texts into photo image view. */
+//    private func render() -> UIImage? {
+//        renderTextfields()
+//        
+//        UIGraphicsBeginImageContextWithOptions(photoImageView.frame.size, false, imageScale)
+//        if UIGraphicsGetCurrentContext() != nil {
+//            photoImageView.image?.draw(in: photoImageView.frame)
+//            drawImageView.image?.draw(in: photoImageView.frame)
+//            textImageView.image?.draw(in: photoImageView.frame)
+//            if let resultImage = UIGraphicsGetImageFromCurrentImageContext() {
+//                //let imageVC = ImageViewController(image: resultImage)
+//                //present(imageVC, animated: true, completion: {})
+//                return resultImage
+//            }
+//        }
+//        UIGraphicsEndImageContext()
+//        return nil
+//    }
+    
+    /** Toggles back camera or front camera. */
+    internal func toggleCamera() {
+        let cameraDevice = getCameraDevice()
         guard let captureSession = captureSession else {
             print("capture session is nil in \(#function)")
             return
@@ -403,8 +494,8 @@ class SatoCamera: NSObject {
         
         captureSession.beginConfiguration()
         captureSession.removeInput(videoDeviceInput)
-        videoDevice = frontCamera
-
+        videoDevice = cameraDevice
+        
         // Configure input object with device
         do {
             videoDeviceInput = try AVCaptureDeviceInput(device: videoDevice)
@@ -421,32 +512,18 @@ class SatoCamera: NSObject {
         captureSession.commitConfiguration()
     }
     
-    internal func toggleBackCamera() {
-        let backCamera = AVCaptureDevice.defaultDevice(withDeviceType: AVCaptureDeviceType.builtInWideAngleCamera, mediaType: AVMediaTypeVideo, position: AVCaptureDevicePosition.back)
-        
-        guard let captureSession = captureSession else {
-            print("capture session is nil in \(#function)")
-            return
+    /** Get camera device based on cameraState. */
+    private func getCameraDevice() -> AVCaptureDevice {
+        var cameraDevice: AVCaptureDevice
+        switch cameraState {
+        case .Back:
+            cameraDevice = AVCaptureDevice.defaultDevice(withDeviceType: AVCaptureDeviceType.builtInWideAngleCamera, mediaType: AVMediaTypeVideo, position: AVCaptureDevicePosition.front)
+            cameraState = .Front
+        case .Front:
+            cameraDevice = AVCaptureDevice.defaultDevice(withDeviceType: AVCaptureDeviceType.builtInWideAngleCamera, mediaType: AVMediaTypeVideo, position: AVCaptureDevicePosition.back)
+            cameraState = .Back
         }
-        
-        captureSession.beginConfiguration()
-        captureSession.removeInput(videoDeviceInput)
-        videoDevice = backCamera
-        
-        // Configure input object with device
-        do {
-            videoDeviceInput = try AVCaptureDeviceInput(device: videoDevice)
-            // Add it to session
-            if let videoDeviceInput = videoDeviceInput {
-                captureSession.addInput(videoDeviceInput)
-            } else {
-                print("videoDeviceInput is nil")
-            }
-            
-        } catch {
-            print("Failed to instantiate input object")
-        }
-        captureSession.commitConfiguration()
+        return cameraDevice
     }
     
     /** Store CIImage captured in didOutputSampleBuffer into array */
@@ -494,37 +571,8 @@ class SatoCamera: NSObject {
             print("orient uiimages is nil in \(#function)")
             return
         }
-        
-//        guard let resizedUIImages = resizeWithCGImage(uiImages: orientUIImages) else {
-//            print("resized uiimages is nil")
-//            return
-//        }
-//        
-//        for image in resizedUIImages {
-//            print("image.size: \(image.size)")
-//        }
-//        
-        
-//        let testImage = orientUIImages[0]
-//        
-//        let resizedImage = resizeWithCGImage(uiImage: testImage)
-//        print("resiezd image size: \(resizedImage?.size)")
-//        
-//        let testImage1 = orientUIImages[1]
-//        let resizedImage1 = testImage1.resize(width: frame.width, height: frame.height, scale: 0)
-//        print("resized image 1 size: \(resizedImage1?.size)")
-        
-//        guard let gifImageView = UIImageView.generateGifImageView(with: orientUIImages, frame: frame, duration: SatoCamera.imageViewAnimationDuration) else {
-//            print("failed to produce gif image")
-//            return
-//        }
-        
-//        guard let resizedUIImages = UIImage.resizeImages(orientUIImages, frame: frame) else {
-//            print("resized UIImages is nil")
-//            return
-//        }
 
-        guard let resizedUIImages = resizeWithCGImage(uiImages: orientUIImages) else {
+        guard let resizedUIImages = resizeUIImages(orientUIImages) else {
             print("resized UIImages is nil")
             return
         }
@@ -575,34 +623,10 @@ class SatoCamera: NSObject {
         return scaledCIImage
     }
     
-    func mach_task_self() -> task_t {
-        return mach_task_self_
-    }
-    // http://stackoverflow.com/questions/40991912/how-to-get-memory-usage-of-my-application-and-system-in-swift-by-programatically
-    // https://forums.developer.apple.com/thread/64665
-    func getMegabytesUsed() -> Float? {
-        var info = mach_task_basic_info()
-        var count = mach_msg_type_number_t(MemoryLayout.size(ofValue: info) / MemoryLayout<integer_t>.size)
-        let kerr = withUnsafeMutablePointer(to: &info) { infoPtr in
-            return infoPtr.withMemoryRebound(to: integer_t.self, capacity: Int(count)) { (machPtr: UnsafeMutablePointer<integer_t>) in
-                return task_info(
-                    mach_task_self(),
-                    task_flavor_t(MACH_TASK_BASIC_INFO),
-                    machPtr,
-                    &count
-                )
-            }
-        }
-        guard kerr == KERN_SUCCESS else {
-            return nil
-        }  
-        return Float(info.resident_size) / (1024 * 1024)   
-    }
-    
-    func resizeWithCGImage(uiImages: [UIImage]) -> [UIImage]? {
+    func resizeUIImages(_ uiImages: [UIImage]) -> [UIImage]? {
         var newImages = [UIImage]()
         for image in uiImages {
-            if let newImage = resizeWithCGImage(uiImage: image) {
+            if let newImage = resizeUIImage(image) {
                 newImages.append(newImage)
             } else {
                 print("resizeWithCGImage(uiImage:) returned nil")
@@ -611,31 +635,26 @@ class SatoCamera: NSObject {
         return newImages
     }
     
-    func resizeWithCGImage(uiImage: UIImage) -> UIImage? {
+    func resizeUIImage(_ uiImage: UIImage) -> UIImage? {
         if let cgImage = uiImage.cgImage {
             let width: Int = Int(frame.width) / 2
-            let height: Int = Int(frame.height) / 2 
+            let height: Int = Int(frame.height) / 2
             let bitsPerComponent = cgImage.bitsPerComponent
             let bytesPerRow = cgImage.bytesPerRow
             let colorSpace = cgImage.colorSpace
             let bitmapInfo = cgImage.bitmapInfo
             
             let context = CGContext(data: nil, width: width, height: height, bitsPerComponent: bitsPerComponent, bytesPerRow: bytesPerRow, space: colorSpace!, bitmapInfo: bitmapInfo.rawValue)
-            
-            
-//            context!.interpolationQuality = CGInterpolationQuality.high
-            context!.interpolationQuality = CGInterpolationQuality.low
 
-            
-            //CGContextDrawImage(context, CGRect(origin: CGPoint.zero, size: CGSize(width: CGFloat(width), height: CGFloat(height))), cgImage)
-            
+            context!.interpolationQuality = CGInterpolationQuality.low //.high
+
             context?.draw(cgImage, in: CGRect(origin: CGPoint.zero, size: CGSize(width: CGFloat(width), height: CGFloat(height))))
             
             let scaledImage = context!.makeImage().flatMap { UIImage(cgImage: $0) }
             print("UIImage is resized: \(scaledImage?.size) in \(#function)")
             return scaledImage
         }
-        print("cgimage from uiimage is nil")
+        print("cgimage from uiimage is nil in \(#function)")
         return nil
     }
 }
@@ -730,11 +749,6 @@ extension SatoCamera: AVCaptureVideoDataOutputSampleBufferDelegate, AVCapturePho
         let sourceImage: CIImage = CIImage(cvPixelBuffer: imageBuffer)
         let sourceExtent: CGRect = sourceImage.extent
         
-        //print("filter name: \(filterName)")
-//        guard let filteredImage = Filter.generateFilteredImage(sourceCIImage: sourceImage, filterName: self.filterName) else {
-//            print("filtered image is nil")
-//            return
-//        }
         guard let filteredImage = currentFilter.generateFilteredCIImage(sourceImage: sourceImage) else {
             print("filtered image is nil")
             return
@@ -742,26 +756,13 @@ extension SatoCamera: AVCaptureVideoDataOutputSampleBufferDelegate, AVCapturePho
         
         didOutputSampleBufferMethodCallCount += 1
         if isRecording && didOutputSampleBufferMethodCallCount % SatoCamera.frameCaptureFrequency == 0 {
-            // For post filter editing. Storing two images causes lag to preview screen.
-            
-//            let sourceUIImage = UIImage(ciImage: sourceImage)
-//            let resizedUIImage = resizeWithCGImage(uiImage: sourceUIImage)
-//            //print("resized CIImage size: \(resize)")
-//            if let resizedCIImage = resizedUIImage?.ciImage {
-//                print("resizedCIImage: \(resizedCIImage)")
-//                store(image: resizedCIImage, to: &unfilteredCIImages)
-//            } else {
-//                print("resized CIImage is nil")
-//            }
             
             if let resizedCIImage = resizeCIImage(sourceImage) {
                 store(image: resizedCIImage, to: &unfilteredCIImages)
                 print("resized ciimage: \(resizedCIImage) in \(#function)")
             } else {
-                print("resized ciimage is nil")
+                print("resized ciimage is nil in \(#function)")
             }
-            
-//            store(image: sourceImage, to: &unfilteredCIImages)
         }
         
         let sourceAspect = sourceExtent.width / sourceExtent.height
@@ -949,82 +950,82 @@ extension CIImage {
 /** All the methods that handle UIImage are in this extension. */
 extension UIImage {
     
-    /** Resize UIImage to the specified size with scale. size will be multiplied by scale.
-     For exmple if you pass self.view with scale 0.7, the actual size will be self.view * 0.7.*/
-    func resize(width: CGFloat, height: CGFloat, scale: CGFloat) -> UIImage? {
-        let rect = CGRect(x: 0, y: 0, width: size.width, height: size.height)
-        UIGraphicsBeginImageContextWithOptions(size, false, 0)
-        self.draw(in: rect)
-        let newImage = UIGraphicsGetImageFromCurrentImageContext()
-        return newImage
-    }
-    
-    // TODO: Use Core Graphics resizing instead of UIKit for performance: http://nshipster.com/image-resizing/
-    /** resize images to the specified size and scale so that it won't take much memory. */
-    class func resizeImages(_ images :[UIImage]?, frame: CGRect) -> [UIImage]? {
-        guard let images = images else {
-            print("images is nil")
-            return nil
-        }
-        
-        // Array to store resized images
-        var newImages: [UIImage] = [UIImage]()
-        
-        // Resize images
-        for image in images {
-            print("image size before resizing: \(image.size)")
-            // Resize image to screen size * resizingImageScale (0.7) to reduce memory usage
-            if let newImage = image.resize(width: frame.width, height: frame.height, scale: SatoCamera.resizingImageScale) {
-                newImages.append(newImage)
-                print("image size after resizing: \(newImage.size)")
-                
-            } else {
-                print("newImage is nil")
-            }
-        }
-        return newImages
-    }
-    
-    // Convert array of CIImage to array of UIImage
-    class func convertToUIImages(from ciImages: [CIImage]) -> [UIImage] {
-        var uiImages = [UIImage]()
-        for ciImage in ciImages {
-            let uiImage = UIImage(ciImage: ciImage)
-            uiImages.append(uiImage)
-        }
-        return uiImages
-    }
-    
-    /** Generates array of UIImage from array of CIImage. Applies filter and resizes to specific frame. */
-    class func generateFilteredUIImages(sourceCIImages: [CIImage], with frame: CGRect, filter: Filter) -> [UIImage] {
-        
-        let filteredCIImages = CIImage.applyFilter(to: sourceCIImages, filter: filter)
-        let filteredUIImages = UIImage.convertToUIImages(from: filteredCIImages)
-        
-        guard let resizedFilteredUIImages = UIImage.resizeImages(filteredUIImages, frame: frame) else {
-            print("failed to resize filtered UIImages")
-            return filteredUIImages
-        }
-        
-        //let resizedFilteredUIImages = filteredUIImages
-        return resizedFilteredUIImages
-    }
-    
-    /** Rotate UIImage by 90 degrees. This works when UIImage orientation is set to right or left.
-     Output UIImage orientation is up. */
-    // http://stackoverflow.com/questions/1315251/how-to-rotate-a-uiimage-90-degrees
-    func rotate() -> UIImage? {
-        UIGraphicsBeginImageContext(self.size)
-        guard let context = UIGraphicsGetCurrentContext() else {
-            print("context is nil in \(#function)")
-            return nil
-        }
-        context.rotate(by: CGFloat(M_PI_2))
-        self.draw(at: CGPoint.zero)
-        let rotatedImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        return rotatedImage
-    }
+//    /** Resize UIImage to the specified size with scale. size will be multiplied by scale.
+//     For exmple if you pass self.view with scale 0.7, the actual size will be self.view * 0.7.*/
+//    func resize(width: CGFloat, height: CGFloat, scale: CGFloat) -> UIImage? {
+//        let rect = CGRect(x: 0, y: 0, width: size.width, height: size.height)
+//        UIGraphicsBeginImageContextWithOptions(size, false, 0)
+//        self.draw(in: rect)
+//        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+//        return newImage
+//    }
+//    
+//    // TODO: Use Core Graphics resizing instead of UIKit for performance: http://nshipster.com/image-resizing/
+//    /** resize images to the specified size and scale so that it won't take much memory. */
+//    class func resizeImages(_ images :[UIImage]?, frame: CGRect) -> [UIImage]? {
+//        guard let images = images else {
+//            print("images is nil")
+//            return nil
+//        }
+//        
+//        // Array to store resized images
+//        var newImages: [UIImage] = [UIImage]()
+//        
+//        // Resize images
+//        for image in images {
+//            print("image size before resizing: \(image.size)")
+//            // Resize image to screen size * resizingImageScale (0.7) to reduce memory usage
+//            if let newImage = image.resize(width: frame.width, height: frame.height, scale: SatoCamera.resizingImageScale) {
+//                newImages.append(newImage)
+//                print("image size after resizing: \(newImage.size)")
+//                
+//            } else {
+//                print("newImage is nil")
+//            }
+//        }
+//        return newImages
+//    }
+//    
+//    // Convert array of CIImage to array of UIImage
+//    class func convertToUIImages(from ciImages: [CIImage]) -> [UIImage] {
+//        var uiImages = [UIImage]()
+//        for ciImage in ciImages {
+//            let uiImage = UIImage(ciImage: ciImage)
+//            uiImages.append(uiImage)
+//        }
+//        return uiImages
+//    }
+//    
+//    /** Generates array of UIImage from array of CIImage. Applies filter and resizes to specific frame. */
+//    class func generateFilteredUIImages(sourceCIImages: [CIImage], with frame: CGRect, filter: Filter) -> [UIImage] {
+//        
+//        let filteredCIImages = CIImage.applyFilter(to: sourceCIImages, filter: filter)
+//        let filteredUIImages = UIImage.convertToUIImages(from: filteredCIImages)
+//        
+//        guard let resizedFilteredUIImages = UIImage.resizeImages(filteredUIImages, frame: frame) else {
+//            print("failed to resize filtered UIImages")
+//            return filteredUIImages
+//        }
+//        
+//        //let resizedFilteredUIImages = filteredUIImages
+//        return resizedFilteredUIImages
+//    }
+//    
+//    /** Rotate UIImage by 90 degrees. This works when UIImage orientation is set to right or left.
+//     Output UIImage orientation is up. */
+//    // http://stackoverflow.com/questions/1315251/how-to-rotate-a-uiimage-90-degrees
+//    func rotate() -> UIImage? {
+//        UIGraphicsBeginImageContext(self.size)
+//        guard let context = UIGraphicsGetCurrentContext() else {
+//            print("context is nil in \(#function)")
+//            return nil
+//        }
+//        context.rotate(by: CGFloat(M_PI_2))
+//        self.draw(at: CGPoint.zero)
+//        let rotatedImage = UIGraphicsGetImageFromCurrentImageContext()
+//        UIGraphicsEndImageContext()
+//        return rotatedImage
+//    }
 }
 
 extension UIImageView {

@@ -18,7 +18,7 @@ class TextView: UIView, UITextFieldDelegate {
 
     // Model
     /** The view that holds and draws the line */
-    private var imageView = UIImageView()
+    internal var imageView = UIImageView()
     
     // Text editing properties
     /** To store current font size for pinch gesture scaling */

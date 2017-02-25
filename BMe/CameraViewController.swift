@@ -254,19 +254,23 @@ class CameraViewController: UIViewController, SatoCameraOutput, BubbleMenuCollec
         }
     }
     
-    func save() {
-        satoCamera.save { (saved: Bool) in
-            if saved {
-                print("output saved")
-            } else {
-                print("output not saved")
-            }
-        }
+    func save() {        
+        let drawImageEffectView = effects[1] as? DrawImageEffectView
+        let drawImage = drawImageEffectView?.drawView.imageView.image
+        
+        let textImageEffectView = effects[2] as? TextImageEffectView
+        textImageEffectView?.textView.render()
+        let textImage = textImageEffectView?.textView.imageView.image
+        
+        satoCamera.save(drawImage: drawImage, textImage: textImage, completion: { (saved: Bool) in
+            print("saved")
+        })
+        
         cancel()
     }
     
     func toggleSelfie() {
-        satoCamera.toggleFrontCamera()
+        satoCamera.toggleCamera()
     }
     
     func toggleFlash() {
