@@ -348,13 +348,15 @@ class SatoCamera: NSObject {
     }
     
     /** Saves output image to camera roll. */
-    internal func save(completion: ((Bool) -> ())?) {
+    internal func save(drawImage: UIImage?, textImage: UIImage?, completion: ((Bool) -> ())?) {
         if isGif {
-            guard let resultImageView = resultImageView else {
-                print("result image view for gif is nil")
+            // render gif
+            guard let renderedGifImageView = renderGif(drawImage: drawImage, textImage: textImage) else {
+                print("rendered gif image view is nil")
                 return
             }
-            resultImageView.saveGifToDisk(completion: { (url: URL?, error: Error?) in
+            
+            renderedGifImageView.saveGifToDisk(completion: { (url: URL?, error: Error?) in
                 if error != nil {
                     print("\(error?.localizedDescription)")
                 } else if let url = url {
@@ -389,15 +391,90 @@ class SatoCamera: NSObject {
             })
 
         } else {
-            guard let resultImage = resultImageView?.image else {
-                print("result image is nil")
+            // render image
+            guard let renderedImage = renderStillImage(drawImage: drawImage, textImage: textImage) else {
+                print("rendered image is nil in \(#function)")
                 return
             }
             
-            UIImageWriteToSavedPhotosAlbum(resultImage, nil, nil, nil)
+            UIImageWriteToSavedPhotosAlbum(renderedImage, nil, nil, nil)
             completion?(true)
         }
     }
+    
+    // textImageView should render text fields into it
+    /** Renders drawings and texts into image. Needs to be saved to disk by save(completion:)*/
+    internal func renderGif(drawImage: UIImage?, textImage: UIImage?) -> UIImageView? {
+        
+            guard let resultImageView = resultImageView else {
+                print("result imag view is nil")
+                return nil
+            }
+            
+            guard let animationImages = resultImageView.animationImages else {
+                print("animation image is nil")
+                return nil
+            }
+            
+            var renderedAnimationImages = [UIImage]()
+            
+            // render draw and text into each animation image
+            for animationImage in animationImages {
+                UIGraphicsBeginImageContext(frame.size)
+                // render here
+                animationImage.draw(in: frame)
+                drawImage?.draw(in: frame)
+                textImage?.draw(in: frame)
+                if let renderedAnimationImage = UIGraphicsGetImageFromCurrentImageContext() {
+                    renderedAnimationImages.append(renderedAnimationImage)
+                } else {
+                    print("rendered animation image is nil")
+                }
+                UIGraphicsEndImageContext()
+            }
+            // generate .gif file from array of rendered image
+        
+        guard let renderedGifImageView = UIImageView.generateGifImageView(with: renderedAnimationImages, frame: frame, duration: SatoCamera.imageViewAnimationDuration) else {
+            print("rendered gif image view is nil in \(#function)")
+            return nil
+        }
+        return renderedGifImageView
+    }
+    
+    /** Renders drawings and texts into image. Needs to be saved to disk by save(). */
+    internal func renderStillImage(drawImage: UIImage?, textImage: UIImage?) -> UIImage? {
+        let resultImage: UIImage?
+        UIGraphicsBeginImageContext(frame.size)
+        resultImageView?.image?.draw(in: frame)
+        drawImage?.draw(in: frame)
+        textImage?.draw(in: frame)
+        if let renderedImage = UIGraphicsGetImageFromCurrentImageContext() {
+            resultImage = renderedImage
+        } else {
+            resultImage = nil
+        }
+        UIGraphicsEndImageContext()
+        return resultImage
+    }
+    
+//    /** Render drawings and texts into photo image view. */
+//    private func render() -> UIImage? {
+//        renderTextfields()
+//        
+//        UIGraphicsBeginImageContextWithOptions(photoImageView.frame.size, false, imageScale)
+//        if UIGraphicsGetCurrentContext() != nil {
+//            photoImageView.image?.draw(in: photoImageView.frame)
+//            drawImageView.image?.draw(in: photoImageView.frame)
+//            textImageView.image?.draw(in: photoImageView.frame)
+//            if let resultImage = UIGraphicsGetImageFromCurrentImageContext() {
+//                //let imageVC = ImageViewController(image: resultImage)
+//                //present(imageVC, animated: true, completion: {})
+//                return resultImage
+//            }
+//        }
+//        UIGraphicsEndImageContext()
+//        return nil
+//    }
     
     /** Toggles back camera or front camera. */
     internal func toggleCamera() {

@@ -255,14 +255,14 @@ class CameraViewController: UIViewController, SatoCameraOutput, BubbleMenuCollec
     }
     
     func save() {
-        satoCamera.save { (saved: Bool) in
-            if saved {
-                print("output saved")
-            } else {
-                print("output not saved")
-            }
-        }
-        cancel()
+//        satoCamera.save { (saved: Bool) in
+//            if saved {
+//                print("output saved")
+//            } else {
+//                print("output not saved")
+//            }
+//        }
+//        cancel()
     }
     
     func toggleSelfie() {
