@@ -15,7 +15,7 @@ private let imageScale: CGFloat = 0.00
 class DrawView: UIView {
 
     /** The view that holds and draws the line */
-    private var imageView = UIImageView()
+    internal var imageView = UIImageView()
     /** Tracks the user's last touch point; used to draw lines between touch points */
     private var lastPoint = CGPoint.zero
     

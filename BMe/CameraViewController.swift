@@ -255,14 +255,20 @@ class CameraViewController: UIViewController, SatoCameraOutput, BubbleMenuCollec
     }
     
     func save() {
-//        satoCamera.save { (saved: Bool) in
-//            if saved {
-//                print("output saved")
-//            } else {
-//                print("output not saved")
-//            }
-//        }
-//        cancel()
+        // how do I get textView which already rendered text fields into it?
+        if let drawImageEffectView = effects[1] as? DrawImageEffectView {
+            if let drawImage = drawImageEffectView.drawView.imageView.image {
+                satoCamera.save(drawImage: drawImage, textImage: nil, completion: { (saved: Bool) in
+                    print("saved")
+                })
+            } else {
+                print("draw image is nil")
+            }
+        } else {
+            print("draw image effect view is nil")
+        }
+        
+        cancel()
     }
     
     func toggleSelfie() {
