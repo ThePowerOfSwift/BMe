@@ -360,6 +360,14 @@ class SatoCamera: NSObject {
                 if error != nil {
                     print("\(error?.localizedDescription)")
                 } else if let url = url {
+    
+                    if let gifData = NSData(contentsOf: url) {
+                        let gifSize = Double(gifData.length)
+                        print("size of gif in KB: ", gifSize / 1024.0)
+                    } else {
+                        print("gif data is nil")
+                    }
+
                     
                     // check authorization status
                     PHPhotoLibrary.requestAuthorization
