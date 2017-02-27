@@ -193,7 +193,7 @@ class SatoCamera: NSObject {
         self.videoDevice = videoDevice
         
         // If the video device support high preset, set the preset to capture session
-        let preset = AVCaptureSessionPresetHigh
+        let preset = AVCaptureSessionPresetLow
         if videoDevice.supportsAVCaptureSessionPreset(preset) {
             captureSession = AVCaptureSession()
             captureSession?.sessionPreset = preset
@@ -233,8 +233,6 @@ class SatoCamera: NSObject {
         // Minimize visibility or inconsistency of state
         captureSession.beginConfiguration()
         
-
-        
         if !captureSession.canAddOutput(videoDataOutput) {
             print("cannot add video data output")
             return
@@ -248,7 +246,7 @@ class SatoCamera: NSObject {
             for any in videoDevice.formats {
                 let format = any as! AVCaptureDeviceFormat
                 let frameRateRange = format.videoSupportedFrameRateRanges[0] as! AVFrameRateRange
-                if frameRateRange.maxFrameRate == 60 {
+                if frameRateRange.maxFrameRate == 120 {
                     print("max frame rate: \(frameRateRange)")
                     bestFormat = format
                 }
@@ -266,17 +264,15 @@ class SatoCamera: NSObject {
             let minFrameDuration = frameRateRange!.minFrameDuration
             print("maxFrameDuration: \(maxFrameDuration)")
             print("minFrameDuration: \(minFrameDuration)")
-            let bestFrameDuration = CMTime(value: 1, timescale: 3)
+            let customFrameDuration = CMTime(value: 1, timescale: 60)
             print("videoDevice.activeVideoMaxFrameDuration: \(videoDevice.activeVideoMaxFrameDuration)")
-            videoDevice.activeVideoMinFrameDuration = bestFrameDuration
-            videoDevice.activeVideoMaxFrameDuration = bestFrameDuration
+            videoDevice.activeVideoMinFrameDuration = customFrameDuration
+            videoDevice.activeVideoMaxFrameDuration = customFrameDuration
             videoDevice.unlockForConfiguration()
             
         } catch let error {
             print(error.localizedDescription)
         }
-        
-
         
         // Add output object to session
         captureSession.addOutput(videoDataOutput)
