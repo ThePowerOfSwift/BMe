@@ -99,6 +99,7 @@ class UserProfile: JSONObject {
                 let json = [keys.username: username as AnyObject,
                             keys.timestamp: Date().toString() as AnyObject]
                 UserProfile.firebasePath(UID).setValue(json)
+                Friends.createList()
             }
         })
     }

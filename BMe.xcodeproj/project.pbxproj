@@ -87,6 +87,8 @@
 		78F511381DF6D09E0074050F /* WhiteRevealOverlayView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 78F511371DF6D09E0074050F /* WhiteRevealOverlayView.xib */; };
 		BF4130181E55670800F08B91 /* UserPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4130171E55670800F08B91 /* UserPost.swift */; };
 		BF4130261E5A94CC00F08B91 /* Like.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4130251E5A94CC00F08B91 /* Like.swift */; };
+		BF41302C1E62475100F08B91 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF41302B1E62475100F08B91 /* Comment.swift */; };
+		BF4130311E637C8A00F08B91 /* Friends.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4130301E637C8A00F08B91 /* Friends.swift */; };
 		BFDE7F6D1E4C1CAE00AA38A7 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDE7F6C1E4C1CAE00AA38A7 /* Post.swift */; };
 		BFDE7F6F1E4C1D1B00AA38A7 /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDE7F6E1E4C1D1B00AA38A7 /* Image.swift */; };
 		BFDE7F711E4C1D5200AA38A7 /* JSONObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDE7F701E4C1D5200AA38A7 /* JSONObject.swift */; };
@@ -231,6 +233,8 @@
 		86BFB4E3203608C3B4F447D0 /* Pods-BMeTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BMeTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BMeTests/Pods-BMeTests.debug.xcconfig"; sourceTree = "<group>"; };
 		BF4130171E55670800F08B91 /* UserPost.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserPost.swift; sourceTree = "<group>"; };
 		BF4130251E5A94CC00F08B91 /* Like.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Like.swift; sourceTree = "<group>"; };
+		BF41302B1E62475100F08B91 /* Comment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
+		BF4130301E637C8A00F08B91 /* Friends.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Friends.swift; sourceTree = "<group>"; };
 		BFDE7F6C1E4C1CAE00AA38A7 /* Post.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		BFDE7F6E1E4C1D1B00AA38A7 /* Image.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
 		BFDE7F701E4C1D5200AA38A7 /* JSONObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONObject.swift; sourceTree = "<group>"; };
@@ -575,6 +579,8 @@
 				BFF9AE9A1E3D90020012C1F2 /* Main.storyboard */,
 				BFF9AE9C1E3D90540012C1F2 /* MainViewController.swift */,
 				BF4130251E5A94CC00F08B91 /* Like.swift */,
+				BF41302B1E62475100F08B91 /* Comment.swift */,
+				BF4130301E637C8A00F08B91 /* Friends.swift */,
 			);
 			name = Louis;
 			sourceTree = "<group>";
@@ -820,6 +826,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				78BCDF391DF74A15002D399E /* NextButton.swift in Sources */,
+				BF41302C1E62475100F08B91 /* Comment.swift in Sources */,
 				42ABE9141E5A672000310E0A /* CircularProgress.swift in Sources */,
 				4216315A1E42991100E644A5 /* ProfileCollectionViewCell.swift in Sources */,
 				E3DC85171E450EDC0017E6A2 /* CameraViewController.swift in Sources */,
@@ -841,6 +848,7 @@
 				BF4130181E55670800F08B91 /* UserPost.swift in Sources */,
 				783008AA1DE3B9A000B070D4 /* Constants.swift in Sources */,
 				7830089A1DE3B0B500B070D4 /* MeasurementHelper.swift in Sources */,
+				BF4130311E637C8A00F08B91 /* Friends.swift in Sources */,
 				426A4AF11E54EBAE001262DD /* BarView.swift in Sources */,
 				781C3C981E562D5E00F53B14 /* PostCollectionViewCell.swift in Sources */,
 				BF4130261E5A94CC00F08B91 /* Like.swift in Sources */,

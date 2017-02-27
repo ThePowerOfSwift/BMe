@@ -1,60 +1,49 @@
 //
-//  Like.swift
+//  Comment.swift
 //  BMe
 //
-//  Created by Lu Ao on 2/19/17.
+//  Created by Lu Ao on 2/25/17.
 //  Copyright © 2017 Jonathan Cheng. All rights reserved.
-//  Like
-//      - PosID
-//           - Count: Int
-//           - uid: true/false
-// Check FIR,isModerator -- for check if already liked
-// match up -- for realtime count update
+//
 
-import UIKit
+import Foundation
 import FirebaseDatabase
 
-class Like: JSONObject {
+class Comment: JSONObject {
     override class var object: FIR.object {
         get {
-            return FIR.object.like
+            return FIR.object.comment
         }
     }
     
     private (set) var likeCount = 0
-    private (set) var likedList = [String:Bool]()
+    private (set) var usersID = [String]()
     private (set) var didLike = Bool()
     
-        
     override init(_ snapshot: FIRDataSnapshot) {
         super.init(snapshot)
-        let likeInfo = snapshot.value as? [String: AnyObject]
-        self.likeCount = (likeInfo?[keys.count] as? Int)!
-        self.likedList = (likeInfo?[keys.users] as? [String:Bool])!
+        let countInfo = snapshot.value as! [String:Any]
+        self.likeCount = countInfo["count"] as! Int
         //Save all userID liked the post to an array
     }
     
     /**
-    Create like information when performing like action a post with given postID
+     Create like information when performing like action a post with given postID
      - Parameter postID: String
      - Parameter uID: Sting
-    */
+     */
     class func createLikeToPost(postID: String, uID: String, completion: () -> ()) {
-       // let likeCount = 1//Should intergrate with like check function
-       // let json : [String: AnyObject?] = [keys.count: likeCount as AnyObject,
-       //                                    uID:  true as AnyObject]
-        let uid = UserAccount.currentUser.uid!
-        let likedList: [String:Bool] = [uid: false]
-        let likeInfo : [String: AnyObject?] = [keys.count: 0 as AnyObject,
-                                               keys.users:  likedList as AnyObject]
-        FIR.manager.databasePath(object).child(postID).setValue(likeInfo)
+        let likeCount = 1//Should intergrate with like check function
+        let json : [String: AnyObject?] = [keys.count: likeCount as AnyObject,
+                                           uID:  true as AnyObject]
+        FIR.manager.databasePath(object).child(postID).setValue(json)
     }
     
     
     
     /**
-    Retrieve like infomation(count, array of users(uid) like the that post
-    */
+     Retrieve like infomation(count, array of users(uid) like the that post
+     */
     class func get(postID: String, completion:@escaping (Like)->()) {
         super.get(postID, object: object) { (snapshot) in
             // return initialized object
@@ -63,15 +52,16 @@ class Like: JSONObject {
     }
     
     
-   class func like(forPostID: String) {
+    class func like(forPostID: String) {
         // Update instance properties for immediate feedback to user
         // This like is updated posthumously in the completion handler below
         //Like.didLike = true
         // Attempt to update database
         FIR.manager.databasePath(Like.object).child(forPostID).runTransactionBlock({ (currentData) -> FIRTransactionResult in
+            print("post:\(forPostID)")
             // Check matchup exists and fetch data edit
             if var likeInfo = currentData.value as? [String: AnyObject]{
-                let uid = UserAccount.currentUser.uid!
+                let uid = FIR.manager.uid
                 // Look up current value
                 var likeCount = likeInfo[keys.count] as? Int ?? 0
                 var likedList = likeInfo[keys.users] as? [String:Bool]
@@ -102,10 +92,10 @@ class Like: JSONObject {
                 return FIRTransactionResult.success(withValue: currentData)
             }
             else{
-                let uid = UserAccount.currentUser.uid!
+                let uid = FIR.manager.uid
                 let likedList: [String:Bool] = [uid: true]
                 let likeInfo : [String: AnyObject?] = [keys.count: 1 as AnyObject,
-                                                   keys.users:  likedList as AnyObject]
+                                                       keys.users:  likedList as AnyObject]
                 // Commit
                 currentData.value = likeInfo
                 return FIRTransactionResult.success(withValue: currentData)
@@ -115,7 +105,7 @@ class Like: JSONObject {
         }) { (error, committed, snapshot) in
             if let error = error {
                 print("Error updating matchup vote: \(error.localizedDescription)")
-            } 
+            }
         }
     }
     

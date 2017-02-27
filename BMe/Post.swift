@@ -93,14 +93,12 @@ class Post: JSONObject {
         let filename = FIR.manager.databasePath(object).childByAutoId().key
         FIR.manager.databasePath(object).child(filename).setValue(json)
         
-//        Like.updateLikeToPost(postID: filename, uID: FIR.manager.uid) { 
-//            
-//        }
-        Like.like(forPostID: "-KddTHtV01nzm-Br0p7Z")
+        Like.like(forPostID: "-KdsD5h7pUIMcYXMHTUs")
         UserPost.addPostToUser(PostID: filename, uID: FIR.manager.uid) { (postRef) in
-            print("hehe",filename,FIR.manager.uid)
-            UserPost.getUserPost(UID: FIR.manager.uid, completion: { (UserPost) in
-            })
+            print("Creating new Post object in the database")
+        }
+        Like.createLikeToPost(postID: filename, uID: UserAccount.currentUser.uid!) { 
+            print("Creating Like for a post")
         }
         
         return filename
