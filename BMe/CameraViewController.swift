@@ -24,12 +24,14 @@ class CameraViewController: UIViewController, SatoCameraOutput, BubbleMenuCollec
     
     func setupSnapButton() {
         snapButton.addTarget(self, action: #selector(snap(_:)), for: UIControlEvents.touchUpInside)
-        let longpress = UILongPressGestureRecognizer(target: self, action: #selector(record(_:)))
-        snapButton.addGestureRecognizer(longpress)
+        //let longpress = UILongPressGestureRecognizer(target: self, action: #selector(record(_:)))
+        //snapButton.addGestureRecognizer(longpress)
     }
     
     func snap(_ sender: UIControlEvents) {
-        satoCamera.capturePhoto()
+        //satoCamera.capturePhoto()
+        //satoCamera.stopRecordingGif()
+        satoCamera.snapGif()
     }
     
     func record(_ sender: UILongPressGestureRecognizer) {
@@ -37,7 +39,7 @@ class CameraViewController: UIViewController, SatoCameraOutput, BubbleMenuCollec
         
         if sender.state == UIGestureRecognizerState.began {
             print("begin")
-            satoCamera.startRecordingGif()
+            //satoCamera.startRecordingGif()
         } else if sender.state == UIGestureRecognizerState.ended {
             print("end")
             satoCamera.stopRecordingGif()

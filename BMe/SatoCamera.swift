@@ -71,7 +71,7 @@ class SatoCamera: NSObject {
     /** count variable to count how many times the method gets called */
     fileprivate var didOutputSampleBufferMethodCallCount: Int = 0
     /** video frame will be captured once in the frequency how many times didOutputSample buffer is called. */
-    fileprivate static let frameCaptureFrequency: Int = 10
+    fileprivate static let frameCaptureFrequency: Int = 1
     
     /** Indicates if SatoCamera is recording gif.*/
     fileprivate var isRecording: Bool = false
@@ -168,7 +168,17 @@ class SatoCamera: NSObject {
         ciContext = CIContext(eaglContext: eaglContext)
         
         cameraOutput?.sampleBufferView?.addSubview(videoPreview)
+        
+        _ = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(printPerSecond), userInfo: nil, repeats: true)
+        
         initialStart()
+    }
+    var time = 0
+    var didOutputSampleBufferPerSecond = 0
+    func printPerSecond() {
+        time += 1
+        didOutputSampleBufferPerSecond = 0
+        print("\(time) second passed -------------------------------------------------------------------------------------")
     }
     
     /** Start running capture session. */
@@ -183,7 +193,7 @@ class SatoCamera: NSObject {
         self.videoDevice = videoDevice
         
         // If the video device support high preset, set the preset to capture session
-        let preset = AVCaptureSessionPresetHigh
+        let preset = AVCaptureSessionPreset1920x1080
         if videoDevice.supportsAVCaptureSessionPreset(preset) {
             captureSession = AVCaptureSession()
             captureSession?.sessionPreset = preset
@@ -193,6 +203,7 @@ class SatoCamera: NSObject {
             print("capture session is nil")
             return
         }
+
         
         // Configure video output setting
         let outputSettings: [AnyHashable : Any] = [kCVPixelBufferPixelFormatTypeKey as AnyHashable : Int(kCVPixelFormatType_32BGRA)]
@@ -213,9 +224,47 @@ class SatoCamera: NSObject {
         // Minimize visibility or inconsistency of state
         captureSession.beginConfiguration()
         
+
+        
         if !captureSession.canAddOutput(videoDataOutput) {
             print("cannot add video data output")
             return
+        }
+        
+        do {
+            try videoDevice.lockForConfiguration()
+            //print("videoDevice.formats: \(videoDevice.formats)")
+            // http://stackoverflow.com/questions/20330174/avcapture-capturing-and-getting-framebuffer-at-60-fps-in-ios-7
+            var bestFormat = AVCaptureDeviceFormat()
+            for any in videoDevice.formats {
+                let format = any as! AVCaptureDeviceFormat
+                let frameRateRange = format.videoSupportedFrameRateRanges[0] as! AVFrameRateRange
+                if frameRateRange.maxFrameRate == 60 {
+                    print("max frame rate: \(frameRateRange)")
+                    bestFormat = format
+                }
+            }
+            
+            videoDevice.activeFormat = bestFormat
+            
+            // supported frame rate range is 3 - 30 per second
+            print("videoDevice.activeFormat.videoSupportedFrameRateRanges: \(videoDevice.activeFormat.videoSupportedFrameRateRanges)")
+            let frameRateRange = videoDevice.activeFormat.videoSupportedFrameRateRanges[0] as? AVFrameRateRange
+            print("frame rate range: \(frameRateRange)")
+            //            let maxFrameRate = CMTimeScale(frameRateRange!.maxFrameRate)
+            //            let minFrameRate = CMTimeScale(10)
+            let maxFrameDuration = frameRateRange!.maxFrameDuration
+            let minFrameDuration = frameRateRange!.minFrameDuration
+            print("maxFrameDuration: \(maxFrameDuration)")
+            print("minFrameDuration: \(minFrameDuration)")
+            let bestFrameDuration = CMTime(value: 1, timescale: 60)
+            print("videoDevice.activeVideoMaxFrameDuration: \(videoDevice.activeVideoMaxFrameDuration)")
+            videoDevice.activeVideoMinFrameDuration = bestFrameDuration
+            videoDevice.activeVideoMaxFrameDuration = bestFrameDuration
+            videoDevice.unlockForConfiguration()
+            
+        } catch let error {
+            print(error.localizedDescription)
         }
         
         // Configure input object with device
@@ -234,6 +283,7 @@ class SatoCamera: NSObject {
         // Assemble all the settings together
         captureSession.commitConfiguration()
         captureSession.startRunning()
+        startRecordingGif()
     }
     
     /** Focus on where it's tapped. */
@@ -321,6 +371,7 @@ class SatoCamera: NSObject {
     /** Resumes camera. */
     internal func start() {
         captureSession?.startRunning()
+        startRecordingGif()
     }
     
     internal func stop() {
@@ -545,12 +596,17 @@ class SatoCamera: NSObject {
                 }
             }
         }
-        isRecording = true
+        //isRecording = true
         isGif = true
     }
     
+    var isGifSnapped: Bool = false
+    internal func snapGif() {
+        isGifSnapped = true
+    }
+    
     internal func stopRecordingGif() {
-        
+        isGifSnapped = false
         // Set torch
         if let videoDevice = videoDevice {
             if videoDevice.hasTorch && videoDevice.isTorchAvailable {
@@ -564,7 +620,6 @@ class SatoCamera: NSObject {
             }
         }
         
-        isRecording = false
         stop()
         
         guard let orientUIImages = fixOrientationAndApplyFilter(ciImages: unfilteredCIImages) else {
@@ -740,6 +795,8 @@ extension SatoCamera: AVCaptureVideoDataOutputSampleBufferDelegate, AVCapturePho
      If recording is on, store video frame both filtered and unfiltered priodically.
      */
     func captureOutput(_ captureOutput: AVCaptureOutput!, didOutputSampleBuffer sampleBuffer: CMSampleBuffer!, from connection: AVCaptureConnection!) {
+        didOutputSampleBufferPerSecond += 1
+        print("\t \(didOutputSampleBufferPerSecond)th call of didOutputSampleBuffer()")
         
         guard let imageBuffer: CVImageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {
             print("image buffer is nil")
@@ -755,13 +812,25 @@ extension SatoCamera: AVCaptureVideoDataOutputSampleBufferDelegate, AVCapturePho
         }
         
         didOutputSampleBufferMethodCallCount += 1
-        if isRecording && didOutputSampleBufferMethodCallCount % SatoCamera.frameCaptureFrequency == 0 {
-            
-            if let resizedCIImage = resizeCIImage(sourceImage) {
-                store(image: resizedCIImage, to: &unfilteredCIImages)
-                print("resized ciimage: \(resizedCIImage) in \(#function)")
+        if didOutputSampleBufferMethodCallCount % SatoCamera.frameCaptureFrequency == 0 {
+            if !isGifSnapped {
+                // gif before snapping
+                if let resizedCIImage = resizeCIImage(sourceImage) {
+                    store(image: resizedCIImage, to: &unfilteredCIImages)
+                    if unfilteredCIImages.count == 6 {
+                        unfilteredCIImages.remove(at: unfilteredCIImages.count - 1)
+                    }
+                } else {
+                    print("resized ciimage is nil in \(#function)")
+                }
             } else {
-                print("resized ciimage is nil in \(#function)")
+                // gif snapped
+                if let resizedCIImage = resizeCIImage(sourceImage) {
+                    store(image: resizedCIImage, to: &unfilteredCIImages)
+                    if unfilteredCIImages.count == 10 {
+                        stopRecordingGif()
+                    }
+                }
             }
         }
         
