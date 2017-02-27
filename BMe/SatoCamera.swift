@@ -222,6 +222,8 @@ class SatoCamera: NSObject {
         photoOutput = AVCapturePhotoOutput()
         
         // Configure input object with device
+        // THIS CODE HAS TO BE BEFORE THE FRAME RATE  CONFIG
+        // http://stackoverflow.com/questions/20330174/avcapture-capturing-and-getting-framebuffer-at-60-fps-in-ios-7
         do {
             videoDeviceInput = try AVCaptureDeviceInput(device: videoDevice)
             // Add it to session
@@ -238,41 +240,7 @@ class SatoCamera: NSObject {
             return
         }
         
-        do {
-            try videoDevice.lockForConfiguration()
-            //print("videoDevice.formats: \(videoDevice.formats)")
-            // http://stackoverflow.com/questions/20330174/avcapture-capturing-and-getting-framebuffer-at-60-fps-in-ios-7
-            var bestFormat = AVCaptureDeviceFormat()
-            for any in videoDevice.formats {
-                let format = any as! AVCaptureDeviceFormat
-                let frameRateRange = format.videoSupportedFrameRateRanges[0] as! AVFrameRateRange
-                if frameRateRange.maxFrameRate == 120 {
-                    print("max frame rate: \(frameRateRange)")
-                    bestFormat = format
-                }
-            }
-            
-            videoDevice.activeFormat = bestFormat
-            
-            // supported frame rate range is 3 - 30 per second
-            print("videoDevice.activeFormat.videoSupportedFrameRateRanges: \(videoDevice.activeFormat.videoSupportedFrameRateRanges)")
-            let frameRateRange = videoDevice.activeFormat.videoSupportedFrameRateRanges[0] as? AVFrameRateRange
-            print("frame rate range: \(frameRateRange)")
-            //            let maxFrameRate = CMTimeScale(frameRateRange!.maxFrameRate)
-            //            let minFrameRate = CMTimeScale(10)
-            let maxFrameDuration = frameRateRange!.maxFrameDuration
-            let minFrameDuration = frameRateRange!.minFrameDuration
-            print("maxFrameDuration: \(maxFrameDuration)")
-            print("minFrameDuration: \(minFrameDuration)")
-            let customFrameDuration = CMTime(value: 1, timescale: 60)
-            print("videoDevice.activeVideoMaxFrameDuration: \(videoDevice.activeVideoMaxFrameDuration)")
-            videoDevice.activeVideoMinFrameDuration = customFrameDuration
-            videoDevice.activeVideoMaxFrameDuration = customFrameDuration
-            videoDevice.unlockForConfiguration()
-            
-        } catch let error {
-            print(error.localizedDescription)
-        }
+        setupFrameRate(videoDevice: videoDevice)
         
         // Add output object to session
         captureSession.addOutput(videoDataOutput)
@@ -282,6 +250,50 @@ class SatoCamera: NSObject {
         captureSession.commitConfiguration()
         captureSession.startRunning()
         startRecordingGif()
+    }
+    
+    /** Setup frame rate for video device. captureSession.addInput must be called before this method is called. */
+    func setupFrameRate(videoDevice: AVCaptureDevice) {
+        do {
+            try videoDevice.lockForConfiguration()
+            // Get the best format available for the video device
+            // http://stackoverflow.com/questions/20330174/avcapture-capturing-and-getting-framebuffer-at-60-fps-in-ios-7
+            var bestFormat = AVCaptureDeviceFormat()
+            for any in videoDevice.formats {
+                let format = any as! AVCaptureDeviceFormat
+                let frameRateRange = format.videoSupportedFrameRateRanges[0] as! AVFrameRateRange
+                
+                // get the format with max frame rate of 60
+                if frameRateRange.maxFrameRate == 60 {
+                    bestFormat = format
+                }
+            }
+            
+            // set the format to the device
+            videoDevice.activeFormat = bestFormat
+            
+            // supported frame rate range is now set to 3 - 60 per second. The default is 3 - 30 per second
+            let frameRateRange = videoDevice.activeFormat.videoSupportedFrameRateRanges[0] as? AVFrameRateRange
+
+            // max frame duration is the max time duration that takes frame to generate.
+            // in the case of 60 fps format, value is 1 and timescale is 3 where frame is generated every 1/3 second.
+            let _ = frameRateRange!.maxFrameDuration
+            
+            // min frame duration is the min time duration that takes frame to genrate.
+            // in the case of 60 fps format, value is 1 and timescale is 60 where frame is generated every 1/60 second (theoretically).
+            // IMPORTANT: even if you set the best format with over 60 fps, the actual max frame you can get per second 
+            // is around 40 fps. This is regardless of frame resolution (either AVCaptureSessionPresetLow or High)
+            let _ = frameRateRange!.minFrameDuration
+            
+            // frame is generated every 1/12 second which means didOutputSampleBuffer gets called every 1/12 second
+            let customFrameDuration = CMTime(value: 1, timescale: 12)
+            videoDevice.activeVideoMinFrameDuration = customFrameDuration
+            videoDevice.activeVideoMaxFrameDuration = customFrameDuration
+            videoDevice.unlockForConfiguration()
+            
+        } catch let error {
+            print(error.localizedDescription)
+        }
     }
     
     /** Focus on where it's tapped. */
