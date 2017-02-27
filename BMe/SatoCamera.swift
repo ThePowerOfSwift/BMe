@@ -57,7 +57,7 @@ class SatoCamera: NSObject {
     fileprivate var photoOutput: AVCapturePhotoOutput?
     
     fileprivate static let resizingImageScale: CGFloat = 0.3
-    fileprivate static let imageViewAnimationDuration = 2.0
+    fileprivate static let imageViewAnimationDuration = 1.0
     
     /** array of unfiltered CIImage from didOutputSampleBuffer.
      Filter should be applied when stop recording gif but not real time
@@ -71,7 +71,7 @@ class SatoCamera: NSObject {
     /** count variable to count how many times the method gets called */
     fileprivate var didOutputSampleBufferMethodCallCount: Int = 0
     /** video frame will be captured once in the frequency how many times didOutputSample buffer is called. */
-    fileprivate static let frameCaptureFrequency: Int = 1
+    fileprivate static let frameCaptureFrequency: Int = 2
     
     /** Indicates if SatoCamera is recording gif.*/
     fileprivate var isRecording: Bool = false
@@ -174,10 +174,10 @@ class SatoCamera: NSObject {
         initialStart()
     }
     var time = 0
-    var didOutputSampleBufferPerSecond = 0
+    var didOutputSampleBufferCountPerSecond = 0
     func printPerSecond() {
         time += 1
-        didOutputSampleBufferPerSecond = 0
+        didOutputSampleBufferCountPerSecond = 0
         print("\(time) second passed -------------------------------------------------------------------------------------")
     }
     
@@ -193,7 +193,7 @@ class SatoCamera: NSObject {
         self.videoDevice = videoDevice
         
         // If the video device support high preset, set the preset to capture session
-        let preset = AVCaptureSessionPresetLow
+        let preset = AVCaptureSessionPresetHigh
         if videoDevice.supportsAVCaptureSessionPreset(preset) {
             captureSession = AVCaptureSession()
             captureSession?.sessionPreset = preset
@@ -203,7 +203,6 @@ class SatoCamera: NSObject {
             print("capture session is nil")
             return
         }
-
         
         // Configure video output setting
         let outputSettings: [AnyHashable : Any] = [kCVPixelBufferPixelFormatTypeKey as AnyHashable : Int(kCVPixelFormatType_32BGRA)]
@@ -286,7 +285,7 @@ class SatoCamera: NSObject {
             let _ = frameRateRange!.minFrameDuration
             
             // frame is generated every 1/12 second which means didOutputSampleBuffer gets called every 1/12 second
-            let customFrameDuration = CMTime(value: 1, timescale: 12)
+            let customFrameDuration = CMTime(value: 1, timescale: 30)
             videoDevice.activeVideoMinFrameDuration = customFrameDuration
             videoDevice.activeVideoMaxFrameDuration = customFrameDuration
             videoDevice.unlockForConfiguration()
@@ -637,10 +636,12 @@ class SatoCamera: NSObject {
             return
         }
 
-        guard let resizedUIImages = resizeUIImages(orientUIImages) else {
-            print("resized UIImages is nil")
-            return
-        }
+//        guard let resizedUIImages = resizeUIImages(orientUIImages) else {
+//            print("resized UIImages is nil")
+//            return
+//        }
+
+        let resizedUIImages = orientUIImages
         
         guard let gifImageView = UIImageView.generateGifImageView(with: resizedUIImages, frame: frame, duration: SatoCamera.imageViewAnimationDuration) else {
             print("failed to produce gif image")
@@ -805,8 +806,8 @@ extension SatoCamera: AVCaptureVideoDataOutputSampleBufferDelegate, AVCapturePho
      If recording is on, store video frame both filtered and unfiltered priodically.
      */
     func captureOutput(_ captureOutput: AVCaptureOutput!, didOutputSampleBuffer sampleBuffer: CMSampleBuffer!, from connection: AVCaptureConnection!) {
-        didOutputSampleBufferPerSecond += 1
-        print("\t \(didOutputSampleBufferPerSecond)th call of didOutputSampleBuffer()")
+        didOutputSampleBufferCountPerSecond += 1
+        print("\t \(didOutputSampleBufferCountPerSecond)th call of didOutputSampleBuffer()")
         
         guard let imageBuffer: CVImageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {
             print("image buffer is nil")
@@ -825,21 +826,30 @@ extension SatoCamera: AVCaptureVideoDataOutputSampleBufferDelegate, AVCapturePho
         if didOutputSampleBufferMethodCallCount % SatoCamera.frameCaptureFrequency == 0 {
             if !isGifSnapped {
                 // gif before snapping
-                if let resizedCIImage = resizeCIImage(sourceImage) {
-                    store(image: resizedCIImage, to: &unfilteredCIImages)
-                    if unfilteredCIImages.count == 6 {
-                        unfilteredCIImages.remove(at: unfilteredCIImages.count - 1)
-                    }
-                } else {
-                    print("resized ciimage is nil in \(#function)")
+//                if let resizedCIImage = resizeCIImage(sourceImage) {
+//                    store(image: resizedCIImage, to: &unfilteredCIImages)
+//                    if unfilteredCIImages.count == 6 {
+//                        unfilteredCIImages.remove(at: 0)
+//                    }
+//                } else {
+//                    print("resized ciimage is nil in \(#function)")
+//                }
+                
+                store(image: sourceImage, to: &unfilteredCIImages)
+                if unfilteredCIImages.count == 6 {
+                    unfilteredCIImages.remove(at: 0)
                 }
             } else {
-                // gif snapped
-                if let resizedCIImage = resizeCIImage(sourceImage) {
-                    store(image: resizedCIImage, to: &unfilteredCIImages)
-                    if unfilteredCIImages.count == 10 {
-                        stopRecordingGif()
-                    }
+//                // gif snapped
+//                if let resizedCIImage = resizeCIImage(sourceImage) {
+//                    store(image: resizedCIImage, to: &unfilteredCIImages)
+//                    if unfilteredCIImages.count == 10 {
+//                        stopRecordingGif()
+//                    }
+//                }
+                store(image: sourceImage, to: &unfilteredCIImages)
+                if unfilteredCIImages.count == 10 {
+                    stopRecordingGif()
                 }
             }
         }
