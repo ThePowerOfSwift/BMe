@@ -193,7 +193,7 @@ class SatoCamera: NSObject {
         self.videoDevice = videoDevice
         
         // If the video device support high preset, set the preset to capture session
-        let preset = AVCaptureSessionPreset1920x1080
+        let preset = AVCaptureSessionPresetHigh
         if videoDevice.supportsAVCaptureSessionPreset(preset) {
             captureSession = AVCaptureSession()
             captureSession?.sessionPreset = preset
@@ -220,6 +220,15 @@ class SatoCamera: NSObject {
         
         // add still image output
         photoOutput = AVCapturePhotoOutput()
+        
+        // Configure input object with device
+        do {
+            videoDeviceInput = try AVCaptureDeviceInput(device: videoDevice)
+            // Add it to session
+            captureSession.addInput(videoDeviceInput)
+        } catch {
+            print("Failed to instantiate input object")
+        }
         
         // Minimize visibility or inconsistency of state
         captureSession.beginConfiguration()
@@ -257,7 +266,7 @@ class SatoCamera: NSObject {
             let minFrameDuration = frameRateRange!.minFrameDuration
             print("maxFrameDuration: \(maxFrameDuration)")
             print("minFrameDuration: \(minFrameDuration)")
-            let bestFrameDuration = CMTime(value: 1, timescale: 60)
+            let bestFrameDuration = CMTime(value: 1, timescale: 3)
             print("videoDevice.activeVideoMaxFrameDuration: \(videoDevice.activeVideoMaxFrameDuration)")
             videoDevice.activeVideoMinFrameDuration = bestFrameDuration
             videoDevice.activeVideoMaxFrameDuration = bestFrameDuration
@@ -267,14 +276,7 @@ class SatoCamera: NSObject {
             print(error.localizedDescription)
         }
         
-        // Configure input object with device
-        do {
-            videoDeviceInput = try AVCaptureDeviceInput(device: videoDevice)
-            // Add it to session
-            captureSession.addInput(videoDeviceInput)
-        } catch {
-            print("Failed to instantiate input object")
-        }
+
         
         // Add output object to session
         captureSession.addOutput(videoDataOutput)
