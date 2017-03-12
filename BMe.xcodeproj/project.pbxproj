@@ -89,6 +89,7 @@
 		BF4130261E5A94CC00F08B91 /* Like.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4130251E5A94CC00F08B91 /* Like.swift */; };
 		BF41302C1E62475100F08B91 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF41302B1E62475100F08B91 /* Comment.swift */; };
 		BF4130311E637C8A00F08B91 /* Friends.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4130301E637C8A00F08B91 /* Friends.swift */; };
+		BF4130361E74C44100F08B91 /* PrivacyCheck.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4130351E74C44100F08B91 /* PrivacyCheck.swift */; };
 		BFDE7F6D1E4C1CAE00AA38A7 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDE7F6C1E4C1CAE00AA38A7 /* Post.swift */; };
 		BFDE7F6F1E4C1D1B00AA38A7 /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDE7F6E1E4C1D1B00AA38A7 /* Image.swift */; };
 		BFDE7F711E4C1D5200AA38A7 /* JSONObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDE7F701E4C1D5200AA38A7 /* JSONObject.swift */; };
@@ -235,6 +236,7 @@
 		BF4130251E5A94CC00F08B91 /* Like.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Like.swift; sourceTree = "<group>"; };
 		BF41302B1E62475100F08B91 /* Comment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		BF4130301E637C8A00F08B91 /* Friends.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Friends.swift; sourceTree = "<group>"; };
+		BF4130351E74C44100F08B91 /* PrivacyCheck.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrivacyCheck.swift; sourceTree = "<group>"; };
 		BFDE7F6C1E4C1CAE00AA38A7 /* Post.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		BFDE7F6E1E4C1D1B00AA38A7 /* Image.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
 		BFDE7F701E4C1D5200AA38A7 /* JSONObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONObject.swift; sourceTree = "<group>"; };
@@ -581,6 +583,7 @@
 				BF4130251E5A94CC00F08B91 /* Like.swift */,
 				BF41302B1E62475100F08B91 /* Comment.swift */,
 				BF4130301E637C8A00F08B91 /* Friends.swift */,
+				BF4130351E74C44100F08B91 /* PrivacyCheck.swift */,
 			);
 			name = Louis;
 			sourceTree = "<group>";
@@ -850,6 +853,7 @@
 				7830089A1DE3B0B500B070D4 /* MeasurementHelper.swift in Sources */,
 				BF4130311E637C8A00F08B91 /* Friends.swift in Sources */,
 				426A4AF11E54EBAE001262DD /* BarView.swift in Sources */,
+				BF4130361E74C44100F08B91 /* PrivacyCheck.swift in Sources */,
 				781C3C981E562D5E00F53B14 /* PostCollectionViewCell.swift in Sources */,
 				BF4130261E5A94CC00F08B91 /* Like.swift in Sources */,
 				BFDE7F6D1E4C1CAE00AA38A7 /* Post.swift in Sources */,

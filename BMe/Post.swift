@@ -25,7 +25,7 @@ class Post: JSONObject {
     /** ID to track the post's asset */
     private var assetID: String?
     /** Creators user ID */
-    private var uid: String?
+    private(set) var uid: String?
     private(set) var hashtag: String?
     
     /** Returns the post's asset */
